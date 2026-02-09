@@ -18,18 +18,21 @@
 
     var courseId = detectCourseId() || 'unknown';
     var KEY_MEMORY = 'sma:' + courseId + ':assistant:memory';
+    var KEY_THREAD_ID = 'sma:' + courseId + ':assistant:thread_id';
 
     var state = {
         isOpen: localStorage.getItem(KEY_OPEN) === '1',
         model: localStorage.getItem(KEY_MODEL) || 'gpt-4o-mini',
         maxTokens: Number(localStorage.getItem(KEY_MAX_TOKENS) || 600),
         proxyBase: normalizeProxyBase(localStorage.getItem(KEY_PROXY_BASE) || defaultProxyBase()),
+        threadId: readThreadId(),
         queryPath: '/assistant/query',
         messages: readMessages(),
         pendingAttachments: [],
         isLoading: false,
         metrics: null,
         lastRequest: null,
+        currentSummary: '',
         dailyWarningUsd: DAILY_WARNING_DEFAULT,
         availableModels: ['gpt-5.3', 'gpt-5.2', 'gpt-5.2-codex', 'gpt-4o-mini', 'gpt-4.1-mini'],
         maxAttachments: IMAGE_MAX_ATTACHMENTS,
@@ -182,6 +185,35 @@
         return text.slice(0, Math.max(1, maxLen - 1)).trim() + '…';
     }
 
+    function sanitizeThreadId(value) {
+        var raw = String(value || '').trim();
+        if (!raw) return '';
+        var cleaned = raw.replace(/[^a-zA-Z0-9_-]/g, '-').slice(0, 120);
+        return cleaned.length >= 8 ? cleaned : '';
+    }
+
+    function generateThreadId() {
+        if (window.crypto && typeof window.crypto.randomUUID === 'function') {
+            return window.crypto.randomUUID();
+        }
+        return 'thr-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 10);
+    }
+
+    function saveThreadId(threadId) {
+        var normalized = sanitizeThreadId(threadId) || generateThreadId();
+        state.threadId = normalized;
+        localStorage.setItem(KEY_THREAD_ID, normalized);
+        return normalized;
+    }
+
+    function readThreadId() {
+        var fromStorage = sanitizeThreadId(localStorage.getItem(KEY_THREAD_ID));
+        if (fromStorage) return fromStorage;
+        var created = generateThreadId();
+        localStorage.setItem(KEY_THREAD_ID, created);
+        return created;
+    }
+
     function saveConfig() {
         localStorage.setItem(KEY_MODEL, state.model);
         localStorage.setItem(KEY_MAX_TOKENS, String(state.maxTokens));
@@ -320,19 +352,19 @@
 
         var clearContextBtn = document.createElement('button');
         clearContextBtn.type = 'button';
-        clearContextBtn.textContent = '🧹 Limpiar contexto';
+        clearContextBtn.textContent = 'Nueva conversación';
         clearContextBtn.addEventListener('click', function () {
-            clearMemory();
+            startNewConversation();
         });
 
         var clearBtn = document.createElement('button');
         clearBtn.type = 'button';
-        clearBtn.textContent = 'Limpiar chat';
+        clearBtn.textContent = 'Limpiar panel';
         clearBtn.addEventListener('click', function () {
             state.messages = [];
             persistMessages();
             renderMessages();
-            setStatus('Conversación vacía.', 'success');
+            setStatus('Panel limpio. El contexto del hilo se mantiene.', 'success');
         });
 
         var sendBtn = document.createElement('button');
@@ -450,6 +482,19 @@
         });
 
         refs.body.scrollTop = refs.body.scrollHeight;
+    }
+
+    function startNewConversation() {
+        saveThreadId(generateThreadId());
+        state.messages = [];
+        persistMessages();
+        state.pendingAttachments = [];
+        state.lastRequest = null;
+        state.currentSummary = '';
+        renderMessages();
+        renderPendingAttachments();
+        renderMetrics(state.metrics);
+        setStatus('Nueva conversación iniciada.', 'success');
     }
 
     function setLoadingState(isLoading) {
@@ -820,6 +865,7 @@
         if (last) {
             var modelLine = '<div><strong>Modelo activo</strong>: ' + escapeHtml(last.model || state.model) + '</div>';
             lines.push(modelLine);
+            lines.push('<div><strong>Thread</strong>: <code>' + escapeHtml(last.threadId || state.threadId || '-') + '</code></div>');
             lines.push('<div><strong>Última consulta</strong>: ' + last.inputTokens + ' / ' + last.outputTokens + ' / ' + last.totalTokens + ' tokens</div>');
             lines.push('<div><strong>Coste última consulta</strong>: ' + Number(last.estimatedCostUsd || 0).toFixed(6) + ' USD</div>');
             lines.push('<div><strong>Consulta con imágenes</strong>: ' + (last.hasImages ? 'Sí (' + last.imagesCount + ')' : 'No') + '</div>');
@@ -828,7 +874,12 @@
             }
         } else {
             lines.push('<div><strong>Modelo activo</strong>: ' + escapeHtml(state.model) + '</div>');
+            lines.push('<div><strong>Thread</strong>: <code>' + escapeHtml(state.threadId || '-') + '</code></div>');
             lines.push('<div>Sin consultas recientes en esta sesión.</div>');
+        }
+
+        if (state.currentSummary) {
+            lines.push('<div><strong>Resumen memoria</strong>: ' + escapeHtml(state.currentSummary) + '</div>');
         }
 
         lines.push('<div><strong>Coste acumulado del día</strong>: ' + normalized.dailyCostUsd.toFixed(6) + ' USD</div>');
@@ -1051,10 +1102,13 @@
     }
 
     function collectContext(metadata) {
+        var selection = metadata && metadata.selection ? metadata.selection : (metadata && metadata.selectedText ? metadata.selectedText : null);
         return {
             courseId: metadata && metadata.courseId ? metadata.courseId : courseId,
             topicId: metadata && metadata.topicId ? metadata.topicId : null,
-            selectedText: metadata && metadata.selectedText ? metadata.selectedText : null,
+            pageTitle: metadata && metadata.pageTitle ? metadata.pageTitle : document.title,
+            selection: selection,
+            selectedText: selection,
             surroundingContext: metadata && metadata.surroundingContext ? metadata.surroundingContext : null
         };
     }
@@ -1090,7 +1144,11 @@
         }
 
         var context = collectContext(metadata);
+        var threadId = state.threadId || readThreadId();
+        threadId = saveThreadId(threadId);
         var payload = {
+            threadId: threadId,
+            message: question,
             prompt: question,
             question: question,
             model: effectiveModel,
@@ -1099,9 +1157,10 @@
             context: context,
             courseId: context.courseId,
             topicId: context.topicId,
+            pageTitle: context.pageTitle,
+            selection: context.selection,
             selectedText: context.selectedText,
             surroundingContext: context.surroundingContext,
-            memory: buildMemoryPayload(),
             images: attachmentsSnapshot.map(function (att) {
                 return {
                     name: att.name,
@@ -1136,10 +1195,16 @@
                     (json && json.usage && (json.usage.imagesCount || json.usage.images_count)) ||
                     attachmentsSnapshot.length
                 );
+                var responseThreadId = sanitizeThreadId(json && json.threadId);
+                if (responseThreadId) {
+                    saveThreadId(responseThreadId);
+                }
+                state.currentSummary = truncateText(String((json && json.summary) || ''), 700);
 
                 state.lastRequest = {
                     model: responseModel,
                     requestedModel: selectedModel,
+                    threadId: state.threadId,
                     warning: warningText,
                     inputTokens: usage.inputTokens,
                     outputTokens: usage.outputTokens,
@@ -1150,7 +1215,6 @@
                 };
 
                 pushMessage('assistant', answer);
-                updateMemoryWithTurn(question, answer);
 
                 state.pendingAttachments = [];
                 renderPendingAttachments();
@@ -1192,6 +1256,10 @@
             var question = 'Explícame este fragmento de forma simple y práctica.';
             setOpen(true);
             submitQuestion(question, payload || {});
+        },
+        newConversation: function () {
+            setOpen(true);
+            startNewConversation();
         },
         prefill: function (question) {
             setOpen(true);
