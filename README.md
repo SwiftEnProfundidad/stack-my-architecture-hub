@@ -2,49 +2,50 @@
 
 Servidor local unificado para:
 - contenido estático del hub (`/`, `/ios`, `/android`)
-- proxy de asistente IA (`/health`, `/assistant/query`, `/metrics`)
+- proxy de asistente IA (`/health`, `/config`, `/metrics`, `/assistant/query`)
 
 ## Arranque recomendado (Node en `:8090`)
 
-1. Detén el servidor Python si está corriendo en `8090`.
-2. Exporta tu clave OpenAI:
+1. Exporta tu clave OpenAI:
 
 ```bash
 export OPENAI_API_KEY="sk-..."
 ```
 
-3. Instala dependencias del proxy:
+2. Instala dependencias:
 
 ```bash
 cd assistant-bridge
 npm install
 ```
 
-4. Arranca el servidor:
+3. Arranca el proxy + hub:
 
 ```bash
 npm start
 ```
 
-5. Abre el hub:
+4. Abre el hub:
 
 ```text
 http://localhost:8090/index.html
 ```
 
-## Endpoint de salud
+También puedes usar:
+
+```bash
+./open-proxy.command
+```
+
+## Endpoints
 
 ```bash
 curl http://localhost:8090/health
-```
-
-## Métricas
-
-```bash
+curl http://localhost:8090/config
 curl http://localhost:8090/metrics
 ```
 
-## Consulta de ejemplo
+Consulta:
 
 ```bash
 curl -X POST http://localhost:8090/assistant/query \
@@ -52,18 +53,33 @@ curl -X POST http://localhost:8090/assistant/query \
   -d '{
     "model": "gpt-4o-mini",
     "maxTokens": 600,
-    "prompt": "Explícame qué es un Repository Pattern",
-    "courseId": "ios",
-    "topicId": "arquitectura"
+    "prompt": "Explícame este diagrama",
+    "context": {
+      "courseId": "stack-my-architecture-ios",
+      "topicId": "tema-actual"
+    },
+    "images": []
   }'
 ```
 
-## Script rápido
+## Adjuntos de imágenes
 
-También puedes ejecutar:
+- Máximo `3` imágenes por consulta.
+- Tipos permitidos: `image/png` y `image/jpeg`.
+- Tamaño máximo por imagen (tras compresión): `3MB`.
+- Formato esperado por imagen:
 
-```bash
-./open-proxy.command
+```json
+{
+  "name": "captura.png",
+  "type": "image/png",
+  "data": "<base64-sin-prefijo>"
+}
 ```
 
-El script valida que `OPENAI_API_KEY` exista, instala dependencias y arranca el servidor en `8090`.
+## Modelos con visión y fallback
+
+- El panel permite seleccionar modelo manualmente.
+- Si la consulta incluye imágenes y el modelo no soporta visión:
+  - el proxy aplica fallback automático a `gpt-4o-mini`
+  - devuelve `warning` en la respuesta para que el panel lo muestre.
