@@ -5,6 +5,7 @@
 assistant-bridge/node_modules/
 assistant-bridge/metrics.json
 assistant-bridge/.env
+assistant-bridge/threads/
 
 # npm logs
 npm-debug.log*

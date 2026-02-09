@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+const crypto = require('crypto');
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
@@ -10,6 +11,7 @@ const OPENAI_API_KEY = String(process.env.OPENAI_API_KEY || '').trim();
 const OPENAI_BASE_URL = String(process.env.OPENAI_BASE_URL || 'https://api.openai.com/v1').replace(/\/$/, '');
 const HUB_ROOT = path.resolve(__dirname, '..');
 const METRICS_PATH = path.join(__dirname, 'metrics.json');
+const THREADS_DIR = path.join(__dirname, 'threads');
 
 const QUERY_PATH = '/assistant/query';
 const QUERY_ALIAS_PATH = '/ask';
@@ -42,6 +44,14 @@ const MAX_IMAGES = 3;
 const MAX_IMAGE_BYTES = 3 * 1024 * 1024;
 const ALLOWED_IMAGE_TYPES = ['image/png', 'image/jpeg'];
 
+const THREAD_WINDOW_TURNS = toInt(process.env.ASSISTANT_THREAD_WINDOW_TURNS, 10, 6, 16);
+const MAX_TURNS_BEFORE_SUMMARY = toInt(process.env.ASSISTANT_MAX_TURNS_BEFORE_SUMMARY, 14, THREAD_WINDOW_TURNS + 2, 60);
+const THREAD_SUMMARY_MAX_CHARS = toInt(process.env.ASSISTANT_THREAD_SUMMARY_MAX_CHARS, 2400, 600, 6000);
+const THREAD_TURN_MAX_CHARS = toInt(process.env.ASSISTANT_THREAD_TURN_MAX_CHARS, 1800, 200, 6000);
+const THREAD_HARD_LIMIT = Math.max(MAX_TURNS_BEFORE_SUMMARY + THREAD_WINDOW_TURNS + 4, 40);
+const SUMMARY_MODEL_PREFERRED = String(process.env.ASSISTANT_SUMMARY_MODEL || 'gpt-4o-mini').trim();
+const SUMMARY_MAX_TOKENS = toInt(process.env.ASSISTANT_SUMMARY_MAX_TOKENS, 260, 100, 600);
+
 const PRICE_PER_1K = {
     'gpt-5.2': { input: 0.0012, output: 0.0048 },
     'gpt-5.2-2025-12-11': { input: 0.0012, output: 0.0048 },
@@ -52,6 +62,9 @@ const PRICE_PER_1K = {
     'gpt-4o-mini': { input: 0.00015, output: 0.0006 },
     'gpt-4.1-mini': { input: 0.0004, output: 0.0016 }
 };
+
+const threadStore = Object.create(null);
+ensureThreadsDir();
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -81,7 +94,10 @@ app.get('/config', (_req, res) => {
         max_images: MAX_IMAGES,
         max_image_bytes: MAX_IMAGE_BYTES,
         vision_models: VISION_MODELS,
-        query_path: QUERY_PATH
+        query_path: QUERY_PATH,
+        thread_window_turns: THREAD_WINDOW_TURNS,
+        max_turns_before_summary: MAX_TURNS_BEFORE_SUMMARY,
+        summary_model: pickSummaryModel(DEFAULT_MODEL)
     });
 });
 
@@ -113,20 +129,35 @@ async function handleQuery(req, res) {
 
     try {
         const body = req.body || {};
-        const prompt = String(body.prompt || body.question || '').trim();
-        if (!prompt) {
-            return res.status(400).json({ ok: false, error: 'El campo prompt es obligatorio.' });
+        const message = String(body.message || body.prompt || body.question || '').trim();
+        if (!message) {
+            return res.status(400).json({ ok: false, error: 'El campo message (o prompt) es obligatorio.' });
         }
+
+        const rawThreadId = sanitizeThreadId(body.threadId);
+        const threadId = rawThreadId || createThreadId();
+        const thread = getThreadState(threadId);
+
+        // Compatibilidad: si llega memoria legacy y el hilo está vacío, se hidrata una vez.
+        hydrateThreadFromLegacyMemory(thread, body.memory);
+
+        appendTurn(thread, 'user', message);
+        persistThreadState(threadId);
 
         const selectedModel = AVAILABLE_MODELS.includes(body.model) ? body.model : DEFAULT_MODEL;
         const maxTokens = sanitizeMaxTokens(body.maxTokens);
         const imagesResult = normalizeImages(body.images);
         if (imagesResult.error) {
+            // revertir turno de usuario añadido si la request es inválida
+            if (thread.turns.length && thread.turns[thread.turns.length - 1].role === 'user') {
+                thread.turns.pop();
+                touchThread(thread);
+                persistThreadState(threadId);
+            }
             return res.status(400).json({ ok: false, error: imagesResult.error });
         }
 
         const images = imagesResult.value;
-        const memory = normalizeMemory(body.memory);
         const context = resolveContext(body);
 
         let warning = null;
@@ -137,16 +168,6 @@ async function handleQuery(req, res) {
             warning = `El modelo ${selectedModel} no soporta visión. Fallback automático a ${model}.`;
         }
 
-        const contextText = buildContext({
-            prompt,
-            selection: context.selectedText,
-            surroundingContext: context.surroundingContext,
-            courseId: context.courseId,
-            topicId: context.topicId,
-            pageTitle: context.pageTitle,
-            memory
-        });
-
         rollDailyIfNeeded();
         if (SOFT_DAILY_BUDGET_USD > 0 && metrics.daily.estimatedCostUsd >= SOFT_DAILY_BUDGET_USD) {
             warning = warning
@@ -154,16 +175,31 @@ async function handleQuery(req, res) {
                 : 'Presupuesto diario superado (soft limit).';
         }
 
-        const completion = await callOpenAI({
+        const completion = await callOpenAIQuery({
             model,
             maxTokens,
-            contextText,
+            thread,
+            context,
             images
         });
 
         const answer = extractResponseText(completion);
-        const usage = normalizeUsage(completion);
-        const estimatedCostUsd = estimateCost(model, usage.inputTokens, usage.outputTokens);
+        appendTurn(thread, 'assistant', answer);
+
+        const summaryResult = await maybeRefreshThreadSummary({ thread, model });
+        persistThreadState(threadId);
+
+        const completionUsage = normalizeUsage(completion);
+        const summaryUsage = summaryResult && summaryResult.usage ? summaryResult.usage : emptyUsage();
+        const usage = addUsage(completionUsage, summaryUsage);
+
+        const completionCost = estimateCost(model, completionUsage.inputTokens, completionUsage.outputTokens);
+        const summaryCost = estimateCost(
+            summaryResult.model || pickSummaryModel(model),
+            summaryUsage.inputTokens,
+            summaryUsage.outputTokens
+        );
+        const estimatedCostUsd = Number((completionCost + summaryCost).toFixed(8));
 
         applyMetrics({
             model,
@@ -178,14 +214,20 @@ async function handleQuery(req, res) {
             item.data = '';
         });
 
+        const mergedWarning = [warning, summaryResult.warning].filter(Boolean).join(' ').trim() || null;
+
         return res.json({
             ok: true,
             answer,
+            threadId,
+            summary: thread.summary || '',
+            summaryUpdated: Boolean(summaryResult.summarized),
             model,
             selectedModel,
-            warning,
+            warning: mergedWarning,
             hasImages: images.length > 0,
             imagesCount: images.length,
+            estimatedCostUsd,
             usage: {
                 inputTokens: usage.inputTokens,
                 outputTokens: usage.outputTokens,
@@ -214,9 +256,9 @@ function resolveContext(body) {
     return {
         courseId: String(body.courseId || context.courseId || '').trim(),
         topicId: String(body.topicId || context.topicId || '').trim(),
-        selectedText: String(body.selectedText || context.selectedText || '').trim(),
-        surroundingContext: String(body.surroundingContext || context.surroundingContext || '').trim(),
-        pageTitle: String(body.pageTitle || context.pageTitle || '').trim()
+        pageTitle: String(body.pageTitle || context.pageTitle || '').trim(),
+        selection: String(body.selection || body.selectedText || context.selection || context.selectedText || '').trim(),
+        surroundingContext: String(body.surroundingContext || context.surroundingContext || '').trim()
     };
 }
 
@@ -229,18 +271,18 @@ function sanitizeMaxTokens(value) {
 function normalizeMemory(memory) {
     if (!memory || typeof memory !== 'object') return { conversation_summary: '', recent_messages: [] };
 
-    const conversationSummary = String(memory.conversation_summary || '').trim().slice(0, 1800);
+    const conversationSummary = String(memory.conversation_summary || '').trim().slice(0, THREAD_SUMMARY_MAX_CHARS);
     const recentMessages = Array.isArray(memory.recent_messages)
         ? memory.recent_messages
             .map((item) => {
                 if (!item || typeof item !== 'object') return null;
                 const role = item.role === 'assistant' ? 'assistant' : 'user';
-                const text = String(item.text || '').trim().slice(0, 900);
+                const text = String(item.text || '').trim().slice(0, THREAD_TURN_MAX_CHARS);
                 if (!text) return null;
                 return { role, text };
             })
             .filter(Boolean)
-            .slice(-8)
+            .slice(-THREAD_WINDOW_TURNS)
         : [];
 
     return {
@@ -249,30 +291,173 @@ function normalizeMemory(memory) {
     };
 }
 
-function buildContext({ prompt, selection, surroundingContext, courseId, topicId, pageTitle, memory }) {
+function hydrateThreadFromLegacyMemory(thread, rawMemory) {
+    if (!thread || thread.turns.length > 0 || thread.summary) return;
+    const memory = normalizeMemory(rawMemory);
+    if (!memory.conversation_summary && !memory.recent_messages.length) return;
+
+    thread.summary = truncateText(memory.conversation_summary, THREAD_SUMMARY_MAX_CHARS);
+    memory.recent_messages.forEach((item) => {
+        appendTurn(thread, item.role, item.text);
+    });
+    touchThread(thread);
+}
+
+function buildAssistantInstructions(summary) {
     const lines = [
-        'Responde en español y de forma clara para nivel junior.',
-        pageTitle ? `Página: ${pageTitle}` : null,
-        courseId ? `Curso: ${courseId}` : null,
-        topicId ? `Tema: ${topicId}` : null
-    ].filter(Boolean);
+        'Eres el asistente del curso Stack My Architecture.',
+        'Responde en español claro, con enfoque práctico y acciones concretas.',
+        'Si falta contexto, indícalo y pide el dato mínimo necesario.'
+    ];
 
-    if (memory && memory.conversation_summary) {
-        lines.push('', 'conversation_summary:', memory.conversation_summary);
+    const normalizedSummary = truncateText(String(summary || ''), THREAD_SUMMARY_MAX_CHARS);
+    if (normalizedSummary) {
+        lines.push(
+            '',
+            'Memoria conversacional resumida (úsala como contexto durable, sin repetirla textual):',
+            normalizedSummary
+        );
     }
 
-    if (memory && Array.isArray(memory.recent_messages) && memory.recent_messages.length) {
-        lines.push('', 'recent_messages:');
-        memory.recent_messages.forEach((item) => {
-            lines.push(`- ${item.role}: ${item.text}`);
+    return lines.join('\n');
+}
+
+function buildCurrentUserPrompt(message, context) {
+    const lines = [String(message || '').trim()];
+
+    const contextLines = [];
+    if (context.pageTitle) contextLines.push(`Página: ${context.pageTitle}`);
+    if (context.courseId) contextLines.push(`Curso: ${context.courseId}`);
+    if (context.topicId) contextLines.push(`Tema: ${context.topicId}`);
+    if (context.selection) contextLines.push(`Selección:\n${context.selection}`);
+    if (context.surroundingContext) contextLines.push(`Contexto cercano:\n${context.surroundingContext}`);
+
+    if (contextLines.length) {
+        lines.push('', 'Contexto de la consulta actual:', contextLines.join('\n\n'));
+    }
+
+    return lines.join('\n').trim();
+}
+
+function buildInputFromThread({ thread, context, images }) {
+    const turns = thread.turns.slice(-THREAD_WINDOW_TURNS);
+    const currentPrompt = buildCurrentUserPrompt(turns[turns.length - 1].content, context);
+
+    return turns.map((turn, index) => {
+        const role = turn.role === 'assistant' ? 'assistant' : 'user';
+        const isCurrentUserTurn = index === turns.length - 1 && role === 'user';
+
+        if (!isCurrentUserTurn) {
+            const contentType = role === 'assistant' ? 'output_text' : 'input_text';
+            return {
+                role,
+                content: [{ type: contentType, text: turn.content }]
+            };
+        }
+
+        const content = [{ type: 'input_text', text: currentPrompt }];
+        images.forEach((img) => {
+            content.push({
+                type: 'input_image',
+                image_url: `data:${img.type};base64,${img.data}`
+            });
         });
+
+        return {
+            role: 'user',
+            content
+        };
+    });
+}
+
+function pickSummaryModel(mainModel) {
+    if (AVAILABLE_MODELS.includes(SUMMARY_MODEL_PREFERRED)) return SUMMARY_MODEL_PREFERRED;
+    if (AVAILABLE_MODELS.includes('gpt-4o-mini')) return 'gpt-4o-mini';
+    if (AVAILABLE_MODELS.includes(mainModel)) return mainModel;
+    return DEFAULT_MODEL;
+}
+
+function buildSummaryInput(summary, turns) {
+    const lines = [
+        'Resumen previo (si existe):',
+        summary ? summary : '(vacío)',
+        '',
+        'Fragmentos antiguos a comprimir:',
+        turns.map((turn) => `- ${turn.role === 'assistant' ? 'assistant' : 'user'}: ${truncateText(turn.content, 260)}`).join('\n'),
+        '',
+        'Genera una memoria durable en español, compacta, SOLO con estos apartados y en bullets:',
+        'Contexto',
+        'Decisiones/Conclusiones',
+        'Dudas abiertas',
+        'Datos importantes (IDs, rutas, números)'
+    ];
+
+    return lines.join('\n');
+}
+
+function normalizeSummaryText(value) {
+    return truncateText(String(value || '').replace(/\s+$/g, ''), THREAD_SUMMARY_MAX_CHARS);
+}
+
+function buildFallbackSummary(previousSummary, turns) {
+    const compactTurns = turns.slice(-8).map((turn) => {
+        const role = turn.role === 'assistant' ? 'Asistente' : 'Usuario';
+        return `- ${role}: ${truncateText(turn.content, 140)}`;
+    });
+
+    const sections = [
+        'Contexto',
+        previousSummary ? `- ${truncateText(previousSummary, 280)}` : '- Conversación técnica sobre el curso.',
+        '',
+        'Decisiones/Conclusiones',
+        '- Se mantiene continuidad con el hilo anterior.',
+        '',
+        'Dudas abiertas',
+        '- Revisar puntos pendientes en próximos turnos.',
+        '',
+        'Datos importantes (IDs, rutas, números)',
+        compactTurns.length ? compactTurns.join('\n') : '- Sin datos adicionales.'
+    ];
+
+    return truncateText(sections.join('\n'), THREAD_SUMMARY_MAX_CHARS);
+}
+
+async function maybeRefreshThreadSummary({ thread, model }) {
+    if (!thread || thread.turns.length <= MAX_TURNS_BEFORE_SUMMARY) {
+        return { summarized: false, usage: emptyUsage(), warning: null, model: pickSummaryModel(model) };
     }
 
-    if (selection) lines.push('', `Selección del usuario:\n${selection}`);
-    if (surroundingContext) lines.push('', `Contexto cercano:\n${surroundingContext}`);
-    lines.push('', `Pregunta:\n${prompt}`);
+    const turnsToCompressCount = Math.max(0, thread.turns.length - THREAD_WINDOW_TURNS);
+    if (turnsToCompressCount <= 0) {
+        return { summarized: false, usage: emptyUsage(), warning: null, model: pickSummaryModel(model) };
+    }
 
-    return lines.join('\n\n');
+    const turnsToCompress = thread.turns.slice(0, turnsToCompressCount);
+    const summaryModel = pickSummaryModel(model);
+
+    try {
+        const completion = await callOpenAISummary({
+            model: summaryModel,
+            summary: thread.summary,
+            turns: turnsToCompress
+        });
+        const usage = normalizeUsage(completion);
+        const summaryText = normalizeSummaryText(extractResponseText(completion));
+        thread.summary = summaryText || buildFallbackSummary(thread.summary, turnsToCompress);
+        thread.turns = thread.turns.slice(-THREAD_WINDOW_TURNS);
+        touchThread(thread);
+        return { summarized: true, usage, warning: null, model: summaryModel };
+    } catch (_error) {
+        thread.summary = buildFallbackSummary(thread.summary, turnsToCompress);
+        thread.turns = thread.turns.slice(-THREAD_WINDOW_TURNS);
+        touchThread(thread);
+        return {
+            summarized: true,
+            usage: emptyUsage(),
+            warning: 'No se pudo actualizar el resumen con IA. Se aplicó un resumen local de respaldo.',
+            model: summaryModel
+        };
+    }
 }
 
 function normalizeImageType(type) {
@@ -343,16 +528,7 @@ function normalizeImages(rawImages) {
     return { value: images };
 }
 
-async function callOpenAI({ model, maxTokens, contextText, images }) {
-    const userContent = [{ type: 'input_text', text: contextText }];
-
-    images.forEach((img) => {
-        userContent.push({
-            type: 'input_image',
-            image_url: `data:${img.type};base64,${img.data}`
-        });
-    });
-
+async function callResponsesApi({ model, maxOutputTokens, instructions, input }) {
     const response = await fetch(`${OPENAI_BASE_URL}/responses`, {
         method: 'POST',
         headers: {
@@ -361,13 +537,9 @@ async function callOpenAI({ model, maxTokens, contextText, images }) {
         },
         body: JSON.stringify({
             model,
-            max_output_tokens: maxTokens,
-            input: [
-                {
-                    role: 'user',
-                    content: userContent
-                }
-            ]
+            max_output_tokens: maxOutputTokens,
+            instructions,
+            input
         })
     });
 
@@ -378,6 +550,35 @@ async function callOpenAI({ model, maxTokens, contextText, images }) {
     }
 
     return json;
+}
+
+async function callOpenAIQuery({ model, maxTokens, thread, context, images }) {
+    const input = buildInputFromThread({ thread, context, images });
+    return callResponsesApi({
+        model,
+        maxOutputTokens: maxTokens,
+        instructions: buildAssistantInstructions(thread.summary),
+        input
+    });
+}
+
+async function callOpenAISummary({ model, summary, turns }) {
+    const prompt = buildSummaryInput(summary, turns);
+    return callResponsesApi({
+        model,
+        maxOutputTokens: SUMMARY_MAX_TOKENS,
+        instructions: [
+            'Eres un sistema de memoria conversacional.',
+            'Devuelve solo un resumen compacto en español con bullets.',
+            'No inventes datos no presentes.'
+        ].join('\n'),
+        input: [
+            {
+                role: 'user',
+                content: [{ type: 'input_text', text: prompt }]
+            }
+        ]
+    });
 }
 
 function extractResponseText(payload) {
@@ -411,11 +612,179 @@ function normalizeUsage(payload) {
     };
 }
 
+function emptyUsage() {
+    return { inputTokens: 0, outputTokens: 0, totalTokens: 0 };
+}
+
+function addUsage(a, b) {
+    const left = a || emptyUsage();
+    const right = b || emptyUsage();
+    return {
+        inputTokens: Number(left.inputTokens || 0) + Number(right.inputTokens || 0),
+        outputTokens: Number(left.outputTokens || 0) + Number(right.outputTokens || 0),
+        totalTokens: Number(left.totalTokens || 0) + Number(right.totalTokens || 0)
+    };
+}
+
 function estimateCost(model, inputTokens, outputTokens) {
     const price = PRICE_PER_1K[model] || PRICE_PER_1K['gpt-4o-mini'];
     const inputCost = (Number(inputTokens || 0) / 1000) * Number(price.input || 0);
     const outputCost = (Number(outputTokens || 0) / 1000) * Number(price.output || 0);
     return Number((inputCost + outputCost).toFixed(8));
+}
+
+function toInt(value, fallback, min, max) {
+    const parsed = Number(value);
+    if (!Number.isFinite(parsed)) return fallback;
+    const rounded = Math.round(parsed);
+    return Math.max(min, Math.min(max, rounded));
+}
+
+function truncateText(value, maxLen) {
+    const text = String(value || '').replace(/\s+/g, ' ').trim();
+    if (!text) return '';
+    if (!maxLen || text.length <= maxLen) return text;
+    return text.slice(0, Math.max(1, maxLen - 1)).trim() + '…';
+}
+
+function sanitizeThreadId(value) {
+    const raw = String(value || '').trim();
+    if (!raw) return '';
+    const normalized = raw.replace(/[^a-zA-Z0-9_-]/g, '-').slice(0, 120);
+    return normalized.length >= 8 ? normalized : '';
+}
+
+function createThreadId() {
+    if (typeof crypto.randomUUID === 'function') {
+        return crypto.randomUUID();
+    }
+    return `thr-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`;
+}
+
+function createEmptyThread(threadId) {
+    return {
+        threadId,
+        summary: '',
+        turns: [],
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+    };
+}
+
+function touchThread(thread) {
+    thread.updatedAt = new Date().toISOString();
+}
+
+function normalizeTurn(raw) {
+    if (!raw || typeof raw !== 'object') return null;
+    const role = raw.role === 'assistant' ? 'assistant' : 'user';
+    const content = truncateText(raw.content || raw.text || '', THREAD_TURN_MAX_CHARS);
+    if (!content) return null;
+    const ts = String(raw.ts || raw.at || new Date().toISOString());
+    return { role, content, ts };
+}
+
+function normalizeThread(raw, threadId) {
+    const parsed = raw && typeof raw === 'object' ? raw : {};
+    const turnsRaw = Array.isArray(parsed.turns)
+        ? parsed.turns
+        : Array.isArray(parsed.messages)
+            ? parsed.messages
+            : [];
+
+    const turns = turnsRaw
+        .map(normalizeTurn)
+        .filter(Boolean)
+        .slice(-THREAD_HARD_LIMIT);
+
+    return {
+        threadId,
+        summary: truncateText(parsed.summary || parsed.conversation_summary || '', THREAD_SUMMARY_MAX_CHARS),
+        turns,
+        createdAt: String(parsed.createdAt || parsed.created_at || new Date().toISOString()),
+        updatedAt: String(parsed.updatedAt || parsed.updated_at || new Date().toISOString())
+    };
+}
+
+function ensureThreadsDir() {
+    try {
+        fs.mkdirSync(THREADS_DIR, { recursive: true });
+    } catch (_err) {
+    }
+}
+
+function threadFilePath(threadId) {
+    return path.join(THREADS_DIR, `${threadId}.json`);
+}
+
+function readThreadFromDisk(threadId) {
+    ensureThreadsDir();
+    const filePath = threadFilePath(threadId);
+
+    try {
+        if (!fs.existsSync(filePath)) {
+            return createEmptyThread(threadId);
+        }
+
+        const parsed = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+        return normalizeThread(parsed, threadId);
+    } catch (_err) {
+        try {
+            if (fs.existsSync(filePath)) {
+                const backupPath = `${filePath}.corrupt-${Date.now()}`;
+                fs.renameSync(filePath, backupPath);
+            }
+        } catch (_backupErr) {
+        }
+        return createEmptyThread(threadId);
+    }
+}
+
+function getThreadState(threadId) {
+    if (!threadStore[threadId]) {
+        threadStore[threadId] = readThreadFromDisk(threadId);
+    }
+    return threadStore[threadId];
+}
+
+function persistThreadState(threadId) {
+    const thread = threadStore[threadId];
+    if (!thread) return;
+
+    ensureThreadsDir();
+    touchThread(thread);
+
+    const filePath = threadFilePath(threadId);
+    const tmpPath = `${filePath}.tmp`;
+
+    const payload = {
+        threadId,
+        summary: thread.summary,
+        turns: thread.turns,
+        createdAt: thread.createdAt,
+        updatedAt: thread.updatedAt
+    };
+
+    try {
+        fs.writeFileSync(tmpPath, JSON.stringify(payload, null, 2));
+        fs.renameSync(tmpPath, filePath);
+    } catch (_err) {
+        try {
+            if (fs.existsSync(tmpPath)) fs.unlinkSync(tmpPath);
+        } catch (_unlinkErr) {
+        }
+    }
+}
+
+function appendTurn(thread, role, content) {
+    const normalized = normalizeTurn({ role, content, ts: new Date().toISOString() });
+    if (!normalized) return;
+
+    thread.turns.push(normalized);
+    if (thread.turns.length > THREAD_HARD_LIMIT) {
+        thread.turns = thread.turns.slice(-THREAD_HARD_LIMIT);
+    }
+    touchThread(thread);
 }
 
 function dateKeyToday() {
