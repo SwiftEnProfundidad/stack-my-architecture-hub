@@ -1,0 +1,14 @@
+# macOS
+.DS_Store
+
+# Assistant bridge local/runtime files
+assistant-bridge/node_modules/
+assistant-bridge/metrics.json
+assistant-bridge/.env
+
+# npm logs
+npm-debug.log*
+yarn-error.log*
+
+# Root lockfile (accidental in this repo; real lockfile lives in assistant-bridge/)
+/package-lock.json
