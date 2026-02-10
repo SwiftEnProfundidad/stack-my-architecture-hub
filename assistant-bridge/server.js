@@ -30,7 +30,8 @@ const AVAILABLE_MODELS = (process.env.OPENAI_ALLOWED_MODELS || [
     .map((value) => String(value || '').trim())
     .filter(Boolean);
 
-const VISION_MODELS = (process.env.OPENAI_VISION_MODELS || 'gpt-4o-mini')
+const VISION_FALLBACK_MODEL = String(process.env.OPENAI_VISION_FALLBACK_MODEL || 'gpt-4o-mini').trim();
+const VISION_MODELS = (process.env.OPENAI_VISION_MODELS || 'gpt-5.3*,gpt-5.2*,gpt-4.1-mini,gpt-4o-mini')
     .split(',')
     .map((value) => String(value || '').trim())
     .filter(Boolean);
@@ -43,6 +44,9 @@ const DAILY_WARNING_USD = Number(process.env.ASSISTANT_DAILY_WARNING_USD || 0.25
 const MAX_IMAGES = 3;
 const MAX_IMAGE_BYTES = 3 * 1024 * 1024;
 const ALLOWED_IMAGE_TYPES = ['image/png', 'image/jpeg'];
+const IMAGE_MAX_WIDTH = 1280;
+const IMAGE_JPEG_QUALITY = 0.85;
+const MEMORY_CONFIG_MAX_TURNS = 8;
 
 const THREAD_WINDOW_TURNS = toInt(process.env.ASSISTANT_THREAD_WINDOW_TURNS, 10, 6, 16);
 const MAX_TURNS_BEFORE_SUMMARY = toInt(process.env.ASSISTANT_MAX_TURNS_BEFORE_SUMMARY, 14, THREAD_WINDOW_TURNS + 2, 60);
@@ -85,6 +89,7 @@ app.get('/health', (_req, res) => {
 app.get('/config', (_req, res) => {
     res.json({
         ok: true,
+        schemaVersion: 1,
         models: AVAILABLE_MODELS,
         default_model: DEFAULT_MODEL,
         max_tokens_default: DEFAULT_MAX_TOKENS,
@@ -97,7 +102,17 @@ app.get('/config', (_req, res) => {
         query_path: QUERY_PATH,
         thread_window_turns: THREAD_WINDOW_TURNS,
         max_turns_before_summary: MAX_TURNS_BEFORE_SUMMARY,
-        summary_model: pickSummaryModel(DEFAULT_MODEL)
+        summary_model: pickSummaryModel(DEFAULT_MODEL),
+        images: {
+            maxCount: MAX_IMAGES,
+            maxBytes: MAX_IMAGE_BYTES,
+            maxWidth: IMAGE_MAX_WIDTH,
+            jpegQuality: IMAGE_JPEG_QUALITY
+        },
+        memory: {
+            maxTurns: MEMORY_CONFIG_MAX_TURNS,
+            summaryEnabled: true
+        }
     });
 });
 
@@ -163,8 +178,8 @@ async function handleQuery(req, res) {
         let warning = null;
         let model = selectedModel;
 
-        if (images.length > 0 && !VISION_MODELS.includes(model)) {
-            model = 'gpt-4o-mini';
+        if (images.length > 0 && !supportsVisionModel(model)) {
+            model = VISION_FALLBACK_MODEL;
             warning = `El modelo ${selectedModel} no soporta visión. Fallback automático a ${model}.`;
         }
 
@@ -307,7 +322,8 @@ function buildAssistantInstructions(summary) {
     const lines = [
         'Eres el asistente del curso Stack My Architecture.',
         'Responde en español claro, con enfoque práctico y acciones concretas.',
-        'Si falta contexto, indícalo y pide el dato mínimo necesario.'
+        'Si falta contexto, indícalo y pide el dato mínimo necesario.',
+        'Cuando haya imágenes adjuntas, analízalas de forma explícita y responde sobre su contenido visual.'
     ];
 
     const normalizedSummary = truncateText(String(summary || ''), THREAD_SUMMARY_MAX_CHARS);
@@ -322,8 +338,11 @@ function buildAssistantInstructions(summary) {
     return lines.join('\n');
 }
 
-function buildCurrentUserPrompt(message, context) {
+function buildCurrentUserPrompt(message, context, imagesCount) {
     const lines = [String(message || '').trim()];
+    if (Number(imagesCount || 0) > 0) {
+        lines.push('', `Hay ${imagesCount} imagen(es) adjunta(s) en esta consulta. Debes analizarlas antes de responder.`);
+    }
 
     const contextLines = [];
     if (context.pageTitle) contextLines.push(`Página: ${context.pageTitle}`);
@@ -341,7 +360,7 @@ function buildCurrentUserPrompt(message, context) {
 
 function buildInputFromThread({ thread, context, images }) {
     const turns = thread.turns.slice(-THREAD_WINDOW_TURNS);
-    const currentPrompt = buildCurrentUserPrompt(turns[turns.length - 1].content, context);
+    const currentPrompt = buildCurrentUserPrompt(turns[turns.length - 1].content, context, images.length);
 
     return turns.map((turn, index) => {
         const role = turn.role === 'assistant' ? 'assistant' : 'user';
@@ -375,6 +394,21 @@ function pickSummaryModel(mainModel) {
     if (AVAILABLE_MODELS.includes('gpt-4o-mini')) return 'gpt-4o-mini';
     if (AVAILABLE_MODELS.includes(mainModel)) return mainModel;
     return DEFAULT_MODEL;
+}
+
+function supportsVisionModel(model) {
+    const normalized = String(model || '').trim();
+    if (!normalized) return false;
+    return VISION_MODELS.some((pattern) => modelMatchesPattern(normalized, pattern));
+}
+
+function modelMatchesPattern(model, pattern) {
+    const normalizedPattern = String(pattern || '').trim();
+    if (!normalizedPattern) return false;
+    if (normalizedPattern.endsWith('*')) {
+        return model.startsWith(normalizedPattern.slice(0, -1));
+    }
+    return model === normalizedPattern;
 }
 
 function buildSummaryInput(summary, turns) {

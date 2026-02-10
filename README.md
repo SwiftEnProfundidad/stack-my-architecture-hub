@@ -77,9 +77,20 @@ curl -X POST http://localhost:8090/assistant/query \
 }
 ```
 
+- Puedes adjuntar también con:
+  - `⌘V` / `Ctrl+V` (pegar captura desde portapapeles)
+  - drag & drop directamente sobre el panel del asistente.
+
 ## Modelos con visión y fallback
 
 - El panel permite seleccionar modelo manualmente.
 - Si la consulta incluye imágenes y el modelo no soporta visión:
   - el proxy aplica fallback automático a `gpt-4o-mini`
   - devuelve `warning` en la respuesta para que el panel lo muestre.
+
+## Caché y limpieza de historial IA
+
+- El panel incluye caché local por curso (`Usar caché`) para reutilizar respuestas de consultas idénticas.
+- Puedes limpiar manualmente con `🧽 Limpiar caché`.
+- `🧹 Limpiar contexto` reinicia contexto conversacional del hilo actual.
+- `🗑 Borrar historial IA` borra historial/memoria del asistente del curso actual sin tocar progreso de estudio.
