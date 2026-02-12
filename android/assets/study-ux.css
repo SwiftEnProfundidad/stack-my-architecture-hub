@@ -17,45 +17,6 @@ body.with-global-topbar {
   box-shadow: var(--shadow-sm, 0 2px 8px rgba(0, 0, 0, 0.18));
 }
 
-.global-topbar,
-#study-ux-controls,
-#theme-controls {
-  font-size: 16px;
-}
-
-.global-topbar #course-switcher-toggle,
-.global-topbar #course-switcher-menu a,
-.global-topbar #study-ux-controls button,
-.global-topbar #study-progress,
-.global-topbar #theme-controls button {
-  font-size: 12px;
-  line-height: 1;
-}
-
-.global-topbar #study-ux-controls,
-.global-topbar #theme-controls,
-.global-topbar #course-switcher {
-  flex: 0 0 auto;
-}
-
-.global-topbar #study-ux-controls button,
-.global-topbar #theme-controls button,
-.global-topbar #course-switcher-toggle,
-.global-topbar #course-switcher-menu a {
-  min-height: 34px;
-  white-space: nowrap;
-}
-
-.global-topbar #study-font-down,
-.global-topbar #study-font-up {
-  width: 36px;
-  min-width: 36px;
-  padding: 0;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .global-topbar>* {
   position: static !important;
 }
@@ -80,13 +41,21 @@ body.with-global-topbar {
   color: var(--text, #e5e7eb);
   border-radius: 8px;
   padding: 8px 10px;
-  font-size: 12px;
-  line-height: 1;
+  font-size: 0.78rem;
   font-weight: 600;
   cursor: pointer;
-  min-height: 34px;
-  white-space: nowrap;
-  flex: 0 0 auto;
+}
+
+#study-font-down,
+#study-font-up {
+  flex: 0 0 42px;
+  width: 42px;
+  min-width: 42px;
+  max-width: 42px;
+  padding: 8px 0;
+  font-size: 12px;
+  line-height: 1;
+  text-align: center;
 }
 
 #study-ux-controls button:hover,
@@ -109,8 +78,7 @@ body.with-global-topbar {
 }
 
 .study-progress {
-  font-size: 12px;
-  line-height: 1;
+  font-size: 0.75rem;
   color: var(--text-secondary, #cbd5e1);
   white-space: nowrap;
 }
@@ -245,6 +213,16 @@ main hr {
   .study-ux-index-actions button {
     font-size: 0.72rem;
     padding: 6px 8px;
+  }
+
+  #study-font-down,
+  #study-font-up {
+    flex-basis: 42px;
+    width: 42px;
+    min-width: 42px;
+    max-width: 42px;
+    padding: 6px 0;
+    font-size: 12px;
   }
 
   .study-progress {

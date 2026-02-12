@@ -15,65 +15,44 @@
     var SMALL_PNG_MAX_BYTES = 350 * 1024;
     var JPEG_QUALITY = 0.85;
     var DAILY_WARNING_DEFAULT = 0.25;
-    var CACHE_ENTRY_LIMIT = 30;
-    var CACHE_MAX_IMAGES_BYTES = 1536 * 1024;
 
     var courseId = detectCourseId() || 'unknown';
     var KEY_MEMORY = 'sma:' + courseId + ':assistant:memory';
-    var KEY_THREAD_ID = 'sma:' + courseId + ':assistant:thread_id';
-    var KEY_HISTORY = 'sma:' + courseId + ':assistant:history';
-    var KEY_CONVERSATION_SUMMARY = 'sma:' + courseId + ':assistant:conversation_summary';
-    var KEY_CACHE = 'sma:' + courseId + ':assistant:cache';
-    var KEY_CACHE_ENABLED = 'sma:' + courseId + ':assistant:cache_enabled';
 
     var state = {
         isOpen: localStorage.getItem(KEY_OPEN) === '1',
         model: localStorage.getItem(KEY_MODEL) || 'gpt-4o-mini',
         maxTokens: Number(localStorage.getItem(KEY_MAX_TOKENS) || 600),
         proxyBase: normalizeProxyBase(localStorage.getItem(KEY_PROXY_BASE) || defaultProxyBase()),
-        threadId: readThreadId(),
         queryPath: '/assistant/query',
         messages: readMessages(),
         pendingAttachments: [],
         isLoading: false,
         metrics: null,
         lastRequest: null,
-        currentSummary: readConversationSummary(),
         dailyWarningUsd: DAILY_WARNING_DEFAULT,
-        schemaVersion: 1,
-        memoryMaxTurns: MEMORY_RECENT_LIMIT,
-        cacheEnabled: readCacheEnabled(),
-        cacheEntries: readCacheEntries(),
-        cacheHits: 0,
-        cacheMisses: 0,
         availableModels: ['gpt-5.3', 'gpt-5.2', 'gpt-5.2-codex', 'gpt-4o-mini', 'gpt-4.1-mini'],
         maxAttachments: IMAGE_MAX_ATTACHMENTS,
         maxImageBytes: IMAGE_MAX_BYTES,
-        maxImageDimension: IMAGE_MAX_DIMENSION,
-        jpegQuality: JPEG_QUALITY,
         allowedImageTypes: ['image/png', 'image/jpeg'],
-        visionModels: ['gpt-5.3*', 'gpt-5.2*', 'gpt-4.1-mini', VISION_FALLBACK_MODEL]
+        visionModels: [VISION_FALLBACK_MODEL]
     };
 
     var refs = {
         panel: null,
-        footer: null,
         body: null,
         textarea: null,
         status: null,
         modelSelect: null,
         tokensInput: null,
         proxyInput: null,
-        cacheToggle: null,
         metricsBox: null,
         sendBtn: null,
         attachBtn: null,
         fileInput: null,
         attachmentsBox: null,
         attachmentsCounter: null,
-        clearContextBtn: null,
-        clearHistoryBtn: null,
-        clearCacheBtn: null
+        clearContextBtn: null
     };
 
     function detectCourseId() {
@@ -85,8 +64,7 @@
 
     function readMessages() {
         try {
-            var hasCourseHistory = localStorage.getItem(KEY_HISTORY) !== null;
-            var raw = hasCourseHistory ? localStorage.getItem(KEY_HISTORY) : localStorage.getItem(KEY_MESSAGES);
+            var raw = localStorage.getItem(KEY_MESSAGES);
             var parsed = raw ? JSON.parse(raw) : [];
             return Array.isArray(parsed) ? parsed.slice(-40) : [];
         } catch (_err) {
@@ -99,162 +77,10 @@
             return {
                 role: msg.role,
                 text: msg.text,
-                at: msg.at,
-                cached: Boolean(msg.cached)
+                at: msg.at
             };
         });
-        localStorage.setItem(KEY_HISTORY, JSON.stringify(compact));
-    }
-
-    function readConversationSummary() {
-        return String(localStorage.getItem(KEY_CONVERSATION_SUMMARY) || '').trim();
-    }
-
-    function persistConversationSummary(summary) {
-        var normalized = String(summary || '').trim();
-        if (!normalized) {
-            localStorage.removeItem(KEY_CONVERSATION_SUMMARY);
-            return;
-        }
-        localStorage.setItem(KEY_CONVERSATION_SUMMARY, normalized);
-    }
-
-    function readCacheEnabled() {
-        var raw = localStorage.getItem(KEY_CACHE_ENABLED);
-        if (raw === null) return true;
-        return raw === '1';
-    }
-
-    function persistCacheEnabled() {
-        localStorage.setItem(KEY_CACHE_ENABLED, state.cacheEnabled ? '1' : '0');
-    }
-
-    function readCacheEntries() {
-        try {
-            var raw = localStorage.getItem(KEY_CACHE);
-            var parsed = raw ? JSON.parse(raw) : [];
-            if (!Array.isArray(parsed)) return [];
-            return parsed
-                .map(function (entry) {
-                    if (!entry || typeof entry !== 'object') return null;
-                    var key = String(entry.key || '').trim();
-                    var answer = String(entry.answer || '').trim();
-                    if (!key || !answer) return null;
-                    return {
-                        key: key,
-                        answer: answer,
-                        model: String(entry.model || '').trim(),
-                        summary: String(entry.summary || '').trim(),
-                        warning: String(entry.warning || '').trim(),
-                        hasImages: Boolean(entry.hasImages),
-                        imagesCount: Number(entry.imagesCount || 0),
-                        usage: {
-                            inputTokens: Number(entry.usage && entry.usage.inputTokens || 0),
-                            outputTokens: Number(entry.usage && entry.usage.outputTokens || 0),
-                            totalTokens: Number(entry.usage && entry.usage.totalTokens || 0),
-                            estimatedCostUsd: Number(entry.usage && entry.usage.estimatedCostUsd || 0)
-                        },
-                        createdAt: Number(entry.createdAt || Date.now())
-                    };
-                })
-                .filter(Boolean)
-                .slice(-CACHE_ENTRY_LIMIT);
-        } catch (_err) {
-            return [];
-        }
-    }
-
-    function persistCacheEntries() {
-        try {
-            localStorage.setItem(KEY_CACHE, JSON.stringify(state.cacheEntries.slice(-CACHE_ENTRY_LIMIT)));
-        } catch (_err) {
-        }
-    }
-
-    function clearCacheEntries() {
-        state.cacheEntries = [];
-        persistCacheEntries();
-        setStatus('Caché del asistente limpiada.', 'success');
-        renderMetrics(state.metrics);
-    }
-
-    function hashString(value) {
-        var text = String(value || '');
-        var hash = 2166136261;
-        for (var i = 0; i < text.length; i += 1) {
-            hash ^= text.charCodeAt(i);
-            hash = (hash * 16777619) >>> 0;
-        }
-        return hash.toString(16);
-    }
-
-    function normalizePromptForCache(value) {
-        return String(value || '').replace(/\s+/g, ' ').trim().toLowerCase();
-    }
-
-    function buildImagesSignature(images) {
-        if (!Array.isArray(images) || !images.length) return 'no-images';
-        return images.map(function (att) {
-            var prefix = String(att && att.data || '').slice(0, 2048);
-            var bytes = Number(att && att.size || 0);
-            var type = String(att && att.type || '');
-            return hashString(prefix + '|' + bytes + '|' + type);
-        }).join(':');
-    }
-
-    function buildCacheContextVersion() {
-        return hashString(String(state.threadId || '') + '|' + String(state.currentSummary || ''));
-    }
-
-    function shouldUseCacheForRequest(images) {
-        if (!state.cacheEnabled) return false;
-        if (Array.isArray(images) && images.length) return false;
-        if (!Array.isArray(images) || !images.length) return true;
-        var totalBytes = images.reduce(function (acc, item) {
-            return acc + Number(item && item.size || 0);
-        }, 0);
-        return totalBytes <= CACHE_MAX_IMAGES_BYTES;
-    }
-
-    function buildCacheKey(params) {
-        var model = String(params && params.model || '').trim();
-        var prompt = normalizePromptForCache(params && params.prompt || '');
-        var selection = String(params && params.selection || '').trim();
-        var contextVersion = String(params && params.contextVersion || '');
-        var imagesSignature = buildImagesSignature(params && params.images || []);
-
-        return [
-            'v1',
-            model,
-            hashString(prompt),
-            hashString(selection),
-            contextVersion,
-            imagesSignature
-        ].join('|');
-    }
-
-    function readCacheHit(cacheKey) {
-        for (var i = 0; i < state.cacheEntries.length; i += 1) {
-            var entry = state.cacheEntries[i];
-            if (entry.key !== cacheKey) continue;
-            state.cacheEntries.splice(i, 1);
-            state.cacheEntries.push(entry);
-            persistCacheEntries();
-            return entry;
-        }
-        return null;
-    }
-
-    function writeCacheEntry(entry) {
-        if (!entry || !entry.key || !entry.answer) return;
-        state.cacheEntries = state.cacheEntries.filter(function (item) {
-            return item.key !== entry.key;
-        });
-        state.cacheEntries.push(entry);
-        if (state.cacheEntries.length > CACHE_ENTRY_LIMIT) {
-            state.cacheEntries = state.cacheEntries.slice(-CACHE_ENTRY_LIMIT);
-        }
-        persistCacheEntries();
+        localStorage.setItem(KEY_MESSAGES, JSON.stringify(compact));
     }
 
     function readMemory() {
@@ -299,27 +125,7 @@
 
     function clearMemory() {
         localStorage.removeItem(KEY_MEMORY);
-        localStorage.removeItem(KEY_CONVERSATION_SUMMARY);
-        state.currentSummary = '';
-        saveThreadId(generateThreadId());
-        renderMetrics(state.metrics);
         setStatus('Contexto del asistente limpiado.', 'success');
-    }
-
-    function clearAssistantHistory() {
-        localStorage.setItem(KEY_HISTORY, '[]');
-        localStorage.removeItem(KEY_MEMORY);
-        localStorage.removeItem(KEY_CONVERSATION_SUMMARY);
-        state.messages = [];
-        state.pendingAttachments = [];
-        state.currentSummary = '';
-        state.lastRequest = null;
-        saveThreadId(generateThreadId());
-        persistMessages();
-        renderMessages();
-        renderPendingAttachments();
-        renderMetrics(state.metrics);
-        setStatus('Historial del asistente borrado para este curso.', 'success');
     }
 
     function updateMemoryWithTurn(userText, assistantText) {
@@ -376,35 +182,6 @@
         return text.slice(0, Math.max(1, maxLen - 1)).trim() + '…';
     }
 
-    function sanitizeThreadId(value) {
-        var raw = String(value || '').trim();
-        if (!raw) return '';
-        var cleaned = raw.replace(/[^a-zA-Z0-9_-]/g, '-').slice(0, 120);
-        return cleaned.length >= 8 ? cleaned : '';
-    }
-
-    function generateThreadId() {
-        if (window.crypto && typeof window.crypto.randomUUID === 'function') {
-            return window.crypto.randomUUID();
-        }
-        return 'thr-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 10);
-    }
-
-    function saveThreadId(threadId) {
-        var normalized = sanitizeThreadId(threadId) || generateThreadId();
-        state.threadId = normalized;
-        localStorage.setItem(KEY_THREAD_ID, normalized);
-        return normalized;
-    }
-
-    function readThreadId() {
-        var fromStorage = sanitizeThreadId(localStorage.getItem(KEY_THREAD_ID));
-        if (fromStorage) return fromStorage;
-        var created = generateThreadId();
-        localStorage.setItem(KEY_THREAD_ID, created);
-        return created;
-    }
-
     function saveConfig() {
         localStorage.setItem(KEY_MODEL, state.model);
         localStorage.setItem(KEY_MAX_TOKENS, String(state.maxTokens));
@@ -415,10 +192,7 @@
         state.isOpen = !!isOpen;
         localStorage.setItem(KEY_OPEN, state.isOpen ? '1' : '0');
         if (state.isOpen) document.body.classList.add('sma-assistant-open');
-        else {
-            document.body.classList.remove('sma-assistant-open');
-            setDropzoneActive(false);
-        }
+        else document.body.classList.remove('sma-assistant-open');
     }
 
     function createPanel() {
@@ -498,24 +272,9 @@
         });
         proxyLabel.appendChild(proxyInput);
 
-        var cacheToggleLabel = document.createElement('label');
-        cacheToggleLabel.className = 'assistant-cache-toggle';
-        cacheToggleLabel.textContent = 'Usar caché';
-        var cacheToggle = document.createElement('input');
-        cacheToggle.type = 'checkbox';
-        cacheToggle.checked = state.cacheEnabled;
-        cacheToggle.addEventListener('change', function () {
-            state.cacheEnabled = Boolean(cacheToggle.checked);
-            persistCacheEnabled();
-            renderMetrics(state.metrics);
-            setStatus(state.cacheEnabled ? 'Caché activada.' : 'Caché desactivada.', 'success');
-        });
-        cacheToggleLabel.appendChild(cacheToggle);
-
         grid.appendChild(modelLabel);
         grid.appendChild(tokensLabel);
         grid.appendChild(proxyLabel);
-        grid.appendChild(cacheToggleLabel);
         config.appendChild(grid);
 
         var metricsBox = document.createElement('div');
@@ -551,10 +310,6 @@
         var actions = document.createElement('div');
         actions.className = 'sma-assistant-footer-actions';
 
-        var attachmentsTip = document.createElement('div');
-        attachmentsTip.className = 'assistant-attachments-tip';
-        attachmentsTip.textContent = 'Tip: puedes pegar capturas con ⌘V / Ctrl+V';
-
         var attachBtn = document.createElement('button');
         attachBtn.type = 'button';
         attachBtn.textContent = '📎 Adjuntar imagen';
@@ -570,28 +325,14 @@
             clearMemory();
         });
 
-        var clearHistoryBtn = document.createElement('button');
-        clearHistoryBtn.type = 'button';
-        clearHistoryBtn.textContent = '🗑 Borrar historial IA';
-        clearHistoryBtn.addEventListener('click', function () {
-            clearAssistantHistory();
-        });
-
-        var clearCacheBtn = document.createElement('button');
-        clearCacheBtn.type = 'button';
-        clearCacheBtn.textContent = '🧽 Limpiar caché';
-        clearCacheBtn.addEventListener('click', function () {
-            clearCacheEntries();
-        });
-
         var clearBtn = document.createElement('button');
         clearBtn.type = 'button';
-        clearBtn.textContent = 'Limpiar panel';
+        clearBtn.textContent = 'Limpiar chat';
         clearBtn.addEventListener('click', function () {
             state.messages = [];
             persistMessages();
             renderMessages();
-            setStatus('Panel limpio. El contexto del hilo se mantiene.', 'success');
+            setStatus('Conversación vacía.', 'success');
         });
 
         var sendBtn = document.createElement('button');
@@ -602,9 +343,7 @@
         });
 
         actions.appendChild(attachBtn);
-        actions.appendChild(clearCacheBtn);
         actions.appendChild(clearContextBtn);
-        actions.appendChild(clearHistoryBtn);
         actions.appendChild(clearBtn);
         actions.appendChild(sendBtn);
 
@@ -613,7 +352,6 @@
 
         footer.appendChild(attachmentsCounter);
         footer.appendChild(attachmentsBox);
-        footer.appendChild(attachmentsTip);
         footer.appendChild(textarea);
         footer.appendChild(fileInput);
         footer.appendChild(actions);
@@ -626,14 +364,12 @@
         document.body.appendChild(panel);
 
         refs.panel = panel;
-        refs.footer = footer;
         refs.body = body;
         refs.textarea = textarea;
         refs.status = status;
         refs.modelSelect = modelSelect;
         refs.tokensInput = tokensInput;
         refs.proxyInput = proxyInput;
-        refs.cacheToggle = cacheToggle;
         refs.metricsBox = metricsBox;
         refs.sendBtn = sendBtn;
         refs.attachBtn = attachBtn;
@@ -641,11 +377,6 @@
         refs.attachmentsBox = attachmentsBox;
         refs.attachmentsCounter = attachmentsCounter;
         refs.clearContextBtn = clearContextBtn;
-        refs.clearHistoryBtn = clearHistoryBtn;
-        refs.clearCacheBtn = clearCacheBtn;
-
-        registerClipboardHandler();
-        registerDropHandlers();
 
         setOpen(state.isOpen);
         renderMessages();
@@ -664,14 +395,12 @@
             .replace(/'/g, '&#39;');
     }
 
-    function pushMessage(role, text, attachments, meta) {
-        var details = meta && typeof meta === 'object' ? meta : {};
+    function pushMessage(role, text, attachments) {
         state.messages.push({
             role: role,
             text: String(text || ''),
             at: Date.now(),
-            attachments: Array.isArray(attachments) ? attachments.slice(0, state.maxAttachments) : [],
-            cached: Boolean(details.cached)
+            attachments: Array.isArray(attachments) ? attachments.slice(0, state.maxAttachments) : []
         });
         if (state.messages.length > 40) state.messages = state.messages.slice(-40);
         persistMessages();
@@ -698,13 +427,6 @@
             textBlock.textContent = msg.text;
             row.appendChild(textBlock);
 
-            if (msg.role === 'assistant' && msg.cached) {
-                var badge = document.createElement('span');
-                badge.className = 'assistant-msg-badge';
-                badge.textContent = '(cache)';
-                row.appendChild(badge);
-            }
-
             if (Array.isArray(msg.attachments) && msg.attachments.length) {
                 var images = document.createElement('div');
                 images.className = 'assistant-msg-images';
@@ -730,105 +452,6 @@
         refs.body.scrollTop = refs.body.scrollHeight;
     }
 
-    function startNewConversation() {
-        saveThreadId(generateThreadId());
-        state.messages = [];
-        persistMessages();
-        state.pendingAttachments = [];
-        state.lastRequest = null;
-        state.currentSummary = '';
-        persistConversationSummary('');
-        renderMessages();
-        renderPendingAttachments();
-        renderMetrics(state.metrics);
-        setStatus('Nueva conversación iniciada.', 'success');
-    }
-
-    function isAssistantInteractionTarget(target) {
-        return Boolean(state.isOpen && refs.panel && target && refs.panel.contains(target));
-    }
-
-    function shouldHandleClipboardImage(event) {
-        if (!state.isOpen || !refs.panel || state.isLoading) return false;
-        var target = event && event.target;
-        if (isAssistantInteractionTarget(target)) return true;
-        var active = document.activeElement;
-        return Boolean(active && refs.panel.contains(active));
-    }
-
-    function extractClipboardImageFiles(event) {
-        var clipboard = event && event.clipboardData;
-        var items = clipboard && clipboard.items ? Array.prototype.slice.call(clipboard.items) : [];
-        if (!items.length) return [];
-
-        return items
-            .filter(function (item) {
-                return item && item.kind === 'file' && /^image\/(png|jpeg|jpg)$/i.test(String(item.type || ''));
-            })
-            .map(function (item, index) {
-                var blob = item.getAsFile();
-                if (!blob) return null;
-                var type = normalizeImageType(blob.type);
-                var ext = type === 'image/png' ? 'png' : 'jpg';
-                return new File([blob], 'paste-' + Date.now() + '-' + index + '.' + ext, {
-                    type: type,
-                    lastModified: Date.now()
-                });
-            })
-            .filter(Boolean);
-    }
-
-    function registerClipboardHandler() {
-        document.addEventListener('paste', function (event) {
-            if (!shouldHandleClipboardImage(event)) return;
-            var files = extractClipboardImageFiles(event);
-            if (!files.length) return;
-            processIncomingFiles(files, 'pegado');
-        });
-    }
-
-    function extractDropImageFiles(event) {
-        var transfer = event && event.dataTransfer;
-        if (!transfer) return [];
-        var files = transfer.files ? Array.prototype.slice.call(transfer.files) : [];
-        return files.filter(function (file) {
-            var type = normalizeImageType(file && file.type);
-            return type === 'image/png' || type === 'image/jpeg';
-        });
-    }
-
-    function setDropzoneActive(active) {
-        if (!refs.footer) return;
-        if (active) refs.footer.classList.add('is-drop-active');
-        else refs.footer.classList.remove('is-drop-active');
-    }
-
-    function registerDropHandlers() {
-        if (!refs.footer || !refs.attachmentsBox || !refs.textarea) return;
-
-        [refs.footer, refs.attachmentsBox, refs.textarea].forEach(function (target) {
-            target.addEventListener('dragover', function (event) {
-                var files = extractDropImageFiles(event);
-                if (!files.length) return;
-                event.preventDefault();
-                setDropzoneActive(true);
-            });
-
-            target.addEventListener('dragleave', function (event) {
-                if (refs.footer && refs.footer.contains(event.relatedTarget)) return;
-                setDropzoneActive(false);
-            });
-
-            target.addEventListener('drop', function (event) {
-                var files = extractDropImageFiles(event);
-                if (!files.length) return;
-                event.preventDefault();
-                setDropzoneActive(false);
-                processIncomingFiles(files, 'arrastre');
-            });
-        });
-    }
-
     function setLoadingState(isLoading) {
         state.isLoading = !!isLoading;
         if (refs.sendBtn) {
@@ -837,9 +460,6 @@
         }
         if (refs.attachBtn) refs.attachBtn.disabled = state.isLoading;
         if (refs.clearContextBtn) refs.clearContextBtn.disabled = state.isLoading;
-        if (refs.clearHistoryBtn) refs.clearHistoryBtn.disabled = state.isLoading;
-        if (refs.clearCacheBtn) refs.clearCacheBtn.disabled = state.isLoading;
-        if (refs.cacheToggle) refs.cacheToggle.disabled = state.isLoading;
     }
 
     function setStatus(text, tone) {
@@ -901,22 +521,8 @@
         return out;
     }
 
-    function modelMatchesPattern(model, pattern) {
-        var normalizedModel = String(model || '').trim();
-        var normalizedPattern = String(pattern || '').trim();
-        if (!normalizedModel || !normalizedPattern) return false;
-        if (normalizedPattern.slice(-1) === '*') {
-            return normalizedModel.indexOf(normalizedPattern.slice(0, -1)) === 0;
-        }
-        return normalizedModel === normalizedPattern;
-    }
-
     function supportsVisionModel(model) {
-        var normalizedModel = String(model || '').trim();
-        if (!normalizedModel) return false;
-        return state.visionModels.some(function (pattern) {
-            return modelMatchesPattern(normalizedModel, pattern);
-        });
+        return state.visionModels.indexOf(String(model || '').trim()) >= 0;
     }
 
     function updateAttachmentCounter(note, tone) {
@@ -1048,7 +654,7 @@
                     var width = image.width;
                     var height = image.height;
                     var maxSide = Math.max(width, height);
-                    var scale = maxSide > state.maxImageDimension ? (state.maxImageDimension / maxSide) : 1;
+                    var scale = maxSide > IMAGE_MAX_DIMENSION ? (IMAGE_MAX_DIMENSION / maxSide) : 1;
                     var targetWidth = Math.max(1, Math.round(width * scale));
                     var targetHeight = Math.max(1, Math.round(height * scale));
 
@@ -1065,7 +671,7 @@
 
                     var keepPng = inputType === 'image/png' && file.size <= SMALL_PNG_MAX_BYTES && scale >= 0.999;
                     var outputType = keepPng ? 'image/png' : 'image/jpeg';
-                    var quality = keepPng ? 0.92 : state.jpegQuality;
+                    var quality = keepPng ? 0.92 : JPEG_QUALITY;
 
                     return canvasToBlob(canvas, outputType, quality)
                         .then(function (blob) {
@@ -1103,18 +709,13 @@
             });
     }
 
-    function processIncomingFiles(fileList, sourceLabel) {
-        var files = Array.prototype.slice.call(fileList || [])
-            .filter(function (file) {
-                var type = normalizeImageType(file && file.type);
-                return type === 'image/png' || type === 'image/jpeg';
-            });
-
+    function handleSelectedFiles(fileList) {
+        var files = Array.prototype.slice.call(fileList || []);
         if (!files.length) return;
 
         var remainingSlots = state.maxAttachments - state.pendingAttachments.length;
         if (remainingSlots <= 0) {
-            setStatus('Límite: ' + state.maxAttachments + ' imágenes', 'warning');
+            setStatus('Solo puedes adjuntar hasta ' + state.maxAttachments + ' imágenes por consulta.', 'warning');
             updateAttachmentCounter('Límite alcanzado', 'warning');
             return;
         }
@@ -1122,43 +723,22 @@
         var accepted = files.slice(0, remainingSlots);
         var ignoredCount = files.length - accepted.length;
 
-        Promise.allSettled(accepted.map(compressImage))
-            .then(function (results) {
-                var processed = [];
-                var failed = [];
-
-                results.forEach(function (result) {
-                    if (result.status === 'fulfilled') {
-                        processed.push(result.value);
-                        return;
-                    }
-                    failed.push(result.reason && result.reason.message ? result.reason.message : 'imagen inválida');
-                });
-
-                if (processed.length) {
-                    state.pendingAttachments = state.pendingAttachments.concat(processed).slice(0, state.maxAttachments);
-                }
-
-                if (failed.length) {
-                    setStatus(failed[0], 'warning');
-                    renderPendingAttachments('Revisa formato y tamaño', 'warning');
-                    return;
-                }
-
+        Promise.all(accepted.map(compressImage))
+            .then(function (processed) {
+                state.pendingAttachments = state.pendingAttachments.concat(processed).slice(0, state.maxAttachments);
                 if (ignoredCount > 0) {
-                    setStatus('Se ignoraron ' + ignoredCount + ' imagen(es) por límite.', 'warning');
+                    setStatus('Se ignoraron ' + ignoredCount + ' imagen(es) por superar el límite.', 'warning');
                     renderPendingAttachments('Se ignoraron ' + ignoredCount + ' imagen(es)', 'warning');
                     return;
                 }
-
-                var origin = sourceLabel ? ' (' + sourceLabel + ')' : '';
-                setStatus('Imágenes listas para enviar' + origin + '.', 'success');
+                setStatus('Imágenes listas para enviar.', 'success');
                 renderPendingAttachments();
+            })
+            .catch(function (err) {
+                var message = err && err.message ? err.message : 'No se pudieron procesar las imágenes.';
+                setStatus(message, 'warning');
+                renderPendingAttachments('Revisa el formato y tamaño', 'warning');
             });
-    }
-
-    function handleSelectedFiles(fileList) {
-        processIncomingFiles(fileList, 'selector');
     }
 
     function normalizeUsage(responseJson) {
@@ -1240,10 +820,6 @@
         if (last) {
             var modelLine = '<div><strong>Modelo activo</strong>: ' + escapeHtml(last.model || state.model) + '</div>';
             lines.push(modelLine);
-            lines.push('<div><strong>Thread</strong>: <code>' + escapeHtml(last.threadId || state.threadId || '-') + '</code></div>');
-            if (last.cached) {
-                lines.push('<div><strong>Fuente</strong>: caché local</div>');
-            }
             lines.push('<div><strong>Última consulta</strong>: ' + last.inputTokens + ' / ' + last.outputTokens + ' / ' + last.totalTokens + ' tokens</div>');
             lines.push('<div><strong>Coste última consulta</strong>: ' + Number(last.estimatedCostUsd || 0).toFixed(6) + ' USD</div>');
             lines.push('<div><strong>Consulta con imágenes</strong>: ' + (last.hasImages ? 'Sí (' + last.imagesCount + ')' : 'No') + '</div>');
@@ -1252,18 +828,12 @@
             }
         } else {
             lines.push('<div><strong>Modelo activo</strong>: ' + escapeHtml(state.model) + '</div>');
-            lines.push('<div><strong>Thread</strong>: <code>' + escapeHtml(state.threadId || '-') + '</code></div>');
             lines.push('<div>Sin consultas recientes en esta sesión.</div>');
-        }
-
-        if (state.currentSummary) {
-            lines.push('<div><strong>Resumen memoria</strong>: ' + escapeHtml(state.currentSummary) + '</div>');
         }
 
         lines.push('<div><strong>Coste acumulado del día</strong>: ' + normalized.dailyCostUsd.toFixed(6) + ' USD</div>');
         lines.push('<div><strong>Coste total de sesión</strong>: ' + normalized.totalEstimatedCostUsd.toFixed(6) + ' USD</div>');
         lines.push('<div><strong>Requests totales</strong>: ' + normalized.totalRequests + '</div>');
-        lines.push('<div><strong>Caché (sesión)</strong>: hits ' + state.cacheHits + ' · misses ' + state.cacheMisses + '</div>');
 
         if (normalized.softDailyBudgetUsd > 0) {
             lines.push('<div><strong>Presupuesto diario</strong>: ' + normalized.dailyCostUsd.toFixed(6) + ' / ' + normalized.softDailyBudgetUsd.toFixed(2) + ' USD</div>');
@@ -1381,9 +951,6 @@
             .then(function (cfg) {
                 if (!cfg) return;
 
-                var schemaVersion = Number(cfg.schemaVersion || cfg.schema_version || 1);
-                state.schemaVersion = Number.isFinite(schemaVersion) && schemaVersion > 0 ? Math.round(schemaVersion) : 1;
-
                 var models = Array.isArray(cfg.models) && cfg.models.length ? cfg.models : state.availableModels;
                 state.availableModels = models;
 
@@ -1412,39 +979,14 @@
                     state.queryPath = String(cfg.query_path || cfg.queryPath);
                 }
 
-                var imagesCfg = cfg.images && typeof cfg.images === 'object' ? cfg.images : {};
-                var memoryCfg = cfg.memory && typeof cfg.memory === 'object' ? cfg.memory : {};
-
-                if (imagesCfg.maxCount || cfg.max_images || cfg.maxImages) {
-                    var maxCount = Number(imagesCfg.maxCount || cfg.max_images || cfg.maxImages) || IMAGE_MAX_ATTACHMENTS;
-                    state.maxAttachments = Math.max(1, Math.min(3, maxCount));
+                if (cfg.max_images || cfg.maxImages) {
+                    state.maxAttachments = Math.max(1, Math.min(3, Number(cfg.max_images || cfg.maxImages) || IMAGE_MAX_ATTACHMENTS));
                 }
 
-                if (imagesCfg.maxBytes || cfg.max_image_bytes || cfg.maxImageBytes) {
-                    var maxBytesCfg = Number(imagesCfg.maxBytes || cfg.max_image_bytes || cfg.maxImageBytes);
+                if (cfg.max_image_bytes || cfg.maxImageBytes) {
+                    var maxBytesCfg = Number(cfg.max_image_bytes || cfg.maxImageBytes);
                     if (Number.isFinite(maxBytesCfg) && maxBytesCfg > 0) {
                         state.maxImageBytes = maxBytesCfg;
-                    }
-                }
-
-                if (imagesCfg.maxWidth) {
-                    var maxWidthCfg = Number(imagesCfg.maxWidth);
-                    if (Number.isFinite(maxWidthCfg) && maxWidthCfg > 0) {
-                        state.maxImageDimension = Math.round(maxWidthCfg);
-                    }
-                }
-
-                if (imagesCfg.jpegQuality) {
-                    var jpegCfg = Number(imagesCfg.jpegQuality);
-                    if (Number.isFinite(jpegCfg) && jpegCfg > 0 && jpegCfg <= 1) {
-                        state.jpegQuality = jpegCfg;
-                    }
-                }
-
-                if (memoryCfg.maxTurns) {
-                    var maxTurnsCfg = Number(memoryCfg.maxTurns);
-                    if (Number.isFinite(maxTurnsCfg) && maxTurnsCfg > 0) {
-                        state.memoryMaxTurns = Math.round(maxTurnsCfg);
                     }
                 }
 
@@ -1509,13 +1051,10 @@
     }
 
     function collectContext(metadata) {
-        var selection = metadata && metadata.selection ? metadata.selection : (metadata && metadata.selectedText ? metadata.selectedText : null);
         return {
             courseId: metadata && metadata.courseId ? metadata.courseId : courseId,
             topicId: metadata && metadata.topicId ? metadata.topicId : null,
-            pageTitle: metadata && metadata.pageTitle ? metadata.pageTitle : document.title,
-            selection: selection,
-            selectedText: selection,
+            selectedText: metadata && metadata.selectedText ? metadata.selectedText : null,
             surroundingContext: metadata && metadata.surroundingContext ? metadata.surroundingContext : null
         };
     }
@@ -1551,56 +1090,7 @@
         }
 
         var context = collectContext(metadata);
-        var threadId = state.threadId || readThreadId();
-        threadId = saveThreadId(threadId);
-        var cacheContextVersion = buildCacheContextVersion();
-        var cacheKey = buildCacheKey({
-            model: effectiveModel,
-            prompt: question,
-            selection: context.selection || context.selectedText || '',
-            contextVersion: cacheContextVersion,
-            images: attachmentsSnapshot
-        });
-        var cacheEligible = shouldUseCacheForRequest(attachmentsSnapshot);
-
-        if (cacheEligible) {
-            var cachedEntry = readCacheHit(cacheKey);
-            if (cachedEntry) {
-                state.cacheHits += 1;
-                pushMessage('user', question, attachmentsSnapshot);
-                if (refs.textarea) refs.textarea.value = '';
-                state.pendingAttachments = [];
-                renderPendingAttachments();
-
-                state.currentSummary = truncateText(String(cachedEntry.summary || state.currentSummary || ''), 700);
-                persistConversationSummary(state.currentSummary);
-
-                state.lastRequest = {
-                    model: cachedEntry.model || effectiveModel,
-                    requestedModel: selectedModel,
-                    threadId: state.threadId,
-                    warning: cachedEntry.warning || '',
-                    inputTokens: Number(cachedEntry.usage && cachedEntry.usage.inputTokens || 0),
-                    outputTokens: Number(cachedEntry.usage && cachedEntry.usage.outputTokens || 0),
-                    totalTokens: Number(cachedEntry.usage && cachedEntry.usage.totalTokens || 0),
-                    estimatedCostUsd: Number(cachedEntry.usage && cachedEntry.usage.estimatedCostUsd || 0),
-                    hasImages: Boolean(cachedEntry.hasImages),
-                    imagesCount: Number(cachedEntry.imagesCount || 0),
-                    cached: true
-                };
-
-                pushMessage('assistant', cachedEntry.answer, null, { cached: true });
-                renderMetrics(state.metrics);
-                setStatus('Respuesta desde caché local.', 'success');
-                return;
-            }
-
-            state.cacheMisses += 1;
-        }
-
         var payload = {
-            threadId: threadId,
-            message: question,
             prompt: question,
             question: question,
             model: effectiveModel,
@@ -1609,10 +1099,9 @@
             context: context,
             courseId: context.courseId,
             topicId: context.topicId,
-            pageTitle: context.pageTitle,
-            selection: context.selection,
             selectedText: context.selectedText,
             surroundingContext: context.surroundingContext,
+            memory: buildMemoryPayload(),
             images: attachmentsSnapshot.map(function (att) {
                 return {
                     name: att.name,
@@ -1647,42 +1136,21 @@
                     (json && json.usage && (json.usage.imagesCount || json.usage.images_count)) ||
                     attachmentsSnapshot.length
                 );
-                var responseThreadId = sanitizeThreadId(json && json.threadId);
-                if (responseThreadId) {
-                    saveThreadId(responseThreadId);
-                }
-                state.currentSummary = truncateText(String((json && json.summary) || ''), 700);
-                persistConversationSummary(state.currentSummary);
 
                 state.lastRequest = {
                     model: responseModel,
                     requestedModel: selectedModel,
-                    threadId: state.threadId,
                     warning: warningText,
                     inputTokens: usage.inputTokens,
                     outputTokens: usage.outputTokens,
                     totalTokens: usage.totalTokens,
                     estimatedCostUsd: usage.estimatedCostUsd,
                     hasImages: responseHasImages,
-                    imagesCount: responseImagesCount,
-                    cached: false
+                    imagesCount: responseImagesCount
                 };
 
                 pushMessage('assistant', answer);
-
-                if (cacheEligible && state.cacheEnabled) {
-                    writeCacheEntry({
-                        key: cacheKey,
-                        answer: answer,
-                        model: responseModel,
-                        summary: state.currentSummary,
-                        warning: warningText,
-                        hasImages: responseHasImages,
-                        imagesCount: responseImagesCount,
-                        usage: usage,
-                        createdAt: Date.now()
-                    });
-                }
+                updateMemoryWithTurn(question, answer);
 
                 state.pendingAttachments = [];
                 renderPendingAttachments();
@@ -1724,17 +1192,6 @@
             var question = 'Explícame este fragmento de forma simple y práctica.';
             setOpen(true);
             submitQuestion(question, payload || {});
-        },
-        newConversation: function () {
-            setOpen(true);
-            startNewConversation();
-        },
-        clearHistory: function () {
-            setOpen(true);
-            clearAssistantHistory();
-        },
-        clearCache: function () {
-            clearCacheEntries();
         },
         prefill: function (question) {
             setOpen(true);

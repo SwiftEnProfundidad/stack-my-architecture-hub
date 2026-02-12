@@ -17,7 +17,7 @@
   const indexActions = document.getElementById('study-ux-index-actions');
 
   const baseFontSize = 16;
-  const minFontSize = 11;
+  const minFontSize = 13;
   const maxFontSize = 19;
 
   let fontDownBtn = null;
@@ -157,16 +157,7 @@
 
   function setFontSize(px, persist = true) {
     const next = Math.min(maxFontSize, Math.max(minFontSize, Number(px) || baseFontSize));
-    const scale = next / baseFontSize;
-
-    document.documentElement.style.fontSize = `${baseFontSize}px`;
-    document.documentElement.style.setProperty('--study-content-zoom', String(scale));
-
-    const content = document.getElementById('content');
-    if (content) {
-      content.style.zoom = String(scale);
-    }
-
+    document.documentElement.style.fontSize = `${next}px`;
     if (persist) localStorage.setItem(keyFontSize, String(next));
     if (fontDownBtn) fontDownBtn.disabled = next <= minFontSize;
     if (fontUpBtn) fontUpBtn.disabled = next >= maxFontSize;
