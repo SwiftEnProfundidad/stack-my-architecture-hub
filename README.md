@@ -1,10 +1,44 @@
 # Stack My Architecture Hub
 
 Servidor local unificado para:
-- contenido estático del hub (`/`, `/ios`, `/android`)
+- contenido estático del hub (`/`, `/ios`, `/android`, `/sdd`)
 - proxy de asistente IA (`/health`, `/config`, `/metrics`, `/assistant/query`)
 
-## Arranque recomendado (Node en `:8090`)
+## Arranque robusto recomendado
+
+El launcher robusto evita depender de `~/.zshrc`, elige un puerto libre no genérico (prioriza `46100+`), mantiene PID y logs en `.runtime/` y abre el Hub o el curso que indiques.
+
+```bash
+./open-proxy.command
+```
+
+Abrir directamente un curso:
+
+```bash
+./open-proxy.command --course sdd
+./open-proxy.command ios
+./open-proxy.command android
+```
+
+Opcional: fijar puerto manualmente.
+
+```bash
+STACK_MY_ARCH_HUB_PORT=46200 ./open-proxy.command
+```
+
+Detener hub:
+
+```bash
+/bin/zsh -f scripts/stop-hub.sh
+```
+
+Crear app de Escritorio (doble clic):
+
+```bash
+/bin/zsh -f scripts/install-desktop-app.sh
+```
+
+## Arranque manual (Node)
 
 1. Exporta tu clave OpenAI:
 

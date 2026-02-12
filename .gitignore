@@ -13,3 +13,6 @@ yarn-error.log*
 
 # Root lockfile (accidental in this repo; real lockfile lives in assistant-bridge/)
 /package-lock.json
+
+# Local hub runtime (PID/log/port)
+.runtime/
