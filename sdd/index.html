@@ -962,6 +962,10 @@ blockquote p {
   <li><a class="doc-nav-link" data-lesson-path="openspec/changes/archive/2026-02-13-week09-security-compliance-baseline/specs/ticketing/spec.md" href="#openspec-changes-archive-2026-02-13-week09-security-compliance-baseline-specs-ticketing-spec">Delta for Ticketing (Week 09)</a></li>
   <li><a class="doc-nav-link" data-lesson-path="openspec/changes/archive/2026-02-13-week09-security-compliance-baseline/design.md" href="#openspec-changes-archive-2026-02-13-week09-security-compliance-baseline-design">Design: Week 09 — centralized sanitization at observability boundary</a></li>
   <li><a class="doc-nav-link" data-lesson-path="openspec/changes/archive/2026-02-13-week09-security-compliance-baseline/tasks.md" href="#openspec-changes-archive-2026-02-13-week09-security-compliance-baseline-tasks">Tasks (Week 09)</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="openspec/changes/archive/2026-02-13-week10-knowledge-catalog-feature/proposal.md" href="#openspec-changes-archive-2026-02-13-week10-knowledge-catalog-feature-proposal">Proposal: Week 10 — second feature baseline with knowledge catalog</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="openspec/changes/archive/2026-02-13-week10-knowledge-catalog-feature/specs/ticketing/spec.md" href="#openspec-changes-archive-2026-02-13-week10-knowledge-catalog-feature-specs-ticketing-spec">Delta for Ticketing (Week 10)</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="openspec/changes/archive/2026-02-13-week10-knowledge-catalog-feature/design.md" href="#openspec-changes-archive-2026-02-13-week10-knowledge-catalog-feature-design">Design: Week 10 — second feature growth without architecture drift</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="openspec/changes/archive/2026-02-13-week10-knowledge-catalog-feature/tasks.md" href="#openspec-changes-archive-2026-02-13-week10-knowledge-catalog-feature-tasks">Tasks (Week 10)</a></li>
 </ul></li>
 <li class="nav-section"><strong>Semana 3</strong>
 <ul>
@@ -1049,7 +1053,15 @@ blockquote p {
 </ul></li>
 <li class="nav-section"><strong>Semana 10</strong>
 <ul>
-  <li><a class="doc-nav-link" data-lesson-path="11-semana-10/00-semana-10-roadmap.md" href="#11-semana-10-00-semana-10-roadmap">Semana 10: roadmap ejecutable</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="11-semana-10/00-semana-10-roadmap.md" href="#11-semana-10-00-semana-10-roadmap">Semana 10: segunda feature real sin romper lo construido</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="11-semana-10/01-problema-feature-catalogo.md" href="#11-semana-10-01-problema-feature-catalogo">Semana 10 · Lección 1: el problema no es solo resolver tickets, es evitar que vuelvan a aparecer</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="11-semana-10/02-spec-catalogo-v1.md" href="#11-semana-10-02-spec-catalogo-v1">Semana 10 · Lección 2: convertir la intención del catálogo en contrato OpenSpec</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="11-semana-10/03-bdd-catalogo.md" href="#11-semana-10-03-bdd-catalogo">Semana 10 · Lección 3: BDD para alinear publicación y catálogo con negocio real</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="11-semana-10/04-tdd-catalogo-domain-application.md" href="#11-semana-10-04-tdd-catalogo-domain-application">Semana 10 · Lección 4: TDD en dominio y aplicación para blindar la nueva feature</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="11-semana-10/05-codigo-catalogo-memory-repository.md" href="#11-semana-10-05-codigo-catalogo-memory-repository">Semana 10 · Lección 5: código de producción para publicar y listar artículos en memoria</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="11-semana-10/06-refactor-boundary-catalogo.md" href="#11-semana-10-06-refactor-boundary-catalogo">Semana 10 · Lección 6: refactor de fronteras para que la feature 2 no contamine la feature 1</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="11-semana-10/07-checkpoint-evaluacion.md" href="#11-semana-10-07-checkpoint-evaluacion">Semana 10 · Lección 7: checkpoint para demostrar que la segunda feature es estable</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="11-semana-10/08-bitacora-commits.md" href="#11-semana-10-08-bitacora-commits">Semana 10 · Lección 8: bitácora para demostrar crecimiento arquitectónico sin regresión</a></li>
 </ul></li>
 <li class="nav-section"><strong>Semana 11</strong>
 <ul>
@@ -2272,7 +2284,7 @@ python3 scripts/build-html.py</code></pre>
 <h1 id="openspec-changes-README-cambios-openspec-del-curso">Cambios OpenSpec del curso</h1>
 <p>Esta carpeta contiene cambios en curso y el histórico archivado.</p>
 <p>Convención recomendada para este curso:</p>
-<p>Usamos un nombre corto por semana para que sea fácil buscar y archivar. El patrón recomendado es <code>weekNN-<nombre-corto></code>. Por ejemplo, <code>week06-offline-cache-policy</code>, <code>week07-observability-baseline</code>, <code>week08-quality-gates-baseline</code> o <code>week09-security-compliance-baseline</code>.</p>
+<p>Usamos un nombre corto por semana para que sea fácil buscar y archivar. El patrón recomendado es <code>weekNN-<nombre-corto></code>. Por ejemplo, <code>week06-offline-cache-policy</code>, <code>week07-observability-baseline</code>, <code>week08-quality-gates-baseline</code>, <code>week09-security-compliance-baseline</code> o <code>week10-knowledge-catalog-feature</code>.</p>
 <p>El histórico queda en:</p>
 <pre><code class="language-text">openspec/changes/archive/YYYY-MM-DD-&lt;change-name&gt;/</code></pre>
 <p>Notas:</p>
@@ -2538,6 +2550,31 @@ python3 scripts/build-html.py</code></pre>
   <li><strong>GIVEN</strong> a compliant telemetry sink wraps a downstream sink</li>
   <li><strong>WHEN</strong> event recording is requested with sensitive attributes</li>
   <li><strong>THEN</strong> downstream sink receives the sanitized version</li>
+</ul>
+<h3 id="openspec-specs-ticketing-spec-requirement-publish-and-list-knowledge-base-articles-as-second-feature-baseline">Requirement: Publish and list knowledge base articles as second feature baseline</h3>
+<p>The system SHALL provide a knowledge catalog capability so support teams can</p>
+<p>publish reusable guidance and reduce repeated operational tickets.</p>
+<p>Knowledge article publication SHALL validate business constraints in domain</p>
+<p>(<code>title</code>, <code>summary</code>, <code>body</code>, and <code>category</code>) before persistence.</p>
+<p>The baseline allowed categories are <code>faq</code>, <code>troubleshooting</code>, and <code>howto</code>.</p>
+<p>Catalog listing SHALL return articles sorted by <code>publishedAt</code> descending.</p>
+<h4 id="openspec-specs-ticketing-spec-scenario-publish-valid-knowledge-article">Scenario: Publish valid knowledge article</h4>
+<ul>
+  <li><strong>GIVEN</strong> a valid knowledge article draft</li>
+  <li><strong>WHEN</strong> publication use case executes</li>
+  <li><strong>THEN</strong> article is persisted with generated id and publication date</li>
+</ul>
+<h4 id="openspec-specs-ticketing-spec-scenario-reject-publication-with-unsupported-category">Scenario: Reject publication with unsupported category</h4>
+<ul>
+  <li><strong>GIVEN</strong> a draft category outside the allowed set</li>
+  <li><strong>WHEN</strong> publication use case executes</li>
+  <li><strong>THEN</strong> system returns validation error</li>
+</ul>
+<h4 id="openspec-specs-ticketing-spec-scenario-list-knowledge-catalog-by-newest-publication-first">Scenario: List knowledge catalog by newest publication first</h4>
+<ul>
+  <li><strong>GIVEN</strong> multiple articles exist with different publication dates</li>
+  <li><strong>WHEN</strong> catalog listing is requested</li>
+  <li><strong>THEN</strong> result is sorted from newest to oldest</li>
 </ul>
 </section>
 <section id="openspec-changes-archive-2026-02-12-week01-ticket-basics-proposal" class="lesson" data-topic-id="openspec-changes-archive-2026-02-12-week01-ticket-basics-proposal" data-lesson-path="openspec/changes/archive/2026-02-12-week01-ticket-basics/proposal.md">
@@ -3643,6 +3680,136 @@ python3 scripts/build-html.py</code></pre>
       status: done
     - id: "4.2"
       title: "openspec, pedagogy, structure and build validations green"
+      status: done</code></pre>
+</section>
+<section id="openspec-changes-archive-2026-02-13-week10-knowledge-catalog-feature-proposal" class="lesson" data-topic-id="openspec-changes-archive-2026-02-13-week10-knowledge-catalog-feature-proposal" data-lesson-path="openspec/changes/archive/2026-02-13-week10-knowledge-catalog-feature/proposal.md">
+<div class="lesson-path">openspec/changes/archive/2026-02-13-week10-knowledge-catalog-feature/proposal.md</div>
+<h1 id="openspec-changes-archive-2026-02-13-week10-knowledge-catalog-feature-proposal-proposal-week-10-second-feature-baseline-with-knowledge-catalog">Proposal: Week 10 — second feature baseline with knowledge catalog</h1>
+<h2 id="openspec-changes-archive-2026-02-13-week10-knowledge-catalog-feature-proposal-intent">Intent</h2>
+<p>The project currently resolves support tickets but lacks a proactive mechanism to</p>
+<p>capture and reuse solutions. This change introduces a knowledge catalog feature</p>
+<p>that lets the system publish and list articles with domain validation, reducing</p>
+<p>repeat tickets and preserving operational know-how.</p>
+<h2 id="openspec-changes-archive-2026-02-13-week10-knowledge-catalog-feature-proposal-scope">Scope</h2>
+<pre><code class="language-yaml">scope_week10:
+  in_scope:
+    domain: "KnowledgeArticle and KnowledgeArticleDraft with validation rules"
+    application: "Publish and list use cases behind repository contract"
+    infrastructure: "In-memory repository implementation for feature baseline"
+    interface: "SwiftUI catalog ViewModel and View wiring"
+    tests: "Domain, application, infrastructure, and interface tests"
+  out_of_scope_on_purpose:
+    - "Article editing workflow"
+    - "Search relevance ranking"
+    - "Cross-feature navigation between tickets and catalog"</code></pre>
+<h2 id="openspec-changes-archive-2026-02-13-week10-knowledge-catalog-feature-proposal-approach">Approach</h2>
+<p>Implement the second feature using the same architectural discipline as ticketing:</p>
+<p>OpenSpec requirement, BDD scenarios, TDD per layer, then minimum production code.</p>
+<p>The goal is proving the architecture can host a new bounded capability without</p>
+<p>breaking existing contracts.</p>
+<h2 id="openspec-changes-archive-2026-02-13-week10-knowledge-catalog-feature-proposal-risks-questions">Risks / questions</h2>
+<pre><code class="language-yaml">open_questions_week10:
+  - "Should category taxonomy be configurable by environment in week11+?"
+  - "When we add full-text search, do we keep repository-level sorting guarantees?"</code></pre>
+</section>
+<section id="openspec-changes-archive-2026-02-13-week10-knowledge-catalog-feature-specs-ticketing-spec" class="lesson" data-topic-id="openspec-changes-archive-2026-02-13-week10-knowledge-catalog-feature-specs-ticketing-spec" data-lesson-path="openspec/changes/archive/2026-02-13-week10-knowledge-catalog-feature/specs/ticketing/spec.md">
+<div class="lesson-path">openspec/changes/archive/2026-02-13-week10-knowledge-catalog-feature/specs/ticketing/spec.md</div>
+<h1 id="openspec-changes-archive-2026-02-13-week10-knowledge-catalog-feature-specs-ticketing-spec-delta-for-ticketing-week-10">Delta for Ticketing (Week 10)</h1>
+<h2 id="openspec-changes-archive-2026-02-13-week10-knowledge-catalog-feature-specs-ticketing-spec-added-requirements">ADDED Requirements</h2>
+<h3 id="openspec-changes-archive-2026-02-13-week10-knowledge-catalog-feature-specs-ticketing-spec-requirement-knowledge-catalog-as-second-feature-baseline">Requirement: Knowledge catalog as second feature baseline</h3>
+<p>The system SHALL support publication and listing of knowledge articles using</p>
+<p>explicit domain validation rules and repository contracts.</p>
+<p>The baseline category set SHALL include <code>faq</code>, <code>troubleshooting</code>, and <code>howto</code>.</p>
+<p>Invalid category values SHALL be rejected before persistence.</p>
+<p>Catalog listing SHALL return published articles sorted by newest first.</p>
+<pre class="mermaid">sequenceDiagram
+    participant U as User
+    participant VM as KnowledgeCatalogViewModel
+    participant L as ListKnowledgeArticlesUseCase
+    participant R as KnowledgeBaseRepository
+
+    U->>VM: refresh
+    VM->>L: execute
+    L->>R: list
+    R-->>L: articles sorted desc
+    L-->>VM: articles</pre>
+<h4 id="openspec-changes-archive-2026-02-13-week10-knowledge-catalog-feature-specs-ticketing-spec-scenario-publish-valid-knowledge-article">Scenario: Publish valid knowledge article</h4>
+<pre><code class="language-gherkin">Scenario: Publish valid knowledge article
+  Given a draft with valid title, summary, body and category
+  When publication use case executes
+  Then article is created with generated id
+  And article becomes visible in catalog listing</code></pre>
+<h4 id="openspec-changes-archive-2026-02-13-week10-knowledge-catalog-feature-specs-ticketing-spec-scenario-reject-unsupported-category">Scenario: Reject unsupported category</h4>
+<pre><code class="language-gherkin">Scenario: Reject unsupported category
+  Given a draft category outside allowed values
+  When publication use case executes
+  Then domain validation error is returned</code></pre>
+<h4 id="openspec-changes-archive-2026-02-13-week10-knowledge-catalog-feature-specs-ticketing-spec-scenario-list-catalog-ordered-by-publication-date">Scenario: List catalog ordered by publication date</h4>
+<pre><code class="language-gherkin">Scenario: List catalog ordered by publication date
+  Given multiple published articles exist
+  When list use case executes
+  Then articles are returned from newest to oldest</code></pre>
+</section>
+<section id="openspec-changes-archive-2026-02-13-week10-knowledge-catalog-feature-design" class="lesson" data-topic-id="openspec-changes-archive-2026-02-13-week10-knowledge-catalog-feature-design" data-lesson-path="openspec/changes/archive/2026-02-13-week10-knowledge-catalog-feature/design.md">
+<div class="lesson-path">openspec/changes/archive/2026-02-13-week10-knowledge-catalog-feature/design.md</div>
+<h1 id="openspec-changes-archive-2026-02-13-week10-knowledge-catalog-feature-design-design-week-10-second-feature-growth-without-architecture-drift">Design: Week 10 — second feature growth without architecture drift</h1>
+<h2 id="openspec-changes-archive-2026-02-13-week10-knowledge-catalog-feature-design-model">Model</h2>
+<p>Week 10 adds a second feature that follows the same shape as ticketing so teams</p>
+<p>can verify the architecture scales by repetition, not by exception.</p>
+<h2 id="openspec-changes-archive-2026-02-13-week10-knowledge-catalog-feature-design-components">Components</h2>
+<pre class="mermaid">flowchart LR
+  DRAFT[KnowledgeArticleDraft] --> UC[PublishKnowledgeArticleUseCase]
+  UC --> REPO[KnowledgeBaseRepository]
+  REPO --> MEM[InMemoryKnowledgeBaseRepository]
+  MEM --> LIST[ListKnowledgeArticlesUseCase]
+  LIST --> VM[KnowledgeCatalogViewModel]
+  VM --> UI[KnowledgeCatalogView]</pre>
+<h2 id="openspec-changes-archive-2026-02-13-week10-knowledge-catalog-feature-design-decisions">Decisions</h2>
+<p>The first decision is to keep the feature in existing modules during week10.</p>
+<p>Trade-off is less strict physical separation today; gain is faster demonstration</p>
+<p>of architectural repeatability before week12 modular split.</p>
+<p>The second decision is category validation in domain draft object.</p>
+<p>Trade-off is taxonomy maintenance overhead; gain is deterministic behavior and</p>
+<p>clear rejection for invalid publishing attempts.</p>
+<p>The third decision is descending sort in repository list contract.</p>
+<p>Trade-off is repository responsibility for ordering; gain is stable UI behavior</p>
+<p>without duplicated sorting rules across clients.</p>
+</section>
+<section id="openspec-changes-archive-2026-02-13-week10-knowledge-catalog-feature-tasks" class="lesson" data-topic-id="openspec-changes-archive-2026-02-13-week10-knowledge-catalog-feature-tasks" data-lesson-path="openspec/changes/archive/2026-02-13-week10-knowledge-catalog-feature/tasks.md">
+<div class="lesson-path">openspec/changes/archive/2026-02-13-week10-knowledge-catalog-feature/tasks.md</div>
+<h1 id="openspec-changes-archive-2026-02-13-week10-knowledge-catalog-feature-tasks-tasks-week-10">Tasks (Week 10)</h1>
+<p>Week 10 tasks implement second feature growth with full SDD evidence chain.</p>
+<pre><code class="language-yaml">tasks_week10:
+  architecture:
+    - id: "1.1"
+      title: "Add knowledge domain models and validation"
+      status: done
+    - id: "1.2"
+      title: "Add repository contract and publication/list use cases"
+      status: done
+    - id: "1.3"
+      title: "Add in-memory knowledge repository adapter"
+      status: done
+  interface:
+    - id: "2.1"
+      title: "Add catalog ViewModel and SwiftUI view"
+      status: done
+    - id: "2.2"
+      title: "Expose catalog wiring in app root builder"
+      status: done
+  behavior:
+    - id: "3.1"
+      title: "Define BDD scenarios for publication and listing"
+      status: done
+    - id: "3.2"
+      title: "Add tests across domain/application/infrastructure/interface"
+      status: done
+  evidence:
+    - id: "4.1"
+      title: "swift test green"
+      status: done
+    - id: "4.2"
+      title: "openspec and course validators green"
       status: done</code></pre>
 </section>
 <section id="04-semana-03-00-semana-03-roadmap" class="lesson" data-topic-id="04-semana-03-00-semana-03-roadmap" data-lesson-path="04-semana-03/00-semana-03-roadmap.md">
@@ -5334,26 +5501,222 @@ git commit -m "mensaje atomico week09 security compliance"</code></pre>
 </section>
 <section id="11-semana-10-00-semana-10-roadmap" class="lesson" data-topic-id="11-semana-10-00-semana-10-roadmap" data-lesson-path="11-semana-10/00-semana-10-roadmap.md">
 <div class="lesson-path">11-semana-10/00-semana-10-roadmap.md</div>
-<h1 id="11-semana-10-00-semana-10-roadmap-semana-10-roadmap-ejecutable">Semana 10: roadmap ejecutable</h1>
-<p>Esta semana consolida una parte del ciclo SDD enterprise sobre <code>HelpdeskSDD</code>. No es teoría aislada: cada actividad termina en artefacto verificable, pruebas en verde y trazabilidad de decisiones. El foco exacto cambia por semana, pero el método se mantiene constante para entrenar disciplina profesional.</p>
-<h2 id="11-semana-10-00-semana-10-roadmap-objetivo-de-la-semana">Objetivo de la semana</h2>
-<p>En Semana 10 avanzas una capacidad concreta de producto sin romper lo construido. La disciplina que entrenas es mantener el flujo completo (OpenSpec → BDD → TDD → producción → refactor) mientras integras una segunda feature sin que la arquitectura se desordene.</p>
-<h2 id="11-semana-10-00-semana-10-roadmap-resultado-medible">Resultado medible</h2>
-<p>Semana 10 se considera cerrada cuando existe un entregable técnico claro, el build y las pruebas asociadas están en verde y hay evidencia trazable en commits. Tu evidencia debe mostrar que el sistema creció sin romper contratos anteriores.</p>
-<h2 id="11-semana-10-00-semana-10-roadmap-flujo-de-trabajo">Flujo de trabajo</h2>
+<h1 id="11-semana-10-00-semana-10-roadmap-semana-10-segunda-feature-real-sin-romper-lo-construido">Semana 10: segunda feature real sin romper lo construido</h1>
+<p>Hasta la semana anterior resolvimos tickets de forma robusta, observable y con controles de seguridad básicos. Ese avance es bueno, pero un sistema enterprise no se queda solo en reaccionar a problemas; también necesita reutilizar conocimiento para que los mismos incidentes no se repitan una y otra vez. Semana 10 introduce esa capacidad mediante la segunda feature del curso: un catálogo de conocimiento.</p>
+<p>El objetivo técnico de esta semana es demostrar que la arquitectura no depende de una única feature. Si al añadir el catálogo tenemos que romper contratos o mezclar capas, la arquitectura no era sólida. Si en cambio podemos repetir el flujo OpenSpec, BDD, TDD y producción con la misma disciplina, entonces sí estamos construyendo una base que escala.</p>
 <pre class="mermaid">flowchart LR
-    A[Entrada de semana 10] --> B[Spec refinada]
-    B --> C[BDD actualizado]
-    C --> D[TDD y produccion]
-    D --> E[Validacion y cierre]</pre>
-<h2 id="11-semana-10-00-semana-10-roadmap-practica-guiada">Practica guiada</h2>
-<p>Tu práctica guiada es revisar la meta técnica de Semana 10, ejecutar el laboratorio asociado registrando decisiones relevantes, y validar pruebas y build antes del commit final. El objetivo es que el crecimiento sea controlado, no accidental.</p>
-<h2 id="11-semana-10-00-semana-10-roadmap-verificacion-de-comprension">Verificacion de comprension</h2>
-<p>Pregunta 1: ¿Qué bloque del flujo OpenSpec → BDD → TDD → producción estás entrenando más esta semana?</p>
-<p>Pregunta 2: ¿Qué evidencia objetiva confirma que cerraste Semana 10?</p>
-<p>Pregunta 3: ¿Qué deuda técnica aceptaste, si aceptaste alguna, y por qué fue una decisión consciente?</p>
-<h2 id="11-semana-10-00-semana-10-roadmap-siguiente-paso">Siguiente paso</h2>
-<p>Ir a la primera leccion detallada de semana 10.</p>
+    A[OpenSpec week10] --> B[BDD catálogo]
+    B --> C[TDD dominio y casos de uso]
+    C --> D[Producción en memoria + SwiftUI]
+    D --> E[Refactor de fronteras]
+    E --> F[Checkpoint y cierre]</pre>
+<p>La definición de cierre de semana vuelve a ser concreta y auditable. Debes poder publicar y listar artículos de conocimiento con validaciones de dominio claras, pruebas en verde y trazabilidad completa en historial.</p>
+<pre><code class="language-yaml">week10_definition_of_done:
+  feature: "catálogo de conocimiento publicado y listable"
+  rules: "validación de borrador en dominio"
+  architecture: "casos de uso y repositorio por contrato"
+  evidence: "tests por capa + OpenSpec + build html"</code></pre>
+<p>La práctica guiada de arranque consiste en recordar tres tickets repetidos de tu experiencia y redactar, en lenguaje simple, qué artículo de conocimiento habría evitado cada uno. Este ejercicio te coloca en mentalidad de producto antes de tocar código.</p>
+<p>La verificación de comprensión previa es responder por qué una segunda feature es la prueba más honesta de que tu arquitectura realmente está desacoplada.</p>
+<p>Siguiente lección: <code>11-semana-10/01-problema-feature-catalogo.md</code>.</p>
+</section>
+<section id="11-semana-10-01-problema-feature-catalogo" class="lesson" data-topic-id="11-semana-10-01-problema-feature-catalogo" data-lesson-path="11-semana-10/01-problema-feature-catalogo.md">
+<div class="lesson-path">11-semana-10/01-problema-feature-catalogo.md</div>
+<h1 id="11-semana-10-01-problema-feature-catalogo-semana-10-lecci-n-1-el-problema-no-es-solo-resolver-tickets-es-evitar-que-vuelvan-a-aparecer">Semana 10 · Lección 1: el problema no es solo resolver tickets, es evitar que vuelvan a aparecer</h1>
+<p>Un equipo de soporte puede ser rápido cerrando incidencias y aun así estar atrapado en un bucle de trabajo repetitivo. Eso pasa cuando cada solución se queda en la cabeza de una persona o perdida en mensajes internos. Desde fuera parece que el sistema funciona, pero por dentro quema tiempo y genera dependencia de expertos concretos.</p>
+<p>La segunda feature del curso ataca justo ese punto. No construimos un catálogo porque suene bonito, sino porque convierte soluciones repetibles en un activo del producto. Cuando una solución está publicada con reglas claras, cualquier persona del equipo puede reutilizarla sin improvisar.</p>
+<pre class="mermaid">flowchart TD
+    A[Tickets repetidos] --> B[Tiempo perdido]
+    B --> C[Saturacion del equipo]
+    C --> D[Mayor riesgo operativo]
+    E[Catalogo de conocimiento] --> F[Reutilizacion de soluciones]
+    F --> G[Menos tickets repetidos]</pre>
+<p>La decisión de arquitectura aquí es importante. El catálogo no puede ser un texto libre pegado en la UI; debe tener dominio, contrato y casos de uso como cualquier feature seria. Si no lo haces así, en dos meses tendrás datos inconsistentes y nadie confiará en el contenido.</p>
+<pre><code class="language-swift">let draft = KnowledgeArticleDraft(
+    title: "Recuperar acceso en iOS",
+    summary: "Flujo mínimo para volver a iniciar sesión.",
+    body: "Valida correo, ejecuta recuperación y confirma nuevo inicio de sesión.",
+    category: "howto",
+    tags: ["ios", "auth"]
+)</code></pre>
+<p>La práctica guiada consiste en tomar un problema frecuente de soporte y redactar un primer borrador de artículo con título, resumen y cuerpo. Si no puedes explicar el problema con claridad, todavía no estás listo para automatizar su solución.</p>
+<p>La verificación de comprensión antes de especificación es responder por qué documentar conocimiento en una feature formal reduce riesgo técnico y no solo riesgo operativo.</p>
+<p>Siguiente lección: <code>11-semana-10/02-spec-catalogo-v1.md</code>.</p>
+</section>
+<section id="11-semana-10-02-spec-catalogo-v1" class="lesson" data-topic-id="11-semana-10-02-spec-catalogo-v1" data-lesson-path="11-semana-10/02-spec-catalogo-v1.md">
+<div class="lesson-path">11-semana-10/02-spec-catalogo-v1.md</div>
+<h1 id="11-semana-10-02-spec-catalogo-v1-semana-10-lecci-n-2-convertir-la-intenci-n-del-cat-logo-en-contrato-openspec">Semana 10 · Lección 2: convertir la intención del catálogo en contrato OpenSpec</h1>
+<p>Ya tenemos claro el problema, ahora toca impedir ambigüedades. Una intención como “vamos a tener artículos de ayuda” no sirve para construir software enterprise. Necesitamos un contrato que diga qué se considera un artículo válido, qué categorías están permitidas y cómo se devuelve el catálogo para que la experiencia sea estable.</p>
+<p>OpenSpec nos obliga a hacer ese trabajo antes de implementar. Esa disciplina evita que la IA, o nosotros mismos, inventemos reglas distintas en cada archivo.</p>
+<pre class="mermaid">flowchart LR
+    A[Problema operativo] --> B[Proposal week10]
+    B --> C[Requirement catálogo]
+    C --> D[Escenarios observables]
+    D --> E[Tareas implementables]</pre>
+<p>En Week 10 definimos reglas mínimas que se pueden verificar por máquina. Título, resumen y cuerpo tienen longitudes mínimas, la categoría debe pertenecer al conjunto permitido, y la lista final se devuelve por fecha de publicación descendente.</p>
+<pre><code class="language-yaml">knowledge_catalog_contract_v1:
+  required_fields: "title, summary, body, category"
+  category_allowlist: "faq, troubleshooting, howto"
+  list_order: "publishedAt DESC"
+  rejection: "error de validación si no cumple reglas"</code></pre>
+<p>Este paso no es burocracia, es protección del sistema. Cuando un requisito está escrito así de claro, mañana cualquier cambio pasa por el mismo filtro y no por opiniones sueltas en una reunión.</p>
+<pre><code class="language-text">/opsx:new week10-knowledge-catalog-feature
+/opsx:ff
+/opsx:apply
+/opsx:verify</code></pre>
+<p>La práctica guiada consiste en proponer una categoría nueva y defender si debe entrar en el contrato v1 o esperar a v2. El valor está en razonar alcance, no en acumular campos.</p>
+<p>La verificación de comprensión antes de BDD es responder por qué “funciona en demo” no sustituye un contrato de comportamiento explícito.</p>
+<p>Siguiente lección: <code>11-semana-10/03-bdd-catalogo.md</code>.</p>
+</section>
+<section id="11-semana-10-03-bdd-catalogo" class="lesson" data-topic-id="11-semana-10-03-bdd-catalogo" data-lesson-path="11-semana-10/03-bdd-catalogo.md">
+<div class="lesson-path">11-semana-10/03-bdd-catalogo.md</div>
+<h1 id="11-semana-10-03-bdd-catalogo-semana-10-lecci-n-3-bdd-para-alinear-publicaci-n-y-cat-logo-con-negocio-real">Semana 10 · Lección 3: BDD para alinear publicación y catálogo con negocio real</h1>
+<p>Con el contrato definido, BDD convierte ese contrato en comportamiento observable. Esta traducción es crítica porque elimina la distancia entre lo que negocio necesita y lo que ingeniería implementa. Si un escenario BDD está bien escrito, cualquier persona del equipo entiende cuándo la feature está correcta y cuándo no.</p>
+<p>En esta semana usamos tres escenarios clave. El primero valida publicación correcta, el segundo protege contra categorías inválidas, y el tercero garantiza orden de catálogo por fecha. Con esas tres piezas ya controlas el flujo principal de la feature.</p>
+<pre class="mermaid">sequenceDiagram
+    participant User as Soporte
+    participant UC as PublishKnowledgeArticleUseCase
+    participant Repo as KnowledgeBaseRepository
+    participant List as ListKnowledgeArticlesUseCase
+
+    User->>UC: publicar borrador
+    UC->>Repo: create(article)
+    User->>List: listar catálogo
+    List->>Repo: list()
+    Repo-->>List: artículos ordenados</pre>
+<pre><code class="language-gherkin">Feature: Catálogo de conocimiento
+  Scenario: Publicar artículo válido
+    Given un borrador válido
+    When se publica
+    Then el artículo queda disponible en catálogo
+
+  Scenario: Rechazar categoría inválida
+    Given un borrador con categoría no permitida
+    When se publica
+    Then se devuelve error de validación</code></pre>
+<p>Observa el patrón. No estamos probando detalles internos del código. Estamos probando comportamientos que sí importan al usuario y a la operación.</p>
+<p>La práctica guiada consiste en leer tus tres escenarios y preguntarte si una persona que no programa podría entenderlos. Si la respuesta es no, el escenario está demasiado técnico y pierde su función de comunicación.</p>
+<p>La verificación de comprensión antes de TDD es explicar cuál de estos escenarios detecta antes una regresión en la gobernanza del catálogo.</p>
+<p>Siguiente lección: <code>11-semana-10/04-tdd-catalogo-domain-application.md</code>.</p>
+</section>
+<section id="11-semana-10-04-tdd-catalogo-domain-application" class="lesson" data-topic-id="11-semana-10-04-tdd-catalogo-domain-application" data-lesson-path="11-semana-10/04-tdd-catalogo-domain-application.md">
+<div class="lesson-path">11-semana-10/04-tdd-catalogo-domain-application.md</div>
+<h1 id="11-semana-10-04-tdd-catalogo-domain-application-semana-10-lecci-n-4-tdd-en-dominio-y-aplicaci-n-para-blindar-la-nueva-feature">Semana 10 · Lección 4: TDD en dominio y aplicación para blindar la nueva feature</h1>
+<p>Ahora bajamos de escenario a prueba ejecutable. En Week 10, TDD empieza por dominio porque ahí viven las reglas que no pueden depender de la UI ni de infraestructura. Si permites que un artículo inválido pase aquí, todo lo demás se vuelve frágil.</p>
+<p>Después validamos aplicación para asegurar que los casos de uso construyen artículos correctamente y delegan persistencia al contrato de repositorio. Esta separación te permite evolucionar almacenamiento sin tocar reglas de negocio.</p>
+<pre class="mermaid">flowchart LR
+    A[BDD catálogo] --> B[Test rojo de KnowledgeArticleDraft]
+    B --> C[Validación mínima en dominio]
+    C --> D[Test rojo de Publish/List use cases]
+    D --> E[Implementación en aplicación]
+    E --> F[Test verde]</pre>
+<p>El primer test que escribes comprueba que una categoría fuera de la allowlist falla con un error explícito. El segundo comprueba que publicar un borrador válido genera id y fecha de publicación antes de persistir.</p>
+<pre><code class="language-swift">@Test
+func knowledgeDraftFailsWhenCategoryIsUnsupported() {
+    let draft = KnowledgeArticleDraft(
+        title: "Título suficientemente largo",
+        summary: "Resumen válido para la regla mínima.",
+        body: "Contenido suficientemente extenso para cumplir validación.",
+        category: "legal",
+        tags: ["x"]
+    )
+
+    #expect(throws: KnowledgeArticleValidationError.unsupportedCategory("legal")) {
+        try draft.validate()
+    }
+}</code></pre>
+<pre><code class="language-bash">swift test --package-path project/HelpdeskSDD</code></pre>
+<p>La práctica guiada consiste en romper adrede una regla de longitud mínima y observar qué tests caen. Esa evidencia te muestra que el sistema te protege incluso cuando alguien modifica reglas sin revisar impacto.</p>
+<p>La verificación de comprensión antes de producción es explicar por qué TDD en dominio suele tener mejor retorno que empezar por UI.</p>
+<p>Siguiente lección: <code>11-semana-10/05-codigo-catalogo-memory-repository.md</code>.</p>
+</section>
+<section id="11-semana-10-05-codigo-catalogo-memory-repository" class="lesson" data-topic-id="11-semana-10-05-codigo-catalogo-memory-repository" data-lesson-path="11-semana-10/05-codigo-catalogo-memory-repository.md">
+<div class="lesson-path">11-semana-10/05-codigo-catalogo-memory-repository.md</div>
+<h1 id="11-semana-10-05-codigo-catalogo-memory-repository-semana-10-lecci-n-5-c-digo-de-producci-n-para-publicar-y-listar-art-culos-en-memoria">Semana 10 · Lección 5: código de producción para publicar y listar artículos en memoria</h1>
+<p>Con pruebas en rojo, implementamos producción mínima en infraestructura y presentación. La pieza principal de esta lección es <code>InMemoryKnowledgeBaseRepository</code>, que cumple el contrato de repositorio del catálogo sin acoplar dominio a detalles de almacenamiento. Esta elección es coherente con el punto del curso: primero arquitectura y comportamiento, después tecnología final de persistencia.</p>
+<p>Además añadimos <code>KnowledgeCatalogViewModel</code> y <code>KnowledgeCatalogView</code> para visualizar la segunda feature en SwiftUI con wiring limpio desde el <code>HelpdeskAppRootBuilder</code>.</p>
+<pre class="mermaid">flowchart TD
+    A[PublishKnowledgeArticleUseCase] --> B[KnowledgeBaseRepository]
+    B --> C[InMemoryKnowledgeBaseRepository]
+    D[ListKnowledgeArticlesUseCase] --> B
+    D --> E[KnowledgeCatalogViewModel]
+    E --> F[KnowledgeCatalogView]</pre>
+<p>El repositorio garantiza dos comportamientos críticos. Rechaza ids duplicados y devuelve la lista ordenada por <code>publishedAt</code> descendente para que la vista no tenga que reconstruir reglas de negocio.</p>
+<pre><code class="language-swift">public func list() async throws -&gt; [KnowledgeArticle] {
+    storage.values.sorted { $0.publishedAt &gt; $1.publishedAt }
+}</code></pre>
+<p>Y en la capa de interfaz, el ViewModel refresca catálogo de forma asíncrona manteniendo la semántica de errores operativos que ya usábamos en ticketing.</p>
+<pre><code class="language-swift">public func refresh() async {
+    isLoading = true
+    defer { isLoading = false }
+    articles = try await listKnowledgeArticlesUseCase.execute()
+}</code></pre>
+<p>La práctica guiada consiste en publicar dos artículos con fechas distintas y verificar visualmente y por test que el más nuevo aparece primero.</p>
+<p>La verificación de comprensión antes del refactor es responder por qué el orden debe vivir en contrato de repositorio y no en cada pantalla.</p>
+<p>Siguiente lección: <code>11-semana-10/06-refactor-boundary-catalogo.md</code>.</p>
+</section>
+<section id="11-semana-10-06-refactor-boundary-catalogo" class="lesson" data-topic-id="11-semana-10-06-refactor-boundary-catalogo" data-lesson-path="11-semana-10/06-refactor-boundary-catalogo.md">
+<div class="lesson-path">11-semana-10/06-refactor-boundary-catalogo.md</div>
+<h1 id="11-semana-10-06-refactor-boundary-catalogo-semana-10-lecci-n-6-refactor-de-fronteras-para-que-la-feature-2-no-contamine-la-feature-1">Semana 10 · Lección 6: refactor de fronteras para que la feature 2 no contamine la feature 1</h1>
+<p>Cuando una nueva feature entra en un código existente, el riesgo más común no es que falle un test; el riesgo real es empezar a mezclar conceptos hasta que nadie sepa qué pertenece a ticketing y qué pertenece al catálogo. Esta lección existe para evitar esa deriva.</p>
+<p>El refactor de Week 10 revisa límites de responsabilidad. Ticketing mantiene sus entidades y casos de uso, el catálogo mantiene los suyos, y el ensamblado en <code>HelpdeskAppRootBuilder</code> compone ambos sin cruzar dependencias innecesarias. Esta separación prepara el terreno para la modularización más fuerte de semanas posteriores.</p>
+<pre class="mermaid">flowchart LR
+    A[Feature Ticketing] --> C[AppRootBuilder]
+    B[Feature Catalogo] --> C
+    C --> D[Views SwiftUI]</pre>
+<p>Un indicador de buen refactor aquí es que puedes cambiar reglas del catálogo sin tocar tests de transición de ticket. Si tocas una cosa y rompe la otra, hay acoplamiento oculto.</p>
+<pre><code class="language-text">Boundary checks de week10:
+- TicketRepository y KnowledgeBaseRepository son contratos distintos.
+- TicketListViewModel y KnowledgeCatalogViewModel no comparten estado mutable.
+- El builder compone dependencias, no mueve reglas entre features.</code></pre>
+<p>La práctica guiada consiste en buscar una dependencia sospechosa entre ticketing y catálogo y explicar cómo la eliminarías sin romper comportamiento actual. Este ejercicio desarrolla criterio de arquitectura, no solo habilidad de codificación.</p>
+<p>La verificación de comprensión antes del checkpoint es responder por qué “compila” no significa “está bien desacoplado”.</p>
+<p>Siguiente lección: <code>11-semana-10/07-checkpoint-evaluacion.md</code>.</p>
+</section>
+<section id="11-semana-10-07-checkpoint-evaluacion" class="lesson" data-topic-id="11-semana-10-07-checkpoint-evaluacion" data-lesson-path="11-semana-10/07-checkpoint-evaluacion.md">
+<div class="lesson-path">11-semana-10/07-checkpoint-evaluacion.md</div>
+<h1 id="11-semana-10-07-checkpoint-evaluacion-semana-10-lecci-n-7-checkpoint-para-demostrar-que-la-segunda-feature-es-estable">Semana 10 · Lección 7: checkpoint para demostrar que la segunda feature es estable</h1>
+<p>Este checkpoint confirma que no hicimos una demo aislada, sino una integración real en el sistema del curso. El criterio de cierre exige coherencia entre OpenSpec, escenarios BDD, pruebas por capa y publicación HTML del contenido. Si una de esas piezas falla, Week 10 no está cerrada.</p>
+<pre class="mermaid">flowchart TD
+    A[OpenSpec week10] --> B[BDD catálogo]
+    B --> C[Tests dominio y aplicación]
+    C --> D[Tests infraestructura y SwiftUI]
+    D --> E[Validadores del curso]
+    E --> F[Cierre defendible]</pre>
+<p>El checkpoint debe ejecutarse de forma completa para que la evidencia sea auditada por otra persona sin contexto adicional. Si dejas comandos fuera, la semana no es reproducible.</p>
+<pre><code class="language-bash">swift test --package-path project/HelpdeskSDD
+npm run -s openspec:validate
+python3 scripts/validate-course-structure.py
+python3 scripts/validate-openspec.py
+python3 scripts/check-links.py
+python3 scripts/validate-pedagogy.py
+python3 scripts/build-html.py</code></pre>
+<p>La práctica guiada consiste en introducir un fallo controlado en la validación de categoría del catálogo, ejecutar la suite y observar exactamente qué tests detectan la regresión. Después restaura el estado correcto y vuelve a ejecutar el circuito completo.</p>
+<p>La verificación de comprensión final del checkpoint es responder qué evidencia mostrarías a un arquitecto externo para convencerle de que la feature 2 no degradó la calidad global del sistema.</p>
+<p>Siguiente lección: <code>11-semana-10/08-bitacora-commits.md</code>.</p>
+</section>
+<section id="11-semana-10-08-bitacora-commits" class="lesson" data-topic-id="11-semana-10-08-bitacora-commits" data-lesson-path="11-semana-10/08-bitacora-commits.md">
+<div class="lesson-path">11-semana-10/08-bitacora-commits.md</div>
+<h1 id="11-semana-10-08-bitacora-commits-semana-10-lecci-n-8-bit-cora-para-demostrar-crecimiento-arquitect-nico-sin-regresi-n">Semana 10 · Lección 8: bitácora para demostrar crecimiento arquitectónico sin regresión</h1>
+<p>La bitácora de esta semana debe dejar claro que la segunda feature se construyó con el mismo rigor que la primera. Si el historial solo muestra cambios mezclados sin intención, no podrás defender decisiones cuando haya revisión técnica o auditoría de producto.</p>
+<p>Un historial bien hecho en Week 10 separa claramente bloques de trabajo. Un bloque para narrativa pedagógica, otro para implementación de catálogo y pruebas, y otro para OpenSpec y scripts de publicación. Esta forma de trabajar reduce ruido y acelera revisiones en equipo.</p>
+<pre class="mermaid">flowchart LR
+    A[Plan week10] --> B[Docs semana]
+    B --> C[Codigo + tests feature2]
+    C --> D[OpenSpec + scripts]
+    D --> E[Validacion final]
+    E --> F[Historial auditable]</pre>
+<p>La calidad de commits se mide por capacidad de respuesta. Cuando alguien pregunte dónde se definió el orden por fecha del catálogo, el commit debe señalarlo de forma directa. Cuando pregunten dónde se protegió categoría inválida, el commit debe contener la prueba correspondiente.</p>
+<pre><code class="language-text">git status --short
+swift test --package-path project/HelpdeskSDD
+npm run -s openspec:validate
+python3 scripts/validate-pedagogy.py
+python3 scripts/build-html.py
+git add &lt;bloque-semantico&gt;
+git commit -m "mensaje atomico week10 feature2"</code></pre>
+<p>La práctica guiada final consiste en leer tus commits en orden cronológico e intentar reconstruir la semana sin abrir ningún chat. Si no puedes hacerlo, la trazabilidad todavía es débil.</p>
+<p>La verificación de comprensión que cierra Week 10 es explicar por qué una bitácora técnica clara también mejora la calidad pedagógica del curso.</p>
+<p>Siguiente semana: <code>12-semana-11/00-semana-11-roadmap.md</code>.</p>
 </section>
 <section id="12-semana-11-00-semana-11-roadmap" class="lesson" data-topic-id="12-semana-11-00-semana-11-roadmap" data-lesson-path="12-semana-11/00-semana-11-roadmap.md">
 <div class="lesson-path">12-semana-11/00-semana-11-roadmap.md</div>
