@@ -1028,15 +1028,15 @@ blockquote p {
 </ul></li>
 <li class="nav-section"><strong>Semana 5</strong>
 <ul>
-  <li><a class="doc-nav-link" data-lesson-path="06-semana-05/00-semana-05-roadmap.md" href="#06-semana-05-00-semana-05-roadmap">Semana 5: persistencia local sin romper arquitectura</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="06-semana-05/01-problema-persistencia-local.md" href="#06-semana-05-01-problema-persistencia-local">Semana 5 · Lección 1: el problema real no es guardar datos, es dónde los guardas en la arquitectura</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="06-semana-05/02-spec-persistencia-local-v1.md" href="#06-semana-05-02-spec-persistencia-local-v1">Semana 5 · Lección 2: especificar persistencia local como capacidad, no como tecnología</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="06-semana-05/03-bdd-persistencia-local.md" href="#06-semana-05-03-bdd-persistencia-local">Semana 5 · Lección 3: BDD de durabilidad local para que el equipo valide el mismo comportamiento</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="06-semana-05/04-tdd-adaptador-local.md" href="#06-semana-05-04-tdd-adaptador-local">Semana 5 · Lección 4: TDD del adaptador local para blindar comportamiento de persistencia</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="06-semana-05/05-codigo-adaptador-local.md" href="#06-semana-05-05-codigo-adaptador-local">Semana 5 · Lección 5: implementar el adaptador local de infraestructura sin contaminar dominio</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="06-semana-05/06-refactor-puerto-adaptador.md" href="#06-semana-05-06-refactor-puerto-adaptador">Semana 5 · Lección 6: refactor del puerto y adaptador para preparar evolución a SwiftData</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="06-semana-05/07-checkpoint-evaluacion.md" href="#06-semana-05-07-checkpoint-evaluacion">Semana 5 · Lección 7: checkpoint de persistencia para decidir cierre real</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="06-semana-05/08-bitacora-commits.md" href="#06-semana-05-08-bitacora-commits">Semana 5 · Lección 8: bitácora de cierre para persistencia local y trazabilidad de arquitectura</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="06-semana-05/00-semana-05-roadmap.md" href="#06-semana-05-00-semana-05-roadmap">Semana 5: persistencia local real sin romper el contrato de arquitectura</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="06-semana-05/01-problema-persistencia-local.md" href="#06-semana-05-01-problema-persistencia-local">Semana 5 · Lección 1: el problema no es persistir datos, es persistirlos sin contaminar reglas de negocio</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="06-semana-05/02-spec-persistencia-local-v1.md" href="#06-semana-05-02-spec-persistencia-local-v1">Semana 5 · Lección 2: especificar persistencia local como capacidad de sistema, no como marca de tecnología</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="06-semana-05/03-bdd-persistencia-local.md" href="#06-semana-05-03-bdd-persistencia-local">Semana 5 · Lección 3: BDD de persistencia para distinguir guardar temporalmente de persistir de verdad</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="06-semana-05/04-tdd-adaptador-local.md" href="#06-semana-05-04-tdd-adaptador-local">Semana 5 · Lección 4: TDD del adaptador local para blindar durabilidad y errores de frontera</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="06-semana-05/05-codigo-adaptador-local.md" href="#06-semana-05-05-codigo-adaptador-local">Semana 5 · Lección 5: producción del adaptador local manteniendo dominio limpio y contrato estable</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="06-semana-05/06-refactor-puerto-adaptador.md" href="#06-semana-05-06-refactor-puerto-adaptador">Semana 5 · Lección 6: refactor puerto-adaptador para preparar evolución a SwiftData sin deuda oculta</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="06-semana-05/07-checkpoint-evaluacion.md" href="#06-semana-05-07-checkpoint-evaluacion">Semana 5 · Lección 7: checkpoint de persistencia para cerrar con evidencia y no con percepción</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="06-semana-05/08-bitacora-commits.md" href="#06-semana-05-08-bitacora-commits">Semana 5 · Lección 8: bitácora de cierre para que la evolución de persistencia quede auditable</a></li>
 </ul></li>
 <li class="nav-section"><strong>Semana 6</strong>
 <ul>
@@ -5866,236 +5866,367 @@ git commit -m "feat(week4): deliver api v1 contract with tested boundary mapping
 </section>
 <section id="06-semana-05-00-semana-05-roadmap" class="lesson" data-topic-id="06-semana-05-00-semana-05-roadmap" data-lesson-path="06-semana-05/00-semana-05-roadmap.md">
 <div class="lesson-path">06-semana-05/00-semana-05-roadmap.md</div>
-<h1 id="06-semana-05-00-semana-05-roadmap-semana-5-persistencia-local-sin-romper-arquitectura">Semana 5: persistencia local sin romper arquitectura</h1>
-<p>En Semana 4 aprendiste a hablar con el exterior mediante un contrato API v1 estable. Esa capa te protege de ambigüedades entre equipos, pero todavía queda un hueco importante: qué pasa con los datos cuando la app se cierra, cuando cambias de sesión o cuando no quieres depender de red para validar un flujo. Semana 5 aborda exactamente esa necesidad con una regla central: persistir sí, acoplar no.</p>
-<p>Esta semana es clave porque muchos proyectos se degradan justo aquí. Se introduce persistencia local con buenas intenciones, pero se mete el framework de almacenamiento directamente en la capa de dominio o en casos de uso. El resultado suele ser doloroso: pruebas lentas, reglas mezcladas con detalles técnicos y dificultad para evolucionar a otra tecnología de almacenamiento.</p>
-<p>En este curso seguimos otro camino. El dominio mantiene su pureza. La aplicación mantiene sus contratos. La infraestructura implementa un adaptador local que cumple el protocolo de repositorio. Así puedes cambiar <code>filesystem</code>, <code>SwiftData</code> o cualquier otra opción local sin rehacer la lógica de negocio.</p>
+<h1 id="06-semana-05-00-semana-05-roadmap-semana-5-persistencia-local-real-sin-romper-el-contrato-de-arquitectura">Semana 5: persistencia local real sin romper el contrato de arquitectura</h1>
+<p>En las semanas anteriores construiste comportamiento de negocio, interfaz y frontera de contrato API. Ahora llega un punto donde muchos proyectos se desordenan: introducir persistencia local. A primera vista parece una mejora técnica sencilla. En realidad, es una prueba de fuego arquitectónica. Si la haces mal, atas dominio y aplicación a una tecnología concreta. Si la haces bien, ganas durabilidad de datos sin perder capacidad de evolución.</p>
+<p>El objetivo de Week 5 no es "guardar en disco" por sí mismo. El objetivo es mantener la misma semántica de repositorio mientras cambiamos el mecanismo de almacenamiento. Esto te entrena para pensar como ingeniero enterprise: comportamiento estable arriba, implementación intercambiable abajo.</p>
 <pre class="mermaid">flowchart LR
-    A[OpenSpec week05] --> B[BDD de persistencia local]
+    A[OpenSpec week05] --> B[BDD de durabilidad]
     B --> C[TDD de adaptador local]
-    C --> D[Codigo de produccion en infraestructura]
-    D --> E[Refactor boundary de persistencia]
-    E --> F[Checkpoint y evidencia]</pre>
-<p>El resultado medible de Week 5 es tener un repositorio persistente local que sobreviva al ciclo de vida de procesos y siga cumpliendo el mismo contrato que venías usando en memoria. Si mañana cambias de adaptador, los casos de uso deberían seguir intactos.</p>
+    C --> D[Implementacion file-based]
+    D --> E[Refactor puerto-adaptador]
+    E --> F[Checkpoint de consistencia]
+    F --> G[Bitacora auditable]</pre>
+<p>Fíjate en la estructura. No aparece "framework" como protagonista. Aparece contrato. Esa decisión pedagógica es deliberada. En el curso usamos un adaptador local basado en archivos porque permite ejecutar todo en Swift Package sin depender de una app completa. Pero el diseño queda preparado para sustituirlo por <code>SwiftData</code> en iOS real sin tocar casos de uso ni dominio.</p>
 <pre><code class="language-yaml">week5_definition_of_done:
-  local_persistence: "los tickets sobreviven entre instancias del repositorio"
-  contract_respect: "TicketRepository se mantiene como frontera estable"
-  integration_confidence: "tests de integracion validan create/list/find/update"
-  architectural_integrity: "dominio y aplicacion no conocen tecnologia de storage"</code></pre>
-<p>La práctica de arranque consiste en revisar <code>TicketRepository</code> y escribir una frase por cada método explicando qué promete desde el punto de vista de negocio y qué NO debería prometer sobre la tecnología concreta de almacenamiento. Ese ejercicio te ayuda a separar intención funcional de detalle técnico.</p>
-<p>La verificación de comprensión antes de entrar en detalle es responder esta pregunta: si reemplazas un adaptador local basado en archivos por uno basado en SwiftData, ¿qué capa debería permanecer idéntica para demostrar que tu arquitectura está sana?</p>
-<p>Siguiente lección: <code>06-semana-05/01-problema-persistencia-local.md</code>.</p>
+  contract_stability: "TicketRepository mantiene semantica previa"
+  local_durability: "datos sobreviven entre instancias del repositorio"
+  boundary_integrity: "dominio y aplicacion no conocen detalles de storage"
+  evolution_readiness: "adaptador actual se puede reemplazar por SwiftData"
+  delivery_evidence: "tests + validadores + commits atomicos"</code></pre>
+<p>Si eres junior, quédate con esta imagen mental. El repositorio es un enchufe estándar. El adaptador local es el aparato conectado. Puedes cambiar el aparato sin rehacer toda la instalación eléctrica, siempre que respetes el enchufe.</p>
+<p>Esta semana también refuerza una habilidad crítica: distinguir entre "funciona en mi proceso" y "persiste de verdad". Guardar en memoria no es persistir. Persistir significa que apagas y vuelves a encender el sistema, y los datos siguen donde deben.</p>
+<h2 id="06-semana-05-00-semana-05-roadmap-pr-ctica-guiada">Práctica guiada</h2>
+<p>Antes de empezar las lecciones técnicas, escribe en una nota tres riesgos que aparecerían si metieras <code>FileManager</code> o <code>SwiftData</code> directamente dentro de un caso de uso. Luego escribe cómo esos riesgos se reducen cuando usas puerto (<code>TicketRepository</code>) + adaptador de infraestructura.</p>
+<h2 id="06-semana-05-00-semana-05-roadmap-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Comprueba si puedes responder esta pregunta: si mañana cambias el almacenamiento de archivos por SwiftData, ¿qué módulos deberían permanecer idénticos para afirmar que tu arquitectura sigue sana? Si la respuesta incluye cambios en dominio, todavía hay acoplamiento indebido.</p>
+<h2 id="06-semana-05-00-semana-05-roadmap-siguiente-lecci-n">Siguiente lección</h2>
+<p>Continúa con <code>06-semana-05/01-problema-persistencia-local.md</code>, donde aterrizamos el problema de persistencia mal ubicada y su impacto real en coste de mantenimiento.</p>
 </section>
 <section id="06-semana-05-01-problema-persistencia-local" class="lesson" data-topic-id="06-semana-05-01-problema-persistencia-local" data-lesson-path="06-semana-05/01-problema-persistencia-local.md">
 <div class="lesson-path">06-semana-05/01-problema-persistencia-local.md</div>
-<h1 id="06-semana-05-01-problema-persistencia-local-semana-5-lecci-n-1-el-problema-real-no-es-guardar-datos-es-d-nde-los-guardas-en-la-arquitectura">Semana 5 · Lección 1: el problema real no es guardar datos, es dónde los guardas en la arquitectura</h1>
-<p>Guardar datos en local parece una decisión simple hasta que observas sus consecuencias en un sistema que quiere escalar. Si solo piensas en “hacer que persista”, puedes terminar mezclando reglas de negocio con llamadas directas a <code>FileManager</code>, <code>SwiftData</code> o cualquier framework concreto dentro de capas que deberían ser estables y agnósticas.</p>
-<p>El síntoma típico es este. Todo compila. Todo “funciona”. Pero cada test necesita montaje pesado, cada cambio de almacenamiento obliga a tocar casos de uso, y cada bug de persistencia se vuelve difícil de aislar porque no hay frontera clara entre comportamiento de negocio y mecanismo técnico.</p>
+<h1 id="06-semana-05-01-problema-persistencia-local-semana-5-lecci-n-1-el-problema-no-es-persistir-datos-es-persistirlos-sin-contaminar-reglas-de-negocio">Semana 5 · Lección 1: el problema no es persistir datos, es persistirlos sin contaminar reglas de negocio</h1>
+<p>Cuando un proyecto crece, aparece una frase que suena inocente: "vamos a guardar esto en local". El riesgo no está en la intención. El riesgo está en cómo se implementa. Si el almacenamiento entra directamente en dominio o en casos de uso, el sistema queda acoplado a detalles técnicos que deberían ser reemplazables.</p>
+<p>Ese acoplamiento duele en tres frentes. Primero, pruebas más lentas y frágiles porque cada test necesita infraestructura real. Segundo, refactors costosos porque cualquier cambio de tecnología atraviesa capas que no debería tocar. Tercero, bugs difíciles de aislar porque la frontera entre regla y mecanismo desaparece.</p>
 <pre class="mermaid">flowchart TD
-    A[Persistencia acoplada] --> B[Dominio conoce framework]
-    B --> C[Tests frágiles y lentos]
-    C --> D[Coste alto de cambio]
-    E[Persistencia adaptada] --> F[Contrato estable]
-    F --> G[Infraestructura intercambiable]
-    G --> H[Evolucion controlada]</pre>
-<p>Piensa en una analogía cotidiana. Un coche necesita combustible, pero el motor no debería estar diseñado para una única gasolinera concreta. Si lo diseñas así, en cuanto cambie la gasolinera te quedas sin movilidad. En arquitectura, el contrato de repositorio es ese “motor compatible”; el adaptador local es la “gasolinera” intercambiable.</p>
-<pre><code class="language-swift">// Anti-patron: caso de uso acoplado a detalle técnico.
+    A[Persistencia incrustada en capas de negocio] --> B[Tests pesados]
+    B --> C[Cambio de storage costoso]
+    C --> D[Errores de frontera poco trazables]
+    D --> E[Deuda tecnica acumulativa]
+    F[Puerto + adaptador] --> G[Fronteras limpias]
+    G --> H[Cambio de storage controlado]
+    H --> I[Sistema mantenible]</pre>
+<p>Piensa en una analogía muy simple. Un enchufe de pared no debería depender de una marca concreta de cargador. Si dependiera, cada cargador nuevo obligaría a rehacer la instalación de casa. En arquitectura, el puerto es el enchufe. El adaptador local es el cargador. Mezclarlos te deja sin capacidad de evolución.</p>
+<p>Un anti-patrón típico se ve así:</p>
+<pre><code class="language-swift">// Anti-patron: caso de uso hablando directo con storage.
 func execute(_ draft: TicketDraft) throws {
-    let filePath = "/tmp/tickets.json"
-    // Logica de persistencia incrustada aqui.
-}
-
-// Patron correcto: caso de uso solo conoce contrato.
-public struct CreateTicketUseCase {
-    private let repository: any TicketRepository
+    let encoder = JSONEncoder()
+    let data = try encoder.encode(draft)
+    try data.write(to: storageURL)
 }</code></pre>
-<p>La práctica guiada consiste en abrir un caso de uso existente y señalar, en texto, qué líneas son invariantes de negocio y qué líneas serían detalle técnico si aparecieran ahí. Ese hábito te prepara para detectar acoplamientos antes de que entren en revisión.</p>
-<p>La verificación de comprensión de esta lección es responder por qué “persistir en local” no justifica romper la inversión de dependencias, incluso en un proyecto pequeño o en una demo.</p>
-<p>Siguiente lección: <code>06-semana-05/02-spec-persistencia-local-v1.md</code>.</p>
+<p>Este código puede "funcionar" al principio, pero rompe separación de responsabilidades. El caso de uso debería hablar con un contrato de repositorio, no con disco.</p>
+<p>La estrategia correcta en Week 5 es mantener <code>TicketRepository</code> como frontera de aplicación y mover la persistencia concreta a infraestructura (<code>HelpdeskInfrastructureFileStore</code> o equivalente). Así, dominio sigue puro y aplicación sigue testeable.</p>
+<h2 id="06-semana-05-01-problema-persistencia-local-pr-ctica-guiada">Práctica guiada</h2>
+<p>Toma una función de negocio de un proyecto que conozcas y marca qué líneas son reglas de negocio y cuáles son detalles de almacenamiento. Si no puedes separarlas con claridad, reescríbela en pseudocódigo con frontera de repositorio para entrenar la distinción.</p>
+<h2 id="06-semana-05-01-problema-persistencia-local-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Responde por qué "guardar correctamente" no es suficiente criterio si el lugar donde guardas rompe arquitectura. Si tu respuesta no incluye coste de cambio y testabilidad, vuelve a esta lección.</p>
+<h2 id="06-semana-05-01-problema-persistencia-local-siguiente-lecci-n">Siguiente lección</h2>
+<p>Pasa a <code>06-semana-05/02-spec-persistencia-local-v1.md</code>, donde formalizaremos la capacidad de persistencia en OpenSpec sin atarla a una tecnología concreta.</p>
 </section>
 <section id="06-semana-05-02-spec-persistencia-local-v1" class="lesson" data-topic-id="06-semana-05-02-spec-persistencia-local-v1" data-lesson-path="06-semana-05/02-spec-persistencia-local-v1.md">
 <div class="lesson-path">06-semana-05/02-spec-persistencia-local-v1.md</div>
-<h1 id="06-semana-05-02-spec-persistencia-local-v1-semana-5-lecci-n-2-especificar-persistencia-local-como-capacidad-no-como-tecnolog-a">Semana 5 · Lección 2: especificar persistencia local como capacidad, no como tecnología</h1>
-<p>Después de entender el problema, toca formalizar contrato. En Week 5 no vamos a prometer “usar SwiftData porque sí”. Vamos a prometer una capacidad observable: los tickets deben persistir localmente detrás de un adaptador, manteniendo el contrato de repositorio sin filtrar detalles técnicos a dominio ni aplicación.</p>
-<p>Este matiz es fundamental para una mentalidad enterprise. Si especificas “framework X” como requisito principal, atas la arquitectura a una decisión de implementación. Si especificas “comportamiento persistente y reemplazable”, mantienes libertad técnica sin perder exigencia funcional.</p>
+<h1 id="06-semana-05-02-spec-persistencia-local-v1-semana-5-lecci-n-2-especificar-persistencia-local-como-capacidad-de-sistema-no-como-marca-de-tecnolog-a">Semana 5 · Lección 2: especificar persistencia local como capacidad de sistema, no como marca de tecnología</h1>
+<p>Con el problema identificado, ahora toca decidir contrato. Esta parte es importante porque mucha gente confunde requisito funcional con preferencia técnica. "Usar SwiftData" no es un requisito de negocio. "Persistir tickets localmente con comportamiento estable" sí lo es.</p>
+<p>En Week 5 vamos a fijar esa distinción en OpenSpec: la capacidad que el sistema debe ofrecer y los límites del alcance actual.</p>
 <pre class="mermaid">flowchart LR
-    A[Problema de acoplamiento] --> B[Proposal week05]
-    B --> C[Requirement persistencia local]
-    C --> D[Escenarios observables de durabilidad]
-    D --> E[Tareas verificables]</pre>
-<p>En OpenSpec trabajaremos con el cambio <code>week05-local-persistence-adapter</code>. El flujo con IA mantiene la misma disciplina para reforzar aprendizaje transferible.</p>
+    A[Problema de acoplamiento] --> B[proposal week05-local-persistence-adapter]
+    B --> C[spec: durabilidad local por contrato]
+    C --> D[design: puerto y adaptador]
+    D --> E[tasks verificables]
+    E --> F[codigo + tests + evidencia]</pre>
+<p>El flujo con IA se mantiene estable porque el método sigue siendo el mismo:</p>
 <pre><code class="language-text">/opsx:new week05-local-persistence-adapter
 /opsx:ff
 /opsx:apply
-/opsx:verify</code></pre>
-<p>Esta semana también introduce una decisión pedagógica explícita. En el código base implementaremos un adaptador de archivos para mantener el proyecto ejecutable en Swift Package sin montar una app completa. En paralelo, dejaremos claro cómo ese mismo contrato acepta un adaptador SwiftData en iOS sin tocar dominio.</p>
-<pre><code class="language-yaml">week5_scope:
-  in_scope: "adaptador local persistente detras de TicketRepository"
-  concrete_implementation: "filesystem JSON para entorno de curso"
-  architectural_goal: "preparar sustitucion por SwiftData sin tocar dominio"
-  out_of_scope: "migraciones complejas, cifrado, sync online"</code></pre>
-<p>La práctica guiada de esta lección consiste en redactar una frase de requisito que no mencione ninguna tecnología concreta y aun así sea 100 por ciento testeable. Después escribe debajo qué implementación concreta eliges hoy y por qué esa elección no debería cambiar el requisito.</p>
-<p>La verificación de comprensión antes de BDD es responder esto: ¿qué diferencia hay entre especificar “durabilidad local” y especificar “usar un framework concreto”, y qué riesgo evita esa diferencia?</p>
-<p>Siguiente lección: <code>06-semana-05/03-bdd-persistencia-local.md</code>.</p>
+/opsx:verify
+/opsx:archive</code></pre>
+<p>El núcleo de la spec de Week 5 debería expresar algo como esto:</p>
+<pre><code class="language-yaml">week5_persistence_contract:
+  capability: "tickets se persisten localmente entre instancias"
+  boundary_rule: "dominio y aplicacion dependen de TicketRepository"
+  implementation_note: "adaptador base file-store para entorno package"
+  evolution_target: "sustitucion por SwiftData sin tocar casos de uso"
+  out_of_scope: "sincronizacion remota y politicas offline-first"</code></pre>
+<p>La clave pedagógica está en <code>evolution_target</code>. No estamos prometiendo SwiftData hoy, pero sí estamos construyendo una frontera que permita adoptarlo mañana sin cirugía de capas internas.</p>
+<p>Una formulación fuerte de requisito en spec puede ser esta:</p>
+<pre><code class="language-text">The system SHALL persist created and updated tickets so that a new repository instance can read the latest state without relying on in-memory state.</code></pre>
+<p>Ese enunciado es verificable y agnóstico de implementación. Eso es exactamente lo que buscamos.</p>
+<h2 id="06-semana-05-02-spec-persistencia-local-v1-pr-ctica-guiada">Práctica guiada</h2>
+<p>Escribe dos requisitos <code>SHALL</code> para Week 5: uno de camino feliz (persistencia entre instancias) y otro de error (contenido corrupto o no parseable). Luego intenta convertir cada requisito en escenario GIVEN/WHEN/THEN. Si no puedes hacerlo, el requisito todavía es ambiguo.</p>
+<h2 id="06-semana-05-02-spec-persistencia-local-v1-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Comprueba si puedes explicar por qué la frase "vamos a usar X framework" no reemplaza una spec de comportamiento. Si tu respuesta no diferencia claramente "qué" de "cómo", relee esta lección.</p>
+<h2 id="06-semana-05-02-spec-persistencia-local-v1-siguiente-lecci-n">Siguiente lección</h2>
+<p>Continúa en <code>06-semana-05/03-bdd-persistencia-local.md</code>, donde convertiremos la spec en escenarios observables de durabilidad y de manejo de errores de infraestructura.</p>
 </section>
 <section id="06-semana-05-03-bdd-persistencia-local" class="lesson" data-topic-id="06-semana-05-03-bdd-persistencia-local" data-lesson-path="06-semana-05/03-bdd-persistencia-local.md">
 <div class="lesson-path">06-semana-05/03-bdd-persistencia-local.md</div>
-<h1 id="06-semana-05-03-bdd-persistencia-local-semana-5-lecci-n-3-bdd-de-durabilidad-local-para-que-el-equipo-valide-el-mismo-comportamiento">Semana 5 · Lección 3: BDD de durabilidad local para que el equipo valide el mismo comportamiento</h1>
-<p>En persistencia local, la ambigüedad más peligrosa es creer que “guardar” y “persistir” son lo mismo. Guardar puede significar dejar un dato en memoria durante unos segundos. Persistir significa que el dato sobrevive al ciclo de vida del proceso y sigue disponible en una nueva instancia del repositorio.</p>
-<p>Esta lección convierte esa diferencia en escenarios observables que cualquier rol puede entender. Si producto, QA y desarrollo no comparten esta semántica, acabarás con discusiones de “en mi máquina funciona” y resultados inconsistentes entre ambientes.</p>
+<h1 id="06-semana-05-03-bdd-persistencia-local-semana-5-lecci-n-3-bdd-de-persistencia-para-distinguir-guardar-temporalmente-de-persistir-de-verdad">Semana 5 · Lección 3: BDD de persistencia para distinguir guardar temporalmente de persistir de verdad</h1>
+<p>Con la spec definida, ahora necesitamos escenarios que describan comportamiento observable de persistencia. Esta distinción es clave para no autoengañarnos. Guardar en memoria durante una ejecución no significa persistir. Persistir significa que el dato sobrevive al ciclo de vida del proceso y puede recuperarse desde una nueva instancia.</p>
+<p>BDD en Week 5 debe dejar eso cristalino para todo el equipo.</p>
 <pre class="mermaid">sequenceDiagram
-    participant CasoUso as UseCase
-    participant Repo1 as Repositorio instancia A
-    participant Storage as Storage local
-    participant Repo2 as Repositorio instancia B
-    CasoUso->>Repo1: create(ticket)
-    Repo1->>Storage: persistir
+    participant App as Aplicacion
+    participant Repo1 as Repo instancia A
+    participant Storage as Almacen local
+    participant Repo2 as Repo instancia B
+
+    App->>Repo1: create(ticket)
+    Repo1->>Storage: persistir estado
+    App->>Repo2: list()
     Repo2->>Storage: leer estado actual
-    Repo2-->>CasoUso: list() incluye ticket creado</pre>
-<p>Los escenarios de Week 5 deben reflejar comportamiento de durabilidad y errores relevantes de infraestructura sin contaminar la capa de dominio.</p>
-<pre><code class="language-gherkin">Feature: Persistencia local detrás de repositorio
-  Scenario: Ticket persiste entre instancias
-    Given se crea un ticket usando instancia A del repositorio
-    When se construye una nueva instancia B apuntando al mismo storage local
-    Then la instancia B lista el ticket creado previamente
+    Storage-->>Repo2: tickets persistidos
+    Repo2-->>App: mismo ticket disponible</pre>
+<p>Este diagrama captura la señal que importa: segunda instancia, mismo estado.</p>
+<p>Escenarios base de Week 5:</p>
+<pre><code class="language-gherkin">Feature: Local persistence adapter behaves as durable repository
+  Scenario: Created ticket is available in a new repository instance
+    Given an empty local storage
+    When repository instance A creates a ticket
+    And repository instance B lists tickets
+    Then the created ticket is present in instance B result
 
-  Scenario: Duplicado mantiene contrato existente
-    Given existe un ticket persistido con id T-900
-    When se intenta crear otro ticket con id T-900
-    Then el repositorio devuelve duplicateTicketID
+  Scenario: Updated ticket state is durable across instances
+    Given a persisted ticket with status open
+    When repository instance A updates status to inProgress
+    And repository instance B reads the same ticket
+    Then status is inProgress
 
-  Scenario: Update de ticket inexistente conserva semántica
-    Given no existe ticket para id T-missing
-    When se solicita update sobre ese id
-    Then el repositorio devuelve ticketNotFound</code></pre>
-<p>La práctica guiada consiste en reescribir el primer escenario con tus palabras como si se lo explicaras a una persona no técnica de tu equipo. Si la explicación pierde la idea de “persistir entre instancias”, el escenario aún no está bien formulado.</p>
-<p>La verificación de comprensión antes de TDD es indicar qué escenario protege mejor una regresión donde el repositorio solo cachea en memoria y nunca vuelca a almacenamiento local.</p>
-<p>Siguiente lección: <code>06-semana-05/04-tdd-adaptador-local.md</code>.</p>
+  Scenario: Corrupted storage produces controlled infrastructure error
+    Given local storage contains invalid serialized content
+    When repository instance reads tickets
+    Then system returns a deterministic storage decoding error</code></pre>
+<p>Estos escenarios cubren durabilidad de create, durabilidad de update y ruta de error realista.</p>
+<p>Un error didáctico frecuente es escribir escenarios de persistencia que solo prueban una instancia viva. Eso valida memoria, no persistencia. Si no aparece una segunda instancia en el escenario, revisa diseño.</p>
+<h2 id="06-semana-05-03-bdd-persistencia-local-pr-ctica-guiada">Práctica guiada</h2>
+<p>Añade un escenario para ticket inexistente en operación de update persistente y define cuál debe ser el error observable. Después decide qué capa debe traducir ese error para que aplicación reciba semántica estable.</p>
+<h2 id="06-semana-05-03-bdd-persistencia-local-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Responde por qué un escenario con una sola instancia del repositorio puede dar falso positivo de persistencia. Si no puedes argumentarlo con ciclo de vida de proceso, relee esta lección.</p>
+<h2 id="06-semana-05-03-bdd-persistencia-local-siguiente-lecci-n">Siguiente lección</h2>
+<p>Sigue en <code>06-semana-05/04-tdd-adaptador-local.md</code>, donde transformaremos estos escenarios en pruebas de integración que blindan el adaptador local.</p>
 </section>
 <section id="06-semana-05-04-tdd-adaptador-local" class="lesson" data-topic-id="06-semana-05-04-tdd-adaptador-local" data-lesson-path="06-semana-05/04-tdd-adaptador-local.md">
 <div class="lesson-path">06-semana-05/04-tdd-adaptador-local.md</div>
-<h1 id="06-semana-05-04-tdd-adaptador-local-semana-5-lecci-n-4-tdd-del-adaptador-local-para-blindar-comportamiento-de-persistencia">Semana 5 · Lección 4: TDD del adaptador local para blindar comportamiento de persistencia</h1>
-<p>Con BDD definido, toca llevar ese contrato a pruebas ejecutables. En Week 5 el foco está en tests de integración de infraestructura. No queremos probar solo que una función devuelve algo; queremos probar que el sistema conserva datos entre instancias y mantiene el mismo comportamiento de errores que ya conocían los casos de uso.</p>
-<p>Esta es una lección importante porque enseña a un junior a no usar TDD solo en dominio. En entornos enterprise, también necesitas pruebas sólidas en boundaries técnicos, especialmente cuando hay I/O, serialización y estado persistido.</p>
+<h1 id="06-semana-05-04-tdd-adaptador-local-semana-5-lecci-n-4-tdd-del-adaptador-local-para-blindar-durabilidad-y-errores-de-frontera">Semana 5 · Lección 4: TDD del adaptador local para blindar durabilidad y errores de frontera</h1>
+<p>Llegó el momento de convertir los escenarios de persistencia en red de seguridad automática. En Week 5, la mayor parte del valor está en pruebas de integración de infraestructura, porque estamos validando I/O real, serialización y lectura desde nuevas instancias.</p>
+<p>Este es un punto pedagógico importante para juniors: no todo test valioso es unitario puro. Cuando el riesgo está en frontera técnica, necesitas pruebas que atraviesen esa frontera.</p>
 <pre class="mermaid">flowchart LR
-    A[Escenario BDD de durabilidad] --> B[Test rojo de repositorio local]
-    B --> C[Implementacion minima del adaptador]
+    A[Escenario BDD de persistencia] --> B[Test de integracion rojo]
+    B --> C[Implementacion minima adaptador]
     C --> D[Test verde]
-    D --> E[Refactor de boundary de storage]</pre>
-<p>Observa este patrón de test. No depende de UI ni de red. Solo valida que dos instancias del repositorio leen el mismo estado persistido.</p>
-<pre><code class="language-swift">@Test
+    D --> E[Refactor seguro]</pre>
+<p>Ejemplo de prueba de durabilidad entre instancias:</p>
+<pre><code class="language-swift">import Testing
+@testable import HelpdeskInfrastructureFileStore
+import HelpdeskApplication
+import HelpdeskDomain
+
+@Test
 func fileRepositoryPersistsTicketsAcrossInstances() async throws {
-    let fileURL = try tempFileURL(named: "week5-persistence")
+    let storageURL = TestStorage.tempFileURL("week5-persist-")
 
-    let repoA = try FileTicketRepository(fileURL: fileURL)
-    try await repoA.create(TicketFixtures.ticket(id: "T-900", status: .open))
+    let repoA = try FileTicketRepository(storageURL: storageURL)
+    let created = TicketFixtures.ticket(id: "T-900", status: .open)
+    try await repoA.create(created)
 
-    let repoB = try FileTicketRepository(fileURL: fileURL)
+    let repoB = try FileTicketRepository(storageURL: storageURL)
     let listed = try await repoB.list()
 
-    #expect(listed.contains { $0.id.rawValue == "T-900" })
+    #expect(listed.contains { $0.id == created.id })
 }</code></pre>
+<p>Esta prueba vale porque obliga a comprobar la condición real de persistencia: instancia nueva, mismo estado.</p>
+<p>Ahora un test de error de contenido corrupto:</p>
+<pre><code class="language-swift">@Test
+func fileRepositoryFailsWithCorruptedStorageContent() async throws {
+    let storageURL = TestStorage.tempFileURL("week5-corrupt-")
+    try Data("{invalid-json".utf8).write(to: storageURL)
+
+    let repository = try FileTicketRepository(storageURL: storageURL)
+
+    await #expect(throws: FileTicketRepositoryError.decodingFailure) {
+        _ = try await repository.list()
+    }
+}</code></pre>
+<p>Este caso protege un comportamiento enterprise básico: fallar de forma controlada y diagnosticable cuando el almacenamiento está corrupto.</p>
+<p>Ejecuta suite completa:</p>
 <pre><code class="language-bash">swift test --package-path project/HelpdeskSDD</code></pre>
-<p>La práctica guiada de esta lección consiste en romper temporalmente la escritura en disco del adaptador y comprobar que el test de persistencia cae en rojo. Después recupera la implementación correcta y vuelve a verde. Ese ciclo te enseña a confiar en evidencia y no en percepción.</p>
-<p>La verificación de comprensión antes de pasar a producción es responder esto: ¿por qué estos tests deben considerarse de integración y no unitarios puros, y qué valor aporta eso en Week 5?</p>
-<p>Siguiente lección: <code>06-semana-05/05-codigo-adaptador-local.md</code>.</p>
+<p>En práctica real, rompe temporalmente la escritura persistente del adaptador y confirma que el test de durabilidad cae en rojo. Luego revierte y vuelve a verde. Este ciclo entrena confianza en evidencia, no en intuición.</p>
+<h2 id="06-semana-05-04-tdd-adaptador-local-pr-ctica-guiada">Práctica guiada</h2>
+<p>Añade un test para <code>update</code> sobre ticket inexistente y verifica que el error coincide con el contrato esperado de repositorio. Después razona si ese error debe traducirse en aplicación o mantenerse tal cual para casos de uso.</p>
+<h2 id="06-semana-05-04-tdd-adaptador-local-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Explica por qué en Week 5 los tests de dominio no son suficientes para declarar cierre de persistencia. Si no puedes nombrar qué riesgo concreto queda fuera del dominio, vuelve a esta lección.</p>
+<h2 id="06-semana-05-04-tdd-adaptador-local-siguiente-lecci-n">Siguiente lección</h2>
+<p>Continúa en <code>06-semana-05/05-codigo-adaptador-local.md</code>, donde implementaremos el adaptador local de producción respetando puerto de aplicación y límites de infraestructura.</p>
 </section>
 <section id="06-semana-05-05-codigo-adaptador-local" class="lesson" data-topic-id="06-semana-05-05-codigo-adaptador-local" data-lesson-path="06-semana-05/05-codigo-adaptador-local.md">
 <div class="lesson-path">06-semana-05/05-codigo-adaptador-local.md</div>
-<h1 id="06-semana-05-05-codigo-adaptador-local-semana-5-lecci-n-5-implementar-el-adaptador-local-de-infraestructura-sin-contaminar-dominio">Semana 5 · Lección 5: implementar el adaptador local de infraestructura sin contaminar dominio</h1>
-<p>Ahora implementamos producción. El objetivo no es solo “guardar un JSON”, sino demostrar una arquitectura donde persistencia es intercambiable. La pieza central de esta lección es un repositorio local basado en archivos que implementa <code>TicketRepository</code>. Al hacerlo, los casos de uso pueden seguir funcionando sin saber nada de rutas, disco o serialización.</p>
-<p>Esta separación es exactamente la puerta para SwiftData en iOS real. Si mañana decides crear un <code>SwiftDataTicketRepository</code>, lo harás en infraestructura y mantendrás el mismo contrato. Esa continuidad es el aprendizaje importante de Week 5.</p>
+<h1 id="06-semana-05-05-codigo-adaptador-local-semana-5-lecci-n-5-producci-n-del-adaptador-local-manteniendo-dominio-limpio-y-contrato-estable">Semana 5 · Lección 5: producción del adaptador local manteniendo dominio limpio y contrato estable</h1>
+<p>Con las pruebas en verde/rojo guiando el proceso, ahora implementamos el adaptador local de forma explícita. La meta de esta lección no es solo tener datos en archivo. La meta es demostrar que infraestructura puede cambiar sin obligar a reescribir casos de uso.</p>
+<p>El patrón que seguimos es puerto-adaptador. Aplicación depende de <code>TicketRepository</code> (puerto). Infraestructura implementa ese contrato con almacenamiento local concreto (adaptador).</p>
 <pre class="mermaid">flowchart TD
-    A[Use cases] --> B[TicketRepository contract]
-    B --> C[FileTicketRepository]
-    C --> D[JSON file in local storage]
-    E[Future: SwiftDataTicketRepository] --> B</pre>
-<p>Este fragmento muestra la idea base del adaptador: lectura segura de storage, actualización en memoria local dentro del actor y escritura persistente con contrato de errores estable.</p>
-<pre><code class="language-swift">public actor FileTicketRepository: TicketRepository {
-    private let fileURL: URL
+    A[Create/List/Transition UseCases] --> B[TicketRepository protocolo]
+    B --> C[FileTicketRepository adaptador]
+    C --> D[FileSystem y serializacion]
+    E[Future SwiftDataTicketRepository] --> B</pre>
+<p>El bloque <code>E</code> no es decorativo. Es la razón de diseño de Week 5: preparar sustitución futura sin tocar capas de negocio.</p>
+<p>Esqueleto representativo del adaptador:</p>
+<pre><code class="language-swift">import Foundation
+import HelpdeskApplication
+import HelpdeskDomain
 
-    public init(fileURL: URL, seed: [Ticket] = []) throws {
-        self.fileURL = fileURL
-        try bootstrapIfNeeded(seed: seed)
+public actor FileTicketRepository: TicketRepository {
+    private let storageURL: URL
+    private var cache: [Ticket] = []
+
+    public init(storageURL: URL) throws {
+        self.storageURL = storageURL
+        self.cache = try Self.load(from: storageURL)
     }
 
-    public func create(_ ticket: Ticket) async throws {
-        var storage = try readStorage()
-        guard storage[ticket.id] == nil else {
-            throw RepositoryError.duplicateTicketID
+    public func create(_ ticket: Ticket) throws {
+        guard !cache.contains(where: { $0.id == ticket.id }) else {
+            throw RepositoryError.duplicateTicketID(ticket.id)
         }
-        storage[ticket.id] = ticket
-        try writeStorage(storage)
+        cache.append(ticket)
+        try Self.save(cache, to: storageURL)
+    }
+
+    public func list() throws -&gt; [Ticket] {
+        cache.sorted { $0.createdAt &gt; $1.createdAt }
+    }
+
+    public func update(_ ticket: Ticket) throws {
+        guard let index = cache.firstIndex(where: { $0.id == ticket.id }) else {
+            throw RepositoryError.ticketNotFound(ticket.id)
+        }
+        cache[index] = ticket
+        try Self.save(cache, to: storageURL)
     }
 }</code></pre>
-<p>Fíjate en la decisión de diseño. El adaptador traduce problemas técnicos a errores de frontera cuando corresponde, pero no redefine reglas de negocio que ya existen en dominio. Esa disciplina evita duplicar lógica y mantiene una sola fuente de verdad para transiciones y validaciones funcionales.</p>
-<p>La práctica guiada de esta lección consiste en ejecutar create, list y update contra el adaptador local en una misma prueba y después en pruebas separadas con instancias nuevas. Si ambas rutas dan el mismo comportamiento, tu contrato está bien sostenido.</p>
-<p>La verificación de comprensión antes del refactor es responder por qué este adaptador puede sustituirse por SwiftData sin tocar <code>CreateTicketUseCase</code>, <code>ListTicketsUseCase</code> ni <code>TransitionTicketStatusUseCase</code>.</p>
-<p>Siguiente lección: <code>06-semana-05/06-refactor-puerto-adaptador.md</code>.</p>
+<p>Lo más importante de este ejemplo no es la sintaxis. Es la frontera de responsabilidad. El adaptador traduce almacenamiento a contrato de repositorio. No redefine reglas de dominio de transición ni validaciones de negocio.</p>
+<p>En este curso usamos filesystem porque permite ejecutar en <code>swift test</code> de forma portable. En una app iOS real, esta misma frontera puede implementarse con <code>SwiftDataTicketRepository</code> sin alterar <code>CreateTicketUseCase</code>, <code>ListTicketsUseCase</code> ni <code>TransitionTicketStatusUseCase</code>.</p>
+<p>Valida la implementación completa:</p>
+<pre><code class="language-bash">swift test --package-path project/HelpdeskSDD
+python3 scripts/validate-course-structure.py</code></pre>
+<h2 id="06-semana-05-05-codigo-adaptador-local-pr-ctica-guiada">Práctica guiada</h2>
+<p>Ejecuta <code>create</code>, <code>list</code> y <code>update</code> contra una instancia A del adaptador. Luego crea instancia B sobre el mismo <code>storageURL</code> y repite <code>list</code>/<code>find</code>. Comprueba que el estado persiste correctamente y explica qué parte del contrato demuestra cada verificación.</p>
+<h2 id="06-semana-05-05-codigo-adaptador-local-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Responde por qué esta implementación permite migrar a SwiftData sin tocar casos de uso. Si tu respuesta no incluye la dependencia por protocolo (<code>TicketRepository</code>), revisa la lección.</p>
+<h2 id="06-semana-05-05-codigo-adaptador-local-siguiente-lecci-n">Siguiente lección</h2>
+<p>Sigue en <code>06-semana-05/06-refactor-puerto-adaptador.md</code>, donde consolidaremos el boundary de persistencia para dejar base sólida antes de entrar en políticas offline/cache.</p>
 </section>
 <section id="06-semana-05-06-refactor-puerto-adaptador" class="lesson" data-topic-id="06-semana-05-06-refactor-puerto-adaptador" data-lesson-path="06-semana-05/06-refactor-puerto-adaptador.md">
 <div class="lesson-path">06-semana-05/06-refactor-puerto-adaptador.md</div>
-<h1 id="06-semana-05-06-refactor-puerto-adaptador-semana-5-lecci-n-6-refactor-del-puerto-y-adaptador-para-preparar-evoluci-n-a-swiftdata">Semana 5 · Lección 6: refactor del puerto y adaptador para preparar evolución a SwiftData</h1>
-<p>Después de tener persistencia local funcionando, toca asegurar que la estructura aguanta cambios futuros. Un error frecuente en esta fase es dejar el adaptador funcionando pero con utilidades dispersas, conversiones repetidas y manejo de errores inconsistente. Eso no falla hoy, pero se convierte en deuda cuando añades nuevos modelos o cambias tecnología de storage.</p>
-<p>En esta lección hacemos un refactor orientado a frontera. Consolidamos el acceso a storage en funciones privadas claras, centralizamos serialización y mantenemos un contrato de errores legible. El objetivo es que la siguiente implementación de infraestructura, como SwiftData en una app iOS completa, pueda copiar el patrón sin arrastrar complejidad accidental.</p>
+<h1 id="06-semana-05-06-refactor-puerto-adaptador-semana-5-lecci-n-6-refactor-puerto-adaptador-para-preparar-evoluci-n-a-swiftdata-sin-deuda-oculta">Semana 5 · Lección 6: refactor puerto-adaptador para preparar evolución a SwiftData sin deuda oculta</h1>
+<p>Con persistencia local funcionando, toca la parte que suele olvidarse: consolidar el diseño antes de seguir añadiendo capacidades. Si no refactorizas aquí, el adaptador acaba lleno de conversiones duplicadas, manejo de errores inconsistente y utilidades dispersas. Puede seguir "funcionando", pero cada cambio futuro costará más.</p>
+<p>El objetivo de esta lección es reducir complejidad accidental sin tocar comportamiento observable.</p>
 <pre class="mermaid">flowchart LR
-    A[Adaptador funcional inicial] --> B[Extraer funciones de lectura/escritura]
-    B --> C[Normalizar errores de boundary]
-    C --> D[Revalidar integration tests]
-    D --> E[Base preparada para nuevo adaptador]</pre>
-<p>El criterio de calidad de este refactor es simple de enunciar y exigente de sostener. Si alguien nuevo entra al equipo, debe poder localizar en menos de cinco minutos dónde se lee storage, dónde se escribe y cómo se traduce un fallo técnico a error consumible por aplicación.</p>
-<pre><code class="language-swift">private func readStorage() throws -&gt; [TicketID: Ticket] {
-    let data = try Data(contentsOf: fileURL)
-    let tickets = try decoder.decode([Ticket].self, from: data)
-    return Dictionary(uniqueKeysWithValues: tickets.map { ($0.id, $0) })
+    A[Adaptador funcional] --> B[Detectar duplicidades de serializacion]
+    B --> C[Centralizar utilidades de lectura/escritura]
+    C --> D[Unificar traduccion de errores]
+    D --> E[Revalidar tests]
+    E --> F[Base lista para adaptador SwiftData]</pre>
+<p>Un refactor útil en Week 5 suele separar claramente tres responsabilidades: carga inicial desde storage, persistencia tras mutación y normalización de errores de infraestructura.</p>
+<pre><code class="language-swift">extension FileTicketRepository {
+    static func load(from url: URL) throws -&gt; [Ticket] {
+        // Punto unico de lectura y decodificacion.
+        fatalError("Implementacion real en proyecto")
+    }
+
+    static func save(_ tickets: [Ticket], to url: URL) throws {
+        // Punto unico de codificacion y escritura.
+        fatalError("Implementacion real en proyecto")
+    }
 }</code></pre>
-<p>La práctica guiada de esta lección consiste en medir cuántos sitios distintos del adaptador tocan serialización antes y después del refactor. Si el número no baja, el refactor aún no cumplió objetivo.</p>
-<p>La verificación de comprensión previa al checkpoint es responder esto: ¿por qué un refactor interno del adaptador también necesita pasar exactamente los mismos tests de integración que antes?</p>
-<p>Siguiente lección: <code>06-semana-05/07-checkpoint-evaluacion.md</code>.</p>
+<p>Centralizar estas funciones reduce riesgo de drift semántico cuando cambies formato o motor de persistencia.</p>
+<p>Después del refactor, ejecuta exactamente la misma suite. Si algo cambia en comportamiento, no era un refactor puro.</p>
+<pre><code class="language-bash">swift test --package-path project/HelpdeskSDD</code></pre>
+<h2 id="06-semana-05-06-refactor-puerto-adaptador-pr-ctica-guiada">Práctica guiada</h2>
+<p>Cuenta cuántos puntos distintos del adaptador tocan serialización antes y después del refactor. El número debería bajar. Si no baja, revisa diseño porque sigues distribuyendo responsabilidad de boundary.</p>
+<h2 id="06-semana-05-06-refactor-puerto-adaptador-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Explica por qué un refactor interno del adaptador también exige pasar los mismos tests de integración que antes. Si tu respuesta no menciona protección contra regresiones de frontera, relee esta lección.</p>
+<h2 id="06-semana-05-06-refactor-puerto-adaptador-siguiente-lecci-n">Siguiente lección</h2>
+<p>Continúa en <code>06-semana-05/07-checkpoint-evaluacion.md</code>, donde decidiremos cierre de persistencia con criterios objetivos y reproducibles.</p>
 </section>
 <section id="06-semana-05-07-checkpoint-evaluacion" class="lesson" data-topic-id="06-semana-05-07-checkpoint-evaluacion" data-lesson-path="06-semana-05/07-checkpoint-evaluacion.md">
 <div class="lesson-path">06-semana-05/07-checkpoint-evaluacion.md</div>
-<h1 id="06-semana-05-07-checkpoint-evaluacion-semana-5-lecci-n-7-checkpoint-de-persistencia-para-decidir-cierre-real">Semana 5 · Lección 7: checkpoint de persistencia para decidir cierre real</h1>
-<p>Una semana de persistencia local no se cierra porque “se creó un archivo en disco”. Se cierra cuando puedes demostrar que el contrato se conserva, que la durabilidad es real entre instancias y que la arquitectura mantiene separación de responsabilidades. Esa demostración debe ser reproducible por otra persona del equipo.</p>
-<p>El checkpoint de Week 5 verifica coherencia entre cuatro capas de evidencia. OpenSpec describe intención y alcance. BDD define comportamiento observable. Tests de integración validan durabilidad y errores. Código de infraestructura implementa el adaptador sin invadir dominio. Si estas capas no cuentan la misma historia, la semana no está lista.</p>
+<h1 id="06-semana-05-07-checkpoint-evaluacion-semana-5-lecci-n-7-checkpoint-de-persistencia-para-cerrar-con-evidencia-y-no-con-percepci-n">Semana 5 · Lección 7: checkpoint de persistencia para cerrar con evidencia y no con percepción</h1>
+<p>Week 5 no se cierra porque "ya hay archivo en disco". Se cierra cuando puedes demostrar que la durabilidad es real entre instancias, que el contrato de repositorio sigue intacto y que la arquitectura mantiene separación limpia de capas.</p>
+<p>Este checkpoint convierte esas condiciones en verificación reproducible.</p>
 <pre class="mermaid">flowchart TD
-    A[Spec week05] --> B[BDD persistencia]
-    B --> C[Integration tests locales]
-    C --> D[Adaptador de produccion]
-    D --> E[Validaciones globales del curso]
-    E --> F[Cierre week05]</pre>
-<p>La ejecución de validación debe mantenerse explícita para evitar cierres por intuición. En equipos enterprise, un cierre sin evidencia reproducible es una deuda de operación que siempre se paga más tarde.</p>
+    A[OpenSpec week05] --> B[BDD de durabilidad]
+    B --> C[TDD integracion adaptador]
+    C --> D[Produccion file-store]
+    D --> E[Refactor boundary]
+    E --> F[Validadores de repo]
+    F --> G[Decision de cierre]</pre>
+<p>Si alguna pieza cae, la semana no está cerrada; está parcialmente implementada.</p>
+<p>Rúbrica de evaluación recomendada:</p>
+<pre><code class="language-yaml">week5_checkpoint_rubric:
+  durability_confidence:
+    level_1: "solo evidencia en memoria"
+    level_2: "persistencia parcial"
+    level_3: "persistencia entre instancias demostrada"
+    level_4: "persistencia robusta con errores controlados"
+  architectural_boundary:
+    level_1: "storage filtrado a negocio"
+    level_2: "separacion incompleta"
+    level_3: "puerto-adaptador correcto"
+    level_4: "puerto-adaptador correcto y listo para sustitucion"
+  test_strength:
+    level_1: "sin integracion real"
+    level_2: "cobertura limitada"
+    level_3: "create/update/read + errores cubiertos"
+    level_4: "incluye mutacion controlada documentada"
+  auditability:
+    level_1: "sin rastro claro"
+    level_2: "rastro parcial"
+    level_3: "rastro suficiente para reconstruir decisiones"
+    level_4: "rastro audit-ready"</code></pre>
+<p>Comandos de cierre:</p>
 <pre><code class="language-bash">swift test --package-path project/HelpdeskSDD
 npm run -s openspec:validate
-python3 scripts/validate-course-structure.py
 python3 scripts/validate-openspec.py
+python3 scripts/validate-course-structure.py
 python3 scripts/check-links.py
 python3 scripts/validate-pedagogy.py
 python3 scripts/build-html.py</code></pre>
-<p>La práctica guiada consiste en simular una regresión muy concreta: desactivar la escritura persistente del adaptador y comprobar qué test cae primero. Después restaura implementación y documenta en una frase qué riesgo evitó esa prueba.</p>
-<p>La verificación de comprensión final del checkpoint es responder por qué “tener tests de dominio en verde” no alcanza para cerrar una semana cuyo foco principal es persistencia local.</p>
-<p>Siguiente lección: <code>06-semana-05/08-bitacora-commits.md</code>.</p>
+<p>Haz una rotura controlada antes de cerrar: desactiva temporalmente escritura persistente y confirma qué test cae primero. Luego restaura. Este ejercicio demuestra que la red de protección funciona de verdad.</p>
+<h2 id="06-semana-05-07-checkpoint-evaluacion-pr-ctica-guiada">Práctica guiada</h2>
+<p>Escribe un breve reporte de cierre con la evidencia más fuerte de durabilidad y con la principal deuda técnica que difieres a Week 6 (por ejemplo, políticas offline/cache). Mantén el reporte en lenguaje verificable, no subjetivo.</p>
+<h2 id="06-semana-05-07-checkpoint-evaluacion-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Responde por qué tener dominio en verde no garantiza cierre de una semana cuyo riesgo principal vive en infraestructura de persistencia.</p>
+<h2 id="06-semana-05-07-checkpoint-evaluacion-siguiente-lecci-n">Siguiente lección</h2>
+<p>Pasa a <code>06-semana-05/08-bitacora-commits.md</code> para formalizar el cierre de Week 5 en commits atómicos con trazabilidad completa.</p>
 </section>
 <section id="06-semana-05-08-bitacora-commits" class="lesson" data-topic-id="06-semana-05-08-bitacora-commits" data-lesson-path="06-semana-05/08-bitacora-commits.md">
 <div class="lesson-path">06-semana-05/08-bitacora-commits.md</div>
-<h1 id="06-semana-05-08-bitacora-commits-semana-5-lecci-n-8-bit-cora-de-cierre-para-persistencia-local-y-trazabilidad-de-arquitectura">Semana 5 · Lección 8: bitácora de cierre para persistencia local y trazabilidad de arquitectura</h1>
-<p>La bitácora de Week 5 debe contar con precisión cómo pasaste de almacenamiento efímero en memoria a persistencia local durable manteniendo contrato estable. Si alguien revisa tu historial dentro de dos meses, debe poder reconstruir por qué elegiste esta implementación, qué pruebas respaldaron el cambio y qué límites quedaron explícitos para semanas siguientes.</p>
-<p>Esta semana conviene separar commits por intención para facilitar revisión técnica. Un bloque para material docente, otro para implementación del adaptador y pruebas de integración, y otro para OpenSpec más scripts de publicación. Ese patrón de atomización te da control fino para auditoría, rollback y aprendizaje del equipo.</p>
+<h1 id="06-semana-05-08-bitacora-commits-semana-5-lecci-n-8-bit-cora-de-cierre-para-que-la-evoluci-n-de-persistencia-quede-auditable">Semana 5 · Lección 8: bitácora de cierre para que la evolución de persistencia quede auditable</h1>
+<p>Cerramos Week 5 con la misma disciplina que venimos consolidando: historial de commits que explique capacidad, validación y decisiones. En una semana de infraestructura esto es especialmente importante, porque los bugs de persistencia suelen aparecer más tarde y requieren reconstruir contexto con precisión.</p>
+<p>Un commit grande y difuso puede parecer productivo hoy, pero complica revisión, rollback y aprendizaje del equipo mañana. Por eso insistimos en atomización por intención.</p>
 <pre class="mermaid">flowchart LR
-    A[Plan de cambio week05] --> B[Implementacion por bloques]
-    B --> C[Validacion en cada bloque]
-    C --> D[Commit atomico con alcance unico]
-    D --> E[Historial auditable]</pre>
-<p>El cierre profesional no busca impresionar con commits enormes. Busca dejar decisiones rastreables. Si una incidencia futura apunta a persistencia, debes poder señalar rápidamente qué commit tocó serialización, cuál tocó contrato y cuál solo tocó narrativa de curso.</p>
-<pre><code class="language-text">git status --short
+    A[Cambio week05 planificado] --> B[Validaciones por bloque]
+    B --> C[Commit atomico]
+    C --> D[Mensaje con evidencia]
+    D --> E[Worktree limpio]
+    E --> F[Historial auditable]</pre>
+<p>En esta semana suele funcionar bien separar al menos estos bloques: narrativa pedagógica, implementación del adaptador + tests, y artefactos OpenSpec/publicación.</p>
+<p>Secuencia de cierre sugerida:</p>
+<pre><code class="language-bash">git status --short
 swift test --package-path project/HelpdeskSDD
 npm run -s openspec:validate
+python3 scripts/validate-openspec.py
 python3 scripts/build-html.py
-git add &lt;bloque-semantico&gt;
-git commit -m "mensaje atomico y explicito"</code></pre>
-<p>La práctica guiada final consiste en revisar tus commits de Week 5 y escribir qué pregunta de auditoría podría responder cada uno sin contexto adicional. Ese ejercicio entrena criterio de mantenibilidad más allá de “pasó tests”.</p>
-<p>La verificación de comprensión que cierra la semana es explicar, con un ejemplo real de tu historial, la diferencia entre actividad técnica y evidencia de ingeniería reconstruible.</p>
-<p>Siguiente semana: <code>07-semana-06/00-semana-06-roadmap.md</code>.</p>
+git add 06-semana-05 openspec project/HelpdeskSDD
+git commit -m "feat(week5): add local persistence adapter with durable repository contract"</code></pre>
+<p>Una nota breve de cierre mejora mucho la trazabilidad a medio plazo:</p>
+<pre><code class="language-yaml">week5_closure_note:
+  capability: "persistencia local durable detras de TicketRepository"
+  validation: "integration tests + openspec + validators"
+  risk_reduced: "acoplamiento de storage en capas de negocio"</code></pre>
+<h2 id="06-semana-05-08-bitacora-commits-pr-ctica-guiada">Práctica guiada</h2>
+<p>Revisa tus commits de Week 5 y justifica en una frase la intención principal de cada uno. Si uno mezcla demasiadas cosas, divídelo antes de dar por cerrada la semana.</p>
+<h2 id="06-semana-05-08-bitacora-commits-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Comprueba si puedes explicar con un ejemplo real por qué un historial auditable acelera diagnóstico cuando aparece un bug de persistencia semanas después.</p>
+<h2 id="06-semana-05-08-bitacora-commits-siguiente-semana">Siguiente semana</h2>
+<p>Continúa en <code>07-semana-06/00-semana-06-roadmap.md</code>, donde añadiremos políticas offline/cache sobre esta base de persistencia ya establecida.</p>
 </section>
 <section id="07-semana-06-00-semana-06-roadmap" class="lesson" data-topic-id="07-semana-06-00-semana-06-roadmap" data-lesson-path="07-semana-06/00-semana-06-roadmap.md">
 <div class="lesson-path">07-semana-06/00-semana-06-roadmap.md</div>
