@@ -30505,7 +30505,32 @@ function detectSnippetLang(codeEl) {
     if (className.includes('language-json')) return 'JSON';
     if (className.includes('language-bash') || className.includes('language-shell')) return 'SH';
     if (className.includes('language-yaml') || className.includes('language-yml')) return 'YAML';
-    return 'Swift';
+    if (className.includes('language-python') || className.includes('language-py')) return 'PY';
+    if (className.includes('language-mermaid')) return 'Mermaid';
+    if (className.includes('language-xml') || className.includes('language-html')) return 'XML';
+    if (className.includes('language-sql')) return 'SQL';
+    if (className.includes('language-markdown') || className.includes('language-md')) return 'MD';
+    if (className.includes('language-gherkin') || className.includes('language-feature')) return 'Gherkin';
+
+    const content = (codeEl.textContent || '').trim();
+    if (!content) return 'TXT';
+
+    if (
+        content.startsWith('flowchart') ||
+        content.startsWith('sequenceDiagram') ||
+        content.startsWith('classDiagram') ||
+        content.startsWith('stateDiagram') ||
+        content.startsWith('erDiagram')
+    ) return 'Mermaid';
+
+    if (/^(\$\s*)?(swift|xcodebuild|npm|yarn|pnpm|git|python3|node|bash|sh)\b/m.test(content)) return 'SH';
+    if (/^\s*(import\s+SwiftUI|import\s+Foundation|struct\s+\w+\s*[:\{]|enum\s+\w+\s*[:\{]|actor\s+\w+\s*[:\{]|protocol\s+\w+\s*[:\{])/m.test(content)) return 'Swift';
+    if (/^\s*(\{|\[\s*\{|"[^"]+"\s*:)/m.test(content)) return 'JSON';
+    if (/^\s*[a-zA-Z0-9_-]+\s*:\s*.+$/m.test(content) && !/;\s*$/m.test(content)) return 'YAML';
+    if (/^\s*SELECT\b|^\s*INSERT\b|^\s*UPDATE\b|^\s*DELETE\b|^\s*CREATE\s+TABLE\b/im.test(content)) return 'SQL';
+    if (/^\s*<[^>]+>/m.test(content)) return 'XML';
+
+    return 'TXT';
 }
 
 function copyCodeToClipboard(text) {
@@ -30549,12 +30574,13 @@ function enhanceCodeBlocks() {
         const copyBtn = document.createElement('button');
         copyBtn.type = 'button';
         copyBtn.className = 'sma-code-copy-btn';
-        copyBtn.textContent = 'Copy code';
+        copyBtn.textContent = 'Copiar';
+        copyBtn.setAttribute('aria-label', `Copiar snippet ${lang.textContent}`);
         copyBtn.addEventListener('click', () => {
             const originalText = copyBtn.textContent;
             copyCodeToClipboard(code.textContent || '')
                 .then(() => {
-                    copyBtn.textContent = 'Copied';
+                    copyBtn.textContent = 'Copiado';
                     setTimeout(() => { copyBtn.textContent = originalText; }, 1200);
                 })
                 .catch(() => {
