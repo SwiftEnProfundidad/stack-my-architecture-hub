@@ -901,6 +901,8 @@ blockquote p {
   <li><a class="doc-nav-link" data-lesson-path="docs/adr/0001-navigation-contract-between-features.md" href="#docs-adr-0001-navigation-contract-between-features">ADR 0001: contrato de navegación entre features</a></li>
   <li><a class="doc-nav-link" data-lesson-path="docs/adr/0002-module-boundary-policy-enforced.md" href="#docs-adr-0002-module-boundary-policy-enforced">ADR 0002: policy de fronteras de módulo ejecutable</a></li>
   <li><a class="doc-nav-link" data-lesson-path="docs/adr/0003-governance-evidence-as-release-condition.md" href="#docs-adr-0003-governance-evidence-as-release-condition">ADR 0003: evidencia de gobernanza como condición de avance</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="docs/release/week14-release-runbook.md" href="#docs-release-week14-release-runbook">Runbook de release Week 14</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="docs/release/drills/2026-02-13-rollback-drill.md" href="#docs-release-drills-2026-02-13-rollback-drill">Rollback drill 2026-02-13</a></li>
 </ul></li>
 <li class="nav-section"><strong>Semana 1</strong>
 <ul>
@@ -982,6 +984,10 @@ blockquote p {
   <li><a class="doc-nav-link" data-lesson-path="openspec/changes/archive/2026-02-13-week13-rfc-adr-governance/specs/ticketing/spec.md" href="#openspec-changes-archive-2026-02-13-week13-rfc-adr-governance-specs-ticketing-spec">Delta for Ticketing (Week 13)</a></li>
   <li><a class="doc-nav-link" data-lesson-path="openspec/changes/archive/2026-02-13-week13-rfc-adr-governance/design.md" href="#openspec-changes-archive-2026-02-13-week13-rfc-adr-governance-design">Design: Week 13 — governance artifacts as executable release signal</a></li>
   <li><a class="doc-nav-link" data-lesson-path="openspec/changes/archive/2026-02-13-week13-rfc-adr-governance/tasks.md" href="#openspec-changes-archive-2026-02-13-week13-rfc-adr-governance-tasks">Tasks (Week 13)</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="openspec/changes/archive/2026-02-13-week14-release-rollback-readiness/proposal.md" href="#openspec-changes-archive-2026-02-13-week14-release-rollback-readiness-proposal">Proposal: Week 14 — release readiness with canary and rollback drill</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="openspec/changes/archive/2026-02-13-week14-release-rollback-readiness/specs/ticketing/spec.md" href="#openspec-changes-archive-2026-02-13-week14-release-rollback-readiness-specs-ticketing-spec">Delta for Ticketing (Week 14)</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="openspec/changes/archive/2026-02-13-week14-release-rollback-readiness/design.md" href="#openspec-changes-archive-2026-02-13-week14-release-rollback-readiness-design">Design: Week 14 — release readiness signal as operational gate</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="openspec/changes/archive/2026-02-13-week14-release-rollback-readiness/tasks.md" href="#openspec-changes-archive-2026-02-13-week14-release-rollback-readiness-tasks">Tasks (Week 14)</a></li>
 </ul></li>
 <li class="nav-section"><strong>Semana 3</strong>
 <ul>
@@ -1117,7 +1123,15 @@ blockquote p {
 </ul></li>
 <li class="nav-section"><strong>Semana 14</strong>
 <ul>
-  <li><a class="doc-nav-link" data-lesson-path="15-semana-14/00-semana-14-roadmap.md" href="#15-semana-14-00-semana-14-roadmap">Semana 14: roadmap ejecutable</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="15-semana-14/00-semana-14-roadmap.md" href="#15-semana-14-00-semana-14-roadmap">Semana 14: entrega controlada y rollback sin improvisación</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="15-semana-14/01-problema-release-sin-readiness.md" href="#15-semana-14-01-problema-release-sin-readiness">Semana 14 · Lección 1: el problema no es desplegar, es desplegar sin plan de salida</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="15-semana-14/02-spec-release-readiness-v1.md" href="#15-semana-14-02-spec-release-readiness-v1">Semana 14 · Lección 2: especificar readiness de release como requisito crítico</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="15-semana-14/03-bdd-release-readiness.md" href="#15-semana-14-03-bdd-release-readiness">Semana 14 · Lección 3: BDD para hacer observable la preparación de release</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="15-semana-14/04-tdd-release-readiness-evaluator.md" href="#15-semana-14-04-tdd-release-readiness-evaluator">Semana 14 · Lección 4: TDD del evaluador de readiness para proteger entregas</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="15-semana-14/05-codigo-release-readiness-pipeline.md" href="#15-semana-14-05-codigo-release-readiness-pipeline">Semana 14 · Lección 5: código de pipeline para readiness y rollback drill</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="15-semana-14/06-refactor-runbook-operable.md" href="#15-semana-14-06-refactor-runbook-operable">Semana 14 · Lección 6: refactor del runbook para que sea operable bajo presión</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="15-semana-14/07-checkpoint-evaluacion.md" href="#15-semana-14-07-checkpoint-evaluacion">Semana 14 · Lección 7: checkpoint de entrega segura y rollback practicado</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="15-semana-14/08-bitacora-commits.md" href="#15-semana-14-08-bitacora-commits">Semana 14 · Lección 8: bitácora de release readiness para auditoría operativa</a></li>
 </ul></li>
 <li class="nav-section"><strong>Semana 15</strong>
 <ul>
@@ -1602,6 +1616,36 @@ No mezcles tareas gigantes: máximo 30-60 minutos cada una.</code></pre>
 <p>Se establece que los cambios estructurales relevantes deben dejar evidencia en formato RFC y ADR dentro del repositorio, bajo <code>docs/rfc</code> y <code>docs/adr</code>. Además se incorpora una validación automática de artefactos de gobernanza y su señal pasa a quality gates como verificación crítica.</p>
 <h2 id="docs-adr-0003-governance-evidence-as-release-condition-consecuencias">Consecuencias</h2>
 <p>El equipo gana trazabilidad y capacidad de revisión longitudinal en decisiones técnicas. Como contrapartida, cada cambio mayor requiere esfuerzo adicional de documentación. Ese esfuerzo se acepta porque reduce regresiones de criterio y acelera onboarding de personas nuevas en el proyecto.</p>
+</section>
+<section id="docs-release-week14-release-runbook" class="lesson" data-topic-id="docs-release-week14-release-runbook" data-lesson-path="docs/release/week14-release-runbook.md">
+<div class="lesson-path">docs/release/week14-release-runbook.md</div>
+<h1 id="docs-release-week14-release-runbook-runbook-de-release-week-14">Runbook de release Week 14</h1>
+<p>Este runbook define cómo ejecutar una entrega controlada con canary y cómo activar rollback sin improvisación. El objetivo es que cualquier miembro del equipo pueda ejecutar el flujo con calma, incluso bajo presión operativa.</p>
+<h2 id="docs-release-week14-release-runbook-scope">Scope</h2>
+<p>La entrega cubre el estado actual de <code>HelpdeskSDD</code> con navegación integrada, gobernanza de módulos y validaciones de calidad activas. Se asume despliegue progresivo en entorno simulado local, con decisión final basada en señales de calidad y observabilidad.</p>
+<h2 id="docs-release-week14-release-runbook-canary-plan">Canary Plan</h2>
+<p>La estrategia canary comienza con una porción reducida de tráfico interno. Durante esa fase se monitorizan errores funcionales, señales de performance y resultados de quality gates. Si no aparecen anomalías en la ventana de observación definida por el equipo, el despliegue progresa al siguiente tramo.</p>
+<h2 id="docs-release-week14-release-runbook-rollback-plan">Rollback Plan</h2>
+<p>Rollback se activa de forma inmediata cuando aparece fallo crítico de funcionalidad, degradación sostenida o señal roja de validación que compromete estabilidad. El procedimiento revierte al artefacto anterior conocido como estable y reejecuta validaciones mínimas de salud antes de declarar servicio recuperado.</p>
+<h2 id="docs-release-week14-release-runbook-communication">Communication</h2>
+<p>La comunicación de release sigue un flujo simple. Antes de iniciar canary se anuncia ventana de despliegue y responsable de guardia. Si se ejecuta rollback, se comunica causa preliminar, impacto y estado actual. Al cierre se publica resumen con decisiones tomadas y acciones de seguimiento.</p>
+<h2 id="docs-release-week14-release-runbook-verification">Verification</h2>
+<p>La verificación final de release incluye ejecución de pruebas automatizadas, quality gates, revisión de runbook y evidencia de drill de rollback reciente. Si una de estas piezas falla o falta, la entrega no se considera apta para avanzar.</p>
+</section>
+<section id="docs-release-drills-2026-02-13-rollback-drill" class="lesson" data-topic-id="docs-release-drills-2026-02-13-rollback-drill" data-lesson-path="docs/release/drills/2026-02-13-rollback-drill.md">
+<div class="lesson-path">docs/release/drills/2026-02-13-rollback-drill.md</div>
+<h1 id="docs-release-drills-2026-02-13-rollback-drill-rollback-drill-2026-02-13">Rollback drill 2026-02-13</h1>
+<p>El drill simula una regresión crítica detectada después de canary inicial. El objetivo es comprobar que el equipo puede revertir rápido sin perder trazabilidad de decisión.</p>
+<h2 id="docs-release-drills-2026-02-13-rollback-drill-trigger">Trigger</h2>
+<p>Durante el escenario de prueba se inyecta una condición de fallo para forzar decisión de rollback. La señal se considera crítica porque compromete comportamiento esperado de la interfaz integrada.</p>
+<h2 id="docs-release-drills-2026-02-13-rollback-drill-procedure">Procedure</h2>
+<p>Se aplica el procedimiento definido en el runbook de release, incluyendo identificación de versión estable previa, reversión controlada y verificación posterior con quality gates.</p>
+<h2 id="docs-release-drills-2026-02-13-rollback-drill-result">Result</h2>
+<p>PASS</p>
+<h2 id="docs-release-drills-2026-02-13-rollback-drill-evidence">Evidence</h2>
+<p>La ejecución dejó registro en historial de comandos y validaciones en verde tras revertir. Se confirmó que el sistema volvió al estado estable sin pasos manuales ambiguos.</p>
+<h2 id="docs-release-drills-2026-02-13-rollback-drill-follow-up">Follow-up</h2>
+<p>Se recomienda repetir el drill en la siguiente iteración de hardening para comprobar que el tiempo de respuesta se mantiene o mejora.</p>
 </section>
 <section id="02-semana-01-00-semana-01-introduccion" class="lesson" data-topic-id="02-semana-01-00-semana-01-introduccion" data-lesson-path="02-semana-01/00-semana-01-introduccion.md">
 <div class="lesson-path">02-semana-01/00-semana-01-introduccion.md</div>
@@ -2374,7 +2418,7 @@ python3 scripts/build-html.py</code></pre>
 <h1 id="openspec-changes-README-cambios-openspec-del-curso">Cambios OpenSpec del curso</h1>
 <p>Esta carpeta contiene cambios en curso y el histórico archivado.</p>
 <p>Convención recomendada para este curso:</p>
-<p>Usamos un nombre corto por semana para que sea fácil buscar y archivar. El patrón recomendado es <code>weekNN-<nombre-corto></code>. Por ejemplo, <code>week06-offline-cache-policy</code>, <code>week07-observability-baseline</code>, <code>week08-quality-gates-baseline</code>, <code>week09-security-compliance-baseline</code>, <code>week10-knowledge-catalog-feature</code>, <code>week11-feature-integration-navigation</code>, <code>week12-module-boundary-governance</code> o <code>week13-rfc-adr-governance</code>.</p>
+<p>Usamos un nombre corto por semana para que sea fácil buscar y archivar. El patrón recomendado es <code>weekNN-<nombre-corto></code>. Por ejemplo, <code>week06-offline-cache-policy</code>, <code>week07-observability-baseline</code>, <code>week08-quality-gates-baseline</code>, <code>week09-security-compliance-baseline</code>, <code>week10-knowledge-catalog-feature</code>, <code>week11-feature-integration-navigation</code>, <code>week12-module-boundary-governance</code>, <code>week13-rfc-adr-governance</code> o <code>week14-release-rollback-readiness</code>.</p>
 <p>El histórico queda en:</p>
 <pre><code class="language-text">openspec/changes/archive/YYYY-MM-DD-&lt;change-name&gt;/</code></pre>
 <p>Notas:</p>
@@ -2737,6 +2781,31 @@ python3 scripts/build-html.py</code></pre>
 <h4 id="openspec-specs-ticketing-spec-scenario-quality-gates-fail-when-governance-signal-is-red">Scenario: Quality gates fail when governance signal is red</h4>
 <ul>
   <li><strong>GIVEN</strong> governance signal is false</li>
+  <li><strong>WHEN</strong> quality gates are evaluated</li>
+  <li><strong>THEN</strong> global gate result is <code>failed</code></li>
+</ul>
+<h3 id="openspec-specs-ticketing-spec-requirement-enforce-release-readiness-with-canary-and-rollback-evidence">Requirement: Enforce release readiness with canary and rollback evidence</h3>
+<p>The system SHALL validate release readiness before progression, including</p>
+<p>canary plan, rollback plan, communication strategy, verification plan, and</p>
+<p>evidence of rollback drill execution.</p>
+<p>Release readiness SHALL produce deterministic pass/fail report and SHALL feed</p>
+<p>quality gates as critical signal.</p>
+<h4 id="openspec-specs-ticketing-spec-scenario-release-readiness-passes-with-complete-runbook-and-passing-drill">Scenario: Release readiness passes with complete runbook and passing drill</h4>
+<ul>
+  <li><strong>GIVEN</strong> release runbook includes required sections</li>
+  <li><strong>AND</strong> rollback drill evidence indicates successful execution</li>
+  <li><strong>WHEN</strong> release readiness check executes</li>
+  <li><strong>THEN</strong> release readiness result is <code>passed</code></li>
+</ul>
+<h4 id="openspec-specs-ticketing-spec-scenario-release-readiness-fails-when-rollback-drill-is-missing-or-red">Scenario: Release readiness fails when rollback drill is missing or red</h4>
+<ul>
+  <li><strong>GIVEN</strong> rollback drill evidence is missing or failed</li>
+  <li><strong>WHEN</strong> release readiness check executes</li>
+  <li><strong>THEN</strong> release readiness result is <code>failed</code></li>
+</ul>
+<h4 id="openspec-specs-ticketing-spec-scenario-quality-gates-fail-when-release-readiness-signal-is-red">Scenario: Quality gates fail when release readiness signal is red</h4>
+<ul>
+  <li><strong>GIVEN</strong> release readiness signal is false</li>
   <li><strong>WHEN</strong> quality gates are evaluated</li>
   <li><strong>THEN</strong> global gate result is <code>failed</code></li>
 </ul>
@@ -4350,6 +4419,136 @@ python3 scripts/build-html.py</code></pre>
       title: "swift test green"
       status: done
     - id: "4.2"
+      title: "openspec and course validators green"
+      status: done</code></pre>
+</section>
+<section id="openspec-changes-archive-2026-02-13-week14-release-rollback-readiness-proposal" class="lesson" data-topic-id="openspec-changes-archive-2026-02-13-week14-release-rollback-readiness-proposal" data-lesson-path="openspec/changes/archive/2026-02-13-week14-release-rollback-readiness/proposal.md">
+<div class="lesson-path">openspec/changes/archive/2026-02-13-week14-release-rollback-readiness/proposal.md</div>
+<h1 id="openspec-changes-archive-2026-02-13-week14-release-rollback-readiness-proposal-proposal-week-14-release-readiness-with-canary-and-rollback-drill">Proposal: Week 14 — release readiness with canary and rollback drill</h1>
+<h2 id="openspec-changes-archive-2026-02-13-week14-release-rollback-readiness-proposal-intent">Intent</h2>
+<p>The project has strong development-time validation, but release operations need</p>
+<p>explicit readiness controls to avoid last-minute improvisation. This change</p>
+<p>introduces release readiness checks based on runbook completeness and rollback</p>
+<p>drill evidence.</p>
+<h2 id="openspec-changes-archive-2026-02-13-week14-release-rollback-readiness-proposal-scope">Scope</h2>
+<pre><code class="language-yaml">scope_week14:
+  in_scope:
+    readiness_module: "ReleaseReadiness evaluator and CLI"
+    artifacts: "Release runbook and rollback drill evidence"
+    automation: "release readiness script and gate integration"
+    tests: "Evaluator and quality-gate red-path tests"
+  out_of_scope_on_purpose:
+    - "Real production deployment integration"
+    - "Provider-specific canary orchestration"
+    - "Automated incident management tooling"</code></pre>
+<h2 id="openspec-changes-archive-2026-02-13-week14-release-rollback-readiness-proposal-approach">Approach</h2>
+<p>Add <code>HelpdeskReleaseReadiness</code> module and CLI. Create script to infer readiness</p>
+<p>input from runbook and drill artifacts. Integrate readiness signal into quality</p>
+<p>gates as critical check.</p>
+<h2 id="openspec-changes-archive-2026-02-13-week14-release-rollback-readiness-proposal-risks-questions">Risks / questions</h2>
+<pre><code class="language-yaml">open_questions_week14:
+  - "Should rollback drill freshness window be validated by date threshold?"
+  - "Do we need weighted readiness scoring beyond binary pass/fail in week15+?"</code></pre>
+</section>
+<section id="openspec-changes-archive-2026-02-13-week14-release-rollback-readiness-specs-ticketing-spec" class="lesson" data-topic-id="openspec-changes-archive-2026-02-13-week14-release-rollback-readiness-specs-ticketing-spec" data-lesson-path="openspec/changes/archive/2026-02-13-week14-release-rollback-readiness/specs/ticketing/spec.md">
+<div class="lesson-path">openspec/changes/archive/2026-02-13-week14-release-rollback-readiness/specs/ticketing/spec.md</div>
+<h1 id="openspec-changes-archive-2026-02-13-week14-release-rollback-readiness-specs-ticketing-spec-delta-for-ticketing-week-14">Delta for Ticketing (Week 14)</h1>
+<h2 id="openspec-changes-archive-2026-02-13-week14-release-rollback-readiness-specs-ticketing-spec-added-requirements">ADDED Requirements</h2>
+<h3 id="openspec-changes-archive-2026-02-13-week14-release-rollback-readiness-specs-ticketing-spec-requirement-release-readiness-check-with-rollback-drill-evidence">Requirement: Release readiness check with rollback drill evidence</h3>
+<p>The system SHALL validate release readiness from operational artifacts before</p>
+<p>progression, including canary plan, rollback plan, communication plan,</p>
+<p>verification plan, and rollback drill result.</p>
+<p>Release readiness result SHALL be integrated as critical quality gate signal.</p>
+<pre class="mermaid">sequenceDiagram
+    participant R as ReleaseArtifacts
+    participant C as ReleaseReadinessCheck
+    participant E as ReadinessEvaluator
+    participant G as QualityGates
+
+    R->>C: runbook + drill evidence
+    C->>E: evaluation request
+    E-->>G: release_readiness_green
+    G-->>R: global pass/fail</pre>
+<h4 id="openspec-changes-archive-2026-02-13-week14-release-rollback-readiness-specs-ticketing-spec-scenario-readiness-passes-with-complete-artifacts-and-passing-drill">Scenario: Readiness passes with complete artifacts and passing drill</h4>
+<pre><code class="language-gherkin">Scenario: Readiness passes with complete artifacts and passing drill
+  Given release runbook includes required sections
+  And rollback drill result is PASS
+  When release readiness check runs
+  Then readiness result is passed</code></pre>
+<h4 id="openspec-changes-archive-2026-02-13-week14-release-rollback-readiness-specs-ticketing-spec-scenario-readiness-fails-without-passing-rollback-drill">Scenario: Readiness fails without passing rollback drill</h4>
+<pre><code class="language-gherkin">Scenario: Readiness fails without passing rollback drill
+  Given rollback drill evidence is missing or failed
+  When release readiness check runs
+  Then readiness result is failed</code></pre>
+<h4 id="openspec-changes-archive-2026-02-13-week14-release-rollback-readiness-specs-ticketing-spec-scenario-quality-gates-fail-when-readiness-signal-is-red">Scenario: Quality gates fail when readiness signal is red</h4>
+<pre><code class="language-gherkin">Scenario: Quality gates fail when readiness signal is red
+  Given release_readiness_green is false
+  When quality gates evaluate checks
+  Then global result is failed</code></pre>
+</section>
+<section id="openspec-changes-archive-2026-02-13-week14-release-rollback-readiness-design" class="lesson" data-topic-id="openspec-changes-archive-2026-02-13-week14-release-rollback-readiness-design" data-lesson-path="openspec/changes/archive/2026-02-13-week14-release-rollback-readiness/design.md">
+<div class="lesson-path">openspec/changes/archive/2026-02-13-week14-release-rollback-readiness/design.md</div>
+<h1 id="openspec-changes-archive-2026-02-13-week14-release-rollback-readiness-design-design-week-14-release-readiness-signal-as-operational-gate">Design: Week 14 — release readiness signal as operational gate</h1>
+<h2 id="openspec-changes-archive-2026-02-13-week14-release-rollback-readiness-design-model">Model</h2>
+<p>Week 14 adds an operational readiness layer on top of existing quality controls.</p>
+<h2 id="openspec-changes-archive-2026-02-13-week14-release-rollback-readiness-design-components">Components</h2>
+<pre class="mermaid">flowchart LR
+  RUNBOOK[docs/release/week14-release-runbook.md] --> SCRIPT[run-release-readiness-check.sh]
+  DRILL[docs/release/drills/2026-02-13-rollback-drill.md] --> SCRIPT
+  SCRIPT --> REQ[ReleaseReadinessEvaluationRequest]
+  REQ --> CLI[HelpdeskReleaseReadinessCLI]
+  CLI --> EVAL[ReleaseReadinessEvaluator]
+  EVAL --> SIGNAL[release_readiness_green]
+  SIGNAL --> GATES[QualityGateEvaluator]</pre>
+<h2 id="openspec-changes-archive-2026-02-13-week14-release-rollback-readiness-design-decisions">Decisions</h2>
+<p>The first decision is artifact-driven readiness input.</p>
+<p>Trade-off is dependence on document consistency; gain is explicit operational</p>
+<p>readiness evidence.</p>
+<p>The second decision is dedicated evaluator module and CLI.</p>
+<p>Trade-off is extra package surface; gain is reusable readiness logic for local</p>
+<p>runs and automation.</p>
+<p>The third decision is readiness as critical quality gate.</p>
+<p>Trade-off is stricter release blocking; gain is reduced chance of shipping</p>
+<p>without rollback preparedness.</p>
+</section>
+<section id="openspec-changes-archive-2026-02-13-week14-release-rollback-readiness-tasks" class="lesson" data-topic-id="openspec-changes-archive-2026-02-13-week14-release-rollback-readiness-tasks" data-lesson-path="openspec/changes/archive/2026-02-13-week14-release-rollback-readiness/tasks.md">
+<div class="lesson-path">openspec/changes/archive/2026-02-13-week14-release-rollback-readiness/tasks.md</div>
+<h1 id="openspec-changes-archive-2026-02-13-week14-release-rollback-readiness-tasks-tasks-week-14">Tasks (Week 14)</h1>
+<p>Week 14 tasks operationalize release readiness checks and rollback discipline.</p>
+<pre><code class="language-yaml">tasks_week14:
+  architecture:
+    - id: "1.1"
+      title: "Add HelpdeskReleaseReadiness module and evaluator"
+      status: done
+    - id: "1.2"
+      title: "Add HelpdeskReleaseReadinessCLI executable"
+      status: done
+  artifacts:
+    - id: "2.1"
+      title: "Add release runbook document for week14"
+      status: done
+    - id: "2.2"
+      title: "Add rollback drill evidence document"
+      status: done
+  operations:
+    - id: "3.1"
+      title: "Add run-release-readiness-check.sh"
+      status: done
+    - id: "3.2"
+      title: "Integrate release readiness signal in quality gates"
+      status: done
+  verification:
+    - id: "4.1"
+      title: "Add evaluator tests for green and red readiness paths"
+      status: done
+    - id: "4.2"
+      title: "Add quality gate test for release readiness red path"
+      status: done
+  evidence:
+    - id: "5.1"
+      title: "swift test green"
+      status: done
+    - id: "5.2"
       title: "openspec and course validators green"
       status: done</code></pre>
 </section>
@@ -6852,26 +7051,199 @@ git commit -m "mensaje atomico week13 governance"</code></pre>
 </section>
 <section id="15-semana-14-00-semana-14-roadmap" class="lesson" data-topic-id="15-semana-14-00-semana-14-roadmap" data-lesson-path="15-semana-14/00-semana-14-roadmap.md">
 <div class="lesson-path">15-semana-14/00-semana-14-roadmap.md</div>
-<h1 id="15-semana-14-00-semana-14-roadmap-semana-14-roadmap-ejecutable">Semana 14: roadmap ejecutable</h1>
-<p>Esta semana consolida una parte del ciclo SDD enterprise sobre <code>HelpdeskSDD</code>. No es teoría aislada: cada actividad termina en artefacto verificable, pruebas en verde y trazabilidad de decisiones. El foco exacto cambia por semana, pero el método se mantiene constante para entrenar disciplina profesional.</p>
-<h2 id="15-semana-14-00-semana-14-roadmap-objetivo-de-la-semana">Objetivo de la semana</h2>
-<p>En Semana 14 avanzas una capacidad concreta de producto sin romper lo construido. La disciplina que entrenas es mantener el flujo completo (OpenSpec → BDD → TDD → producción → refactor) hasta el final del ciclo enterprise: release controlada y rollback sin improvisación.</p>
-<h2 id="15-semana-14-00-semana-14-roadmap-resultado-medible">Resultado medible</h2>
-<p>Semana 14 se considera cerrada cuando existe un entregable técnico claro, el build y las pruebas asociadas están en verde y hay evidencia trazable en commits. La evidencia aquí incluye runbook y un drill de rollback ejecutado, aunque sea en entorno local o simulado.</p>
-<h2 id="15-semana-14-00-semana-14-roadmap-flujo-de-trabajo">Flujo de trabajo</h2>
+<h1 id="15-semana-14-00-semana-14-roadmap-semana-14-entrega-controlada-y-rollback-sin-improvisaci-n">Semana 14: entrega controlada y rollback sin improvisación</h1>
+<p>Llegados a este punto, el sistema tiene buenas prácticas de diseño, pruebas y gobernanza. El reto de esta semana es operacional. Una arquitectura excelente pierde valor si el equipo no sabe entregar cambios de forma segura y recuperarse rápido cuando algo sale mal. Semana 14 entrena justo ese músculo.</p>
+<p>El foco técnico se centra en convertir readiness de release en una señal ejecutable. Para eso construimos un evaluador de readiness, un runbook concreto, evidencia de drill de rollback y una integración directa con quality gates.</p>
 <pre class="mermaid">flowchart LR
-    A[Entrada de semana 14] --> B[Spec refinada]
-    B --> C[BDD actualizado]
-    C --> D[TDD y produccion]
-    D --> E[Validacion y cierre]</pre>
-<h2 id="15-semana-14-00-semana-14-roadmap-practica-guiada">Practica guiada</h2>
-<p>Tu práctica guiada es revisar la meta técnica de Semana 14, ejecutar el laboratorio asociado registrando decisiones relevantes, y validar pruebas y build antes del commit final. La meta es que puedas revertir con calma, no con pánico.</p>
-<h2 id="15-semana-14-00-semana-14-roadmap-verificacion-de-comprension">Verificacion de comprension</h2>
-<p>Pregunta 1: ¿Qué bloque del flujo OpenSpec → BDD → TDD → producción estás entrenando más esta semana?</p>
-<p>Pregunta 2: ¿Qué evidencia objetiva confirma que cerraste Semana 14?</p>
-<p>Pregunta 3: ¿Qué deuda técnica aceptaste, si aceptaste alguna, y por qué fue una decisión consciente?</p>
-<h2 id="15-semana-14-00-semana-14-roadmap-siguiente-paso">Siguiente paso</h2>
-<p>Ir a la primera leccion detallada de semana 14.</p>
+    A[OpenSpec week14] --> B[BDD release readiness]
+    B --> C[TDD evaluator de readiness]
+    C --> D[Runbook y rollback drill]
+    D --> E[Integracion en quality gates]
+    E --> F[Checkpoint y cierre]</pre>
+<p>La señal de cierre de Week 14 es binaria y verificable. Si faltan piezas clave de canary o rollback, el check debe fallar. Si las piezas están completas y el drill está en PASS, el check pasa y quality gates puede avanzar.</p>
+<pre><code class="language-yaml">week14_definition_of_done:
+  readiness_module: "evaluator + CLI de release readiness"
+  operations_artifacts: "runbook week14 y rollback drill documentado"
+  gate_integration: "release_readiness_green en quality gates"
+  evidence: "tests + validadores + build html en verde"</code></pre>
+<p>La práctica guiada de arranque consiste en responder qué harías si detectas un fallo grave diez minutos después de iniciar canary. La respuesta debe apoyarse en procedimiento, no en intuición.</p>
+<p>La verificación de comprensión previa es responder por qué un rollback plan vale poco si nunca se practica en un drill real, aunque sea simulado.</p>
+<p>Siguiente lección: <code>15-semana-14/01-problema-release-sin-readiness.md</code>.</p>
+</section>
+<section id="15-semana-14-01-problema-release-sin-readiness" class="lesson" data-topic-id="15-semana-14-01-problema-release-sin-readiness" data-lesson-path="15-semana-14/01-problema-release-sin-readiness.md">
+<div class="lesson-path">15-semana-14/01-problema-release-sin-readiness.md</div>
+<h1 id="15-semana-14-01-problema-release-sin-readiness-semana-14-lecci-n-1-el-problema-no-es-desplegar-es-desplegar-sin-plan-de-salida">Semana 14 · Lección 1: el problema no es desplegar, es desplegar sin plan de salida</h1>
+<p>Muchas incidencias graves no ocurren porque el equipo no sepa programar, ocurren porque la entrega se hace sin un plan operativo claro. Cuando aparece un fallo tras despliegue, el equipo improvisa, se multiplica la presión y cada minuto cuesta más de lo que habría costado preparar un rollback plan.</p>
+<p>Este es el problema que atacamos en Week 14. Una entrega enterprise no termina en “build verde”. También requiere una ruta controlada para avanzar en canary y una ruta clara para volver atrás sin pánico.</p>
+<pre class="mermaid">flowchart TD
+    A[Release sin readiness] --> B[Incidente en canary]
+    B --> C[Improvisacion de rollback]
+    C --> D[Tiempo de recuperacion alto]
+    D --> E[Perdida de confianza]
+    F[Release con runbook y drill] --> G[Respuesta controlada]</pre>
+<p>La analogía útil es la de un simulacro de emergencia. No practicas porque quieras que ocurra un problema, practicas porque sabes que cuando ocurra no tendrás tiempo de aprender desde cero.</p>
+<pre><code class="language-text">Regla práctica de week14:
+si el equipo no puede explicar en un minuto cómo revertir,
+el release aún no está listo para salir.</code></pre>
+<p>La práctica guiada consiste en describir un incidente de despliegue que hayas visto o imaginado y escribir cuál habría sido el primer paso correcto con un runbook maduro.</p>
+<p>La verificación de comprensión antes de especificación es responder por qué “si pasa algo ya lo arreglamos” no es una estrategia operativa aceptable en entorno enterprise.</p>
+<p>Siguiente lección: <code>15-semana-14/02-spec-release-readiness-v1.md</code>.</p>
+</section>
+<section id="15-semana-14-02-spec-release-readiness-v1" class="lesson" data-topic-id="15-semana-14-02-spec-release-readiness-v1" data-lesson-path="15-semana-14/02-spec-release-readiness-v1.md">
+<div class="lesson-path">15-semana-14/02-spec-release-readiness-v1.md</div>
+<h1 id="15-semana-14-02-spec-release-readiness-v1-semana-14-lecci-n-2-especificar-readiness-de-release-como-requisito-cr-tico">Semana 14 · Lección 2: especificar readiness de release como requisito crítico</h1>
+<p>Una vez definido el problema, lo traducimos a contrato OpenSpec. El contrato de esta semana define qué debe existir antes de considerar una entrega como preparada. No hablamos de deseos, hablamos de señales objetivas: plan de canary, plan de rollback, comunicación, verificación y drill de rollback en PASS.</p>
+<p>Esta especificación evita ambigüedad operativa. Si un elemento falta, el resultado de readiness debe ser rojo y quality gates debe fallar. Con eso la organización evita subir cambios cuando el riesgo operativo está descontrolado.</p>
+<pre class="mermaid">flowchart LR
+    A[Runbook + drill] --> B[Release readiness check]
+    B --> C[Signal release_readiness_green]
+    C --> D[Quality gates]
+    D --> E[Decision de avance]</pre>
+<pre><code class="language-yaml">release_readiness_contract_v1:
+  required_runbook_sections: "canary, rollback, communication, verification"
+  required_drill_signal: "result PASS"
+  gate_signal: "release_readiness_green"
+  progression_rule: "si readiness es false, quality gates falla"</code></pre>
+<pre><code class="language-text">/opsx:new week14-release-rollback-readiness
+/opsx:ff
+/opsx:apply
+/opsx:verify</code></pre>
+<p>La práctica guiada consiste en leer el runbook de la semana y explicar qué sección usarías primero si un canary empieza a degradarse.</p>
+<p>La verificación de comprensión antes de BDD es responder por qué esta policy debe formar parte del sistema y no solo del conocimiento de una persona senior.</p>
+<p>Siguiente lección: <code>15-semana-14/03-bdd-release-readiness.md</code>.</p>
+</section>
+<section id="15-semana-14-03-bdd-release-readiness" class="lesson" data-topic-id="15-semana-14-03-bdd-release-readiness" data-lesson-path="15-semana-14/03-bdd-release-readiness.md">
+<div class="lesson-path">15-semana-14/03-bdd-release-readiness.md</div>
+<h1 id="15-semana-14-03-bdd-release-readiness-semana-14-lecci-n-3-bdd-para-hacer-observable-la-preparaci-n-de-release">Semana 14 · Lección 3: BDD para hacer observable la preparación de release</h1>
+<p>BDD en esta semana captura comportamientos operativos. El objetivo es que readiness no dependa de interpretación subjetiva del día del despliegue. Con escenarios claros podemos verificar de forma consistente si el equipo está realmente preparado para avanzar o si debe frenar.</p>
+<p>Los escenarios principales cubren la ruta verde completa y la ruta roja más crítica, que es ausencia o fallo del rollback drill. También se cubre la integración con quality gates para asegurar que readiness influye en la decisión global.</p>
+<pre class="mermaid">sequenceDiagram
+    participant Docs as Runbook + Drill
+    participant Check as ReleaseReadinessCheck
+    participant Gate as QualityGates
+
+    Docs->>Check: validar artefactos
+    Check-->>Gate: release_readiness_green
+    Gate-->>Docs: pass o fail</pre>
+<pre><code class="language-gherkin">Feature: Release readiness
+  Scenario: Readiness pasa
+    Given runbook completo y drill en PASS
+    When se ejecuta el check
+    Then readiness es passed</code></pre>
+<p>La utilidad real de estos escenarios es que traducen operaciones en expectativas comprobables. Así evitamos la clásica situación de “parecía que estaba todo bien” justo antes de una caída.</p>
+<p>La práctica guiada consiste en redactar un escenario extra donde exista runbook completo pero el drill no esté actualizado, y definir el resultado esperado.</p>
+<p>La verificación de comprensión antes de TDD es responder qué escenario protege mejor al equipo contra rollback improvisado.</p>
+<p>Siguiente lección: <code>15-semana-14/04-tdd-release-readiness-evaluator.md</code>.</p>
+</section>
+<section id="15-semana-14-04-tdd-release-readiness-evaluator" class="lesson" data-topic-id="15-semana-14-04-tdd-release-readiness-evaluator" data-lesson-path="15-semana-14/04-tdd-release-readiness-evaluator.md">
+<div class="lesson-path">15-semana-14/04-tdd-release-readiness-evaluator.md</div>
+<h1 id="15-semana-14-04-tdd-release-readiness-evaluator-semana-14-lecci-n-4-tdd-del-evaluador-de-readiness-para-proteger-entregas">Semana 14 · Lección 4: TDD del evaluador de readiness para proteger entregas</h1>
+<p>Con escenarios claros, pasamos a pruebas de unidad del evaluador de readiness. Esta capa debe responder con precisión si faltan condiciones operativas mínimas. En Week 14 las pruebas más importantes verifican el caso totalmente verde y el caso rojo por drill ausente o fallido.</p>
+<p>La idea es mantener el evaluador pequeño pero contundente. Cada check representa una condición real del runbook y al final el resultado global se calcula como combinación de todas ellas.</p>
+<pre class="mermaid">flowchart LR
+    A[BDD readiness] --> B[Test rojo caso verde]
+    B --> C[Implementacion checks mínimos]
+    C --> D[Test rojo por rollback drill]
+    D --> E[Reporte con checks]
+    E --> F[Test verde]</pre>
+<pre><code class="language-swift">@Test
+func reportFailsWhenRollbackDrillIsMissing() {
+    let report = evaluator.evaluate(requestWithoutDrill)
+    #expect(report.passed == false)
+}</code></pre>
+<pre><code class="language-bash">swift test --package-path project/HelpdeskSDD</code></pre>
+<p>La práctica guiada consiste en añadir un test que fuerce fallo por ausencia de plan de comunicación y verificar que el reporte identifica exactamente ese check.</p>
+<p>La verificación de comprensión antes de producción es responder por qué es útil separar checks individuales en el reporte en vez de devolver solo un booleano final.</p>
+<p>Siguiente lección: <code>15-semana-14/05-codigo-release-readiness-pipeline.md</code>.</p>
+</section>
+<section id="15-semana-14-05-codigo-release-readiness-pipeline" class="lesson" data-topic-id="15-semana-14-05-codigo-release-readiness-pipeline" data-lesson-path="15-semana-14/05-codigo-release-readiness-pipeline.md">
+<div class="lesson-path">15-semana-14/05-codigo-release-readiness-pipeline.md</div>
+<h1 id="15-semana-14-05-codigo-release-readiness-pipeline-semana-14-lecci-n-5-c-digo-de-pipeline-para-readiness-y-rollback-drill">Semana 14 · Lección 5: código de pipeline para readiness y rollback drill</h1>
+<p>Esta lección conecta artefactos operativos con ejecución automática. Añadimos módulo <code>HelpdeskReleaseReadiness</code>, su CLI, un script que transforma runbook y drill en request, y la integración de la señal resultante dentro de quality gates.</p>
+<p>El diseño busca algo muy concreto: que una condición operativa faltante sea visible en el mismo pipeline que ya usamos para calidad técnica. Así release readiness deja de ser una revisión manual aislada y pasa a formar parte del contrato de entrega.</p>
+<pre class="mermaid">flowchart TD
+    A[week14-release-runbook.md] --> B[run-release-readiness-check.sh]
+    C[rollback-drill.md] --> B
+    B --> D[HelpdeskReleaseReadinessCLI]
+    D --> E[release_readiness_green]
+    E --> F[run-quality-gates.sh]</pre>
+<pre><code class="language-bash">./scripts/run-release-readiness-check.sh
+./scripts/run-quality-gates.sh</code></pre>
+<p>El script de readiness inspecciona secciones mínimas de runbook y resultado del drill. Después invoca el CLI para producir un reporte estructurado que quality gates puede consumir.</p>
+<pre><code class="language-json">{
+  "passed": true,
+  "checks": [
+    { "id": "rollback_drill_passed", "passed": true }
+  ]
+}</code></pre>
+<p>La práctica guiada consiste en cambiar temporalmente el resultado del drill a un valor no válido y confirmar que la señal <code>release_readiness_green</code> pasa a rojo.</p>
+<p>La verificación de comprensión antes del refactor es responder por qué este pipeline reduce el riesgo de release con rollback no practicado.</p>
+<p>Siguiente lección: <code>15-semana-14/06-refactor-runbook-operable.md</code>.</p>
+</section>
+<section id="15-semana-14-06-refactor-runbook-operable" class="lesson" data-topic-id="15-semana-14-06-refactor-runbook-operable" data-lesson-path="15-semana-14/06-refactor-runbook-operable.md">
+<div class="lesson-path">15-semana-14/06-refactor-runbook-operable.md</div>
+<h1 id="15-semana-14-06-refactor-runbook-operable-semana-14-lecci-n-6-refactor-del-runbook-para-que-sea-operable-bajo-presi-n">Semana 14 · Lección 6: refactor del runbook para que sea operable bajo presión</h1>
+<p>Con el pipeline listo, esta lección mejora la calidad del runbook para uso real. Un runbook útil no es un documento largo, es un documento accionable cuando hay tensión y poco tiempo. Eso significa secciones claras, criterios de activación de rollback y verificación posterior concreta.</p>
+<p>El refactor de Week 14 revisa especialmente legibilidad operativa. Cada sección debe responder una pregunta precisa: qué desplegamos, cómo escalamos canary, cuándo revertimos, cómo comunicamos y cómo confirmamos recuperación.</p>
+<pre class="mermaid">flowchart LR
+    A[Runbook inicial] --> B[Refactor de claridad]
+    B --> C[Drill de rollback]
+    C --> D[Ajustes según evidencia]
+    D --> E[Runbook operable]</pre>
+<p>Este paso tiene impacto directo en resiliencia del equipo. Cuanto más claro el runbook, menos decisiones improvisadas durante incidentes.</p>
+<pre><code class="language-text">Chequeo rápido de operabilidad:
+si una persona nueva no entiende los pasos básicos en cinco minutos,
+el runbook todavía necesita refactor.</code></pre>
+<p>La práctica guiada consiste en leer el runbook como si fueras guardia de madrugada y marcar el primer punto ambiguo que te haría dudar.</p>
+<p>La verificación de comprensión antes del checkpoint es responder por qué un runbook técnicamente correcto puede ser operativamente inútil si no está pensado para lectura en contexto de estrés.</p>
+<p>Siguiente lección: <code>15-semana-14/07-checkpoint-evaluacion.md</code>.</p>
+</section>
+<section id="15-semana-14-07-checkpoint-evaluacion" class="lesson" data-topic-id="15-semana-14-07-checkpoint-evaluacion" data-lesson-path="15-semana-14/07-checkpoint-evaluacion.md">
+<div class="lesson-path">15-semana-14/07-checkpoint-evaluacion.md</div>
+<h1 id="15-semana-14-07-checkpoint-evaluacion-semana-14-lecci-n-7-checkpoint-de-entrega-segura-y-rollback-practicado">Semana 14 · Lección 7: checkpoint de entrega segura y rollback practicado</h1>
+<p>El cierre de Week 14 exige evidencia de preparación operativa, no solo de calidad de código. Este checkpoint verifica que el equipo puede demostrar readiness completa y que un rollback drill fue ejecutado y documentado con resultado claro.</p>
+<pre class="mermaid">flowchart TD
+    A[Runbook week14] --> B[Rollback drill evidence]
+    B --> C[Release readiness check]
+    C --> D[Quality gates con readiness]
+    D --> E[Validadores del curso]
+    E --> F[Cierre week14]</pre>
+<p>El circuito de validación debe ejecutarse en completo para que la evidencia sea defendible ante revisión técnica.</p>
+<pre><code class="language-bash">swift test --package-path project/HelpdeskSDD
+./scripts/run-release-readiness-check.sh
+./scripts/run-quality-gates.sh
+npm run -s openspec:validate
+python3 scripts/validate-course-structure.py
+python3 scripts/validate-openspec.py
+python3 scripts/check-links.py
+python3 scripts/validate-pedagogy.py
+python3 scripts/build-html.py</code></pre>
+<p>La práctica guiada consiste en modificar temporalmente una sección crítica del runbook para que falte y confirmar que el check de readiness cae en rojo como se espera.</p>
+<p>La verificación de comprensión final del checkpoint es responder qué evidencia mínima pedirías a otro equipo para permitir un release con confianza razonable.</p>
+<p>Siguiente lección: <code>15-semana-14/08-bitacora-commits.md</code>.</p>
+</section>
+<section id="15-semana-14-08-bitacora-commits" class="lesson" data-topic-id="15-semana-14-08-bitacora-commits" data-lesson-path="15-semana-14/08-bitacora-commits.md">
+<div class="lesson-path">15-semana-14/08-bitacora-commits.md</div>
+<h1 id="15-semana-14-08-bitacora-commits-semana-14-lecci-n-8-bit-cora-de-release-readiness-para-auditor-a-operativa">Semana 14 · Lección 8: bitácora de release readiness para auditoría operativa</h1>
+<p>La bitácora de esta semana debe demostrar que la organización sabe entregar y revertir con método. No vale con afirmar que existe un runbook; hay que mostrar dónde se introdujo, cómo se validó y cómo se conectó a quality gates para bloquear avances inseguros.</p>
+<p>El patrón atómico vuelve a ser clave. Un bloque para narrativa semanal, otro para implementación de readiness y artefactos operativos, y otro para OpenSpec más scripts de publicación. Esa separación hace que cada commit responda una pregunta concreta de operación o gobernanza.</p>
+<pre class="mermaid">flowchart LR
+    A[Plan week14] --> B[Docs semana]
+    B --> C[ReleaseReadiness module + scripts]
+    C --> D[Runbook + drill evidence]
+    D --> E[OpenSpec + publication wiring]
+    E --> F[Historial auditable]</pre>
+<p>El valor principal de esta bitácora es que permite reconstruir decisiones bajo presión. Si se produce un incidente, el equipo puede revisar rápido qué readiness se exigía y cómo se validó antes de desplegar.</p>
+<pre><code class="language-text">git status --short
+swift test --package-path project/HelpdeskSDD
+./scripts/run-release-readiness-check.sh
+./scripts/run-quality-gates.sh
+python3 scripts/build-html.py
+git add &lt;bloque-semantico&gt;
+git commit -m "mensaje atomico week14 release readiness"</code></pre>
+<p>La práctica guiada final consiste en leer tus commits y verificar si una persona externa podría entender en qué punto se convirtió readiness en gate crítico.</p>
+<p>La verificación de comprensión de cierre es responder por qué la trazabilidad operativa mejora la resiliencia del equipo más allá del resultado técnico puntual.</p>
+<p>Siguiente semana: <code>16-semana-15/00-semana-15-roadmap.md</code>.</p>
 </section>
 <section id="16-semana-15-00-semana-15-roadmap" class="lesson" data-topic-id="16-semana-15-00-semana-15-roadmap" data-lesson-path="16-semana-15/00-semana-15-roadmap.md">
 <div class="lesson-path">16-semana-15/00-semana-15-roadmap.md</div>
