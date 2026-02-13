@@ -1016,15 +1016,15 @@ blockquote p {
 </ul></li>
 <li class="nav-section"><strong>Semana 4</strong>
 <ul>
-  <li><a class="doc-nav-link" data-lesson-path="05-semana-04/00-semana-04-roadmap.md" href="#05-semana-04-00-semana-04-roadmap">Semana 4: contrato API v1 para que el sistema pueda hablar con otros equipos</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="05-semana-04/01-problema-contrato-api.md" href="#05-semana-04-01-problema-contrato-api">Semana 4 · Lección 1: por qué los equipos se rompen cuando no hay contrato</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="05-semana-04/02-spec-contrato-api-v1.md" href="#05-semana-04-02-spec-contrato-api-v1">Semana 4 · Lección 2: especificar API v1 en OpenSpec antes de tocar transporte</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="05-semana-04/03-bdd-contrato-api.md" href="#05-semana-04-03-bdd-contrato-api">Semana 4 · Lección 3: BDD para alinear negocio, backend y cliente sobre el mismo contrato</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="05-semana-04/04-tdd-contract-tests.md" href="#05-semana-04-04-tdd-contract-tests">Semana 4 · Lección 4: TDD de contrato para fallar rápido cuando el acuerdo se rompe</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="05-semana-04/05-codigo-contrato-openapi.md" href="#05-semana-04-05-codigo-contrato-openapi">Semana 4 · Lección 5: implementar el contrato v1 con OpenAPI, DTO y mapeadores</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="05-semana-04/06-refactor-boundary-contrato.md" href="#05-semana-04-06-refactor-boundary-contrato">Semana 4 · Lección 6: refactor de boundary para mantener el contrato saludable</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="05-semana-04/07-checkpoint-evaluacion.md" href="#05-semana-04-07-checkpoint-evaluacion">Semana 4 · Lección 7: checkpoint de contrato para decidir si API v1 está cerrada</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="05-semana-04/08-bitacora-commits.md" href="#05-semana-04-08-bitacora-commits">Semana 4 · Lección 8: bitácora de commits para dejar contrato auditable</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="05-semana-04/00-semana-04-roadmap.md" href="#05-semana-04-00-semana-04-roadmap">Semana 4: contrato API v1 para que la arquitectura sobreviva cuando entra otro equipo</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="05-semana-04/01-problema-contrato-api.md" href="#05-semana-04-01-problema-contrato-api">Semana 4 · Lección 1: por qué los equipos se desalinean cuando no existe contrato explícito</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="05-semana-04/02-spec-contrato-api-v1.md" href="#05-semana-04-02-spec-contrato-api-v1">Semana 4 · Lección 2: especificar API v1 en OpenSpec para fijar acuerdos antes de implementar transporte</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="05-semana-04/03-bdd-contrato-api.md" href="#05-semana-04-03-bdd-contrato-api">Semana 4 · Lección 3: BDD de contrato API para que todos evalúen la misma semántica</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="05-semana-04/04-tdd-contract-tests.md" href="#05-semana-04-04-tdd-contract-tests">Semana 4 · Lección 4: TDD de contrato para detectar roturas de API en el minuto cero</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="05-semana-04/05-codigo-contrato-openapi.md" href="#05-semana-04-05-codigo-contrato-openapi">Semana 4 · Lección 5: código de contrato v1 con OpenAPI, DTO y mapeo limpio hacia dominio</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="05-semana-04/06-refactor-boundary-contrato.md" href="#05-semana-04-06-refactor-boundary-contrato">Semana 4 · Lección 6: refactor del boundary de contrato para evitar deriva semántica</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="05-semana-04/07-checkpoint-evaluacion.md" href="#05-semana-04-07-checkpoint-evaluacion">Semana 4 · Lección 7: checkpoint de API v1 para cerrar contrato con evidencia y no con optimismo</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="05-semana-04/08-bitacora-commits.md" href="#05-semana-04-08-bitacora-commits">Semana 4 · Lección 8: bitácora de commits para dejar API v1 auditada y mantenible</a></li>
 </ul></li>
 <li class="nav-section"><strong>Semana 5</strong>
 <ul>
@@ -5466,135 +5466,179 @@ git commit -m "feat(week3): ship swiftui shell with contract-driven wiring"</cod
 </section>
 <section id="05-semana-04-00-semana-04-roadmap" class="lesson" data-topic-id="05-semana-04-00-semana-04-roadmap" data-lesson-path="05-semana-04/00-semana-04-roadmap.md">
 <div class="lesson-path">05-semana-04/00-semana-04-roadmap.md</div>
-<h1 id="05-semana-04-00-semana-04-roadmap-semana-4-contrato-api-v1-para-que-el-sistema-pueda-hablar-con-otros-equipos">Semana 4: contrato API v1 para que el sistema pueda hablar con otros equipos</h1>
-<p>En las tres primeras semanas levantaste algo que mucha gente no llega a construir nunca: un sistema con reglas de dominio explícitas, trazabilidad real y una primera interfaz SwiftUI que respeta arquitectura. Ahora llega una frontera nueva. Tu sistema ya no solo tiene que funcionar dentro de tu repositorio; tiene que comunicarse con el exterior sin perder claridad ni control.</p>
-<p>Esta semana existe para enseñar exactamente eso. Un contrato API bien diseñado no es un documento bonito para enseñar en reuniones. Es una pieza operativa que evita malentendidos entre equipos, reduce retrabajo y protege estabilidad cuando aparecen clientes nuevos, integraciones o cambios de alcance.</p>
-<p>El error clásico aquí es programar un endpoint primero y describir el contrato después. Esa secuencia genera fricción porque cada consumidor interpreta cosas distintas: estados con nombres distintos, errores inconsistentes y estructuras de payload inestables. En Week 4 invertimos ese hábito. Primero contrato, después escenarios, después tests de contrato, y finalmente código de soporte.</p>
+<h1 id="05-semana-04-00-semana-04-roadmap-semana-4-contrato-api-v1-para-que-la-arquitectura-sobreviva-cuando-entra-otro-equipo">Semana 4: contrato API v1 para que la arquitectura sobreviva cuando entra otro equipo</h1>
+<p>Hasta aquí construiste un sistema que funciona y está gobernado por reglas claras. Week 4 abre una frontera nueva: tu software deja de hablar solo consigo mismo y empieza a hablar con consumidores externos. Cuando aparece esa frontera, cambian las reglas del juego. Lo que antes era una decisión interna, ahora se convierte en compromiso público.</p>
+<p>Ese compromiso se llama contrato API.</p>
+<p>En una app pequeña, muchas veces una API se improvisa: primero se codifica, luego se documenta "más o menos". En entorno enterprise ese orden es peligroso. Si primero codificas y después explicas, cada consumidor interpreta algo distinto. El resultado no siempre es un crash inmediato; a menudo es peor: integraciones inconsistentes que parecen funcionar hasta que un cambio menor rompe un flujo crítico.</p>
+<p>Esta semana te enseña a invertir esa inercia. Primero definimos contrato versionado. Después describimos comportamiento observable con BDD. Después blindamos frontera con contract tests. Después implementamos mapeo y boundary sin contaminar dominio. Y cerramos con evidencia auditable.</p>
 <pre class="mermaid">flowchart LR
-    A[Problema de integración] --> B[OpenSpec week04]
-    B --> C[Contrato OpenAPI v1]
-    C --> D[BDD de interacción API]
+    A[Problema de integracion entre equipos] --> B[OpenSpec week04]
+    B --> C[OpenAPI v1]
+    C --> D[BDD de contrato]
     D --> E[TDD contract tests]
-    E --> F[Implementación mínima y estable]
-    F --> G[Refactor de boundary y cierre]</pre>
-<p>La señal de cierre de esta semana es concreta y medible. Debes tener un archivo OpenAPI v1 versionado, stubs de payload, pruebas de contrato que fallen cuando rompes el acuerdo y documentación de decisiones que permita a otro equipo integrar sin una llamada de rescate.</p>
+    E --> F[DTO + mapper + boundary]
+    F --> G[Refactor controlado]
+    G --> H[Checkpoint y bitacora de cierre]</pre>
+<p>La promesa de Week 4 no es "tener endpoints". La promesa es poder integrar con otro equipo sin una reunión diaria para interpretar payloads. Eso solo ocurre cuando semántica de estados, errores y formatos queda explícita y protegida por tests.</p>
 <pre><code class="language-yaml">week4_definition_of_done:
-  api_contract: "OpenAPI v1 publicado y coherente con OpenSpec"
-  contract_tests: "Suite verde para decode/encode/mapping de payloads"
-  architecture_boundary: "DTO y mapeo desacoplados de dominio"
-  evidence: "commits atomicos + validaciones reproducibles"</code></pre>
-<p>La práctica guiada de arranque consiste en imaginar que mañana tu app iOS depende de un backend externo que no controla tu equipo. Escribe, en lenguaje normal, qué tres ambigüedades romperían más rápido la integración si no existiera contrato API. Ese ejercicio te prepara para comprender por qué esta semana no es burocracia, sino supervivencia técnica en entorno enterprise.</p>
-<p>La verificación de comprensión previa al bloque técnico es esta: si un consumidor interpreta que <code>in_progress</code> y <code>inProgress</code> son equivalentes, ¿dónde se corrige ese desacuerdo para que no llegue a producción? Si sabes responderlo, ya estás pensando como arquitecto de contratos.</p>
-<p>Siguiente lección: <code>05-semana-04/01-problema-contrato-api.md</code>.</p>
+  contract_source: "OpenSpec y OpenAPI v1 coherentes"
+  observable_behavior: "BDD cubre casos validos y errores semanticos"
+  automatic_protection: "contract tests detectan roturas de payload"
+  architecture_boundary: "dominio desacoplado de transporte"
+  delivery_evidence: "commits atomicos + validaciones reproducibles"</code></pre>
+<p>Hay una idea que quiero que te quede grabada si estás empezando: una API no es "un JSON que responde". Una API es una promesa de comportamiento mantenida en el tiempo. Si rompes esa promesa sin control, el coste lo paga toda la cadena de equipos, no solo quien tocó el código.</p>
+<p>También vamos a entrenar una habilidad muy útil para seniority: saber acotar versión. En Week 4 hacemos <code>v1</code> con alcance deliberado. No metemos todo. Dejamos fuera lo que no es esencial para proteger foco y garantizar calidad. Esta disciplina de alcance evita que una iteración se convierta en un contenedor infinito de ideas.</p>
+<h2 id="05-semana-04-00-semana-04-roadmap-pr-ctica-guiada">Práctica guiada</h2>
+<p>Haz un ejercicio previo de contexto real. Imagina que el equipo de backend cambia mañana un valor de estado de <code>inProgress</code> a <code>in_progress</code> sin aviso. Escribe qué impacto tendría en iOS, QA y negocio. Luego escribe qué pieza de Week 4 debería detectar esa rotura antes de llegar a producción.</p>
+<h2 id="05-semana-04-00-semana-04-roadmap-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Comprueba si puedes explicar por qué "documentar después" no equivale a "diseñar contrato" en un sistema con varios equipos. Si tu respuesta no incluye riesgo de interpretación y coste de coordinación, relee este roadmap antes de avanzar.</p>
+<h2 id="05-semana-04-00-semana-04-roadmap-siguiente-lecci-n">Siguiente lección</h2>
+<p>Continúa en <code>05-semana-04/01-problema-contrato-api.md</code>, donde aterrizamos el problema de ambigüedad de contrato con ejemplos concretos de daño operativo y semántico.</p>
 </section>
 <section id="05-semana-04-01-problema-contrato-api" class="lesson" data-topic-id="05-semana-04-01-problema-contrato-api" data-lesson-path="05-semana-04/01-problema-contrato-api.md">
 <div class="lesson-path">05-semana-04/01-problema-contrato-api.md</div>
-<h1 id="05-semana-04-01-problema-contrato-api-semana-4-lecci-n-1-por-qu-los-equipos-se-rompen-cuando-no-hay-contrato">Semana 4 · Lección 1: por qué los equipos se rompen cuando no hay contrato</h1>
-<p>Cuando un equipo dice “ya tenemos API”, muchas veces en realidad quiere decir “tenemos algo que responde”. Eso no es suficiente en un contexto enterprise. Una API útil no se define por responder; se define por ser predecible bajo cambio. El problema real aparece cuando varios equipos trabajan con ritmos distintos y cada uno interpreta el comportamiento con su propio criterio.</p>
-<p>En ticketing este problema es muy visible. Producto habla de estados del ticket, backend serializa esos estados de una forma, móvil los parsea de otra, y QA valida una tercera interpretación. El resultado no siempre explota en un crash inmediato. A veces lo que se rompe es peor: el sistema sigue funcionando “más o menos” pero con semántica inconsistente.</p>
+<h1 id="05-semana-04-01-problema-contrato-api-semana-4-lecci-n-1-por-qu-los-equipos-se-desalinean-cuando-no-existe-contrato-expl-cito">Semana 4 · Lección 1: por qué los equipos se desalinean cuando no existe contrato explícito</h1>
+<p>Cuando escuchas "la API ya responde", suena a progreso. Pero en un proyecto serio esa frase puede esconder una fragilidad enorme. Responder no basta. Lo importante es responder siempre con la misma semántica, incluso cuando el sistema evoluciona.</p>
+<p>El problema más caro de una API sin contrato no suele ser técnico puro. Es de coordinación. Producto define un significado para el estado. Backend serializa otro. Móvil interpreta un tercero. QA valida un cuarto. Todas las piezas trabajan, pero no sobre la misma verdad.</p>
+<p>Ese tipo de incoherencia es especialmente dañina porque no siempre rompe de forma visible. A veces no hay crash. A veces solo hay decisiones de negocio tomadas sobre datos mal interpretados.</p>
 <pre class="mermaid">flowchart TD
-    A[Sin contrato explicito] --> B[Payloads ambiguos]
-    B --> C[Parseos distintos por cliente]
-    C --> D[Errores de negocio silenciosos]
-    D --> E[Incidencias repetitivas]
-    F[Contrato versionado] --> G[Semantica compartida]
-    G --> H[Integracion estable]</pre>
-<p>Para entenderlo como persona junior, piensa en una receta de cocina. Si una receta dice “añade un poco de sal”, cada persona hace algo distinto. Si dice “añade 3 gramos de sal antes de hervir”, la variación baja muchísimo. Un contrato API hace exactamente eso para software: transforma intuición en acuerdo verificable.</p>
-<pre><code class="language-yaml">week4_problem_statement:
-  current_risk: "estado y errores sin semantica formal compartida"
-  business_impact: "integraciones lentas y defectos de interpretacion"
-  architecture_goal: "definir contrato versionado antes de ampliar integraciones"
-  success_signal: "dos equipos diferentes interpretan igual el mismo payload"</code></pre>
-<p>La práctica guiada de esta lección consiste en tomar una respuesta JSON cualquiera de un proyecto real que conozcas y describir dos campos que podrían interpretarse de más de una forma. Después reescribe esos campos con definición inequívoca. Este ejercicio te entrena para detectar ambigüedad antes de que se convierta en bug.</p>
-<p>La verificación de comprensión es responder esto: ¿qué diferencia hay entre “documentar lo que ya codifiqué” y “codificar lo que documenté como contrato”? Si no puedes explicar la diferencia con un ejemplo, vuelve a esta lección antes de pasar a spec.</p>
-<p>Siguiente lección: <code>05-semana-04/02-spec-contrato-api-v1.md</code>.</p>
+    A[Sin contrato versionado] --> B[Campos ambiguos]
+    B --> C[Interpretaciones distintas por consumidor]
+    C --> D[Comportamiento inconsistente]
+    D --> E[Incidencias repetitivas y retrabajo]
+    F[Contrato explicito y probado] --> G[Semantica compartida]
+    G --> H[Integracion predecible bajo cambio]</pre>
+<p>Piensa en una analogía cotidiana. Si una receta dice "hornear un rato", cada persona hará algo distinto. Si dice "hornear 18 minutos a 190°C", el resultado converge. El contrato API cumple esa misma función: convertir ambigüedad en acuerdo verificable.</p>
+<p>En el contexto de <code>HelpdeskSDD</code>, la ambigüedad más sensible de Week 4 está en tres puntos:</p>
+<pre><code class="language-yaml">week4_ambiguity_hotspots:
+  status_semantics: "open, inProgress, resolved, closed deben significar lo mismo para todos"
+  error_contract: "invalid_transition y ticket_not_found no pueden mezclarse"
+  date_format: "createdAt requiere formato estable para parseo seguro"</code></pre>
+<p>Si cualquiera de estos puntos queda "implícito", el sistema será frágil ante integraciones nuevas.</p>
+<p>Una señal temprana de que estás en riesgo es ver frases como "esto ya lo hablaremos" en decisiones de contrato. Lo que no queda versionado acaba dependiendo de memoria oral, y la memoria oral no escala con equipos ni con tiempo.</p>
+<h2 id="05-semana-04-01-problema-contrato-api-pr-ctica-guiada">Práctica guiada</h2>
+<p>Toma un JSON real de cualquier proyecto que conozcas y busca dos campos con interpretación ambigua. Reescríbelos con significado operativo concreto (qué representa, formato, valores permitidos y comportamiento en error). El objetivo es entrenar ojo para detectar ambigüedad antes de que llegue a código.</p>
+<h2 id="05-semana-04-01-problema-contrato-api-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Responde por escrito qué diferencia existe entre "endpoint funcional" y "contrato integrable". Si solo hablas de disponibilidad técnica y no de semántica compartida, todavía no estás viendo el problema completo.</p>
+<h2 id="05-semana-04-01-problema-contrato-api-siguiente-lecci-n">Siguiente lección</h2>
+<p>Pasa a <code>05-semana-04/02-spec-contrato-api-v1.md</code>, donde convertiremos este problema en una especificación OpenSpec de API v1 con alcance deliberado y criterios observables.</p>
 </section>
 <section id="05-semana-04-02-spec-contrato-api-v1" class="lesson" data-topic-id="05-semana-04-02-spec-contrato-api-v1" data-lesson-path="05-semana-04/02-spec-contrato-api-v1.md">
 <div class="lesson-path">05-semana-04/02-spec-contrato-api-v1.md</div>
-<h1 id="05-semana-04-02-spec-contrato-api-v1-semana-4-lecci-n-2-especificar-api-v1-en-openspec-antes-de-tocar-transporte">Semana 4 · Lección 2: especificar API v1 en OpenSpec antes de tocar transporte</h1>
-<p>Una vez detectado el problema, toca convertirlo en contrato vivo. OpenSpec nos obliga a concretar qué promete el sistema y qué no promete todavía. Esta frontera es fundamental porque evita que Week 4 se diluya en temas colaterales como autenticación avanzada, paginación compleja o filtros que aún no son prioridad.</p>
-<p>Aquí defines el primer contrato externo del curso: <code>API v1</code> para ticketing. El objetivo no es cubrir todo el producto; el objetivo es fijar un acuerdo mínimo pero sólido para listar tickets, crear ticket y transicionar estado con semántica coherente.</p>
+<h1 id="05-semana-04-02-spec-contrato-api-v1-semana-4-lecci-n-2-especificar-api-v1-en-openspec-para-fijar-acuerdos-antes-de-implementar-transporte">Semana 4 · Lección 2: especificar API v1 en OpenSpec para fijar acuerdos antes de implementar transporte</h1>
+<p>Con el problema claro, ahora toca la parte más estratégica de la semana: escribir contrato antes de código. Esta decisión te protege de una trampa común en equipos con prisa: empezar a serializar payloads "como salga" y descubrir la ambigüedad cuando ya hay consumidores acoplados.</p>
+<p>OpenSpec nos da una estructura que obliga a pensar con rigor: qué entra en alcance, qué queda fuera, qué comportamiento se promete y cómo se verificará. Esa disciplina no retrasa entrega; evita reentregas.</p>
 <pre class="mermaid">flowchart LR
-    A[Problema de ambiguedad] --> B[Proposal week04]
-    B --> C[Requirement API v1 en spec]
-    C --> D[Escenarios observables]
-    D --> E[OpenAPI y contract tests]</pre>
-<p>Trabajaremos con un cambio llamado <code>week04-api-contract-v1</code>. El flujo con IA es igual al de semanas anteriores porque la disciplina no cambia por la capa técnica.</p>
+    A[Problema de ambiguedad] --> B[proposal week04-api-contract-v1]
+    B --> C[specs/ticketing/spec.md]
+    C --> D[design de boundary contrato-dominio]
+    D --> E[tasks verificables]
+    E --> F[implementacion + tests + archive]</pre>
+<p>El flujo operativo con IA se mantiene igual porque el método no cambia por la capa:</p>
 <pre><code class="language-text">/opsx:new week04-api-contract-v1
 /opsx:ff
 /opsx:apply
-/opsx:verify</code></pre>
-<p>La clave pedagógica aquí es aprender a redactar requisitos observables y no promesas vagas. “La API será robusta” no sirve como requisito. “La API devuelve <code>invalid_transition</code> cuando se intenta <code>closed -> open</code>” sí sirve porque se puede probar.</p>
+/opsx:verify
+/opsx:archive</code></pre>
+<p>La clave de esta lección está en definir alcance con precisión. Week 4 no es "toda la API futura". Week 4 es un <code>v1</code> pequeño, coherente y defendible.</p>
 <pre><code class="language-yaml">week4_contract_scope:
   version: "v1"
-  endpoints: "GET /v1/tickets, POST /v1/tickets, PATCH /v1/tickets/{id}/status"
-  semantics: "status y errores con vocabulario estable"
-  explicit_non_goals: "auth, paginacion avanzada, filtros complejos"</code></pre>
-<p>La práctica guiada consiste en abrir <code>openspec/specs/ticketing/spec.md</code> y redactar una frase de requisito que empiece por “The system SHALL…”. Después valida si esa frase permite escribir al menos un escenario GIVEN/WHEN/THEN sin mirar código. Si no permite eso, todavía no es contrato de ingeniería.</p>
-<p>La verificación de comprensión antes de BDD es esta: ¿qué parte del contrato te protege de que un backend cambie nombres de estado sin avisar y por qué esa protección debe quedar versionada?</p>
-<p>Siguiente lección: <code>05-semana-04/03-bdd-contrato-api.md</code>.</p>
+  endpoints:
+    - "GET /v1/tickets"
+    - "POST /v1/tickets"
+    - "PATCH /v1/tickets/{ticketId}/status"
+  required_semantics:
+    - "status usa vocabulario estable"
+    - "errores de negocio devuelven codigos semanticos"
+    - "createdAt usa formato ISO8601"
+  explicit_non_goals:
+    - "autenticacion avanzada"
+    - "paginacion compleja"
+    - "filtros avanzados"</code></pre>
+<p>Si eres junior, presta atención a <code>explicit_non_goals</code>. Saber decir "esto no entra todavía" es una habilidad de ingeniería, no una debilidad. Te permite cerrar calidad en lo importante sin diluirte.</p>
+<p>También debes convertir términos de negocio en requisitos observables. Por ejemplo:</p>
+<pre><code class="language-text">The system SHALL return invalid_transition when a closed ticket is requested to transition to open.</code></pre>
+<p>Esta frase es buena porque cualquiera puede convertirla en escenario BDD y prueba TDD. Una frase como "la API será robusta" no sirve porque nadie puede verificarla de forma objetiva.</p>
+<h2 id="05-semana-04-02-spec-contrato-api-v1-pr-ctica-guiada">Práctica guiada</h2>
+<p>Abre <code>openspec/specs/ticketing/spec.md</code> y redacta dos requisitos de Week 4 en formato <code>SHALL</code>: uno de camino válido y otro de error semántico. Luego intenta escribir un escenario GIVEN/WHEN/THEN para cada uno. Si no puedes hacerlo sin inventar contexto, reescribe el requisito hasta que sea testable.</p>
+<h2 id="05-semana-04-02-spec-contrato-api-v1-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Comprueba si puedes defender por qué versionar contrato (<code>v1</code>) reduce riesgo incluso cuando solo hay un consumidor inicial. Si tu respuesta no contempla evolución futura y compatibilidad, aún te falta visión de producto.</p>
+<h2 id="05-semana-04-02-spec-contrato-api-v1-siguiente-lecci-n">Siguiente lección</h2>
+<p>Continúa en <code>05-semana-04/03-bdd-contrato-api.md</code>, donde traduciremos esta spec en escenarios observables de API que Producto, QA y Desarrollo puedan validar con el mismo lenguaje.</p>
 </section>
 <section id="05-semana-04-03-bdd-contrato-api" class="lesson" data-topic-id="05-semana-04-03-bdd-contrato-api" data-lesson-path="05-semana-04/03-bdd-contrato-api.md">
 <div class="lesson-path">05-semana-04/03-bdd-contrato-api.md</div>
-<h1 id="05-semana-04-03-bdd-contrato-api-semana-4-lecci-n-3-bdd-para-alinear-negocio-backend-y-cliente-sobre-el-mismo-contrato">Semana 4 · Lección 3: BDD para alinear negocio, backend y cliente sobre el mismo contrato</h1>
-<p>Cuando pasas de una app local a una API compartida, BDD se vuelve aún más importante. Ya no estás alineando solo tu equipo; estás alineando consumidores distintos con contextos distintos. Por eso los escenarios de Week 4 no describen detalles internos de implementación, sino el comportamiento observable de la interfaz HTTP y de sus payloads.</p>
-<p>Esta lección te enseña a escribir escenarios que responden preguntas que un equipo enterprise de verdad hace cada semana: qué pasa si el ticket no existe, qué forma tiene el error, qué nombres de estado están permitidos, qué campos son obligatorios y en qué formato vienen fechas.</p>
+<h1 id="05-semana-04-03-bdd-contrato-api-semana-4-lecci-n-3-bdd-de-contrato-api-para-que-todos-eval-en-la-misma-sem-ntica">Semana 4 · Lección 3: BDD de contrato API para que todos evalúen la misma semántica</h1>
+<p>Ahora que la spec está definida, necesitamos convertirla en lenguaje operativo compartido. En Week 4, BDD no describe widgets ni internals de servidor. Describe lo que cualquier consumidor observa al interactuar con API v1: estructura de payload, códigos semánticos y comportamiento frente a errores.</p>
+<p>Este paso es crítico porque reduce fricción entre equipos. Si producto, QA y móvil pueden leer el mismo escenario y llegar a la misma conclusión de pass/fail, has ganado una capacidad real de coordinación.</p>
 <pre class="mermaid">sequenceDiagram
-    participant Cliente as Cliente iOS
+    participant Consumer as Cliente iOS
     participant API as API v1
-    participant Dominio as Regla de dominio
-    Cliente->>API: PATCH /v1/tickets/{id}/status
-    API->>Dominio: validar transicion
-    Dominio-->>API: permitido o invalid_transition
-    API-->>Cliente: payload estable y versionado</pre>
-<p>Este bloque muestra la forma de expresar esos acuerdos de manera verificable y compartible entre roles.</p>
-<pre><code class="language-gherkin">Feature: Contrato API v1 de ticketing
-  Scenario: Listado de tickets devuelve campos versionados
-    Given existen tickets en el sistema
-    When cliente solicita GET /v1/tickets
-    Then respuesta incluye id, subject, status, priority y createdAt en ISO8601
+    participant Domain as Dominio ticketing
 
-  Scenario: Crear ticket valida reglas mínimas
-    Given payload de creacion con categoria soportada
-    When cliente solicita POST /v1/tickets
-    Then API devuelve ticket con status open
+    Consumer->>API: solicita transicion de estado
+    API->>Domain: valida regla del lifecycle
+    Domain-->>API: permitido o error semantico
+    API-->>Consumer: respuesta versionada y estable</pre>
+<p>Fíjate en la palabra estable. Ese es el corazón de un contrato enterprise.</p>
+<p>Escenarios base recomendados para Week 4:</p>
+<pre><code class="language-gherkin">Feature: API contract v1 for ticketing
+  Scenario: List endpoint returns required contract fields
+    Given tickets exist in the system
+    When client requests GET /v1/tickets
+    Then response includes id, subject, status, priority and createdAt in ISO8601
 
-  Scenario: Transición inválida devuelve error semántico
-    Given ticket en estado closed
-    When cliente solicita PATCH /v1/tickets/{id}/status a open
-    Then API devuelve invalid_transition</code></pre>
-<p>El objetivo didáctico no es que memorices Gherkin. Es que aprendas a detectar si un escenario realmente protege una integración. Si el escenario no falla cuando rompes un nombre de campo crítico, el escenario está incompleto para contrato API.</p>
-<p>La práctica guiada consiste en tomar el escenario de listado y añadir una condición de formato para <code>createdAt</code> que un consumidor pueda validar automáticamente. Después explica por qué ese detalle evita incidencias al integrar.</p>
-<p>La verificación de comprensión antes de TDD es esta: si backend devuelve <code>in_progress</code> pero el contrato dice <code>inProgress</code>, ¿qué escenario debería fallar primero y por qué?</p>
-<p>Siguiente lección: <code>05-semana-04/04-tdd-contract-tests.md</code>.</p>
+  Scenario: Create endpoint returns open status by default
+    Given a valid create payload
+    When client requests POST /v1/tickets
+    Then response contains created ticket with status open
+
+  Scenario: Invalid lifecycle transition returns semantic error
+    Given a ticket exists with status closed
+    When client requests PATCH /v1/tickets/{ticketId}/status to open
+    Then API returns invalid_transition
+
+  Scenario: Missing ticket id returns not found semantic error
+    Given the requested ticket id does not exist
+    When client requests PATCH /v1/tickets/{ticketId}/status
+    Then API returns ticket_not_found</code></pre>
+<p>Estos escenarios cubren lo mínimo para que una integración no dependa de suposiciones.</p>
+<p>Una advertencia importante: evita escribir BDD con frases que dependen de implementación concreta, como "se invoca método X". Eso no ayuda a roles no técnicos y no protege semántica de contrato. El foco debe estar en comportamiento visible en API.</p>
+<p>Un truco útil para validar calidad de tus escenarios: cámbiale el framework al backend en tu cabeza. Si el escenario sigue siendo válido, está bien expresado. Si deja de tener sentido sin un detalle interno, está acoplado de más.</p>
+<h2 id="05-semana-04-03-bdd-contrato-api-pr-ctica-guiada">Práctica guiada</h2>
+<p>Añade a los escenarios una validación explícita del formato <code>createdAt</code> y explica por qué esa regla evita errores de parsing y ordenación en cliente iOS. Luego identifica qué test de contrato debería caer si ese formato cambia.</p>
+<h2 id="05-semana-04-03-bdd-contrato-api-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Responde qué diferencia hay entre un escenario que valida "la petición responde 200" y un escenario que valida "la respuesta mantiene semántica de contrato". Si no distingues esas dos capas, todavía no estás haciendo BDD de contrato.</p>
+<h2 id="05-semana-04-03-bdd-contrato-api-siguiente-lecci-n">Siguiente lección</h2>
+<p>Pasa a <code>05-semana-04/04-tdd-contract-tests.md</code>, donde convertiremos estos escenarios en pruebas automáticas que detecten cualquier ruptura de payload o semántica antes de llegar a integración.</p>
 </section>
 <section id="05-semana-04-04-tdd-contract-tests" class="lesson" data-topic-id="05-semana-04-04-tdd-contract-tests" data-lesson-path="05-semana-04/04-tdd-contract-tests.md">
 <div class="lesson-path">05-semana-04/04-tdd-contract-tests.md</div>
-<h1 id="05-semana-04-04-tdd-contract-tests-semana-4-lecci-n-4-tdd-de-contrato-para-fallar-r-pido-cuando-el-acuerdo-se-rompe">Semana 4 · Lección 4: TDD de contrato para fallar rápido cuando el acuerdo se rompe</h1>
-<p>Con escenarios definidos, llega la parte que convierte ese acuerdo en red de seguridad ejecutable. En Week 4 no basta con tests de dominio. Necesitamos pruebas que vigilen la frontera API: serialización, deserialización, mapeo semántico y presencia de campos obligatorios. Esa es la esencia de contract testing en este nivel.</p>
-<p>Piensa en este tipo de prueba como un traductor jurado. Si una palabra cambia en el documento oficial, el traductor lo detecta inmediatamente y no deja pasar una interpretación libre. Eso mismo hacemos aquí con estados, prioridades y estructura de payload.</p>
+<h1 id="05-semana-04-04-tdd-contract-tests-semana-4-lecci-n-4-tdd-de-contrato-para-detectar-roturas-de-api-en-el-minuto-cero">Semana 4 · Lección 4: TDD de contrato para detectar roturas de API en el minuto cero</h1>
+<p>BDD ya te dijo qué comportamiento visible debe cumplir API v1. Ahora toca convertir ese acuerdo en una red de seguridad ejecutable. Esa red son los contract tests: pruebas que vigilan frontera de transporte, no solo lógica de dominio.</p>
+<p>Este punto es clave para entender madurez técnica. Un test de dominio puede seguir en verde mientras el contrato API se rompe por un cambio de campo, formato o nombre de estado. Por eso Week 4 introduce una capa específica de pruebas de contrato.</p>
 <pre class="mermaid">flowchart LR
-    A[Escenario BDD] --> B[Test de contrato rojo]
+    A[Escenario BDD de contrato] --> B[Test rojo en boundary API]
     B --> C[DTO y mapper minimos]
     C --> D[Test verde]
-    D --> E[Refactor sin romper contrato]</pre>
-<p>Este ejemplo prueba una condición clave: la respuesta de listado debe decodificarse correctamente y preservar estado esperado. Si alguien cambia el nombre del campo o el valor de estado, la prueba cae en rojo.</p>
+    D --> E[Refactor sin romper payload]</pre>
+<p>Empezamos por decodificación de listado, porque suele ser la primera superficie que consume cliente:</p>
 <pre><code class="language-swift">import Testing
 @testable import HelpdeskAPIContract
 
 @Test
-func decode_list_response_preserva_estado_y_campos() throws {
+func decodeListResponsePreservesContractFields() throws {
     let json = """
     {
-      \"tickets\": [
+      "tickets": [
         {
-          \"id\": \"T-500\",
-          \"subject\": \"No abre sesión\",
-          \"description\": \"El login falla en iPhone\",
-          \"category\": \"technical\",
-          \"priority\": \"high\",
-          \"status\": \"open\",
-          \"createdAt\": \"2026-02-13T19:00:00Z\"
+          "id": "T-500",
+          "subject": "No abre sesión",
+          "description": "El login falla en iPhone",
+          "category": "technical",
+          "priority": "high",
+          "status": "open",
+          "createdAt": "2026-02-13T19:00:00Z"
         }
       ]
     }
@@ -5604,23 +5648,49 @@ func decode_list_response_preserva_estado_y_campos() throws {
 
     #expect(decoded.tickets.count == 1)
     #expect(decoded.tickets[0].status == .open)
+    #expect(decoded.tickets[0].createdAt == "2026-02-13T19:00:00Z")
 }</code></pre>
+<p>Esta prueba protege tres cosas al mismo tiempo: forma, semántica y formato. Si cualquiera cambia sin acuerdo, cae en rojo.</p>
+<p>Ahora una prueba de mapeo semántico contrato -> dominio:</p>
+<pre><code class="language-swift">@Test
+func mapperConvertsDTOToDomainWithExpectedSemantics() throws {
+    let dto = APITicketDTO(
+        id: "T-700",
+        subject: "Pago duplicado",
+        description: "Cliente reporta dos cargos",
+        category: "billing",
+        priority: .high,
+        status: .inProgress,
+        createdAt: "2026-02-13T19:05:00Z"
+    )
+
+    let domain = try TicketContractMapper.toDomain(dto)
+
+    #expect(domain.id.rawValue == "T-700")
+    #expect(domain.status == .inProgress)
+}</code></pre>
+<p>Este tipo de prueba evita un bug clásico: que el dominio "parezca" correcto pero esté recibiendo valores traducidos con semántica incorrecta.</p>
+<p>Ejecuta la suite completa:</p>
 <pre><code class="language-bash">swift test --package-path project/HelpdeskSDD</code></pre>
-<p>La práctica guiada de esta lección consiste en cambiar temporalmente el valor de estado del fixture a <code>in_progress</code> y observar cómo falla la suite. Después revierte el cambio y documenta qué prueba protegió exactamente el contrato.</p>
-<p>La verificación de comprensión antes de pasar a producción debe responder esto: ¿por qué un test unitario de dominio no reemplaza un contract test de API aunque ambos hablen de estados?</p>
-<p>Siguiente lección: <code>05-semana-04/05-codigo-contrato-openapi.md</code>.</p>
+<p>Durante práctica, rompe intencionadamente una constante de estado (<code>inProgress</code> -> <code>in_progress</code>) y confirma que los tests de contrato saltan. Luego revierte. Este ejercicio te enseña a confiar en tu red de protección y no en memoria humana.</p>
+<h2 id="05-semana-04-04-tdd-contract-tests-pr-ctica-guiada">Práctica guiada</h2>
+<p>Crea un test adicional para validar que un <code>createdAt</code> inválido provoca error de mapeo semántico en boundary. Documenta por qué este caso es importante para evitar corrupción silenciosa en cliente.</p>
+<h2 id="05-semana-04-04-tdd-contract-tests-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Explica por qué una suite de dominio en verde no garantiza contrato API sano. Si no puedes nombrar al menos dos fallos de contrato que dominio no detectaría, revisa esta lección antes de avanzar.</p>
+<h2 id="05-semana-04-04-tdd-contract-tests-siguiente-lecci-n">Siguiente lección</h2>
+<p>Sigue en <code>05-semana-04/05-codigo-contrato-openapi.md</code>, donde implementaremos OpenAPI, DTO y mapeadores de forma coherente con los tests de contrato.</p>
 </section>
 <section id="05-semana-04-05-codigo-contrato-openapi" class="lesson" data-topic-id="05-semana-04-05-codigo-contrato-openapi" data-lesson-path="05-semana-04/05-codigo-contrato-openapi.md">
 <div class="lesson-path">05-semana-04/05-codigo-contrato-openapi.md</div>
-<h1 id="05-semana-04-05-codigo-contrato-openapi-semana-4-lecci-n-5-implementar-el-contrato-v1-con-openapi-dto-y-mapeadores">Semana 4 · Lección 5: implementar el contrato v1 con OpenAPI, DTO y mapeadores</h1>
-<p>Ya tenemos especificación y pruebas en marcha. Ahora toca materializar el contrato de forma que pueda ser consumido por equipos reales. Esta implementación tiene tres piezas que deben avanzar juntas. La primera es el archivo OpenAPI v1, que declara endpoints y esquemas. La segunda son los DTO de contrato, que representan payloads de entrada y salida. La tercera son los mapeadores, que traducen entre contrato y dominio sin contaminar capas.</p>
-<p>El principio de esta lección es simple y potente. Dominio no negocia con JSON. Dominio negocia con tipos de negocio. La capa de contrato es la traductora entre el mundo HTTP y el mundo de reglas internas.</p>
+<h1 id="05-semana-04-05-codigo-contrato-openapi-semana-4-lecci-n-5-c-digo-de-contrato-v1-con-openapi-dto-y-mapeo-limpio-hacia-dominio">Semana 4 · Lección 5: código de contrato v1 con OpenAPI, DTO y mapeo limpio hacia dominio</h1>
+<p>Con tests de contrato listos, ahora materializamos API v1 en producción mínima correcta. Esta fase tiene una regla de arquitectura muy clara: el dominio no sabe de HTTP ni de JSON. La capa de contrato se encarga de traducir el mundo externo al lenguaje interno del sistema.</p>
+<p>En términos prácticos, Week 4 se implementa con tres piezas coordinadas: especificación OpenAPI versionada, modelos DTO de transporte y mapeadores explícitos contrato↔dominio.</p>
 <pre class="mermaid">flowchart TD
-    A[OpenAPI v1] --> B[DTO de contrato]
-    B --> C[Mapper contrato-dominio]
+    A[OpenAPI v1] --> B[DTO request/response]
+    B --> C[TicketContractMapper]
     C --> D[Use cases y dominio]
-    D --> E[Respuesta API coherente]</pre>
-<p>Este fragmento de OpenAPI resume la intención externa de Week 4. No hace falta que sea gigantesco; hace falta que sea inequívoco para los flujos que prometemos.</p>
+    D --> E[Respuesta consistente al consumidor]</pre>
+<p>Primero, un fragmento representativo de OpenAPI v1:</p>
 <pre><code class="language-yaml">openapi: 3.1.0
 info:
   title: HelpdeskSDD API
@@ -5634,7 +5704,7 @@ paths:
   /v1/tickets/{ticketId}/status:
     patch:
       summary: Transition ticket status</code></pre>
-<p>Y este ejemplo en Swift muestra cómo se expresa un DTO de contrato sin arrastrar decisiones de dominio de forma accidental.</p>
+<p>Después, el DTO de contrato que vive en boundary y no en dominio:</p>
 <pre><code class="language-swift">public struct APITicketDTO: Codable, Equatable, Sendable {
     public let id: String
     public let subject: String
@@ -5644,79 +5714,155 @@ paths:
     public let status: APITicketStatus
     public let createdAt: String
 }</code></pre>
-<p>La práctica guiada de esta lección consiste en seguir una ruta completa de datos: toma un <code>APITicketDTO</code>, mapéalo a <code>Ticket</code> de dominio y vuelve a mapearlo a DTO. Si el resultado pierde semántica en estado, fecha o prioridad, tienes un bug de boundary.</p>
-<p>La verificación de comprensión previa al refactor es esta: ¿qué ganas al separar DTO y entidad de dominio aunque ambos tengan campos parecidos en este momento?</p>
-<p>Siguiente lección: <code>05-semana-04/06-refactor-boundary-contrato.md</code>.</p>
-</section>
-<section id="05-semana-04-06-refactor-boundary-contrato" class="lesson" data-topic-id="05-semana-04-06-refactor-boundary-contrato" data-lesson-path="05-semana-04/06-refactor-boundary-contrato.md">
-<div class="lesson-path">05-semana-04/06-refactor-boundary-contrato.md</div>
-<h1 id="05-semana-04-06-refactor-boundary-contrato-semana-4-lecci-n-6-refactor-de-boundary-para-mantener-el-contrato-saludable">Semana 4 · Lección 6: refactor de boundary para mantener el contrato saludable</h1>
-<p>Después de implementar, toca consolidar. Esta lección no añade una funcionalidad nueva visible, pero sí mejora algo crítico: la capacidad de evolucionar contrato sin romper dominio ni consumidores. En otras palabras, hacemos refactor para comprar estabilidad futura.</p>
-<p>En esta fase revisamos responsabilidades para eliminar duplicidades y aislar conversiones peligrosas. Normalmente los problemas aparecen en tres puntos. Conversión de fechas sin formato único. Traducción de estados con aliases no controlados. Manejo de errores mezclado entre transporte y negocio. Si dejas estos tres puntos difusos, Week 5 en adelante se vuelve frágil.</p>
-<pre class="mermaid">flowchart LR
-    A[Implementacion inicial] --> B[Detectar acoplamientos de boundary]
-    B --> C[Extraer mapper y normalizador]
-    C --> D[Revalidar contract tests]
-    D --> E[Contrato listo para evolucion]</pre>
-<p>El refactor recomendado en Week 4 consiste en centralizar el mapeo de estado y fecha en una pieza única. Así, si en v2 cambia formato o semántica, el impacto queda localizado y no repartido por varias capas.</p>
-<pre><code class="language-swift">enum APIContractError: Error, Equatable, Sendable {
+<p>Y por último, la traducción explícita a entidad de dominio:</p>
+<pre><code class="language-swift">public enum APIContractError: Error, Equatable, Sendable {
     case invalidStatus(String)
     case invalidPriority(String)
     case invalidDate(String)
 }
 
-struct APITicketMapper {
+public enum TicketContractMapper {
+    public static func toDomain(_ dto: APITicketDTO) throws -&gt; Ticket {
+        // Validacion y conversion de campos de contrato a semantica de dominio.
+        // Si algo no cumple contrato, se lanza APIContractError.
+        fatalError("Implementacion real en proyecto")
+    }
+}</code></pre>
+<p>Lo importante no es este <code>fatalError</code> de ejemplo, sino la intención de diseño: el mapping es explícito y centralizado. Si mañana cambia el contrato v2, ajustas este boundary sin reescribir dominio.</p>
+<p>Valida la integración con tests y comprobaciones del repo:</p>
+<pre><code class="language-bash">swift test --package-path project/HelpdeskSDD
+npm run -s openspec:validate
+python3 scripts/validate-openspec.py</code></pre>
+<p>Cuando esto está en verde, ya no tienes "unos tipos Swift". Tienes una frontera de integración capaz de proteger semántica bajo cambio.</p>
+<h2 id="05-semana-04-05-codigo-contrato-openapi-pr-ctica-guiada">Práctica guiada</h2>
+<p>Recorre un caso completo: crea un <code>APITicketDTO</code>, mapéalo a <code>Ticket</code>, aplica una transición de dominio y vuelve a mapear a DTO de salida. Verifica que <code>status</code>, <code>priority</code> y <code>createdAt</code> conservan significado. Si algo se degrada, corrige boundary antes de seguir.</p>
+<h2 id="05-semana-04-05-codigo-contrato-openapi-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Responde por qué mantener DTO y dominio separados sigue siendo buena decisión aunque hoy sus campos sean parecidos. Si solo dices "por limpieza", te falta mencionar evolución de contrato y compatibilidad.</p>
+<h2 id="05-semana-04-05-codigo-contrato-openapi-siguiente-lecci-n">Siguiente lección</h2>
+<p>Continúa en <code>05-semana-04/06-refactor-boundary-contrato.md</code>, donde consolidaremos el boundary para reducir riesgo de drift semántico en semanas futuras.</p>
+</section>
+<section id="05-semana-04-06-refactor-boundary-contrato" class="lesson" data-topic-id="05-semana-04-06-refactor-boundary-contrato" data-lesson-path="05-semana-04/06-refactor-boundary-contrato.md">
+<div class="lesson-path">05-semana-04/06-refactor-boundary-contrato.md</div>
+<h1 id="05-semana-04-06-refactor-boundary-contrato-semana-4-lecci-n-6-refactor-del-boundary-de-contrato-para-evitar-deriva-sem-ntica">Semana 4 · Lección 6: refactor del boundary de contrato para evitar deriva semántica</h1>
+<p>La implementación de API v1 ya funciona, pero eso no garantiza que sea sostenible. Sin refactor de boundary, el sistema puede entrar en una deriva peligrosa: pequeños cambios de transporte repartidos en varios sitios, conversiones duplicadas y errores semánticos difíciles de rastrear.</p>
+<p>Esta lección existe para consolidar el contrato en un punto de verdad y reducir coste de cambio futuro.</p>
+<pre class="mermaid">flowchart LR
+    A[Implementacion inicial de contrato] --> B[Deteccion de duplicidades]
+    B --> C[Centralizar mapeo y normalizacion]
+    C --> D[Ejecutar contract tests]
+    D --> E[Boundary listo para evolucion v2]</pre>
+<p>Los tres focos de riesgo más frecuentes en Week 4 son formato de fecha inconsistente, alias de estado sin control y mezcla de errores de transporte con errores de negocio.</p>
+<pre><code class="language-yaml">boundary_refactor_focus:
+  date_normalization: "un unico punto de conversion createdAt"
+  status_mapping: "equivalencias de estado controladas y testeadas"
+  error_taxonomy: "errores de contrato separados de errores de dominio"</code></pre>
+<p>Un patrón limpio para este refactor:</p>
+<pre><code class="language-swift">struct APITicketMapper {
     func toDomain(_ dto: APITicketDTO) throws -&gt; Ticket {
         try TicketContractMapper.toDomain(dto)
     }
+
+    func toDTO(_ ticket: Ticket) throws -&gt; APITicketDTO {
+        try TicketContractMapper.toDTO(ticket)
+    }
 }</code></pre>
-<p>La práctica guiada de esta lección consiste en localizar una conversión de datos repetida y moverla a un único punto de verdad. Después ejecuta tests y comprueba que el comportamiento observable no cambia. Ese patrón de trabajo es exactamente el que necesitarás en mantenimiento enterprise real.</p>
-<p>La verificación de comprensión antes del checkpoint es esta: ¿por qué un refactor sin cambio funcional también debe ir acompañado de evidencia de tests y de un commit con intención clara?</p>
-<p>Siguiente lección: <code>05-semana-04/07-checkpoint-evaluacion.md</code>.</p>
+<p>La idea no es crear capas por crear. La idea es concentrar responsabilidad semántica en una pieza fácil de testear y evolucionar.</p>
+<p>Después del refactor, reejecuta pruebas de contrato y suite completa:</p>
+<pre><code class="language-bash">swift test --package-path project/HelpdeskSDD
+npm run -s openspec:validate
+python3 scripts/validate-openspec.py</code></pre>
+<p>Si aquí aparece un fallo, es una buena noticia: te está avisando de una inconsistencia antes de impactar consumidores externos.</p>
+<h2 id="05-semana-04-06-refactor-boundary-contrato-pr-ctica-guiada">Práctica guiada</h2>
+<p>Busca una conversión repetida en tu implementación de Week 4 (fecha, estado o prioridad), centralízala en el mapper y demuestra con tests que el comportamiento observable no cambió. Deja nota breve de qué riesgo eliminaste.</p>
+<h2 id="05-semana-04-06-refactor-boundary-contrato-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Explica por qué un refactor que "no cambia funcionalidad" sigue siendo crítico para producto enterprise. Si no puedes conectarlo con reducción de riesgo y coste de evolución, revisa la lección.</p>
+<h2 id="05-semana-04-06-refactor-boundary-contrato-siguiente-lecci-n">Siguiente lección</h2>
+<p>Sigue con <code>05-semana-04/07-checkpoint-evaluacion.md</code>, donde decidiremos cierre de API v1 con criterios reproducibles de contrato.</p>
 </section>
 <section id="05-semana-04-07-checkpoint-evaluacion" class="lesson" data-topic-id="05-semana-04-07-checkpoint-evaluacion" data-lesson-path="05-semana-04/07-checkpoint-evaluacion.md">
 <div class="lesson-path">05-semana-04/07-checkpoint-evaluacion.md</div>
-<h1 id="05-semana-04-07-checkpoint-evaluacion-semana-4-lecci-n-7-checkpoint-de-contrato-para-decidir-si-api-v1-est-cerrada">Semana 4 · Lección 7: checkpoint de contrato para decidir si API v1 está cerrada</h1>
-<p>El cierre de Week 4 exige más rigor que una demo que “responde”. La pregunta real es si otro equipo podría integrar tu API sin tenerte sentado al lado explicando excepciones. Si la respuesta es no, la semana aún no está cerrada.</p>
-<p>Este checkpoint comprueba alineación entre cuatro piezas. OpenSpec como fuente de intención. OpenAPI como contrato operativo. Tests de contrato como red automática. Implementación de mapeo como frontera limpia. Si una de esas piezas contradice a otra, el sistema puede compilar y aun así estar mal preparado para integración.</p>
+<h1 id="05-semana-04-07-checkpoint-evaluacion-semana-4-lecci-n-7-checkpoint-de-api-v1-para-cerrar-contrato-con-evidencia-y-no-con-optimismo">Semana 4 · Lección 7: checkpoint de API v1 para cerrar contrato con evidencia y no con optimismo</h1>
+<p>Llegamos al cierre de Week 4. Esta decisión no se toma por sensación de avance ni por una demo rápida de endpoints. Se toma cuando el contrato puede resistir cambio e integración sin depender de explicaciones verbales.</p>
+<p>La pregunta correcta no es "¿responde la API?". La pregunta correcta es "¿responde con semántica estable y protegida por tests cuando el sistema evoluciona?".</p>
 <pre class="mermaid">flowchart TD
-    A[OpenSpec week04] --> B[OpenAPI v1]
-    B --> C[Contract tests]
-    C --> D[Mapper y DTO]
-    D --> E[Validacion de repo]
-    E --> F[Decision de cierre]</pre>
-<p>La forma profesional de evaluar esta semana no depende de optimismo, depende de evidencia reproducible. Si el contrato se rompe, la suite debe avisar. Si no avisa, el contrato no está protegido aunque el documento exista.</p>
+    A[OpenSpec week04] --> B[OpenAPI v1 publicado]
+    B --> C[BDD de contrato]
+    C --> D[Contract tests en verde]
+    D --> E[Boundary consolidado]
+    E --> F[Validadores de repo]
+    F --> G[Decision de cierre]</pre>
+<p>Si cualquier eslabón falla, no hay cierre. Hay deuda identificada con acción siguiente.</p>
+<p>Rúbrica de cierre sugerida:</p>
+<pre><code class="language-yaml">week4_checkpoint_rubric:
+  contract_clarity:
+    level_1: "ambiguedad en campos o errores"
+    level_2: "contrato parcial"
+    level_3: "contrato claro y versionado"
+    level_4: "contrato claro, versionado y archivado con evidencia"
+  semantic_stability:
+    level_1: "nombres y formatos inestables"
+    level_2: "estabilidad parcial"
+    level_3: "semantica estable protegida por tests"
+    level_4: "semantica estable con pruebas de mutacion controlada"
+  boundary_quality:
+    level_1: "dominio mezclado con transporte"
+    level_2: "separacion incompleta"
+    level_3: "separacion correcta DTO-mapper-dominio"
+    level_4: "separacion correcta y lista para evolucion v2"
+  auditability:
+    level_1: "sin rastro claro"
+    level_2: "rastro parcial"
+    level_3: "rastro suficiente para reconstruir decisiones"
+    level_4: "rastro audit-ready de extremo a extremo"</code></pre>
+<p>Comandos de verificación de cierre:</p>
 <pre><code class="language-bash">swift test --package-path project/HelpdeskSDD
 npm run -s openspec:validate
-python3 scripts/validate-course-structure.py
 python3 scripts/validate-openspec.py
+python3 scripts/validate-course-structure.py
 python3 scripts/check-links.py
 python3 scripts/validate-pedagogy.py
 python3 scripts/build-html.py</code></pre>
-<p>La práctica guiada de esta lección consiste en romper adrede un campo de contrato en un fixture o DTO, ejecutar suite completa y comprobar que el fallo aparece en la zona esperada. Luego revierte el cambio y registra la evidencia del aprendizaje. Con este ejercicio entrenas una mentalidad esencial: confiar en el sistema de protección, no en la memoria.</p>
-<p>La verificación de comprensión final del checkpoint es responder esto: ¿por qué una API puede estar técnicamente disponible pero estratégicamente no lista para enterprise?</p>
-<p>Siguiente lección: <code>05-semana-04/08-bitacora-commits.md</code>.</p>
+<p>Haz una rotura controlada antes de cerrar: cambia temporalmente un campo o valor de estado en fixture/DTO y confirma que la suite de contrato cae en el lugar esperado. Luego revierte y vuelve a verde. Este ejercicio fortalece confianza real en tu red de protección.</p>
+<h2 id="05-semana-04-07-checkpoint-evaluacion-pr-ctica-guiada">Práctica guiada</h2>
+<p>Escribe un párrafo de cierre técnico con tres elementos: evidencia más fuerte de que <code>v1</code> está lista, mayor riesgo residual aceptado y decisión explícita sobre qué no entra en Week 4. Esa narrativa te entrena para comunicación profesional en equipo.</p>
+<h2 id="05-semana-04-07-checkpoint-evaluacion-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Responde por qué una API "disponible" puede seguir siendo "no integrable" en contexto enterprise. Si tu respuesta no incluye semántica compartida y protección automática, todavía no está consolidado el criterio.</p>
+<h2 id="05-semana-04-07-checkpoint-evaluacion-siguiente-lecci-n">Siguiente lección</h2>
+<p>Pasa a <code>05-semana-04/08-bitacora-commits.md</code> para formalizar el cierre de Week 4 en historial de commits atomizado y auditable.</p>
 </section>
 <section id="05-semana-04-08-bitacora-commits" class="lesson" data-topic-id="05-semana-04-08-bitacora-commits" data-lesson-path="05-semana-04/08-bitacora-commits.md">
 <div class="lesson-path">05-semana-04/08-bitacora-commits.md</div>
-<h1 id="05-semana-04-08-bitacora-commits-semana-4-lecci-n-8-bit-cora-de-commits-para-dejar-contrato-auditable">Semana 4 · Lección 8: bitácora de commits para dejar contrato auditable</h1>
-<p>La bitácora de Week 4 debe permitir reconstruir, sin reuniones extra, cómo se definió y verificó el contrato API v1. Esta capacidad es crítica cuando trabajas con equipos distribuidos o cuando una integración falla semanas después y necesitas entender el origen exacto del comportamiento.</p>
-<p>En esta semana conviene separar commits por intención técnica. Un commit para narrativa y formación de semana. Otro para implementación del contrato y tests. Otro para artefactos OpenSpec y publicación. Este orden ayuda a revisar y revertir con precisión, y enseña al alumno una disciplina transferible a proyectos reales.</p>
+<h1 id="05-semana-04-08-bitacora-commits-semana-4-lecci-n-8-bit-cora-de-commits-para-dejar-api-v1-auditada-y-mantenible">Semana 4 · Lección 8: bitácora de commits para dejar API v1 auditada y mantenible</h1>
+<p>Cerramos Week 4 con una práctica que separa trabajo amateur de trabajo profesional: dejar un historial de commits que explique el cambio sin depender de quien lo implementó. En una API de contrato compartido, esta trazabilidad es crítica porque integraciones futuras dependen de entender decisiones pasadas.</p>
+<p>Un historial útil no es el que tiene muchos commits; es el que tiene commits con intención clara y validación asociada.</p>
 <pre class="mermaid">flowchart LR
-    A[Cambio planificado week04] --> B[Validaciones por bloque]
-    B --> C[Commit atomico con alcance unico]
-    C --> D[Worktree limpio]
-    D --> E[Historial auditable]</pre>
-<p>La plantilla de cierre no es para decorar. Es un guion operativo que evita olvidar evidencia crítica en el último tramo de la semana.</p>
-<pre><code class="language-text">git status --short
+    A[Decision de contrato week04] --> B[Cambio acotado por bloque]
+    B --> C[Validaciones ejecutadas]
+    C --> D[Commit atomico con mensaje preciso]
+    D --> E[Worktree limpio]
+    E --> F[Historial auditable]</pre>
+<p>Para Week 4, una secuencia sana suele separar al menos estos bloques: contrato y escenarios, implementación y tests de contrato, refactor de boundary, publicación y documentación.</p>
+<p>Ejemplo de cierre reproducible:</p>
+<pre><code class="language-bash">git status --short
 swift test --package-path project/HelpdeskSDD
 npm run -s openspec:validate
+python3 scripts/validate-openspec.py
 python3 scripts/build-html.py
-git add &lt;bloque-del-cambio&gt;
-git commit -m "mensaje claro y atomico"</code></pre>
-<p>La práctica guiada final consiste en revisar tus propios commits de Week 4 y explicar en una frase por qué cada uno tiene una intención única. Si un commit necesita tres frases para entenderse, probablemente está mezclando responsabilidades y deberías dividirlo.</p>
-<p>La verificación de comprensión que cierra esta semana es responder con tus palabras la diferencia entre “historial de actividad” e “historial auditable de ingeniería”. Esa diferencia marca si estás trabajando como ejecutor de tareas o como profesional que deja sistemas mantenibles.</p>
-<p>Siguiente semana: <code>06-semana-05/00-semana-05-roadmap.md</code>.</p>
+git add 05-semana-04 openspec project/HelpdeskSDD
+git commit -m "feat(week4): deliver api v1 contract with tested boundary mapping"</code></pre>
+<p>En el mensaje de commit, evita frases genéricas como "update files". Debe quedar claro qué capacidad se cerró y con qué evidencia.</p>
+<p>Una nota corta de cierre ayuda mucho para auditoría posterior:</p>
+<pre><code class="language-yaml">week4_closure_note:
+  capability: "API v1 contract for ticketing with stable semantics"
+  validation: "contract tests + openspec validation + course validators"
+  risk_reduced: "payload ambiguity across backend and client"</code></pre>
+<p>Esta nota no reemplaza commits ni tests, pero mejora muchísimo la capacidad de reconstruir contexto meses después.</p>
+<h2 id="05-semana-04-08-bitacora-commits-pr-ctica-guiada">Práctica guiada</h2>
+<p>Revisa tus commits de Week 4 y justifica en una frase la intención principal de cada uno. Si uno requiere varias frases para entenderlo, divídelo en commits más atómicos antes de declarar cierre.</p>
+<h2 id="05-semana-04-08-bitacora-commits-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Comprueba si puedes explicar con un ejemplo concreto la diferencia entre "historial de actividad" e "historial de ingeniería auditable". Esa distinción marca tu nivel de madurez profesional.</p>
+<h2 id="05-semana-04-08-bitacora-commits-siguiente-semana">Siguiente semana</h2>
+<p>Continúa en <code>06-semana-05/00-semana-05-roadmap.md</code>, donde trasladaremos el enfoque de contrato a persistencia local y prepararemos el sistema para políticas offline/cache de semanas posteriores.</p>
 </section>
 <section id="06-semana-05-00-semana-05-roadmap" class="lesson" data-topic-id="06-semana-05-00-semana-05-roadmap" data-lesson-path="06-semana-05/00-semana-05-roadmap.md">
 <div class="lesson-path">06-semana-05/00-semana-05-roadmap.md</div>
