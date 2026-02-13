@@ -938,7 +938,7 @@
         return ensureProxyBaseReachable()
             .then(function (ok) {
                 if (!ok) {
-                    setStatus('Asistente no disponible. Inicia open-proxy.command', 'warning');
+                    setStatus('Asistente no disponible. Inicia stack-my-architecture-hub/open-proxy.command', 'warning');
                     return null;
                 }
                 return fetch(proxyUrl('/config'));
@@ -1006,7 +1006,7 @@
                 renderPendingAttachments();
             })
             .catch(function () {
-                setStatus('Asistente no disponible. Inicia open-proxy.command', 'warning');
+                setStatus('Asistente no disponible. Inicia stack-my-architecture-hub/open-proxy.command', 'warning');
             });
     }
 
@@ -1171,7 +1171,7 @@
                 var message = err && err.name === 'AbortError'
                     ? 'Tiempo de espera agotado al consultar el asistente.'
                     : (err && err.message ? err.message : 'error desconocido');
-                setStatus(message + ' Inicia open-proxy.command si el proxy no está activo.', 'error');
+                setStatus(message + ' Inicia stack-my-architecture-hub/open-proxy.command si el proxy no está activo.', 'error');
             })
             .finally(function () {
                 clearTimeout(timeoutId);
