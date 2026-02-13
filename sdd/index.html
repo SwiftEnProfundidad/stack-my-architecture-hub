@@ -934,10 +934,22 @@ blockquote p {
   <li><a class="doc-nav-link" data-lesson-path="openspec/changes/archive/2026-02-12-week02-ticket-lifecycle/specs/ticketing/spec.md" href="#openspec-changes-archive-2026-02-12-week02-ticket-lifecycle-specs-ticketing-spec">Delta for Ticketing (Week 02)</a></li>
   <li><a class="doc-nav-link" data-lesson-path="openspec/changes/archive/2026-02-12-week02-ticket-lifecycle/design.md" href="#openspec-changes-archive-2026-02-12-week02-ticket-lifecycle-design">Design: Week 02 — Ticket lifecycle</a></li>
   <li><a class="doc-nav-link" data-lesson-path="openspec/changes/archive/2026-02-12-week02-ticket-lifecycle/tasks.md" href="#openspec-changes-archive-2026-02-12-week02-ticket-lifecycle-tasks">Tasks (Week 02)</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="openspec/changes/archive/2026-02-13-week03-swiftui-shell/proposal.md" href="#openspec-changes-archive-2026-02-13-week03-swiftui-shell-proposal">Proposal: Week 03 — SwiftUI shell and clean wiring</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="openspec/changes/archive/2026-02-13-week03-swiftui-shell/specs/ticketing/spec.md" href="#openspec-changes-archive-2026-02-13-week03-swiftui-shell-specs-ticketing-spec">Delta for Ticketing (Week 03)</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="openspec/changes/archive/2026-02-13-week03-swiftui-shell/design.md" href="#openspec-changes-archive-2026-02-13-week03-swiftui-shell-design">Design: Week 03 — SwiftUI shell wiring</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="openspec/changes/archive/2026-02-13-week03-swiftui-shell/tasks.md" href="#openspec-changes-archive-2026-02-13-week03-swiftui-shell-tasks">Tasks (Week 03)</a></li>
 </ul></li>
 <li class="nav-section"><strong>Semana 3</strong>
 <ul>
-  <li><a class="doc-nav-link" data-lesson-path="04-semana-03/00-semana-03-roadmap.md" href="#04-semana-03-00-semana-03-roadmap">Semana 3: roadmap ejecutable</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="04-semana-03/00-semana-03-roadmap.md" href="#04-semana-03-00-semana-03-roadmap">Semana 3: cuando la arquitectura sale a la luz con una interfaz real</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="04-semana-03/01-problema-swiftui-wiring.md" href="#04-semana-03-01-problema-swiftui-wiring">Semana 3 · Lección 1: el problema real no es la pantalla, es el cableado</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="04-semana-03/02-spec-swiftui-shell-v1.md" href="#04-semana-03-02-spec-swiftui-shell-v1">Semana 3 · Lección 2: convertir la interfaz en contrato antes de programar</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="04-semana-03/03-bdd-swiftui-shell.md" href="#04-semana-03-03-bdd-swiftui-shell">Semana 3 · Lección 3: BDD para describir lo que la persona usuaria realmente observa</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="04-semana-03/04-tdd-viewmodel-wiring.md" href="#04-semana-03-04-tdd-viewmodel-wiring">Semana 3 · Lección 4: llevar BDD a TDD para blindar el wiring</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="04-semana-03/05-codigo-swiftui-shell.md" href="#04-semana-03-05-codigo-swiftui-shell">Semana 3 · Lección 5: código de producción SwiftUI que respeta el contrato</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="04-semana-03/06-refactor-composition-root.md" href="#04-semana-03-06-refactor-composition-root">Semana 3 · Lección 6: refactor de composition root para preparar semanas complejas</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="04-semana-03/07-checkpoint-evaluacion.md" href="#04-semana-03-07-checkpoint-evaluacion">Semana 3 · Lección 7: checkpoint de calidad para decidir cierre real</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="04-semana-03/08-bitacora-commits.md" href="#04-semana-03-08-bitacora-commits">Semana 3 · Lección 8: bitácora de commits para cerrar con evidencia profesional</a></li>
 </ul></li>
 <li class="nav-section"><strong>Semana 4</strong>
 <ul>
@@ -2272,6 +2284,31 @@ python3 scripts/build-html.py</code></pre>
   <li><strong>WHEN</strong> a client requests transition to <code>inProgress</code></li>
   <li><strong>THEN</strong> the system returns <code>ticket_not_found</code></li>
 </ul>
+<h3 id="openspec-specs-ticketing-spec-requirement-expose-ticket-lifecycle-through-a-swiftui-shell-with-clean-wiring">Requirement: Expose ticket lifecycle through a SwiftUI shell with clean wiring</h3>
+<p>The system SHALL expose the current ticket list in a SwiftUI shell that is wired</p>
+<p>through use cases and repository contracts, without embedding lifecycle business</p>
+<p>rules directly in the view layer.</p>
+<p>The shell SHALL render each ticket with status and priority, SHALL refresh state</p>
+<p>through the ViewModel workflow, and SHALL route <code>start work</code> actions to the</p>
+<p>transition use case.</p>
+<h4 id="openspec-specs-ticketing-spec-scenario-render-tickets-in-the-shell">Scenario: Render tickets in the shell</h4>
+<ul>
+  <li><strong>GIVEN</strong> tickets exist in the repository</li>
+  <li><strong>WHEN</strong> the shell is loaded</li>
+  <li><strong>THEN</strong> the system renders tickets with status and priority</li>
+</ul>
+<h4 id="openspec-specs-ticketing-spec-scenario-start-work-only-for-open-tickets">Scenario: Start work only for open tickets</h4>
+<ul>
+  <li><strong>GIVEN</strong> a ticket exists with status <code>open</code></li>
+  <li><strong>WHEN</strong> the user triggers <code>start work</code></li>
+  <li><strong>THEN</strong> the system transitions the ticket to <code>inProgress</code></li>
+</ul>
+<h4 id="openspec-specs-ticketing-spec-scenario-reject-transition-request-from-non-open-status">Scenario: Reject transition request from non-open status</h4>
+<ul>
+  <li><strong>GIVEN</strong> a ticket exists with status <code>resolved</code></li>
+  <li><strong>WHEN</strong> the user triggers <code>start work</code></li>
+  <li><strong>THEN</strong> the system returns <code>invalid_transition</code></li>
+</ul>
 </section>
 <section id="openspec-changes-archive-2026-02-12-week01-ticket-basics-proposal" class="lesson" data-topic-id="openspec-changes-archive-2026-02-12-week01-ticket-basics-proposal" data-lesson-path="openspec/changes/archive/2026-02-12-week01-ticket-basics/proposal.md">
 <div class="lesson-path">openspec/changes/archive/2026-02-12-week01-ticket-basics/proposal.md</div>
@@ -2494,28 +2531,440 @@ python3 scripts/build-html.py</code></pre>
       title: "BDD scenarios alineados con el spec"
       status: done</code></pre>
 </section>
+<section id="openspec-changes-archive-2026-02-13-week03-swiftui-shell-proposal" class="lesson" data-topic-id="openspec-changes-archive-2026-02-13-week03-swiftui-shell-proposal" data-lesson-path="openspec/changes/archive/2026-02-13-week03-swiftui-shell/proposal.md">
+<div class="lesson-path">openspec/changes/archive/2026-02-13-week03-swiftui-shell/proposal.md</div>
+<h1 id="openspec-changes-archive-2026-02-13-week03-swiftui-shell-proposal-proposal-week-03-swiftui-shell-and-clean-wiring">Proposal: Week 03 — SwiftUI shell and clean wiring</h1>
+<h2 id="openspec-changes-archive-2026-02-13-week03-swiftui-shell-proposal-intent">Intent</h2>
+<p>Week 01 and Week 02 established valid ticket creation and controlled lifecycle</p>
+<p>transitions. The system is functionally coherent, but still invisible from a</p>
+<p>user-facing interface perspective.</p>
+<p>This change introduces the first SwiftUI shell to make behavior observable while</p>
+<p>preserving architectural discipline. The core decision is to keep business rules</p>
+<p>in domain plus use cases, and use the UI only as a presentation and intent</p>
+<p>emission layer.</p>
+<h2 id="openspec-changes-archive-2026-02-13-week03-swiftui-shell-proposal-scope">Scope</h2>
+<pre><code class="language-yaml">scope_week03:
+  in_scope:
+    shell: "Ticket list screen in SwiftUI"
+    action: "Start work from open to inProgress"
+    wiring: "Composition root builds ViewModel and use cases"
+    tests: "ViewModel behavior and wiring integration"
+  out_of_scope_on_purpose:
+    - "Authentication and authorization"
+    - "Navigation between multiple feature flows"
+    - "Persistent storage beyond in-memory repository"</code></pre>
+<h2 id="openspec-changes-archive-2026-02-13-week03-swiftui-shell-proposal-approach">Approach</h2>
+<p>The implementation introduces a dedicated interface target for SwiftUI</p>
+<p>composition. The target depends on existing application and domain contracts.</p>
+<p>A <code>HelpdeskAppRootBuilder</code> centralizes wiring to avoid ad-hoc dependency</p>
+<p>creation inside views.</p>
+<p>The ViewModel coordinates refresh and transition actions, converting operational</p>
+<p>failures into user-visible error messages without mutating domain rules.</p>
+<h2 id="openspec-changes-archive-2026-02-13-week03-swiftui-shell-proposal-risks-questions">Risks / questions</h2>
+<pre><code class="language-yaml">open_questions_week03:
+  - "How will role-based permissions for transitions be represented in Week 04+?"
+  - "Should UI telemetry events be captured at ViewModel boundary?"</code></pre>
+</section>
+<section id="openspec-changes-archive-2026-02-13-week03-swiftui-shell-specs-ticketing-spec" class="lesson" data-topic-id="openspec-changes-archive-2026-02-13-week03-swiftui-shell-specs-ticketing-spec" data-lesson-path="openspec/changes/archive/2026-02-13-week03-swiftui-shell/specs/ticketing/spec.md">
+<div class="lesson-path">openspec/changes/archive/2026-02-13-week03-swiftui-shell/specs/ticketing/spec.md</div>
+<h1 id="openspec-changes-archive-2026-02-13-week03-swiftui-shell-specs-ticketing-spec-delta-for-ticketing-week-03">Delta for Ticketing (Week 03)</h1>
+<h2 id="openspec-changes-archive-2026-02-13-week03-swiftui-shell-specs-ticketing-spec-added-requirements">ADDED Requirements</h2>
+<h3 id="openspec-changes-archive-2026-02-13-week03-swiftui-shell-specs-ticketing-spec-requirement-mostrar-ticketing-en-shell-swiftui-con-wiring-desacoplado">Requirement: Mostrar ticketing en shell SwiftUI con wiring desacoplado</h3>
+<p>The system SHALL expose ticket listing and the <code>start work</code> action through a</p>
+<p>SwiftUI shell that delegates lifecycle decisions to use cases and domain rules.</p>
+<p>The shell MUST display ticket status and priority, and MUST trigger</p>
+<p><code>open -> inProgress</code> through <code>TransitionTicketStatusUseCase</code>.</p>
+<pre class="mermaid">sequenceDiagram
+    participant U as User
+    participant V as TicketListView
+    participant VM as TicketListViewModel
+    participant UC as TransitionUseCase
+    participant D as Ticket.transition
+
+    U->>V: Tap start work
+    V->>VM: startWork(ticketID)
+    VM->>UC: execute(ticketID, inProgress)
+    UC->>D: validate transition
+    D-->>UC: transitioned ticket
+    UC-->>VM: result
+    VM-->>V: refresh state</pre>
+<h4 id="openspec-changes-archive-2026-02-13-week03-swiftui-shell-specs-ticketing-spec-scenario-render-list-from-repository">Scenario: Render list from repository</h4>
+<pre><code class="language-gherkin">Scenario: Render list from repository
+  Given one or more tickets exist
+  When the SwiftUI shell appears
+  Then the user sees tickets with status and priority</code></pre>
+<h4 id="openspec-changes-archive-2026-02-13-week03-swiftui-shell-specs-ticketing-spec-scenario-start-work-for-open-ticket">Scenario: Start work for open ticket</h4>
+<pre><code class="language-gherkin">Scenario: Start work for open ticket
+  Given a ticket in open status exists
+  When the user triggers start work
+  Then the ticket status becomes inProgress</code></pre>
+<h4 id="openspec-changes-archive-2026-02-13-week03-swiftui-shell-specs-ticketing-spec-scenario-block-invalid-transition-attempt">Scenario: Block invalid transition attempt</h4>
+<pre><code class="language-gherkin">Scenario: Block invalid transition attempt
+  Given a ticket in resolved status exists
+  When the user triggers start work
+  Then the system reports invalidTransition</code></pre>
+</section>
+<section id="openspec-changes-archive-2026-02-13-week03-swiftui-shell-design" class="lesson" data-topic-id="openspec-changes-archive-2026-02-13-week03-swiftui-shell-design" data-lesson-path="openspec/changes/archive/2026-02-13-week03-swiftui-shell/design.md">
+<div class="lesson-path">openspec/changes/archive/2026-02-13-week03-swiftui-shell/design.md</div>
+<h1 id="openspec-changes-archive-2026-02-13-week03-swiftui-shell-design-design-week-03-swiftui-shell-wiring">Design: Week 03 — SwiftUI shell wiring</h1>
+<h2 id="openspec-changes-archive-2026-02-13-week03-swiftui-shell-design-mental-model">Mental model</h2>
+<p>The shell is not a shortcut around the architecture. It is a window into the</p>
+<p>same lifecycle rules already defined in domain and application.</p>
+<p>A user interaction in the view becomes intent in the ViewModel, intent becomes</p>
+<p>use-case execution, and use-case execution applies domain constraints through</p>
+<p>repository-backed orchestration.</p>
+<h2 id="openspec-changes-archive-2026-02-13-week03-swiftui-shell-design-components">Components</h2>
+<pre class="mermaid">flowchart LR
+  UI[TicketListView] --> VM[TicketListViewModel]
+  VM --> LIST[ListTicketsUseCase]
+  VM --> TRANS[TransitionTicketStatusUseCase]
+  LIST --> REPO[TicketRepository]
+  TRANS --> REPO
+  REPO --> MEM[InMemoryTicketRepository]</pre>
+<h2 id="openspec-changes-archive-2026-02-13-week03-swiftui-shell-design-decisions">Decisions</h2>
+<p>The first decision is to create <code>HelpdeskInterfaceSwiftUI</code> as an explicit</p>
+<p>boundary target. This makes the interface layer visible in dependency rules and</p>
+<p>keeps architectural intent enforceable.</p>
+<p>The second decision is to centralize assembly in <code>HelpdeskAppRootBuilder</code>.</p>
+<p>Trade-off is a little more setup code, but gain is deterministic wiring and</p>
+<p>easy replacement of concrete infrastructure.</p>
+<p>The third decision is to keep transition validation out of the view. The button</p>
+<p>state can reflect eligibility, but final transition authority remains in use</p>
+<p>case plus domain transition matrix.</p>
+</section>
+<section id="openspec-changes-archive-2026-02-13-week03-swiftui-shell-tasks" class="lesson" data-topic-id="openspec-changes-archive-2026-02-13-week03-swiftui-shell-tasks" data-lesson-path="openspec/changes/archive/2026-02-13-week03-swiftui-shell/tasks.md">
+<div class="lesson-path">openspec/changes/archive/2026-02-13-week03-swiftui-shell/tasks.md</div>
+<h1 id="openspec-changes-archive-2026-02-13-week03-swiftui-shell-tasks-tasks-week-03">Tasks (Week 03)</h1>
+<p>This task log keeps Week 03 implementation auditable from contract to code.</p>
+<pre><code class="language-yaml">tasks_week03:
+  interface_target:
+    - id: "1.1"
+      title: "Create HelpdeskInterfaceSwiftUI target"
+      status: done
+    - id: "1.2"
+      title: "Implement TicketListViewModel with refresh/startWork flow"
+      status: done
+    - id: "1.3"
+      title: "Implement TicketListView and action wiring"
+      status: done
+  composition:
+    - id: "2.1"
+      title: "Add HelpdeskAppRootBuilder for deterministic assembly"
+      status: done
+  tests:
+    - id: "3.1"
+      title: "ViewModel tests for refresh and transition behavior"
+      status: done
+    - id: "3.2"
+      title: "Wiring integration test through app root"
+      status: done
+  evidence:
+    - id: "4.1"
+      title: "swift test green"
+      status: done
+    - id: "4.2"
+      title: "Course validation scripts green"
+      status: done</code></pre>
+</section>
 <section id="04-semana-03-00-semana-03-roadmap" class="lesson" data-topic-id="04-semana-03-00-semana-03-roadmap" data-lesson-path="04-semana-03/00-semana-03-roadmap.md">
 <div class="lesson-path">04-semana-03/00-semana-03-roadmap.md</div>
-<h1 id="04-semana-03-00-semana-03-roadmap-semana-3-roadmap-ejecutable">Semana 3: roadmap ejecutable</h1>
-<p>Esta semana consolida una parte del ciclo SDD enterprise sobre <code>HelpdeskSDD</code>. No es teoría aislada: cada actividad termina en artefacto verificable, pruebas en verde y trazabilidad de decisiones. El foco exacto cambia por semana, pero el método se mantiene constante para entrenar disciplina profesional.</p>
-<h2 id="04-semana-03-00-semana-03-roadmap-objetivo-de-la-semana">Objetivo de la semana</h2>
-<p>En Semana 3 avanzas una capacidad concreta de producto sin romper lo construido. La disciplina que entrenas es mantener el flujo completo (OpenSpec → BDD → TDD → producción → refactor) incluso cuando aparecen tentaciones de “atajar” porque ya entiendes el código. Este es el punto donde muchos juniors se relajan y empiezan a improvisar; aquí practicamos lo contrario.</p>
-<h2 id="04-semana-03-00-semana-03-roadmap-resultado-medible">Resultado medible</h2>
-<p>Semana 3 se considera cerrada cuando existe un entregable técnico claro, el build y las pruebas asociadas están en verde y hay evidencia trazable en commits. El objetivo no es acumular cambios; es demostrar que sabes avanzar sin perder control del sistema.</p>
-<h2 id="04-semana-03-00-semana-03-roadmap-flujo-de-trabajo">Flujo de trabajo</h2>
+<h1 id="04-semana-03-00-semana-03-roadmap-semana-3-cuando-la-arquitectura-sale-a-la-luz-con-una-interfaz-real">Semana 3: cuando la arquitectura sale a la luz con una interfaz real</h1>
+<p>Hasta ahora hicimos dos cosas que muchos equipos suelen invertir sin darse cuenta. En Semana 1 construimos la base del ticket desde el problema hasta la evidencia. En Semana 2 modelamos el ciclo de vida para que el estado deje de ser una “cadena suelta” y pase a ser una decisión de dominio con reglas explícitas. El resultado de esas dos semanas es sólido, pero todavía invisible para una persona usuaria final.</p>
+<p>Semana 3 introduce ese puente: la primera capa visible en SwiftUI. Esta semana no existe para aprender a mover botones ni para decorar pantallas. Existe para aprender una habilidad que separa un proyecto de hobby de un sistema enterprise sostenible: conectar interfaz con casos de uso sin contaminar la UI con reglas que no le pertenecen.</p>
+<p>Si esto se hace mal, parece que todo funciona durante unos días y luego empieza la degradación silenciosa. Cada pantalla “resuelve” lógica por su cuenta, aparecen diferencias entre flujos equivalentes, cambian métricas de operación sin explicación y cada bug cuesta más porque nadie sabe dónde empieza realmente el comportamiento. Si esto se hace bien, cualquier cambio de negocio sigue un camino claro: actualización de spec, escenarios observables, pruebas, código de producción y evidencia de cierre.</p>
 <pre class="mermaid">flowchart LR
-    A[Entrada de semana 3] --> B[Spec refinada]
-    B --> C[BDD actualizado]
-    C --> D[TDD y produccion]
-    D --> E[Validacion y cierre]</pre>
-<h2 id="04-semana-03-00-semana-03-roadmap-practica-guiada">Practica guiada</h2>
-<p>Tu práctica guiada es revisar la meta técnica de Semana 3, ejecutar el laboratorio asociado registrando decisiones relevantes, y validar pruebas y build antes del commit final. Si algo falla, vuelves al contrato y corriges con un cambio pequeño, no con un “arreglo” que no puedas explicar.</p>
-<h2 id="04-semana-03-00-semana-03-roadmap-verificacion-de-comprension">Verificacion de comprension</h2>
-<p>Pregunta 1: ¿Qué bloque del flujo OpenSpec → BDD → TDD → producción estás entrenando más esta semana?</p>
-<p>Pregunta 2: ¿Qué evidencia objetiva confirma que cerraste Semana 3?</p>
-<p>Pregunta 3: ¿Qué deuda técnica aceptaste, si aceptaste alguna, y por qué fue una decisión consciente?</p>
-<h2 id="04-semana-03-00-semana-03-roadmap-siguiente-paso">Siguiente paso</h2>
-<p>Ir a la primera leccion detallada de semana 3.</p>
+    A[OpenSpec week03] --> B[Escenarios BDD de interfaz]
+    B --> C[TDD de ViewModel y wiring]
+    C --> D[SwiftUI shell iOS-first]
+    D --> E[Refactor de composition root]
+    E --> F[Checkpoint con evidencia]</pre>
+<p>La promesa medible de esta semana es concreta. Al final tendrás una pantalla que lista tickets, muestra su estado de forma consistente y permite iniciar trabajo solo cuando el ticket está en <code>open</code>, pasando por el caso de uso correspondiente. Esto importa porque convierte una regla abstracta de arquitectura en un comportamiento que se puede ver, ejecutar y auditar.</p>
+<pre><code class="language-yaml">week3_definition_of_done:
+  visual_layer: "Existe shell SwiftUI compilable y funcional"
+  behavior_contract: "La accion de iniciar trabajo respeta reglas de dominio"
+  wiring_quality: "La vista no crea dependencias por su cuenta"
+  evidence: "Tests verdes, build verde, commits atomicos y trazables"</code></pre>
+<p>La práctica guiada de apertura no consiste todavía en escribir producción. Abre el paquete <code>project/HelpdeskSDD</code>, localiza cómo llega hoy un cambio de estado desde aplicación hasta infraestructura, y redacta en lenguaje sencillo cómo debería viajar ese mismo cambio cuando exista una vista SwiftUI. Si esa explicación se entiende sin mirar código, estás pensando como arquitecto pedagógico: primero el flujo mental, luego la implementación.</p>
+<p>La verificación de comprensión previa al bloque técnico es directa. Si mañana aparece una nueva restricción de negocio para iniciar trabajo, ¿en qué capa debería entrar primero y por qué no conviene resolverla directamente en una vista? Si puedes responder esto con claridad, ya tienes el mapa correcto para toda la semana.</p>
+<p>Siguiente lección: <code>04-semana-03/01-problema-swiftui-wiring.md</code>.</p>
+</section>
+<section id="04-semana-03-01-problema-swiftui-wiring" class="lesson" data-topic-id="04-semana-03-01-problema-swiftui-wiring" data-lesson-path="04-semana-03/01-problema-swiftui-wiring.md">
+<div class="lesson-path">04-semana-03/01-problema-swiftui-wiring.md</div>
+<h1 id="04-semana-03-01-problema-swiftui-wiring-semana-3-lecci-n-1-el-problema-real-no-es-la-pantalla-es-el-cableado">Semana 3 · Lección 1: el problema real no es la pantalla, es el cableado</h1>
+<p>Cuando una aplicación empieza a crecer, la primera tentación es “resolver rápido” desde la UI. Un botón cambia el estado local, otro botón envía una petición, y poco a poco aparecen reglas de negocio escondidas en vistas. Al principio parece práctico porque todo está en un mismo archivo y se ve fácil. El problema es que esa facilidad es temporal. En cuanto hay más de una pantalla para el mismo flujo, comienzan las incoherencias: una deja iniciar trabajo en <code>resolved</code>, otra no, una muestra error técnico, otra no muestra nada.</p>
+<p>Este curso evita esa trampa desde el diseño. Llamamos wiring al acto de conectar piezas. No es un detalle menor: es la frontera que define si tu proyecto evoluciona con control o con improvisación. La vista debe describir estado y emitir intención de usuario. El ViewModel coordina. Los casos de uso aplican política de aplicación. El dominio decide reglas puras. La infraestructura persiste. Si esa frontera se cruza, pierdes trazabilidad.</p>
+<pre class="mermaid">flowchart TD
+    A[UI con reglas internas] --> B[Flujos duplicados]
+    B --> C[Comportamientos inconsistentes]
+    C --> D[Coste de cambio alto]
+    E[UI delgada + ViewModel] --> F[Uso de casos de uso]
+    F --> G[Regla unica en dominio]
+    G --> H[Trazabilidad estable]</pre>
+<p>Para aterrizar el problema, mira este contraste. El primer fragmento representa una práctica peligrosa porque la vista decide la transición. El segundo obliga a pasar por el caso de uso y deja rastro verificable.</p>
+<pre><code class="language-swift">// Anti-patron: la vista decide politica de negocio.
+if ticket.status == .open {
+    ticket.status = .inProgress
+}
+
+// Patron correcto: la vista expresa intencion y delega decision.
+Task {
+    await viewModel.startWork(ticketID: ticket.id)
+}</code></pre>
+<p>Fíjate en algo importante. En ambos fragmentos “parece” que el usuario consigue el mismo resultado visual. Sin embargo, solo el segundo permite que dominio y tests protejan la regla. En enterprise, ese detalle marca la diferencia entre una demo bonita y un sistema confiable.</p>
+<p>La práctica guiada de esta lección consiste en tomar una pantalla que conozcas de tus proyectos y narrar, en cuatro frases, qué parte pertenece estrictamente a presentación y qué parte pertenece a regla. Si no puedes separar esas frases sin duda, todavía hay mezcla de responsabilidades.</p>
+<p>La verificación de comprensión debe quedar por escrito antes de pasar a la siguiente lección. Si mañana cambian las reglas para iniciar trabajo, explica qué archivo debería romper primero en tests y qué archivo no debería tocarse en la UI para que el cambio sea seguro.</p>
+<p>Siguiente lección: <code>04-semana-03/02-spec-swiftui-shell-v1.md</code>.</p>
+</section>
+<section id="04-semana-03-02-spec-swiftui-shell-v1" class="lesson" data-topic-id="04-semana-03-02-spec-swiftui-shell-v1" data-lesson-path="04-semana-03/02-spec-swiftui-shell-v1.md">
+<div class="lesson-path">04-semana-03/02-spec-swiftui-shell-v1.md</div>
+<h1 id="04-semana-03-02-spec-swiftui-shell-v1-semana-3-lecci-n-2-convertir-la-interfaz-en-contrato-antes-de-programar">Semana 3 · Lección 2: convertir la interfaz en contrato antes de programar</h1>
+<p>La diferencia entre “tengo una idea de pantalla” y “tengo una especificación de comportamiento” es la misma diferencia que hay entre una conversación informal y un acuerdo operativo. En la primera todo suena bien hasta que alguien interpreta distinto. En la segunda hay criterios verificables. Semana 3 exige esa segunda forma de trabajo.</p>
+<p>Aquí entra OpenSpec como fuente de verdad. No lo usamos como papeleo; lo usamos para impedir que la implementación empiece desde intuición. Cuando definimos la shell SwiftUI en spec, estamos declarando qué comportamiento observable debe existir y qué cosas quedan explícitamente fuera de alcance para no romper foco.</p>
+<pre class="mermaid">flowchart LR
+    A[Problema de wiring] --> B[Proposal week03]
+    B --> C[Delta de spec ticketing]
+    C --> D[Diseño de composition root]
+    D --> E[Tareas trazables]
+    E --> F[Implementacion con evidencia]</pre>
+<p>El flujo recomendado con IA en este curso es operativo y repetible. Primero propones cambio, luego aterrizas requerimientos, después diseñas y finalmente verificas consistencia.</p>
+<pre><code class="language-text">/opsx:new week03-swiftui-shell
+/opsx:ff
+/opsx:apply
+/opsx:verify</code></pre>
+<p>La calidad del prompt importa, pero más importante es su estructura. Si quieres que la IA te ayude de verdad en SDD, debes pedirle tres cosas en orden. Debe capturar intención de negocio, delimitar alcance y producir requisitos observables. Si pides “haz la pantalla”, saltas el pensamiento arquitectónico y vuelves al modo parche.</p>
+<pre><code class="language-yaml">week3_contract_focus:
+  user_visible_behavior: "La shell muestra tickets y su estado actual"
+  allowed_action: "Solo se inicia trabajo cuando status es open"
+  architectural_constraint: "La vista no implementa transiciones de dominio"
+  out_of_scope: "Persistencia real, roles, navegacion multi-flujo"</code></pre>
+<p>La práctica guiada de esta lección consiste en abrir <code>openspec/specs/ticketing/spec.md</code> y redactar una frase que empiece por “El sistema deberá…” para comportamiento visible de Week 3. Después revisa si esa frase se puede testear sin leer la implementación. Si no se puede testear, todavía no es un requisito; es una intención vaga.</p>
+<p>La verificación de comprensión previa a BDD es esta. Si aparece una acción nueva en UI, explica qué documento OpenSpec tocarías primero y cuál sería la señal concreta para decidir que esa acción entra en la semana actual o se pospone.</p>
+<p>Siguiente lección: <code>04-semana-03/03-bdd-swiftui-shell.md</code>.</p>
+</section>
+<section id="04-semana-03-03-bdd-swiftui-shell" class="lesson" data-topic-id="04-semana-03-03-bdd-swiftui-shell" data-lesson-path="04-semana-03/03-bdd-swiftui-shell.md">
+<div class="lesson-path">04-semana-03/03-bdd-swiftui-shell.md</div>
+<h1 id="04-semana-03-03-bdd-swiftui-shell-semana-3-lecci-n-3-bdd-para-describir-lo-que-la-persona-usuaria-realmente-observa">Semana 3 · Lección 3: BDD para describir lo que la persona usuaria realmente observa</h1>
+<p>Una interfaz se puede discutir durante horas si no existe un lenguaje común de comportamiento. Por eso BDD no se usa aquí como formalismo académico, sino como contrato de conversación entre negocio, producto, QA y desarrollo. Cuando escribimos escenarios de Week 3, no describimos “qué widget usamos”, sino qué resultado visible ocurre cuando alguien interactúa con el sistema.</p>
+<p>La clave pedagógica es distinguir entre mecánica de implementación y evidencia observable. El escenario debe seguir siendo cierto aunque cambies un <code>List</code> por otro componente visual, siempre que el comportamiento final sea el mismo.</p>
+<pre class="mermaid">sequenceDiagram
+    participant Usuario
+    participant Vista
+    participant ViewModel
+    participant UseCase
+    participant Repositorio
+    Usuario->>Vista: pulsa "Iniciar trabajo"
+    Vista->>ViewModel: startWork(ticketID)
+    ViewModel->>UseCase: execute(ticketID, inProgress)
+    UseCase->>Repositorio: find + update
+    Repositorio-->>UseCase: ticket actualizado
+    UseCase-->>ViewModel: resultado
+    ViewModel-->>Vista: nuevo estado renderizado</pre>
+<p>Ahora observa cómo Week 3 expresa ese comportamiento en términos que cualquier perfil entiende y que además podemos convertir en pruebas.</p>
+<pre><code class="language-gherkin">Feature: Week 3 shell SwiftUI sin romper arquitectura
+  Scenario: La lista se muestra al cargar la pantalla
+    Given existen tickets en el sistema
+    When la shell SwiftUI aparece por primera vez
+    Then la interfaz muestra cada ticket con su estado actual
+
+  Scenario: Iniciar trabajo en ticket abierto
+    Given existe un ticket en estado open
+    When la persona pulsa iniciar trabajo
+    Then el estado visible del ticket cambia a inProgress
+
+  Scenario: Proteger acción cuando el ticket no está abierto
+    Given existe un ticket en estado resolved
+    When la interfaz renderiza acciones disponibles
+    Then la acción iniciar trabajo aparece deshabilitada</code></pre>
+<p>Fíjate en el beneficio real. Con estos escenarios, si alguien implementa una transición directa desde la vista y salta el caso de uso, la incoherencia aparece rápido porque el comportamiento observable deja de coincidir con el contrato. BDD te da una red de seguridad semántica antes de entrar a detalles técnicos.</p>
+<p>La práctica guiada de esta lección consiste en tomar uno de estos escenarios y escribir su “falla gemela”: cómo se vería el sistema si ese escenario estuviera roto. Ese ejercicio entrena una habilidad crítica en enterprise, que es diseñar pruebas pensando en la regresión probable y no solo en el camino feliz.</p>
+<p>La verificación de comprensión antes de pasar a TDD es responder con precisión qué escenario de Week 3 captura mejor un bug de wiring donde la pantalla cambia estado local sin pasar por casos de uso.</p>
+<p>Siguiente lección: <code>04-semana-03/04-tdd-viewmodel-wiring.md</code>.</p>
+</section>
+<section id="04-semana-03-04-tdd-viewmodel-wiring" class="lesson" data-topic-id="04-semana-03-04-tdd-viewmodel-wiring" data-lesson-path="04-semana-03/04-tdd-viewmodel-wiring.md">
+<div class="lesson-path">04-semana-03/04-tdd-viewmodel-wiring.md</div>
+<h1 id="04-semana-03-04-tdd-viewmodel-wiring-semana-3-lecci-n-4-llevar-bdd-a-tdd-para-blindar-el-wiring">Semana 3 · Lección 4: llevar BDD a TDD para blindar el wiring</h1>
+<p>Con escenarios claros, el siguiente paso es escribir pruebas que fallen por la razón correcta. Esa frase parece simple, pero es una de las habilidades más valiosas para un equipo que quiere escalar sin miedo. Si una prueba falla por ruido, no ayuda. Si falla exactamente cuando rompes el contrato, entonces protege de verdad.</p>
+<p>En Week 3 el foco de TDD es el ViewModel. No porque sea “más moderno”, sino porque es el punto donde la intención de interfaz se transforma en ejecución de casos de uso. Si este punto queda débil, la UI termina absorbiendo lógica y volvemos al problema original.</p>
+<pre class="mermaid">flowchart LR
+    A[Escenario BDD observable] --> B[Test rojo en ViewModel]
+    B --> C[Implementacion minima]
+    C --> D[Test verde]
+    D --> E[Refactor breve]
+    E --> F[Contrato intacto]</pre>
+<p>Aquí tienes un ciclo real de TDD que protege el comportamiento “la pantalla carga tickets al refrescar”. Observa que la prueba no depende de detalles de SwiftUI; depende de estado observable del ViewModel.</p>
+<pre><code class="language-swift">import Testing
+import HelpdeskApplication
+import HelpdeskDomain
+@testable import HelpdeskInterfaceSwiftUI
+
+@MainActor
+@Test
+func refresh_carga_tickets_y_limpia_error() async {
+    let repo = TicketRepositoryActorSpy(seed: [
+        TicketFixtures.ticket(id: "T-301", status: .open)
+    ])
+    let sut = TicketListViewModel(
+        listTicketsUseCase: ListTicketsUseCase(repository: repo),
+        transitionTicketStatusUseCase: TransitionTicketStatusUseCase(repository: repo)
+    )
+
+    await sut.refresh()
+
+    #expect(sut.tickets.count == 1)
+    #expect(sut.errorMessage == nil)
+    #expect(sut.isLoading == false)
+}</code></pre>
+<p>Este estilo de prueba enseña algo muy importante para quien empieza. No necesitas probar cada píxel para tener confianza en la lógica de interacción. Primero blindas comportamiento en ViewModel. Después validas UI en la mínima superficie necesaria.</p>
+<pre><code class="language-bash">swift test --package-path project/HelpdeskSDD</code></pre>
+<p>La práctica guiada de esta lección es introducir una regresión controlada: comenta temporalmente la recarga posterior a <code>startWork</code> en el ViewModel y ejecuta la suite. Si la prueba correcta no cae, tu red aún es débil. Repara el comportamiento y vuelve a verde.</p>
+<p>La verificación de comprensión antes de pasar a producción consiste en explicar por qué, en este diseño, mover la regla de habilitar acción desde ViewModel a la vista rompe la intención de TDD incluso si la interfaz “parece” funcionar.</p>
+<p>Siguiente lección: <code>04-semana-03/05-codigo-swiftui-shell.md</code>.</p>
+</section>
+<section id="04-semana-03-05-codigo-swiftui-shell" class="lesson" data-topic-id="04-semana-03-05-codigo-swiftui-shell" data-lesson-path="04-semana-03/05-codigo-swiftui-shell.md">
+<div class="lesson-path">04-semana-03/05-codigo-swiftui-shell.md</div>
+<h1 id="04-semana-03-05-codigo-swiftui-shell-semana-3-lecci-n-5-c-digo-de-producci-n-swiftui-que-respeta-el-contrato">Semana 3 · Lección 5: código de producción SwiftUI que respeta el contrato</h1>
+<p>Llegó el momento de implementar, pero con una condición estricta: el código de producción debe verse como consecuencia del contrato y de las pruebas, no como inspiración del día. En esta lección construimos la shell SwiftUI con un objetivo funcional muy concreto, que es mostrar tickets y ejecutar la transición a <code>inProgress</code> desde una intención de usuario sin incrustar reglas de dominio en la vista.</p>
+<p>La pieza clave es el Composition Root. Ese componente decide cómo se ensamblan dependencias. Gracias a él, la vista no necesita saber qué repositorio concreto existe ni cómo se crean los casos de uso. Esta separación parece más trabajo al principio, pero te permite reemplazar infraestructura sin tocar la capa de presentación.</p>
+<pre class="mermaid">flowchart TD
+    A[HelpdeskAppRootBuilder] --> B[InMemoryTicketRepository]
+    A --> C[ListTicketsUseCase]
+    A --> D[TransitionTicketStatusUseCase]
+    A --> E[TicketListViewModel]
+    E --> F[TicketListView]
+    F --> G[Interaccion de usuario]</pre>
+<p>Observa esta implementación base del ViewModel. El comportamiento está centrado en estado observable y coordinación de casos de uso. No hay acceso directo a detalles de infraestructura desde la vista.</p>
+<pre><code class="language-swift">import Foundation
+import Observation
+import HelpdeskApplication
+import HelpdeskDomain
+
+@MainActor
+@Observable
+public final class TicketListViewModel {
+    public private(set) var tickets: [Ticket] = []
+    public private(set) var isLoading = false
+    public private(set) var errorMessage: String?
+
+    private let listTicketsUseCase: ListTicketsUseCase
+    private let transitionTicketStatusUseCase: TransitionTicketStatusUseCase
+
+    public init(
+        listTicketsUseCase: ListTicketsUseCase,
+        transitionTicketStatusUseCase: TransitionTicketStatusUseCase
+    ) {
+        self.listTicketsUseCase = listTicketsUseCase
+        self.transitionTicketStatusUseCase = transitionTicketStatusUseCase
+    }
+
+    public func refresh() async {
+        isLoading = true
+        defer { isLoading = false }
+        do {
+            tickets = try await listTicketsUseCase.execute()
+            errorMessage = nil
+        } catch {
+            errorMessage = "No se pudieron cargar tickets"
+        }
+    }
+}</code></pre>
+<p>Aquí el aprendizaje importante no es memorizar sintaxis de <code>@Observable</code>, sino entender qué responsabilidades están explícitamente presentes y cuáles están ausentes. El ViewModel coordina y traduce errores operativos a estado de presentación. La política de transición sigue viviendo donde debe: dominio más casos de uso.</p>
+<p>La práctica guiada de esta lección consiste en ejecutar la demo y recorrer una transición completa desde estado <code>open</code> hasta <code>inProgress</code> observando en qué punto se actualiza la UI. Después abre los archivos implicados y narra, en lenguaje natural, el recorrido exacto de esa acción.</p>
+<p>La verificación de comprensión previa al refactor debe responder esta pregunta. Si mañana cambias <code>InMemoryTicketRepository</code> por persistencia local o remota, ¿qué archivo de SwiftUI debería quedarse intacto para confirmar que el diseño está bien acoplado por contratos y no por concreciones?</p>
+<p>Siguiente lección: <code>04-semana-03/06-refactor-composition-root.md</code>.</p>
+</section>
+<section id="04-semana-03-06-refactor-composition-root" class="lesson" data-topic-id="04-semana-03-06-refactor-composition-root" data-lesson-path="04-semana-03/06-refactor-composition-root.md">
+<div class="lesson-path">04-semana-03/06-refactor-composition-root.md</div>
+<h1 id="04-semana-03-06-refactor-composition-root-semana-3-lecci-n-6-refactor-de-composition-root-para-preparar-semanas-complejas">Semana 3 · Lección 6: refactor de composition root para preparar semanas complejas</h1>
+<p>En una formación superficial, el refactor suele presentarse como “limpiar nombres”. En una formación enterprise, refactor significa otra cosa: mejorar estructura interna sin alterar comportamiento observable, para reducir el coste de cambio futuro. Esa es la intención de esta lección.</p>
+<p>Después de tener la shell funcionando, podrías cerrar semana y seguir. El problema es que Week 4 y siguientes introducen integración entre capacidades, y un wiring frágil se convierte en bloqueador. Por eso hacemos un refactor explícito del Composition Root ahora, cuando la superficie todavía es controlable.</p>
+<pre class="mermaid">flowchart LR
+    A[Wiring inicial funcional] --> B[Extraer ensamblado en root dedicado]
+    B --> C[Reducir conocimiento de infraestructura en UI]
+    C --> D[Re-ejecutar tests y checks]
+    D --> E[Base lista para escalar]</pre>
+<p>El criterio de calidad de este refactor es sencillo de enunciar y difícil de sostener si no hay disciplina. Ninguna vista debería crear sus propios casos de uso. Ningún caso de uso debería asumir detalles de render. Ninguna dependencia concreta debería cruzar fronteras sin pasar por el root.</p>
+<pre><code class="language-swift">import SwiftUI
+import HelpdeskApplication
+import HelpdeskDomain
+import HelpdeskInfrastructureMemory
+
+public struct HelpdeskAppRootBuilder {
+    private let repository: InMemoryTicketRepository
+
+    public init(seed: [Ticket] = []) {
+        self.repository = InMemoryTicketRepository(seed: seed)
+    }
+
+    @MainActor
+    public func makeTicketListViewModel() -&gt; TicketListViewModel {
+        TicketListViewModel(
+            listTicketsUseCase: ListTicketsUseCase(repository: repository),
+            transitionTicketStatusUseCase: TransitionTicketStatusUseCase(repository: repository)
+        )
+    }
+
+    @MainActor
+    public func makeTicketListView() -&gt; some View {
+        TicketListView(viewModel: makeTicketListViewModel())
+    }
+}</code></pre>
+<p>Este bloque es pequeño, pero su impacto es grande. Centraliza decisiones de ensamblado, hace explícita la dependencia real de infraestructura y deja la puerta abierta para sustituir el repositorio por otra implementación sin cirugía en pantalla.</p>
+<p>La práctica guiada de esta lección consiste en cambiar temporalmente el seed del root para insertar varios tickets y comprobar que la pantalla los renderiza sin que tengas que tocar el código de la vista. Si necesitas tocar la vista para cambiar datos de entrada, el acoplamiento todavía no está bien resuelto.</p>
+<p>La verificación de comprensión antes del checkpoint es explicar por qué este refactor reduce riesgo operativo aunque el usuario final no perciba ninguna diferencia visual inmediata.</p>
+<p>Siguiente lección: <code>04-semana-03/07-checkpoint-evaluacion.md</code>.</p>
+</section>
+<section id="04-semana-03-07-checkpoint-evaluacion" class="lesson" data-topic-id="04-semana-03-07-checkpoint-evaluacion" data-lesson-path="04-semana-03/07-checkpoint-evaluacion.md">
+<div class="lesson-path">04-semana-03/07-checkpoint-evaluacion.md</div>
+<h1 id="04-semana-03-07-checkpoint-evaluacion-semana-3-lecci-n-7-checkpoint-de-calidad-para-decidir-cierre-real">Semana 3 · Lección 7: checkpoint de calidad para decidir cierre real</h1>
+<p>Un error frecuente en equipos junior es cerrar una semana cuando “la pantalla ya se ve”. En un entorno enterprise eso no es cierre; es una señal parcial. El cierre real exige coherencia entre contrato, pruebas, implementación y evidencia de ejecución. Esta lección existe para entrenar ese criterio profesional.</p>
+<p>El checkpoint de Week 3 no se basa en sensaciones. Se basa en preguntas verificables. Si revisas OpenSpec, ¿el comportamiento de interfaz está explícito y sin contradicciones? Si ejecutas pruebas, ¿cubre flujos críticos de refresh y transición? Si miras el código, ¿la vista está libre de reglas de dominio? Si inspeccionas commits, ¿hay rastro auditable de lo que cambió y por qué?</p>
+<pre class="mermaid">flowchart TD
+    A[Contrato OpenSpec] --> B[Escenarios BDD]
+    B --> C[Pruebas TDD]
+    C --> D[Produccion SwiftUI]
+    D --> E[Validaciones de repo]
+    E --> F[Decision de cierre week3]</pre>
+<p>Para eliminar ambigüedad usamos una rúbrica semántica que se puede revisar en equipo. No es una checklist cosmética; es una forma de alinear criterio técnico.</p>
+<pre><code class="language-yaml">week3_checkpoint_rubric:
+  contract_integrity: "spec y escenarios describen el mismo comportamiento visible"
+  technical_reliability: "suite de tests y build ejecutan en verde sin parches"
+  architectural_discipline: "UI coordina, dominio decide reglas"
+  traceability: "commits explican decisiones y validaciones ejecutadas"
+  release_readiness: "el estado actual se puede reproducir en otra maquina"</code></pre>
+<p>La validación práctica se ejecuta con comandos concretos y repetibles. No uses atajos manuales para “forzar verde”, porque en ese punto estarías entrenando el hábito contrario al objetivo del curso.</p>
+<pre><code class="language-bash">swift test --package-path project/HelpdeskSDD
+swift run --package-path project/HelpdeskSDD HelpdeskDemo
+python3 scripts/validate-course-structure.py
+python3 scripts/check-links.py
+python3 scripts/validate-pedagogy.py
+python3 scripts/build-html.py</code></pre>
+<p>La práctica guiada de esta lección consiste en ejecutar el checkpoint completo y redactar una nota breve donde expliques qué parte te dio más trabajo y qué aprendizaje operativo te llevas para Week 4. Ese ejercicio transforma ejecución mecánica en criterio técnico consciente.</p>
+<p>La verificación de comprensión final del checkpoint es responder por qué una pantalla funcional no equivale a ticket cerrado cuando falta trazabilidad de decisiones y pruebas reproducibles.</p>
+<p>Siguiente lección: <code>04-semana-03/08-bitacora-commits.md</code>.</p>
+</section>
+<section id="04-semana-03-08-bitacora-commits" class="lesson" data-topic-id="04-semana-03-08-bitacora-commits" data-lesson-path="04-semana-03/08-bitacora-commits.md">
+<div class="lesson-path">04-semana-03/08-bitacora-commits.md</div>
+<h1 id="04-semana-03-08-bitacora-commits-semana-3-lecci-n-8-bit-cora-de-commits-para-cerrar-con-evidencia-profesional">Semana 3 · Lección 8: bitácora de commits para cerrar con evidencia profesional</h1>
+<p>El cierre pedagógico de la semana no termina cuando el código compila. Termina cuando otro equipo puede reconstruir qué hiciste, por qué lo hiciste y cómo comprobaste que no rompiste el sistema. Esa capacidad se construye con una bitácora técnica basada en commits atómicos y mensajes precisos.</p>
+<p>Un commit atómico no significa “pequeño por deporte”. Significa que el cambio tiene una intención única y verificable. Si mezclas en un solo commit refactor de nombres, nueva funcionalidad y ajustes de tests, destruyes trazabilidad. En una auditoría real nadie podrá distinguir qué parte introdujo el riesgo.</p>
+<pre class="mermaid">flowchart LR
+    A[Cambio week03 definido] --> B[Validaciones ejecutadas]
+    B --> C[Commit atomico con mensaje claro]
+    C --> D[Worktree limpio]
+    D --> E[Hito reproducible]</pre>
+<p>La bitácora de Week 3 debe permitir responder una pregunta sencilla de gestión técnica: “si mañana aparece una incidencia en la shell SwiftUI, ¿en qué commit reviso primero y qué evidencia tenía ese cambio cuando se fusionó?”. Si no puedes responder eso en menos de un minuto, la bitácora aún no cumple objetivo enterprise.</p>
+<pre><code class="language-text">git status --short
+swift test --package-path project/HelpdeskSDD
+python3 scripts/build-html.py
+git add 04-semana-03 project/HelpdeskSDD scripts/build-html.py scripts/validate-pedagogy.py
+git commit -m "feat(week3): añadir shell SwiftUI con wiring probado"
+git add openspec
+
+git commit -m "docs(openspec): archivar cambio week03-swiftui-shell"</code></pre>
+<p>Este ejemplo muestra intención separada por capas de trabajo. Primero capacidad técnica ejecutable. Después evidencia documental y de contrato. Esa separación no es burocracia; es ingeniería para facilitar revisión y rollback selectivo.</p>
+<p>La práctica guiada de cierre consiste en escribir tu propia bitácora de Week 3 en un archivo de trabajo temporal y validar que cada commit tiene exactamente una intención principal. Si no logras describir la intención en una frase, el commit no está bien atomizado.</p>
+<p>La verificación de comprensión final de la semana es explicar la diferencia entre “hacer cambios” y “dejar un estado históricamente auditable”, usando ejemplos reales de los commits que acabas de crear.</p>
+<p>Siguiente semana: <code>05-semana-04/00-semana-04-roadmap.md</code>.</p>
 </section>
 <section id="05-semana-04-00-semana-04-roadmap" class="lesson" data-topic-id="05-semana-04-00-semana-04-roadmap" data-lesson-path="05-semana-04/00-semana-04-roadmap.md">
 <div class="lesson-path">05-semana-04/00-semana-04-roadmap.md</div>
