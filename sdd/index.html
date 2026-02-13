@@ -4955,6 +4955,7 @@ python3 scripts/build-html.py</code></pre>
     D --> E[Refactor de composition root]
     E --> F[Checkpoint con evidencia]</pre>
 <p>La promesa medible de esta semana es concreta. Al final tendrás una pantalla que lista tickets, muestra su estado de forma consistente y permite iniciar trabajo solo cuando el ticket está en <code>open</code>, pasando por el caso de uso correspondiente. Esto importa porque convierte una regla abstracta de arquitectura en un comportamiento que se puede ver, ejecutar y auditar.</p>
+<p>Ese “se puede ejecutar” se valida con dos builds reales de <code>xcodebuild</code>: uno en <code>platform=macOS</code> como ruta principal estable de desarrollo, y otro en <code>generic/platform=iOS Simulator</code> como validación del destino iOS-first del curso. Cuando ambos pasan, tienes evidencia de que el wiring no solo “parece correcto” en texto, sino que compila en contextos de ejecución reales.</p>
 <pre><code class="language-yaml">week3_definition_of_done:
   visual_layer: "Existe shell SwiftUI compilable y funcional"
   behavior_contract: "La accion de iniciar trabajo respeta reglas de dominio"
@@ -5210,10 +5211,13 @@ public struct HelpdeskAppRootBuilder {
 <p>La validación práctica se ejecuta con comandos concretos y repetibles. No uses atajos manuales para “forzar verde”, porque en ese punto estarías entrenando el hábito contrario al objetivo del curso.</p>
 <pre><code class="language-bash">swift test --package-path project/HelpdeskSDD
 swift run --package-path project/HelpdeskSDD HelpdeskDemo
+xcodebuild -scheme HelpdeskInterfaceSwiftUI -destination 'platform=macOS' -derivedDataPath project/HelpdeskSDD/.build/xcodebuild build
+xcodebuild -scheme HelpdeskInterfaceSwiftUI -destination 'generic/platform=iOS Simulator' -derivedDataPath project/HelpdeskSDD/.build/xcodebuild-ios build
 python3 scripts/validate-course-structure.py
 python3 scripts/check-links.py
 python3 scripts/validate-pedagogy.py
 python3 scripts/build-html.py</code></pre>
+<p>La decisión de ejecutar dos builds (<code>macOS</code> e <code>iOS Simulator</code>) no es capricho. El primero te da una ruta estable y rápida para confirmar wiring de la capa SwiftUI en cualquier máquina de desarrollo con Xcode instalado. El segundo confirma que el mismo código de interfaz compila en el destino iOS-first del curso. Si uno de los dos falla, no cierres semana: investiga la causa y documenta la corrección en la bitácora.</p>
 <p>La práctica guiada de esta lección consiste en ejecutar el checkpoint completo y redactar una nota breve donde expliques qué parte te dio más trabajo y qué aprendizaje operativo te llevas para Week 4. Ese ejercicio transforma ejecución mecánica en criterio técnico consciente.</p>
 <p>La verificación de comprensión final del checkpoint es responder por qué una pantalla funcional no equivale a ticket cerrado cuando falta trazabilidad de decisiones y pruebas reproducibles.</p>
 <p>Siguiente lección: <code>04-semana-03/08-bitacora-commits.md</code>.</p>

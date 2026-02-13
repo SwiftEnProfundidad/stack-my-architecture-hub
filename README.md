@@ -9,21 +9,27 @@ Servidor local unificado para:
 El launcher robusto evita depender de `~/.zshrc`, elige un puerto libre no genérico (prioriza `46100+`), mantiene PID y logs en `.runtime/` y abre el Hub o el curso que indiques.
 
 ```bash
-./open-proxy.command
+/Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture-hub/open-proxy.command
 ```
 
 Abrir directamente un curso:
 
 ```bash
-./open-proxy.command --course sdd
-./open-proxy.command ios
-./open-proxy.command android
+/Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture-hub/open-proxy.command --course sdd
+/Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture-hub/open-proxy.command ios
+/Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture-hub/open-proxy.command android
 ```
 
 Opcional: fijar puerto manualmente.
 
 ```bash
-STACK_MY_ARCH_HUB_PORT=46200 ./open-proxy.command
+STACK_MY_ARCH_HUB_PORT=46200 /Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture-hub/open-proxy.command
+```
+
+Si quieres evitar completamente llamadas manuales en terminal, crea la app de Escritorio y abre el curso con doble clic:
+
+```bash
+/bin/zsh -f /Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture-hub/scripts/install-desktop-app.sh
 ```
 
 Detener hub:
@@ -59,30 +65,33 @@ npm install
 npm start
 ```
 
-4. Abre el hub:
-
-```text
-http://localhost:8090/index.html
-```
-
-También puedes usar:
+4. Abre el hub en el puerto elegido por el launcher (se guarda en `.runtime/hub.port`):
 
 ```bash
-./open-proxy.command
+PORT="$(cat .runtime/hub.port)"
+open "http://127.0.0.1:${PORT}/index.html"
+```
+
+También puedes usar directamente el launcher robusto:
+
+```bash
+/Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture-hub/open-proxy.command
 ```
 
 ## Endpoints
 
 ```bash
-curl http://localhost:8090/health
-curl http://localhost:8090/config
-curl http://localhost:8090/metrics
+PORT="$(cat .runtime/hub.port)"
+curl "http://127.0.0.1:${PORT}/health"
+curl "http://127.0.0.1:${PORT}/config"
+curl "http://127.0.0.1:${PORT}/metrics"
 ```
 
 Consulta:
 
 ```bash
-curl -X POST http://localhost:8090/assistant/query \
+PORT="$(cat .runtime/hub.port)"
+curl -X POST "http://127.0.0.1:${PORT}/assistant/query" \
   -H "Content-Type: application/json" \
   -d '{
     "model": "gpt-4o-mini",
