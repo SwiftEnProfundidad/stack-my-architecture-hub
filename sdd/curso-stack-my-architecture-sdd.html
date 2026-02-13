@@ -954,6 +954,10 @@ blockquote p {
   <li><a class="doc-nav-link" data-lesson-path="openspec/changes/archive/2026-02-13-week07-observability-baseline/specs/ticketing/spec.md" href="#openspec-changes-archive-2026-02-13-week07-observability-baseline-specs-ticketing-spec">Delta for Ticketing (Week 07)</a></li>
   <li><a class="doc-nav-link" data-lesson-path="openspec/changes/archive/2026-02-13-week07-observability-baseline/design.md" href="#openspec-changes-archive-2026-02-13-week07-observability-baseline-design">Design: Week 07 — observed repository decorator</a></li>
   <li><a class="doc-nav-link" data-lesson-path="openspec/changes/archive/2026-02-13-week07-observability-baseline/tasks.md" href="#openspec-changes-archive-2026-02-13-week07-observability-baseline-tasks">Tasks (Week 07)</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="openspec/changes/archive/2026-02-13-week08-quality-gates-baseline/proposal.md" href="#openspec-changes-archive-2026-02-13-week08-quality-gates-baseline-proposal">Proposal: Week 08 — measurable quality gates baseline</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="openspec/changes/archive/2026-02-13-week08-quality-gates-baseline/specs/ticketing/spec.md" href="#openspec-changes-archive-2026-02-13-week08-quality-gates-baseline-specs-ticketing-spec">Delta for Ticketing (Week 08)</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="openspec/changes/archive/2026-02-13-week08-quality-gates-baseline/design.md" href="#openspec-changes-archive-2026-02-13-week08-quality-gates-baseline-design">Design: Week 08 — quality gate evaluation pipeline</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="openspec/changes/archive/2026-02-13-week08-quality-gates-baseline/tasks.md" href="#openspec-changes-archive-2026-02-13-week08-quality-gates-baseline-tasks">Tasks (Week 08)</a></li>
 </ul></li>
 <li class="nav-section"><strong>Semana 3</strong>
 <ul>
@@ -1017,7 +1021,15 @@ blockquote p {
 </ul></li>
 <li class="nav-section"><strong>Semana 8</strong>
 <ul>
-  <li><a class="doc-nav-link" data-lesson-path="09-semana-08/00-semana-08-roadmap.md" href="#09-semana-08-00-semana-08-roadmap">Semana 8: roadmap ejecutable</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="09-semana-08/00-semana-08-roadmap.md" href="#09-semana-08-00-semana-08-roadmap">Semana 8: quality gates medibles para decidir con evidencia, no con opinión</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="09-semana-08/01-problema-quality-gates.md" href="#09-semana-08-01-problema-quality-gates">Semana 8 · Lección 1: el problema no es la falta de calidad, es la falta de criterio ejecutable</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="09-semana-08/02-spec-quality-gates-v1.md" href="#09-semana-08-02-spec-quality-gates-v1">Semana 8 · Lección 2: especificar quality gates como contrato operativo</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="09-semana-08/03-bdd-quality-gates.md" href="#09-semana-08-03-bdd-quality-gates">Semana 8 · Lección 3: BDD de quality gates para alinear ingeniería y entrega</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="09-semana-08/04-tdd-quality-gate-evaluator.md" href="#09-semana-08-04-tdd-quality-gate-evaluator">Semana 8 · Lección 4: TDD del evaluador para garantizar decisiones consistentes</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="09-semana-08/05-codigo-quality-gates-cli.md" href="#09-semana-08-05-codigo-quality-gates-cli">Semana 8 · Lección 5: código de producción del runner de quality gates</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="09-semana-08/06-refactor-policy-thresholds.md" href="#09-semana-08-06-refactor-policy-thresholds">Semana 8 · Lección 6: refactor de umbrales para mantener gobernanza clara</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="09-semana-08/07-checkpoint-evaluacion.md" href="#09-semana-08-07-checkpoint-evaluacion">Semana 8 · Lección 7: checkpoint de quality gates para cierre defendible</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="09-semana-08/08-bitacora-commits.md" href="#09-semana-08-08-bitacora-commits">Semana 8 · Lección 8: bitácora de cierre para política de calidad auditable</a></li>
 </ul></li>
 <li class="nav-section"><strong>Semana 9</strong>
 <ul>
@@ -2248,7 +2260,7 @@ python3 scripts/build-html.py</code></pre>
 <h1 id="openspec-changes-README-cambios-openspec-del-curso">Cambios OpenSpec del curso</h1>
 <p>Esta carpeta contiene cambios en curso y el histórico archivado.</p>
 <p>Convención recomendada para este curso:</p>
-<p>Usamos un nombre corto por semana para que sea fácil buscar y archivar. El patrón recomendado es <code>weekNN-<nombre-corto></code>. Por ejemplo, <code>week05-local-persistence-adapter</code>, <code>week06-offline-cache-policy</code> o <code>week07-observability-baseline</code>.</p>
+<p>Usamos un nombre corto por semana para que sea fácil buscar y archivar. El patrón recomendado es <code>weekNN-<nombre-corto></code>. Por ejemplo, <code>week06-offline-cache-policy</code>, <code>week07-observability-baseline</code> o <code>week08-quality-gates-baseline</code>.</p>
 <p>El histórico queda en:</p>
 <pre><code class="language-text">openspec/changes/archive/YYYY-MM-DD-&lt;change-name&gt;/</code></pre>
 <p>Notas:</p>
@@ -2459,6 +2471,33 @@ python3 scripts/build-html.py</code></pre>
   <li><strong>GIVEN</strong> a list operation succeeds</li>
   <li><strong>WHEN</strong> the observed repository returns tickets</li>
   <li><strong>THEN</strong> event <code>repository.list.success</code> is recorded with ticket count context</li>
+</ul>
+<h3 id="openspec-specs-ticketing-spec-requirement-enforce-measurable-quality-gates-before-progression">Requirement: Enforce measurable quality gates before progression</h3>
+<p>The system SHALL provide a measurable quality gate evaluation mechanism that</p>
+<p>combines critical validation signals and explicit thresholds into a reproducible</p>
+<p>pass/fail decision.</p>
+<p>The baseline gate set SHALL evaluate at least:</p>
+<p>swift test status, OpenSpec validation status, link audit status, pedagogy</p>
+<p>validation status, course structure status, and swift warning budget.</p>
+<h4 id="openspec-specs-ticketing-spec-scenario-pass-report-when-all-critical-checks-are-green">Scenario: Pass report when all critical checks are green</h4>
+<ul>
+  <li><strong>GIVEN</strong> all critical checks are successful</li>
+  <li><strong>AND</strong> swift warning count is within threshold</li>
+  <li><strong>WHEN</strong> quality gates are evaluated</li>
+  <li><strong>THEN</strong> report result is <code>passed</code></li>
+</ul>
+<h4 id="openspec-specs-ticketing-spec-scenario-fail-report-when-warning-budget-is-exceeded">Scenario: Fail report when warning budget is exceeded</h4>
+<ul>
+  <li><strong>GIVEN</strong> all critical checks are successful</li>
+  <li><strong>AND</strong> swift warning count exceeds threshold</li>
+  <li><strong>WHEN</strong> quality gates are evaluated</li>
+  <li><strong>THEN</strong> report result is <code>failed</code></li>
+</ul>
+<h4 id="openspec-specs-ticketing-spec-scenario-fail-report-when-critical-check-is-red">Scenario: Fail report when critical check is red</h4>
+<ul>
+  <li><strong>GIVEN</strong> a critical check such as swift tests fails</li>
+  <li><strong>WHEN</strong> quality gates are evaluated</li>
+  <li><strong>THEN</strong> report result is <code>failed</code></li>
 </ul>
 </section>
 <section id="openspec-changes-archive-2026-02-12-week01-ticket-basics-proposal" class="lesson" data-topic-id="openspec-changes-archive-2026-02-12-week01-ticket-basics-proposal" data-lesson-path="openspec/changes/archive/2026-02-12-week01-ticket-basics/proposal.md">
@@ -3306,6 +3345,129 @@ python3 scripts/build-html.py</code></pre>
       status: done
     - id: "3.2"
       title: "Add week07 BDD observability scenarios"
+      status: done
+  evidence:
+    - id: "4.1"
+      title: "swift test green"
+      status: done
+    - id: "4.2"
+      title: "openspec and pedagogy validations green"
+      status: done</code></pre>
+</section>
+<section id="openspec-changes-archive-2026-02-13-week08-quality-gates-baseline-proposal" class="lesson" data-topic-id="openspec-changes-archive-2026-02-13-week08-quality-gates-baseline-proposal" data-lesson-path="openspec/changes/archive/2026-02-13-week08-quality-gates-baseline/proposal.md">
+<div class="lesson-path">openspec/changes/archive/2026-02-13-week08-quality-gates-baseline/proposal.md</div>
+<h1 id="openspec-changes-archive-2026-02-13-week08-quality-gates-baseline-proposal-proposal-week-08-measurable-quality-gates-baseline">Proposal: Week 08 — measurable quality gates baseline</h1>
+<h2 id="openspec-changes-archive-2026-02-13-week08-quality-gates-baseline-proposal-intent">Intent</h2>
+<p>The project now includes functional, resilience, and observability capabilities.</p>
+<p>Release decisions still rely on manual interpretation of multiple command</p>
+<p>outputs. This change introduces a measurable quality gate baseline that converts</p>
+<p>those signals into an explicit pass/fail report.</p>
+<h2 id="openspec-changes-archive-2026-02-13-week08-quality-gates-baseline-proposal-scope">Scope</h2>
+<pre><code class="language-yaml">scope_week08:
+  in_scope:
+    evaluator: "Quality gate evaluator with explicit thresholds"
+    runner: "CLI and shell runner for local reproducible execution"
+    signals: "swift tests, openspec, links, pedagogy, structure, warning budget"
+    tests: "unit tests covering pass/fail gate scenarios"
+  out_of_scope_on_purpose:
+    - "CI vendor integration specifics"
+    - "Advanced flaky-test mitigation strategies"
+    - "Organization-wide gate catalogs across repositories"</code></pre>
+<h2 id="openspec-changes-archive-2026-02-13-week08-quality-gates-baseline-proposal-approach">Approach</h2>
+<p>Implement a dedicated <code>HelpdeskQualityGates</code> module and a <code>HelpdeskQualityGateCLI</code></p>
+<p>executable that reads JSON input and emits structured report output. Add</p>
+<p><code>run-quality-gates.sh</code> to collect baseline signals and evaluate report.</p>
+<h2 id="openspec-changes-archive-2026-02-13-week08-quality-gates-baseline-proposal-risks-questions">Risks / questions</h2>
+<pre><code class="language-yaml">open_questions_week08:
+  - "Should warnings be split by compiler/source category in next iteration?"
+  - "When enabling coverage gates, what minimum threshold is realistic per module?"</code></pre>
+</section>
+<section id="openspec-changes-archive-2026-02-13-week08-quality-gates-baseline-specs-ticketing-spec" class="lesson" data-topic-id="openspec-changes-archive-2026-02-13-week08-quality-gates-baseline-specs-ticketing-spec" data-lesson-path="openspec/changes/archive/2026-02-13-week08-quality-gates-baseline/specs/ticketing/spec.md">
+<div class="lesson-path">openspec/changes/archive/2026-02-13-week08-quality-gates-baseline/specs/ticketing/spec.md</div>
+<h1 id="openspec-changes-archive-2026-02-13-week08-quality-gates-baseline-specs-ticketing-spec-delta-for-ticketing-week-08">Delta for Ticketing (Week 08)</h1>
+<h2 id="openspec-changes-archive-2026-02-13-week08-quality-gates-baseline-specs-ticketing-spec-added-requirements">ADDED Requirements</h2>
+<h3 id="openspec-changes-archive-2026-02-13-week08-quality-gates-baseline-specs-ticketing-spec-requirement-measurable-quality-gate-evaluation-baseline">Requirement: Measurable quality gate evaluation baseline</h3>
+<p>The system SHALL evaluate release readiness through measurable quality gates and</p>
+<p>produce deterministic pass/fail report output.</p>
+<p>Quality gate evaluation SHALL include critical validation checks and warning</p>
+<p>budget threshold. Failed critical checks or exceeded warning budget SHALL produce</p>
+<p>failed global result.</p>
+<pre class="mermaid">sequenceDiagram
+    participant D as Developer
+    participant R as GateRunner
+    participant C as GateCLI
+    participant E as Evaluator
+
+    D->>R: run-quality-gates.sh
+    R->>C: request JSON
+    C->>E: evaluate gates
+    E-->>C: report (passed/failed)
+    C-->>D: json + exit code</pre>
+<h4 id="openspec-changes-archive-2026-02-13-week08-quality-gates-baseline-specs-ticketing-spec-scenario-global-pass-when-all-gates-pass">Scenario: Global pass when all gates pass</h4>
+<pre><code class="language-gherkin">Scenario: Global pass when all gates pass
+  Given all critical checks are green
+  And warning count is within threshold
+  When quality gates are evaluated
+  Then global report result is passed</code></pre>
+<h4 id="openspec-changes-archive-2026-02-13-week08-quality-gates-baseline-specs-ticketing-spec-scenario-global-fail-on-warning-budget-exceeded">Scenario: Global fail on warning budget exceeded</h4>
+<pre><code class="language-gherkin">Scenario: Global fail on warning budget exceeded
+  Given critical checks are green
+  And warning count is above threshold
+  When quality gates are evaluated
+  Then global report result is failed</code></pre>
+<h4 id="openspec-changes-archive-2026-02-13-week08-quality-gates-baseline-specs-ticketing-spec-scenario-global-fail-on-critical-check">Scenario: Global fail on critical check</h4>
+<pre><code class="language-gherkin">Scenario: Global fail on critical check
+  Given swift tests are red
+  When quality gates are evaluated
+  Then global report result is failed</code></pre>
+</section>
+<section id="openspec-changes-archive-2026-02-13-week08-quality-gates-baseline-design" class="lesson" data-topic-id="openspec-changes-archive-2026-02-13-week08-quality-gates-baseline-design" data-lesson-path="openspec/changes/archive/2026-02-13-week08-quality-gates-baseline/design.md">
+<div class="lesson-path">openspec/changes/archive/2026-02-13-week08-quality-gates-baseline/design.md</div>
+<h1 id="openspec-changes-archive-2026-02-13-week08-quality-gates-baseline-design-design-week-08-quality-gate-evaluation-pipeline">Design: Week 08 — quality gate evaluation pipeline</h1>
+<h2 id="openspec-changes-archive-2026-02-13-week08-quality-gates-baseline-design-model">Model</h2>
+<p>Week 08 introduces an evaluation pipeline that transforms raw check outputs into</p>
+<p>a deterministic quality decision.</p>
+<h2 id="openspec-changes-archive-2026-02-13-week08-quality-gates-baseline-design-components">Components</h2>
+<pre class="mermaid">flowchart LR
+  CHECKS[Validation commands] --> RUNNER[run-quality-gates.sh]
+  RUNNER --> REQ[QualityGateEvaluationRequest]
+  REQ --> CLI[HelpdeskQualityGateCLI]
+  CLI --> EVAL[QualityGateEvaluator]
+  EVAL --> REPORT[QualityGateReport JSON + exit code]</pre>
+<h2 id="openspec-changes-archive-2026-02-13-week08-quality-gates-baseline-design-decisions">Decisions</h2>
+<p>The first decision is to separate signal collection from decision logic.</p>
+<p>Trade-off is one extra step; gain is testable and reusable evaluation engine.</p>
+<p>The second decision is to use explicit threshold struct for warning budget.</p>
+<p>Trade-off is threshold governance needed; gain is measurable quality policy.</p>
+<p>The third decision is to return non-zero exit code on failed report.</p>
+<p>Trade-off is stricter local workflow; gain is fail-fast behavior compatible with</p>
+<p>automation.</p>
+</section>
+<section id="openspec-changes-archive-2026-02-13-week08-quality-gates-baseline-tasks" class="lesson" data-topic-id="openspec-changes-archive-2026-02-13-week08-quality-gates-baseline-tasks" data-lesson-path="openspec/changes/archive/2026-02-13-week08-quality-gates-baseline/tasks.md">
+<div class="lesson-path">openspec/changes/archive/2026-02-13-week08-quality-gates-baseline/tasks.md</div>
+<h1 id="openspec-changes-archive-2026-02-13-week08-quality-gates-baseline-tasks-tasks-week-08">Tasks (Week 08)</h1>
+<p>Week 08 tasks define delivery from quality policy contract to executable gates.</p>
+<pre><code class="language-yaml">tasks_week08:
+  architecture:
+    - id: "1.1"
+      title: "Create HelpdeskQualityGates module"
+      status: done
+    - id: "1.2"
+      title: "Add CLI wrapper for request/report execution"
+      status: done
+  behavior:
+    - id: "2.1"
+      title: "Implement pass/fail evaluation across critical signals"
+      status: done
+    - id: "2.2"
+      title: "Apply warning budget threshold gate"
+      status: done
+  verification:
+    - id: "3.1"
+      title: "Add evaluator tests for pass and fail scenarios"
+      status: done
+    - id: "3.2"
+      title: "Add run-quality-gates.sh baseline runner"
       status: done
   evidence:
     - id: "4.1"
@@ -4563,26 +4725,230 @@ git commit -m "mensaje atomico sobre observabilidad"</code></pre>
 </section>
 <section id="09-semana-08-00-semana-08-roadmap" class="lesson" data-topic-id="09-semana-08-00-semana-08-roadmap" data-lesson-path="09-semana-08/00-semana-08-roadmap.md">
 <div class="lesson-path">09-semana-08/00-semana-08-roadmap.md</div>
-<h1 id="09-semana-08-00-semana-08-roadmap-semana-8-roadmap-ejecutable">Semana 8: roadmap ejecutable</h1>
-<p>Esta semana consolida una parte del ciclo SDD enterprise sobre <code>HelpdeskSDD</code>. No es teoría aislada: cada actividad termina en artefacto verificable, pruebas en verde y trazabilidad de decisiones. El foco exacto cambia por semana, pero el método se mantiene constante para entrenar disciplina profesional.</p>
-<h2 id="09-semana-08-00-semana-08-roadmap-objetivo-de-la-semana">Objetivo de la semana</h2>
-<p>En Semana 8 avanzas una capacidad concreta de producto sin romper lo construido. La disciplina que entrenas es mantener el flujo completo (OpenSpec → BDD → TDD → producción → refactor) incorporando observabilidad y calidad como parte del sistema, no como “decoración”.</p>
-<h2 id="09-semana-08-00-semana-08-roadmap-resultado-medible">Resultado medible</h2>
-<p>Semana 8 se considera cerrada cuando existe un entregable técnico claro, el build y las pruebas asociadas están en verde y hay evidencia trazable en commits. Aquí la evidencia incluye también que el sistema “se deja observar” y operar.</p>
-<h2 id="09-semana-08-00-semana-08-roadmap-flujo-de-trabajo">Flujo de trabajo</h2>
+<h1 id="09-semana-08-00-semana-08-roadmap-semana-8-quality-gates-medibles-para-decidir-con-evidencia-no-con-opini-n">Semana 8: quality gates medibles para decidir con evidencia, no con opinión</h1>
+<p>Hasta ahora construimos capacidades funcionales, resiliencia offline y observabilidad base. El siguiente paso enterprise es gobernar la calidad con reglas ejecutables. Si no existen quality gates claros, cada release depende del criterio subjetivo de quien está más cansado o más optimista ese día. Semana 8 elimina esa ambigüedad.</p>
+<p>Un quality gate no es una checklist decorativa. Es una decisión binaria sustentada por métricas y validaciones reproducibles. Pasa o no pasa. Si no pasa, no se publica. Esta disciplina protege al equipo de regressions silenciosas y evita discusiones infinitas sobre si “está suficientemente bien”.</p>
+<p>Esta semana implementamos un evaluador de gates para <code>HelpdeskSDD</code> que consolida señales de build, tests y validaciones del curso. No se trata de añadir burocracia; se trata de convertir calidad en contrato operativo.</p>
 <pre class="mermaid">flowchart LR
-    A[Entrada de semana 8] --> B[Spec refinada]
-    B --> C[BDD actualizado]
-    C --> D[TDD y produccion]
-    D --> E[Validacion y cierre]</pre>
-<h2 id="09-semana-08-00-semana-08-roadmap-practica-guiada">Practica guiada</h2>
-<p>Tu práctica guiada es revisar la meta técnica de Semana 8, ejecutar el laboratorio asociado registrando decisiones relevantes, y validar pruebas y build antes del commit final. Si algo no es observable, en enterprise es como si no existiera.</p>
-<h2 id="09-semana-08-00-semana-08-roadmap-verificacion-de-comprension">Verificacion de comprension</h2>
-<p>Pregunta 1: ¿Qué bloque del flujo OpenSpec → BDD → TDD → producción estás entrenando más esta semana?</p>
-<p>Pregunta 2: ¿Qué evidencia objetiva confirma que cerraste Semana 8?</p>
-<p>Pregunta 3: ¿Qué deuda técnica aceptaste, si aceptaste alguna, y por qué fue una decisión consciente?</p>
-<h2 id="09-semana-08-00-semana-08-roadmap-siguiente-paso">Siguiente paso</h2>
-<p>Ir a la primera leccion detallada de semana 8.</p>
+    A[OpenSpec week08] --> B[BDD de gates]
+    B --> C[TDD del evaluador]
+    C --> D[CLI de quality gates]
+    D --> E[Script de ejecucion local]
+    E --> F[Checkpoint de cierre]</pre>
+<p>El resultado medible de Week 8 es tener un pipeline local de gates que evalúe umbrales definidos, produzca un informe estructurado y falle explícitamente cuando una condición crítica no se cumple.</p>
+<pre><code class="language-yaml">week8_definition_of_done:
+  measurable_rules: "gates definidos con umbrales y señales objetivas"
+  executable_pipeline: "script local ejecuta checks y evalua reporte"
+  fail_fast_behavior: "si un gate critico falla, salida no verde"
+  evidence: "tests del evaluador y validaciones globales en verde"</code></pre>
+<p>La práctica de arranque consiste en escribir en una frase qué diferencia hay entre “hacer muchos tests” y “tener una política de calidad que bloquea releases defectuosos”. Si no puedes verbalizar esa diferencia, Week 8 todavía parece un detalle técnico y no una capacidad de gestión de ingeniería.</p>
+<p>La verificación de comprensión antes de entrar a detalle es responder esta pregunta: ¿por qué un equipo con buen código puede fallar en producción si no tiene gates de calidad medibles y automatizados?</p>
+<p>Siguiente lección: <code>09-semana-08/01-problema-quality-gates.md</code>.</p>
+</section>
+<section id="09-semana-08-01-problema-quality-gates" class="lesson" data-topic-id="09-semana-08-01-problema-quality-gates" data-lesson-path="09-semana-08/01-problema-quality-gates.md">
+<div class="lesson-path">09-semana-08/01-problema-quality-gates.md</div>
+<h1 id="09-semana-08-01-problema-quality-gates-semana-8-lecci-n-1-el-problema-no-es-la-falta-de-calidad-es-la-falta-de-criterio-ejecutable">Semana 8 · Lección 1: el problema no es la falta de calidad, es la falta de criterio ejecutable</h1>
+<p>Cuando un equipo dice “esto tiene calidad”, normalmente habla desde percepción. Esa percepción puede venir de experiencia, intuición o presión de entrega. El problema es que la percepción no escala bien. En cuanto crece el equipo o el producto, dos personas expertas pueden discrepar y no habrá una forma objetiva de resolver la discusión.</p>
+<p>Los quality gates resuelven ese vacío de criterio. Definen condiciones concretas que el sistema debe cumplir antes de considerarse apto para avanzar. Si una condición falla, el sistema no pasa. No importa quién lo ejecuta, ni si es lunes o viernes. Eso convierte calidad en una política de ingeniería, no en una opinión.</p>
+<pre class="mermaid">flowchart TD
+    A[Calidad subjetiva] --> B[Debates interminables]
+    B --> C[Releases inconsistentes]
+    C --> D[Incidentes evitables]
+    E[Quality gates medibles] --> F[Decision reproducible]
+    F --> G[Release con criterio unico]</pre>
+<p>Piensa en una analogía simple. En una competición deportiva no ganas porque “parece que corriste bien”, ganas porque el cronómetro marca un tiempo verificable. En ingeniería de software, los gates son ese cronómetro.</p>
+<pre><code class="language-swift">// Sin gate: decision manual y variable.
+// "Parece que esta bien, mergea".
+
+// Con gate: decision automatizada y estable.
+// quality_gates_report.passed == true</code></pre>
+<p>La práctica guiada consiste en tomar un bug histórico que recuerdes y responder qué gate lo habría detenido antes de llegar a producción. Si no puedes asociar el bug a ninguna señal medible, ahí tienes una oportunidad directa de mejora.</p>
+<p>La verificación de comprensión antes de especificación es responder por qué un gate debe ser verificable por máquina y no depender de interpretación humana en el último minuto.</p>
+<p>Siguiente lección: <code>09-semana-08/02-spec-quality-gates-v1.md</code>.</p>
+</section>
+<section id="09-semana-08-02-spec-quality-gates-v1" class="lesson" data-topic-id="09-semana-08-02-spec-quality-gates-v1" data-lesson-path="09-semana-08/02-spec-quality-gates-v1.md">
+<div class="lesson-path">09-semana-08/02-spec-quality-gates-v1.md</div>
+<h1 id="09-semana-08-02-spec-quality-gates-v1-semana-8-lecci-n-2-especificar-quality-gates-como-contrato-operativo">Semana 8 · Lección 2: especificar quality gates como contrato operativo</h1>
+<p>Después de entender el problema, convertimos calidad en contrato. Esta lección define qué señales mínimas necesita <code>HelpdeskSDD</code> para decidir si un cambio puede considerarse “apto” o “bloqueado”. La clave es que cada gate debe mapearse a una evidencia concreta y a una decisión binaria.</p>
+<p>En Week 8 no buscamos cubrir todos los indicadores imaginables. Buscamos un baseline sólido y mantenible que puedas ejecutar localmente en pocos minutos. Ese baseline ya cambia la cultura del equipo porque introduce una definición compartida de calidad técnica.</p>
+<pre class="mermaid">flowchart LR
+    A[Problema de criterio subjetivo] --> B[Proposal week08]
+    B --> C[Requirement de gates]
+    C --> D[Escenarios pass/fail]
+    D --> E[Tareas de implementacion]</pre>
+<p>El cambio OpenSpec de esta semana se llama <code>week08-quality-gates-baseline</code> y sigue el flujo establecido del curso.</p>
+<pre><code class="language-text">/opsx:new week08-quality-gates-baseline
+/opsx:ff
+/opsx:apply
+/opsx:verify</code></pre>
+<p>Las señales mínimas que vamos a evaluar incluyen estado de tests Swift, validación OpenSpec, auditoría de enlaces, validación pedagógica y presupuesto de warnings. Cada una aporta una perspectiva distinta de calidad y juntas forman una decisión más robusta que cualquier señal aislada.</p>
+<pre><code class="language-yaml">week8_gate_scope:
+  gate_swift_tests: "debe estar en verde"
+  gate_openspec: "debe validar sin fallos"
+  gate_links: "auditoria de enlaces limpia"
+  gate_pedagogy: "validacion docente en verde"
+  gate_warnings_budget: "warnings por debajo del umbral definido"</code></pre>
+<p>La práctica guiada consiste en elegir un umbral de warnings razonable para tu contexto y justificarlo en dos frases. El objetivo no es acertar “el número mágico”, sino aprender a argumentar trade-offs medibles.</p>
+<p>La verificación de comprensión antes de BDD es responder por qué un gate debe tener condición explícita de fallo y no solo “recomendación de mejora”.</p>
+<p>Siguiente lección: <code>09-semana-08/03-bdd-quality-gates.md</code>.</p>
+</section>
+<section id="09-semana-08-03-bdd-quality-gates" class="lesson" data-topic-id="09-semana-08-03-bdd-quality-gates" data-lesson-path="09-semana-08/03-bdd-quality-gates.md">
+<div class="lesson-path">09-semana-08/03-bdd-quality-gates.md</div>
+<h1 id="09-semana-08-03-bdd-quality-gates-semana-8-lecci-n-3-bdd-de-quality-gates-para-alinear-ingenier-a-y-entrega">Semana 8 · Lección 3: BDD de quality gates para alinear ingeniería y entrega</h1>
+<p>BDD en Week 8 describe decisiones de release, no funcionalidades de usuario final. Esto es importante porque la calidad también necesita lenguaje compartido entre perfiles técnicos y de producto. Si no hay ese lenguaje, cada persona interpreta distinto qué significa “listo para enviar”.</p>
+<p>Los escenarios de esta semana capturan comportamientos de aprobación y bloqueo. Esa semántica debe ser tan clara como cualquier regla de negocio, porque impacta directamente en estabilidad del producto y en confianza del equipo.</p>
+<pre class="mermaid">sequenceDiagram
+    participant Dev as Developer
+    participant Runner as Gate Runner
+    participant Eval as Gate Evaluator
+    participant Report as Gate Report
+    Dev->>Runner: run-quality-gates
+    Runner->>Eval: input metrics
+    Eval-->>Report: pass/fail by gate
+    Report-->>Dev: release decision</pre>
+<p>El baseline de escenarios para Week 8 distingue claramente un caso verde, un caso de fallo por warning budget y un caso de fallo por gate crítico.</p>
+<pre><code class="language-gherkin">Feature: Baseline de quality gates del repositorio
+  Scenario: Todos los gates críticos en verde
+    Given resultados de checks sin fallos
+    And warning_count dentro del presupuesto
+    When se evalua quality report
+    Then el resultado global es passed
+
+  Scenario: Falla por warnings sobre presupuesto
+    Given checks críticos en verde
+    And warning_count por encima del presupuesto
+    When se evalua quality report
+    Then el resultado global es failed
+
+  Scenario: Falla por gate crítico
+    Given swift tests en rojo
+    When se evalua quality report
+    Then el resultado global es failed</code></pre>
+<p>La práctica guiada consiste en transformar uno de estos escenarios en una regla de CI que puedas ejecutar localmente. Si no puedes ejecutarlo fuera del papel, todavía no es un gate operativo.</p>
+<p>La verificación de comprensión antes de TDD es responder qué diferencia hay entre un gate informativo y un gate bloqueante, y cuándo usar cada uno.</p>
+<p>Siguiente lección: <code>09-semana-08/04-tdd-quality-gate-evaluator.md</code>.</p>
+</section>
+<section id="09-semana-08-04-tdd-quality-gate-evaluator" class="lesson" data-topic-id="09-semana-08-04-tdd-quality-gate-evaluator" data-lesson-path="09-semana-08/04-tdd-quality-gate-evaluator.md">
+<div class="lesson-path">09-semana-08/04-tdd-quality-gate-evaluator.md</div>
+<h1 id="09-semana-08-04-tdd-quality-gate-evaluator-semana-8-lecci-n-4-tdd-del-evaluador-para-garantizar-decisiones-consistentes">Semana 8 · Lección 4: TDD del evaluador para garantizar decisiones consistentes</h1>
+<p>Con escenarios definidos, implementamos pruebas para el evaluador de gates. Aquí el objetivo no es validar infraestructura externa, sino validar la lógica de decisión que convierte señales en un veredicto global. Si esta lógica falla, un pipeline puede dar verde cuando debería bloquear o bloquear cuando debería avanzar.</p>
+<p>La estrategia de TDD en Week 8 se centra en tres casos canónicos. Caso totalmente verde. Caso con warning budget superado. Caso con gate crítico fallando. Con esos tres casos cubres el núcleo de comportamiento esperado.</p>
+<pre class="mermaid">flowchart LR
+    A[Escenario BDD de gate] --> B[Test rojo del evaluador]
+    B --> C[Implementacion minima]
+    C --> D[Test verde]
+    D --> E[Refactor de reporte]</pre>
+<p>Este patrón de prueba comprueba que el evaluador falla cuando warnings exceden umbral aunque el resto esté en verde.</p>
+<pre><code class="language-swift">@Test
+func reportFailsWhenWarningBudgetIsExceeded() {
+    let evaluator = QualityGateEvaluator()
+    let request = QualityGateEvaluationRequest(
+        thresholds: .init(maxSwiftWarnings: 2),
+        input: .init(
+            swiftTestsGreen: true,
+            openSpecValid: true,
+            linkAuditGreen: true,
+            pedagogyGreen: true,
+            courseStructureGreen: true,
+            swiftWarningCount: 5
+        )
+    )
+
+    let report = evaluator.evaluate(request)
+
+    #expect(report.passed == false)
+}</code></pre>
+<pre><code class="language-bash">swift test --package-path project/HelpdeskSDD</code></pre>
+<p>La práctica guiada consiste en introducir una mutación temporal en la regla de warnings para que acepte cualquier valor y comprobar que el test anterior cae. Después restaura la regla y vuelve a verde.</p>
+<p>La verificación de comprensión antes de código de producción es responder por qué esta lógica debe vivir en una pieza dedicada y no dispersa entre scripts ad hoc.</p>
+<p>Siguiente lección: <code>09-semana-08/05-codigo-quality-gates-cli.md</code>.</p>
+</section>
+<section id="09-semana-08-05-codigo-quality-gates-cli" class="lesson" data-topic-id="09-semana-08-05-codigo-quality-gates-cli" data-lesson-path="09-semana-08/05-codigo-quality-gates-cli.md">
+<div class="lesson-path">09-semana-08/05-codigo-quality-gates-cli.md</div>
+<h1 id="09-semana-08-05-codigo-quality-gates-cli-semana-8-lecci-n-5-c-digo-de-producci-n-del-runner-de-quality-gates">Semana 8 · Lección 5: código de producción del runner de quality gates</h1>
+<p>En esta lección unimos todo en una pieza ejecutable. Implementamos un módulo de evaluación de gates y una CLI que recibe un request en JSON, evalúa las reglas y devuelve un reporte estructurado. Este enfoque permite integrar el evaluador en scripts locales y, más adelante, en CI sin reescribir lógica.</p>
+<p>La arquitectura de esta parte sigue el principio que ya has visto en semanas previas. La lógica de decisión se encapsula en un evaluador puro y testeable. La CLI se limita a parsear entrada y serializar salida. Esa separación evita acoplar negocio de calidad a detalles de terminal.</p>
+<pre class="mermaid">flowchart TD
+    A[run-quality-gates.sh] --> B[QualityGateCLI]
+    B --> C[QualityGateEvaluator]
+    C --> D[QualityGateReport]
+    D --> E[Exit code y json de salida]</pre>
+<p>El núcleo de evaluación combina gates críticos y presupuesto de warnings en un único veredicto.</p>
+<pre><code class="language-swift">public struct QualityGateEvaluator {
+    public func evaluate(_ request: QualityGateEvaluationRequest) -&gt; QualityGateReport {
+        let checks = buildChecks(request)
+        let passed = checks.allSatisfy(\ .passed)
+        return QualityGateReport(passed: passed, checks: checks)
+    }
+}</code></pre>
+<p>La CLI devuelve <code>0</code> si todo pasa y un código de error si hay gates fallando. Esa convención permite que cualquier pipeline bloquee automáticamente en caso de incumplimiento.</p>
+<p>La práctica guiada consiste en ejecutar la CLI con dos requests, uno verde y otro rojo, y observar cómo cambia el código de salida además del JSON. Eso te ayuda a entender por qué el reporte textual no basta sin semántica de proceso.</p>
+<p>La verificación de comprensión antes del refactor es responder por qué separar evaluador y runner reduce deuda técnica cuando aparecen nuevos gates.</p>
+<p>Siguiente lección: <code>09-semana-08/06-refactor-policy-thresholds.md</code>.</p>
+</section>
+<section id="09-semana-08-06-refactor-policy-thresholds" class="lesson" data-topic-id="09-semana-08-06-refactor-policy-thresholds" data-lesson-path="09-semana-08/06-refactor-policy-thresholds.md">
+<div class="lesson-path">09-semana-08/06-refactor-policy-thresholds.md</div>
+<h1 id="09-semana-08-06-refactor-policy-thresholds-semana-8-lecci-n-6-refactor-de-umbrales-para-mantener-gobernanza-clara">Semana 8 · Lección 6: refactor de umbrales para mantener gobernanza clara</h1>
+<p>Con el runner funcionando, el siguiente riesgo es dejar umbrales hardcodeados en múltiples sitios. Eso vuelve difícil ajustar política cuando el equipo madura o cambia contexto. Esta lección refactoriza precisamente ese punto: centralizar umbrales y entrada en una estructura única y explícita.</p>
+<p>El objetivo es que modificar presupuesto de warnings o agregar un gate nuevo sea una decisión visible y auditable, no una búsqueda manual por todo el repo. Esa trazabilidad es parte de la gobernanza técnica que buscamos en este curso.</p>
+<pre class="mermaid">flowchart LR
+    A[Evaluador funcional] --> B[Detectar parametros dispersos]
+    B --> C[Centralizar thresholds]
+    C --> D[Revalidar suite]
+    D --> E[Politica de calidad mantenible]</pre>
+<p>La regla de refactor sigue siendo la misma de siempre. Si cambias estructura interna pero no intención funcional, la suite debe seguir pasando igual. Si cambia un resultado sin querer, el refactor introdujo regresión.</p>
+<pre><code class="language-swift">public struct QualityGateThresholds: Codable, Equatable, Sendable {
+    public let maxSwiftWarnings: Int
+}</code></pre>
+<p>La práctica guiada consiste en cambiar temporalmente el umbral de warnings y verificar cómo impacta en un caso de prueba controlado. Después restaura el valor y confirma que el comportamiento vuelve al estado esperado.</p>
+<p>La verificación de comprensión antes del checkpoint es responder por qué versionar umbrales explícitamente mejora conversaciones entre ingeniería y producto.</p>
+<p>Siguiente lección: <code>09-semana-08/07-checkpoint-evaluacion.md</code>.</p>
+</section>
+<section id="09-semana-08-07-checkpoint-evaluacion" class="lesson" data-topic-id="09-semana-08-07-checkpoint-evaluacion" data-lesson-path="09-semana-08/07-checkpoint-evaluacion.md">
+<div class="lesson-path">09-semana-08/07-checkpoint-evaluacion.md</div>
+<h1 id="09-semana-08-07-checkpoint-evaluacion-semana-8-lecci-n-7-checkpoint-de-quality-gates-para-cierre-defendible">Semana 8 · Lección 7: checkpoint de quality gates para cierre defendible</h1>
+<p>Week 8 se cierra cuando la decisión de calidad deja de depender de interpretación humana y pasa a depender de un mecanismo ejecutable con reglas explícitas. Este checkpoint valida que esa transición se haya completado y que la política pueda defenderse en revisión técnica.</p>
+<p>La evaluación revisa coherencia entre contrato OpenSpec, escenarios BDD, pruebas del evaluador y ejecución real del runner. Si cualquiera de estas piezas se contradice, el gate global pierde credibilidad y vuelve la subjetividad.</p>
+<pre class="mermaid">flowchart TD
+    A[OpenSpec week08] --> B[BDD quality gates]
+    B --> C[Tests del evaluador]
+    C --> D[CLI y script runner]
+    D --> E[Validaciones globales]
+    E --> F[Cierre week08]</pre>
+<p>La verificación técnica debe ejecutarse completa y dejar rastro de salida para poder auditar decisiones.</p>
+<pre><code class="language-bash">swift test --package-path project/HelpdeskSDD
+./scripts/run-quality-gates.sh
+npm run -s openspec:validate
+python3 scripts/validate-course-structure.py
+python3 scripts/validate-openspec.py
+python3 scripts/check-links.py
+python3 scripts/validate-pedagogy.py
+python3 scripts/build-html.py</code></pre>
+<p>La práctica guiada consiste en forzar un fallo controlado de gate y confirmar que el runner devuelve resultado global failed con detalle suficiente para actuar. Después restaura estado verde y deja evidencia del ciclo.</p>
+<p>La verificación de comprensión final del checkpoint es responder por qué “todo pasó en mi máquina” no es un criterio válido si no existe un reporte de gates reproducible.</p>
+<p>Siguiente lección: <code>09-semana-08/08-bitacora-commits.md</code>.</p>
+</section>
+<section id="09-semana-08-08-bitacora-commits" class="lesson" data-topic-id="09-semana-08-08-bitacora-commits" data-lesson-path="09-semana-08/08-bitacora-commits.md">
+<div class="lesson-path">09-semana-08/08-bitacora-commits.md</div>
+<h1 id="09-semana-08-08-bitacora-commits-semana-8-lecci-n-8-bit-cora-de-cierre-para-pol-tica-de-calidad-auditable">Semana 8 · Lección 8: bitácora de cierre para política de calidad auditable</h1>
+<p>La bitácora de Week 8 debe demostrar cómo pasaste de una noción subjetiva de calidad a una política de gates ejecutable y medible. Esa evidencia es especialmente valiosa cuando toca explicar por qué un cambio se bloqueó o por qué se permitió avanzar.</p>
+<p>Esta semana mantiene la misma disciplina de atomización. Un bloque de commits para contenido docente, otro para implementación técnica de evaluador y runner, y otro para OpenSpec más scripts de publicación. Ese orden facilita revisar impacto por tipo de cambio.</p>
+<pre class="mermaid">flowchart LR
+    A[Plan week08] --> B[Cambios por bloque]
+    B --> C[Validaciones por bloque]
+    C --> D[Commit atomico]
+    D --> E[Historial de gobernanza]</pre>
+<p>El valor de esta bitácora no está en “tener muchos commits”. Está en que cada commit pueda responder una pregunta concreta de arquitectura, operación o auditoría sin contexto adicional.</p>
+<pre><code class="language-text">git status --short
+swift test --package-path project/HelpdeskSDD
+./scripts/run-quality-gates.sh
+npm run -s openspec:validate
+python3 scripts/build-html.py
+git add &lt;bloque-semantico&gt;
+git commit -m "mensaje atomico sobre quality gates"</code></pre>
+<p>La práctica guiada final consiste en mapear cada commit de la semana a una pregunta de revisión real, como por ejemplo “¿qué gate bloqueó este cambio y con qué umbral?”. Si no puedes mapearlo, el commit está poco enfocado.</p>
+<p>La verificación de comprensión que cierra la semana es explicar con un ejemplo la diferencia entre “pipeline de checks” y “gobernanza de calidad basada en gates”.</p>
+<p>Siguiente semana: <code>10-semana-09/00-semana-09-roadmap.md</code>.</p>
 </section>
 <section id="10-semana-09-00-semana-09-roadmap" class="lesson" data-topic-id="10-semana-09-00-semana-09-roadmap" data-lesson-path="10-semana-09/00-semana-09-roadmap.md">
 <div class="lesson-path">10-semana-09/00-semana-09-roadmap.md</div>
