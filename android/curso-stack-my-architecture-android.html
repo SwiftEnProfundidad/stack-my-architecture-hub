@@ -1064,7 +1064,7 @@ blockquote p {
 <p>Este documento existe para responder una pregunta incómoda, pero necesaria: si una persona termina el recorrido Android, ¿sale con el mismo nivel de preparación profesional que quien termina el recorrido iOS? La respuesta, en el estado actual, es que todavía no. Hay avances importantes en cobertura y narrativa, pero la equivalencia real exige algo más que contenido amplio. Exige evidencia operativa consistente, un proyecto final verdaderamente integrador y una forma de evaluación que compruebe empleabilidad técnica, no solo comprensión conceptual.</p>
 <p>La comparación se hace sobre artefactos concretos de ambos repositorios. Del lado Android se toma como referencia la estructura y el contrato pedagógico publicado, y del lado iOS se toma el estándar de profundidad operativa ya consolidado.</p>
 <h2 id="00-informe-AUDITORIA-EQUIVALENCIA-IOS-ANDROID-estado-comparativo-actual">Estado comparativo actual</h2>
-<p>Cuando se compara la propuesta de valor, Android ya tiene una promesa formativa potente: progresión clara, stack moderno y cobertura por niveles. Esa base está bien representada en <a href="../stack-my-architecture-android/README.md"><code>README.md</code></a> y en <a href="../stack-my-architecture-android/00-informe/INFORME-CURSO.md"><code>INFORME-CURSO.md</code></a>. Sin embargo, la versión iOS sigue mostrando una columna vertebral más cerrada entre teoría, decisiones y ejecución verificable, visible en <a href="README.md"><code>README.md</code></a> y en su informe fundacional <a href="00-informe/INFORME-CURSO.md"><code>INFORME-CURSO.md</code></a>.</p>
+<p>Cuando se compara la propuesta de valor, Android ya tiene una promesa formativa potente: progresión clara, stack moderno y cobertura por niveles. Esa base está bien representada en <a href="../README.md"><code>README.md</code></a> y en <a href="INFORME-CURSO.md"><code>INFORME-CURSO.md</code></a>. Sin embargo, la versión iOS sigue mostrando una columna vertebral más cerrada entre teoría, decisiones y ejecución verificable, visible en <a href="../../stack-my-architecture-ios/README.md"><code>README.md</code></a> y en su informe fundacional <a href="../../stack-my-architecture-ios/00-informe/INFORME-CURSO.md"><code>INFORME-CURSO.md</code></a>.</p>
 <p>En profundidad técnica, Android cubre casi todos los temas críticos del stack solicitado, pero todavía no obliga al alumno a demostrarlos de forma integrada sobre un único producto vivo con gates duros de calidad. En iOS esa exigencia aparece con más fuerza en la continuidad de sus etapas y artefactos.</p>
 <p>En coherencia pedagógica, Android mejoró tras revisiones de calidad, pero aún hay brechas de trazabilidad entre lo que se aprende en módulos aislados y lo que debe sostenerse en un ciclo real de release, operación y mantenimiento de producto.</p>
 <h2 id="00-informe-AUDITORIA-EQUIVALENCIA-IOS-ANDROID-brechas-cr-ticas-detectadas">Brechas críticas detectadas</h2>
@@ -1089,7 +1089,7 @@ blockquote p {
 <div class="lesson-path">00-informe/PLAN-REFUERZO-CURSO-ANDROID.md</div>
 <h1 id="00-informe-PLAN-REFUERZO-CURSO-ANDROID-plan-de-refuerzo-integral-del-curso-android">Plan de refuerzo integral del curso Android</h1>
 <p>Este plan convierte la revisión crítica en ejecución concreta. El objetivo no es rehacer el curso desde cero, sino reforzarlo donde más impacta para cerrar la brecha de equivalencia con iOS y, sobre todo, para que el alumno salga con señales reales de empleabilidad técnica.</p>
-<p>La idea central es simple: todo el recorrido debe desembocar en un único producto vivo, y cada nivel debe aportar una versión verificable de ese producto. Ese producto es RuralGO FieldOps, definido en <a href="../stack-my-architecture-android/05-proyecto-final/00-brief-ruralgo-fieldops.md"><code>00-brief-ruralgo-fieldops.md</code></a>, con rúbrica de cierre en <a href="../stack-my-architecture-android/05-proyecto-final/01-rubrica-empleabilidad.md"><code>01-rubrica-empleabilidad.md</code></a> y evidencias obligatorias en <a href="../stack-my-architecture-android/05-proyecto-final/02-evidencias-obligatorias.md"><code>02-evidencias-obligatorias.md</code></a>.</p>
+<p>La idea central es simple: todo el recorrido debe desembocar en un único producto vivo, y cada nivel debe aportar una versión verificable de ese producto. Ese producto es RuralGO FieldOps, definido en <a href="../05-proyecto-final/00-brief-ruralgo-fieldops.md"><code>00-brief-ruralgo-fieldops.md</code></a>, con rúbrica de cierre en <a href="../05-proyecto-final/01-rubrica-empleabilidad.md"><code>01-rubrica-empleabilidad.md</code></a> y evidencias obligatorias en <a href="../05-proyecto-final/02-evidencias-obligatorias.md"><code>02-evidencias-obligatorias.md</code></a>.</p>
 <h2 id="00-informe-PLAN-REFUERZO-CURSO-ANDROID-qu-se-refuerza-en-cada-nivel">Qué se refuerza en cada nivel</h2>
 <p>En Nivel Cero no se cambia el foco de alfabetización técnica, pero sí se introduce una disciplina de evidencia desde el primer día. Cada mini proyecto debe cerrar con un registro breve de ejecución: qué se intentó, qué falló, cómo se corrigió y qué quedó funcionando. Ese hábito se vuelve estructural y acompaña todo el curso.</p>
 <p>En Junior, los entregables dejan de sentirse como piezas aisladas. Cada módulo se conecta explícitamente con la versión v1.0 del proyecto final. El alumno ya no entrega “una feature cualquiera”, sino una parte concreta de FieldOps con estado, navegación y persistencia funcionando en conjunto.</p>
@@ -3456,7 +3456,7 @@ fun replaceTasks_replacesLocalStorage() = runTest {
 <div class="lesson-path">02-midlevel/01-red-robusta-retrofit-okhttp.md</div>
 <h1 id="02-midlevel-01-red-robusta-retrofit-okhttp-nivel-midlevel-01-capa-de-red-robusta-con-retrofit-y-okhttp-guiada-paso-a-paso">Nivel Midlevel · 01 · Capa de red robusta con Retrofit y OkHttp, guiada paso a paso</h1>
 <p>Llegamos a un punto importante del curso. En nivel Junior aprendiste a construir features con estado, persistencia local y pruebas. Eso te da una app funcional. Ahora, en Midlevel, el problema cambia. Ya no basta con “llamar una API y mostrar datos”. Necesitas una capa de red que sea estable cuando la red falla, mantenible cuando el producto crece y coherente con la arquitectura que venimos construyendo.</p>
-<p>En esta lección no vamos a introducir conceptos “porque sí”. Vamos a conectar cada pieza con lo aprendido. En <a href="../stack-my-architecture-android/01-junior/02-feature-base-practica.md"><code>01-junior/02-feature-base-practica.md</code></a> ya separaste pantalla, ViewModel y repositorio. En <a href="../stack-my-architecture-android/01-junior/05-room-offline-first.md"><code>01-junior/05-room-offline-first.md</code></a> separaste modelo de dominio y modelo de persistencia local. Ahora añadimos la pieza remota con la misma lógica de separación: infraestructura de red aislada, dominio limpio, flujo de datos entendible.</p>
+<p>En esta lección no vamos a introducir conceptos “porque sí”. Vamos a conectar cada pieza con lo aprendido. En <a href="../01-junior/02-feature-base-practica.md"><code>01-junior/02-feature-base-practica.md</code></a> ya separaste pantalla, ViewModel y repositorio. En <a href="../01-junior/05-room-offline-first.md"><code>01-junior/05-room-offline-first.md</code></a> separaste modelo de dominio y modelo de persistencia local. Ahora añadimos la pieza remota con la misma lógica de separación: infraestructura de red aislada, dominio limpio, flujo de datos entendible.</p>
 <p>Antes de escribir una sola línea, definimos términos en el momento exacto en que los necesitas.</p>
 <p>Retrofit es una librería que te permite declarar endpoints HTTP como funciones Kotlin en una interfaz. Eso significa que escribes “qué endpoint llamo” con anotaciones y Retrofit genera la implementación real.</p>
 <p>OkHttp es el motor HTTP de bajo nivel. Gestiona sockets, conexiones, timeouts, headers e interceptores. Retrofit, por debajo, usa OkHttp para ejecutar las llamadas.</p>
@@ -7178,7 +7178,7 @@ class ReadinessNarrative {
 <div class="lesson-path">05-proyecto-final/00-brief.md</div>
 <h1 id="05-proyecto-final-00-brief-brief-del-proyecto-final">Brief del proyecto final</h1>
 <p>Este archivo existe para mantener compatibilidad con el plan de implementación y con las referencias pedagógicas que usan el nombre <code>00-brief.md</code>.</p>
-<p>El contenido oficial del proyecto final está en <a href="../stack-my-architecture-android/05-proyecto-final/00-brief-ruralgo-fieldops.md"><code>00-brief-ruralgo-fieldops.md</code></a>. Ese documento define el alcance funcional, técnico y operativo de RuralGO FieldOps como producto vivo transversal del curso.</p>
+<p>El contenido oficial del proyecto final está en <a href="00-brief-ruralgo-fieldops.md"><code>00-brief-ruralgo-fieldops.md</code></a>. Ese documento define el alcance funcional, técnico y operativo de RuralGO FieldOps como producto vivo transversal del curso.</p>
 </section>
 <section id="05-proyecto-final-00-brief-ruralgo-fieldops" class="lesson" data-topic-id="05-proyecto-final-00-brief-ruralgo-fieldops" data-lesson-path="05-proyecto-final/00-brief-ruralgo-fieldops.md">
 <div class="lesson-path">05-proyecto-final/00-brief-ruralgo-fieldops.md</div>
@@ -7824,7 +7824,32 @@ function detectSnippetLang(codeEl) {
     if (className.includes('language-json')) return 'JSON';
     if (className.includes('language-bash') || className.includes('language-shell')) return 'SH';
     if (className.includes('language-yaml') || className.includes('language-yml')) return 'YAML';
-    return 'KT';
+    if (className.includes('language-python') || className.includes('language-py')) return 'PY';
+    if (className.includes('language-mermaid')) return 'Mermaid';
+    if (className.includes('language-xml') || className.includes('language-html')) return 'XML';
+    if (className.includes('language-sql')) return 'SQL';
+    if (className.includes('language-markdown') || className.includes('language-md')) return 'MD';
+    if (className.includes('language-gherkin') || className.includes('language-feature')) return 'Gherkin';
+
+    const content = (codeEl.textContent || '').trim();
+    if (!content) return 'TXT';
+
+    if (
+        content.startsWith('flowchart') ||
+        content.startsWith('sequenceDiagram') ||
+        content.startsWith('classDiagram') ||
+        content.startsWith('stateDiagram') ||
+        content.startsWith('erDiagram')
+    ) return 'Mermaid';
+
+    if (/^(\$\s*)?(gradlew|adb|emulator|kotlin|ktlint|detekt|git|npm|node|python3|bash|sh)\b/m.test(content)) return 'SH';
+    if (/^\s*(package\s+[a-zA-Z0-9_.]+|import\s+[a-zA-Z0-9_.]+|data\s+class\s+\w+|sealed\s+(class|interface)\s+\w+|@Composable|class\s+\w+)/m.test(content)) return 'KT';
+    if (/^\s*(\{|\[\s*\{|"[^"]+"\s*:)/m.test(content)) return 'JSON';
+    if (/^\s*[a-zA-Z0-9_-]+\s*:\s*.+$/m.test(content) && !/;\s*$/m.test(content)) return 'YAML';
+    if (/^\s*SELECT\b|^\s*INSERT\b|^\s*UPDATE\b|^\s*DELETE\b|^\s*CREATE\s+TABLE\b/im.test(content)) return 'SQL';
+    if (/^\s*<[^>]+>/m.test(content)) return 'XML';
+
+    return 'TXT';
 }
 
 function copyCodeToClipboard(text) {
@@ -7868,12 +7893,13 @@ function enhanceCodeBlocks() {
         const copyBtn = document.createElement('button');
         copyBtn.type = 'button';
         copyBtn.className = 'sma-code-copy-btn';
-        copyBtn.textContent = 'Copy code';
+        copyBtn.textContent = 'Copiar';
+        copyBtn.setAttribute('aria-label', `Copiar snippet ${lang.textContent}`);
         copyBtn.addEventListener('click', () => {
             const originalText = copyBtn.textContent;
             copyCodeToClipboard(code.textContent || '')
                 .then(() => {
-                    copyBtn.textContent = 'Copied';
+                    copyBtn.textContent = 'Copiado';
                     setTimeout(() => { copyBtn.textContent = originalText; }, 1200);
                 })
                 .catch(() => {
