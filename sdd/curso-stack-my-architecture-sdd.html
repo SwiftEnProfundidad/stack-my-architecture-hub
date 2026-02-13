@@ -970,6 +970,10 @@ blockquote p {
   <li><a class="doc-nav-link" data-lesson-path="openspec/changes/archive/2026-02-13-week11-feature-integration-navigation/specs/ticketing/spec.md" href="#openspec-changes-archive-2026-02-13-week11-feature-integration-navigation-specs-ticketing-spec">Delta for Ticketing (Week 11)</a></li>
   <li><a class="doc-nav-link" data-lesson-path="openspec/changes/archive/2026-02-13-week11-feature-integration-navigation/design.md" href="#openspec-changes-archive-2026-02-13-week11-feature-integration-navigation-design">Design: Week 11 — integration flow without feature cross-coupling</a></li>
   <li><a class="doc-nav-link" data-lesson-path="openspec/changes/archive/2026-02-13-week11-feature-integration-navigation/tasks.md" href="#openspec-changes-archive-2026-02-13-week11-feature-integration-navigation-tasks">Tasks (Week 11)</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="openspec/changes/archive/2026-02-13-week12-module-boundary-governance/proposal.md" href="#openspec-changes-archive-2026-02-13-week12-module-boundary-governance-proposal">Proposal: Week 12 — module boundary governance baseline</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="openspec/changes/archive/2026-02-13-week12-module-boundary-governance/specs/ticketing/spec.md" href="#openspec-changes-archive-2026-02-13-week12-module-boundary-governance-specs-ticketing-spec">Delta for Ticketing (Week 12)</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="openspec/changes/archive/2026-02-13-week12-module-boundary-governance/design.md" href="#openspec-changes-archive-2026-02-13-week12-module-boundary-governance-design">Design: Week 12 — policy-driven module dependency governance</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="openspec/changes/archive/2026-02-13-week12-module-boundary-governance/tasks.md" href="#openspec-changes-archive-2026-02-13-week12-module-boundary-governance-tasks">Tasks (Week 12)</a></li>
 </ul></li>
 <li class="nav-section"><strong>Semana 3</strong>
 <ul>
@@ -1081,7 +1085,15 @@ blockquote p {
 </ul></li>
 <li class="nav-section"><strong>Semana 12</strong>
 <ul>
-  <li><a class="doc-nav-link" data-lesson-path="13-semana-12/00-semana-12-roadmap.md" href="#13-semana-12-00-semana-12-roadmap">Semana 12: roadmap ejecutable</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="13-semana-12/00-semana-12-roadmap.md" href="#13-semana-12-00-semana-12-roadmap">Semana 12: modularización con reglas ejecutables y gobernanza automática</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="13-semana-12/01-problema-modularizacion-sin-reglas.md" href="#13-semana-12-01-problema-modularizacion-sin-reglas">Semana 12 · Lección 1: el problema no es tener módulos, es no proteger sus límites</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="13-semana-12/02-spec-module-boundary-v1.md" href="#13-semana-12-02-spec-module-boundary-v1">Semana 12 · Lección 2: especificar fronteras de módulo como contrato de sistema</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="13-semana-12/03-bdd-module-boundaries.md" href="#13-semana-12-03-bdd-module-boundaries">Semana 12 · Lección 3: BDD para convertir arquitectura en comportamiento verificable</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="13-semana-12/04-tdd-module-boundary-evaluator.md" href="#13-semana-12-04-tdd-module-boundary-evaluator">Semana 12 · Lección 4: TDD del evaluador que protege fronteras de módulo</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="13-semana-12/05-codigo-module-governance-cli.md" href="#13-semana-12-05-codigo-module-governance-cli">Semana 12 · Lección 5: código de producción con CLI para auditoría de módulos</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="13-semana-12/06-refactor-quality-gates-con-boundaries.md" href="#13-semana-12-06-refactor-quality-gates-con-boundaries">Semana 12 · Lección 6: refactor de quality gates para incluir frontera de módulos</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="13-semana-12/07-checkpoint-evaluacion.md" href="#13-semana-12-07-checkpoint-evaluacion">Semana 12 · Lección 7: checkpoint de modularización gobernada</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="13-semana-12/08-bitacora-commits.md" href="#13-semana-12-08-bitacora-commits">Semana 12 · Lección 8: bitácora de gobernanza para auditoría técnica real</a></li>
 </ul></li>
 <li class="nav-section"><strong>Semana 13</strong>
 <ul>
@@ -2296,7 +2308,7 @@ python3 scripts/build-html.py</code></pre>
 <h1 id="openspec-changes-README-cambios-openspec-del-curso">Cambios OpenSpec del curso</h1>
 <p>Esta carpeta contiene cambios en curso y el histórico archivado.</p>
 <p>Convención recomendada para este curso:</p>
-<p>Usamos un nombre corto por semana para que sea fácil buscar y archivar. El patrón recomendado es <code>weekNN-<nombre-corto></code>. Por ejemplo, <code>week06-offline-cache-policy</code>, <code>week07-observability-baseline</code>, <code>week08-quality-gates-baseline</code>, <code>week09-security-compliance-baseline</code>, <code>week10-knowledge-catalog-feature</code> o <code>week11-feature-integration-navigation</code>.</p>
+<p>Usamos un nombre corto por semana para que sea fácil buscar y archivar. El patrón recomendado es <code>weekNN-<nombre-corto></code>. Por ejemplo, <code>week06-offline-cache-policy</code>, <code>week07-observability-baseline</code>, <code>week08-quality-gates-baseline</code>, <code>week09-security-compliance-baseline</code>, <code>week10-knowledge-catalog-feature</code>, <code>week11-feature-integration-navigation</code> o <code>week12-module-boundary-governance</code>.</p>
 <p>El histórico queda en:</p>
 <pre><code class="language-text">openspec/changes/archive/YYYY-MM-DD-&lt;change-name&gt;/</code></pre>
 <p>Notas:</p>
@@ -2612,6 +2624,32 @@ python3 scripts/build-html.py</code></pre>
   <li><strong>GIVEN</strong> app root builder wires ticket view model with coordinator contract</li>
   <li><strong>WHEN</strong> ticket view model emits open catalog action</li>
   <li><strong>THEN</strong> coordinator reflects route change without feature cross-imports</li>
+</ul>
+<h3 id="openspec-specs-ticketing-spec-requirement-enforce-module-dependency-boundaries-through-executable-policy">Requirement: Enforce module dependency boundaries through executable policy</h3>
+<p>The system SHALL enforce architectural dependency boundaries through a versioned</p>
+<p>module policy and an executable evaluator, so forbidden module edges are</p>
+<p>detected before progression.</p>
+<p>The policy SHALL define allowed dependencies per target. The evaluator SHALL</p>
+<p>produce deterministic report with pass/fail result and explicit violations.</p>
+<p>Quality gates SHALL include module boundary signal as critical check.</p>
+<h4 id="openspec-specs-ticketing-spec-scenario-boundary-report-passes-for-allowed-graph">Scenario: Boundary report passes for allowed graph</h4>
+<ul>
+  <li><strong>GIVEN</strong> target dependency graph respects module policy</li>
+  <li><strong>WHEN</strong> module boundary evaluator executes</li>
+  <li><strong>THEN</strong> report result is <code>passed</code></li>
+</ul>
+<h4 id="openspec-specs-ticketing-spec-scenario-boundary-report-fails-for-forbidden-dependency">Scenario: Boundary report fails for forbidden dependency</h4>
+<ul>
+  <li><strong>GIVEN</strong> at least one target depends on a non-allowed module</li>
+  <li><strong>WHEN</strong> module boundary evaluator executes</li>
+  <li><strong>THEN</strong> report result is <code>failed</code></li>
+  <li><strong>AND</strong> violation includes source and dependency names</li>
+</ul>
+<h4 id="openspec-specs-ticketing-spec-scenario-quality-gates-fail-when-module-boundary-check-is-red">Scenario: Quality gates fail when module boundary check is red</h4>
+<ul>
+  <li><strong>GIVEN</strong> module boundary signal is false</li>
+  <li><strong>WHEN</strong> quality gates are evaluated</li>
+  <li><strong>THEN</strong> global gate result is <code>failed</code></li>
 </ul>
 </section>
 <section id="openspec-changes-archive-2026-02-12-week01-ticket-basics-proposal" class="lesson" data-topic-id="openspec-changes-archive-2026-02-12-week01-ticket-basics-proposal" data-lesson-path="openspec/changes/archive/2026-02-12-week01-ticket-basics/proposal.md">
@@ -3966,6 +4004,138 @@ python3 scripts/build-html.py</code></pre>
       status: done
     - id: "3.2"
       title: "Add BDD scenarios for integration flow"
+      status: done
+  evidence:
+    - id: "4.1"
+      title: "swift test green"
+      status: done
+    - id: "4.2"
+      title: "openspec and course validators green"
+      status: done</code></pre>
+</section>
+<section id="openspec-changes-archive-2026-02-13-week12-module-boundary-governance-proposal" class="lesson" data-topic-id="openspec-changes-archive-2026-02-13-week12-module-boundary-governance-proposal" data-lesson-path="openspec/changes/archive/2026-02-13-week12-module-boundary-governance/proposal.md">
+<div class="lesson-path">openspec/changes/archive/2026-02-13-week12-module-boundary-governance/proposal.md</div>
+<h1 id="openspec-changes-archive-2026-02-13-week12-module-boundary-governance-proposal-proposal-week-12-module-boundary-governance-baseline">Proposal: Week 12 — module boundary governance baseline</h1>
+<h2 id="openspec-changes-archive-2026-02-13-week12-module-boundary-governance-proposal-intent">Intent</h2>
+<p>The repository already uses multiple targets, but target separation alone does</p>
+<p>not prevent architecture drift. This change introduces executable governance for</p>
+<p>module dependencies through a versioned policy, evaluator module, CLI, and</p>
+<p>quality gate integration.</p>
+<h2 id="openspec-changes-archive-2026-02-13-week12-module-boundary-governance-proposal-scope">Scope</h2>
+<pre><code class="language-yaml">scope_week12:
+  in_scope:
+    policy: "Versioned module-boundary-policy.json"
+    evaluator: "ModuleBoundaryEvaluator with deterministic report"
+    cli: "HelpdeskModuleGovernanceCLI for local/pipeline execution"
+    gate: "module_boundary_green signal in quality gates"
+    tests: "Unit tests for evaluator and quality gate integration"
+  out_of_scope_on_purpose:
+    - "Visualization dashboard for module graph"
+    - "Automated policy generation from architecture diagrams"
+    - "Cross-repository module governance federation"</code></pre>
+<h2 id="openspec-changes-archive-2026-02-13-week12-module-boundary-governance-proposal-approach">Approach</h2>
+<p>Create new module <code>HelpdeskModuleGovernance</code> and corresponding CLI target.</p>
+<p>Add <code>run-module-boundary-check.sh</code> script that builds evaluation request from</p>
+<p><code>swift package describe</code> output and policy file.</p>
+<h2 id="openspec-changes-archive-2026-02-13-week12-module-boundary-governance-proposal-risks-questions">Risks / questions</h2>
+<pre><code class="language-yaml">open_questions_week12:
+  - "Should policy evolve to include forbidden transitive dependencies explicitly?"
+  - "Do we need different policy profiles by branch type in week13+?"</code></pre>
+</section>
+<section id="openspec-changes-archive-2026-02-13-week12-module-boundary-governance-specs-ticketing-spec" class="lesson" data-topic-id="openspec-changes-archive-2026-02-13-week12-module-boundary-governance-specs-ticketing-spec" data-lesson-path="openspec/changes/archive/2026-02-13-week12-module-boundary-governance/specs/ticketing/spec.md">
+<div class="lesson-path">openspec/changes/archive/2026-02-13-week12-module-boundary-governance/specs/ticketing/spec.md</div>
+<h1 id="openspec-changes-archive-2026-02-13-week12-module-boundary-governance-specs-ticketing-spec-delta-for-ticketing-week-12">Delta for Ticketing (Week 12)</h1>
+<h2 id="openspec-changes-archive-2026-02-13-week12-module-boundary-governance-specs-ticketing-spec-added-requirements">ADDED Requirements</h2>
+<h3 id="openspec-changes-archive-2026-02-13-week12-module-boundary-governance-specs-ticketing-spec-requirement-module-boundary-governance-policy-and-evaluator">Requirement: Module boundary governance policy and evaluator</h3>
+<p>The system SHALL enforce module dependency boundaries through an executable</p>
+<p>policy-driven evaluator.</p>
+<p>A versioned policy SHALL define allowed dependencies per target. Evaluator</p>
+<p>output SHALL include pass/fail result and detailed violations for forbidden</p>
+<p>edges.</p>
+<p>Quality gates SHALL consume boundary signal as a critical check.</p>
+<pre class="mermaid">sequenceDiagram
+    participant D as DependencyGraph
+    participant P as ModulePolicy
+    participant E as ModuleBoundaryEvaluator
+    participant Q as QualityGates
+
+    D->>E: graph edges
+    P->>E: allowed dependencies
+    E-->>Q: boundary report
+    Q-->>D: pass/fail decision</pre>
+<h4 id="openspec-changes-archive-2026-02-13-week12-module-boundary-governance-specs-ticketing-spec-scenario-allowed-graph-passes-policy-evaluation">Scenario: Allowed graph passes policy evaluation</h4>
+<pre><code class="language-gherkin">Scenario: Allowed graph passes policy evaluation
+  Given dependency graph respects all policy rules
+  When module boundary evaluator runs
+  Then report result is passed</code></pre>
+<h4 id="openspec-changes-archive-2026-02-13-week12-module-boundary-governance-specs-ticketing-spec-scenario-forbidden-edge-fails-policy-evaluation">Scenario: Forbidden edge fails policy evaluation</h4>
+<pre><code class="language-gherkin">Scenario: Forbidden edge fails policy evaluation
+  Given dependency graph includes forbidden edge
+  When module boundary evaluator runs
+  Then report result is failed
+  And violations include source and dependency names</code></pre>
+<h4 id="openspec-changes-archive-2026-02-13-week12-module-boundary-governance-specs-ticketing-spec-scenario-quality-gates-fail-on-boundary-red-signal">Scenario: Quality gates fail on boundary red signal</h4>
+<pre><code class="language-gherkin">Scenario: Quality gates fail on boundary red signal
+  Given module boundary signal is false
+  When quality gates evaluate all checks
+  Then global result is failed</code></pre>
+</section>
+<section id="openspec-changes-archive-2026-02-13-week12-module-boundary-governance-design" class="lesson" data-topic-id="openspec-changes-archive-2026-02-13-week12-module-boundary-governance-design" data-lesson-path="openspec/changes/archive/2026-02-13-week12-module-boundary-governance/design.md">
+<div class="lesson-path">openspec/changes/archive/2026-02-13-week12-module-boundary-governance/design.md</div>
+<h1 id="openspec-changes-archive-2026-02-13-week12-module-boundary-governance-design-design-week-12-policy-driven-module-dependency-governance">Design: Week 12 — policy-driven module dependency governance</h1>
+<h2 id="openspec-changes-archive-2026-02-13-week12-module-boundary-governance-design-model">Model</h2>
+<p>Week 12 introduces a dedicated governance pipeline to validate module</p>
+<p>boundaries from package graph and policy source of truth.</p>
+<h2 id="openspec-changes-archive-2026-02-13-week12-module-boundary-governance-design-components">Components</h2>
+<pre class="mermaid">flowchart LR
+  DESC[swift package describe] --> SCRIPT[run-module-boundary-check.sh]
+  POLICY[module-boundary-policy.json] --> SCRIPT
+  SCRIPT --> REQ[ModuleBoundaryEvaluationRequest]
+  REQ --> CLI[HelpdeskModuleGovernanceCLI]
+  CLI --> EVAL[ModuleBoundaryEvaluator]
+  EVAL --> REPORT[ModuleBoundaryReport]
+  REPORT --> GATES[QualityGateEvaluator]</pre>
+<h2 id="openspec-changes-archive-2026-02-13-week12-module-boundary-governance-design-decisions">Decisions</h2>
+<p>The first decision is policy as versioned JSON file in repository.</p>
+<p>Trade-off is manual policy maintenance; gain is auditable architecture contract.</p>
+<p>The second decision is evaluator and CLI as SPM targets.</p>
+<p>Trade-off is extra package complexity; gain is reproducible checks in local and</p>
+<p>pipeline contexts without external service coupling.</p>
+<p>The third decision is boundary signal as critical quality gate.</p>
+<p>Trade-off is stricter release blocking; gain is early detection of architecture</p>
+<p>regressions before they spread.</p>
+</section>
+<section id="openspec-changes-archive-2026-02-13-week12-module-boundary-governance-tasks" class="lesson" data-topic-id="openspec-changes-archive-2026-02-13-week12-module-boundary-governance-tasks" data-lesson-path="openspec/changes/archive/2026-02-13-week12-module-boundary-governance/tasks.md">
+<div class="lesson-path">openspec/changes/archive/2026-02-13-week12-module-boundary-governance/tasks.md</div>
+<h1 id="openspec-changes-archive-2026-02-13-week12-module-boundary-governance-tasks-tasks-week-12">Tasks (Week 12)</h1>
+<p>Week 12 tasks make module governance explicit and executable.</p>
+<pre><code class="language-yaml">tasks_week12:
+  architecture:
+    - id: "1.1"
+      title: "Add HelpdeskModuleGovernance target and report models"
+      status: done
+    - id: "1.2"
+      title: "Implement ModuleBoundaryEvaluator pass/fail behavior"
+      status: done
+    - id: "1.3"
+      title: "Add HelpdeskModuleGovernanceCLI executable"
+      status: done
+  operations:
+    - id: "2.1"
+      title: "Add module-boundary-policy.json with allowed edges"
+      status: done
+    - id: "2.2"
+      title: "Add run-module-boundary-check.sh script"
+      status: done
+    - id: "2.3"
+      title: "Integrate module boundary signal in quality gates"
+      status: done
+  verification:
+    - id: "3.1"
+      title: "Add evaluator tests for allowed and forbidden edges"
+      status: done
+    - id: "3.2"
+      title: "Add quality gate test for module boundary red path"
       status: done
   evidence:
     - id: "4.1"
@@ -6083,26 +6253,202 @@ git commit -m "mensaje atomico week11 integración"</code></pre>
 </section>
 <section id="13-semana-12-00-semana-12-roadmap" class="lesson" data-topic-id="13-semana-12-00-semana-12-roadmap" data-lesson-path="13-semana-12/00-semana-12-roadmap.md">
 <div class="lesson-path">13-semana-12/00-semana-12-roadmap.md</div>
-<h1 id="13-semana-12-00-semana-12-roadmap-semana-12-roadmap-ejecutable">Semana 12: roadmap ejecutable</h1>
-<p>Esta semana consolida una parte del ciclo SDD enterprise sobre <code>HelpdeskSDD</code>. No es teoría aislada: cada actividad termina en artefacto verificable, pruebas en verde y trazabilidad de decisiones. El foco exacto cambia por semana, pero el método se mantiene constante para entrenar disciplina profesional.</p>
-<h2 id="13-semana-12-00-semana-12-roadmap-objetivo-de-la-semana">Objetivo de la semana</h2>
-<p>En Semana 12 avanzas una capacidad concreta de producto sin romper lo construido. La disciplina que entrenas es mantener el flujo completo (OpenSpec → BDD → TDD → producción → refactor) mientras refactorizas estructura y modularización sin crear regresiones.</p>
-<h2 id="13-semana-12-00-semana-12-roadmap-resultado-medible">Resultado medible</h2>
-<p>Semana 12 se considera cerrada cuando existe un entregable técnico claro, el build y las pruebas asociadas están en verde y hay evidencia trazable en commits. Aquí lo difícil es que “cambiar por dentro” no cambie el comportamiento comprometido.</p>
-<h2 id="13-semana-12-00-semana-12-roadmap-flujo-de-trabajo">Flujo de trabajo</h2>
+<h1 id="13-semana-12-00-semana-12-roadmap-semana-12-modularizaci-n-con-reglas-ejecutables-y-gobernanza-autom-tica">Semana 12: modularización con reglas ejecutables y gobernanza automática</h1>
+<p>Hasta Semana 11 ya tenemos varias capacidades funcionando juntas. El siguiente riesgo enterprise no está en la lógica de negocio, está en la erosión de arquitectura. Cuando pasan semanas de cambios rápidos, aparecen dependencias “solo por esta vez” que terminan rompiendo el diseño original. Semana 12 ataca ese riesgo con una idea simple: las fronteras de módulo se validan por máquina, no por memoria del equipo.</p>
+<p>El objetivo de esta semana es convertir la política de dependencias en artefacto ejecutable. Para eso añadimos un evaluador de fronteras, un CLI para uso en pipeline local y una integración con quality gates. De esta forma, si un módulo se conecta con otro que no debe, el sistema falla en validación antes de que el error se normalice.</p>
 <pre class="mermaid">flowchart LR
-    A[Entrada de semana 12] --> B[Spec refinada]
-    B --> C[BDD actualizado]
-    C --> D[TDD y produccion]
-    D --> E[Validacion y cierre]</pre>
-<h2 id="13-semana-12-00-semana-12-roadmap-practica-guiada">Practica guiada</h2>
-<p>Tu práctica guiada es revisar la meta técnica de Semana 12, ejecutar el laboratorio asociado registrando decisiones relevantes, y validar pruebas y build antes del commit final. La estabilidad es la señal de que tu refactor es seguro.</p>
-<h2 id="13-semana-12-00-semana-12-roadmap-verificacion-de-comprension">Verificacion de comprension</h2>
-<p>Pregunta 1: ¿Qué bloque del flujo OpenSpec → BDD → TDD → producción estás entrenando más esta semana?</p>
-<p>Pregunta 2: ¿Qué evidencia objetiva confirma que cerraste Semana 12?</p>
-<p>Pregunta 3: ¿Qué deuda técnica aceptaste, si aceptaste alguna, y por qué fue una decisión consciente?</p>
-<h2 id="13-semana-12-00-semana-12-roadmap-siguiente-paso">Siguiente paso</h2>
-<p>Ir a la primera leccion detallada de semana 12.</p>
+    A[OpenSpec week12] --> B[BDD de fronteras]
+    B --> C[TDD evaluador de módulos]
+    C --> D[CLI de gobernanza]
+    D --> E[Integración con quality gates]
+    E --> F[Checkpoint de cierre]</pre>
+<p>La definición de cierre es concreta y reproducible. Existe una policy de dependencias versionada, el evaluador emite reporte con violaciones cuando corresponde, y quality gates incorpora esta señal como criterio crítico de avance.</p>
+<pre><code class="language-yaml">week12_definition_of_done:
+  policy: "module-boundary-policy.json versionada en repo"
+  evaluator: "reporta passed o failed con detalle de violaciones"
+  pipeline: "run-quality-gates incluye module_boundary_green"
+  evidence: "tests + validadores + build html en verde"</code></pre>
+<p>La práctica guiada de arranque consiste en imaginar una dependencia prohibida real entre dos módulos del proyecto y explicar qué daño produciría si se aceptara durante tres meses.</p>
+<p>La verificación de comprensión previa es responder por qué una arquitectura sin guardarraíles automáticos tiende a degradarse incluso con buenos desarrolladores.</p>
+<p>Siguiente lección: <code>13-semana-12/01-problema-modularizacion-sin-reglas.md</code>.</p>
+</section>
+<section id="13-semana-12-01-problema-modularizacion-sin-reglas" class="lesson" data-topic-id="13-semana-12-01-problema-modularizacion-sin-reglas" data-lesson-path="13-semana-12/01-problema-modularizacion-sin-reglas.md">
+<div class="lesson-path">13-semana-12/01-problema-modularizacion-sin-reglas.md</div>
+<h1 id="13-semana-12-01-problema-modularizacion-sin-reglas-semana-12-lecci-n-1-el-problema-no-es-tener-m-dulos-es-no-proteger-sus-l-mites">Semana 12 · Lección 1: el problema no es tener módulos, es no proteger sus límites</h1>
+<p>Muchos repos dicen estar modularizados porque tienen varios targets. Eso ayuda, pero no garantiza arquitectura sana. El problema aparece cuando nadie valida si las dependencias siguen las reglas acordadas. Un target puede empezar a importar otro “temporalmente”, el cambio pasa revisión funcional, y sin darte cuenta el grafo se va cerrando sobre sí mismo.</p>
+<p>Semana 12 parte de una realidad incómoda: la modularización sin gobernanza es una promesa frágil. En proyectos largos, la presión de entregar favorece atajos. Si no hay un control automático que bloquee dependencias prohibidas, el código se vuelve más difícil de cambiar semana tras semana.</p>
+<pre class="mermaid">flowchart TD
+    A[Targets separados] --> B[Falsa sensación de orden]
+    B --> C[Atajos de dependencia]
+    C --> D[Acoplamiento creciente]
+    D --> E[Coste alto de cambio]
+    F[Policy ejecutable] --> G[Fronteras estables]</pre>
+<p>La analogía útil es la de carriles en autopista. Pintar líneas en el asfalto no evita accidentes si nadie vigila que se respeten. La policy de módulos es ese control de tráfico para arquitectura.</p>
+<pre><code class="language-text">Señal de alerta temprana:
+si para resolver una tarea "rápida" necesitas importar un módulo fuera de regla,
+la arquitectura te está pidiendo una decisión formal, no un parche silencioso.</code></pre>
+<p>La práctica guiada consiste en leer <code>Package.swift</code> y escribir una dependencia que hoy parece útil pero que sería peligrosa a medio plazo si se permitiera libremente.</p>
+<p>La verificación de comprensión antes de especificación es responder por qué “esto solo lo usamos en un caso puntual” es una excusa recurrente en degradación de arquitectura.</p>
+<p>Siguiente lección: <code>13-semana-12/02-spec-module-boundary-v1.md</code>.</p>
+</section>
+<section id="13-semana-12-02-spec-module-boundary-v1" class="lesson" data-topic-id="13-semana-12-02-spec-module-boundary-v1" data-lesson-path="13-semana-12/02-spec-module-boundary-v1.md">
+<div class="lesson-path">13-semana-12/02-spec-module-boundary-v1.md</div>
+<h1 id="13-semana-12-02-spec-module-boundary-v1-semana-12-lecci-n-2-especificar-fronteras-de-m-dulo-como-contrato-de-sistema">Semana 12 · Lección 2: especificar fronteras de módulo como contrato de sistema</h1>
+<p>Con el problema claro, lo traducimos a OpenSpec. Esta semana el requisito no habla de tickets ni de catálogo, habla de salud estructural del sistema. Definimos que cada módulo tiene una allowlist de dependencias permitidas y que cualquier arista fuera de esa allowlist se considera violación.</p>
+<p>Lo importante aquí es que la regla sea ejecutable, no ambigua. Si una regla depende de interpretación humana en revisión, tarde o temprano fallará por fatiga o por prisa. Cuando la regla vive en policy versionada y evaluador automático, el sistema puede defenderse de forma consistente.</p>
+<pre class="mermaid">flowchart LR
+    A[Policy JSON] --> B[Evaluador de fronteras]
+    B --> C[Reporte de violaciones]
+    C --> D[Quality gates]
+    D --> E[Decision de avance]</pre>
+<p>En Week 12 el contrato exige tres comportamientos observables. El evaluador debe pasar cuando el grafo respeta la policy. Debe fallar con detalle cuando detecta arista prohibida. Y quality gates debe reflejar ese fallo como resultado global rojo.</p>
+<pre><code class="language-yaml">module_boundary_contract_v1:
+  source_of_truth: "module-boundary-policy.json"
+  evaluator_output: "passed + checkedEdgeCount + violations[]"
+  gate_integration: "module_boundary_green en quality gates"</code></pre>
+<pre><code class="language-text">/opsx:new week12-module-boundary-governance
+/opsx:ff
+/opsx:apply
+/opsx:verify</code></pre>
+<p>La práctica guiada consiste en revisar la policy y justificar por qué <code>HelpdeskApplication</code> puede depender de <code>HelpdeskDomain</code> pero no de módulos de infraestructura.</p>
+<p>La verificación de comprensión antes de BDD es responder por qué una regla de dependencias debe tratarse como requisito de plataforma y no como detalle de estilo de código.</p>
+<p>Siguiente lección: <code>13-semana-12/03-bdd-module-boundaries.md</code>.</p>
+</section>
+<section id="13-semana-12-03-bdd-module-boundaries" class="lesson" data-topic-id="13-semana-12-03-bdd-module-boundaries" data-lesson-path="13-semana-12/03-bdd-module-boundaries.md">
+<div class="lesson-path">13-semana-12/03-bdd-module-boundaries.md</div>
+<h1 id="13-semana-12-03-bdd-module-boundaries-semana-12-lecci-n-3-bdd-para-convertir-arquitectura-en-comportamiento-verificable">Semana 12 · Lección 3: BDD para convertir arquitectura en comportamiento verificable</h1>
+<p>BDD en esta semana describe cómo debe reaccionar el sistema cuando el grafo de dependencias cumple o incumple policy. Esta formulación es clave porque evita convertir la arquitectura en una discusión abstracta. Si el escenario dice que una dependencia prohibida debe producir <code>failed</code>, ese comportamiento puede probarse una y otra vez.</p>
+<p>Los escenarios de Week 12 cubren el ciclo mínimo de gobernanza. Un caso verde, un caso rojo con violación explícita y un caso de integración en quality gates. Así protegemos tanto el evaluador aislado como su impacto en la decisión final del pipeline local.</p>
+<pre class="mermaid">sequenceDiagram
+    participant P as Policy
+    participant E as Evaluador
+    participant R as Reporte
+    participant G as QualityGates
+
+    P->>E: request(policy + graph)
+    E-->>R: passed/failed + violations
+    R->>G: module_boundary_green
+    G-->>R: decision final</pre>
+<pre><code class="language-gherkin">Feature: Gobernanza de dependencias
+  Scenario: Grafo permitido
+    Given policy y grafo compatibles
+    When se evalúan fronteras
+    Then el reporte es passed</code></pre>
+<p>La práctica guiada consiste en redactar un escenario propio donde un módulo ejecutable depende de un módulo no autorizado y explicar por qué esa relación sería peligrosa para la mantenibilidad.</p>
+<p>La verificación de comprensión antes de TDD es responder qué valor tiene registrar la dependencia exacta en cada violación y no solo un mensaje genérico de error.</p>
+<p>Siguiente lección: <code>13-semana-12/04-tdd-module-boundary-evaluator.md</code>.</p>
+</section>
+<section id="13-semana-12-04-tdd-module-boundary-evaluator" class="lesson" data-topic-id="13-semana-12-04-tdd-module-boundary-evaluator" data-lesson-path="13-semana-12/04-tdd-module-boundary-evaluator.md">
+<div class="lesson-path">13-semana-12/04-tdd-module-boundary-evaluator.md</div>
+<h1 id="13-semana-12-04-tdd-module-boundary-evaluator-semana-12-lecci-n-4-tdd-del-evaluador-que-protege-fronteras-de-m-dulo">Semana 12 · Lección 4: TDD del evaluador que protege fronteras de módulo</h1>
+<p>Con escenarios definidos, ahora escribimos pruebas antes de producción para el evaluador de fronteras. El objetivo no es validar Swift Package Manager, sino validar nuestra política arquitectónica sobre ese grafo. Si mañana alguien modifica una regla, los tests deben mostrar de inmediato si la gobernanza sigue comportándose como se espera.</p>
+<p>La primera prueba cubre el caso verde, donde todas las aristas revisadas están permitidas. La segunda prueba fuerza una dependencia prohibida y espera una violación con <code>source</code> y <code>dependency</code> específicos. La tercera prueba garantiza que el evaluador no rompe por targets que no están gobernados por policy.</p>
+<pre class="mermaid">flowchart LR
+    A[BDD de fronteras] --> B[Test rojo de policy verde]
+    B --> C[Implementación mínima evaluador]
+    C --> D[Test rojo de dependencia prohibida]
+    D --> E[Registro de violación]
+    E --> F[Test verde]</pre>
+<pre><code class="language-swift">@Test
+func reportFailsWhenForbiddenDependencyExists() {
+    let evaluator = ModuleBoundaryEvaluator()
+    let report = evaluator.evaluate(requestWithForbiddenEdge)
+
+    #expect(report.passed == false)
+    #expect(report.violations.count == 1)
+}</code></pre>
+<pre><code class="language-bash">swift test --package-path project/HelpdeskSDD</code></pre>
+<p>La práctica guiada consiste en crear un request de prueba con dos violaciones distintas y verificar que el reporte devuelve ambas sin detenerse en la primera.</p>
+<p>La verificación de comprensión antes de producción es responder por qué conviene separar <code>checkedEdgeCount</code> de <code>violations.count</code> en el modelo de reporte.</p>
+<p>Siguiente lección: <code>13-semana-12/05-codigo-module-governance-cli.md</code>.</p>
+</section>
+<section id="13-semana-12-05-codigo-module-governance-cli" class="lesson" data-topic-id="13-semana-12-05-codigo-module-governance-cli" data-lesson-path="13-semana-12/05-codigo-module-governance-cli.md">
+<div class="lesson-path">13-semana-12/05-codigo-module-governance-cli.md</div>
+<h1 id="13-semana-12-05-codigo-module-governance-cli-semana-12-lecci-n-5-c-digo-de-producci-n-con-cli-para-auditor-a-de-m-dulos">Semana 12 · Lección 5: código de producción con CLI para auditoría de módulos</h1>
+<p>Esta lección lleva la gobernanza a operación real. Añadimos <code>HelpdeskModuleGovernance</code> como módulo de evaluación y <code>HelpdeskModuleGovernanceCLI</code> como punto de ejecución en terminal. Además se versiona <code>module-boundary-policy.json</code> y se crea un script que construye el request desde <code>swift package describe</code>.</p>
+<p>La decisión arquitectónica de usar CLI tiene sentido práctico. Permite ejecutar la auditoría localmente, en hooks o en pipeline, sin acoplar la verificación a una sola herramienta externa.</p>
+<pre class="mermaid">flowchart TD
+    A[swift package describe] --> B[run-module-boundary-check.sh]
+    B --> C[ModuleBoundaryEvaluationRequest]
+    C --> D[HelpdeskModuleGovernanceCLI]
+    D --> E[ModuleBoundaryReport]</pre>
+<p>El reporte devuelve un formato estable con <code>passed</code>, número de aristas evaluadas y lista de violaciones. Ese diseño facilita tanto lectura humana como integración con quality gates.</p>
+<pre><code class="language-bash">./scripts/run-module-boundary-check.sh</code></pre>
+<pre><code class="language-json">{
+  "passed": true,
+  "checkedEdgeCount": 17,
+  "violations": []
+}</code></pre>
+<p>La práctica guiada consiste en editar temporalmente la policy para prohibir una dependencia hoy válida y observar cómo el CLI pasa a rojo con la violación exacta.</p>
+<p>La verificación de comprensión antes del refactor es responder por qué es mejor versionar policy en el repo que mantenerla en configuración local de cada máquina.</p>
+<p>Siguiente lección: <code>13-semana-12/06-refactor-quality-gates-con-boundaries.md</code>.</p>
+</section>
+<section id="13-semana-12-06-refactor-quality-gates-con-boundaries" class="lesson" data-topic-id="13-semana-12-06-refactor-quality-gates-con-boundaries" data-lesson-path="13-semana-12/06-refactor-quality-gates-con-boundaries.md">
+<div class="lesson-path">13-semana-12/06-refactor-quality-gates-con-boundaries.md</div>
+<h1 id="13-semana-12-06-refactor-quality-gates-con-boundaries-semana-12-lecci-n-6-refactor-de-quality-gates-para-incluir-frontera-de-m-dulos">Semana 12 · Lección 6: refactor de quality gates para incluir frontera de módulos</h1>
+<p>Con el CLI operativo, el siguiente paso es que la gobernanza no quede aislada. Si una verificación crítica vive fuera de quality gates, tarde o temprano alguien la olvidará en una entrega urgente. Por eso Week 12 integra <code>module_boundary_green</code> dentro del evaluador de quality gates.</p>
+<p>Este refactor obliga al pipeline local a considerar la salud de dependencias como condición de avance, igual que ya hacemos con tests, OpenSpec, links y pedagogía. En otras palabras, la arquitectura pasa a ser una señal de calidad al mismo nivel que funcionalidad y documentación.</p>
+<pre class="mermaid">flowchart LR
+    A[run-module-boundary-check] --> B[module_boundary_green]
+    B --> C[QualityGateInput]
+    C --> D[QualityGateEvaluator]
+    D --> E[Reporte global]</pre>
+<p>En código esto se refleja en un nuevo campo de input, una nueva regla de evaluación y pruebas adicionales que validan fallo cuando la política de módulos está en rojo.</p>
+<pre><code class="language-swift">QualityGateCheck(
+    id: "module_boundary_green",
+    passed: input.moduleBoundaryGreen,
+    message: "module boundary policy passed"
+)</code></pre>
+<p>La práctica guiada consiste en ejecutar <code>run-quality-gates.sh</code> con la policy intencionalmente rota y comprobar que el resultado global cambia a <code>failed</code> incluso si el resto de checks están verdes.</p>
+<p>La verificación de comprensión antes del checkpoint es responder por qué este refactor reduce la probabilidad de regresiones arquitectónicas silenciosas.</p>
+<p>Siguiente lección: <code>13-semana-12/07-checkpoint-evaluacion.md</code>.</p>
+</section>
+<section id="13-semana-12-07-checkpoint-evaluacion" class="lesson" data-topic-id="13-semana-12-07-checkpoint-evaluacion" data-lesson-path="13-semana-12/07-checkpoint-evaluacion.md">
+<div class="lesson-path">13-semana-12/07-checkpoint-evaluacion.md</div>
+<h1 id="13-semana-12-07-checkpoint-evaluacion-semana-12-lecci-n-7-checkpoint-de-modularizaci-n-gobernada">Semana 12 · Lección 7: checkpoint de modularización gobernada</h1>
+<p>El cierre de Week 12 exige demostrar que la modularización dejó de ser una recomendación y pasó a ser un contrato operativo. El checkpoint valida coherencia entre policy versionada, evaluador, CLI, integración en quality gates y lecciones publicadas. Si falta una de esas piezas, todavía no hay gobernanza completa.</p>
+<pre class="mermaid">flowchart TD
+    A[Policy versionada] --> B[Evaluador probado]
+    B --> C[CLI ejecutable]
+    C --> D[Quality gates actualizados]
+    D --> E[Validadores del curso]
+    E --> F[Cierre week12]</pre>
+<p>El circuito de validación debe quedar en bitácora para que otro equipo pueda reproducir exactamente el mismo resultado en otra máquina y en otro momento.</p>
+<pre><code class="language-bash">swift test --package-path project/HelpdeskSDD
+./scripts/run-module-boundary-check.sh
+./scripts/run-quality-gates.sh
+npm run -s openspec:validate
+python3 scripts/validate-course-structure.py
+python3 scripts/validate-openspec.py
+python3 scripts/check-links.py
+python3 scripts/validate-pedagogy.py
+python3 scripts/build-html.py</code></pre>
+<p>La práctica guiada consiste en introducir una dependencia prohibida en un request de prueba del evaluador y confirmar que el reporte y quality gates se comportan de forma coherente entre sí.</p>
+<p>La verificación de comprensión final del checkpoint es responder qué evidencias presentarías en una auditoría para demostrar que la arquitectura está protegida automáticamente.</p>
+<p>Siguiente lección: <code>13-semana-12/08-bitacora-commits.md</code>.</p>
+</section>
+<section id="13-semana-12-08-bitacora-commits" class="lesson" data-topic-id="13-semana-12-08-bitacora-commits" data-lesson-path="13-semana-12/08-bitacora-commits.md">
+<div class="lesson-path">13-semana-12/08-bitacora-commits.md</div>
+<h1 id="13-semana-12-08-bitacora-commits-semana-12-lecci-n-8-bit-cora-de-gobernanza-para-auditor-a-t-cnica-real">Semana 12 · Lección 8: bitácora de gobernanza para auditoría técnica real</h1>
+<p>La bitácora de esta semana debe permitir contestar una pregunta concreta: dónde y cómo se protege el grafo de módulos frente a dependencias no autorizadas. Si esa respuesta no sale clara leyendo commits, la gobernanza está implementada pero no es auditable, y eso en entorno enterprise es una debilidad seria.</p>
+<p>El patrón recomendado se mantiene. Un bloque para narrativa pedagógica de semana, otro para implementación de gobernanza y pruebas, y otro para OpenSpec con scripts de publicación. Esta separación hace que cada commit tenga propósito verificable y revisión más rápida.</p>
+<pre class="mermaid">flowchart LR
+    A[Plan week12] --> B[Docs semana12]
+    B --> C[Evaluator + CLI + policy]
+    C --> D[Integracion en quality gates]
+    D --> E[OpenSpec + scripts]
+    E --> F[Historial auditable]</pre>
+<p>La calidad de esta bitácora no se mide por cantidad de texto, se mide por trazabilidad. Si alguien pregunta por qué quality gates falló en <code>module_boundary_green</code>, el historial debe apuntar de forma directa a la policy y al evaluador sin búsqueda difusa.</p>
+<pre><code class="language-text">git status --short
+swift test --package-path project/HelpdeskSDD
+./scripts/run-module-boundary-check.sh
+./scripts/run-quality-gates.sh
+python3 scripts/build-html.py
+git add &lt;bloque-semantico&gt;
+git commit -m "mensaje atomico week12 module governance"</code></pre>
+<p>La práctica guiada final consiste en revisar tus commits de la semana y mapear cada uno con una evidencia técnica concreta que demostrarías en una revisión de arquitectura.</p>
+<p>La verificación de comprensión de cierre es responder por qué una bitácora robusta también protege continuidad de equipo cuando cambian personas o proveedores.</p>
+<p>Siguiente semana: <code>14-semana-13/00-semana-13-roadmap.md</code>.</p>
 </section>
 <section id="14-semana-13-00-semana-13-roadmap" class="lesson" data-topic-id="14-semana-13-00-semana-13-roadmap" data-lesson-path="14-semana-13/00-semana-13-roadmap.md">
 <div class="lesson-path">14-semana-13/00-semana-13-roadmap.md</div>
