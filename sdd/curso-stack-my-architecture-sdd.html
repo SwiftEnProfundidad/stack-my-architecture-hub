@@ -950,6 +950,10 @@ blockquote p {
   <li><a class="doc-nav-link" data-lesson-path="openspec/changes/archive/2026-02-13-week06-offline-cache-policy/specs/ticketing/spec.md" href="#openspec-changes-archive-2026-02-13-week06-offline-cache-policy-specs-ticketing-spec">Delta for Ticketing (Week 06)</a></li>
   <li><a class="doc-nav-link" data-lesson-path="openspec/changes/archive/2026-02-13-week06-offline-cache-policy/design.md" href="#openspec-changes-archive-2026-02-13-week06-offline-cache-policy-design">Design: Week 06 — offline-first repository decorator</a></li>
   <li><a class="doc-nav-link" data-lesson-path="openspec/changes/archive/2026-02-13-week06-offline-cache-policy/tasks.md" href="#openspec-changes-archive-2026-02-13-week06-offline-cache-policy-tasks">Tasks (Week 06)</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="openspec/changes/archive/2026-02-13-week07-observability-baseline/proposal.md" href="#openspec-changes-archive-2026-02-13-week07-observability-baseline-proposal">Proposal: Week 07 — observability baseline for repository operations</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="openspec/changes/archive/2026-02-13-week07-observability-baseline/specs/ticketing/spec.md" href="#openspec-changes-archive-2026-02-13-week07-observability-baseline-specs-ticketing-spec">Delta for Ticketing (Week 07)</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="openspec/changes/archive/2026-02-13-week07-observability-baseline/design.md" href="#openspec-changes-archive-2026-02-13-week07-observability-baseline-design">Design: Week 07 — observed repository decorator</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="openspec/changes/archive/2026-02-13-week07-observability-baseline/tasks.md" href="#openspec-changes-archive-2026-02-13-week07-observability-baseline-tasks">Tasks (Week 07)</a></li>
 </ul></li>
 <li class="nav-section"><strong>Semana 3</strong>
 <ul>
@@ -1001,7 +1005,15 @@ blockquote p {
 </ul></li>
 <li class="nav-section"><strong>Semana 7</strong>
 <ul>
-  <li><a class="doc-nav-link" data-lesson-path="08-semana-07/00-semana-07-roadmap.md" href="#08-semana-07-00-semana-07-roadmap">Semana 7: roadmap ejecutable</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="08-semana-07/00-semana-07-roadmap.md" href="#08-semana-07-00-semana-07-roadmap">Semana 7: observabilidad base para ver lo que pasa de verdad</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="08-semana-07/01-problema-observabilidad.md" href="#08-semana-07-01-problema-observabilidad">Semana 7 · Lección 1: el problema no es depurar, es depurar a ciegas</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="08-semana-07/02-spec-observabilidad-baseline.md" href="#08-semana-07-02-spec-observabilidad-baseline">Semana 7 · Lección 2: especificar observabilidad como contrato de operación</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="08-semana-07/03-bdd-observabilidad.md" href="#08-semana-07-03-bdd-observabilidad">Semana 7 · Lección 3: BDD de señales para alinear operación y desarrollo</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="08-semana-07/04-tdd-observed-repository.md" href="#08-semana-07-04-tdd-observed-repository">Semana 7 · Lección 4: TDD del repositorio observado para proteger señales críticas</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="08-semana-07/05-codigo-observed-repository.md" href="#08-semana-07-05-codigo-observed-repository">Semana 7 · Lección 5: implementar observabilidad baseline sin acoplar lógica de negocio</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="08-semana-07/06-refactor-convencion-eventos.md" href="#08-semana-07-06-refactor-convencion-eventos">Semana 7 · Lección 6: refactor de convención de eventos para evitar observabilidad caótica</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="08-semana-07/07-checkpoint-evaluacion.md" href="#08-semana-07-07-checkpoint-evaluacion">Semana 7 · Lección 7: checkpoint de observabilidad para cerrar con criterio operativo</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="08-semana-07/08-bitacora-commits.md" href="#08-semana-07-08-bitacora-commits">Semana 7 · Lección 8: bitácora de cierre para observabilidad y operación auditable</a></li>
 </ul></li>
 <li class="nav-section"><strong>Semana 8</strong>
 <ul>
@@ -2236,7 +2248,7 @@ python3 scripts/build-html.py</code></pre>
 <h1 id="openspec-changes-README-cambios-openspec-del-curso">Cambios OpenSpec del curso</h1>
 <p>Esta carpeta contiene cambios en curso y el histórico archivado.</p>
 <p>Convención recomendada para este curso:</p>
-<p>Usamos un nombre corto por semana para que sea fácil buscar y archivar. El patrón recomendado es <code>weekNN-<nombre-corto></code>. Por ejemplo, <code>week04-api-contract-v1</code>, <code>week05-local-persistence-adapter</code> o <code>week06-offline-cache-policy</code>.</p>
+<p>Usamos un nombre corto por semana para que sea fácil buscar y archivar. El patrón recomendado es <code>weekNN-<nombre-corto></code>. Por ejemplo, <code>week05-local-persistence-adapter</code>, <code>week06-offline-cache-policy</code> o <code>week07-observability-baseline</code>.</p>
 <p>El histórico queda en:</p>
 <pre><code class="language-text">openspec/changes/archive/YYYY-MM-DD-&lt;change-name&gt;/</code></pre>
 <p>Notas:</p>
@@ -2422,6 +2434,31 @@ python3 scripts/build-html.py</code></pre>
   <li><strong>GIVEN</strong> pending operations exist from offline period</li>
   <li><strong>WHEN</strong> remote source becomes available and sync is triggered</li>
   <li><strong>THEN</strong> pending operations are applied to remote and queue is reduced</li>
+</ul>
+<h3 id="openspec-specs-ticketing-spec-requirement-emit-baseline-observability-events-for-repository-operations">Requirement: Emit baseline observability events for repository operations</h3>
+<p>The system SHALL emit structured telemetry events for repository operations to</p>
+<p>support operational diagnosis without coupling business logic to logging</p>
+<p>frameworks.</p>
+<p>At minimum, operation success and failure events SHALL include attributes</p>
+<p><code>operation</code>, <code>result</code>, and <code>source</code>, and SHALL include <code>error_type</code> for failure</p>
+<p>cases.</p>
+<h4 id="openspec-specs-ticketing-spec-scenario-emit-success-event-on-create">Scenario: Emit success event on create</h4>
+<ul>
+  <li><strong>GIVEN</strong> an observed repository wrapper with telemetry sink</li>
+  <li><strong>WHEN</strong> a ticket is created successfully</li>
+  <li><strong>THEN</strong> event <code>repository.create.success</code> is recorded with base attributes</li>
+</ul>
+<h4 id="openspec-specs-ticketing-spec-scenario-emit-failure-event-with-error-type">Scenario: Emit failure event with error type</h4>
+<ul>
+  <li><strong>GIVEN</strong> a create operation fails due to duplicate ticket id</li>
+  <li><strong>WHEN</strong> the observed repository handles the failure</li>
+  <li><strong>THEN</strong> event <code>repository.create.failure</code> is recorded with <code>error_type</code></li>
+</ul>
+<h4 id="openspec-specs-ticketing-spec-scenario-emit-list-success-event-with-count-attribute">Scenario: Emit list success event with count attribute</h4>
+<ul>
+  <li><strong>GIVEN</strong> a list operation succeeds</li>
+  <li><strong>WHEN</strong> the observed repository returns tickets</li>
+  <li><strong>THEN</strong> event <code>repository.list.success</code> is recorded with ticket count context</li>
 </ul>
 </section>
 <section id="openspec-changes-archive-2026-02-12-week01-ticket-basics-proposal" class="lesson" data-topic-id="openspec-changes-archive-2026-02-12-week01-ticket-basics-proposal" data-lesson-path="openspec/changes/archive/2026-02-12-week01-ticket-basics/proposal.md">
@@ -3147,6 +3184,128 @@ python3 scripts/build-html.py</code></pre>
       status: done
     - id: "3.2"
       title: "Add week06 BDD scenarios linked to policy"
+      status: done
+  evidence:
+    - id: "4.1"
+      title: "swift test green"
+      status: done
+    - id: "4.2"
+      title: "openspec and pedagogy validations green"
+      status: done</code></pre>
+</section>
+<section id="openspec-changes-archive-2026-02-13-week07-observability-baseline-proposal" class="lesson" data-topic-id="openspec-changes-archive-2026-02-13-week07-observability-baseline-proposal" data-lesson-path="openspec/changes/archive/2026-02-13-week07-observability-baseline/proposal.md">
+<div class="lesson-path">openspec/changes/archive/2026-02-13-week07-observability-baseline/proposal.md</div>
+<h1 id="openspec-changes-archive-2026-02-13-week07-observability-baseline-proposal-proposal-week-07-observability-baseline-for-repository-operations">Proposal: Week 07 — observability baseline for repository operations</h1>
+<h2 id="openspec-changes-archive-2026-02-13-week07-observability-baseline-proposal-intent">Intent</h2>
+<p>The system now handles lifecycle, local persistence, and offline fallback.</p>
+<p>Operational diagnosis still depends on manual debugging. This change introduces a</p>
+<p>baseline observability layer with structured events for key repository</p>
+<p>operations.</p>
+<p>The goal is to improve incident diagnosis and operational confidence without</p>
+<p>polluting domain or use-case logic.</p>
+<h2 id="openspec-changes-archive-2026-02-13-week07-observability-baseline-proposal-scope">Scope</h2>
+<pre><code class="language-yaml">scope_week07:
+  in_scope:
+    instrumentation: "structured success and failure events on repository operations"
+    attributes: "operation, result, source, error_type when applicable"
+    architecture: "decorator repository that wraps existing TicketRepository"
+    tests: "integration-style tests validating emitted events"
+  out_of_scope_on_purpose:
+    - "Distributed tracing across services"
+    - "Metrics backend integration and dashboards"
+    - "Alert routing and incident automation"</code></pre>
+<h2 id="openspec-changes-archive-2026-02-13-week07-observability-baseline-proposal-approach">Approach</h2>
+<p>Create <code>HelpdeskInfrastructureObservability</code> module with telemetry event model,</p>
+<p>telemetry sink protocol, in-memory sink for tests, and observed repository</p>
+<p>decorator. Keep observability concerns in infrastructure boundary.</p>
+<h2 id="openspec-changes-archive-2026-02-13-week07-observability-baseline-proposal-risks-questions">Risks / questions</h2>
+<pre><code class="language-yaml">open_questions_week07:
+  - "Should telemetry events include correlation id in Week 08+?"
+  - "Do we need redaction policy for sensitive fields before exporting events?"</code></pre>
+</section>
+<section id="openspec-changes-archive-2026-02-13-week07-observability-baseline-specs-ticketing-spec" class="lesson" data-topic-id="openspec-changes-archive-2026-02-13-week07-observability-baseline-specs-ticketing-spec" data-lesson-path="openspec/changes/archive/2026-02-13-week07-observability-baseline/specs/ticketing/spec.md">
+<div class="lesson-path">openspec/changes/archive/2026-02-13-week07-observability-baseline/specs/ticketing/spec.md</div>
+<h1 id="openspec-changes-archive-2026-02-13-week07-observability-baseline-specs-ticketing-spec-delta-for-ticketing-week-07">Delta for Ticketing (Week 07)</h1>
+<h2 id="openspec-changes-archive-2026-02-13-week07-observability-baseline-specs-ticketing-spec-added-requirements">ADDED Requirements</h2>
+<h3 id="openspec-changes-archive-2026-02-13-week07-observability-baseline-specs-ticketing-spec-requirement-baseline-observability-events-for-repository-operations">Requirement: Baseline observability events for repository operations</h3>
+<p>The system SHALL emit structured events for repository operations using a</p>
+<p>consistent naming convention and base attributes.</p>
+<p>Event names SHALL follow <code>repository.<operation>.<result></code>. Base attributes</p>
+<p>SHALL include <code>operation</code>, <code>result</code>, and <code>source</code>. Failure events SHALL include</p>
+<p><code>error_type</code>.</p>
+<pre class="mermaid">sequenceDiagram
+    participant U as UseCase
+    participant O as ObservedRepo
+    participant B as BaseRepo
+    participant S as TelemetrySink
+
+    U->>O: create(ticket)
+    O->>B: create(ticket)
+    B-->>O: success/failure
+    O->>S: record(repository.create.success|failure)</pre>
+<h4 id="openspec-changes-archive-2026-02-13-week07-observability-baseline-specs-ticketing-spec-scenario-success-event-emitted-on-create">Scenario: Success event emitted on create</h4>
+<pre><code class="language-gherkin">Scenario: Success event emitted on create
+  Given observed repository with telemetry sink
+  When create succeeds
+  Then repository.create.success event is recorded</code></pre>
+<h4 id="openspec-changes-archive-2026-02-13-week07-observability-baseline-specs-ticketing-spec-scenario-failure-event-emitted-with-error-type">Scenario: Failure event emitted with error type</h4>
+<pre><code class="language-gherkin">Scenario: Failure event emitted with error type
+  Given create fails due to duplicate id
+  When observed repository handles the error
+  Then repository.create.failure event includes error_type</code></pre>
+<h4 id="openspec-changes-archive-2026-02-13-week07-observability-baseline-specs-ticketing-spec-scenario-list-event-includes-count-context">Scenario: List event includes count context</h4>
+<pre><code class="language-gherkin">Scenario: List event includes count context
+  Given list succeeds
+  When observed repository emits list success event
+  Then event includes ticket_count attribute</code></pre>
+</section>
+<section id="openspec-changes-archive-2026-02-13-week07-observability-baseline-design" class="lesson" data-topic-id="openspec-changes-archive-2026-02-13-week07-observability-baseline-design" data-lesson-path="openspec/changes/archive/2026-02-13-week07-observability-baseline/design.md">
+<div class="lesson-path">openspec/changes/archive/2026-02-13-week07-observability-baseline/design.md</div>
+<h1 id="openspec-changes-archive-2026-02-13-week07-observability-baseline-design-design-week-07-observed-repository-decorator">Design: Week 07 — observed repository decorator</h1>
+<h2 id="openspec-changes-archive-2026-02-13-week07-observability-baseline-design-model">Model</h2>
+<p>Week 07 introduces an observed repository decorator that wraps a base</p>
+<p><code>TicketRepository</code> and emits structured telemetry events through a sink</p>
+<p>abstraction.</p>
+<h2 id="openspec-changes-archive-2026-02-13-week07-observability-baseline-design-components">Components</h2>
+<pre class="mermaid">flowchart LR
+  APP[Use cases] --> OBS[ObservedTicketRepository]
+  OBS --> BASE[Base TicketRepository]
+  OBS --> SINK[TelemetrySink]
+  SINK --> STORE[InMemoryTelemetrySink or future backend]</pre>
+<h2 id="openspec-changes-archive-2026-02-13-week07-observability-baseline-design-decisions">Decisions</h2>
+<p>The first decision is to keep observability in infrastructure, not in domain.</p>
+<p>Trade-off is one extra adapter layer; gain is clean separation of concerns.</p>
+<p>The second decision is to use structured events instead of free-form logs.</p>
+<p>Trade-off is schema discipline required; gain is queryable and testable signals.</p>
+<p>The third decision is to define event naming convention</p>
+<p><code>repository.<operation>.<result></code>. Trade-off is naming governance effort; gain is</p>
+<p>predictable operational analytics.</p>
+</section>
+<section id="openspec-changes-archive-2026-02-13-week07-observability-baseline-tasks" class="lesson" data-topic-id="openspec-changes-archive-2026-02-13-week07-observability-baseline-tasks" data-lesson-path="openspec/changes/archive/2026-02-13-week07-observability-baseline/tasks.md">
+<div class="lesson-path">openspec/changes/archive/2026-02-13-week07-observability-baseline/tasks.md</div>
+<h1 id="openspec-changes-archive-2026-02-13-week07-observability-baseline-tasks-tasks-week-07">Tasks (Week 07)</h1>
+<p>Week 07 tasks keep observability rollout auditable from contract to tests.</p>
+<pre><code class="language-yaml">tasks_week07:
+  architecture:
+    - id: "1.1"
+      title: "Create HelpdeskInfrastructureObservability target"
+      status: done
+    - id: "1.2"
+      title: "Define telemetry event model and sink contract"
+      status: done
+  behavior:
+    - id: "2.1"
+      title: "Implement observed repository decorator"
+      status: done
+    - id: "2.2"
+      title: "Emit success/failure events with base attributes"
+      status: done
+  verification:
+    - id: "3.1"
+      title: "Add tests for create/list/update observability signals"
+      status: done
+    - id: "3.2"
+      title: "Add week07 BDD observability scenarios"
       status: done
   evidence:
     - id: "4.1"
@@ -4180,26 +4339,227 @@ git commit -m "mensaje atomico sobre politica offline/cache"</code></pre>
 </section>
 <section id="08-semana-07-00-semana-07-roadmap" class="lesson" data-topic-id="08-semana-07-00-semana-07-roadmap" data-lesson-path="08-semana-07/00-semana-07-roadmap.md">
 <div class="lesson-path">08-semana-07/00-semana-07-roadmap.md</div>
-<h1 id="08-semana-07-00-semana-07-roadmap-semana-7-roadmap-ejecutable">Semana 7: roadmap ejecutable</h1>
-<p>Esta semana consolida una parte del ciclo SDD enterprise sobre <code>HelpdeskSDD</code>. No es teoría aislada: cada actividad termina en artefacto verificable, pruebas en verde y trazabilidad de decisiones. El foco exacto cambia por semana, pero el método se mantiene constante para entrenar disciplina profesional.</p>
-<h2 id="08-semana-07-00-semana-07-roadmap-objetivo-de-la-semana">Objetivo de la semana</h2>
-<p>En Semana 7 avanzas una capacidad concreta de producto sin romper lo construido. La disciplina que entrenas es mantener el flujo completo (OpenSpec → BDD → TDD → producción → refactor) cuando ya empiezas a tocar datos y persistencia, que es donde los atajos suelen ser más peligrosos.</p>
-<h2 id="08-semana-07-00-semana-07-roadmap-resultado-medible">Resultado medible</h2>
-<p>Semana 7 se considera cerrada cuando existe un entregable técnico claro, el build y las pruebas asociadas están en verde y hay evidencia trazable en commits. Si tu repositorio puede demostrarlo, tu trabajo es defendible.</p>
-<h2 id="08-semana-07-00-semana-07-roadmap-flujo-de-trabajo">Flujo de trabajo</h2>
+<h1 id="08-semana-07-00-semana-07-roadmap-semana-7-observabilidad-base-para-ver-lo-que-pasa-de-verdad">Semana 7: observabilidad base para ver lo que pasa de verdad</h1>
+<p>Hasta Semana 6 construimos capacidades funcionales críticas: contrato API, persistencia local y política offline-first con sincronización. A partir de aquí aparece una necesidad que define madurez enterprise: no basta con que el sistema funcione, tiene que poder explicarse cuando algo sale mal. Esa capacidad se llama observabilidad.</p>
+<p>Muchos equipos confunden observabilidad con “poner logs”. No es eso. Observabilidad significa diseñar señales útiles para entender el comportamiento del sistema en tiempo real y en retrospectiva. Si una transición falla, si un fallback de cache ocurre, si una sync pendiente se atasca, el equipo debe verlo sin adivinar ni abrir veinte archivos.</p>
+<p>Semana 7 introduce un baseline de observabilidad sobre el proyecto que ya tenemos. Instrumentaremos operaciones clave con eventos estructurados y atributos mínimos para análisis técnico. Lo haremos sin contaminar dominio ni aplicación, manteniendo la filosofía del curso: la política vive en infraestructura, y el contrato de negocio sigue limpio.</p>
 <pre class="mermaid">flowchart LR
-    A[Entrada de semana 7] --> B[Spec refinada]
-    B --> C[BDD actualizado]
-    C --> D[TDD y produccion]
-    D --> E[Validacion y cierre]</pre>
-<h2 id="08-semana-07-00-semana-07-roadmap-practica-guiada">Practica guiada</h2>
-<p>Tu práctica guiada es revisar la meta técnica de Semana 7, ejecutar el laboratorio asociado registrando decisiones relevantes, y validar pruebas y build antes del commit final. En esta semana, la evidencia es tu “seguro” contra regressions.</p>
-<h2 id="08-semana-07-00-semana-07-roadmap-verificacion-de-comprension">Verificacion de comprension</h2>
-<p>Pregunta 1: ¿Qué bloque del flujo OpenSpec → BDD → TDD → producción estás entrenando más esta semana?</p>
-<p>Pregunta 2: ¿Qué evidencia objetiva confirma que cerraste Semana 7?</p>
-<p>Pregunta 3: ¿Qué deuda técnica aceptaste, si aceptaste alguna, y por qué fue una decisión consciente?</p>
-<h2 id="08-semana-07-00-semana-07-roadmap-siguiente-paso">Siguiente paso</h2>
-<p>Ir a la primera leccion detallada de semana 7.</p>
+    A[OpenSpec week07] --> B[BDD de señales observables]
+    B --> C[TDD de instrumentacion]
+    C --> D[Produccion: repositorio observado]
+    D --> E[Refactor de nomenclatura de eventos]
+    E --> F[Checkpoint y evidencia]</pre>
+<p>El resultado medible de Week 7 es tener un canal básico de eventos estructurados para operaciones de repositorio, con pruebas que validan emisión de eventos en éxito y error, y con convenciones de nombres que soporten análisis posterior.</p>
+<pre><code class="language-yaml">week7_definition_of_done:
+  structured_events: "operaciones clave emiten eventos con atributos consistentes"
+  error_visibility: "fallos relevantes quedan observables sin inspeccion manual de estado"
+  contract_integrity: "use cases no cambian por introducir observabilidad"
+  evidence: "tests de instrumentacion + validaciones globales en verde"</code></pre>
+<p>La práctica de arranque consiste en elegir una operación de ticketing y escribir qué tres datos querrías ver en un panel para depurar un incidente de esa operación. Si esos datos no son explícitos, la observabilidad no está diseñada; está improvisada.</p>
+<p>La verificación de comprensión antes de la primera lección es responder esta pregunta: ¿por qué un sistema con buenas pruebas puede seguir siendo difícil de operar si no tiene observabilidad mínima?</p>
+<p>Siguiente lección: <code>08-semana-07/01-problema-observabilidad.md</code>.</p>
+</section>
+<section id="08-semana-07-01-problema-observabilidad" class="lesson" data-topic-id="08-semana-07-01-problema-observabilidad" data-lesson-path="08-semana-07/01-problema-observabilidad.md">
+<div class="lesson-path">08-semana-07/01-problema-observabilidad.md</div>
+<h1 id="08-semana-07-01-problema-observabilidad-semana-7-lecci-n-1-el-problema-no-es-depurar-es-depurar-a-ciegas">Semana 7 · Lección 1: el problema no es depurar, es depurar a ciegas</h1>
+<p>Cuando un junior empieza, suele depurar mirando logs sueltos o reproduciendo bugs de forma manual. Ese enfoque puede servir en casos pequeños, pero falla en sistemas que ya tienen varias capas y políticas de comportamiento como las que construimos en este curso. En ese punto, el problema no es “falta de talento”, es falta de señales estructuradas.</p>
+<p>Sin observabilidad, un error de negocio puede parecer un error de infraestructura, una lectura de cache puede confundirse con lectura remota, y una operación pendiente puede quedarse atascada sin que nadie lo vea hasta que el usuario se queja. El equipo entra en modo reactivo y cada incidencia cuesta más de lo necesario.</p>
+<pre class="mermaid">flowchart TD
+    A[Sistema sin señales estructuradas] --> B[Hipotesis difusas]
+    B --> C[Tiempo alto de resolucion]
+    C --> D[Confianza baja en releases]
+    E[Sistema con observabilidad base] --> F[Diagnostico rapido]
+    F --> G[Correcciones enfocadas]
+    G --> H[Operacion estable]</pre>
+<p>Piensa en una analogía cotidiana. Conducir sin tablero de instrumentos te obliga a adivinar velocidad, combustible y temperatura del motor. Puedes avanzar, sí, pero con riesgo alto. Observabilidad en software es ese tablero: no conduce por ti, pero te da contexto para decidir bien.</p>
+<pre><code class="language-swift">// Sin observabilidad estructurada: solo sabemos que fallo algo.
+print("Error al actualizar ticket")
+
+// Con observabilidad: evento con contexto util.
+// event: repository.update.failure
+// attributes: ticket_id, source, error_type</code></pre>
+<p>La práctica guiada de esta lección consiste en tomar un fallo reciente que recuerdes y listar qué señales te habrían permitido diagnosticarlo en menos tiempo. Ese ejercicio entrena pensamiento operativo, no solo pensamiento de implementación.</p>
+<p>La verificación de comprensión antes de la especificación es responder por qué “poner más logs” no equivale automáticamente a tener observabilidad útil.</p>
+<p>Siguiente lección: <code>08-semana-07/02-spec-observabilidad-baseline.md</code>.</p>
+</section>
+<section id="08-semana-07-02-spec-observabilidad-baseline" class="lesson" data-topic-id="08-semana-07-02-spec-observabilidad-baseline" data-lesson-path="08-semana-07/02-spec-observabilidad-baseline.md">
+<div class="lesson-path">08-semana-07/02-spec-observabilidad-baseline.md</div>
+<h1 id="08-semana-07-02-spec-observabilidad-baseline-semana-7-lecci-n-2-especificar-observabilidad-como-contrato-de-operaci-n">Semana 7 · Lección 2: especificar observabilidad como contrato de operación</h1>
+<p>Después de entender el problema, toca convertir observabilidad en contrato formal. Aquí hay una idea clave de nivel enterprise: la observabilidad también se diseña. No es algo que “se añade al final”. Si no queda especificada, cada desarrollador emitirá señales distintas y el sistema será difícil de analizar de forma consistente.</p>
+<p>En Week 7 definiremos un baseline de eventos estructurados para operaciones de repositorio. No vamos a construir una plataforma completa de métricas ni tracing distribuido todavía. Vamos a construir una base correcta, incremental y verificable que nos permita operar con más claridad desde ya.</p>
+<pre class="mermaid">flowchart LR
+    A[Problema de depuracion a ciegas] --> B[Proposal week07]
+    B --> C[Requirement de eventos base]
+    C --> D[Escenarios observables]
+    D --> E[Tareas de implementacion y tests]</pre>
+<p>El cambio OpenSpec de esta semana se nombra <code>week07-observability-baseline</code> y sigue el mismo flujo disciplinado del curso.</p>
+<pre><code class="language-text">/opsx:new week07-observability-baseline
+/opsx:ff
+/opsx:apply
+/opsx:verify</code></pre>
+<p>La decisión de alcance es intencional. En esta semana instrumentaremos operaciones de repositorio con eventos de éxito y error, incluyendo atributos mínimos como nombre de operación, tipo de resultado y datos de contexto. Dejaremos trazado cómo evolucionar a métricas y tracing en semanas posteriores sin romper lo hecho.</p>
+<pre><code class="language-yaml">week7_scope:
+  in_scope: "eventos estructurados para operaciones de repositorio"
+  baseline_attributes: "operation, result, error_type, source"
+  target_quality: "nombres consistentes y testeables"
+  out_of_scope: "dashboards avanzados, trazas distribuidas completas"</code></pre>
+<p>La práctica guiada consiste en redactar dos eventos de ejemplo con nombre y atributos, uno de éxito y otro de error. Después revisa si esos eventos permitirían diferenciar rápido una caída remota de un error de contrato.</p>
+<p>La verificación de comprensión antes de BDD es responder por qué el nombre del evento debe seguir convención estable y no depender del gusto de cada persona del equipo.</p>
+<p>Siguiente lección: <code>08-semana-07/03-bdd-observabilidad.md</code>.</p>
+</section>
+<section id="08-semana-07-03-bdd-observabilidad" class="lesson" data-topic-id="08-semana-07-03-bdd-observabilidad" data-lesson-path="08-semana-07/03-bdd-observabilidad.md">
+<div class="lesson-path">08-semana-07/03-bdd-observabilidad.md</div>
+<h1 id="08-semana-07-03-bdd-observabilidad-semana-7-lecci-n-3-bdd-de-se-ales-para-alinear-operaci-n-y-desarrollo">Semana 7 · Lección 3: BDD de señales para alinear operación y desarrollo</h1>
+<p>En esta semana BDD no describe una funcionalidad de UI ni un endpoint nuevo. Describe comportamiento observable del sistema cuando ejecuta operaciones técnicas relevantes. Esto es importante porque, en empresas reales, la operación también necesita contrato: qué señales esperar, cuándo se emiten y con qué contexto mínimo.</p>
+<p>Al escribir estos escenarios, convertimos observabilidad en algo verificable y compartible con perfiles de SRE, backend, móvil y QA. Si falta esta alineación, cada equipo instrumenta distinto y el análisis se vuelve inconsistente justo cuando más se necesita.</p>
+<pre class="mermaid">sequenceDiagram
+    participant App as Application
+    participant Repo as ObservedRepository
+    participant Base as BaseRepository
+    participant Sink as TelemetrySink
+    App->>Repo: create(ticket)
+    Repo->>Base: create(ticket)
+    Base-->>Repo: success or error
+    Repo->>Sink: record structured event</pre>
+<p>Los escenarios base de Week 7 deben cubrir éxito y error para operaciones clave de repositorio.</p>
+<pre><code class="language-gherkin">Feature: Baseline de observabilidad en repositorio
+  Scenario: Emite evento en create exitoso
+    Given un repositorio observado con sink activo
+    When se crea un ticket correctamente
+    Then se registra evento repository.create.success con atributos base
+
+  Scenario: Emite evento en create con error
+    Given un repositorio observado con sink activo
+    And el create falla por duplicateTicketID
+    When se intenta crear ticket duplicado
+    Then se registra evento repository.create.failure con error_type
+
+  Scenario: Emite evento de lectura
+    Given un repositorio observado con sink activo
+    When se solicita listado
+    Then se registra evento repository.list.success</code></pre>
+<p>La práctica guiada consiste en tomar uno de los escenarios anteriores y transformarlo en una pregunta de incidente real, por ejemplo “¿por qué están fallando creates en producción?”. Si el escenario no ayuda a responder esa pregunta, el diseño de observabilidad necesita mejorar.</p>
+<p>La verificación de comprensión antes de TDD es responder qué escenario detecta primero una regresión donde el sistema sigue funcionando pero deja de emitir eventos de error.</p>
+<p>Siguiente lección: <code>08-semana-07/04-tdd-observed-repository.md</code>.</p>
+</section>
+<section id="08-semana-07-04-tdd-observed-repository" class="lesson" data-topic-id="08-semana-07-04-tdd-observed-repository" data-lesson-path="08-semana-07/04-tdd-observed-repository.md">
+<div class="lesson-path">08-semana-07/04-tdd-observed-repository.md</div>
+<h1 id="08-semana-07-04-tdd-observed-repository-semana-7-lecci-n-4-tdd-del-repositorio-observado-para-proteger-se-ales-cr-ticas">Semana 7 · Lección 4: TDD del repositorio observado para proteger señales críticas</h1>
+<p>Con escenarios claros, ahora convertimos observabilidad en pruebas ejecutables. En Week 7 las pruebas no validan solo datos de negocio; validan que el sistema emite evidencia operativa útil cuando ocurre una operación. Esta diferencia es clave para pasar de “código correcto” a “sistema operable”.</p>
+<p>La estrategia de TDD aquí es sencilla y potente. Primero escribimos una prueba que exige un evento en caso de éxito. Luego otra para caso de error. Después implementamos lo mínimo para pasar en verde. Así evitamos caer en instrumentación decorativa y nos aseguramos de que cada señal responde a una necesidad real.</p>
+<pre class="mermaid">flowchart LR
+    A[Escenario BDD de observabilidad] --> B[Test rojo de evento]
+    B --> C[Implementacion minima]
+    C --> D[Test verde]
+    D --> E[Refactor de convencion]</pre>
+<p>Este patrón de prueba demuestra que una operación de create exitosa registra evento con nombre esperado y atributos básicos.</p>
+<pre><code class="language-swift">@Test
+func createSuccessEmitsStructuredTelemetryEvent() async throws {
+    let sink = InMemoryTelemetrySink()
+    let base = InMemoryTicketRepository()
+    let sut = ObservedTicketRepository(base: base, sink: sink)
+
+    try await sut.create(ticket(id: "T-3000"))
+
+    let events = await sink.snapshot()
+    #expect(events.last?.name == "repository.create.success")
+    #expect(events.last?.attributes["operation"] == "create")
+}</code></pre>
+<pre><code class="language-bash">swift test --package-path project/HelpdeskSDD</code></pre>
+<p>La práctica guiada consiste en romper temporalmente la emisión de eventos en el bloque de error y comprobar que el test correspondiente cae en rojo. Luego restaura implementación y vuelve a verde. Este ciclo te enseña a no confiar en instrumentación “porque está escrita”, sino porque está protegida.</p>
+<p>La verificación de comprensión antes de código de producción es responder por qué una prueba de negocio en verde no garantiza que la observabilidad siga cumpliendo objetivo operativo.</p>
+<p>Siguiente lección: <code>08-semana-07/05-codigo-observed-repository.md</code>.</p>
+</section>
+<section id="08-semana-07-05-codigo-observed-repository" class="lesson" data-topic-id="08-semana-07-05-codigo-observed-repository" data-lesson-path="08-semana-07/05-codigo-observed-repository.md">
+<div class="lesson-path">08-semana-07/05-codigo-observed-repository.md</div>
+<h1 id="08-semana-07-05-codigo-observed-repository-semana-7-lecci-n-5-implementar-observabilidad-baseline-sin-acoplar-l-gica-de-negocio">Semana 7 · Lección 5: implementar observabilidad baseline sin acoplar lógica de negocio</h1>
+<p>En esta lección implementamos la instrumentación base en producción. La pieza central es un repositorio decorador que envuelve cualquier <code>TicketRepository</code> y emite eventos estructurados antes o después de ejecutar operaciones. El decorador permite añadir observabilidad sin tocar casos de uso ni reglas de dominio.</p>
+<p>Esta decisión es coherente con toda la arquitectura del curso. No mezclamos señales operativas en dominio porque dominio decide negocio, no operación. Tampoco metemos instrumentación directa en UI porque queremos una política reutilizable en cualquier cliente que use el mismo repositorio.</p>
+<pre class="mermaid">flowchart TD
+    A[Use cases] --> B[ObservedTicketRepository]
+    B --> C[TicketRepository base]
+    B --> D[TelemetrySink]
+    D --> E[Eventos estructurados]</pre>
+<p>El núcleo del diseño se resume en registrar evento con nombre, timestamp y atributos estables en éxito y error.</p>
+<pre><code class="language-swift">public actor ObservedTicketRepository: TicketRepository {
+    public func create(_ ticket: Ticket) async throws {
+        do {
+            try await base.create(ticket)
+            await sink.record(event(name: "repository.create.success", operation: "create"))
+        } catch {
+            await sink.record(event(name: "repository.create.failure", operation: "create", error: error))
+            throw error
+        }
+    }
+}</code></pre>
+<p>El objetivo no es “emitir mucho”. El objetivo es emitir señales consistentes y accionables. Con pocas señales bien diseñadas, puedes diagnosticar más que con cientos de logs sueltos.</p>
+<p>La práctica guiada consiste en ejecutar una operación exitosa y otra con error, capturar snapshot de eventos y explicar qué diferencia de atributos permite distinguir ambos casos sin revisar stack traces.</p>
+<p>La verificación de comprensión antes del refactor es responder por qué este decorador respeta Open/Closed mejor que añadir <code>print</code> o logging manual en cada implementación de repositorio.</p>
+<p>Siguiente lección: <code>08-semana-07/06-refactor-convencion-eventos.md</code>.</p>
+</section>
+<section id="08-semana-07-06-refactor-convencion-eventos" class="lesson" data-topic-id="08-semana-07-06-refactor-convencion-eventos" data-lesson-path="08-semana-07/06-refactor-convencion-eventos.md">
+<div class="lesson-path">08-semana-07/06-refactor-convencion-eventos.md</div>
+<h1 id="08-semana-07-06-refactor-convencion-eventos-semana-7-lecci-n-6-refactor-de-convenci-n-de-eventos-para-evitar-observabilidad-ca-tica">Semana 7 · Lección 6: refactor de convención de eventos para evitar observabilidad caótica</h1>
+<p>Una vez que la instrumentación funciona, el siguiente riesgo es la inconsistencia de nomenclatura. Si cada módulo usa nombres distintos para el mismo concepto, la observabilidad se vuelve ruidosa y difícil de consultar. Esta lección refactoriza precisamente eso: unificar convención de nombres y atributos.</p>
+<p>El objetivo es que cualquier persona del equipo pueda adivinar cómo se llama un evento nuevo sin mirar código. Esa previsibilidad reduce errores, acelera análisis y evita discusiones innecesarias durante incidencias.</p>
+<pre class="mermaid">flowchart LR
+    A[Instrumentacion funcional] --> B[Detectar nombres inconsistentes]
+    B --> C[Definir convención unica]
+    C --> D[Aplicar refactor no funcional]
+    D --> E[Revalidar tests de eventos]</pre>
+<p>La convención propuesta en Week 7 sigue patrón simple: <code>repository.<operation>.<result></code>. Además, se mantienen atributos base <code>operation</code>, <code>result</code>, <code>source</code>, <code>error_type</code> cuando aplica.</p>
+<pre><code class="language-swift">private func eventName(operation: String, success: Bool) -&gt; String {
+    let result = success ? "success" : "failure"
+    return "repository.\(operation).\(result)"
+}</code></pre>
+<p>Este refactor no cambia comportamiento de negocio ni contratos funcionales, pero sí mejora capacidad de análisis operativo. Por eso debe pasar exactamente la misma suite en verde.</p>
+<p>La práctica guiada consiste en inventar dos operaciones nuevas y proponer sus nombres de evento usando la convención. Si hay duda sobre cómo nombrarlos, la convención aún no es suficientemente clara.</p>
+<p>La verificación de comprensión antes del checkpoint es responder por qué una convención de eventos es una decisión arquitectónica y no solo un detalle estético.</p>
+<p>Siguiente lección: <code>08-semana-07/07-checkpoint-evaluacion.md</code>.</p>
+</section>
+<section id="08-semana-07-07-checkpoint-evaluacion" class="lesson" data-topic-id="08-semana-07-07-checkpoint-evaluacion" data-lesson-path="08-semana-07/07-checkpoint-evaluacion.md">
+<div class="lesson-path">08-semana-07/07-checkpoint-evaluacion.md</div>
+<h1 id="08-semana-07-07-checkpoint-evaluacion-semana-7-lecci-n-7-checkpoint-de-observabilidad-para-cerrar-con-criterio-operativo">Semana 7 · Lección 7: checkpoint de observabilidad para cerrar con criterio operativo</h1>
+<p>El cierre de Week 7 no depende de cuántos eventos se emiten, sino de si esos eventos realmente ayudan a operar el sistema. Este checkpoint valida que la instrumentación no sea decorativa: debe cubrir rutas críticas de éxito y error, mantener convención consistente y permanecer desacoplada de la lógica de negocio.</p>
+<p>La evaluación cruza cuatro piezas de evidencia. OpenSpec define intención de señales. BDD describe comportamiento observable. Tests garantizan emisión en rutas relevantes. Implementación mantiene separación de capas. Si una de esas piezas contradice a otra, la observabilidad queda incompleta.</p>
+<pre class="mermaid">flowchart TD
+    A[OpenSpec week07] --> B[BDD observabilidad]
+    B --> C[Tests de eventos]
+    C --> D[Repositorio observado]
+    D --> E[Validaciones globales]
+    E --> F[Cierre week07]</pre>
+<p>La verificación técnica sigue siendo explícita y reproducible para evitar cierres por intuición.</p>
+<pre><code class="language-bash">swift test --package-path project/HelpdeskSDD
+npm run -s openspec:validate
+python3 scripts/validate-course-structure.py
+python3 scripts/validate-openspec.py
+python3 scripts/check-links.py
+python3 scripts/validate-pedagogy.py
+python3 scripts/build-html.py</code></pre>
+<p>La práctica guiada consiste en simular un incidente de <code>create</code> duplicado y comprobar qué evento emite el sistema. Después explica si con ese evento podrías detectar el problema en un panel sin inspeccionar base de datos ni reproducir manualmente.</p>
+<p>La verificación de comprensión final del checkpoint es responder por qué un sistema puede ser funcionalmente correcto y operativamente débil al mismo tiempo.</p>
+<p>Siguiente lección: <code>08-semana-07/08-bitacora-commits.md</code>.</p>
+</section>
+<section id="08-semana-07-08-bitacora-commits" class="lesson" data-topic-id="08-semana-07-08-bitacora-commits" data-lesson-path="08-semana-07/08-bitacora-commits.md">
+<div class="lesson-path">08-semana-07/08-bitacora-commits.md</div>
+<h1 id="08-semana-07-08-bitacora-commits-semana-7-lecci-n-8-bit-cora-de-cierre-para-observabilidad-y-operaci-n-auditable">Semana 7 · Lección 8: bitácora de cierre para observabilidad y operación auditable</h1>
+<p>La bitácora de Week 7 debe permitir responder una pregunta crítica de producción: “¿qué cambió en observabilidad y cómo sabemos que sigue emitiendo señales correctas?”. Si esa respuesta no se puede reconstruir desde commits y validaciones, el cierre de semana es incompleto.</p>
+<p>En esta semana conviene atomizar por intención igual que en semanas anteriores. Un bloque para contenido docente, otro para implementación del repositorio observado y tests, y otro para OpenSpec más scripts de publicación. Ese orden facilita revisión por perfiles distintos: docencia, ingeniería y arquitectura.</p>
+<pre class="mermaid">flowchart LR
+    A[Plan week07] --> B[Cambios por bloque]
+    B --> C[Validaciones por bloque]
+    C --> D[Commit atomico]
+    D --> E[Historial auditable]</pre>
+<p>El valor de esta bitácora es que no solo demuestra que el sistema compila, también demuestra que el sistema se puede operar con señales mínimas consistentes. Esa diferencia es la que empieza a separar un proyecto académico de uno enterprise.</p>
+<pre><code class="language-text">git status --short
+swift test --package-path project/HelpdeskSDD
+npm run -s openspec:validate
+python3 scripts/build-html.py
+git add &lt;bloque-semantico&gt;
+git commit -m "mensaje atomico sobre observabilidad"</code></pre>
+<p>La práctica guiada final consiste en revisar tus commits de Week 7 y escribir qué tipo de incidencia te ayudaría a investigar cada cambio. Si un commit no ayuda a investigar nada, probablemente no está bien delimitado.</p>
+<p>La verificación de comprensión que cierra la semana es explicar con un ejemplo la diferencia entre “emitir logs” y “proveer observabilidad operativa útil”.</p>
+<p>Siguiente semana: <code>09-semana-08/00-semana-08-roadmap.md</code>.</p>
 </section>
 <section id="09-semana-08-00-semana-08-roadmap" class="lesson" data-topic-id="09-semana-08-00-semana-08-roadmap" data-lesson-path="09-semana-08/00-semana-08-roadmap.md">
 <div class="lesson-path">09-semana-08/00-semana-08-roadmap.md</div>
