@@ -923,15 +923,15 @@ blockquote p {
 </ul></li>
 <li class="nav-section"><strong>Semana 2</strong>
 <ul>
-  <li><a class="doc-nav-link" data-lesson-path="03-semana-02/00-semana-02-roadmap.md" href="#03-semana-02-00-semana-02-roadmap">Semana 2: cuando un ticket deja de ser un registro y pasa a ser un proceso</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="03-semana-02/01-problema-lifecycle.md" href="#03-semana-02-01-problema-lifecycle">Semana 2 · Lección 1: el problema real no es cambiar estados, es gobernarlos</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="03-semana-02/02-spec-lifecycle-v1.md" href="#03-semana-02-02-spec-lifecycle-v1">Semana 2 · Lección 2: escribir la delta OpenSpec que gobierna el lifecycle</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="03-semana-02/03-bdd-lifecycle.md" href="#03-semana-02-03-bdd-lifecycle">Semana 2 · Lección 3: BDD del lifecycle para alinear a todo el equipo</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="03-semana-02/04-tdd-lifecycle.md" href="#03-semana-02-04-tdd-lifecycle">Semana 2 · Lección 4: TDD de transiciones para blindar reglas de estado</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="03-semana-02/05-codigo-lifecycle.md" href="#03-semana-02-05-codigo-lifecycle">Semana 2 · Lección 5: producción del lifecycle con responsabilidades limpias</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="03-semana-02/06-refactor-trazabilidad.md" href="#03-semana-02-06-refactor-trazabilidad">Semana 2 · Lección 6: refactor y trazabilidad para que el cambio sea mantenible</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="03-semana-02/07-checkpoint-evaluacion.md" href="#03-semana-02-07-checkpoint-evaluacion">Semana 2 · Lección 7: checkpoint de cierre con estándar enterprise</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="03-semana-02/08-bitacora-commits.md" href="#03-semana-02-08-bitacora-commits">Semana 2 · Lección 8: bitácora de cierre para que el repositorio cuente la historia</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="03-semana-02/00-semana-02-roadmap.md" href="#03-semana-02-00-semana-02-roadmap">Semana 2: cuando un ticket deja de ser un dato y se convierte en un proceso gobernado</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="03-semana-02/01-problema-lifecycle.md" href="#03-semana-02-01-problema-lifecycle">Semana 2 · Lección 1: el problema real no es "cambiar estado", es gobernar una historia de trabajo</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="03-semana-02/02-spec-lifecycle-v1.md" href="#03-semana-02-02-spec-lifecycle-v1">Semana 2 · Lección 2: llevar el problema a OpenSpec para que el equipo deje de discutir opiniones</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="03-semana-02/03-bdd-lifecycle.md" href="#03-semana-02-03-bdd-lifecycle">Semana 2 · Lección 3: BDD del lifecycle para que todos evalúen lo mismo sin abrir Xcode</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="03-semana-02/04-tdd-lifecycle.md" href="#03-semana-02-04-tdd-lifecycle">Semana 2 · Lección 4: TDD de lifecycle para que una regresión se detecte en segundos</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="03-semana-02/05-codigo-lifecycle.md" href="#03-semana-02-05-codigo-lifecycle">Semana 2 · Lección 5: código de producción del lifecycle con arquitectura limpia</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="03-semana-02/06-refactor-trazabilidad.md" href="#03-semana-02-06-refactor-trazabilidad">Semana 2 · Lección 6: refactor con trazabilidad para que el cambio no dependa de tu memoria</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="03-semana-02/07-checkpoint-evaluacion.md" href="#03-semana-02-07-checkpoint-evaluacion">Semana 2 · Lección 7: checkpoint de cierre para decidir con criterio, no con sensación</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="03-semana-02/08-bitacora-commits.md" href="#03-semana-02-08-bitacora-commits">Semana 2 · Lección 8: bitácora de commits para que el repositorio explique el cambio sin reuniones extra</a></li>
 </ul></li>
 <li class="nav-section"><strong>OpenSpec (Fuente de Verdad)</strong>
 <ul>
@@ -2133,165 +2133,202 @@ Si el commit no responde esas tres preguntas, el commit no esta maduro.</code></
 </section>
 <section id="03-semana-02-00-semana-02-roadmap" class="lesson" data-topic-id="03-semana-02-00-semana-02-roadmap" data-lesson-path="03-semana-02/00-semana-02-roadmap.md">
 <div class="lesson-path">03-semana-02/00-semana-02-roadmap.md</div>
-<h1 id="03-semana-02-00-semana-02-roadmap-semana-2-cuando-un-ticket-deja-de-ser-un-registro-y-pasa-a-ser-un-proceso">Semana 2: cuando un ticket deja de ser un registro y pasa a ser un proceso</h1>
-<p>La primera semana demostró que podemos crear y listar tickets con reglas mínimas. Esa base era necesaria, pero no suficiente para una operación seria. En una empresa, un ticket no es solo “algo guardado”. Es una unidad de trabajo que avanza por estados con significado operativo. Si ese avance no está gobernado, todo parece funcionar y aun así la organización pierde control.</p>
-<p>Esta semana introduce la primera regla de gobernanza fuerte del curso: el estado no se mueve por intuición. Se mueve por contrato.</p>
-<h2 id="03-semana-02-00-semana-02-roadmap-qu-vamos-a-cerrar-exactamente">Qué vamos a cerrar exactamente</h2>
-<p>Vamos a cerrar un ticket de cambio que añade lifecycle explícito a <code>HelpdeskSDD</code>, con transiciones permitidas, transiciones prohibidas e idempotencia controlada. El resultado final no será solo código en verde. Será una cadena completa de evidencia: contrato OpenSpec, escenarios BDD, pruebas TDD, producción estable y trazabilidad de cierre.</p>
+<h1 id="03-semana-02-00-semana-02-roadmap-semana-2-cuando-un-ticket-deja-de-ser-un-dato-y-se-convierte-en-un-proceso-gobernado">Semana 2: cuando un ticket deja de ser un dato y se convierte en un proceso gobernado</h1>
+<p>En Semana 1 cerraste un primer vertical slice: crear y listar tickets con reglas básicas de dominio, tests y evidencia. Eso te dio una base sólida, pero todavía estabas trabajando con una visión parcial del problema. En una empresa real, un ticket no vale por existir en una base de datos. Un ticket vale por su recorrido operativo: cómo se mueve, quién puede moverlo, qué transiciones se permiten y qué transiciones se bloquean para proteger trazabilidad, SLA y auditoría.</p>
+<p>Ese recorrido es justo lo que construimos en esta semana. Vamos a diseñar y ejecutar la primera <code>state machine</code> formal del curso para que el estado de un ticket deje de depender de intuición, atajos de interfaz o decisiones dispersas. Cuando cierres Week 2, tendrás una capacidad que cambia la calidad del sistema completo: el lifecycle de tickets estará gobernado por contrato y protegido por pruebas.</p>
 <pre class="mermaid">flowchart LR
-    A[Delta OpenSpec de lifecycle] --> B[BDD de transiciones]
-    B --> C[TDD por reglas]
-    C --> D[Produccion en dominio y aplicacion]
-    D --> E[Refactor y bitacora auditable]</pre>
-<h2 id="03-semana-02-00-semana-02-roadmap-resultado-medible-para-aprobar-la-semana">Resultado medible para aprobar la semana</h2>
-<pre><code class="language-yaml">week2_done_signal:
-  contract: "spec de lifecycle vigente y legible"
-  behavior: "escenarios de transicion validos e invalidos"
-  tests: "suite en verde con cobertura de transiciones"
-  demo: "ejecucion reproducible mostrando cambio de estado"
-  traceability: "evidencia enlazada de spec a codigo"</code></pre>
-<p>Fíjate en que ninguna señal habla de “cantidad de archivos”. Habla de comportamiento verificable y de capacidad de auditoría.</p>
-<h2 id="03-semana-02-00-semana-02-roadmap-c-mo-estudiar-esta-semana-para-no-perder-el-hilo">Cómo estudiar esta semana para no perder el hilo</h2>
-<p>Estudia esta semana como si fueras el ingeniero de guardia que recibe un incidente de SLA. Cuando leas una decisión, pregúntate qué riesgo empresarial evita. Cuando veas una transición, pregúntate qué pasaría si fuera libre. Cuando ejecutes tests, pregúntate qué contrato está quedando protegido.</p>
-<p>Si haces ese ejercicio en cada lección, el aprendizaje deja de ser teórico y se vuelve operativo.</p>
-<h2 id="03-semana-02-00-semana-02-roadmap-pr-ctica-de-arranque">Práctica de arranque</h2>
-<p>La práctica inicial consiste en abrir el spec vigente de ticketing y describir con tus palabras qué significa realmente que un ticket pase de <code>open</code> a <code>inProgress</code>. Si tu explicación se queda en “cambia un enum”, repite el ejercicio hasta que aparezcan trazabilidad, responsabilidad y operación. Ese cambio de lenguaje es el primer indicador de madurez.</p>
-<h2 id="03-semana-02-00-semana-02-roadmap-verificaci-n-antes-de-entrar-en-el-problema-t-cnico">Verificación antes de entrar en el problema técnico</h2>
-<p>La verificación clave de este roadmap es esta. Si mañana dos personas distintas mueven estados del mismo ticket, tienes claro cuál es la única fuente de verdad que decide qué transiciones son válidas. Si no está claro, no avances de lección.</p>
+    A[Week 1: crear y listar] --> B[Week 2: gobernar estados]
+    B --> C[OpenSpec delta de lifecycle]
+    C --> D[BDD de transiciones]
+    D --> E[TDD de reglas y errores]
+    E --> F[Codigo de produccion]
+    F --> G[Refactor y trazabilidad]
+    G --> H[Cierre con evidencia auditable]</pre>
+<p>Si te fijas en el diagrama, no hay ninguna fase decorativa. Cada bloque responde a una pregunta profesional concreta. OpenSpec responde "qué comportamiento debe existir". BDD responde "cómo se observa ese comportamiento sin mirar código". TDD responde "cómo blindamos ese comportamiento contra regresiones". Producción responde "cómo lo implementamos sin romper arquitectura". Refactor y trazabilidad responden "cómo dejamos esto mantenible para otro equipo".</p>
+<p>La parte más importante de este roadmap es entender por qué Week 2 llega exactamente ahora. Si pospones lifecycle y sigues añadiendo features, cada módulo nuevo heredará una semántica de estados distinta. En ese escenario, el sistema parece crecer, pero en realidad se fragmenta. Y cuando llegue la primera incidencia seria, nadie podrá responder con precisión por qué un ticket terminó en un estado concreto. Este es el tipo de deuda que cuesta semanas de retrabajo y reuniones improductivas.</p>
+<p>La máquina de estados mínima que vamos a gobernar durante la semana es esta:</p>
+<pre class="mermaid">stateDiagram-v2
+    [*] --> open
+    open --> inProgress
+    inProgress --> resolved
+    resolved --> closed
+    closed --> [*]
+
+    closed --> open: prohibido
+    open --> open: idempotente
+    inProgress --> inProgress: idempotente
+    resolved --> resolved: idempotente
+    closed --> closed: idempotente</pre>
+<p>Aquí hay una decisión pedagógica intencional. No empezamos con veinte estados ni con un modelo hipercomplejo. Empezamos con una cadena corta y rigurosa que puedas razonar, testear y defender. La maestría no sale de complejidad prematura; sale de ejecutar bien lo esencial y hacerlo reproducible.</p>
+<p>Cuando termines la semana, no evaluaremos "si hay más archivos". Evaluaremos si puedes demostrar tres cosas de forma objetiva. Primero, que cualquier transición válida avanza como dicta el contrato. Segundo, que cualquier transición inválida devuelve un error de dominio explícito, no un comportamiento ambiguo. Tercero, que todo eso está trazado desde spec hasta test, código y bitácora.</p>
+<pre><code class="language-yaml">week2_definition_of_done:
+  contract: "OpenSpec describe reglas validas, invalidas e idempotencia"
+  behavior: "BDD cubre flujo valido, flujo prohibido y ticket inexistente"
+  tests: "TDD en dominio y aplicacion en verde"
+  production: "Use case coordina; dominio decide reglas"
+  evidence: "validadores, demo, commits atomicos y worktree limpio"</code></pre>
+<p>Si vienes con mentalidad junior, quédate con esta idea en lenguaje simple. Un estado no es una etiqueta bonita para mostrar en pantalla. Un estado es una promesa operativa de cómo está el trabajo ahora mismo. Si rompes esa promesa, rompes la confianza del equipo y las métricas dejan de significar lo que dicen.</p>
+<p>Antes de pasar a la siguiente lección, haz una mini-práctica mental. Imagina que eres responsable de soporte y te preguntan por qué un ticket cerrado volvió a abierto sin rastro de quién lo reabrió. Si no existe una política explícita y testeada, no podrás responder. Esa sensación de indefensión es exactamente lo que Week 2 elimina.</p>
+<h2 id="03-semana-02-00-semana-02-roadmap-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Antes de continuar, responde en tus propias palabras qué diferencia hay entre \"tener tickets guardados\" y \"tener tickets gobernados por un lifecycle\". Si en tu respuesta no aparecen trazabilidad y decisiones operativas, relee esta lección y no avances todavía.</p>
 <h2 id="03-semana-02-00-semana-02-roadmap-siguiente-lecci-n">Siguiente lección</h2>
-<p>La siguiente lección es <code>03-semana-02/01-problema-lifecycle.md</code>, donde aterrizamos el dolor operativo que justifica estas reglas.</p>
+<p>Continúa con <code>03-semana-02/01-problema-lifecycle.md</code>. Ahí aterrizamos el problema con ejemplos reales de daño operativo y fijamos el contrato de riesgo que vamos a resolver.</p>
 </section>
 <section id="03-semana-02-01-problema-lifecycle" class="lesson" data-topic-id="03-semana-02-01-problema-lifecycle" data-lesson-path="03-semana-02/01-problema-lifecycle.md">
 <div class="lesson-path">03-semana-02/01-problema-lifecycle.md</div>
-<h1 id="03-semana-02-01-problema-lifecycle-semana-2-lecci-n-1-el-problema-real-no-es-cambiar-estados-es-gobernarlos">Semana 2 · Lección 1: el problema real no es cambiar estados, es gobernarlos</h1>
-<p>Un error clásico de equipos jóvenes es creer que el lifecycle es un detalle de interfaz. En realidad es un contrato operativo. Cuando el estado de un ticket se mueve sin reglas, el sistema sigue respondiendo y aun así la operación se degrada. El daño aparece después, cuando soporte, calidad y negocio intentan leer métricas que ya no significan lo mismo para todos.</p>
-<p>Eso es exactamente lo que evitamos en esta semana.</p>
-<h2 id="03-semana-02-01-problema-lifecycle-del-s-ntoma-t-cnico-al-riesgo-empresarial">Del síntoma técnico al riesgo empresarial</h2>
+<h1 id="03-semana-02-01-problema-lifecycle-semana-2-lecci-n-1-el-problema-real-no-es-cambiar-estado-es-gobernar-una-historia-de-trabajo">Semana 2 · Lección 1: el problema real no es "cambiar estado", es gobernar una historia de trabajo</h1>
+<p>Cuando una persona junior escucha "tenemos que añadir estados al ticket", suele pensar en un cambio pequeño: un <code>enum</code> nuevo y un botón más en la interfaz. Esa lectura parece razonable al principio, pero se queda corta para un entorno enterprise. En empresa, el estado de un ticket no es un adorno visual. Es una señal de negocio que activa decisiones de priorización, seguimiento, comunicación con cliente y medición de SLA.</p>
+<p>Por eso, el problema que resolvemos aquí no es técnico en primer lugar. Es operativo. Necesitamos garantizar que dos personas distintas, en dos momentos distintos, leyendo el mismo ticket, entiendan exactamente la misma realidad de trabajo. Si eso no ocurre, el sistema pierde valor aunque compile.</p>
+<p>Piensa en una analogía cotidiana. Imagina el seguimiento de un pedido de comida. Si la app marca "entregado" pero el pedido sigue en cocina, el sistema no solo se equivoca: rompe confianza. En ticketing pasa igual. Si un ticket aparece como <code>resolved</code> cuando en realidad nadie trabajó en él, la organización toma decisiones sobre datos falsos.</p>
 <pre class="mermaid">flowchart TD
-    A[Estados movidos sin reglas] --> B[Historico inconsistente]
-    B --> C[SLA distorsionado]
-    C --> D[Decisiones de negocio incorrectas]
-    D --> E[Mayor coste y menor confianza]</pre>
-<p>Este diagrama resume por qué lifecycle no se negocia “sobre la marcha”. Si el historial de estados pierde consistencia, pierdes la base para priorizar, auditar y escalar.</p>
-<h2 id="03-semana-02-01-problema-lifecycle-contrato-del-problema-en-t-rminos-accionables">Contrato del problema en términos accionables</h2>
+    A[Estado movido sin regla comun] --> B[Historial incoherente]
+    B --> C[Metrica SLA distorsionada]
+    C --> D[Priorizacion incorrecta]
+    D --> E[Mas tiempo, mas coste, menos confianza]</pre>
+<p>La clave del diagrama no es que "haya un error". La clave es la cadena de daño. Un equipo inmaduro intenta arreglar el último síntoma. Un equipo profesional corrige el primer eslabón: define una política de estado única y verificable.</p>
+<p>En este curso vamos a fijar esa política en dominio, no en UI. Este detalle es fundamental. Si la regla vive solo en una pantalla SwiftUI, cualquier otro punto de entrada podría saltársela: otra pantalla, un script de soporte, un proceso batch o una integración futura. En cambio, si la regla vive en dominio, cualquier consumidor del sistema recibe la misma semántica.</p>
+<p>Mira este contraste simplificado:</p>
+<pre><code class="language-swift">// Mal: regla enterrada en capa de interfaz.
+if currentStatus == .closed &amp;&amp; requestedStatus == .open {
+    showAlert("No permitido")
+    return
+}
+
+// Bien: la UI delega; dominio decide.
+let updated = try ticket.transition(to: requestedStatus)</code></pre>
+<p>El segundo enfoque no es "más elegante" por gusto. Es más seguro porque convierte una regla de negocio en un comportamiento compartido y testeable.</p>
+<p>Ahora vamos a dejar el problema expresado en contrato operativo, para que no se diluya cuando empecemos a codificar:</p>
 <pre><code class="language-yaml">week2_problem_contract:
-  symptom: "el estado cambia de forma heterogenea segun cliente o flujo"
-  operational_risk: "SLA y auditoria dejan de ser fiables"
-  decision_needed: "state machine unica, versionada y gobernada en dominio"
+  symptom: "el estado del ticket se mueve con criterios distintos segun flujo"
+  root_cause: "no existe state machine versionada y centralizada"
+  business_impact: "SLA y trazabilidad dejan de ser confiables"
+  design_decision: "reglas de transicion definidas en dominio y publicadas en OpenSpec"
   success_signal: "transiciones validas e invalidas detectables con evidencia"</code></pre>
-<p>La frase clave de ese contrato es “gobernada en dominio”. Si la regla vive solo en UI, cualquier otro cliente la puede saltar. Si vive en dominio, todos los clientes obedecen la misma semántica.</p>
-<h2 id="03-semana-02-01-problema-lifecycle-por-qu-hay-que-resolverlo-ahora-y-no-en-la-semana-diez">Por qué hay que resolverlo ahora y no en la semana diez</h2>
-<p>Porque cada feature nueva que toque tickets heredará estas reglas. Si las dejas ambiguas ahora, multiplicas deuda en cada módulo posterior. Arreglarlo tarde exige migraciones, correcciones de datos y discusiones de responsabilidad. Arreglarlo pronto exige foco y disciplina una sola vez.</p>
-<p>Esta es una de las decisiones más rentables del curso.</p>
-<h2 id="03-semana-02-01-problema-lifecycle-pr-ctica-de-dise-o-mental-antes-del-spec">Práctica de diseño mental antes del spec</h2>
-<p>Tu práctica aquí es escribir, con lenguaje de negocio, qué significa para tu operación cada estado del ticket. Después marca una transición que no quieres permitir nunca y justifica el motivo en términos de trazabilidad o SLA. Si tu justificación es solo técnica, falta contexto. Si incluye impacto operativo, vas bien.</p>
-<h2 id="03-semana-02-01-problema-lifecycle-verificaci-n-para-asegurar-comprensi-n-real">Verificación para asegurar comprensión real</h2>
-<p>La verificación de esta lección es responder con precisión qué daño concreto produce permitir <code>closed -> open</code> sin una política explícita. Si puedes explicarlo con impacto en auditoría y métricas, ya estás listo para formalizar el contrato en OpenSpec.</p>
+<p>Este contrato te da una brújula para toda la semana. Si en algún momento te pierdes entre detalles técnicos, vuelve aquí y pregúntate: "lo que estoy haciendo reduce el impacto descrito o solo cambia sintaxis". Esa pregunta te mantiene en camino.</p>
+<p>Hay una segunda lección importante para alguien de 14 años o junior: no todo lo que se puede hacer se debe permitir. En software profesional, limitar es parte del diseño. Prohibir <code>closed -> open</code> no es ser rígido; es proteger integridad histórica. Si el negocio necesita reabrir, se diseña explícitamente una política de reapertura con condiciones y evidencia, no un atajo silencioso.</p>
+<p>Antes de avanzar, haz este ejercicio breve en papel o en un archivo de notas. Escribe qué significa cada estado para tu operación: <code>open</code>, <code>inProgress</code>, <code>resolved</code>, <code>closed</code>. Después responde qué daño concreto aparecería si <code>closed -> open</code> se permitiera libremente. Si tu respuesta solo habla de código, te falta la mitad del problema. Si habla de soporte, métricas y auditoría, ya estás pensando como arquitecto.</p>
+<h2 id="03-semana-02-01-problema-lifecycle-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Comprueba si puedes explicar a otra persona junior por qué prohibir una transición también es una decisión de producto y no solo de ingeniería. Si solo puedes justificarlo con frases técnicas, todavía te falta conectar con el impacto empresarial.</p>
 <h2 id="03-semana-02-01-problema-lifecycle-siguiente-lecci-n">Siguiente lección</h2>
-<p>La siguiente lección es <code>03-semana-02/02-spec-lifecycle-v1.md</code>, donde convertimos este problema en una delta de especificación verificable.</p>
+<p>Pasa a <code>03-semana-02/02-spec-lifecycle-v1.md</code>. Ahí convertiremos este problema en una delta OpenSpec versionada, para que la política deje de ser una conversación y se vuelva contrato ejecutable.</p>
 </section>
 <section id="03-semana-02-02-spec-lifecycle-v1" class="lesson" data-topic-id="03-semana-02-02-spec-lifecycle-v1" data-lesson-path="03-semana-02/02-spec-lifecycle-v1.md">
 <div class="lesson-path">03-semana-02/02-spec-lifecycle-v1.md</div>
-<h1 id="03-semana-02-02-spec-lifecycle-v1-semana-2-lecci-n-2-escribir-la-delta-openspec-que-gobierna-el-lifecycle">Semana 2 · Lección 2: escribir la delta OpenSpec que gobierna el lifecycle</h1>
-<p>En la lección anterior definiste el daño operativo de no gobernar estados. Ahora vamos a traducir ese daño en contrato técnico. Esta es una fase crítica porque marca la frontera entre “opiniones del equipo” y “reglas verificables del sistema”.</p>
-<p>La regla principal de esta lección es simple y contundente. Ninguna transición de estado entra a producción si no existe antes en la delta de OpenSpec.</p>
-<h2 id="03-semana-02-02-spec-lifecycle-v1-flujo-formal-de-decisi-n-en-el-cambio-week-2">Flujo formal de decisión en el cambio Week 2</h2>
-<pre class="mermaid">flowchart TD
-    A[Problema de lifecycle] --> B[Proposal del cambio]
-    B --> C[Delta spec con requisitos]
-    C --> D[Design con decisiones]
-    D --> E[Tasks verificables]
-    E --> F[Implementacion con evidencia]</pre>
-<p>Si intentas saltarte el paso de delta spec, vuelves a un modo de trabajo frágil donde cada persona interpreta las reglas de forma distinta.</p>
-<h2 id="03-semana-02-02-spec-lifecycle-v1-comandos-base-del-cambio-en-codex-cli">Comandos base del cambio en Codex CLI</h2>
+<h1 id="03-semana-02-02-spec-lifecycle-v1-semana-2-lecci-n-2-llevar-el-problema-a-openspec-para-que-el-equipo-deje-de-discutir-opiniones">Semana 2 · Lección 2: llevar el problema a OpenSpec para que el equipo deje de discutir opiniones</h1>
+<p>En la lección anterior entendiste el daño de mover estados sin gobernanza. Ahora toca el paso que separa un equipo amateur de uno profesional: escribir ese acuerdo en una especificación viva, versionada y verificable. Si no haces esto, la regla existirá en conversaciones, y las conversaciones se olvidan, se deforman o se contradicen con el tiempo.</p>
+<p>OpenSpec es el mecanismo que usaremos para evitar ese ruido. No es burocracia. Es memoria técnica del sistema.</p>
+<pre class="mermaid">flowchart LR
+    A[Dolor operativo identificado] --> B[proposal.md]
+    B --> C[spec delta]
+    C --> D[design.md]
+    D --> E[tasks.md]
+    E --> F[implementacion + pruebas]
+    F --> G[archive con evidencia]</pre>
+<p>Si observas el flujo, hay algo importante: la implementación no arranca al principio, arranca después de tener claridad de alcance y comportamiento. Esta secuencia parece más lenta el primer día, pero ahorra semanas de retrabajo cuando aparecen cambios de requisito.</p>
+<p>En Codex CLI, la ruta de trabajo de esta semana se ejecuta así:</p>
 <pre><code class="language-text">/opsx:new week02-ticket-lifecycle
 /opsx:ff
 /opsx:apply
-/opsx:verify</code></pre>
-<p>En este repo tienes además el histórico ya archivado en <code>openspec/changes/archive/2026-02-12-week02-ticket-lifecycle/</code>, que puedes usar como referencia de calidad.</p>
-<h2 id="03-semana-02-02-spec-lifecycle-v1-qu-debe-declarar-la-delta-para-que-sea-v-lida">Qué debe declarar la delta para que sea válida</h2>
-<p>La delta debe responder qué transiciones están permitidas, qué transiciones están prohibidas y qué error observable recibe el sistema en cada caso no válido. Debe declarar también idempotencia para proteger escenarios de reintento. Sin idempotencia, un mismo evento repetido puede degradar consistencia.</p>
-<pre><code class="language-yaml">lifecycle_delta_intent:
-  allowed: "open-&gt;inProgress, inProgress-&gt;resolved, resolved-&gt;closed"
-  forbidden: "closed-&gt;open"
-  idempotent: "mismo estado no rompe ni altera invariantes"
-  not_found_policy: "ticket_not_found para ids inexistentes"</code></pre>
-<p>Ese bloque no sustituye al spec, pero te obliga a pensar con claridad de contrato antes de entrar en implementación.</p>
-<h2 id="03-semana-02-02-spec-lifecycle-v1-del-contrato-al-tipo-de-error-estable">Del contrato al tipo de error estable</h2>
+/opsx:verify
+/opsx:archive</code></pre>
+<p>Tu objetivo no es memorizar comandos, sino entender qué pregunta responde cada artefacto. <code>proposal</code> responde por qué cambiamos. <code>spec</code> responde qué comportamiento prometemos. <code>design</code> responde cómo lo implementaremos sin romper arquitectura. <code>tasks</code> responde qué pasos concretos vamos a ejecutar para cerrar el cambio con evidencia.</p>
+<p>La delta de lifecycle de Week 2 debe declarar con precisión estas reglas: transiciones permitidas, transiciones prohibidas, política de idempotencia y política de error cuando el ticket no existe. Si cualquiera de esas piezas queda ambigua, el equipo interpretará cosas distintas y perderás consistencia.</p>
+<pre><code class="language-yaml">week2_lifecycle_delta:
+  allowed_transitions: "open-&gt;inProgress, inProgress-&gt;resolved, resolved-&gt;closed"
+  forbidden_transitions: "closed-&gt;open"
+  idempotency: "pedir el mismo estado no rompe invariantes"
+  not_found_policy: "si no existe id, devolver ticket_not_found"
+  out_of_scope: "estados extra como blocked o escalated"</code></pre>
+<p>Fíjate en <code>out_of_scope</code>. Este campo es más importante de lo que parece para alguien junior. Definir lo que NO entra evita prometer más de lo que puedes entregar. Esa disciplina es clave en entornos enterprise, donde cada malentendido de alcance cuesta dinero, tiempo y confianza.</p>
+<p>Ahora aterrizamos esa intención en un tipo ejecutable de error, para que el contrato sea comprobable por tests y comprensible por capas superiores:</p>
 <pre><code class="language-swift">public enum TicketTransitionError: Error, Equatable, Sendable {
     case invalidTransition(from: TicketStatus, to: TicketStatus)
 }</code></pre>
-<p>Este tipo existe porque el contrato no puede quedarse en texto. Necesita una representación ejecutable que tests y capas superiores puedan interpretar. <code>Equatable</code> permite verificar el error exacto y <code>Sendable</code> mantiene coherencia con concurrencia segura en Swift moderno.</p>
-<h2 id="03-semana-02-02-spec-lifecycle-v1-pr-ctica-de-gobernanza-de-alcance">Práctica de gobernanza de alcance</h2>
-<p>La práctica de esta lección es proponer un estado futuro como <code>blocked</code> y redactarlo como idea de cambio posterior, no como implementación inmediata. Esa disciplina enseña algo esencial para enterprise: no mezclar evolución futura con alcance actual. Si lo mezclas, introduces deuda de planificación y falsa sensación de avance.</p>
-<h2 id="03-semana-02-02-spec-lifecycle-v1-verificaci-n-antes-de-pasar-a-bdd">Verificación antes de pasar a BDD</h2>
-<p>La verificación clave aquí es esta. Si un compañero pregunta “por qué closed no puede volver a open”, debes poder responder señalando el contrato, no una preferencia de implementación. Si no puedes hacerlo, la delta todavía no está lista.</p>
+<p>Explicación breve y directa de por qué esta firma es correcta en este contexto. <code>Error</code> permite propagar fallo con semántica de dominio. <code>Equatable</code> permite que una prueba no solo detecte "hubo error", sino "hubo exactamente este error". <code>Sendable</code> mantiene compatibilidad con concurrencia moderna y evita introducir deuda técnica en semanas futuras.</p>
+<p>En esta fase todavía no escribimos lógica de producción. Eso no es una limitación, es una protección. Si escribes código antes de cerrar spec, corres el riesgo de diseñar para una interpretación personal y no para un contrato compartido.</p>
+<p>Haz ahora una práctica esencial para entrenar criterio de alcance. Redacta una nota llamada "futuro-week2" donde propongas el estado <code>blocked</code> y expliques por qué no entra en esta iteración. Esta práctica te enseña a gestionar presión sin romper foco: capturas la idea, pero no contaminas la entrega actual.</p>
+<p>Antes de avanzar, verifica que puedes responder esta pregunta sin mirar código: "¿por qué <code>closed -> open</code> está prohibido en Week 2 y dónde queda documentado ese acuerdo?". Si respondes señalando solo una función Swift, todavía no has cerrado la capa de contrato. La respuesta correcta debe apuntar primero a OpenSpec y después a la implementación.</p>
+<h2 id="03-semana-02-02-spec-lifecycle-v1-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Tu verificación aquí es poder distinguir, sin dudar, entre "idea futura" y "alcance actual" dentro de una spec. Si todo te parece urgente y entra en la misma iteración, no estás gestionando alcance, estás acumulando deuda.</p>
 <h2 id="03-semana-02-02-spec-lifecycle-v1-siguiente-lecci-n">Siguiente lección</h2>
-<p>La siguiente lección es <code>03-semana-02/03-bdd-lifecycle.md</code>, donde convertiremos la delta en escenarios observables para todo el equipo.</p>
+<p>Continúa en <code>03-semana-02/03-bdd-lifecycle.md</code>. Ahí transformaremos la delta en escenarios BDD para que Producto, QA y Desarrollo hablen exactamente el mismo idioma sobre transiciones.</p>
 </section>
 <section id="03-semana-02-03-bdd-lifecycle" class="lesson" data-topic-id="03-semana-02-03-bdd-lifecycle" data-lesson-path="03-semana-02/03-bdd-lifecycle.md">
 <div class="lesson-path">03-semana-02/03-bdd-lifecycle.md</div>
-<h1 id="03-semana-02-03-bdd-lifecycle-semana-2-lecci-n-3-bdd-del-lifecycle-para-alinear-a-todo-el-equipo">Semana 2 · Lección 3: BDD del lifecycle para alinear a todo el equipo</h1>
-<p>El objetivo de BDD en esta semana no es “documentar bonito”. Es asegurarnos de que producto, QA y desarrollo hablan el mismo idioma cuando un estado cambia. Si ese idioma no es común, cada rol interpreta el lifecycle distinto y el sistema vuelve al caos original.</p>
-<p>La prueba de que BDD está bien escrito es muy concreta. Un QA debe poder decidir si un caso pasa o falla sin abrir código Swift.</p>
-<h2 id="03-semana-02-03-bdd-lifecycle-del-contrato-a-escenarios-observables">Del contrato a escenarios observables</h2>
+<h1 id="03-semana-02-03-bdd-lifecycle-semana-2-lecci-n-3-bdd-del-lifecycle-para-que-todos-eval-en-lo-mismo-sin-abrir-xcode">Semana 2 · Lección 3: BDD del lifecycle para que todos evalúen lo mismo sin abrir Xcode</h1>
+<p>Con OpenSpec ya definido, ahora necesitamos algo que en muchas empresas falta: un lenguaje compartido entre perfiles. Producto piensa en impacto. QA piensa en comportamiento observable. Ingeniería piensa en implementación. Si cada rol describe el lifecycle con palabras distintas, aparecerán bugs de interpretación antes incluso de escribir código.</p>
+<p>BDD existe para cerrar esa brecha. En esta semana lo usamos como contrato conversable: escenarios que cualquier persona del equipo pueda leer y usar para decidir si el sistema cumple o no.</p>
 <pre class="mermaid">sequenceDiagram
-    participant Cliente
-    participant Aplicacion
-    participant Dominio
-    participant Repositorio
-    Cliente->>Aplicacion: solicita transicion
-    Aplicacion->>Repositorio: busca ticket
-    Aplicacion->>Dominio: valida regla de cambio
-    Dominio-->>Aplicacion: ok o invalidTransition
-    Aplicacion->>Repositorio: persiste estado nuevo
-    Aplicacion-->>Cliente: ticket actualizado o error</pre>
-<p>Este diagrama ya te da el mapa mental para escribir escenarios que se puedan comprobar extremo a extremo.</p>
-<h2 id="03-semana-02-03-bdd-lifecycle-escenarios-base-de-week-2">Escenarios base de Week 2</h2>
+    participant PM as Producto
+    participant QA as QA
+    participant DEV as Ingenieria
+    participant SYS as Sistema
+
+    PM->>QA: "queremos gobernar estados"
+    QA->>DEV: "definamos comportamiento observable"
+    DEV->>SYS: implementa regla segun contrato
+    SYS-->>QA: resultado visible (pass/fail)
+    QA-->>PM: evidencia de cumplimiento</pre>
+<p>La parte crítica del diagrama es esta: QA puede validar sin leer internals. Si para decidir pass/fail necesitas abrir implementación, el escenario BDD está mal escrito.</p>
+<p>Vamos a escribir primero los escenarios canónicos de Week 2. No por cantidad, sino por cobertura semántica mínima: ruta válida, ruta prohibida, caso inexistente e idempotencia.</p>
 <pre><code class="language-gherkin">Feature: Ticket lifecycle governance
-  Scenario: Transicion valida de open a inProgress
-    Given existe un ticket en estado open
-    When se solicita pasar a inProgress
-    Then el estado final es inProgress
+  As a support operation
+  I want state transitions to be controlled by explicit policy
+  So that traceability and SLA metrics remain reliable
 
-  Scenario: Transicion invalida de closed a open
-    Given existe un ticket en estado closed
-    When se solicita pasar a open
-    Then el sistema devuelve invalid_transition
+  Scenario: Transition from open to inProgress is accepted
+    Given a ticket exists with status open
+    When a transition to inProgress is requested
+    Then the final status is inProgress
 
-  Scenario: Ticket inexistente al transicionar
-    Given no existe ticket para el id solicitado
-    When se solicita pasar a inProgress
-    Then el sistema devuelve ticket_not_found</code></pre>
-<p>Estos escenarios cubren camino válido, regla prohibida y error operativo básico. Ese trío es el mínimo enterprise para no engañarnos con happy path.</p>
-<h2 id="03-semana-02-03-bdd-lifecycle-qu-errores-destruyen-valor-en-bdd">Qué errores destruyen valor en BDD</h2>
-<p>Cuando un escenario describe internals en vez de comportamiento observable, deja de servir para comunicación entre roles. Cuando un escenario no tiene resultado verificable, no puede guiar TDD. Cuando faltan casos negativos, el contrato parece robusto pero no protege operación real.</p>
-<h2 id="03-semana-02-03-bdd-lifecycle-pr-ctica-para-preparar-tdd-con-intenci-n">Práctica para preparar TDD con intención</h2>
-<p>La práctica aquí es añadir el escenario <code>resolved -> closed</code> y redactar qué prueba debería romperse primero si esa transición aún no está implementada. La calidad de la práctica no se mide por cantidad de escenarios, sino por precisión del enlace entre escenario y prueba.</p>
-<h2 id="03-semana-02-03-bdd-lifecycle-verificaci-n-antes-de-abrir-la-primera-prueba-roja">Verificación antes de abrir la primera prueba roja</h2>
-<p>Tu verificación en esta lección es poder señalar para cada escenario qué resultado observable lo declara como pass o fail. Si en algún escenario la respuesta es “depende de cómo esté implementado”, todavía no está listo para TDD.</p>
+  Scenario: Transition from closed to open is rejected
+    Given a ticket exists with status closed
+    When a transition to open is requested
+    Then the system returns invalid_transition
+
+  Scenario: Transition request for missing ticket returns not found
+    Given there is no ticket for the requested id
+    When a transition to inProgress is requested
+    Then the system returns ticket_not_found
+
+  Scenario: Requesting current status is idempotent
+    Given a ticket exists with status resolved
+    When a transition to resolved is requested
+    Then the final status remains resolved</code></pre>
+<p>Detente en el cuarto escenario. Mucha gente lo omite porque "no cambia nada". Precisamente por eso es importante: en sistemas distribuidos, repetir solicitudes es normal. Si no defines idempotencia, una repetición legítima puede producir efectos inesperados.</p>
+<p>Ahora miremos un anti-patrón típico, para que sepas detectarlo rápido.</p>
+<pre><code class="language-gherkin"># Mal ejemplo: mezcla comportamiento con implementacion.
+Scenario: Transition uses repository update method
+  Given repository mock is configured
+  When execute() is called
+  Then update() is invoked once</code></pre>
+<p>Ese escenario no describe negocio, describe detalle técnico. Puede ser útil como prueba unitaria interna, pero no sirve como lenguaje de alineación entre roles. BDD de negocio debe hablar de estados observables y errores con significado.</p>
+<p>Una práctica que funciona muy bien para juniors es esta: después de escribir cada escenario, léelo en voz alta y pregúntate si una persona no técnica entendería qué se valida. Si la respuesta es "no", simplifica redacción. BDD no premia sofisticación literaria; premia claridad operativa.</p>
+<p>Antes de pasar a TDD, haz esta micro-validación de coherencia: toma cada escenario y apunta qué tipo de prueba debería caer primero si esa regla se rompe. Si no puedes mapear escenario a prueba, todavía hay ambigüedad.</p>
+<h2 id="03-semana-02-03-bdd-lifecycle-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Comprueba si puedes leer los escenarios de esta lección junto a una persona de producto y otra de QA sin necesidad de traducir términos técnicos internos. Si necesitas explicar detalles de implementación para que entiendan el comportamiento, el BDD aún no está en el nivel correcto.</p>
 <h2 id="03-semana-02-03-bdd-lifecycle-siguiente-lecci-n">Siguiente lección</h2>
-<p>La siguiente lección es <code>03-semana-02/04-tdd-lifecycle.md</code>, donde convertiremos estos escenarios en pruebas rojas con intención clara.</p>
+<p>Abre <code>03-semana-02/04-tdd-lifecycle.md</code>. Ahí convertiremos cada escenario en pruebas rojas concretas y construiremos la red de seguridad que protegerá Week 2 de regresiones reales.</p>
 </section>
 <section id="03-semana-02-04-tdd-lifecycle" class="lesson" data-topic-id="03-semana-02-04-tdd-lifecycle" data-lesson-path="03-semana-02/04-tdd-lifecycle.md">
 <div class="lesson-path">03-semana-02/04-tdd-lifecycle.md</div>
-<h1 id="03-semana-02-04-tdd-lifecycle-semana-2-lecci-n-4-tdd-de-transiciones-para-blindar-reglas-de-estado">Semana 2 · Lección 4: TDD de transiciones para blindar reglas de estado</h1>
-<p>Con escenarios claros, entramos en TDD. Esta lección debe dejarte una habilidad concreta: cuando alguien cambie el lifecycle por error, tú detectas la regresión en segundos porque las pruebas fallan de forma explícita.</p>
-<p>No buscamos “muchos tests”. Buscamos tests que protejan decisiones de negocio.</p>
-<h2 id="03-semana-02-04-tdd-lifecycle-secuencia-tdd-aplicada-al-lifecycle">Secuencia TDD aplicada al lifecycle</h2>
+<h1 id="03-semana-02-04-tdd-lifecycle-semana-2-lecci-n-4-tdd-de-lifecycle-para-que-una-regresi-n-se-detecte-en-segundos">Semana 2 · Lección 4: TDD de lifecycle para que una regresión se detecte en segundos</h1>
+<p>Ya tienes escenarios BDD claros. Ahora toca convertirlos en una defensa automática. TDD aquí no es un ritual académico. Es un mecanismo de protección para una regla de negocio crítica: el estado del ticket no puede moverse de forma arbitraria.</p>
+<p>Una forma simple de recordarlo es esta. BDD te dice "qué debe pasar". TDD te garantiza "que no deje de pasar" cuando el código evolucione.</p>
 <pre class="mermaid">flowchart LR
     A[Escenario BDD] --> B[Test rojo]
     B --> C[Implementacion minima]
     C --> D[Test verde]
-    D --> E[Refactor pequeno]</pre>
-<p>La secuencia importa más que la cantidad. Si escribes producción antes del rojo, pierdes la guía.</p>
-<h2 id="03-semana-02-04-tdd-lifecycle-prueba-cr-tica-de-dominio">Prueba crítica de dominio</h2>
+    D --> E[Refactor corto]
+    E --> F[Suite completa]</pre>
+<p>El punto más importante del ciclo es el primero. Empezar en rojo obliga a demostrar que la prueba realmente detecta el comportamiento que te importa. Si escribes producción antes del rojo, puedes caer en falsos verdes y creer que estás protegido cuando no lo estás.</p>
+<p>Vamos a tomar el escenario más delicado: <code>closed -> open</code> prohibido. Este es el tipo de regla que suele romperse con refactors apresurados.</p>
 <pre><code class="language-swift">@Test
 func ticketTransitionRejectsClosedToOpen() {
     let ticket = Ticket(
         id: TicketID(rawValue: "T-91"),
         subject: "Ticket cerrado",
-        description: "Ticket de prueba para invalid transition",
+        description: "No debe reabrirse sin politica explicita",
         category: "account",
         priority: .low,
         status: .closed,
@@ -2302,41 +2339,52 @@ func ticketTransitionRejectsClosedToOpen() {
         try ticket.transition(to: .open)
     }
 }</code></pre>
-<p>Esta prueba existe para proteger una prohibición de negocio, no una preferencia técnica. Si mañana alguien permite reabrir <code>closed -> open</code> sin acuerdo de contrato, esta prueba debe gritar.</p>
-<h2 id="03-semana-02-04-tdd-lifecycle-prueba-cr-tica-de-aplicaci-n">Prueba crítica de aplicación</h2>
+<p>Leamos esta prueba como docentes, no como copiadores de sintaxis. Primero, creas un ticket en el estado exacto que dispara la regla prohibida. Segundo, pides explícitamente la transición no permitida. Tercero, no aceptas "cualquier error"; exiges el error de dominio exacto. Esta precisión es lo que convierte la prueba en contrato ejecutable.</p>
+<p>Ahora pasamos al escenario de ticket inexistente, que vive en capa de aplicación:</p>
 <pre><code class="language-swift">@Test
 func transitionUseCaseFailsWhenTicketDoesNotExist() async {
-    let repo = TicketRepositorySpy()
-    let sut = TransitionTicketStatusUseCase(repository: repo)
-    let unknown = TicketID(rawValue: "T-missing")
+    let repository = TicketRepositorySpy()
+    let sut = TransitionTicketStatusUseCase(repository: repository)
+    let missingID = TicketID(rawValue: "T-missing")
 
-    await #expect(throws: RepositoryError.ticketNotFound(unknown)) {
-        try await sut.execute(ticketID: unknown, to: .inProgress)
+    await #expect(throws: RepositoryError.ticketNotFound(missingID)) {
+        try await sut.execute(ticketID: missingID, to: .inProgress)
     }
 }</code></pre>
-<p>Esta prueba protege comportamiento operativo. No siempre hay ticket válido. El sistema debe devolver un error con significado en lugar de un fallo genérico.</p>
-<h2 id="03-semana-02-04-tdd-lifecycle-ejecuci-n-para-convertir-teor-a-en-evidencia">Ejecución para convertir teoría en evidencia</h2>
+<p>Esta prueba protege una expectativa operativa clave. Cuando no existe el ticket, el sistema debe responder con error semántico claro. Si devolvieras un fallo genérico, soporte y observabilidad perderían contexto justo en el punto donde más lo necesitas.</p>
+<p>También necesitamos blindar idempotencia, porque en sistemas reales hay reintentos:</p>
+<pre><code class="language-swift">@Test
+func ticketTransitionIsIdempotentWhenStatusIsTheSame() throws {
+    let ticket = Ticket.sample(status: .resolved)
+
+    let result = try ticket.transition(to: .resolved)
+
+    #expect(result.status == .resolved)
+    #expect(result.id == ticket.id)
+}</code></pre>
+<p>Esta prueba parece pequeña, pero ahorra incidentes incómodos. Si mañana alguien cambia lógica interna y rompe idempotencia, lo sabrás antes de desplegar.</p>
+<p>Cuando tengas las pruebas rojas, ejecuta el ciclo completo:</p>
 <pre><code class="language-bash">swift test --package-path project/HelpdeskSDD</code></pre>
-<p>Cuando lo ejecutes, revisa que las pruebas del lifecycle fallen por la razón esperada cuando rompes una regla. Ese detalle separa un test útil de un test decorativo.</p>
-<h2 id="03-semana-02-04-tdd-lifecycle-pr-ctica-de-robustez-real">Práctica de robustez real</h2>
-<p>La práctica de esta lección es romper temporalmente la regla <code>closed -> open</code>, ejecutar la suite, observar el fallo, corregir y volver a verde. Esta práctica entrena confianza en evidencia y elimina dependencia de intuición.</p>
-<h2 id="03-semana-02-04-tdd-lifecycle-verificaci-n-de-comprensi-n-antes-de-producci-n">Verificación de comprensión antes de producción</h2>
-<p>La verificación aquí es poder responder qué test exacto protege cada regla crítica de lifecycle. Si no puedes mapear regla a test, todavía no tienes red de seguridad completa.</p>
+<p>Durante la práctica, provoca una rotura controlada. Permite temporalmente <code>closed -> open</code>, ejecuta la suite, observa qué test cae primero y restaura comportamiento. Este ejercicio te enseña algo más profundo que "pasar tests": te enseña a confiar en una red de seguridad verificable.</p>
+<p>Si alguna prueba falla por razón distinta a la esperada, no lo ignores. En docencia seria, ese desajuste es una pista de diseño débil o de escenario mal acoplado. Corrige el test o el contrato antes de seguir.</p>
+<h2 id="03-semana-02-04-tdd-lifecycle-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Antes de avanzar, responde qué diferencia hay entre una prueba que detecta “algún error” y una prueba que detecta “el error de dominio exacto”. Si no puedes justificar por qué esa precisión importa en operación real, relee esta lección.</p>
 <h2 id="03-semana-02-04-tdd-lifecycle-siguiente-lecci-n">Siguiente lección</h2>
-<p>La siguiente lección es <code>03-semana-02/05-codigo-lifecycle.md</code>, donde implementamos producción mínima sin romper los contratos que acabamos de blindar.</p>
+<p>Continúa en <code>03-semana-02/05-codigo-lifecycle.md</code>. Ahí implementaremos producción mínima correcta, respetando la separación de responsabilidades que acabas de proteger con TDD.</p>
 </section>
 <section id="03-semana-02-05-codigo-lifecycle" class="lesson" data-topic-id="03-semana-02-05-codigo-lifecycle" data-lesson-path="03-semana-02/05-codigo-lifecycle.md">
 <div class="lesson-path">03-semana-02/05-codigo-lifecycle.md</div>
-<h1 id="03-semana-02-05-codigo-lifecycle-semana-2-lecci-n-5-producci-n-del-lifecycle-con-responsabilidades-limpias">Semana 2 · Lección 5: producción del lifecycle con responsabilidades limpias</h1>
-<p>Ya tenemos la red de seguridad de TDD. Ahora toca implementar lo mínimo para cumplir contrato sin mezclar responsabilidades. La regla didáctica de esta lección es que la política de transición vive en dominio y la orquestación vive en aplicación. Si inviertes ese orden, el sistema funciona hoy pero se vuelve difícil de mantener mañana.</p>
-<h2 id="03-semana-02-05-codigo-lifecycle-mapa-de-ejecuci-n-en-producci-n">Mapa de ejecución en producción</h2>
+<h1 id="03-semana-02-05-codigo-lifecycle-semana-2-lecci-n-5-c-digo-de-producci-n-del-lifecycle-con-arquitectura-limpia">Semana 2 · Lección 5: código de producción del lifecycle con arquitectura limpia</h1>
+<p>Con BDD y TDD cerrados, llega el momento de producción. Aquí aparece una tentación muy frecuente: "como ya sé lo que hay que hacer, lo meto rápido en el use case y listo". Ese atajo funciona dos días y luego cuesta caro. En esta lección vamos a hacer lo contrario: implementar lo mínimo correcto, en el lugar correcto, para que Week 2 sea mantenible cuando el sistema crezca.</p>
+<p>La regla de diseño es simple y no negociable: la política de transición vive en dominio; la coordinación del flujo vive en aplicación. Si mezclas ambas, la app se vuelve frágil y difícil de evolucionar.</p>
 <pre class="mermaid">flowchart TD
-    A[TransitionTicketStatusUseCase] --> B[Repository.find]
-    B --> C[Ticket.transition en dominio]
-    C --> D[Repository.update]
-    D --> E[Ticket actualizado o error]</pre>
-<p>Este flujo deja claro qué capa decide reglas y qué capa coordina pasos.</p>
-<h2 id="03-semana-02-05-codigo-lifecycle-implementaci-n-de-transici-n-en-dominio">Implementación de transición en dominio</h2>
+    A[UI o caller] --> B[TransitionTicketStatusUseCase]
+    B --> C[TicketRepository.find]
+    C --> D[Ticket.transition en dominio]
+    D --> E[TicketRepository.update]
+    E --> F[Resultado o error semantico]</pre>
+<p>El diagrama te muestra un recorrido limpio de responsabilidades. El use case no decide reglas de negocio profundas. El dominio no conoce infraestructura. El repositorio no inventa políticas. Cada capa hace exactamente su trabajo.</p>
+<p>Primero, la pieza de dominio que gobierna transiciones:</p>
 <pre><code class="language-swift">public func transition(to newStatus: TicketStatus) throws -&gt; Ticket {
     if status == newStatus {
         return self
@@ -2363,8 +2411,8 @@ func transitionUseCaseFailsWhenTicketDoesNotExist() async {
         createdAt: createdAt
     )
 }</code></pre>
-<p>Aquí ves dos decisiones clave. La primera es idempotencia cuando el estado no cambia. La segunda es política explícita de transiciones permitidas. Ambas decisiones vienen del contrato, no de una preferencia local.</p>
-<h2 id="03-semana-02-05-codigo-lifecycle-implementaci-n-de-orquestaci-n-en-aplicaci-n">Implementación de orquestación en aplicación</h2>
+<p>Lo importante aquí no es memorizar el diccionario de transiciones. Lo importante es el comportamiento emergente. Si pides el mismo estado, devuelves el propio ticket y mantienes idempotencia. Si pides una transición no permitida, lanzas un error de dominio explícito. Si la transición es válida, generas una nueva versión coherente del ticket.</p>
+<p>Ahora la pieza de aplicación que orquesta el flujo de extremo a extremo:</p>
 <pre><code class="language-swift">public func execute(ticketID: TicketID, to status: TicketStatus) async throws -&gt; Ticket {
     guard let current = try await repository.find(by: ticketID) else {
         throw RepositoryError.ticketNotFound(ticketID)
@@ -2374,141 +2422,142 @@ func transitionUseCaseFailsWhenTicketDoesNotExist() async {
     try await repository.update(transitioned)
     return transitioned
 }</code></pre>
-<p>Este caso de uso no redefine reglas. Solo coordina recuperación, transición y persistencia. Esa separación permite cambiar infraestructura sin tocar política de dominio.</p>
-<h2 id="03-semana-02-05-codigo-lifecycle-verificaci-n-ejecutable-de-esta-fase">Verificación ejecutable de esta fase</h2>
+<p>Esta función parece corta, y eso es buena señal. Está haciendo tres cosas con sentido profesional. Recupera estado actual de forma explícita. Delega decisión de política al dominio. Persiste resultado solo si la transición fue válida. No hay lógica oculta de interfaz ni decisiones ad hoc de infraestructura.</p>
+<p>Ahora ejecuta evidencia:</p>
 <pre><code class="language-bash">swift test --package-path project/HelpdeskSDD
 swift run --package-path project/HelpdeskSDD HelpdeskDemo</code></pre>
-<p>Si demo y tests dicen cosas distintas, manda el contrato y la suite. La demo es evidencia de uso, no fuente de verdad de reglas.</p>
-<h2 id="03-semana-02-05-codigo-lifecycle-pr-ctica-orientada-a-dise-o">Práctica orientada a diseño</h2>
-<p>La práctica de esta lección es cambiar temporalmente la política para permitir una transición prohibida y observar cómo reaccionan tests y comportamiento. Después revierte el cambio y documenta por qué esa permisividad es peligrosa en términos de trazabilidad.</p>
-<h2 id="03-semana-02-05-codigo-lifecycle-verificaci-n-antes-del-refactor-de-semana">Verificación antes del refactor de semana</h2>
-<p>Tu verificación aquí es poder explicar por qué <code>TransitionTicketStatusUseCase</code> no debe contener un <code>switch</code> completo de reglas de estado. Si no puedes argumentarlo con separación de responsabilidades, todavía no está consolidada la arquitectura.</p>
+<p>Cuando veas la demo, no te quedes en "funciona". Recorre mentalmente la cadena completa: escenario BDD, test que lo protege, código que lo implementa. Si ese recorrido se rompe en algún punto, todavía no has cerrado producción.</p>
+<p>Una práctica de aprendizaje muy potente para esta lección es introducir una mutación controlada. Cambia temporalmente la política para permitir <code>closed -> open</code>, ejecuta tests y observa la caída. Después revierte. Esta práctica entrena criterio de arquitectura porque demuestra que las reglas viven donde deben y que la red de pruebas las protege.</p>
+<p>Finalmente, revisa una decisión clave: por qué el use case no lleva un gran <code>switch</code> de reglas de estado. La respuesta correcta es diseño sostenible. Si duplicas la política en aplicación, tarde o temprano tendrás inconsistencias entre capas. Mantener una fuente de verdad única en dominio reduce acoplamiento y evita divergencia funcional.</p>
+<h2 id="03-semana-02-05-codigo-lifecycle-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Comprueba si puedes describir, de memoria y con orden, qué parte del flujo decide reglas y qué parte del flujo solo coordina pasos. Si confundes ambas responsabilidades, no pases a refactor todavía.</p>
 <h2 id="03-semana-02-05-codigo-lifecycle-siguiente-lecci-n">Siguiente lección</h2>
-<p>La siguiente lección es <code>03-semana-02/06-refactor-trazabilidad.md</code>, donde cerraremos esta iteración con limpieza segura y rastro verificable.</p>
+<p>Sigue con <code>03-semana-02/06-refactor-trazabilidad.md</code>, donde consolidaremos Week 2 con refactor seguro y evidencia trazable para revisión enterprise.</p>
 </section>
 <section id="03-semana-02-06-refactor-trazabilidad" class="lesson" data-topic-id="03-semana-02-06-refactor-trazabilidad" data-lesson-path="03-semana-02/06-refactor-trazabilidad.md">
 <div class="lesson-path">03-semana-02/06-refactor-trazabilidad.md</div>
-<h1 id="03-semana-02-06-refactor-trazabilidad-semana-2-lecci-n-6-refactor-y-trazabilidad-para-que-el-cambio-sea-mantenible">Semana 2 · Lección 6: refactor y trazabilidad para que el cambio sea mantenible</h1>
-<p>El código ya cumple la regla de lifecycle, pero aún falta una parte esencial de trabajo profesional: dejar el cambio comprensible para una persona que no estuvo en esta semana. Ese objetivo se consigue con refactor corto y trazabilidad explícita.</p>
-<p>Refactor aquí no significa rediseñar todo. Significa mejorar claridad sin mover comportamiento observable.</p>
-<h2 id="03-semana-02-06-refactor-trazabilidad-ciclo-de-refactor-con-control-de-regresi-n">Ciclo de refactor con control de regresión</h2>
+<h1 id="03-semana-02-06-refactor-trazabilidad-semana-2-lecci-n-6-refactor-con-trazabilidad-para-que-el-cambio-no-dependa-de-tu-memoria">Semana 2 · Lección 6: refactor con trazabilidad para que el cambio no dependa de tu memoria</h1>
+<p>Cuando una semana llega a verde, muchas personas paran ahí. Ese es un error común en equipos que todavía no trabajan a escala. En un entorno enterprise, verde no significa "terminado". Verde significa "listo para refinar sin miedo". Y ahí entra esta lección: refactorizar para claridad, sin alterar comportamiento, dejando rastro auditable de cada decisión.</p>
+<p>Refactor no es reescribir por ansiedad. Refactor es mejorar estructura interna para que el siguiente cambio cueste menos y tenga menos riesgo.</p>
 <pre class="mermaid">flowchart LR
-    A[Contrato y suite en verde] --> B[Ajuste interno pequeno]
+    A[Suite en verde] --> B[Refactor pequeno y enfocado]
     B --> C[Suite completa]
-    C --> D[Comparacion con contrato]
+    C --> D[Comparar con contrato]
     D --> E[Conservar o revertir]</pre>
-<p>Este ciclo te protege contra una trampa habitual: mejorar legibilidad a costa de romper reglas invisibles.</p>
-<h2 id="03-semana-02-06-refactor-trazabilidad-matriz-m-nima-que-conecta-contrato-y-c-digo">Matriz mínima que conecta contrato y código</h2>
+<p>Este ciclo te obliga a mantener una disciplina valiosa: no tocar diez cosas a la vez. Cambios pequeños, validación completa, decisión explícita. Ese patrón reduce ruido y acelera revisiones.</p>
+<p>En Week 2, el refactor recomendado suele caer en tres focos. Primero, nombres de funciones que expliquen intención de negocio en lugar de detalle técnico. Segundo, extracción de utilidades para evitar duplicación de mapeo o validación. Tercero, orden de responsabilidades para que sea obvio qué vive en dominio y qué vive en aplicación.</p>
+<p>El objetivo no es "que quede bonito". El objetivo es que una persona que se incorpora mañana pueda responder en minutos dónde se decide una transición y dónde se propaga un error.</p>
+<p>Para garantizar esa legibilidad profesional, construimos una matriz de trazabilidad mínima. No es un formulario administrativo. Es una guía para conectar contrato, comportamiento, prueba y código.</p>
 <pre><code class="language-yaml">traceability_week2:
   lifecycle_open_to_in_progress:
-    spec: "Requirement de transicion valida en OpenSpec"
-    bdd: "Scenario open -&gt; inProgress"
+    spec: "openspec/specs/ticketing/spec.md"
+    bdd: "project/HelpdeskSDD/BDD/week02-ticket-lifecycle.feature"
     tdd: "ticketTransitionAllowsOpenToInProgress"
     production: "Ticket.transition(to:)"
   lifecycle_closed_to_open_forbidden:
-    spec: "Regla prohibida en OpenSpec"
-    bdd: "Scenario closed -&gt; open invalido"
+    spec: "openspec/specs/ticketing/spec.md"
+    bdd: "project/HelpdeskSDD/BDD/week02-ticket-lifecycle.feature"
     tdd: "ticketTransitionRejectsClosedToOpen"
     production: "TicketTransitionError.invalidTransition"
   lifecycle_ticket_not_found:
-    spec: "Politica para id inexistente"
-    bdd: "Scenario ticket inexistente"
+    spec: "openspec/specs/ticketing/spec.md"
+    bdd: "project/HelpdeskSDD/BDD/week02-ticket-lifecycle.feature"
     tdd: "transitionUseCaseFailsWhenTicketDoesNotExist"
     production: "TransitionTicketStatusUseCase.execute"</code></pre>
-<p>Esta matriz parece simple, pero resuelve una pregunta crítica de revisión: dónde se cumple exactamente cada regla.</p>
-<h2 id="03-semana-02-06-refactor-trazabilidad-pr-ctica-de-consolidaci-n">Práctica de consolidación</h2>
-<p>La práctica de esta lección es añadir en tu matriz la regla de idempotencia y enlazarla con su test y su punto de producción. Si no encuentras uno de los tres, has detectado una deuda real y debes resolverla antes de declarar cierre.</p>
-<h2 id="03-semana-02-06-refactor-trazabilidad-verificaci-n-de-comprensi-n-para-el-checkpoint">Verificación de comprensión para el checkpoint</h2>
-<p>La verificación clave aquí es responder esto con precisión: si mañana aparece un bug de transiciones inválidas, cómo recorres desde el síntoma en producción hasta el requirement original. Si puedes hacerlo en minutos usando la matriz, estás trabajando a nivel enterprise.</p>
+<p>Si esta matriz te parece "extra", piensa en el momento real de soporte: producción falla, alguien pregunta qué regla se rompió y por qué. Sin trazabilidad, tardas horas en reconstruir contexto. Con trazabilidad, localizas origen en minutos.</p>
+<p>La práctica de esta lección es completar manualmente la fila de idempotencia y validar que tiene spec, escenario, test y punto de producción. Si falta cualquiera de las cuatro piezas, no cierres la lección: acabas de descubrir una deuda real.</p>
+<p>Después ejecuta la batería completa para confirmar que el refactor no cambió comportamiento:</p>
+<pre><code class="language-bash">swift test --package-path project/HelpdeskSDD
+python3 scripts/validate-course-structure.py
+python3 scripts/check-links.py
+python3 scripts/validate-pedagogy.py</code></pre>
+<p>Si todo queda en verde, puedes pasar al checkpoint. Si algo falla, no lo tapes con un commit rápido. Documenta el fallo, corrígelo y deja rastro de la decisión. Esa diferencia es exactamente la que convierte actividad en ingeniería.</p>
+<h2 id="03-semana-02-06-refactor-trazabilidad-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Valida que puedes reconstruir en menos de cinco minutos la cadena completa de una regla: spec, escenario, test y punto de producción. Si te pierdes en ese recorrido, todavía falta trazabilidad real.</p>
 <h2 id="03-semana-02-06-refactor-trazabilidad-siguiente-lecci-n">Siguiente lección</h2>
-<p>La siguiente lección es <code>03-semana-02/07-checkpoint-evaluacion.md</code>, donde decidimos cierre de semana con criterios objetivos.</p>
+<p>Continúa con <code>03-semana-02/07-checkpoint-evaluacion.md</code>, donde tomaremos la decisión de cierre de Week 2 con criterios objetivos y reproducibles.</p>
 </section>
 <section id="03-semana-02-07-checkpoint-evaluacion" class="lesson" data-topic-id="03-semana-02-07-checkpoint-evaluacion" data-lesson-path="03-semana-02/07-checkpoint-evaluacion.md">
 <div class="lesson-path">03-semana-02/07-checkpoint-evaluacion.md</div>
-<h1 id="03-semana-02-07-checkpoint-evaluacion-semana-2-lecci-n-7-checkpoint-de-cierre-con-est-ndar-enterprise">Semana 2 · Lección 7: checkpoint de cierre con estándar enterprise</h1>
-<p>Llegamos al punto donde más equipos se autoengañan. Ven tests en verde y dan la semana por cerrada. En un entorno profesional eso no basta. El cierre de semana exige coherencia entre contrato, comportamiento, código, evidencia y trazabilidad.</p>
-<p>Esta lección existe para que aprendas a decidir cierre con criterio, no con entusiasmo.</p>
-<h2 id="03-semana-02-07-checkpoint-evaluacion-ruta-de-verificaci-n-de-salida">Ruta de verificación de salida</h2>
+<h1 id="03-semana-02-07-checkpoint-evaluacion-semana-2-lecci-n-7-checkpoint-de-cierre-para-decidir-con-criterio-no-con-sensaci-n">Semana 2 · Lección 7: checkpoint de cierre para decidir con criterio, no con sensación</h1>
+<p>Llegamos al punto donde un equipo demuestra su madurez real. Mucha gente ve tests en verde, ejecuta la demo una vez y decide "cerrado". En un curso orientado a estándar enterprise, eso no alcanza. Cerrar una semana significa demostrar coherencia entre contrato, escenarios, pruebas, producción, refactor y evidencia operativa.</p>
+<p>Este checkpoint existe para entrenar una habilidad clave de seniority: saber decir "todavía no" cuando falta una pieza crítica, aunque el resultado visual parezca correcto.</p>
 <pre class="mermaid">flowchart TD
-    A[OpenSpec actualizado] --> B[BDD alineado]
-    B --> C[TDD verde]
+    A[OpenSpec vigente] --> B[BDD alineado]
+    B --> C[TDD en verde]
     C --> D[Produccion estable]
-    D --> E[Trazabilidad completa]
-    E --> F[Semana cerrada]</pre>
-<p>Si una pieza falla, no hay cierre. Hay trabajo pendiente con nombre y contexto.</p>
-<h2 id="03-semana-02-07-checkpoint-evaluacion-r-brica-operativa-de-week-2">Rúbrica operativa de Week 2</h2>
-<pre><code class="language-yaml">week2_rubric:
-  contract_quality:
+    D --> E[Refactor sin regresion]
+    E --> F[Bitacora auditable]
+    F --> G[Cierre Week 2]</pre>
+<p>Este flujo no es opcional ni secuencial por capricho. Si falla cualquier bloque, el cierre queda bloqueado. La ventaja de trabajar así es que eliminas discusiones subjetivas del tipo "a mí me parece que está bien".</p>
+<p>Para evaluar el estado de Week 2 de forma honesta, usa esta rúbrica como lenguaje de decisión:</p>
+<pre><code class="language-yaml">week2_checkpoint_rubric:
+  contract_integrity:
     level_1: "reglas ambiguas o incompletas"
     level_2: "reglas claras pero sin limites de alcance"
     level_3: "reglas claras con escenarios observables"
-    level_4: "reglas claras, versionadas y con deuda explicita"
+    level_4: "reglas claras, versionadas y archivadas con evidencia"
   behavior_coverage:
     level_1: "solo happy path"
-    level_2: "cobertura parcial de negativos"
-    level_3: "cobertura de validos, invalidos y no encontrado"
-    level_4: "cobertura completa con idempotencia y casos borde"
+    level_2: "falta algun negativo critico"
+    level_3: "validos, invalidos y not_found cubiertos"
+    level_4: "incluye idempotencia y casos borde con intencion"
   technical_confidence:
     level_1: "suite inestable"
     level_2: "suite verde pero fragil"
-    level_3: "suite verde y reproducible"
-    level_4: "suite verde con evidencia de no regresion"
+    level_3: "suite verde, reproducible y explicable"
+    level_4: "suite verde con mutacion controlada documentada"
   auditability:
     level_1: "sin rastro de decisiones"
     level_2: "rastro parcial"
     level_3: "rastro suficiente para reconstruir el cambio"
     level_4: "rastro audit-ready de extremo a extremo"</code></pre>
-<p>La utilidad de la rúbrica no es puntuarte por deporte. Es detectar dónde está el próximo riesgo real.</p>
-<h2 id="03-semana-02-07-checkpoint-evaluacion-comandos-de-cierre">Comandos de cierre</h2>
+<p>La rúbrica no está para decorarte con puntuaciones. Está para revelar el siguiente riesgo real. Si te pones un nivel alto sin evidencia, te estás engañando. Si te pones un nivel bajo pero justificas bien la brecha, estás trabajando profesionalmente.</p>
+<p>Ahora ejecuta el cierre técnico completo:</p>
 <pre><code class="language-bash">swift test --package-path project/HelpdeskSDD
 swift run --package-path project/HelpdeskSDD HelpdeskDemo
 python3 scripts/validate-course-structure.py
 python3 scripts/check-links.py
 python3 scripts/validate-pedagogy.py
 python3 scripts/build-html.py</code></pre>
-<p>Cuando estos comandos pasan, tienes evidencia técnica. Cuando además la rúbrica está razonada, tienes evidencia profesional.</p>
-<h2 id="03-semana-02-07-checkpoint-evaluacion-pr-ctica-final-de-checkpoint">Práctica final de checkpoint</h2>
-<p>Tu práctica aquí es completar la rúbrica con honestidad y redactar dos mejoras concretas para Semana 3 orientadas a arquitectura visible y wiring. El valor de la práctica está en la claridad de las mejoras, no en la puntuación.</p>
-<h2 id="03-semana-02-07-checkpoint-evaluacion-verificaci-n-antes-de-abrir-la-bit-cora">Verificación antes de abrir la bitácora</h2>
-<p>La verificación de esta lección es que puedas explicar por qué una semana con tests verdes podría seguir sin estar cerrada. Si no puedes argumentarlo con contrato y trazabilidad, todavía no estás cerrando a nivel enterprise.</p>
+<p>Si todos los comandos pasan pero tu trazabilidad no permite reconstruir la decisión de lifecycle, la semana aún no está cerrada. Esta frase es importante para cualquier junior: "pasar tests" es condición necesaria, pero no suficiente para declarar cierre enterprise.</p>
+<p>Haz ahora una práctica final de criterio. Escribe un párrafo corto respondiendo qué fue lo más débil de Week 2 y cómo lo reforzarás en Week 3 sin romper foco. El objetivo no es autocastigo. El objetivo es crear una continuidad consciente de mejora.</p>
+<p>La verificación de comprensión de esta lección es poder explicar por qué un ticket puede verse "funcional" y aun así no estar listo para producción. Si tu respuesta incluye contrato, cobertura y auditabilidad, ya estás pensando a nivel profesional.</p>
 <h2 id="03-semana-02-07-checkpoint-evaluacion-siguiente-lecci-n">Siguiente lección</h2>
-<p>La siguiente lección es <code>03-semana-02/08-bitacora-commits.md</code>, donde convertimos este cierre en historial auditable.</p>
+<p>Pasa a <code>03-semana-02/08-bitacora-commits.md</code> para cerrar Week 2 dejando un historial de commits que cualquier persona pueda auditar sin contexto oral.</p>
 </section>
 <section id="03-semana-02-08-bitacora-commits" class="lesson" data-topic-id="03-semana-02-08-bitacora-commits" data-lesson-path="03-semana-02/08-bitacora-commits.md">
 <div class="lesson-path">03-semana-02/08-bitacora-commits.md</div>
-<h1 id="03-semana-02-08-bitacora-commits-semana-2-lecci-n-8-bit-cora-de-cierre-para-que-el-repositorio-cuente-la-historia">Semana 2 · Lección 8: bitácora de cierre para que el repositorio cuente la historia</h1>
-<p>El cierre técnico de Week 2 queda incompleto si no existe una bitácora que permita reconstruir decisiones y validaciones. Esta lección te entrena para dejar un repositorio que se explique solo, sin depender de quién estuvo presente en la implementación.</p>
-<p>La idea central es simple. Cada decisión relevante debe dejar rastro en tres capas: cambio en archivos, commit con intención, y comandos de evidencia.</p>
-<h2 id="03-semana-02-08-bitacora-commits-flujo-de-evidencia-que-usamos-en-el-curso">Flujo de evidencia que usamos en el curso</h2>
+<h1 id="03-semana-02-08-bitacora-commits-semana-2-lecci-n-8-bit-cora-de-commits-para-que-el-repositorio-explique-el-cambio-sin-reuniones-extra">Semana 2 · Lección 8: bitácora de commits para que el repositorio explique el cambio sin reuniones extra</h1>
+<p>Hemos llegado al cierre de Week 2. Ya tienes contrato, escenarios, pruebas, código y refactor. Falta una última pieza que en equipos profesionales marca la diferencia entre "actividad" y "ingeniería": dejar un historial de commits que cuente la historia completa del cambio con evidencia verificable.</p>
+<p>Un commit no es solo una foto de archivos. Es una unidad de intención técnica. Si mezclas cambios no relacionados, rompes trazabilidad. Si el mensaje no explica por qué se hizo el cambio y cómo se validó, pierdes capacidad de auditoría.</p>
 <pre class="mermaid">flowchart LR
-    A[Decision de cambio] --> B[Implementacion]
+    A[Decision tecnica] --> B[Cambio acotado]
     B --> C[Validacion ejecutada]
     C --> D[Commit atomico]
-    D --> E[Bitacora auditable]</pre>
-<p>Si falta una de estas capas, el historial queda incompleto y la revisión futura se vuelve costosa.</p>
-<h2 id="03-semana-02-08-bitacora-commits-plantilla-operativa-de-bit-cora-week-2">Plantilla operativa de bitácora Week 2</h2>
-<pre><code class="language-yaml">week2_log_template:
-  change_name: "week02-ticket-lifecycle"
-  commands_executed: "tests, demo y validadores del curso"
-  evidence_summary: "reglas de transition en verde con trazabilidad"
-  commit_message: "feat(week2): lifecycle governance with bdd and tdd evidence"
-  worktree_status: "clean"</code></pre>
-<p>La utilidad de esta plantilla es forzarte a registrar hechos, no impresiones.</p>
-<h2 id="03-semana-02-08-bitacora-commits-bloque-de-comandos-para-cierre-reproducible">Bloque de comandos para cierre reproducible</h2>
+    D --> E[Historial auditable]</pre>
+<p>En Week 2, una secuencia de commits limpia suele seguir esta narrativa. Primero, commit de contrato y escenarios. Segundo, commit de TDD y producción mínima. Tercero, commit de refactor y trazabilidad. Esta separación no es estética: reduce riesgo en revisiones y facilita revertir de forma quirúrgica si algo falla.</p>
+<p>Aquí tienes un ejemplo de cierre reproducible:</p>
 <pre><code class="language-bash">git status --short
 swift test --package-path project/HelpdeskSDD
 swift run --package-path project/HelpdeskSDD HelpdeskDemo
 python3 scripts/validate-course-structure.py
 python3 scripts/check-links.py
 python3 scripts/validate-pedagogy.py
-python3 scripts/build-html.py</code></pre>
-<p>Este bloque no sustituye análisis, pero garantiza que tu cierre se pueda repetir en otra máquina.</p>
-<h2 id="03-semana-02-08-bitacora-commits-pr-ctica-de-cierre-profesional">Práctica de cierre profesional</h2>
-<p>La práctica de esta lección consiste en rellenar la plantilla con resultados reales de tu semana, añadir el hash del commit de cierre y describir en una frase por qué ese commit es atómico. Si no puedes justificar atomicidad, divide el cambio antes de cerrar.</p>
-<h2 id="03-semana-02-08-bitacora-commits-verificaci-n-de-comprensi-n-final-de-week-2">Verificación de comprensión final de Week 2</h2>
-<p>La verificación aquí es responder qué diferencia existe entre “tengo actividad” y “tengo evidencia auditable”. Si tu respuesta incluye comando, resultado y rastro de commit, estás en el nivel correcto para avanzar.</p>
+python3 scripts/build-html.py
+git add openspec project/HelpdeskSDD/BDD project/HelpdeskSDD/Sources project/HelpdeskSDD/Tests 03-semana-02
+git commit -m "feat(week2): govern ticket lifecycle with spec, bdd, tdd and traceability"</code></pre>
+<p>No copies este bloque de forma ciega. Úsalo como referencia y adáptalo al contenido real de tus cambios. Si metes archivos no relacionados solo para "aprovechar", conviertes un commit atómico en una caja negra.</p>
+<p>También conviene dejar un resumen técnico corto en el propio mensaje de commit o en una nota adjunta. Debe responder tres preguntas. Qué capacidad se añadió o cambió. Qué validaciones se ejecutaron. Qué riesgo principal quedó mitigado.</p>
+<pre><code class="language-yaml">week2_commit_note_example:
+  capability: "lifecycle governado con transiciones validas e invalidas"
+  validations: "swift test, demo y validadores del curso en verde"
+  risk_reduced: "estado inconsistente y perdida de trazabilidad operativa"</code></pre>
+<p>La práctica final de esta semana es escribir tu bitácora de cierre con datos reales: hash de commit, comandos ejecutados y una justificación explícita de por qué el commit es atómico. Si no puedes justificar atomicidad, divide el cambio y vuelve a commitear mejor.</p>
+<p>El criterio de comprensión para cerrar Week 2 es este: debes poder explicar la diferencia entre "hice cosas" y "dejé evidencia auditable". La primera frase habla de esfuerzo. La segunda habla de calidad profesional.</p>
+<p>Cuando cierres esta lección, no solo habrás añadido lifecycle a <code>HelpdeskSDD</code>. Habrás aprendido a cerrar una iteración de producto de manera defendible ante un equipo internacional.</p>
 <h2 id="03-semana-02-08-bitacora-commits-siguiente-semana">Siguiente semana</h2>
-<p>La siguiente semana empieza en <code>04-semana-03/00-semana-03-roadmap.md</code> con la primera capa visible iOS-first de composición y wiring.</p>
+<p>Continúa en <code>04-semana-03/00-semana-03-roadmap.md</code>, donde ese lifecycle gobernado se vuelve visible en la primera capa SwiftUI iOS-first del curso.</p>
 </section>
 <section id="openspec-changes-README" class="lesson" data-topic-id="openspec-changes-README" data-lesson-path="openspec/changes/README.md">
 <div class="lesson-path">openspec/changes/README.md</div>
