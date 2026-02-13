@@ -958,6 +958,10 @@ blockquote p {
   <li><a class="doc-nav-link" data-lesson-path="openspec/changes/archive/2026-02-13-week08-quality-gates-baseline/specs/ticketing/spec.md" href="#openspec-changes-archive-2026-02-13-week08-quality-gates-baseline-specs-ticketing-spec">Delta for Ticketing (Week 08)</a></li>
   <li><a class="doc-nav-link" data-lesson-path="openspec/changes/archive/2026-02-13-week08-quality-gates-baseline/design.md" href="#openspec-changes-archive-2026-02-13-week08-quality-gates-baseline-design">Design: Week 08 — quality gate evaluation pipeline</a></li>
   <li><a class="doc-nav-link" data-lesson-path="openspec/changes/archive/2026-02-13-week08-quality-gates-baseline/tasks.md" href="#openspec-changes-archive-2026-02-13-week08-quality-gates-baseline-tasks">Tasks (Week 08)</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="openspec/changes/archive/2026-02-13-week09-security-compliance-baseline/proposal.md" href="#openspec-changes-archive-2026-02-13-week09-security-compliance-baseline-proposal">Proposal: Week 09 — telemetry security and compliance baseline</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="openspec/changes/archive/2026-02-13-week09-security-compliance-baseline/specs/ticketing/spec.md" href="#openspec-changes-archive-2026-02-13-week09-security-compliance-baseline-specs-ticketing-spec">Delta for Ticketing (Week 09)</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="openspec/changes/archive/2026-02-13-week09-security-compliance-baseline/design.md" href="#openspec-changes-archive-2026-02-13-week09-security-compliance-baseline-design">Design: Week 09 — centralized sanitization at observability boundary</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="openspec/changes/archive/2026-02-13-week09-security-compliance-baseline/tasks.md" href="#openspec-changes-archive-2026-02-13-week09-security-compliance-baseline-tasks">Tasks (Week 09)</a></li>
 </ul></li>
 <li class="nav-section"><strong>Semana 3</strong>
 <ul>
@@ -1033,7 +1037,15 @@ blockquote p {
 </ul></li>
 <li class="nav-section"><strong>Semana 9</strong>
 <ul>
-  <li><a class="doc-nav-link" data-lesson-path="10-semana-09/00-semana-09-roadmap.md" href="#10-semana-09-00-semana-09-roadmap">Semana 9: roadmap ejecutable</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="10-semana-09/00-semana-09-roadmap.md" href="#10-semana-09-00-semana-09-roadmap">Semana 9: seguridad y compliance básico sin romper la arquitectura</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="10-semana-09/01-problema-seguridad-compliance.md" href="#10-semana-09-01-problema-seguridad-compliance">Semana 9 · Lección 1: el problema no es tener datos, es exponerlos sin control</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="10-semana-09/02-spec-seguridad-compliance-v1.md" href="#10-semana-09-02-spec-seguridad-compliance-v1">Semana 9 · Lección 2: especificar política de redacción como contrato de seguridad</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="10-semana-09/03-bdd-seguridad-compliance.md" href="#10-semana-09-03-bdd-seguridad-compliance">Semana 9 · Lección 3: BDD de seguridad para alinear ingeniería y cumplimiento</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="10-semana-09/04-tdd-telemetry-security-policy.md" href="#10-semana-09-04-tdd-telemetry-security-policy">Semana 9 · Lección 4: TDD de política de seguridad para evitar fugas por regresión</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="10-semana-09/05-codigo-security-compliant-sink.md" href="#10-semana-09-05-codigo-security-compliant-sink">Semana 9 · Lección 5: código de producción para telemetría conforme</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="10-semana-09/06-refactor-data-classification.md" href="#10-semana-09-06-refactor-data-classification">Semana 9 · Lección 6: refactor de clasificación de datos para mantener seguridad sostenible</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="10-semana-09/07-checkpoint-evaluacion.md" href="#10-semana-09-07-checkpoint-evaluacion">Semana 9 · Lección 7: checkpoint de seguridad para cierre defendible ante auditoría técnica</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="10-semana-09/08-bitacora-commits.md" href="#10-semana-09-08-bitacora-commits">Semana 9 · Lección 8: bitácora de cierre para trazabilidad de seguridad y compliance</a></li>
 </ul></li>
 <li class="nav-section"><strong>Semana 10</strong>
 <ul>
@@ -2260,7 +2272,7 @@ python3 scripts/build-html.py</code></pre>
 <h1 id="openspec-changes-README-cambios-openspec-del-curso">Cambios OpenSpec del curso</h1>
 <p>Esta carpeta contiene cambios en curso y el histórico archivado.</p>
 <p>Convención recomendada para este curso:</p>
-<p>Usamos un nombre corto por semana para que sea fácil buscar y archivar. El patrón recomendado es <code>weekNN-<nombre-corto></code>. Por ejemplo, <code>week06-offline-cache-policy</code>, <code>week07-observability-baseline</code> o <code>week08-quality-gates-baseline</code>.</p>
+<p>Usamos un nombre corto por semana para que sea fácil buscar y archivar. El patrón recomendado es <code>weekNN-<nombre-corto></code>. Por ejemplo, <code>week06-offline-cache-policy</code>, <code>week07-observability-baseline</code>, <code>week08-quality-gates-baseline</code> o <code>week09-security-compliance-baseline</code>.</p>
 <p>El histórico queda en:</p>
 <pre><code class="language-text">openspec/changes/archive/YYYY-MM-DD-&lt;change-name&gt;/</code></pre>
 <p>Notas:</p>
@@ -2498,6 +2510,34 @@ python3 scripts/build-html.py</code></pre>
   <li><strong>GIVEN</strong> a critical check such as swift tests fails</li>
   <li><strong>WHEN</strong> quality gates are evaluated</li>
   <li><strong>THEN</strong> report result is <code>failed</code></li>
+</ul>
+<h3 id="openspec-specs-ticketing-spec-requirement-apply-telemetry-security-redaction-for-baseline-compliance">Requirement: Apply telemetry security redaction for baseline compliance</h3>
+<p>The system SHALL sanitize sensitive telemetry attributes before events are</p>
+<p>recorded in observability sinks, preserving operational context while reducing</p>
+<p>risk of sensitive data exposure.</p>
+<p>The baseline sensitive key set SHALL include at least:</p>
+<p><code>subject</code>, <code>description</code>, <code>email</code>, <code>token</code>, and <code>password</code>.</p>
+<p>When at least one sensitive key is redacted, the event SHALL include marker</p>
+<p><code>security_redacted=true</code>.</p>
+<h4 id="openspec-specs-ticketing-spec-scenario-redact-sensitive-description-in-telemetry-event">Scenario: Redact sensitive description in telemetry event</h4>
+<ul>
+  <li><strong>GIVEN</strong> a telemetry event contains <code>description</code> attribute</li>
+  <li><strong>WHEN</strong> telemetry security policy sanitizes the event</li>
+  <li><strong>THEN</strong> <code>description</code> value is replaced with <code>[REDACTED]</code></li>
+  <li><strong>AND</strong> event includes <code>security_redacted=true</code></li>
+</ul>
+<h4 id="openspec-specs-ticketing-spec-scenario-preserve-non-sensitive-operational-attributes">Scenario: Preserve non-sensitive operational attributes</h4>
+<ul>
+  <li><strong>GIVEN</strong> a telemetry event contains <code>operation</code> and <code>result</code></li>
+  <li><strong>WHEN</strong> telemetry security policy sanitizes the event</li>
+  <li><strong>THEN</strong> <code>operation</code> and <code>result</code> values remain unchanged</li>
+  <li><strong>AND</strong> marker <code>security_redacted</code> is not added if no sensitive key existed</li>
+</ul>
+<h4 id="openspec-specs-ticketing-spec-scenario-compliant-sink-records-only-sanitized-event">Scenario: Compliant sink records only sanitized event</h4>
+<ul>
+  <li><strong>GIVEN</strong> a compliant telemetry sink wraps a downstream sink</li>
+  <li><strong>WHEN</strong> event recording is requested with sensitive attributes</li>
+  <li><strong>THEN</strong> downstream sink receives the sanitized version</li>
 </ul>
 </section>
 <section id="openspec-changes-archive-2026-02-12-week01-ticket-basics-proposal" class="lesson" data-topic-id="openspec-changes-archive-2026-02-12-week01-ticket-basics-proposal" data-lesson-path="openspec/changes/archive/2026-02-12-week01-ticket-basics/proposal.md">
@@ -3475,6 +3515,134 @@ python3 scripts/build-html.py</code></pre>
       status: done
     - id: "4.2"
       title: "openspec and pedagogy validations green"
+      status: done</code></pre>
+</section>
+<section id="openspec-changes-archive-2026-02-13-week09-security-compliance-baseline-proposal" class="lesson" data-topic-id="openspec-changes-archive-2026-02-13-week09-security-compliance-baseline-proposal" data-lesson-path="openspec/changes/archive/2026-02-13-week09-security-compliance-baseline/proposal.md">
+<div class="lesson-path">openspec/changes/archive/2026-02-13-week09-security-compliance-baseline/proposal.md</div>
+<h1 id="openspec-changes-archive-2026-02-13-week09-security-compliance-baseline-proposal-proposal-week-09-telemetry-security-and-compliance-baseline">Proposal: Week 09 — telemetry security and compliance baseline</h1>
+<h2 id="openspec-changes-archive-2026-02-13-week09-security-compliance-baseline-proposal-intent">Intent</h2>
+<p>The project already emits structured observability events. Without a baseline</p>
+<p>redaction policy, sensitive attributes can leak into logs and external tooling.</p>
+<p>This change introduces a centralized telemetry sanitization policy and a</p>
+<p>compliant sink decorator to enforce it before event persistence.</p>
+<h2 id="openspec-changes-archive-2026-02-13-week09-security-compliance-baseline-proposal-scope">Scope</h2>
+<pre><code class="language-yaml">scope_week09:
+  in_scope:
+    policy: "Centralized TelemetrySecurityPolicy with explicit key classification"
+    compliance: "security_redacted marker when sensitive data is sanitized"
+    implementation: "CompliantTelemetrySink decorator before downstream sink"
+    tests: "Unit tests for sanitization behavior and sink forwarding"
+  out_of_scope_on_purpose:
+    - "End-to-end encryption strategy"
+    - "Role-based access control for observability platform"
+    - "Regulatory framework specialization by country"</code></pre>
+<h2 id="openspec-changes-archive-2026-02-13-week09-security-compliance-baseline-proposal-approach">Approach</h2>
+<p>Create a dedicated module <code>HelpdeskSecurityCompliance</code> to keep security controls</p>
+<p>explicit and reusable. Integrate by composition: producers remain unchanged,</p>
+<p>while the sink layer guarantees sanitization at the boundary.</p>
+<h2 id="openspec-changes-archive-2026-02-13-week09-security-compliance-baseline-proposal-risks-questions">Risks / questions</h2>
+<pre><code class="language-yaml">open_questions_week09:
+  - "Should classification become config-driven in week10+ to avoid recompiles?"
+  - "Do we need separate markers for partially redacted vs fully redacted events?"</code></pre>
+</section>
+<section id="openspec-changes-archive-2026-02-13-week09-security-compliance-baseline-specs-ticketing-spec" class="lesson" data-topic-id="openspec-changes-archive-2026-02-13-week09-security-compliance-baseline-specs-ticketing-spec" data-lesson-path="openspec/changes/archive/2026-02-13-week09-security-compliance-baseline/specs/ticketing/spec.md">
+<div class="lesson-path">openspec/changes/archive/2026-02-13-week09-security-compliance-baseline/specs/ticketing/spec.md</div>
+<h1 id="openspec-changes-archive-2026-02-13-week09-security-compliance-baseline-specs-ticketing-spec-delta-for-ticketing-week-09">Delta for Ticketing (Week 09)</h1>
+<h2 id="openspec-changes-archive-2026-02-13-week09-security-compliance-baseline-specs-ticketing-spec-added-requirements">ADDED Requirements</h2>
+<h3 id="openspec-changes-archive-2026-02-13-week09-security-compliance-baseline-specs-ticketing-spec-requirement-telemetry-security-redaction-baseline">Requirement: Telemetry security redaction baseline</h3>
+<p>The system SHALL sanitize sensitive telemetry attributes before recording events,</p>
+<p>while preserving non-sensitive operational context required for diagnosis.</p>
+<p>When at least one sensitive key is redacted, the event SHALL include</p>
+<p><code>security_redacted=true</code> to expose compliance signal.</p>
+<pre class="mermaid">sequenceDiagram
+    participant P as Producer
+    participant S as CompliantTelemetrySink
+    participant T as TelemetrySecurityPolicy
+    participant D as DownstreamSink
+
+    P->>S: record(event)
+    S->>T: sanitize(event)
+    T-->>S: sanitizedEvent
+    S->>D: record(sanitizedEvent)</pre>
+<h4 id="openspec-changes-archive-2026-02-13-week09-security-compliance-baseline-specs-ticketing-spec-scenario-redact-sensitive-description">Scenario: Redact sensitive description</h4>
+<pre><code class="language-gherkin">Scenario: Redact sensitive description
+  Given an event includes attribute description
+  When telemetry security policy sanitizes the event
+  Then description value becomes [REDACTED]
+  And event includes security_redacted=true</code></pre>
+<h4 id="openspec-changes-archive-2026-02-13-week09-security-compliance-baseline-specs-ticketing-spec-scenario-preserve-non-sensitive-operation-context">Scenario: Preserve non-sensitive operation context</h4>
+<pre><code class="language-gherkin">Scenario: Preserve non-sensitive operation context
+  Given an event includes operation and result attributes
+  When telemetry security policy sanitizes the event
+  Then operation and result values remain unchanged
+  And security_redacted is absent when no sensitive key exists</code></pre>
+<h4 id="openspec-changes-archive-2026-02-13-week09-security-compliance-baseline-specs-ticketing-spec-scenario-compliant-sink-forwards-sanitized-payload">Scenario: Compliant sink forwards sanitized payload</h4>
+<pre><code class="language-gherkin">Scenario: Compliant sink forwards sanitized payload
+  Given a compliant sink wraps a downstream telemetry sink
+  When a producer records an event with sensitive keys
+  Then downstream sink receives the sanitized event</code></pre>
+</section>
+<section id="openspec-changes-archive-2026-02-13-week09-security-compliance-baseline-design" class="lesson" data-topic-id="openspec-changes-archive-2026-02-13-week09-security-compliance-baseline-design" data-lesson-path="openspec/changes/archive/2026-02-13-week09-security-compliance-baseline/design.md">
+<div class="lesson-path">openspec/changes/archive/2026-02-13-week09-security-compliance-baseline/design.md</div>
+<h1 id="openspec-changes-archive-2026-02-13-week09-security-compliance-baseline-design-design-week-09-centralized-sanitization-at-observability-boundary">Design: Week 09 — centralized sanitization at observability boundary</h1>
+<h2 id="openspec-changes-archive-2026-02-13-week09-security-compliance-baseline-design-model">Model</h2>
+<p>Week 09 adds a security layer between event producers and persistence sinks so</p>
+<p>sensitive attributes are never written in clear text by downstream systems.</p>
+<h2 id="openspec-changes-archive-2026-02-13-week09-security-compliance-baseline-design-components">Components</h2>
+<pre class="mermaid">flowchart LR
+  PRODUCER[ObservedTicketRepository or other producers] --> COMPLIANT[CompliantTelemetrySink]
+  COMPLIANT --> POLICY[TelemetrySecurityPolicy]
+  COMPLIANT --> DOWNSTREAM[TelemetrySink downstream]
+  POLICY --> EVENT[Sanitized TelemetryEvent]</pre>
+<h2 id="openspec-changes-archive-2026-02-13-week09-security-compliance-baseline-design-decisions">Decisions</h2>
+<p>The first decision is to sanitize at sink boundary, not inside each producer.</p>
+<p>Trade-off is one extra component in wiring; gain is centralized enforcement and</p>
+<p>lower risk of forgotten instrumentation paths.</p>
+<p>The second decision is explicit key classification with <code>DataClassification</code>.</p>
+<p>Trade-off is key governance overhead; gain is auditable and testable policy</p>
+<p>semantics.</p>
+<p>The third decision is marker <code>security_redacted=true</code> only when redaction</p>
+<p>happens. Trade-off is conditional attribute management; gain is useful audit</p>
+<p>signal without noisy defaults.</p>
+</section>
+<section id="openspec-changes-archive-2026-02-13-week09-security-compliance-baseline-tasks" class="lesson" data-topic-id="openspec-changes-archive-2026-02-13-week09-security-compliance-baseline-tasks" data-lesson-path="openspec/changes/archive/2026-02-13-week09-security-compliance-baseline/tasks.md">
+<div class="lesson-path">openspec/changes/archive/2026-02-13-week09-security-compliance-baseline/tasks.md</div>
+<h1 id="openspec-changes-archive-2026-02-13-week09-security-compliance-baseline-tasks-tasks-week-09">Tasks (Week 09)</h1>
+<p>Week 09 tasks align spec, tests, and implementation for baseline compliance.</p>
+<pre><code class="language-yaml">tasks_week09:
+  architecture:
+    - id: "1.1"
+      title: "Create HelpdeskSecurityCompliance module"
+      status: done
+    - id: "1.2"
+      title: "Define TelemetrySecurityPolicy with key classification"
+      status: done
+    - id: "1.3"
+      title: "Add CompliantTelemetrySink decorator"
+      status: done
+  behavior:
+    - id: "2.1"
+      title: "Redact baseline sensitive keys"
+      status: done
+    - id: "2.2"
+      title: "Preserve non-sensitive attributes"
+      status: done
+    - id: "2.3"
+      title: "Emit security_redacted marker when needed"
+      status: done
+  verification:
+    - id: "3.1"
+      title: "Add unit tests for policy behavior"
+      status: done
+    - id: "3.2"
+      title: "Add sink forwarding test with sanitized payload"
+      status: done
+  evidence:
+    - id: "4.1"
+      title: "swift test green"
+      status: done
+    - id: "4.2"
+      title: "openspec, pedagogy, structure and build validations green"
       status: done</code></pre>
 </section>
 <section id="04-semana-03-00-semana-03-roadmap" class="lesson" data-topic-id="04-semana-03-00-semana-03-roadmap" data-lesson-path="04-semana-03/00-semana-03-roadmap.md">
@@ -4952,26 +5120,217 @@ git commit -m "mensaje atomico sobre quality gates"</code></pre>
 </section>
 <section id="10-semana-09-00-semana-09-roadmap" class="lesson" data-topic-id="10-semana-09-00-semana-09-roadmap" data-lesson-path="10-semana-09/00-semana-09-roadmap.md">
 <div class="lesson-path">10-semana-09/00-semana-09-roadmap.md</div>
-<h1 id="10-semana-09-00-semana-09-roadmap-semana-9-roadmap-ejecutable">Semana 9: roadmap ejecutable</h1>
-<p>Esta semana consolida una parte del ciclo SDD enterprise sobre <code>HelpdeskSDD</code>. No es teoría aislada: cada actividad termina en artefacto verificable, pruebas en verde y trazabilidad de decisiones. El foco exacto cambia por semana, pero el método se mantiene constante para entrenar disciplina profesional.</p>
-<h2 id="10-semana-09-00-semana-09-roadmap-objetivo-de-la-semana">Objetivo de la semana</h2>
-<p>En Semana 9 avanzas una capacidad concreta de producto sin romper lo construido. La disciplina que entrenas es mantener el flujo completo (OpenSpec → BDD → TDD → producción → refactor) incorporando seguridad y compliance con método, no con miedo.</p>
-<h2 id="10-semana-09-00-semana-09-roadmap-resultado-medible">Resultado medible</h2>
-<p>Semana 9 se considera cerrada cuando existe un entregable técnico claro, el build y las pruebas asociadas están en verde y hay evidencia trazable en commits. La diferencia es que ahora también sabes explicar qué amenazas consideraste y qué controles aplicaste.</p>
-<h2 id="10-semana-09-00-semana-09-roadmap-flujo-de-trabajo">Flujo de trabajo</h2>
+<h1 id="10-semana-09-00-semana-09-roadmap-semana-9-seguridad-y-compliance-b-sico-sin-romper-la-arquitectura">Semana 9: seguridad y compliance básico sin romper la arquitectura</h1>
+<p>En las semanas anteriores construimos un sistema funcional, resiliente y observable. Ahora toca un punto que en empresa marca diferencias reales: seguridad y compliance. Muchas veces estos temas se tratan como “un extra para más adelante”, y justo por eso aparecen incidentes evitables cuando el producto crece.</p>
+<p>Week 9 introduce una base práctica y medible. No vamos a prometer una plataforma de seguridad total, pero sí vamos a incorporar controles esenciales que reducen riesgo desde ahora. El objetivo es que el sistema no solo funcione y se observe, sino que además trate correctamente la información sensible y deje evidencia de cumplimiento mínimo.</p>
+<p>Esta semana se centra en un problema muy común. La telemetría es útil para operar, pero si se emite sin política de sanitización puede exponer datos sensibles en logs, pipelines o herramientas de terceros. La solución no es apagar observabilidad, sino aplicar una política de redacción clara y testeable.</p>
 <pre class="mermaid">flowchart LR
-    A[Entrada de semana 9] --> B[Spec refinada]
-    B --> C[BDD actualizado]
-    C --> D[TDD y produccion]
-    D --> E[Validacion y cierre]</pre>
-<h2 id="10-semana-09-00-semana-09-roadmap-practica-guiada">Practica guiada</h2>
-<p>Tu práctica guiada es revisar la meta técnica de Semana 9, ejecutar el laboratorio asociado registrando decisiones relevantes, y validar pruebas y build antes del commit final. En esta semana, un “atajo” de seguridad suele ser una deuda muy cara.</p>
-<h2 id="10-semana-09-00-semana-09-roadmap-verificacion-de-comprension">Verificacion de comprension</h2>
-<p>Pregunta 1: ¿Qué bloque del flujo OpenSpec → BDD → TDD → producción estás entrenando más esta semana?</p>
-<p>Pregunta 2: ¿Qué evidencia objetiva confirma que cerraste Semana 9?</p>
-<p>Pregunta 3: ¿Qué deuda técnica aceptaste, si aceptaste alguna, y por qué fue una decisión consciente?</p>
-<h2 id="10-semana-09-00-semana-09-roadmap-siguiente-paso">Siguiente paso</h2>
-<p>Ir a la primera leccion detallada de semana 9.</p>
+    A[OpenSpec week09] --> B[BDD de seguridad/compliance]
+    B --> C[TDD de politica de redaccion]
+    C --> D[Produccion: sink conforme]
+    D --> E[Refactor de clasificacion de datos]
+    E --> F[Checkpoint y cierre]</pre>
+<p>La señal de cierre de Week 9 es concreta. Debes tener una política de redacción aplicada a eventos de telemetría, pruebas que demuestren que los datos sensibles no se exponen y trazabilidad clara de decisiones de seguridad en OpenSpec.</p>
+<pre><code class="language-yaml">week9_definition_of_done:
+  security_policy: "eventos sensibles pasan por sanitizacion obligatoria"
+  compliance_signal: "atributos sensibles salen redactados de forma consistente"
+  architecture_integrity: "dominio y casos de uso no se acoplan a controles de seguridad"
+  evidence: "tests + validaciones + historial auditable"</code></pre>
+<p>La práctica de arranque consiste en listar tres datos que nunca deberías ver en texto plano en telemetría y explicar por qué. Ese ejercicio te pone en modo de diseño seguro antes de escribir código.</p>
+<p>La verificación de comprensión previa es responder esta pregunta: ¿por qué seguridad y compliance deben tratarse como decisiones de arquitectura y no como tareas de limpieza al final del proyecto?</p>
+<p>Siguiente lección: <code>10-semana-09/01-problema-seguridad-compliance.md</code>.</p>
+</section>
+<section id="10-semana-09-01-problema-seguridad-compliance" class="lesson" data-topic-id="10-semana-09-01-problema-seguridad-compliance" data-lesson-path="10-semana-09/01-problema-seguridad-compliance.md">
+<div class="lesson-path">10-semana-09/01-problema-seguridad-compliance.md</div>
+<h1 id="10-semana-09-01-problema-seguridad-compliance-semana-9-lecci-n-1-el-problema-no-es-tener-datos-es-exponerlos-sin-control">Semana 9 · Lección 1: el problema no es tener datos, es exponerlos sin control</h1>
+<p>Cuando un sistema empieza a emitir eventos y logs, gana capacidad de diagnóstico. Pero también aumenta una superficie de riesgo: la información sensible puede terminar en lugares donde no debería estar. Esto ocurre mucho más de lo que parece, incluso en equipos técnicamente sólidos, porque se asume que “como es interno, no pasa nada”.</p>
+<p>El problema real de Week 9 no es criptografía avanzada ni normativas imposibles. Es algo más básico y crítico: asegurar que los datos sensibles no salgan en claro por canales de observabilidad. Si no resuelves esto, una herramienta mal configurada o un acceso indebido puede convertir un evento de depuración en una filtración.</p>
+<pre class="mermaid">flowchart TD
+    A[Telemetria sin politica] --> B[Datos sensibles en eventos]
+    B --> C[Riesgo de exposicion]
+    C --> D[Incidente de compliance]
+    E[Telemetria con redaccion] --> F[Eventos utiles y seguros]
+    F --> G[Operacion con menor riesgo]</pre>
+<p>Piensa en una analogía cotidiana. Si escribes una contraseña en una nota visible en tu escritorio, no importa que la puerta esté cerrada casi siempre; el riesgo ya existe. En software sucede igual cuando un campo sensible se deja pasar sin sanitización.</p>
+<pre><code class="language-swift">// Anti-patron: evento con dato sensible en claro.
+// attributes["description"] = "No puedo entrar, mi email es..."
+
+// Patron correcto: redaccion antes de emitir.
+// attributes["description"] = "[REDACTED]"</code></pre>
+<p>La práctica guiada de esta lección consiste en revisar mentalmente un flujo de ticketing y señalar qué campos podrían considerarse sensibles por contexto, aunque no parezcan secretos obvios. Este hábito evita clasificar mal la información en etapas tempranas.</p>
+<p>La verificación de comprensión antes de especificación es responder por qué “confiar en que nadie mirará los logs” no es una política de seguridad válida.</p>
+<p>Siguiente lección: <code>10-semana-09/02-spec-seguridad-compliance-v1.md</code>.</p>
+</section>
+<section id="10-semana-09-02-spec-seguridad-compliance-v1" class="lesson" data-topic-id="10-semana-09-02-spec-seguridad-compliance-v1" data-lesson-path="10-semana-09/02-spec-seguridad-compliance-v1.md">
+<div class="lesson-path">10-semana-09/02-spec-seguridad-compliance-v1.md</div>
+<h1 id="10-semana-09-02-spec-seguridad-compliance-v1-semana-9-lecci-n-2-especificar-pol-tica-de-redacci-n-como-contrato-de-seguridad">Semana 9 · Lección 2: especificar política de redacción como contrato de seguridad</h1>
+<p>Ahora convertimos el problema en contrato operativo. Igual que en semanas anteriores, no dejamos decisiones críticas en “acuerdos verbales”. Week 9 define una política explícita para sanitizar atributos sensibles antes de registrar eventos. Esta política se vuelve parte del comportamiento esperado del sistema.</p>
+<p>La ventaja de especificarlo en OpenSpec es que evita interpretaciones subjetivas. Si mañana alguien añade un nuevo atributo en telemetría, debe cumplir la misma regla de clasificación y redacción. Así seguridad deja de depender de memoria individual y pasa a depender de contrato compartido.</p>
+<pre class="mermaid">flowchart LR
+    A[Problema de exposicion] --> B[Proposal week09]
+    B --> C[Requirement de sanitizacion]
+    C --> D[Escenarios de cumplimiento]
+    D --> E[Tareas de implementacion y tests]</pre>
+<p>El cambio OpenSpec de esta semana se llama <code>week09-security-compliance-baseline</code>.</p>
+<pre><code class="language-text">/opsx:new week09-security-compliance-baseline
+/opsx:ff
+/opsx:apply
+/opsx:verify</code></pre>
+<p>El alcance de Week 9 se centra en telemetría porque es una frontera real de riesgo y está conectada con lo ya construido en Week 7. Definimos claves sensibles, regla de redacción y señal de cumplimiento en el propio evento para facilitar auditoría técnica.</p>
+<pre><code class="language-yaml">week9_security_scope:
+  sensitive_keys: "subject, description, email, token, password"
+  policy: "redactar valor sensible antes de emitir evento"
+  compliance_marker: "atributo security_redacted=true cuando aplique"
+  out_of_scope: "encriptacion completa en reposo y normativa sectorial avanzada"</code></pre>
+<p>La práctica guiada consiste en proponer una clave sensible adicional que no esté en la lista inicial y justificar por qué debe incluirse. Este ejercicio entrena criterio de clasificación contextual, que es esencial en seguridad aplicada.</p>
+<p>La verificación de comprensión antes de BDD es responder por qué una política de redacción debe ser centralizada y no duplicada en cada punto de instrumentación.</p>
+<p>Siguiente lección: <code>10-semana-09/03-bdd-seguridad-compliance.md</code>.</p>
+</section>
+<section id="10-semana-09-03-bdd-seguridad-compliance" class="lesson" data-topic-id="10-semana-09-03-bdd-seguridad-compliance" data-lesson-path="10-semana-09/03-bdd-seguridad-compliance.md">
+<div class="lesson-path">10-semana-09/03-bdd-seguridad-compliance.md</div>
+<h1 id="10-semana-09-03-bdd-seguridad-compliance-semana-9-lecci-n-3-bdd-de-seguridad-para-alinear-ingenier-a-y-cumplimiento">Semana 9 · Lección 3: BDD de seguridad para alinear ingeniería y cumplimiento</h1>
+<p>BDD en Week 9 describe comportamiento de seguridad observable. Esto es importante porque seguridad no puede quedarse en una intención abstracta. Debe traducirse a condiciones verificables que permitan detectar rápidamente si un cambio introduce exposición de datos.</p>
+<p>Los escenarios de esta semana validan que eventos con atributos sensibles salgan redactados y que eventos sin datos sensibles no pierdan contexto operativo. Esa combinación es crucial: proteger información sin destruir utilidad diagnóstica.</p>
+<pre class="mermaid">sequenceDiagram
+    participant Repo as ObservedRepository
+    participant Policy as TelemetrySecurityPolicy
+    participant Sink as TelemetrySink
+    Repo->>Policy: sanitize(event)
+    Policy-->>Repo: event sanitized
+    Repo->>Sink: record(sanitizedEvent)</pre>
+<p>Los escenarios baseline de Week 9 cubren redacción, preservación de contexto y marca de cumplimiento.</p>
+<pre><code class="language-gherkin">Feature: Seguridad y compliance de telemetría
+  Scenario: Redacta atributos sensibles
+    Given un evento con clave sensible description
+    When se aplica la política de seguridad
+    Then el valor de description es [REDACTED]
+
+  Scenario: Preserva atributos no sensibles
+    Given un evento con operation y result
+    When se aplica la política de seguridad
+    Then operation y result conservan su valor original
+
+  Scenario: Marca evento como sanitizado
+    Given un evento con al menos una clave sensible
+    When se aplica la política de seguridad
+    Then el evento contiene security_redacted=true</code></pre>
+<p>La práctica guiada consiste en convertir uno de estos escenarios en una prueba que falle si un nuevo desarrollador añade una clave sensible y olvida redacción. Este ejercicio conecta seguridad con prevención activa de regresiones.</p>
+<p>La verificación de comprensión antes de TDD es responder qué escenario detecta mejor una fuga silenciosa de datos al modificar instrumentación.</p>
+<p>Siguiente lección: <code>10-semana-09/04-tdd-telemetry-security-policy.md</code>.</p>
+</section>
+<section id="10-semana-09-04-tdd-telemetry-security-policy" class="lesson" data-topic-id="10-semana-09-04-tdd-telemetry-security-policy" data-lesson-path="10-semana-09/04-tdd-telemetry-security-policy.md">
+<div class="lesson-path">10-semana-09/04-tdd-telemetry-security-policy.md</div>
+<h1 id="10-semana-09-04-tdd-telemetry-security-policy-semana-9-lecci-n-4-tdd-de-pol-tica-de-seguridad-para-evitar-fugas-por-regresi-n">Semana 9 · Lección 4: TDD de política de seguridad para evitar fugas por regresión</h1>
+<p>Con escenarios definidos, implementamos pruebas antes de producción. En Week 9 este paso es especialmente crítico porque una regresión de seguridad puede no romper funcionalidad visible y aun así causar impacto grave. Por eso necesitamos tests que vigilen explícitamente la redacción de datos sensibles.</p>
+<p>La estrategia de TDD aquí valida tres comportamientos: redacción de claves sensibles, preservación de contexto no sensible y marca de cumplimiento. Con esas tres piezas cubres la base de seguridad y mantienes utilidad operativa de la telemetría.</p>
+<pre class="mermaid">flowchart LR
+    A[Escenario BDD seguridad] --> B[Test rojo de redaccion]
+    B --> C[Implementacion minima de politica]
+    C --> D[Test verde]
+    D --> E[Refactor de clasificacion]</pre>
+<p>Este patrón de prueba muestra cómo validar redacción sin depender de infraestructura externa.</p>
+<pre><code class="language-swift">@Test
+func sanitizeRedactsSensitiveDescription() {
+    let policy = TelemetrySecurityPolicy.defaultPolicy
+    let event = TelemetryEvent(
+        name: "repository.create.failure",
+        attributes: ["description": "texto sensible", "operation": "create"],
+        timestamp: Date()
+    )
+
+    let sanitized = policy.sanitize(event)
+
+    #expect(sanitized.attributes["description"] == "[REDACTED]")
+    #expect(sanitized.attributes["operation"] == "create")
+}</code></pre>
+<pre><code class="language-bash">swift test --package-path project/HelpdeskSDD</code></pre>
+<p>La práctica guiada consiste en añadir temporalmente una clave sensible nueva sin actualizar política y observar qué test cae. Después incorpora la clave en la política y confirma recuperación en verde.</p>
+<p>La verificación de comprensión antes de producción es responder por qué estas pruebas deben ejecutarse en cada cambio aunque el cambio “no parezca de seguridad”.</p>
+<p>Siguiente lección: <code>10-semana-09/05-codigo-security-compliant-sink.md</code>.</p>
+</section>
+<section id="10-semana-09-05-codigo-security-compliant-sink" class="lesson" data-topic-id="10-semana-09-05-codigo-security-compliant-sink" data-lesson-path="10-semana-09/05-codigo-security-compliant-sink.md">
+<div class="lesson-path">10-semana-09/05-codigo-security-compliant-sink.md</div>
+<h1 id="10-semana-09-05-codigo-security-compliant-sink-semana-9-lecci-n-5-c-digo-de-producci-n-para-telemetr-a-conforme">Semana 9 · Lección 5: código de producción para telemetría conforme</h1>
+<p>En esta lección implementamos el componente que aplica seguridad de forma sistemática: un sink conforme que envuelve el sink base y ejecuta la política de sanitización antes de registrar eventos. Este patrón permite añadir controles de compliance sin tocar cada emisor de eventos por separado.</p>
+<p>La decisión arquitectónica es intencional. Igual que en otras semanas usamos decoradores para offline o observabilidad, aquí usamos composición para seguridad. Así mantenemos responsabilidades claras: el emisor genera eventos, la política clasifica sensibilidad, el sink conforme garantiza redacción.</p>
+<pre class="mermaid">flowchart TD
+    A[ObservedTicketRepository] --> B[CompliantTelemetrySink]
+    B --> C[TelemetrySecurityPolicy]
+    C --> D[InMemoryTelemetrySink o backend futuro]</pre>
+<p>El núcleo del código es simple pero poderoso. Si una clave está clasificada como sensible, se reemplaza por un valor redactado y se marca el evento como sanitizado.</p>
+<pre><code class="language-swift">public actor CompliantTelemetrySink: TelemetrySink {
+    public func record(_ event: TelemetryEvent) async {
+        let sanitized = policy.sanitize(event)
+        await downstream.record(sanitized)
+    }
+}</code></pre>
+<p>Esta implementación protege al sistema de un error muy común: asumir que “como el evento viene de un componente interno, ya es seguro”. En seguridad aplicada, la validación en frontera reduce mucho ese tipo de fallos.</p>
+<p>La práctica guiada consiste en pasar un evento con atributos sensibles por el sink conforme y verificar snapshot final del sink downstream. Si aparece un valor sensible en claro, la política no está bien aplicada.</p>
+<p>La verificación de comprensión antes del refactor es responder por qué este diseño facilita evolucionar a nuevas normativas sin reescribir todos los productores de eventos.</p>
+<p>Siguiente lección: <code>10-semana-09/06-refactor-data-classification.md</code>.</p>
+</section>
+<section id="10-semana-09-06-refactor-data-classification" class="lesson" data-topic-id="10-semana-09-06-refactor-data-classification" data-lesson-path="10-semana-09/06-refactor-data-classification.md">
+<div class="lesson-path">10-semana-09/06-refactor-data-classification.md</div>
+<h1 id="10-semana-09-06-refactor-data-classification-semana-9-lecci-n-6-refactor-de-clasificaci-n-de-datos-para-mantener-seguridad-sostenible">Semana 9 · Lección 6: refactor de clasificación de datos para mantener seguridad sostenible</h1>
+<p>Después de implementar la política, el siguiente riesgo es dejar la clasificación de claves dispersa o ambigua. Si cada desarrollador interpreta sensibilidad de manera distinta, la protección se degrada con el tiempo. Esta lección refactoriza para centralizar clasificación y hacerla explícita.</p>
+<p>El objetivo es que agregar una nueva clave sensible sea una operación clara y auditable, no un parche local perdido en un archivo. Esa claridad reduce errores y facilita revisiones de seguridad en equipo.</p>
+<pre class="mermaid">flowchart LR
+    A[Politica funcional inicial] --> B[Detectar clasificacion dispersa]
+    B --> C[Centralizar reglas de sensibilidad]
+    C --> D[Revalidar tests de redaccion]
+    D --> E[Baseline de compliance mantenible]</pre>
+<p>La mejora de diseño suele pasar por introducir una representación explícita de clasificación en vez de listas mágicas repartidas.</p>
+<pre><code class="language-swift">public enum DataClassification: String, Sendable {
+    case nonSensitive
+    case sensitive
+}</code></pre>
+<p>Con esta base, el equipo puede discutir seguridad en términos consistentes y versionables. Además, la política se vuelve más fácil de auditar cuando se revisa un incidente o una nueva exigencia de cumplimiento.</p>
+<p>La práctica guiada consiste en proponer tres claves nuevas y clasificarlas justificando cada decisión. Si no puedes justificar la clasificación, la regla todavía no es robusta.</p>
+<p>La verificación de comprensión antes del checkpoint es responder por qué una clasificación explícita mejora cumplimiento incluso cuando la implementación actual parece pequeña.</p>
+<p>Siguiente lección: <code>10-semana-09/07-checkpoint-evaluacion.md</code>.</p>
+</section>
+<section id="10-semana-09-07-checkpoint-evaluacion" class="lesson" data-topic-id="10-semana-09-07-checkpoint-evaluacion" data-lesson-path="10-semana-09/07-checkpoint-evaluacion.md">
+<div class="lesson-path">10-semana-09/07-checkpoint-evaluacion.md</div>
+<h1 id="10-semana-09-07-checkpoint-evaluacion-semana-9-lecci-n-7-checkpoint-de-seguridad-para-cierre-defendible-ante-auditor-a-t-cnica">Semana 9 · Lección 7: checkpoint de seguridad para cierre defendible ante auditoría técnica</h1>
+<p>El cierre de Week 9 no se consigue solo porque los tests pasan una vez. Se consigue cuando puedes demostrar, de forma repetible, que la política de redacción está activa, que la evidencia técnica es coherente con OpenSpec y que la arquitectura no se contaminó con lógica de seguridad dispersa. Esta diferencia es clave en contexto enterprise, porque ahí no basta con “creer” que el sistema está protegido: hay que poder probarlo.</p>
+<pre class="mermaid">flowchart TD
+    A[OpenSpec week09] --> B[Escenarios BDD de seguridad]
+    B --> C[Tests TDD de policy y sink]
+    C --> D[Implementacion en modulo dedicado]
+    D --> E[Validaciones globales del curso]
+    E --> F[Cierre week09 con evidencia]</pre>
+<p>En este checkpoint debes ejecutar el circuito completo y revisar el resultado como si fueras revisor externo. Si un test falla, no se negocia. Si la validación de pedagogía o de estructura cae, tampoco se negocia. El criterio no es velocidad, el criterio es confiabilidad de entrega.</p>
+<pre><code class="language-bash">swift test --package-path project/HelpdeskSDD
+npm run -s openspec:validate
+python3 scripts/validate-course-structure.py
+python3 scripts/check-links.py
+python3 scripts/validate-pedagogy.py
+python3 scripts/build-html.py</code></pre>
+<p>La práctica guiada consiste en introducir de forma temporal una clave sensible nueva en un evento de prueba sin registrarla en la política, observar el fallo esperado y luego corregirlo. Este ejercicio te enseña que un buen sistema no depende de memoria humana, depende de defensas ejecutables.</p>
+<p>La verificación de comprensión final del checkpoint es responder por qué “no vimos ninguna fuga en QA” no es evidencia suficiente en un sistema con telemetría distribuida.</p>
+<p>Siguiente lección: <code>10-semana-09/08-bitacora-commits.md</code>.</p>
+</section>
+<section id="10-semana-09-08-bitacora-commits" class="lesson" data-topic-id="10-semana-09-08-bitacora-commits" data-lesson-path="10-semana-09/08-bitacora-commits.md">
+<div class="lesson-path">10-semana-09/08-bitacora-commits.md</div>
+<h1 id="10-semana-09-08-bitacora-commits-semana-9-lecci-n-8-bit-cora-de-cierre-para-trazabilidad-de-seguridad-y-compliance">Semana 9 · Lección 8: bitácora de cierre para trazabilidad de seguridad y compliance</h1>
+<p>La bitácora de Week 9 debe contar una historia clara: había un riesgo de exposición en observabilidad, se definió una política explícita, se implementó un control reutilizable y quedó evidencia verificable de cumplimiento mínimo. Si esa historia no se puede reconstruir leyendo los commits, la semana está técnicamente incompleta aunque el código funcione.</p>
+<pre class="mermaid">flowchart LR
+    A[Riesgo identificado] --> B[Contrato OpenSpec]
+    B --> C[TDD politica y sink]
+    C --> D[Implementacion en modulo]
+    D --> E[Validacion integral]
+    E --> F[Commits atomicos auditables]</pre>
+<p>La disciplina de commits no es burocracia; es una herramienta de control operativo. Un commit para contenido docente, otro para implementación técnica y otro para OpenSpec más scripts te permite responder preguntas difíciles con precisión. Cuando alguien pregunte “dónde se garantizó que <code>description</code> deja de salir en claro”, el historial debe llevar a una respuesta directa.</p>
+<pre><code class="language-text">git status --short
+swift test --package-path project/HelpdeskSDD
+npm run -s openspec:validate
+python3 scripts/validate-pedagogy.py
+python3 scripts/build-html.py
+git add &lt;bloque-semantico&gt;
+git commit -m "mensaje atomico week09 security compliance"</code></pre>
+<p>La práctica guiada final consiste en revisar tus propios commits como si fueras auditor de otra empresa y evaluar si cada commit responde una sola intención. Si un commit mezcla demasiadas cosas, se parte y se deja limpio.</p>
+<p>La verificación de comprensión que cierra la semana es explicar por qué la trazabilidad de seguridad depende tanto del diseño técnico como de la calidad del historial de cambios.</p>
+<p>Siguiente semana: <code>11-semana-10/00-semana-10-roadmap.md</code>.</p>
 </section>
 <section id="11-semana-10-00-semana-10-roadmap" class="lesson" data-topic-id="11-semana-10-00-semana-10-roadmap" data-lesson-path="11-semana-10/00-semana-10-roadmap.md">
 <div class="lesson-path">11-semana-10/00-semana-10-roadmap.md</div>
