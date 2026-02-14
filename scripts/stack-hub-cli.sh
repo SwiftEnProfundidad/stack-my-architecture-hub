@@ -35,6 +35,7 @@ Opciones:
   --selftest               Smoke aislado en puerto temporal.
   --selftest-strict        Selftest con consulta IA real.
   --audit-all              Doctor + verify latest + selftest + status.
+  --audit-all-json         Igual que --audit-all, con salida JSON.
   --backup-runtime [name]  Crea snapshot de .runtime.
   --backup-runtime-keep N  Auto-prune tras backup (mantiene N).
   --list-runtime-backups   Lista snapshots disponibles.
@@ -54,6 +55,7 @@ Ejemplos:
   stack-hub --selftest
   stack-hub --selftest --strict
   stack-hub --audit-all
+  stack-hub --audit-all-json
   stack-hub --backup-runtime
   stack-hub --backup-runtime before-migration
   stack-hub --backup-runtime --backup-runtime-keep 20
@@ -91,6 +93,7 @@ main() {
   local backup_name=""
   local backup_keep=""
   local run_audit_all=0
+  local audit_all_json=0
   local run_list_backups=0
   local run_verify=0
   local verify_ref=""
@@ -182,6 +185,11 @@ main() {
         run_audit_all=1
         shift
         ;;
+      --audit-all-json)
+        run_audit_all=1
+        audit_all_json=1
+        shift
+        ;;
       --backup-runtime)
         run_backup=1
         shift
@@ -266,6 +274,9 @@ main() {
   fi
 
   if [[ "$run_audit_all" -eq 1 ]]; then
+    if [[ "$audit_all_json" -eq 1 ]]; then
+      exec /bin/zsh -f "$AUDIT_ALL_SCRIPT" --json
+    fi
     exec /bin/zsh -f "$AUDIT_ALL_SCRIPT"
   fi
 

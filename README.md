@@ -76,6 +76,7 @@ stack-hub --logs --follow
 stack-hub --selftest
 stack-hub --selftest --strict
 stack-hub --audit-all
+stack-hub --audit-all-json
 stack-hub --backup-runtime
 stack-hub --backup-runtime before-upgrade
 stack-hub --backup-runtime --backup-runtime-keep 20
@@ -124,6 +125,7 @@ Auditoría integral en un comando:
 
 ```bash
 stack-hub --audit-all
+stack-hub --audit-all-json
 ```
 
 Opcional:
