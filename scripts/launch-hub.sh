@@ -259,6 +259,35 @@ cleanup_stale_pid() {
   rm -f "$PID_FILE"
 }
 
+existing_hub_port() {
+  if [ ! -f "$PID_FILE" ] || [ ! -f "$PORT_FILE" ]; then
+    return 1
+  fi
+
+  local pid
+  pid="$(cat "$PID_FILE" 2>/dev/null || true)"
+  if [ -z "$pid" ] || ! [[ "$pid" =~ ^[0-9]+$ ]]; then
+    return 1
+  fi
+
+  if ! kill -0 "$pid" >/dev/null 2>&1; then
+    return 1
+  fi
+
+  local port
+  port="$(cat "$PORT_FILE" 2>/dev/null || true)"
+  if [ -z "$port" ] || ! [[ "$port" =~ ^[0-9]+$ ]]; then
+    return 1
+  fi
+
+  if health_ok "$port"; then
+    echo "$port"
+    return 0
+  fi
+
+  return 1
+}
+
 pick_port() {
   local candidates=()
 
@@ -367,6 +396,14 @@ main() {
   fi
 
   auto_rebuild_if_stale
+
+  local running_port
+  running_port="$(existing_hub_port || true)"
+  if [ -n "$running_port" ]; then
+    echo "ℹ️ Hub ya activo en puerto $running_port (instancia existente)."
+    open_course "$running_port" "$course"
+    exit 0
+  fi
 
   local port
   port="$(pick_port || true)"

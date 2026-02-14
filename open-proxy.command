@@ -2,10 +2,15 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-LAUNCH_SCRIPT="$SCRIPT_DIR/scripts/launch-hub.sh"
+LOCAL_CLI="$SCRIPT_DIR/scripts/stack-hub-cli.sh"
+GLOBAL_CLI="${STACK_MY_ARCH_CLI_PATH:-$HOME/.local/bin/stack-hub}"
 
-if [ ! -x "$LAUNCH_SCRIPT" ]; then
-  chmod +x "$LAUNCH_SCRIPT"
+if [ -x "$GLOBAL_CLI" ]; then
+  exec /bin/zsh -f "$GLOBAL_CLI" "$@"
 fi
 
-exec /bin/zsh -f "$LAUNCH_SCRIPT" "$@"
+if [ ! -x "$LOCAL_CLI" ]; then
+  chmod +x "$LOCAL_CLI"
+fi
+
+exec /bin/zsh -f "$LOCAL_CLI" "$@"

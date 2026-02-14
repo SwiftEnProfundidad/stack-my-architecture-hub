@@ -1,5 +1,10 @@
 #!/bin/zsh
-set -e
+set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-chmod +x "$SCRIPT_DIR/scripts/serve-hub.sh"
-"$SCRIPT_DIR/scripts/serve-hub.sh" 8090
+CLI="$SCRIPT_DIR/scripts/stack-hub-cli.sh"
+
+if [ ! -x "$CLI" ]; then
+  chmod +x "$CLI"
+fi
+
+STACK_MY_ARCH_HUB_PORT=8090 exec /bin/zsh -f "$CLI" hub

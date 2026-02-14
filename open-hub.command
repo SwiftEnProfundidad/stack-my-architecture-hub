@@ -1,5 +1,10 @@
 #!/bin/zsh
-set -e
+set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-"$SCRIPT_DIR/scripts/build-hub.sh"
-open "$SCRIPT_DIR/index.html"
+CLI="$SCRIPT_DIR/scripts/stack-hub-cli.sh"
+
+if [ ! -x "$CLI" ]; then
+  chmod +x "$CLI"
+fi
+
+exec /bin/zsh -f "$CLI" hub --force-rebuild

@@ -3,7 +3,7 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 HUB_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
-LAUNCH_SCRIPT="$SCRIPT_DIR/launch-hub.sh"
+CLI_SCRIPT="$SCRIPT_DIR/stack-hub-cli.sh"
 STOP_SCRIPT="$SCRIPT_DIR/stop-hub.sh"
 
 DESKTOP_DIR="$HOME/Desktop"
@@ -11,7 +11,7 @@ LAUNCH_APP="$DESKTOP_DIR/Stack My Architecture Hub.app"
 STOP_APP="$DESKTOP_DIR/Stop Stack My Architecture Hub.app"
 
 mkdir -p "$DESKTOP_DIR"
-chmod +x "$LAUNCH_SCRIPT" "$STOP_SCRIPT"
+chmod +x "$CLI_SCRIPT" "$STOP_SCRIPT"
 
 if command -v osacompile >/dev/null 2>&1; then
   TMP_LAUNCH="$(mktemp /tmp/sma-launch-XXXX.applescript)"
@@ -20,7 +20,7 @@ if command -v osacompile >/dev/null 2>&1; then
   cat >"$TMP_LAUNCH" <<EOF
 on run
   try
-    do shell script "/bin/zsh -f " & quoted form of "$LAUNCH_SCRIPT"
+    do shell script "/bin/zsh -f " & quoted form of "$CLI_SCRIPT"
   on error errMsg number errNum
     display alert "Stack My Architecture Hub" message errMsg as critical
   end try
@@ -50,7 +50,7 @@ else
 
   cat >"$LAUNCH_CMD" <<EOF
 #!/bin/zsh
-exec /bin/zsh -f "$LAUNCH_SCRIPT"
+exec /bin/zsh -f "$CLI_SCRIPT"
 EOF
 
   cat >"$STOP_CMD" <<EOF

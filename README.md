@@ -72,6 +72,8 @@ stack-hub --skip-auto-rebuild
 stack-hub --stop
 ```
 
+Compatibilidad: `open-proxy.command`, `open-hub.command` y `open-hub-localhost.command` delegan internamente en el mismo CLI (`stack-hub`) para evitar rutas de arranque duplicadas.
+
 Crear app de Escritorio (doble clic):
 
 ```bash
