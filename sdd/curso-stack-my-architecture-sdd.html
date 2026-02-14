@@ -1136,15 +1136,15 @@ blockquote p {
 </ul></li>
 <li class="nav-section"><strong>Semana 14</strong>
 <ul>
-  <li><a class="doc-nav-link" data-lesson-path="15-semana-14/00-semana-14-roadmap.md" href="#15-semana-14-00-semana-14-roadmap">Semana 14: entrega controlada y rollback sin improvisación</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="15-semana-14/01-problema-release-sin-readiness.md" href="#15-semana-14-01-problema-release-sin-readiness">Semana 14 · Lección 1: el problema no es desplegar, es desplegar sin plan de salida</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="15-semana-14/02-spec-release-readiness-v1.md" href="#15-semana-14-02-spec-release-readiness-v1">Semana 14 · Lección 2: especificar readiness de release como requisito crítico</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="15-semana-14/03-bdd-release-readiness.md" href="#15-semana-14-03-bdd-release-readiness">Semana 14 · Lección 3: BDD para hacer observable la preparación de release</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="15-semana-14/04-tdd-release-readiness-evaluator.md" href="#15-semana-14-04-tdd-release-readiness-evaluator">Semana 14 · Lección 4: TDD del evaluador de readiness para proteger entregas</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="15-semana-14/05-codigo-release-readiness-pipeline.md" href="#15-semana-14-05-codigo-release-readiness-pipeline">Semana 14 · Lección 5: código de pipeline para readiness y rollback drill</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="15-semana-14/06-refactor-runbook-operable.md" href="#15-semana-14-06-refactor-runbook-operable">Semana 14 · Lección 6: refactor del runbook para que sea operable bajo presión</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="15-semana-14/07-checkpoint-evaluacion.md" href="#15-semana-14-07-checkpoint-evaluacion">Semana 14 · Lección 7: checkpoint de entrega segura y rollback practicado</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="15-semana-14/08-bitacora-commits.md" href="#15-semana-14-08-bitacora-commits">Semana 14 · Lección 8: bitácora de release readiness para auditoría operativa</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="15-semana-14/00-semana-14-roadmap.md" href="#15-semana-14-00-semana-14-roadmap">Semana 14: release readiness y rollback como disciplina operativa verificable</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="15-semana-14/01-problema-release-sin-readiness.md" href="#15-semana-14-01-problema-release-sin-readiness">Semana 14 · Lección 1: desplegar no es difícil, recuperarse bien sí lo es</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="15-semana-14/02-spec-release-readiness-v1.md" href="#15-semana-14-02-spec-release-readiness-v1">Semana 14 · Lección 2: especificar readiness de release para que no dependa de intuición</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="15-semana-14/03-bdd-release-readiness.md" href="#15-semana-14-03-bdd-release-readiness">Semana 14 · Lección 3: BDD de readiness para validar preparación operativa de forma objetiva</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="15-semana-14/04-tdd-release-readiness-evaluator.md" href="#15-semana-14-04-tdd-release-readiness-evaluator">Semana 14 · Lección 4: TDD del evaluador de readiness para proteger el momento más crítico</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="15-semana-14/05-codigo-release-readiness-pipeline.md" href="#15-semana-14-05-codigo-release-readiness-pipeline">Semana 14 · Lección 5: producción del pipeline de readiness con runbook y drill reales</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="15-semana-14/06-refactor-runbook-operable.md" href="#15-semana-14-06-refactor-runbook-operable">Semana 14 · Lección 6: refactor del runbook para que funcione cuando más lo necesitas</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="15-semana-14/07-checkpoint-evaluacion.md" href="#15-semana-14-07-checkpoint-evaluacion">Semana 14 · Lección 7: checkpoint de release readiness para cierre con confianza operativa</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="15-semana-14/08-bitacora-commits.md" href="#15-semana-14-08-bitacora-commits">Semana 14 · Lección 8: bitácora operativa para demostrar que el release es gobernable</a></li>
 </ul></li>
 <li class="nav-section"><strong>Semana 15</strong>
 <ul>
@@ -8636,164 +8636,210 @@ git commit -m "docs(week13): rewrite governance module as deep narrative flow"</
 </section>
 <section id="15-semana-14-00-semana-14-roadmap" class="lesson" data-topic-id="15-semana-14-00-semana-14-roadmap" data-lesson-path="15-semana-14/00-semana-14-roadmap.md">
 <div class="lesson-path">15-semana-14/00-semana-14-roadmap.md</div>
-<h1 id="15-semana-14-00-semana-14-roadmap-semana-14-entrega-controlada-y-rollback-sin-improvisaci-n">Semana 14: entrega controlada y rollback sin improvisación</h1>
-<p>Llegados a este punto, el sistema tiene buenas prácticas de diseño, pruebas y gobernanza. El reto de esta semana es operacional. Una arquitectura excelente pierde valor si el equipo no sabe entregar cambios de forma segura y recuperarse rápido cuando algo sale mal. Semana 14 entrena justo ese músculo.</p>
-<p>El foco técnico se centra en convertir readiness de release en una señal ejecutable. Para eso construimos un evaluador de readiness, un runbook concreto, evidencia de drill de rollback y una integración directa con quality gates.</p>
+<h1 id="15-semana-14-00-semana-14-roadmap-semana-14-release-readiness-y-rollback-como-disciplina-operativa-verificable">Semana 14: release readiness y rollback como disciplina operativa verificable</h1>
+<p>Hasta aquí has construido un sistema técnicamente sólido, pero todavía falta una competencia que separa equipos buenos de equipos confiables en producción: saber desplegar y saber revertir sin improvisación. Semana 14 se centra en esa capacidad operativa.</p>
+<p>El foco no es solo “tener un runbook en docs”. El foco es convertir readiness de release en señal ejecutable con artefactos reales, evaluator dedicado e integración en quality gates. Si el plan de canary o rollback falta, la entrega no pasa. Si el drill no está en PASS, la entrega no pasa. Esa claridad reduce riesgos cuando hay presión real.</p>
 <pre class="mermaid">flowchart LR
-    A[OpenSpec week14] --> B[BDD release readiness]
-    B --> C[TDD evaluator de readiness]
-    C --> D[Runbook y rollback drill]
-    D --> E[Integracion en quality gates]
-    E --> F[Checkpoint y cierre]</pre>
-<p>La señal de cierre de Week 14 es binaria y verificable. Si faltan piezas clave de canary o rollback, el check debe fallar. Si las piezas están completas y el drill está en PASS, el check pasa y quality gates puede avanzar.</p>
-<pre><code class="language-yaml">week14_definition_of_done:
-  readiness_module: "evaluator + CLI de release readiness"
-  operations_artifacts: "runbook week14 y rollback drill documentado"
-  gate_integration: "release_readiness_green en quality gates"
-  evidence: "tests + validadores + build html en verde"</code></pre>
-<p>La práctica guiada de arranque consiste en responder qué harías si detectas un fallo grave diez minutos después de iniciar canary. La respuesta debe apoyarse en procedimiento, no en intuición.</p>
-<p>La verificación de comprensión previa es responder por qué un rollback plan vale poco si nunca se practica en un drill real, aunque sea simulado.</p>
-<p>Siguiente lección: <code>15-semana-14/01-problema-release-sin-readiness.md</code>.</p>
+    A[Runbook de release] --> B[Rollback drill evidence]
+    B --> C[ReleaseReadinessEvaluator]
+    C --> D[release_readiness_green]
+    D --> E[Quality gates]
+    E --> F[Decisión operativa de avance]</pre>
+<p>En el repo, esta semana aterriza en artefactos concretos como <code>docs/release/week14-release-runbook.md</code>, <code>docs/release/drills/2026-02-13-rollback-drill.md</code> y <code>scripts/run-release-readiness-check.sh</code>, que alimentan el módulo <code>HelpdeskReleaseReadiness</code>.</p>
+<pre><code class="language-yaml">week14_outcome:
+  operational_goal: "entregar con canary y rollback practicado"
+  technical_goal: "readiness evaluator + cli + script"
+  governance_goal: "readiness como gate crítico"
+  evidence_goal: "reportes reproducibles y trazables"</code></pre>
+<p>La práctica guiada de apertura consiste en responder, por escrito y en menos de un minuto, qué harías si el canary degrada justo después de empezar. Si no puedes responder con pasos concretos, la preparación operativa todavía no está madura.</p>
+<p>La verificación de comprensión previa es esta: por qué una estrategia de rollback no practicada en drill equivale, en la práctica, a no tener estrategia. Si no puedes defenderlo con argumentos de ejecución bajo presión, relee este roadmap.</p>
+<h2 id="15-semana-14-00-semana-14-roadmap-siguiente-lecci-n">Siguiente lección</h2>
+<p>Continúa en <code>15-semana-14/01-problema-release-sin-readiness.md</code>, donde analizaremos cómo los incidentes se agravan cuando el equipo despliega sin plan de salida validado.</p>
 </section>
 <section id="15-semana-14-01-problema-release-sin-readiness" class="lesson" data-topic-id="15-semana-14-01-problema-release-sin-readiness" data-lesson-path="15-semana-14/01-problema-release-sin-readiness.md">
 <div class="lesson-path">15-semana-14/01-problema-release-sin-readiness.md</div>
-<h1 id="15-semana-14-01-problema-release-sin-readiness-semana-14-lecci-n-1-el-problema-no-es-desplegar-es-desplegar-sin-plan-de-salida">Semana 14 · Lección 1: el problema no es desplegar, es desplegar sin plan de salida</h1>
-<p>Muchas incidencias graves no ocurren porque el equipo no sepa programar, ocurren porque la entrega se hace sin un plan operativo claro. Cuando aparece un fallo tras despliegue, el equipo improvisa, se multiplica la presión y cada minuto cuesta más de lo que habría costado preparar un rollback plan.</p>
-<p>Este es el problema que atacamos en Week 14. Una entrega enterprise no termina en “build verde”. También requiere una ruta controlada para avanzar en canary y una ruta clara para volver atrás sin pánico.</p>
-<pre class="mermaid">flowchart TD
-    A[Release sin readiness] --> B[Incidente en canary]
-    B --> C[Improvisacion de rollback]
-    C --> D[Tiempo de recuperacion alto]
-    D --> E[Perdida de confianza]
-    F[Release con runbook y drill] --> G[Respuesta controlada]</pre>
-<p>La analogía útil es la de un simulacro de emergencia. No practicas porque quieras que ocurra un problema, practicas porque sabes que cuando ocurra no tendrás tiempo de aprender desde cero.</p>
-<pre><code class="language-text">Regla práctica de week14:
-si el equipo no puede explicar en un minuto cómo revertir,
-el release aún no está listo para salir.</code></pre>
-<p>La práctica guiada consiste en describir un incidente de despliegue que hayas visto o imaginado y escribir cuál habría sido el primer paso correcto con un runbook maduro.</p>
-<p>La verificación de comprensión antes de especificación es responder por qué “si pasa algo ya lo arreglamos” no es una estrategia operativa aceptable en entorno enterprise.</p>
-<p>Siguiente lección: <code>15-semana-14/02-spec-release-readiness-v1.md</code>.</p>
+<h1 id="15-semana-14-01-problema-release-sin-readiness-semana-14-lecci-n-1-desplegar-no-es-dif-cil-recuperarse-bien-s-lo-es">Semana 14 · Lección 1: desplegar no es difícil, recuperarse bien sí lo es</h1>
+<p>Muchos equipos aprenden a desplegar rápido, pero muy pocos entrenan con el mismo rigor la capacidad de volver atrás cuando algo sale mal. El problema no aparece en días tranquilos. Aparece cuando un canary empieza a degradar y cada minuto aumenta impacto en usuarios y presión dentro del equipo.</p>
+<p>Sin readiness explícita, la reacción típica es improvisar. Alguien busca mensajes antiguos, otra persona intenta recordar pasos, y nadie tiene certeza sobre orden correcto de acciones. Aunque el código sea bueno, la operación falla por falta de procedimiento practicado.</p>
+<pre class="mermaid">sequenceDiagram
+    participant Deploy as Despliegue
+    participant Canary as Canary
+    participant Team as Equipo
+    participant Users as Usuarios
+    Deploy->>Canary: release inicial
+    Canary-->>Team: señales de degradación
+    Team->>Team: improvisa rollback
+    Team-->>Users: recuperación lenta e incierta</pre>
+<p>La clave pedagógica para un perfil junior es esta: calidad de software incluye calidad de recuperación. No basta con evitar errores. Hay que minimizar tiempo de recuperación cuando inevitablemente aparece uno.</p>
+<p>Este principio puede resumirse así.</p>
+<pre><code class="language-text">Si no puedes explicar rollback en frío, no podrás ejecutarlo bien en caliente.</code></pre>
+<h2 id="15-semana-14-01-problema-release-sin-readiness-pr-ctica-guiada">Práctica guiada</h2>
+<p>Describe un incidente hipotético de producción y redacta el primer minuto de respuesta operativa que debería ejecutar el equipo. Después compáralo con el runbook de week14 y detecta huecos.</p>
+<h2 id="15-semana-14-01-problema-release-sin-readiness-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Comprueba que puedes explicar por qué “si falla ya lo arreglamos” no es una estrategia de ingeniería, sino una fuente de riesgo. Si no conectas tu respuesta con tiempos de recuperación y coordinación, repasa la lección.</p>
+<h2 id="15-semana-14-01-problema-release-sin-readiness-siguiente-lecci-n">Siguiente lección</h2>
+<p>Sigue en <code>15-semana-14/02-spec-release-readiness-v1.md</code>, donde convertiremos esta necesidad operativa en contrato OpenSpec con condiciones de paso y bloqueo.</p>
 </section>
 <section id="15-semana-14-02-spec-release-readiness-v1" class="lesson" data-topic-id="15-semana-14-02-spec-release-readiness-v1" data-lesson-path="15-semana-14/02-spec-release-readiness-v1.md">
 <div class="lesson-path">15-semana-14/02-spec-release-readiness-v1.md</div>
-<h1 id="15-semana-14-02-spec-release-readiness-v1-semana-14-lecci-n-2-especificar-readiness-de-release-como-requisito-cr-tico">Semana 14 · Lección 2: especificar readiness de release como requisito crítico</h1>
-<p>Una vez definido el problema, lo traducimos a contrato OpenSpec. El contrato de esta semana define qué debe existir antes de considerar una entrega como preparada. No hablamos de deseos, hablamos de señales objetivas: plan de canary, plan de rollback, comunicación, verificación y drill de rollback en PASS.</p>
-<p>Esta especificación evita ambigüedad operativa. Si un elemento falta, el resultado de readiness debe ser rojo y quality gates debe fallar. Con eso la organización evita subir cambios cuando el riesgo operativo está descontrolado.</p>
+<h1 id="15-semana-14-02-spec-release-readiness-v1-semana-14-lecci-n-2-especificar-readiness-de-release-para-que-no-dependa-de-intuici-n">Semana 14 · Lección 2: especificar readiness de release para que no dependa de intuición</h1>
+<p>Con el problema definido, ahora lo formalizamos como contrato operativo. En esta semana, readiness no es una opinión del responsable de guardia. Es un conjunto de señales verificables que se evalúan de forma determinista antes de permitir avance.</p>
+<p>El contrato v1 exige evidencias concretas. En runbook deben existir secciones como <code>## Canary Plan</code>, <code>## Rollback Plan</code>, <code>## Communication</code> y <code>## Verification</code>. Además, el drill de rollback debe estar documentado con resultado PASS. Si cualquiera de estas piezas falta, la señal <code>release_readiness_green</code> debe salir en rojo.</p>
 <pre class="mermaid">flowchart LR
-    A[Runbook + drill] --> B[Release readiness check]
-    B --> C[Signal release_readiness_green]
-    C --> D[Quality gates]
-    D --> E[Decision de avance]</pre>
-<pre><code class="language-yaml">release_readiness_contract_v1:
-  required_runbook_sections: "canary, rollback, communication, verification"
-  required_drill_signal: "result PASS"
-  gate_signal: "release_readiness_green"
-  progression_rule: "si readiness es false, quality gates falla"</code></pre>
-<pre><code class="language-text">/opsx:new week14-release-rollback-readiness
+    A[Runbook sections] --> B[Readiness input]
+    C[Rollback drill PASS] --> B
+    B --> D[ReleaseReadinessEvaluator]
+    D --> E[Signal release_readiness_green]</pre>
+<p>El flujo OpenSpec se mantiene para conservar trazabilidad entre intención y ejecución.</p>
+<pre><code class="language-bash">/opsx:new week14-release-rollback-readiness
 /opsx:ff
 /opsx:apply
 /opsx:verify</code></pre>
-<p>La práctica guiada consiste en leer el runbook de la semana y explicar qué sección usarías primero si un canary empieza a degradarse.</p>
-<p>La verificación de comprensión antes de BDD es responder por qué esta policy debe formar parte del sistema y no solo del conocimiento de una persona senior.</p>
-<p>Siguiente lección: <code>15-semana-14/03-bdd-release-readiness.md</code>.</p>
+<p>Una redacción de requirement útil aquí debe incluir explícitamente condiciones de fallo. Eso evita interpretaciones del tipo “en general estaba bien”.</p>
+<pre><code class="language-markdown">### Requirement: Release readiness as critical gate
+The system SHALL require runbook operational sections and rollback drill PASS.
+The readiness evaluator SHALL fail when any required signal is missing.
+Quality gates SHALL fail when release readiness signal is false.</code></pre>
+<h2 id="15-semana-14-02-spec-release-readiness-v1-pr-ctica-guiada">Práctica guiada</h2>
+<p>Abre <code>docs/release/week14-release-runbook.md</code> y verifica manualmente las secciones requeridas. Después explica qué riesgo operativo cubriría cada una en un incidente real.</p>
+<h2 id="15-semana-14-02-spec-release-readiness-v1-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Verifica que puedes defender por qué este contrato debe ser automático y no una checklist manual en una reunión previa al release. Si no hablas de repetibilidad y fatiga humana, repasa la lección.</p>
+<h2 id="15-semana-14-02-spec-release-readiness-v1-siguiente-lecci-n">Siguiente lección</h2>
+<p>Continúa con <code>15-semana-14/03-bdd-release-readiness.md</code>, donde llevaremos el contrato a escenarios BDD de camino verde y rojo.</p>
 </section>
 <section id="15-semana-14-03-bdd-release-readiness" class="lesson" data-topic-id="15-semana-14-03-bdd-release-readiness" data-lesson-path="15-semana-14/03-bdd-release-readiness.md">
 <div class="lesson-path">15-semana-14/03-bdd-release-readiness.md</div>
-<h1 id="15-semana-14-03-bdd-release-readiness-semana-14-lecci-n-3-bdd-para-hacer-observable-la-preparaci-n-de-release">Semana 14 · Lección 3: BDD para hacer observable la preparación de release</h1>
-<p>BDD en esta semana captura comportamientos operativos. El objetivo es que readiness no dependa de interpretación subjetiva del día del despliegue. Con escenarios claros podemos verificar de forma consistente si el equipo está realmente preparado para avanzar o si debe frenar.</p>
-<p>Los escenarios principales cubren la ruta verde completa y la ruta roja más crítica, que es ausencia o fallo del rollback drill. También se cubre la integración con quality gates para asegurar que readiness influye en la decisión global.</p>
+<h1 id="15-semana-14-03-bdd-release-readiness-semana-14-lecci-n-3-bdd-de-readiness-para-validar-preparaci-n-operativa-de-forma-objetiva">Semana 14 · Lección 3: BDD de readiness para validar preparación operativa de forma objetiva</h1>
+<p>BDD en esta semana transforma operación en comportamiento comprobable. En lugar de frases vagas como “estamos listos para release”, escribimos escenarios que dicen exactamente cuándo el sistema debe considerar readiness en verde y cuándo debe bloquear.</p>
+<p>Los escenarios base incluyen un caso completamente verde y un caso rojo por drill ausente o fallido. También conviene incluir el caso donde runbook está incompleto para entrenar detección de huecos antes del despliegue.</p>
 <pre class="mermaid">sequenceDiagram
     participant Docs as Runbook + Drill
-    participant Check as ReleaseReadinessCheck
-    participant Gate as QualityGates
-
-    Docs->>Check: validar artefactos
-    Check-->>Gate: release_readiness_green
-    Gate-->>Docs: pass o fail</pre>
+    participant Eval as ReleaseReadinessEvaluator
+    participant Gates as QualityGates
+    Docs->>Eval: señales operativas
+    Eval-->>Gates: release_readiness_green
+    Gates-->>Docs: pass/fail global</pre>
+<p>Este bloque Gherkin expresa la semántica principal del ciclo.</p>
 <pre><code class="language-gherkin">Feature: Release readiness
-  Scenario: Readiness pasa
-    Given runbook completo y drill en PASS
-    When se ejecuta el check
-    Then readiness es passed</code></pre>
-<p>La utilidad real de estos escenarios es que traducen operaciones en expectativas comprobables. Así evitamos la clásica situación de “parecía que estaba todo bien” justo antes de una caída.</p>
-<p>La práctica guiada consiste en redactar un escenario extra donde exista runbook completo pero el drill no esté actualizado, y definir el resultado esperado.</p>
-<p>La verificación de comprensión antes de TDD es responder qué escenario protege mejor al equipo contra rollback improvisado.</p>
-<p>Siguiente lección: <code>15-semana-14/04-tdd-release-readiness-evaluator.md</code>.</p>
+  Scenario: Readiness pasa con runbook completo y drill PASS
+    Given existe runbook con secciones operativas requeridas
+    And el drill de rollback tiene resultado PASS
+    When se evalúa release readiness
+    Then el reporte es passed
+
+  Scenario: Readiness falla cuando drill no está en PASS
+    Given existe runbook completo
+    And el drill no tiene PASS
+    When se evalúa release readiness
+    Then el reporte es failed</code></pre>
+<h2 id="15-semana-14-03-bdd-release-readiness-pr-ctica-guiada">Práctica guiada</h2>
+<p>Escribe un escenario adicional donde falte <code>## Communication</code> en runbook y razona por qué ese hueco debe bloquear release aunque el drill sea PASS.</p>
+<h2 id="15-semana-14-03-bdd-release-readiness-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Comprueba que puedes explicar por qué readiness debe medirse con señales compuestas y no con una única condición. Si no puedes argumentar cobertura de riesgo, vuelve al diagrama.</p>
+<h2 id="15-semana-14-03-bdd-release-readiness-siguiente-lecci-n">Siguiente lección</h2>
+<p>Sigue en <code>15-semana-14/04-tdd-release-readiness-evaluator.md</code>, donde convertiremos estos escenarios en pruebas unitarias del evaluador.</p>
 </section>
 <section id="15-semana-14-04-tdd-release-readiness-evaluator" class="lesson" data-topic-id="15-semana-14-04-tdd-release-readiness-evaluator" data-lesson-path="15-semana-14/04-tdd-release-readiness-evaluator.md">
 <div class="lesson-path">15-semana-14/04-tdd-release-readiness-evaluator.md</div>
-<h1 id="15-semana-14-04-tdd-release-readiness-evaluator-semana-14-lecci-n-4-tdd-del-evaluador-de-readiness-para-proteger-entregas">Semana 14 · Lección 4: TDD del evaluador de readiness para proteger entregas</h1>
-<p>Con escenarios claros, pasamos a pruebas de unidad del evaluador de readiness. Esta capa debe responder con precisión si faltan condiciones operativas mínimas. En Week 14 las pruebas más importantes verifican el caso totalmente verde y el caso rojo por drill ausente o fallido.</p>
-<p>La idea es mantener el evaluador pequeño pero contundente. Cada check representa una condición real del runbook y al final el resultado global se calcula como combinación de todas ellas.</p>
+<h1 id="15-semana-14-04-tdd-release-readiness-evaluator-semana-14-lecci-n-4-tdd-del-evaluador-de-readiness-para-proteger-el-momento-m-s-cr-tico">Semana 14 · Lección 4: TDD del evaluador de readiness para proteger el momento más crítico</h1>
+<p>Con escenarios definidos, ahora aseguramos la lógica de decisión con pruebas automatizadas. En esta fase, cada test representa una condición operativa concreta del release. Si algo cambia y rompe esa condición, la suite debe avisar de inmediato.</p>
+<p>El módulo <code>HelpdeskReleaseReadiness</code> modela esta evaluación con checks independientes y resultado global. Eso te permite saber no solo que falló, sino qué parte exacta del readiness falló.</p>
 <pre class="mermaid">flowchart LR
-    A[BDD readiness] --> B[Test rojo caso verde]
-    B --> C[Implementacion checks mínimos]
-    C --> D[Test rojo por rollback drill]
-    D --> E[Reporte con checks]
-    E --> F[Test verde]</pre>
-<pre><code class="language-swift">@Test
+    A[Escenario BDD readiness] --> B[Test rojo path verde]
+    B --> C[Implementación de checks]
+    C --> D[Test rojo drill fallido]
+    D --> E[Reporte con checks por id]
+    E --> F[Verde]</pre>
+<p>Este test real del repo protege uno de los fallos más peligrosos: avanzar sin drill válido.</p>
+<pre><code class="language-swift">import Testing
+@testable import HelpdeskReleaseReadiness
+
+@Test
 func reportFailsWhenRollbackDrillIsMissing() {
-    let report = evaluator.evaluate(requestWithoutDrill)
+    let evaluator = ReleaseReadinessEvaluator()
+    let request = ReleaseReadinessEvaluationRequest(
+        input: ReleaseReadinessInput(
+            canaryPlanPresent: true,
+            rollbackPlanPresent: true,
+            rollbackDrillPassed: false,
+            communicationPlanPresent: true,
+            verificationPlanPresent: true
+        )
+    )
+
+    let report = evaluator.evaluate(request)
+
     #expect(report.passed == false)
+    #expect(report.checks.first { $0.id == "rollback_drill_passed" }?.passed == false)
 }</code></pre>
 <pre><code class="language-bash">swift test --package-path project/HelpdeskSDD</code></pre>
-<p>La práctica guiada consiste en añadir un test que fuerce fallo por ausencia de plan de comunicación y verificar que el reporte identifica exactamente ese check.</p>
-<p>La verificación de comprensión antes de producción es responder por qué es útil separar checks individuales en el reporte en vez de devolver solo un booleano final.</p>
-<p>Siguiente lección: <code>15-semana-14/05-codigo-release-readiness-pipeline.md</code>.</p>
+<h2 id="15-semana-14-04-tdd-release-readiness-evaluator-pr-ctica-guiada">Práctica guiada</h2>
+<p>Añade un caso de prueba temporal donde falte <code>verificationPlanPresent</code> y comprueba que el reporte identifica exactamente ese check como rojo. Después restaura el estado original de la suite.</p>
+<h2 id="15-semana-14-04-tdd-release-readiness-evaluator-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Verifica que puedes explicar por qué un reporte con checks individuales mejora aprendizaje del equipo frente a un simple booleano final. Si no lo conectas con diagnóstico rápido, repasa la lección.</p>
+<h2 id="15-semana-14-04-tdd-release-readiness-evaluator-siguiente-lecci-n">Siguiente lección</h2>
+<p>Continúa con <code>15-semana-14/05-codigo-release-readiness-pipeline.md</code>, donde conectaremos evaluador, CLI y scripts en el pipeline operativo.</p>
 </section>
 <section id="15-semana-14-05-codigo-release-readiness-pipeline" class="lesson" data-topic-id="15-semana-14-05-codigo-release-readiness-pipeline" data-lesson-path="15-semana-14/05-codigo-release-readiness-pipeline.md">
 <div class="lesson-path">15-semana-14/05-codigo-release-readiness-pipeline.md</div>
-<h1 id="15-semana-14-05-codigo-release-readiness-pipeline-semana-14-lecci-n-5-c-digo-de-pipeline-para-readiness-y-rollback-drill">Semana 14 · Lección 5: código de pipeline para readiness y rollback drill</h1>
-<p>Esta lección conecta artefactos operativos con ejecución automática. Añadimos módulo <code>HelpdeskReleaseReadiness</code>, su CLI, un script que transforma runbook y drill en request, y la integración de la señal resultante dentro de quality gates.</p>
-<p>El diseño busca algo muy concreto: que una condición operativa faltante sea visible en el mismo pipeline que ya usamos para calidad técnica. Así release readiness deja de ser una revisión manual aislada y pasa a formar parte del contrato de entrega.</p>
+<h1 id="15-semana-14-05-codigo-release-readiness-pipeline-semana-14-lecci-n-5-producci-n-del-pipeline-de-readiness-con-runbook-y-drill-reales">Semana 14 · Lección 5: producción del pipeline de readiness con runbook y drill reales</h1>
+<p>Con el evaluador validado por tests, ahora construimos la ejecución real. El script <code>scripts/run-release-readiness-check.sh</code> lee runbook y drill, construye un request JSON con señales booleanas y lo envía a <code>HelpdeskReleaseReadinessCLI</code>, que devuelve reporte y exit code.</p>
+<p>Este diseño mantiene una separación limpia. El script recolecta contexto operativo desde archivos. El módulo de readiness decide. Quality gates consume el resultado. Así puedes evolucionar artefactos o tooling sin reescribir lógica de decisión.</p>
 <pre class="mermaid">flowchart TD
     A[week14-release-runbook.md] --> B[run-release-readiness-check.sh]
-    C[rollback-drill.md] --> B
-    B --> D[HelpdeskReleaseReadinessCLI]
-    D --> E[release_readiness_green]
-    E --> F[run-quality-gates.sh]</pre>
+    C[2026-02-13-rollback-drill.md] --> B
+    B --> D[request.json]
+    D --> E[HelpdeskReleaseReadinessCLI]
+    E --> F[readiness report + exit code]
+    F --> G[run-quality-gates.sh]</pre>
+<p>El script evalúa explícitamente secciones clave y estado del drill.</p>
+<pre><code class="language-python">"canaryPlanPresent": "## Canary Plan" in runbook_text,
+"rollbackPlanPresent": "## Rollback Plan" in runbook_text,
+"rollbackDrillPassed": ("## Result" in drill_text and "PASS" in drill_text),
+"communicationPlanPresent": "## Communication" in runbook_text,
+"verificationPlanPresent": "## Verification" in runbook_text,</code></pre>
+<p>La ejecución básica queda así.</p>
 <pre><code class="language-bash">./scripts/run-release-readiness-check.sh
 ./scripts/run-quality-gates.sh</code></pre>
-<p>El script de readiness inspecciona secciones mínimas de runbook y resultado del drill. Después invoca el CLI para producir un reporte estructurado que quality gates puede consumir.</p>
-<pre><code class="language-json">{
-  "passed": true,
-  "checks": [
-    { "id": "rollback_drill_passed", "passed": true }
-  ]
-}</code></pre>
-<p>La práctica guiada consiste en cambiar temporalmente el resultado del drill a un valor no válido y confirmar que la señal <code>release_readiness_green</code> pasa a rojo.</p>
-<p>La verificación de comprensión antes del refactor es responder por qué este pipeline reduce el riesgo de release con rollback no practicado.</p>
-<p>Siguiente lección: <code>15-semana-14/06-refactor-runbook-operable.md</code>.</p>
+<h2 id="15-semana-14-05-codigo-release-readiness-pipeline-pr-ctica-guiada">Práctica guiada</h2>
+<p>Modifica temporalmente el drill para eliminar <code>PASS</code> y ejecuta ambos scripts. Observa cómo la señal de readiness cambia a rojo y cómo ese rojo bloquea el resultado global.</p>
+<h2 id="15-semana-14-05-codigo-release-readiness-pipeline-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Comprueba que puedes explicar por qué integrar readiness en el mismo circuito de gates reduce riesgo de omisión en días de mucha presión. Si no lo conectas con disciplina operativa, vuelve a esta lección.</p>
+<h2 id="15-semana-14-05-codigo-release-readiness-pipeline-siguiente-lecci-n">Siguiente lección</h2>
+<p>Sigue en <code>15-semana-14/06-refactor-runbook-operable.md</code>, donde refinaremos el runbook para que sea ejecutable bajo estrés y no solo técnicamente correcto.</p>
 </section>
 <section id="15-semana-14-06-refactor-runbook-operable" class="lesson" data-topic-id="15-semana-14-06-refactor-runbook-operable" data-lesson-path="15-semana-14/06-refactor-runbook-operable.md">
 <div class="lesson-path">15-semana-14/06-refactor-runbook-operable.md</div>
-<h1 id="15-semana-14-06-refactor-runbook-operable-semana-14-lecci-n-6-refactor-del-runbook-para-que-sea-operable-bajo-presi-n">Semana 14 · Lección 6: refactor del runbook para que sea operable bajo presión</h1>
-<p>Con el pipeline listo, esta lección mejora la calidad del runbook para uso real. Un runbook útil no es un documento largo, es un documento accionable cuando hay tensión y poco tiempo. Eso significa secciones claras, criterios de activación de rollback y verificación posterior concreta.</p>
-<p>El refactor de Week 14 revisa especialmente legibilidad operativa. Cada sección debe responder una pregunta precisa: qué desplegamos, cómo escalamos canary, cuándo revertimos, cómo comunicamos y cómo confirmamos recuperación.</p>
+<h1 id="15-semana-14-06-refactor-runbook-operable-semana-14-lecci-n-6-refactor-del-runbook-para-que-funcione-cuando-m-s-lo-necesitas">Semana 14 · Lección 6: refactor del runbook para que funcione cuando más lo necesitas</h1>
+<p>Una vez que el pipeline existe, el siguiente paso es asegurar que el runbook realmente se pueda usar bajo presión. Un documento puede tener toda la información correcta y aun así ser inútil si está redactado de forma confusa para un contexto de incidente.</p>
+<p>Esta lección refactoriza el runbook desde una pregunta práctica: si una persona de guardia lo abre con estrés y poco tiempo, puede ejecutar acciones sin ambigüedad. Eso implica pasos claros, lenguaje directo y orden operativo coherente.</p>
 <pre class="mermaid">flowchart LR
-    A[Runbook inicial] --> B[Refactor de claridad]
-    B --> C[Drill de rollback]
-    C --> D[Ajustes según evidencia]
+    A[Runbook técnicamente correcto] --> B[Prueba de uso en estrés]
+    B --> C[Detección de ambigüedades]
+    C --> D[Refactor de claridad]
     D --> E[Runbook operable]</pre>
-<p>Este paso tiene impacto directo en resiliencia del equipo. Cuanto más claro el runbook, menos decisiones improvisadas durante incidentes.</p>
-<pre><code class="language-text">Chequeo rápido de operabilidad:
-si una persona nueva no entiende los pasos básicos en cinco minutos,
-el runbook todavía necesita refactor.</code></pre>
-<p>La práctica guiada consiste en leer el runbook como si fueras guardia de madrugada y marcar el primer punto ambiguo que te haría dudar.</p>
-<p>La verificación de comprensión antes del checkpoint es responder por qué un runbook técnicamente correcto puede ser operativamente inútil si no está pensado para lectura en contexto de estrés.</p>
-<p>Siguiente lección: <code>15-semana-14/07-checkpoint-evaluacion.md</code>.</p>
+<p>Un criterio útil de calidad aquí es la compresión temporal. Si alguien tarda demasiado en encontrar “qué hago ahora”, el runbook aún no cumple su función de emergencia.</p>
+<pre><code class="language-text">Métrica práctica:
+menos de 60 segundos para localizar plan de rollback y primer paso de ejecución.</code></pre>
+<h2 id="15-semana-14-06-refactor-runbook-operable-pr-ctica-guiada">Práctica guiada</h2>
+<p>Lee el runbook de week14 cronometrando cuánto tardas en localizar primer paso de rollback y criterios de verificación posterior. Si superas un minuto, identifica exactamente qué parte del texto dificulta la ejecución.</p>
+<h2 id="15-semana-14-06-refactor-runbook-operable-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Verifica que puedes explicar por qué “documento completo” no equivale a “documento operable”. Si no distingues contenido de usabilidad bajo presión, repasa la lección.</p>
+<h2 id="15-semana-14-06-refactor-runbook-operable-siguiente-lecci-n">Siguiente lección</h2>
+<p>Continúa con <code>15-semana-14/07-checkpoint-evaluacion.md</code>, donde cerraremos la semana con evidencia de readiness y rollback practicado.</p>
 </section>
 <section id="15-semana-14-07-checkpoint-evaluacion" class="lesson" data-topic-id="15-semana-14-07-checkpoint-evaluacion" data-lesson-path="15-semana-14/07-checkpoint-evaluacion.md">
 <div class="lesson-path">15-semana-14/07-checkpoint-evaluacion.md</div>
-<h1 id="15-semana-14-07-checkpoint-evaluacion-semana-14-lecci-n-7-checkpoint-de-entrega-segura-y-rollback-practicado">Semana 14 · Lección 7: checkpoint de entrega segura y rollback practicado</h1>
-<p>El cierre de Week 14 exige evidencia de preparación operativa, no solo de calidad de código. Este checkpoint verifica que el equipo puede demostrar readiness completa y que un rollback drill fue ejecutado y documentado con resultado claro.</p>
+<h1 id="15-semana-14-07-checkpoint-evaluacion-semana-14-lecci-n-7-checkpoint-de-release-readiness-para-cierre-con-confianza-operativa">Semana 14 · Lección 7: checkpoint de release readiness para cierre con confianza operativa</h1>
+<p>El cierre de Week 14 confirma que el equipo no solo construye bien, también opera bien. Debes demostrar runbook completo, drill en PASS, evaluación de readiness y propagación correcta de la señal en quality gates.</p>
+<p>Este checkpoint es especialmente importante porque conecta ingeniería de software con ingeniería de operación. En entornos enterprise, esa unión es la que reduce incidentes graves y tiempos de recuperación.</p>
 <pre class="mermaid">flowchart TD
-    A[Runbook week14] --> B[Rollback drill evidence]
+    A[Runbook validado] --> B[Rollback drill PASS]
     B --> C[Release readiness check]
-    C --> D[Quality gates con readiness]
-    D --> E[Validadores del curso]
+    C --> D[Quality gates globales]
+    D --> E[Validadores de curso]
     E --> F[Cierre week14]</pre>
-<p>El circuito de validación debe ejecutarse en completo para que la evidencia sea defendible ante revisión técnica.</p>
+<p>Ejecuta el bloque completo para generar evidencia reproducible.</p>
 <pre><code class="language-bash">swift test --package-path project/HelpdeskSDD
 ./scripts/run-release-readiness-check.sh
 ./scripts/run-quality-gates.sh
@@ -8803,32 +8849,37 @@ python3 scripts/validate-openspec.py
 python3 scripts/check-links.py
 python3 scripts/validate-pedagogy.py
 python3 scripts/build-html.py</code></pre>
-<p>La práctica guiada consiste en modificar temporalmente una sección crítica del runbook para que falte y confirmar que el check de readiness cae en rojo como se espera.</p>
-<p>La verificación de comprensión final del checkpoint es responder qué evidencia mínima pedirías a otro equipo para permitir un release con confianza razonable.</p>
-<p>Siguiente lección: <code>15-semana-14/08-bitacora-commits.md</code>.</p>
+<h2 id="15-semana-14-07-checkpoint-evaluacion-pr-ctica-guiada">Práctica guiada</h2>
+<p>Elimina temporalmente <code>## Communication</code> del runbook en una rama de prueba y observa cómo cambia el reporte de readiness. Luego restaura el archivo y repite verificación hasta recuperar verde.</p>
+<h2 id="15-semana-14-07-checkpoint-evaluacion-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Comprueba que puedes responder qué evidencia mínima exigirías para aprobar un release en este punto del curso. Si no incluyes runbook, drill y gates, vuelve al checkpoint.</p>
+<h2 id="15-semana-14-07-checkpoint-evaluacion-siguiente-lecci-n">Siguiente lección</h2>
+<p>Sigue en <code>15-semana-14/08-bitacora-commits.md</code>, donde dejaremos trazado el cierre operativo de la semana con commits auditables.</p>
 </section>
 <section id="15-semana-14-08-bitacora-commits" class="lesson" data-topic-id="15-semana-14-08-bitacora-commits" data-lesson-path="15-semana-14/08-bitacora-commits.md">
 <div class="lesson-path">15-semana-14/08-bitacora-commits.md</div>
-<h1 id="15-semana-14-08-bitacora-commits-semana-14-lecci-n-8-bit-cora-de-release-readiness-para-auditor-a-operativa">Semana 14 · Lección 8: bitácora de release readiness para auditoría operativa</h1>
-<p>La bitácora de esta semana debe demostrar que la organización sabe entregar y revertir con método. No vale con afirmar que existe un runbook; hay que mostrar dónde se introdujo, cómo se validó y cómo se conectó a quality gates para bloquear avances inseguros.</p>
-<p>El patrón atómico vuelve a ser clave. Un bloque para narrativa semanal, otro para implementación de readiness y artefactos operativos, y otro para OpenSpec más scripts de publicación. Esa separación hace que cada commit responda una pregunta concreta de operación o gobernanza.</p>
+<h1 id="15-semana-14-08-bitacora-commits-semana-14-lecci-n-8-bit-cora-operativa-para-demostrar-que-el-release-es-gobernable">Semana 14 · Lección 8: bitácora operativa para demostrar que el release es gobernable</h1>
+<p>La bitácora de esta semana debe reflejar que readiness pasó de idea a mecanismo operativo. No basta con “añadimos un runbook”. Debe quedar claro dónde se definieron señales, dónde se evaluaron y cómo se integraron en gates para bloquear avances inseguros.</p>
+<p>El patrón de commits atómicos se mantiene porque facilita auditoría posterior. Un commit para narrativa/contrato, otro para evaluator y scripts, otro para artefactos operativos y validación final. Este orden permite reconstruir causalidad en minutos.</p>
 <pre class="mermaid">flowchart LR
-    A[Plan week14] --> B[Docs semana]
-    B --> C[ReleaseReadiness module + scripts]
-    C --> D[Runbook + drill evidence]
-    D --> E[OpenSpec + publication wiring]
-    E --> F[Historial auditable]</pre>
-<p>El valor principal de esta bitácora es que permite reconstruir decisiones bajo presión. Si se produce un incidente, el equipo puede revisar rápido qué readiness se exigía y cómo se validó antes de desplegar.</p>
-<pre><code class="language-text">git status --short
+    A[Contrato week14] --> B[Commit docs y spec]
+    B --> C[Commit readiness evaluator + script]
+    C --> D[Commit runbook + drill]
+    D --> E[Commit validación y publicación]</pre>
+<p>Una buena bitácora de week14 responde preguntas reales de operación, por ejemplo dónde se valida <code>rollback_drill_passed</code> y qué comando bloquea release cuando esa señal cae.</p>
+<pre><code class="language-bash">git status --short
 swift test --package-path project/HelpdeskSDD
 ./scripts/run-release-readiness-check.sh
 ./scripts/run-quality-gates.sh
 python3 scripts/build-html.py
 git add &lt;bloque-semantico&gt;
-git commit -m "mensaje atomico week14 release readiness"</code></pre>
-<p>La práctica guiada final consiste en leer tus commits y verificar si una persona externa podría entender en qué punto se convirtió readiness en gate crítico.</p>
-<p>La verificación de comprensión de cierre es responder por qué la trazabilidad operativa mejora la resiliencia del equipo más allá del resultado técnico puntual.</p>
-<p>Siguiente semana: <code>16-semana-15/00-semana-15-roadmap.md</code>.</p>
+git commit -m "docs(week14): rewrite release readiness module as deep narrative flow"</code></pre>
+<h2 id="15-semana-14-08-bitacora-commits-pr-ctica-guiada">Práctica guiada</h2>
+<p>Revisa tus commits de la semana e identifica cuál usarías para explicar, ante auditoría externa, que el equipo sabe revertir sin improvisación. Si no hay uno claro, ajusta granularidad en próximos ciclos.</p>
+<h2 id="15-semana-14-08-bitacora-commits-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Comprueba que puedes explicar por qué la trazabilidad operativa reduce riesgo tanto como una buena suite de tests funcionales. Si no conectas ambos mundos, revisa la lección.</p>
+<h2 id="15-semana-14-08-bitacora-commits-siguiente-semana">Siguiente semana</h2>
+<p>Continúa en <code>16-semana-15/00-semana-15-roadmap.md</code>, donde entraremos en hardening, presupuestos de performance y robustez final antes de la defensa.</p>
 </section>
 <section id="16-semana-15-00-semana-15-roadmap" class="lesson" data-topic-id="16-semana-15-00-semana-15-roadmap" data-lesson-path="16-semana-15/00-semana-15-roadmap.md">
 <div class="lesson-path">16-semana-15/00-semana-15-roadmap.md</div>
