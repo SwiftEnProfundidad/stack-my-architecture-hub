@@ -79,6 +79,7 @@ stack-hub --backup-runtime
 stack-hub --backup-runtime before-upgrade
 stack-hub --backup-runtime --backup-runtime-keep 20
 stack-hub --list-runtime-backups
+stack-hub --verify-runtime-backup latest
 stack-hub --restore-runtime latest
 stack-hub --prune-runtime-backups 10
 stack-hub ios --restart
@@ -107,6 +108,7 @@ stack-hub --backup-runtime
 stack-hub --backup-runtime before-upgrade
 stack-hub --backup-runtime --backup-runtime-keep 20
 stack-hub --list-runtime-backups
+stack-hub --verify-runtime-backup latest
 stack-hub --restore-runtime latest
 stack-hub --prune-runtime-backups 10
 ```

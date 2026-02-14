@@ -12,12 +12,16 @@ usage() {
 Uso:
   runtime-snapshot.sh backup [--name <alias>] [--keep <n>]
   runtime-snapshot.sh list
+  runtime-snapshot.sh verify <latest|archivo.tar.gz>
   runtime-snapshot.sh restore <latest|archivo.tar.gz>
   runtime-snapshot.sh prune <keep>
 
 Notas:
   - Los snapshots se guardan en .runtime/snapshots/
+  - backup genera hash sidecar .sha256
+  - verify valida sidecar + estructura + hashes internos
   - restore detiene el hub antes de restaurar
+  - restore ejecuta verify antes de restaurar
   - restore limpia hub.pid/hub.port al terminar (seguridad)
   - prune mantiene los <keep> más recientes y borra el resto
   - backup puede autoprunear con --keep o STACK_MY_ARCH_RUNTIME_BACKUP_KEEP
@@ -36,6 +40,58 @@ validate_keep_value() {
     echo "❌ Valor inválido para keep/prune: $keep (debe ser entero >= 0)"
     exit 1
   fi
+}
+
+write_archive_checksum() {
+  local archive="$1"
+  local sidecar="${archive}.sha256"
+  shasum -a 256 "$archive" | awk '{print $1}' > "$sidecar"
+  echo "✅ Checksum generado: $sidecar"
+}
+
+verify_archive_checksum() {
+  local archive="$1"
+  local sidecar="${archive}.sha256"
+  if [ ! -f "$sidecar" ]; then
+    echo "⚠️  No existe sidecar checksum para snapshot: $sidecar"
+    return 0
+  fi
+
+  local expected actual
+  expected="$(awk 'NR==1{print $1}' "$sidecar" | tr -d '\r\n')"
+  actual="$(shasum -a 256 "$archive" | awk '{print $1}')"
+  if [ -z "$expected" ] || [ "$expected" != "$actual" ]; then
+    echo "❌ Checksum inválido para snapshot: $archive"
+    echo "   expected=$expected"
+    echo "   actual=$actual"
+    return 1
+  fi
+  echo "✅ Checksum válido: $sidecar"
+}
+
+write_runtime_files_manifest() {
+  local runtime_dir="$1"
+  local manifest="$runtime_dir/snapshot-files.sha256"
+  (
+    cd "$runtime_dir"
+    find . -type f ! -name 'snapshot-files.sha256' -print0 \
+      | sort -z \
+      | xargs -0 shasum -a 256 > "$manifest"
+  )
+}
+
+verify_runtime_files_manifest() {
+  local runtime_dir="$1"
+  local manifest="$runtime_dir/snapshot-files.sha256"
+  if [ ! -f "$manifest" ]; then
+    echo "⚠️  Snapshot sin manifest interno de archivos: $manifest"
+    return 0
+  fi
+  (
+    cd "$runtime_dir"
+    shasum -a 256 -c "snapshot-files.sha256"
+  )
+  echo "✅ Hashes internos validados."
 }
 
 backup_runtime() {
@@ -100,9 +156,12 @@ backup_runtime() {
 }
 EOF
 
+  write_runtime_files_manifest "$tmpdir/runtime"
+
   tar -czf "$output" -C "$tmpdir" runtime
   rm -rf "$tmpdir"
   echo "✅ Snapshot creado: $output"
+  write_archive_checksum "$output"
 
   if [ -n "$keep_after_backup" ]; then
     echo "ℹ️ Auto-prune tras backup (keep=$keep_after_backup)"
@@ -147,6 +206,7 @@ prune_snapshots() {
       kept=$((kept + 1))
       continue
     fi
+    rm -f "${file}.sha256"
     rm -f "$file"
     deleted=$((deleted + 1))
   done <<< "$entries"
@@ -176,6 +236,53 @@ resolve_snapshot_path() {
   return 1
 }
 
+verify_snapshot_path() {
+  local snapshot="$1"
+  if [ ! -f "$snapshot" ]; then
+    echo "❌ Snapshot no encontrado: $snapshot"
+    return 1
+  fi
+
+  verify_archive_checksum "$snapshot"
+
+  local tmpdir
+  tmpdir="$(mktemp -d /tmp/stack-hub-verify-XXXX)"
+
+  if ! tar -tzf "$snapshot" >/dev/null 2>&1; then
+    rm -rf "$tmpdir"
+    echo "❌ Snapshot corrupto o ilegible: $snapshot"
+    return 1
+  fi
+
+  tar -xzf "$snapshot" -C "$tmpdir"
+  if [ ! -d "$tmpdir/runtime" ]; then
+    rm -rf "$tmpdir"
+    echo "❌ Snapshot inválido: no contiene carpeta runtime/"
+    return 1
+  fi
+
+  if [ ! -f "$tmpdir/runtime/snapshot-meta.json" ]; then
+    echo "⚠️  Snapshot sin snapshot-meta.json"
+  else
+    echo "✅ Meta presente: snapshot-meta.json"
+  fi
+
+  verify_runtime_files_manifest "$tmpdir/runtime"
+  rm -rf "$tmpdir"
+  echo "✅ Snapshot verificado: $snapshot"
+}
+
+verify_snapshot_ref() {
+  local ref="$1"
+  local snapshot
+  snapshot="$(resolve_snapshot_path "$ref" || true)"
+  if [ -z "$snapshot" ] || [ ! -f "$snapshot" ]; then
+    echo "❌ Snapshot no encontrado: $ref"
+    return 1
+  fi
+  verify_snapshot_path "$snapshot"
+}
+
 restore_runtime() {
   local ref="$1"
   local snapshot
@@ -184,6 +291,9 @@ restore_runtime() {
     echo "❌ Snapshot no encontrado: $ref"
     exit 1
   fi
+
+  echo "🔎 Verificando snapshot antes de restaurar..."
+  verify_snapshot_path "$snapshot"
 
   echo "🔄 Restaurando runtime desde: $snapshot"
   /bin/zsh -f "$STOP_SCRIPT" >/dev/null 2>&1 || true
@@ -270,6 +380,20 @@ main() {
         exit 1
       fi
       list_snapshots
+      ;;
+    verify)
+      shift
+      if [ -z "${1:-}" ]; then
+        echo "❌ Debes indicar snapshot a verificar (o latest)."
+        exit 1
+      fi
+      local verify_ref="$1"
+      shift
+      if [ $# -gt 0 ]; then
+        echo "❌ Argumentos no soportados para verify: $*"
+        exit 1
+      fi
+      verify_snapshot_ref "$verify_ref"
       ;;
     restore)
       shift
