@@ -1040,15 +1040,15 @@ blockquote p {
 </ul></li>
 <li class="nav-section"><strong>Semana 6</strong>
 <ul>
-  <li><a class="doc-nav-link" data-lesson-path="07-semana-06/00-semana-06-roadmap.md" href="#07-semana-06-00-semana-06-roadmap">Semana 6: offline y cache con política de sincronización explícita</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="07-semana-06/01-problema-offline-cache.md" href="#07-semana-06-01-problema-offline-cache">Semana 6 · Lección 1: el problema no es “tener cache”, es no saber cuándo manda cada fuente</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="07-semana-06/02-spec-offline-cache-v1.md" href="#07-semana-06-02-spec-offline-cache-v1">Semana 6 · Lección 2: especificar política offline/cache como contrato observable</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="07-semana-06/03-bdd-offline-cache.md" href="#07-semana-06-03-bdd-offline-cache">Semana 6 · Lección 3: BDD de comportamiento offline para eliminar ambigüedad operativa</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="07-semana-06/04-tdd-offline-first-repository.md" href="#07-semana-06-04-tdd-offline-first-repository">Semana 6 · Lección 4: TDD del repositorio offline-first para blindar fallback y sync</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="07-semana-06/05-codigo-offline-first-repository.md" href="#07-semana-06-05-codigo-offline-first-repository">Semana 6 · Lección 5: implementar política offline-first con cola de pendientes</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="07-semana-06/06-refactor-sync-policy.md" href="#07-semana-06-06-refactor-sync-policy">Semana 6 · Lección 6: refactor de política de sincronización para mantener claridad bajo crecimiento</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="07-semana-06/07-checkpoint-evaluacion.md" href="#07-semana-06-07-checkpoint-evaluacion">Semana 6 · Lección 7: checkpoint de resiliencia para cerrar offline/cache con rigor</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="07-semana-06/08-bitacora-commits.md" href="#07-semana-06-08-bitacora-commits">Semana 6 · Lección 8: bitácora de cierre para política offline y sincronización</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="07-semana-06/00-semana-06-roadmap.md" href="#07-semana-06-00-semana-06-roadmap">Semana 6: política offline-first para que la app siga siendo confiable cuando la red falla</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="07-semana-06/01-problema-offline-cache.md" href="#07-semana-06-01-problema-offline-cache">Semana 6 · Lección 1: el problema no es tener cache, es no decidir qué fuente manda en cada contexto</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="07-semana-06/02-spec-offline-cache-v1.md" href="#07-semana-06-02-spec-offline-cache-v1">Semana 6 · Lección 2: especificar offline-first como contrato observable y no como “modo especial”</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="07-semana-06/03-bdd-offline-cache.md" href="#07-semana-06-03-bdd-offline-cache">Semana 6 · Lección 3: BDD de offline/cache para alinear expectativas de producto, QA y arquitectura</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="07-semana-06/04-tdd-offline-first-repository.md" href="#07-semana-06-04-tdd-offline-first-repository">Semana 6 · Lección 4: TDD del repositorio offline-first para blindar fallback y sincronización</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="07-semana-06/05-codigo-offline-first-repository.md" href="#07-semana-06-05-codigo-offline-first-repository">Semana 6 · Lección 5: código de producción offline-first con cola de pendientes y sincronización explícita</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="07-semana-06/06-refactor-sync-policy.md" href="#07-semana-06-06-refactor-sync-policy">Semana 6 · Lección 6: refactor de política de sincronización para que el sistema siga siendo entendible al crecer</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="07-semana-06/07-checkpoint-evaluacion.md" href="#07-semana-06-07-checkpoint-evaluacion">Semana 6 · Lección 7: checkpoint de resiliencia para cerrar offline/cache con evidencia real</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="07-semana-06/08-bitacora-commits.md" href="#07-semana-06-08-bitacora-commits">Semana 6 · Lección 8: bitácora de cierre para dejar política offline-first auditada y mantenible</a></li>
 </ul></li>
 <li class="nav-section"><strong>Semana 7</strong>
 <ul>
@@ -6230,238 +6230,382 @@ git commit -m "feat(week5): add local persistence adapter with durable repositor
 </section>
 <section id="07-semana-06-00-semana-06-roadmap" class="lesson" data-topic-id="07-semana-06-00-semana-06-roadmap" data-lesson-path="07-semana-06/00-semana-06-roadmap.md">
 <div class="lesson-path">07-semana-06/00-semana-06-roadmap.md</div>
-<h1 id="07-semana-06-00-semana-06-roadmap-semana-6-offline-y-cache-con-pol-tica-de-sincronizaci-n-expl-cita">Semana 6: offline y cache con política de sincronización explícita</h1>
-<p>En Semana 5 logramos persistencia local durable detrás de un adaptador. Eso resolvió una parte importante del problema, pero todavía falta una capacidad central para una app real: decidir qué hace el sistema cuando la fuente principal de datos no está disponible y cómo recupera consistencia cuando vuelve la conectividad. Semana 6 existe para enseñar justamente esa política de comportamiento, no solo un truco técnico.</p>
-<p>Si no defines política de offline y cache, cada pantalla termina improvisando. Una usa datos viejos sin avisar, otra falla duro, otra mezcla resultados remotos y locales de forma inconsistente. En pocas semanas pierdes confianza operativa porque nadie sabe qué significa realmente “estado actual” en la app.</p>
-<p>Aquí aplicamos una decisión profesional: política explícita, centralizada y testeable. El repositorio <code>offline-first</code> intenta fuente remota cuando está disponible, refresca cache local cuando obtiene datos frescos y usa cache como respaldo cuando el remoto no responde. Además, cuando hay operaciones realizadas en modo offline, queda una cola pendiente para sincronizar en cuanto vuelva la disponibilidad.</p>
+<h1 id="07-semana-06-00-semana-06-roadmap-semana-6-pol-tica-offline-first-para-que-la-app-siga-siendo-confiable-cuando-la-red-falla">Semana 6: política offline-first para que la app siga siendo confiable cuando la red falla</h1>
+<p>Hasta Week 5 construiste una base sólida de persistencia local. Ahora damos un salto operativo muy relevante: gestionar conectividad variable sin romper consistencia de negocio. En la vida real, la red falla, va lenta o cambia de estado constantemente. Si tu arquitectura no tiene una política explícita para ese contexto, cada pantalla improvisa y el sistema empieza a mostrar versiones distintas de la verdad.</p>
+<p>Week 6 existe para evitar exactamente ese caos.</p>
+<p>No vamos a añadir "modo offline" como adorno. Vamos a diseñar una política <code>offline-first</code> clara y testeable: cuando remoto está disponible, lee remoto y refresca cache; cuando remoto no está disponible, responde desde cache; cuando escribes en offline, guardas local y dejas operación pendiente para sincronizar en reconexión.</p>
 <pre class="mermaid">flowchart LR
     A[OpenSpec week06] --> B[BDD offline-cache]
-    B --> C[TDD de repositorio offline-first]
-    C --> D[Produccion: politica de sync]
-    D --> E[Refactor de cola pendiente]
-    E --> F[Checkpoint y cierre]</pre>
-<p>El resultado medible de la semana es concreto. Debes tener un repositorio con política offline definida, pruebas de integración que demuestren fallback y sincronización, y evidencia de que los casos de uso siguen funcionando sobre el mismo contrato <code>TicketRepository</code> sin conocer detalles de conectividad.</p>
+    B --> C[TDD repositorio offline-first]
+    C --> D[Produccion con cola de pendientes]
+    D --> E[Refactor de politica de sync]
+    E --> F[Checkpoint de resiliencia]
+    F --> G[Bitacora auditable]</pre>
+<p>La palabra importante aquí es política. Sin política explícita, "cache" puede significar muchas cosas distintas según quién implemente. Con política explícita, comportamiento y expectativas quedan alineados en todo el sistema.</p>
 <pre><code class="language-yaml">week6_definition_of_done:
-  fallback_policy: "si remoto falla por indisponibilidad, se sirve cache local"
-  sync_policy: "operaciones offline quedan pendientes y se sincronizan despues"
-  contract_stability: "use cases no cambian de interfaz por introducir offline"
-  evidence: "integration tests + validaciones globales en verde"</code></pre>
-<p>La práctica de arranque consiste en escribir, en lenguaje claro, qué debería ver la persona usuaria en tres situaciones: online estable, offline temporal y reconexión tras trabajar offline. Este ejercicio te obliga a pensar primero en semántica de producto y luego en implementación técnica.</p>
-<p>La verificación de comprensión antes de la primera lección es responder esta pregunta: ¿por qué una estrategia de cache sin política de sincronización explícita puede generar bugs de negocio aunque los tests unitarios de dominio estén en verde?</p>
-<p>Siguiente lección: <code>07-semana-06/01-problema-offline-cache.md</code>.</p>
+  read_policy: "remote-first con refresh de cache"
+  fallback_policy: "si remoto cae, responder desde cache local"
+  write_policy: "escritura offline persiste local y encola sync"
+  sync_policy: "cola pendiente se reprocesa en reconexion"
+  contract_stability: "use cases siguen dependiendo de TicketRepository"
+  delivery_evidence: "tests + validadores + commits atomicos"</code></pre>
+<p>Si eres junior, piensa en una analogía simple. Tienes una libreta local y un servidor central. Cuando hay conexión, actualizas ambos. Cuando no hay, trabajas en libreta y marcas tareas pendientes para pasarlas luego al servidor. Si no anotas qué quedó pendiente, perderás trabajo o generarás incoherencias.</p>
+<p>Esta semana también te enseña a distinguir dos tipos de cache: cache para rendimiento y cache para resiliencia. En Week 6 nos centramos en resiliencia: sostener comportamiento correcto bajo fallos de conectividad, no solo cargar más rápido.</p>
+<h2 id="07-semana-06-00-semana-06-roadmap-pr-ctica-guiada">Práctica guiada</h2>
+<p>Escribe tres mini-historias de usuario de una línea cada una: una para online estable, otra para offline temporal y otra para reconexión. En cada historia indica qué espera ver la persona usuaria y qué garantiza la política del sistema.</p>
+<h2 id="07-semana-06-00-semana-06-roadmap-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Comprueba si puedes explicar por qué "tener cache" no equivale a "tener política offline". Si tu respuesta no menciona reglas de sincronización y consistencia posterior, relee esta introducción antes de avanzar.</p>
+<h2 id="07-semana-06-00-semana-06-roadmap-siguiente-lecci-n">Siguiente lección</h2>
+<p>Continúa con <code>07-semana-06/01-problema-offline-cache.md</code>, donde aterrizamos los riesgos reales de una cache sin prioridad de fuentes ni estrategia de sync.</p>
 </section>
 <section id="07-semana-06-01-problema-offline-cache" class="lesson" data-topic-id="07-semana-06-01-problema-offline-cache" data-lesson-path="07-semana-06/01-problema-offline-cache.md">
 <div class="lesson-path">07-semana-06/01-problema-offline-cache.md</div>
-<h1 id="07-semana-06-01-problema-offline-cache-semana-6-lecci-n-1-el-problema-no-es-tener-cache-es-no-saber-cu-ndo-manda-cada-fuente">Semana 6 · Lección 1: el problema no es “tener cache”, es no saber cuándo manda cada fuente</h1>
-<p>En muchos proyectos se habla de cache como si fuera un interruptor mágico. Se activa y aparentemente mejora velocidad. El problema aparece cuando no queda claro qué fuente tiene prioridad en cada contexto. Si remoto y local compiten sin reglas, la app puede mostrar información vieja como si fuera actual o sobrescribir cambios válidos sin advertencia.</p>
-<p>Este problema es más grave en entornos enterprise porque impacta operación real. Un ticket puede verse resuelto en una pantalla y abierto en otra, no por un bug trivial, sino por ausencia de política de lectura/escritura y sincronización. Cuando eso ocurre, la conversación deja de ser técnica y se convierte en pérdida de confianza entre equipos.</p>
+<h1 id="07-semana-06-01-problema-offline-cache-semana-6-lecci-n-1-el-problema-no-es-tener-cache-es-no-decidir-qu-fuente-manda-en-cada-contexto">Semana 6 · Lección 1: el problema no es tener cache, es no decidir qué fuente manda en cada contexto</h1>
+<p>En muchos equipos se añade cache con buena intención: "si falla la red, usamos local". El problema aparece cuando esa frase no se convierte en reglas concretas. ¿Cuándo manda remoto? ¿Cuándo manda cache? ¿Qué pasa con escrituras hechas offline? ¿Cómo se recupera consistencia al volver la red? Si esto no está definido, la app puede funcionar "a ratos" y aun así romper negocio.</p>
+<p>La incoherencia típica es esta: una pantalla muestra datos locales viejos como si fueran actuales mientras otra pantalla muestra datos remotos nuevos. Ambas creen tener razón. El usuario solo ve confusión.</p>
 <pre class="mermaid">flowchart TD
-    A[Sin politica offline] --> B[Lecturas inconsistentes]
-    B --> C[Escrituras ambiguas]
-    C --> D[Estado de negocio dudoso]
-    E[Politica explicita] --> F[Prioridad de fuentes clara]
-    F --> G[Sincronizacion controlada]
-    G --> H[Comportamiento predecible]</pre>
-<p>Piensa en una analogía simple. Tienes una libreta (cache local) y un sistema central (remoto). Si no acuerdas cuándo confías en la libreta y cuándo actualizas el sistema central, cada persona del equipo trabajará con una versión distinta de la verdad. En software pasa lo mismo, solo que más rápido y con más impacto.</p>
-<pre><code class="language-swift">// Pregunta arquitectonica clave.
-// ¿Cuando remote falla por indisponibilidad, devolvemos error o fallback?
-// Week 6 define fallback a cache para lectura, y cola pendiente para escritura offline.</code></pre>
-<p>La práctica guiada de esta lección consiste en describir con tus palabras una regla de prioridad de fuentes para lectura y otra para escritura. Si tus reglas no se pueden convertir en tests, todavía están ambiguas.</p>
-<p>La verificación de comprensión antes de especificación es responder qué diferencia hay entre “cache de rendimiento” y “cache de resiliencia”, y por qué Week 6 necesita ambas perspectivas.</p>
-<p>Siguiente lección: <code>07-semana-06/02-spec-offline-cache-v1.md</code>.</p>
+    A[Sin politica offline explicita] --> B[Prioridad de fuente ambigua]
+    B --> C[Datos inconsistentes entre flujos]
+    C --> D[Decisiones de usuario sobre informacion incorrecta]
+    D --> E[Perdida de confianza + incidencias recurrentes]</pre>
+<p>Esta cadena de daño no suele aparecer en tests unitarios de dominio, porque el riesgo vive en coordinación de infraestructura bajo condiciones cambiantes.</p>
+<p>Una forma útil de entenderlo es pensar en dos relojes: uno central (remoto) y uno local (cache). Si no defines cuándo sincronizas y cuál tiene prioridad, tarde o temprano mostrarás horas distintas en el mismo producto.</p>
+<p>Un pseudo anti-patrón sería este:</p>
+<pre><code class="language-swift">// Anti-patron: fallback improvisado sin registrar estado de sincronizacion.
+if remoteFails {
+    return cache.list()
+}
+return remote.list()</code></pre>
+<p>Aquí falta algo esencial: no queda trazabilidad de decisiones, ni estrategia para reconciliar cambios pendientes.</p>
+<p>Week 6 corrige eso con política explícita y cola de pendientes para escrituras offline.</p>
+<h2 id="07-semana-06-01-problema-offline-cache-pr-ctica-guiada">Práctica guiada</h2>
+<p>Escribe dos consecuencias operativas de perder una operación hecha en offline (por ejemplo, actualización de estado de ticket) y cómo impactarían en soporte o SLA. Luego anota qué señal te ayudaría a detectar que esa operación nunca se sincronizó.</p>
+<h2 id="07-semana-06-01-problema-offline-cache-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Responde qué diferencia hay entre "cache de rendimiento" y "cache de resiliencia" usando un ejemplo de ticketing. Si ambos conceptos te parecen iguales, vuelve a esta lección.</p>
+<h2 id="07-semana-06-01-problema-offline-cache-siguiente-lecci-n">Siguiente lección</h2>
+<p>Pasa a <code>07-semana-06/02-spec-offline-cache-v1.md</code>, donde convertiremos este problema en un contrato OpenSpec de comportamiento offline-first verificable.</p>
 </section>
 <section id="07-semana-06-02-spec-offline-cache-v1" class="lesson" data-topic-id="07-semana-06-02-spec-offline-cache-v1" data-lesson-path="07-semana-06/02-spec-offline-cache-v1.md">
 <div class="lesson-path">07-semana-06/02-spec-offline-cache-v1.md</div>
-<h1 id="07-semana-06-02-spec-offline-cache-v1-semana-6-lecci-n-2-especificar-pol-tica-offline-cache-como-contrato-observable">Semana 6 · Lección 2: especificar política offline/cache como contrato observable</h1>
-<p>Una vez identificado el problema, toca convertirlo en contrato. Aquí está el salto pedagógico importante de Week 6: no especificamos “usar cache”, especificamos comportamiento de sistema bajo condiciones de conectividad distintas. Esa diferencia convierte una intención vaga en una capacidad verificable.</p>
-<p>El cambio de OpenSpec para esta semana se centra en tres promesas operativas. Cuando remoto está disponible, las lecturas deben venir de remoto y refrescar cache. Cuando remoto está indisponible, lecturas deben servirse desde cache local. Cuando se hacen escrituras en offline, esas operaciones deben quedar pendientes para sincronizar después.</p>
+<h1 id="07-semana-06-02-spec-offline-cache-v1-semana-6-lecci-n-2-especificar-offline-first-como-contrato-observable-y-no-como-modo-especial">Semana 6 · Lección 2: especificar offline-first como contrato observable y no como “modo especial”</h1>
+<p>Con el problema claro, ahora necesitamos convertirlo en contrato. Esta parte es crítica porque sin spec la política offline termina siendo un conjunto de supuestos repartidos en código. OpenSpec nos obliga a fijar decisiones operativas de forma versionada y verificable.</p>
+<p>La clave pedagógica de Week 6 es que no estamos especificando tecnología, estamos especificando comportamiento bajo condiciones de conectividad.</p>
 <pre class="mermaid">flowchart LR
-    A[Problema de inconsistencia] --> B[Proposal week06]
-    B --> C[Requirement offline-first]
-    C --> D[Escenarios de fallback y sync]
-    D --> E[Tareas verificables]</pre>
-<p>El flujo con IA se mantiene igual para reforzar método repetible y auditable.</p>
+    A[Problema de prioridad de fuentes] --> B[proposal week06-offline-cache-policy]
+    B --> C[spec: read/write/sync policy]
+    C --> D[design: repositorio offline-first]
+    D --> E[tasks con evidencia]
+    E --> F[implementacion + tests]</pre>
+<p>Flujo con IA/OpenSpec:</p>
 <pre><code class="language-text">/opsx:new week06-offline-cache-policy
 /opsx:ff
 /opsx:apply
-/opsx:verify</code></pre>
-<p>Esta semana también introduce una decisión de claridad para juniors. Simularemos indisponibilidad remota con errores controlados para poder validar política sin depender de infraestructura real. En un entorno profesional esa misma política se conecta a fallos de red reales, pero el contrato no cambia.</p>
-<pre><code class="language-yaml">week6_policy_contract:
-  read_online: "remote first y refresh de cache"
-  read_offline: "fallback a cache local"
-  write_offline: "guardar en cache + encolar operacion"
-  sync_recovery: "reintentar cola pendiente cuando remoto vuelve"</code></pre>
-<p>La práctica guiada de esta lección consiste en redactar una frase por cada promesa anterior empezando por “El sistema deberá…”. Luego valida si cada frase puede mapearse a un escenario GIVEN/WHEN/THEN distinto. Si no se puede mapear, la frase está demasiado genérica.</p>
-<p>La verificación de comprensión antes de BDD es responder por qué esta política debe vivir en infraestructura y no repartida en vistas o casos de uso.</p>
-<p>Siguiente lección: <code>07-semana-06/03-bdd-offline-cache.md</code>.</p>
+/opsx:verify
+/opsx:archive</code></pre>
+<p>El contrato mínimo que necesitamos en Week 6 puede resumirse así:</p>
+<pre><code class="language-yaml">week6_offline_contract:
+  read_online: "intentar remoto primero y refrescar cache"
+  read_offline: "si remoto no disponible, usar cache local"
+  write_online: "persistir en remoto y reflejar en cache"
+  write_offline: "persistir en cache y encolar operacion pendiente"
+  sync_recovery: "reprocesar cola pendiente al recuperar conectividad"
+  non_goals: "conflictos multi-dispositivo avanzados"</code></pre>
+<p>Fíjate en <code>sync_recovery</code>. Sin esa regla, puedes tener un "modo offline" que parece útil pero pierde cambios en silencio al volver la red.</p>
+<p>Una formulación fuerte de requisito sería:</p>
+<pre><code class="language-text">The system SHALL enqueue write operations performed while remote is unavailable and SHALL replay them when remote connectivity is restored.</code></pre>
+<p>Ese requisito obliga a diseño y tests concretos. No deja espacio para ambigüedad.</p>
+<h2 id="07-semana-06-02-spec-offline-cache-v1-pr-ctica-guiada">Práctica guiada</h2>
+<p>Redacta dos requisitos <code>SHALL</code> adicionales: uno para fallback de lectura y otro para visibilidad de error cuando no existe dato ni remoto ni cache. Luego comprueba si puedes convertirlos en escenarios BDD sin inventar detalles de implementación.</p>
+<h2 id="07-semana-06-02-spec-offline-cache-v1-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Comprueba si puedes defender por qué “guardar en cache” y “sincronizar después” deben aparecer como requisitos separados en spec. Si los mezclas, acabas ocultando riesgos de consistencia.</p>
+<h2 id="07-semana-06-02-spec-offline-cache-v1-siguiente-lecci-n">Siguiente lección</h2>
+<p>Continúa en <code>07-semana-06/03-bdd-offline-cache.md</code>, donde llevaremos este contrato a escenarios observables de online, offline y reconexión.</p>
 </section>
 <section id="07-semana-06-03-bdd-offline-cache" class="lesson" data-topic-id="07-semana-06-03-bdd-offline-cache" data-lesson-path="07-semana-06/03-bdd-offline-cache.md">
 <div class="lesson-path">07-semana-06/03-bdd-offline-cache.md</div>
-<h1 id="07-semana-06-03-bdd-offline-cache-semana-6-lecci-n-3-bdd-de-comportamiento-offline-para-eliminar-ambig-edad-operativa">Semana 6 · Lección 3: BDD de comportamiento offline para eliminar ambigüedad operativa</h1>
-<p>BDD en Week 6 tiene una misión muy concreta: alinear a todo el equipo sobre cómo responde el sistema cuando la conectividad cambia. Sin ese acuerdo, cada perfil interpreta “offline mode” de una manera distinta y los bugs de consistencia se vuelven inevitables.</p>
-<p>Los escenarios de esta semana no se enfocan en detalles de protocolo ni en componentes de UI. Se enfocan en comportamiento observable del repositorio desde la perspectiva de la aplicación. Eso permite validar política sin acoplar pruebas a una implementación puntual.</p>
+<h1 id="07-semana-06-03-bdd-offline-cache-semana-6-lecci-n-3-bdd-de-offline-cache-para-alinear-expectativas-de-producto-qa-y-arquitectura">Semana 6 · Lección 3: BDD de offline/cache para alinear expectativas de producto, QA y arquitectura</h1>
+<p>Con la spec definida, toca traducirla a escenarios que describan comportamiento visible en condiciones reales de conectividad. En Week 6 esto es vital, porque "funciona offline" puede significar cosas muy distintas si no se concreta.</p>
+<p>BDD aquí actúa como contrato de operación: qué debe pasar cuando hay red, cuando no hay red y cuando la red vuelve.</p>
 <pre class="mermaid">sequenceDiagram
-    participant App as Application
+    participant User as Persona usuaria
     participant Repo as OfflineFirstRepository
-    participant Remote as Remote Source
-    participant Cache as Local Cache
-    App->>Repo: list()
+    participant Remote as Fuente remota
+    participant Cache as Fuente local
+
+    User->>Repo: list()
     Repo->>Remote: intentar lectura
     alt remoto disponible
-      Remote-->>Repo: datos frescos
-      Repo->>Cache: refrescar cache
-      Repo-->>App: datos remotos
+        Remote-->>Repo: datos remotos
+        Repo->>Cache: refresh cache
+        Repo-->>User: datos remotos
     else remoto indisponible
-      Remote-->>Repo: unavailable
-      Repo->>Cache: list()
-      Cache-->>Repo: ultimo estado local
-      Repo-->>App: fallback local
+        Repo->>Cache: fallback lectura
+        Cache-->>Repo: ultimo estado local
+        Repo-->>User: datos desde cache
     end</pre>
-<p>Los escenarios base de Week 6 deben cubrir ruta online, ruta offline y recuperación con sincronización de pendientes.</p>
-<pre><code class="language-gherkin">Feature: Politica offline-first para ticketing
-  Scenario: Lectura online refresca cache
-    Given remoto disponible con tickets actualizados
-    When la aplicacion solicita listado
-    Then el repositorio devuelve datos remotos y actualiza cache local
+<p>Escenarios base de Week 6:</p>
+<pre><code class="language-gherkin">Feature: Offline-first repository policy
+  Scenario: Online read refreshes cache
+    Given remote is available with fresh tickets
+    When repository list is requested
+    Then repository returns remote tickets
+    And local cache is refreshed
 
-  Scenario: Lectura offline usa fallback local
-    Given remoto indisponible y cache local con tickets
-    When la aplicacion solicita listado
-    Then el repositorio devuelve tickets desde cache
+  Scenario: Offline read falls back to cache
+    Given remote is unavailable and cache contains tickets
+    When repository list is requested
+    Then repository returns cached tickets
 
-  Scenario: Escritura offline queda pendiente para sync
-    Given remoto indisponible
-    When la aplicacion crea o actualiza un ticket
-    Then el repositorio persiste en cache y registra operacion pendiente</code></pre>
-<p>La práctica guiada consiste en explicar el tercer escenario como si fueras QA y tuvieras que diseñar una prueba manual de caja negra. Ese ejercicio te obliga a traducir arquitectura a criterios verificables de producto.</p>
-<p>La verificación de comprensión antes de TDD es identificar qué escenario detectaría primero una regresión donde el sistema pierde operaciones hechas en modo offline.</p>
-<p>Siguiente lección: <code>07-semana-06/04-tdd-offline-first-repository.md</code>.</p>
+  Scenario: Offline write is queued for later sync
+    Given remote is unavailable
+    When repository create is requested
+    Then repository persists ticket in cache
+    And repository enqueues pending operation
+
+  Scenario: Reconnection sync flushes pending operations
+    Given pending operations exist in queue
+    And remote becomes available again
+    When sync is executed
+    Then queued operations are applied to remote
+    And pending queue becomes empty</code></pre>
+<p>Estos cuatro escenarios cubren el corazón de la política.</p>
+<p>Error frecuente en esta fase: describir BDD como si fuera "cómo está codificado" en vez de "qué se observa". Evítalo. Escenarios buenos sobreviven a refactors internos mientras el comportamiento externo se mantenga.</p>
+<h2 id="07-semana-06-03-bdd-offline-cache-pr-ctica-guiada">Práctica guiada</h2>
+<p>Añade un escenario donde remoto y cache fallan al mismo tiempo en lectura. Define qué error observable debería recibir aplicación y por qué ese error ayuda a operar el sistema en producción.</p>
+<h2 id="07-semana-06-03-bdd-offline-cache-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Responde qué escenario detectaría antes una regresión donde el sistema deja de encolar escrituras offline. Si no puedes señalar uno concreto, tus escenarios aún no protegen el riesgo principal.</p>
+<h2 id="07-semana-06-03-bdd-offline-cache-siguiente-lecci-n">Siguiente lección</h2>
+<p>Pasa a <code>07-semana-06/04-tdd-offline-first-repository.md</code>, donde convertiremos estos escenarios en pruebas de integración del repositorio offline-first.</p>
 </section>
 <section id="07-semana-06-04-tdd-offline-first-repository" class="lesson" data-topic-id="07-semana-06-04-tdd-offline-first-repository" data-lesson-path="07-semana-06/04-tdd-offline-first-repository.md">
 <div class="lesson-path">07-semana-06/04-tdd-offline-first-repository.md</div>
-<h1 id="07-semana-06-04-tdd-offline-first-repository-semana-6-lecci-n-4-tdd-del-repositorio-offline-first-para-blindar-fallback-y-sync">Semana 6 · Lección 4: TDD del repositorio offline-first para blindar fallback y sync</h1>
-<p>Con escenarios definidos, toca convertir política en pruebas que fallen por razones correctas. En Week 6 las pruebas más valiosas son de integración de infraestructura porque estamos validando coordinación entre dos fuentes de datos y una cola de operaciones pendientes.</p>
-<p>La idea pedagógica principal es esta. No basta con testear que un método devuelve algo. Debes testear qué devuelve según el contexto de disponibilidad, y qué efectos secundarios deja para la sincronización futura. Esa doble validación es la diferencia entre una cache decorativa y una política robusta.</p>
+<h1 id="07-semana-06-04-tdd-offline-first-repository-semana-6-lecci-n-4-tdd-del-repositorio-offline-first-para-blindar-fallback-y-sincronizaci-n">Semana 6 · Lección 4: TDD del repositorio offline-first para blindar fallback y sincronización</h1>
+<p>Ahora convertimos los escenarios offline/cache en pruebas ejecutables. Esta lección entrena una habilidad importante: probar decisiones de política, no solo retorno de funciones. Aquí las pruebas valiosas validan comportamiento según contexto de conectividad y también efectos secundarios (refresh de cache, cola pendiente, sincronización).</p>
 <pre class="mermaid">flowchart LR
-    A[Escenario BDD offline] --> B[Test rojo integration]
-    B --> C[Implementacion minima de politica]
+    A[Escenario BDD offline] --> B[Test integracion rojo]
+    B --> C[Implementacion minima politica]
     C --> D[Test verde]
-    D --> E[Refactor de cola pendiente]</pre>
-<p>Este patrón de test captura exactamente la intención de fallback cuando remoto falla por indisponibilidad.</p>
+    D --> E[Refactor de legibilidad]</pre>
+<p>Un test de fallback de lectura puede verse así:</p>
 <pre><code class="language-swift">@Test
-func listFallsBackToCacheWhenRemoteIsUnavailable() async throws {
-    let remote = ToggleableRemoteRepository(seed: [ticket(id: "T-R1")])
+func listFallsBackToCacheWhenRemoteUnavailable() async throws {
+    let remote = FailingRemoteRepository(mode: .unavailable)
     let cache = InMemoryTicketRepository(seed: [ticket(id: "T-C1")])
     let sut = OfflineFirstTicketRepository(remote: remote, cache: cache)
 
-    await remote.setAvailable(false)
-    let listed = try await sut.list()
+    let result = try await sut.list()
 
-    #expect(listed.map(\ .id.rawValue) == ["T-C1"])
+    #expect(result.count == 1)
+    #expect(result.first?.id.rawValue == "T-C1")
 }</code></pre>
+<p>Este test protege exactamente la promesa de resiliencia: no te quedas sin datos si el remoto cae y hay cache disponible.</p>
+<p>Ahora una prueba de escritura offline con cola pendiente:</p>
+<pre><code class="language-swift">@Test
+func createWhenRemoteUnavailableStoresInCacheAndQueuesPendingOperation() async throws {
+    let remote = FailingRemoteRepository(mode: .unavailable)
+    let cache = InMemoryTicketRepository(seed: [])
+    let sut = OfflineFirstTicketRepository(remote: remote, cache: cache)
+    let draft = TicketFixtures.ticket(id: "T-W1")
+
+    try await sut.create(draft)
+
+    let cached = try await cache.list()
+    #expect(cached.contains { $0.id == draft.id })
+    #expect(await sut.pendingOperationCount == 1)
+}</code></pre>
+<p>Y una prueba clave de reconexión:</p>
+<pre><code class="language-swift">@Test
+func syncPendingOperationsFlushesQueueWhenRemoteBackOnline() async throws {
+    let remote = ToggleRemoteRepository(isAvailable: false)
+    let cache = InMemoryTicketRepository(seed: [])
+    let sut = OfflineFirstTicketRepository(remote: remote, cache: cache)
+
+    try await sut.create(TicketFixtures.ticket(id: "T-SYNC-1"))
+    #expect(await sut.pendingOperationCount == 1)
+
+    await remote.setAvailable(true)
+    try await sut.syncPendingOperations()
+
+    #expect(await sut.pendingOperationCount == 0)
+}</code></pre>
+<p>Estas pruebas juntas blindan la política principal de Week 6.</p>
+<p>Ejecuta suite:</p>
 <pre><code class="language-bash">swift test --package-path project/HelpdeskSDD</code></pre>
-<p>La práctica guiada de esta lección consiste en romper de forma controlada la sincronización de pendientes y comprobar qué test cae primero. Después arregla la implementación y escribe en una frase qué regresión evitó ese test.</p>
-<p>La verificación de comprensión antes de código de producción es responder por qué estas pruebas no deben depender de una red real para validar la política offline/cache.</p>
-<p>Siguiente lección: <code>07-semana-06/05-codigo-offline-first-repository.md</code>.</p>
+<p>Si quieres evaluar robustez real, rompe temporalmente la parte de encolado y verifica qué pruebas caen. Luego revierte. Ese ciclo evita falsos verdes.</p>
+<h2 id="07-semana-06-04-tdd-offline-first-repository-pr-ctica-guiada">Práctica guiada</h2>
+<p>Escribe un test para el caso donde la sincronización parcial falla (por ejemplo, falla la segunda operación de la cola). Define qué debería pasar con la cola restante para preservar auditabilidad.</p>
+<h2 id="07-semana-06-04-tdd-offline-first-repository-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Explica por qué estas pruebas no deberían depender de red real para validar política offline-first. Si tu respuesta no menciona determinismo y aislamiento de fallo, revisa la lección.</p>
+<h2 id="07-semana-06-04-tdd-offline-first-repository-siguiente-lecci-n">Siguiente lección</h2>
+<p>Continúa en <code>07-semana-06/05-codigo-offline-first-repository.md</code>, donde implementaremos la política en producción como decorador de repositorios sin romper contratos de aplicación.</p>
 </section>
 <section id="07-semana-06-05-codigo-offline-first-repository" class="lesson" data-topic-id="07-semana-06-05-codigo-offline-first-repository" data-lesson-path="07-semana-06/05-codigo-offline-first-repository.md">
 <div class="lesson-path">07-semana-06/05-codigo-offline-first-repository.md</div>
-<h1 id="07-semana-06-05-codigo-offline-first-repository-semana-6-lecci-n-5-implementar-pol-tica-offline-first-con-cola-de-pendientes">Semana 6 · Lección 5: implementar política offline-first con cola de pendientes</h1>
-<p>En esta lección materializamos la política definida en spec y protegida por TDD. El repositorio <code>offline-first</code> se implementa como decorador de dos repositorios que ya cumplen contrato <code>TicketRepository</code>: uno remoto y uno cache local. Esta decisión evita romper capas superiores y permite introducir resiliencia sin cambiar casos de uso.</p>
-<p>El comportamiento de producción sigue una lógica clara. Para lecturas, intenta remoto primero y refresca cache si tiene éxito. Si remoto falla por indisponibilidad, devuelve cache. Para escrituras, intenta remoto; si no hay disponibilidad, persiste localmente y añade operación a cola pendiente. Después, un método de sincronización procesa esa cola cuando remoto vuelve.</p>
+<h1 id="07-semana-06-05-codigo-offline-first-repository-semana-6-lecci-n-5-c-digo-de-producci-n-offline-first-con-cola-de-pendientes-y-sincronizaci-n-expl-cita">Semana 6 · Lección 5: código de producción offline-first con cola de pendientes y sincronización explícita</h1>
+<p>Con contratos y pruebas listos, ahora materializamos la política en código de producción. La pieza central es un repositorio <code>offline-first</code> que actúa como decorador sobre dos fuentes que ya cumplen <code>TicketRepository</code>: remoto y cache local.</p>
+<p>Esta decisión de diseño es clave. Al mantener el mismo contrato de repositorio, los casos de uso no necesitan saber si están en online, offline o reconexión. La complejidad de conectividad queda encapsulada en infraestructura.</p>
 <pre class="mermaid">flowchart TD
-    A[Operacion de aplicacion] --> B[OfflineFirstTicketRepository]
-    B --> C{remoto disponible?}
-    C -->|si| D[ejecutar en remoto]
-    D --> E[refrescar cache]
-    C -->|no| F[aplicar en cache]
-    F --> G[registrar pendiente]
-    G --> H[syncPendingOperations]</pre>
-<p>Este fragmento muestra la esencia de la sincronización de pendientes con un enfoque incremental y auditable.</p>
-<pre><code class="language-swift">public func syncPendingOperations() async throws {
-    guard !pendingOperations.isEmpty else { return }
+    A[UseCases] --> B[TicketRepository]
+    B --> C[OfflineFirstTicketRepository]
+    C --> D[RemoteRepository]
+    C --> E[CacheRepository]
+    C --> F[PendingOperationsQueue]</pre>
+<p>Comportamiento base:</p>
+<pre><code class="language-swift">public actor OfflineFirstTicketRepository: TicketRepository {
+    private let remote: any TicketRepository
+    private let cache: any TicketRepository
+    private var pending: [PendingOperation] = []
 
-    var remaining: [PendingOperation] = []
-
-    for operation in pendingOperations {
+    public func list() async throws -&gt; [Ticket] {
         do {
-            try await applyToRemote(operation)
-        } catch RemoteRepositoryError.unavailable {
-            remaining.append(operation)
+            let remoteTickets = try await remote.list()
+            try await refreshCache(with: remoteTickets)
+            return remoteTickets
+        } catch {
+            return try await cache.list()
         }
     }
 
-    pendingOperations = remaining
-    if pendingOperations.isEmpty {
-        lastSyncAt = dateProvider.now()
+    public func create(_ ticket: Ticket) async throws {
+        do {
+            try await remote.create(ticket)
+            try await cache.create(ticket)
+        } catch {
+            try await cache.create(ticket)
+            pending.append(.create(ticket))
+        }
+    }
+
+    public func syncPendingOperations() async throws {
+        // Reintenta cola pendiente cuando remoto vuelve.
+        // Si falla una operacion, conserva pendientes restantes.
     }
 }</code></pre>
-<p>La práctica guiada de esta lección consiste en crear una operación en offline, comprobar que entra en pendientes, reactivar remoto y ejecutar <code>syncPendingOperations()</code>. Después verifica que pendientes queda en cero y que remoto contiene el cambio.</p>
-<p>La verificación de comprensión antes del refactor es responder qué ventaja aporta encapsular la política en este decorador frente a dispersar fallback en cada pantalla o caso de uso.</p>
-<p>Siguiente lección: <code>07-semana-06/06-refactor-sync-policy.md</code>.</p>
+<p>Lo importante aquí es la semántica, no el detalle de implementación exacto. Lecturas intentan remoto primero y refrescan cache cuando pueden. Escrituras en offline no se pierden: se guardan localmente y se encolan. Reconexión procesa la cola de forma explícita.</p>
+<p>Esta arquitectura te prepara para observabilidad y quality gates de semanas siguientes, porque ya tienes un punto único para medir cuántas operaciones pendientes existen y cuándo se sincronizan.</p>
+<p>Valida con pruebas y ejecución:</p>
+<pre><code class="language-bash">swift test --package-path project/HelpdeskSDD
+swift run --package-path project/HelpdeskSDD HelpdeskDemo</code></pre>
+<h2 id="07-semana-06-05-codigo-offline-first-repository-pr-ctica-guiada">Práctica guiada</h2>
+<p>Crea una operación en offline, verifica que entra en cola pendiente, reactiva remoto y ejecuta <code>syncPendingOperations()</code>. Luego confirma dos cosas: la cola queda vacía y remoto refleja el cambio. Documenta cada paso con evidencia breve.</p>
+<h2 id="07-semana-06-05-codigo-offline-first-repository-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Responde por qué encapsular política offline en un decorador de repositorio evita tocar casos de uso al introducir resiliencia. Si tu respuesta no menciona estabilidad de contrato, revisa esta lección.</p>
+<h2 id="07-semana-06-05-codigo-offline-first-repository-siguiente-lecci-n">Siguiente lección</h2>
+<p>Pasa a <code>07-semana-06/06-refactor-sync-policy.md</code>, donde refinaremos la política para mantener legibilidad y trazabilidad a medida que crezca el número de operaciones soportadas.</p>
 </section>
 <section id="07-semana-06-06-refactor-sync-policy" class="lesson" data-topic-id="07-semana-06-06-refactor-sync-policy" data-lesson-path="07-semana-06/06-refactor-sync-policy.md">
 <div class="lesson-path">07-semana-06/06-refactor-sync-policy.md</div>
-<h1 id="07-semana-06-06-refactor-sync-policy-semana-6-lecci-n-6-refactor-de-pol-tica-de-sincronizaci-n-para-mantener-claridad-bajo-crecimiento">Semana 6 · Lección 6: refactor de política de sincronización para mantener claridad bajo crecimiento</h1>
-<p>Tras implementar offline-first, llega un momento clave: evitar que la política se convierta en un bloque opaco difícil de mantener. Esta lección refactoriza con una intención precisa. Queremos que cualquier persona nueva en el equipo pueda entender dónde vive la decisión de fallback, dónde se registra una operación pendiente y dónde se ejecuta la sincronización.</p>
-<p>El riesgo de no refactorizar aquí es acumulativo. Al añadir más operaciones o nuevas entidades, la lógica puede duplicarse y producir divergencias de comportamiento. Por eso consolidamos utilidades de aplicación local y remota, y mantenemos una representación explícita de operaciones pendientes.</p>
+<h1 id="07-semana-06-06-refactor-sync-policy-semana-6-lecci-n-6-refactor-de-pol-tica-de-sincronizaci-n-para-que-el-sistema-siga-siendo-entendible-al-crecer">Semana 6 · Lección 6: refactor de política de sincronización para que el sistema siga siendo entendible al crecer</h1>
+<p>Una vez implementada la política offline-first, aparece un riesgo nuevo: la complejidad puede dispararse si cada operación gestiona fallback y sync de forma distinta. Esta lección refactoriza con una intención concreta: hacer explícito dónde se decide cada comportamiento y reducir duplicación de lógica de cola.</p>
+<p>El objetivo no es añadir features nuevas. Es dejar una base legible y mantenible para semanas posteriores.</p>
 <pre class="mermaid">flowchart LR
-    A[Implementacion funcional inicial] --> B[Extraer funciones de politica]
-    B --> C[Separar fallback de sincronizacion]
-    C --> D[Revalidar integration tests]
-    D --> E[Base escalable para semanas futuras]</pre>
-<p>El refactor de Week 6 no cambia promesas funcionales; cambia legibilidad y capacidad de evolución. Eso significa que la suite de integración debe seguir verde exactamente igual. Si cambia comportamiento observable, el refactor dejó de ser refactor y se convirtió en cambio funcional encubierto.</p>
+    A[Politica offline funcional] --> B[Identificar duplicaciones]
+    B --> C[Extraer helpers de fallback]
+    C --> D[Centralizar manejo de pending queue]
+    D --> E[Revalidar tests de integracion]</pre>
+<p>Una estructura típica tras refactor:</p>
 <pre><code class="language-swift">private func applyFallbackCreate(_ ticket: Ticket) async throws {
     try await cache.create(ticket)
-    pendingOperations.append(.create(ticket))
+    pending.append(.create(ticket))
+}
+
+private func replay(_ operation: PendingOperation) async throws {
+    switch operation {
+    case .create(let ticket): try await remote.create(ticket)
+    case .update(let ticket): try await remote.update(ticket)
+    }
 }</code></pre>
-<p>La práctica guiada consiste en contar cuántas veces se decide “remote disponible vs no disponible” antes y después del refactor. El objetivo es reducir duplicación de esa decisión sin alterar resultado funcional.</p>
-<p>La verificación de comprensión previa al checkpoint es responder por qué mantener una cola pendiente explícita simplifica auditoría y depuración frente a estrategias implícitas de reintento.</p>
-<p>Siguiente lección: <code>07-semana-06/07-checkpoint-evaluacion.md</code>.</p>
+<p>Con helpers como estos, la política deja de estar dispersa y se vuelve auditável.</p>
+<p>Después del refactor, ejecuta exactamente la misma suite. Si cambia comportamiento observable, no era refactor puro.</p>
+<pre><code class="language-bash">swift test --package-path project/HelpdeskSDD</code></pre>
+<h2 id="07-semana-06-06-refactor-sync-policy-pr-ctica-guiada">Práctica guiada</h2>
+<p>Mide cuántos puntos distintos manipulan la cola pendiente antes y después del refactor. El número debe bajar. Si no baja, sigue habiendo complejidad accidental escondida.</p>
+<h2 id="07-semana-06-06-refactor-sync-policy-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Explica por qué mantener una cola pendiente explícita facilita depuración y auditoría frente a reintentos implícitos dispersos en varias funciones.</p>
+<h2 id="07-semana-06-06-refactor-sync-policy-siguiente-lecci-n">Siguiente lección</h2>
+<p>Continúa en <code>07-semana-06/07-checkpoint-evaluacion.md</code>, donde evaluaremos cierre de resiliencia con criterios de consistencia y sincronización verificables.</p>
 </section>
 <section id="07-semana-06-07-checkpoint-evaluacion" class="lesson" data-topic-id="07-semana-06-07-checkpoint-evaluacion" data-lesson-path="07-semana-06/07-checkpoint-evaluacion.md">
 <div class="lesson-path">07-semana-06/07-checkpoint-evaluacion.md</div>
-<h1 id="07-semana-06-07-checkpoint-evaluacion-semana-6-lecci-n-7-checkpoint-de-resiliencia-para-cerrar-offline-cache-con-rigor">Semana 6 · Lección 7: checkpoint de resiliencia para cerrar offline/cache con rigor</h1>
-<p>Week 6 se cierra cuando puedes demostrar resiliencia predecible, no solo “datos en pantalla”. Este checkpoint verifica si el sistema responde de forma coherente en online, offline y reconexión, manteniendo el mismo contrato de aplicación y una traza técnica auditable.</p>
-<p>La evaluación se centra en coherencia entre intención y ejecución. OpenSpec debe reflejar política. BDD debe describir escenarios críticos. Tests de integración deben caer cuando rompes fallback o sync. Código de infraestructura debe implementar esa política sin filtrar detalles a dominio y aplicación.</p>
+<h1 id="07-semana-06-07-checkpoint-evaluacion-semana-6-lecci-n-7-checkpoint-de-resiliencia-para-cerrar-offline-cache-con-evidencia-real">Semana 6 · Lección 7: checkpoint de resiliencia para cerrar offline/cache con evidencia real</h1>
+<p>Week 6 se cierra cuando puedes demostrar comportamiento coherente en tres estados operativos: online, offline y reconexión. Si solo validas uno de ellos, te quedas con una confianza parcial que en producción suele romperse.</p>
+<p>El checkpoint convierte esa exigencia en una rutina reproducible.</p>
 <pre class="mermaid">flowchart TD
     A[OpenSpec week06] --> B[BDD offline-cache]
-    B --> C[Integration tests offline-first]
-    C --> D[Implementacion de politica]
-    D --> E[Validaciones del curso]
-    E --> F[Cierre week06]</pre>
-<p>La ejecución de verificación se mantiene explícita para garantizar reproducibilidad en equipo.</p>
+    B --> C[TDD integracion offline-first]
+    C --> D[Produccion con pending queue]
+    D --> E[Refactor de sync policy]
+    E --> F[Validadores de repositorio]
+    F --> G[Decision de cierre]</pre>
+<p>Rúbrica orientativa para evaluación:</p>
+<pre><code class="language-yaml">week6_checkpoint_rubric:
+  online_consistency:
+    level_1: "sin refresh de cache"
+    level_2: "refresh parcial"
+    level_3: "remote-first consistente"
+    level_4: "remote-first consistente y auditable"
+  offline_resilience:
+    level_1: "fallos sin fallback"
+    level_2: "fallback incompleto"
+    level_3: "fallback local estable"
+    level_4: "fallback estable con errores semanticos claros"
+  reconnection_sync:
+    level_1: "sin cola pendiente"
+    level_2: "cola sin reproceso fiable"
+    level_3: "cola reprocesada en reconexion"
+    level_4: "cola reprocesada con trazabilidad completa"
+  architectural_integrity:
+    level_1: "use cases contaminados"
+    level_2: "frontera parcial"
+    level_3: "contrato TicketRepository estable"
+    level_4: "contrato estable y listo para evolucion"</code></pre>
+<p>Comandos de cierre:</p>
 <pre><code class="language-bash">swift test --package-path project/HelpdeskSDD
 npm run -s openspec:validate
-python3 scripts/validate-course-structure.py
 python3 scripts/validate-openspec.py
+python3 scripts/validate-course-structure.py
 python3 scripts/check-links.py
 python3 scripts/validate-pedagogy.py
 python3 scripts/build-html.py</code></pre>
-<p>La práctica guiada consiste en simular una jornada completa en tres fases. Primero remoto disponible. Segundo remoto indisponible durante operaciones. Tercero reconexión y sincronización. Si no puedes describir qué test protege cada fase, tu cobertura de política aún es débil.</p>
-<p>La verificación de comprensión final del checkpoint es responder por qué “funciona offline” no es suficiente si no puedes demostrar consistencia después de sincronizar.</p>
-<p>Siguiente lección: <code>07-semana-06/08-bitacora-commits.md</code>.</p>
+<p>Haz una prueba de mutación antes de declarar cierre: desactiva temporalmente <code>pending.append(...)</code> en escritura offline y verifica qué test cae primero. Luego restaura y vuelve a verde.</p>
+<h2 id="07-semana-06-07-checkpoint-evaluacion-pr-ctica-guiada">Práctica guiada</h2>
+<p>Redacta un mini-informe de cierre con la evidencia más fuerte de reconexión correcta y el principal riesgo residual que llevarás a Week 7 (por ejemplo, observabilidad de eventos de sync).</p>
+<h2 id="07-semana-06-07-checkpoint-evaluacion-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Responde por qué "funciona offline" no es criterio suficiente si no puedes demostrar consistencia después de sincronizar operaciones pendientes.</p>
+<h2 id="07-semana-06-07-checkpoint-evaluacion-siguiente-lecci-n">Siguiente lección</h2>
+<p>Pasa a <code>07-semana-06/08-bitacora-commits.md</code> para formalizar el cierre de Week 6 en commits atómicos y trazables.</p>
 </section>
 <section id="07-semana-06-08-bitacora-commits" class="lesson" data-topic-id="07-semana-06-08-bitacora-commits" data-lesson-path="07-semana-06/08-bitacora-commits.md">
 <div class="lesson-path">07-semana-06/08-bitacora-commits.md</div>
-<h1 id="07-semana-06-08-bitacora-commits-semana-6-lecci-n-8-bit-cora-de-cierre-para-pol-tica-offline-y-sincronizaci-n">Semana 6 · Lección 8: bitácora de cierre para política offline y sincronización</h1>
-<p>La bitácora de Week 6 debe dejar claro cómo evolucionó el sistema de una persistencia local simple a una política offline-first con sincronización explícita. Esa historia importa porque, en producción real, los problemas de conectividad no son excepciones raras; son condiciones normales de operación.</p>
-<p>Esta semana conviene mantener atomización estricta de commits para que la auditoría sea sencilla. Un bloque para docencia narrativa, otro para implementación y pruebas de política, y otro para OpenSpec más scripts de publicación. Así, si aparece un incidente en sincronización, puedes aislar rápidamente el cambio relevante.</p>
+<h1 id="07-semana-06-08-bitacora-commits-semana-6-lecci-n-8-bit-cora-de-cierre-para-dejar-pol-tica-offline-first-auditada-y-mantenible">Semana 6 · Lección 8: bitácora de cierre para dejar política offline-first auditada y mantenible</h1>
+<p>Terminamos Week 6 con una práctica que protege al equipo a medio plazo: dejar historial de commits que explique claramente cómo se introdujo la política offline-first y cómo se verificó. En temas de conectividad, esta trazabilidad es clave porque muchos fallos aparecen días después bajo condiciones concretas.</p>
+<p>El objetivo no es acumular commits. El objetivo es preservar intención técnica y evidencia por bloque.</p>
 <pre class="mermaid">flowchart LR
-    A[Plan week06] --> B[Cambios por bloque semantico]
-    B --> C[Validacion por bloque]
+    A[Decision week06] --> B[Cambios acotados]
+    B --> C[Validaciones ejecutadas]
     C --> D[Commit atomico]
-    D --> E[Historial reconstruible]</pre>
-<p>El valor profesional de esta bitácora es que transforma “hice cambios” en “puedo explicar y reproducir el sistema bajo condiciones de red variables”. Esa capacidad es la que genera confianza en equipos grandes y distribuidos.</p>
-<pre><code class="language-text">git status --short
+    D --> E[Worktree limpio]
+    E --> F[Historial auditable]</pre>
+<p>Una secuencia sana de Week 6 suele separar tres bloques: narrativa/curso, implementación+tests de política offline, y artefactos OpenSpec/publicación.</p>
+<p>Comandos base de cierre:</p>
+<pre><code class="language-bash">git status --short
 swift test --package-path project/HelpdeskSDD
 npm run -s openspec:validate
+python3 scripts/validate-openspec.py
 python3 scripts/build-html.py
-git add &lt;bloque-semantico&gt;
-git commit -m "mensaje atomico sobre politica offline/cache"</code></pre>
-<p>La práctica guiada final consiste en revisar tus commits de Week 6 y escribir qué pregunta de incidente real respondería cada uno. Si un commit no responde ninguna pregunta concreta, probablemente está mal delimitado.</p>
-<p>La verificación de comprensión que cierra la semana es explicar con un ejemplo la diferencia entre “modo offline improvisado” y “política offline auditable”.</p>
-<p>Siguiente semana: <code>08-semana-07/00-semana-07-roadmap.md</code>.</p>
+git add 07-semana-06 openspec project/HelpdeskSDD
+git commit -m "feat(week6): implement offline-first policy with pending sync queue"</code></pre>
+<p>Añade una nota breve de cierre para mejorar reconstrucción futura:</p>
+<pre><code class="language-yaml">week6_closure_note:
+  capability: "offline-first read/write with explicit pending sync"
+  validation: "integration tests + openspec + course validators"
+  risk_reduced: "inconsistent behavior under connectivity loss"</code></pre>
+<h2 id="07-semana-06-08-bitacora-commits-pr-ctica-guiada">Práctica guiada</h2>
+<p>Revisa tus commits de Week 6 y justifica en una frase la intención única de cada uno. Si un commit combina múltiples intenciones, divídelo antes de considerar cerrada la semana.</p>
+<h2 id="07-semana-06-08-bitacora-commits-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Explica con un ejemplo concreto la diferencia entre "modo offline improvisado" y "política offline auditable".</p>
+<h2 id="07-semana-06-08-bitacora-commits-siguiente-semana">Siguiente semana</h2>
+<p>Continúa en <code>08-semana-07/00-semana-07-roadmap.md</code>, donde añadiremos observabilidad para que esta resiliencia sea medible y operable en tiempo real.</p>
 </section>
 <section id="08-semana-07-00-semana-07-roadmap" class="lesson" data-topic-id="08-semana-07-00-semana-07-roadmap" data-lesson-path="08-semana-07/00-semana-07-roadmap.md">
 <div class="lesson-path">08-semana-07/00-semana-07-roadmap.md</div>
