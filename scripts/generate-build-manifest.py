@@ -10,6 +10,8 @@ import subprocess
 from datetime import datetime, timezone
 from pathlib import Path
 
+MAX_MANIFEST_HISTORY = 40
+
 
 def sha256_file(path: Path) -> str:
     h = hashlib.sha256()
@@ -61,6 +63,12 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
+def prune_manifest_history(history_dir: Path) -> None:
+    manifests = sorted(history_dir.glob("*.json"), key=lambda p: p.name, reverse=True)
+    for old_file in manifests[MAX_MANIFEST_HISTORY:]:
+        old_file.unlink(missing_ok=True)
+
+
 def main() -> int:
     args = parse_args()
     script_dir = Path(__file__).resolve().parent
@@ -73,9 +81,13 @@ def main() -> int:
     android_repo = projects_root / "stack-my-architecture-android"
     sdd_repo = projects_root / "stack-my-architecture-SDD"
 
+    generated_at = datetime.now(timezone.utc)
+    generated_at_iso = generated_at.isoformat()
+    generated_at_compact = generated_at.strftime("%Y%m%dT%H%M%SZ")
+
     data = {
         "schemaVersion": 1,
-        "generatedAtUtc": datetime.now(timezone.utc).isoformat(),
+        "generatedAtUtc": generated_at_iso,
         "mode": args.mode,
         "gates": {
             "sddFullAuditRan": args.sdd_audit_ran == "1",
@@ -107,9 +119,20 @@ def main() -> int:
         },
     }
 
-    output = runtime_dir / "build-manifest.json"
-    output.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-    print(f"[OK] Build manifest generated: {output}")
+    payload = json.dumps(data, indent=2, ensure_ascii=False) + "\n"
+
+    latest_output = runtime_dir / "build-manifest.json"
+    latest_output.write_text(payload, encoding="utf-8")
+
+    history_dir = runtime_dir / "build-manifests"
+    history_dir.mkdir(parents=True, exist_ok=True)
+    snapshot_output = history_dir / f"{generated_at_compact}-{args.mode}.json"
+    snapshot_output.write_text(payload, encoding="utf-8")
+    prune_manifest_history(history_dir)
+
+    print(f"[OK] Build manifest generated: {latest_output}")
+    print(f"[OK] Build manifest snapshot: {snapshot_output}")
+    print(f"[OK] Manifest history retained: {MAX_MANIFEST_HISTORY} latest snapshots")
     return 0
 
 
