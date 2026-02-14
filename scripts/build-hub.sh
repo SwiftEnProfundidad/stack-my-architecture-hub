@@ -14,12 +14,15 @@ SDD_ROOT="$PROJECTS_ROOT/stack-my-architecture-SDD"
 SDD_AUDIT_SCRIPT="$SDD_ROOT/scripts/run-full-audit.sh"
 VERIFY_SCRIPT="$SCRIPT_DIR/verify-hub-build.py"
 RUNTIME_SMOKE_SCRIPT="$SCRIPT_DIR/smoke-hub-runtime.sh"
+MANIFEST_SCRIPT="$SCRIPT_DIR/generate-build-manifest.py"
 
 IOS_OUTPUT="$IOS_ROOT/dist"
 ANDROID_OUTPUT="$ANDROID_ROOT/dist"
 SDD_OUTPUT="$SDD_ROOT/dist"
 
 MODE="strict"
+SDD_AUDIT_RAN=0
+RUNTIME_SMOKE_RAN=0
 
 usage() {
   cat <<'EOF'
@@ -109,6 +112,7 @@ else
   fi
   say "[3/8] Running strict SDD full audit gate..."
   "$SDD_AUDIT_SCRIPT"
+  SDD_AUDIT_RAN=1
 fi
 
 copy_dir() {
@@ -167,7 +171,19 @@ else
   fi
   say "[8/8] Running runtime smoke test on temporary server..."
   "$RUNTIME_SMOKE_SCRIPT"
+  RUNTIME_SMOKE_RAN=1
 fi
+
+if [[ ! -x "$MANIFEST_SCRIPT" ]]; then
+  echo "[ERROR] Missing or non-executable manifest script: $MANIFEST_SCRIPT"
+  exit 1
+fi
+
+say "[audit] Generating build manifest..."
+python3 "$MANIFEST_SCRIPT" \
+  --mode "$MODE" \
+  --sdd-audit-ran "$SDD_AUDIT_RAN" \
+  --runtime-smoke-ran "$RUNTIME_SMOKE_RAN"
 
 say "Hub ready: $HUB_ROOT/index.html"
 say "Build log: $LOG_FILE"
