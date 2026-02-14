@@ -1100,15 +1100,15 @@ blockquote p {
 </ul></li>
 <li class="nav-section"><strong>Semana 11</strong>
 <ul>
-  <li><a class="doc-nav-link" data-lesson-path="12-semana-11/00-semana-11-roadmap.md" href="#12-semana-11-00-semana-11-roadmap">Semana 11: integrar features sin romper desacoplamiento</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="12-semana-11/01-problema-integracion-features.md" href="#12-semana-11-01-problema-integracion-features">Semana 11 · Lección 1: cuando las features crecen, el problema real es cómo se conectan</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="12-semana-11/02-spec-integracion-v1.md" href="#12-semana-11-02-spec-integracion-v1">Semana 11 · Lección 2: especificar integración como contrato verificable</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="12-semana-11/03-bdd-integracion-features.md" href="#12-semana-11-03-bdd-integracion-features">Semana 11 · Lección 3: BDD de integración para alinear arquitectura y comportamiento</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="12-semana-11/04-tdd-router-coordinator.md" href="#12-semana-11-04-tdd-router-coordinator">Semana 11 · Lección 4: TDD del contrato de navegación y del coordinador</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="12-semana-11/05-codigo-root-shell-navigation.md" href="#12-semana-11-05-codigo-root-shell-navigation">Semana 11 · Lección 5: código de producción para shell raíz y navegación integrada</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="12-semana-11/06-refactor-wiring-entre-features.md" href="#12-semana-11-06-refactor-wiring-entre-features">Semana 11 · Lección 6: refactor de wiring para sostener integración a medio plazo</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="12-semana-11/07-checkpoint-evaluacion.md" href="#12-semana-11-07-checkpoint-evaluacion">Semana 11 · Lección 7: checkpoint de integración para cierre enterprise</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="12-semana-11/08-bitacora-commits.md" href="#12-semana-11-08-bitacora-commits">Semana 11 · Lección 8: bitácora de integración para trazabilidad de decisiones</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="12-semana-11/00-semana-11-roadmap.md" href="#12-semana-11-00-semana-11-roadmap">Semana 11: integrar features sin sacrificar límites de arquitectura</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="12-semana-11/01-problema-integracion-features.md" href="#12-semana-11-01-problema-integracion-features">Semana 11 · Lección 1: el problema no es navegar, es quién tiene permiso para decidir la ruta</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="12-semana-11/02-spec-integracion-v1.md" href="#12-semana-11-02-spec-integracion-v1">Semana 11 · Lección 2: especificar integración para que el desacoplamiento sea obligatorio</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="12-semana-11/03-bdd-integracion-features.md" href="#12-semana-11-03-bdd-integracion-features">Semana 11 · Lección 3: BDD de integración para validar conversación entre features</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="12-semana-11/04-tdd-router-coordinator.md" href="#12-semana-11-04-tdd-router-coordinator">Semana 11 · Lección 4: TDD para blindar contrato de router y coordinación de tabs</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="12-semana-11/05-codigo-root-shell-navigation.md" href="#12-semana-11-05-codigo-root-shell-navigation">Semana 11 · Lección 5: producción del root shell con coordinador como dueño de navegación</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="12-semana-11/06-refactor-wiring-entre-features.md" href="#12-semana-11-06-refactor-wiring-entre-features">Semana 11 · Lección 6: refactor del wiring para preparar crecimiento de más features</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="12-semana-11/07-checkpoint-evaluacion.md" href="#12-semana-11-07-checkpoint-evaluacion">Semana 11 · Lección 7: checkpoint de integración desacoplada con evidencia reproducible</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="12-semana-11/08-bitacora-commits.md" href="#12-semana-11-08-bitacora-commits">Semana 11 · Lección 8: bitácora de integración para que las decisiones sean auditables meses después</a></li>
 </ul></li>
 <li class="nav-section"><strong>Semana 12</strong>
 <ul>
@@ -7877,203 +7877,280 @@ git commit -m "docs(week10): rewrite knowledge catalog module as deep narrative 
 </section>
 <section id="12-semana-11-00-semana-11-roadmap" class="lesson" data-topic-id="12-semana-11-00-semana-11-roadmap" data-lesson-path="12-semana-11/00-semana-11-roadmap.md">
 <div class="lesson-path">12-semana-11/00-semana-11-roadmap.md</div>
-<h1 id="12-semana-11-00-semana-11-roadmap-semana-11-integrar-features-sin-romper-desacoplamiento">Semana 11: integrar features sin romper desacoplamiento</h1>
-<p>Semana 10 demostró que el sistema podía tener una segunda feature real. Semana 11 responde a una pregunta más difícil: ¿cómo conectamos esas features para que colaboren sin crear dependencias tóxicas? En empresa, este punto separa un código que escala de otro que se vuelve inmantenible al tercer trimestre.</p>
-<p>La integración de esta semana se centra en navegación y wiring. Ticketing debe poder abrir el catálogo de conocimiento, pero no puede conocer los detalles de la UI raíz ni depender de clases concretas del catálogo. Para resolverlo incorporamos un contrato de navegación y un coordinador que posee el estado global de ruta.</p>
+<h1 id="12-semana-11-00-semana-11-roadmap-semana-11-integrar-features-sin-sacrificar-l-mites-de-arquitectura">Semana 11: integrar features sin sacrificar límites de arquitectura</h1>
+<p>En la semana anterior conseguiste algo importante: una segunda feature real funcionando dentro del sistema. Ahora llega un reto más sutil y más profesional. No se trata de crear una tercera entidad ni otra vista. Se trata de conectar ticketing y catálogo de conocimiento de forma que colaboren sin volverse dependientes entre sí. Esta diferencia separa un proyecto que aguanta crecimiento de uno que colapsa al aumentar complejidad.</p>
+<p>El foco de Week 11 está en navegación desacoplada y wiring explícito. Ticketing necesita poder abrir el catálogo cuando el usuario lo solicita, pero ticketing no debe conocer estado global de tabs ni detalles de construcción de la raíz. Para resolver eso usamos un contrato de routing y un coordinador que concentra la decisión de ruta.</p>
 <pre class="mermaid">flowchart LR
-    A[OpenSpec week11] --> B[BDD integración]
-    B --> C[TDD contrato de navegación]
-    C --> D[Producción coordinador + root view]
-    D --> E[Refactor de wiring]
-    E --> F[Checkpoint de integración]</pre>
-<p>El cierre de semana es verificable. Debes tener acciones de ticketing que emiten intención de ruta, un coordinador que cambia de pestaña según esa intención, y pruebas de wiring que demuestran que todo el flujo está conectado por contrato y no por acoplamiento accidental.</p>
-<pre><code class="language-yaml">week11_definition_of_done:
-  integration_contract: "HelpdeskNavigationRouting activo en ticketing"
-  coordinator_state: "tab seleccionada gobernada por coordinador"
-  ui_shell: "root view con tickets y catálogo integrados"
-  evidence: "tests de contrato + OpenSpec + validadores en verde"</code></pre>
-<p>La práctica guiada de arranque consiste en escribir con tus palabras qué diferencia hay entre “navegar por botón directo” y “navegar por intención de ruta”. Este contraste te prepara para entender por qué la abstracción importa en integración.</p>
-<p>La verificación de comprensión previa es responder por qué una integración rápida sin contrato suele pasar QA inicial pero falla cuando aparecen más features.</p>
-<p>Siguiente lección: <code>12-semana-11/01-problema-integracion-features.md</code>.</p>
+    A[Feature Ticketing] --> B[Contrato HelpdeskNavigationRouting]
+    B --> C[HelpdeskRootCoordinator]
+    C --> D[HelpdeskRootView]
+    D --> E[Feature Catálogo]</pre>
+<p>Lo pedagógico aquí es entender que integrar no significa pegar piezas con prisa. Integrar significa diseñar una conversación estable entre piezas. Si mañana añades una tercera feature, esa conversación debe seguir funcionando con cambios localizados y previsibles.</p>
+<pre><code class="language-yaml">week11_outcome:
+  integration_goal: "ticketing puede abrir catálogo por contrato"
+  architectural_goal: "estado global de navegación vive en coordinador"
+  quality_goal: "tests de contrato y wiring previenen acoplamientos"
+  evidence_goal: "spec + bdd + tdd + build en verde"</code></pre>
+<p>La práctica guiada inicial consiste en describir, en lenguaje cotidiano, qué pasa cuando una pantalla cambia el estado global por acceso directo sin pasar por contrato. Después compara ese flujo con uno mediado por coordinador. Este contraste te dará intuición para todo lo que viene en la semana.</p>
+<p>La verificación de comprensión previa es una pregunta que debes poder defender con claridad: por qué una integración que “funciona hoy” puede ser mala arquitectura para dentro de tres semanas. Si no puedes responder hablando de acoplamiento y coste de cambio, conviene releer este roadmap.</p>
+<h2 id="12-semana-11-00-semana-11-roadmap-siguiente-lecci-n">Siguiente lección</h2>
+<p>Continúa en <code>12-semana-11/01-problema-integracion-features.md</code>, donde aterrizaremos el problema con ejemplos de deuda de navegación que aparecen cuando crece el número de features.</p>
 </section>
 <section id="12-semana-11-01-problema-integracion-features" class="lesson" data-topic-id="12-semana-11-01-problema-integracion-features" data-lesson-path="12-semana-11/01-problema-integracion-features.md">
 <div class="lesson-path">12-semana-11/01-problema-integracion-features.md</div>
-<h1 id="12-semana-11-01-problema-integracion-features-semana-11-lecci-n-1-cuando-las-features-crecen-el-problema-real-es-c-mo-se-conectan">Semana 11 · Lección 1: cuando las features crecen, el problema real es cómo se conectan</h1>
-<p>Al principio parece fácil conectar dos features. Añades un botón en tickets, haces que cambie una vista y listo. Ese enfoque funciona en una demo pequeña, pero en producto enterprise ese atajo crea deuda muy rápido. Cuando cada feature empieza a mover estado global por su cuenta, nadie controla el flujo completo y los errores de navegación se multiplican.</p>
-<p>El problema de Week 11 no es dibujar tabs en SwiftUI. El problema es definir una frontera estable para que una feature comunique intención de navegación sin invadir responsabilidades de otra capa. Si lo resolvemos bien, añadir la tercera o cuarta feature seguirá siendo trabajo razonable.</p>
+<h1 id="12-semana-11-01-problema-integracion-features-semana-11-lecci-n-1-el-problema-no-es-navegar-es-qui-n-tiene-permiso-para-decidir-la-ruta">Semana 11 · Lección 1: el problema no es navegar, es quién tiene permiso para decidir la ruta</h1>
+<p>Cuando una app es pequeña, es tentador resolver navegación con atajos locales. Un botón cambia una variable global, otro empuja una ruta directa y todo parece correcto en demo. El problema empieza cuando hay varias features y cada una modifica navegación a su manera. De repente nadie sabe quién es dueño del estado de ruta y aparecen comportamientos inconsistentes difíciles de depurar.</p>
+<p>Este problema no es teórico. Es una de las fuentes más comunes de regresiones en productos que crecen rápido. El síntoma visible suele ser simple, como “a veces no vuelve a la tab esperada”. La causa real es estructural: demasiadas piezas con capacidad de tocar estado global sin contrato compartido.</p>
 <pre class="mermaid">flowchart TD
-    A[Feature A navega por atajo] --> B[Acoplamiento accidental]
-    B --> C[Regresiones al crecer]
-    C --> D[Coste de cambio alto]
-    E[Contrato de navegación] --> F[Integración explícita]
-    F --> G[Crecimiento controlado]</pre>
-<p>La analogía útil es la de una centralita telefónica. Un equipo no llama directamente al móvil personal de cada persona porque eso se vuelve caótico; llama a una central que enruta de forma consistente. En arquitectura, el contrato de navegación y el coordinador juegan ese papel.</p>
+    A[Feature A cambia ruta directa] --> B[Feature B hace lo mismo]
+    B --> C[Estado global fragmentado]
+    C --> D[Regresiones intermitentes]
+    D --> E[Coste de debugging alto]</pre>
+<p>En <code>HelpdeskSDD</code>, la solución que buscamos esta semana es clara. <code>TicketListViewModel</code> no debe conocer <code>TabView</code>, ni <code>HelpdeskRootView</code>, ni cómo se gestionan pestañas globales. Solo debe emitir intención de navegación a través de <code>HelpdeskNavigationRouting</code>. Esa decisión reduce dependencia accidental y facilita pruebas.</p>
 <pre><code class="language-swift">@MainActor
-protocol HelpdeskNavigationRouting: AnyObject {
+public protocol HelpdeskNavigationRouting: AnyObject {
     func showTickets()
     func showKnowledgeCatalog()
 }</code></pre>
-<p>La práctica guiada consiste en buscar un punto de tu código donde una pantalla conozca demasiado sobre navegación global y escribir qué contrato la desacoplaría.</p>
-<p>La verificación de comprensión antes de especificación es responder por qué un coordinador no es “más capas por capricho”, sino una forma de reducir dependencias cruzadas.</p>
-<p>Siguiente lección: <code>12-semana-11/02-spec-integracion-v1.md</code>.</p>
+<p>Con este contrato, el view model expresa “quiero abrir catálogo” sin decidir cómo se representa esa navegación en la raíz. Esa separación parece pequeña, pero tiene impacto enorme cuando evoluciona la app.</p>
+<h2 id="12-semana-11-01-problema-integracion-features-pr-ctica-guiada">Práctica guiada</h2>
+<p>Busca en un proyecto propio o imaginario un punto donde una pantalla cambie estado global directamente. Describe cómo lo convertirías en una intención de navegación por protocolo, indicando qué parte quedaría en coordinador.</p>
+<h2 id="12-semana-11-01-problema-integracion-features-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Comprueba que puedes explicar por qué “menos archivos” no siempre significa “menos complejidad”. Si tu respuesta no menciona distribución de responsabilidades, vuelve a leer la lección.</p>
+<h2 id="12-semana-11-01-problema-integracion-features-siguiente-lecci-n">Siguiente lección</h2>
+<p>Sigue en <code>12-semana-11/02-spec-integracion-v1.md</code>, donde formalizaremos esta estrategia como contrato OpenSpec para que nadie la rompa por improvisación.</p>
 </section>
 <section id="12-semana-11-02-spec-integracion-v1" class="lesson" data-topic-id="12-semana-11-02-spec-integracion-v1" data-lesson-path="12-semana-11/02-spec-integracion-v1.md">
 <div class="lesson-path">12-semana-11/02-spec-integracion-v1.md</div>
-<h1 id="12-semana-11-02-spec-integracion-v1-semana-11-lecci-n-2-especificar-integraci-n-como-contrato-verificable">Semana 11 · Lección 2: especificar integración como contrato verificable</h1>
-<p>Después de entender el problema, formalizamos la solución en OpenSpec. La regla de esta semana es simple y potente: ticketing no cambia tabs directamente, ticketing emite intención de ruta por contrato. Ese contrato lo implementa un coordinador raíz, que sí conoce el estado global de navegación.</p>
-<p>Este contrato evita decisiones implícitas. Sin él, cualquier desarrollador puede “resolver rápido” metiendo navegación directa desde un view model y romper la coherencia del sistema. Con contrato, cada cambio queda en un punto gobernado y testeable.</p>
+<h1 id="12-semana-11-02-spec-integracion-v1-semana-11-lecci-n-2-especificar-integraci-n-para-que-el-desacoplamiento-sea-obligatorio">Semana 11 · Lección 2: especificar integración para que el desacoplamiento sea obligatorio</h1>
+<p>Con el problema identificado, ahora toca escribir una especificación que obligue al sistema a comportarse bien. Si no lo especificas, siempre aparece la tentación de “resolver rápido” con acceso directo al estado global. En SDD, la spec convierte ese riesgo en reglas verificables.</p>
+<p>El cambio de OpenSpec para esta semana, <code>week11-feature-integration-navigation</code>, define que ticketing comunica navegación por contrato y que el coordinador raíz es dueño del estado de tab activa. Esta decisión evita ambigüedad sobre responsabilidades y permite testear integración sin depender de detalles visuales.</p>
 <pre class="mermaid">flowchart LR
-    A[Intento de abrir catálogo] --> B[Router contract]
+    A[Intención de abrir catálogo] --> B[Router protocol]
     B --> C[Root coordinator]
-    C --> D[Tab activa actualizada]</pre>
-<p>En Week 11 el spec define también una señal observable: cuando ticketing emite <code>showKnowledgeCatalog</code>, el estado activo debe quedar en <code>knowledgeCatalog</code>. Esa señal es justo lo que luego probamos en TDD y en tests de wiring.</p>
-<pre><code class="language-yaml">integration_contract_v1:
-  source_feature: "ticketing"
-  destination_feature: "knowledgeCatalog"
-  command: "showKnowledgeCatalog"
-  owner_of_route_state: "HelpdeskRootCoordinator"</code></pre>
-<pre><code class="language-text">/opsx:new week11-feature-integration-navigation
+    C --> D[selectedTab actualizado]
+    D --> E[RootView refleja estado]</pre>
+<p>El flujo OpenSpec mantiene el mismo patrón disciplinado del curso. Repetir este flujo en semanas consecutivas no es redundancia, es entrenamiento de consistencia profesional.</p>
+<pre><code class="language-bash">/opsx:new week11-feature-integration-navigation
 /opsx:ff
 /opsx:apply
 /opsx:verify</code></pre>
-<p>La práctica guiada consiste en describir un caso de navegación inválido que este contrato evitaría, por ejemplo una feature mutando una tab que no le corresponde.</p>
-<p>La verificación de comprensión antes de BDD es responder por qué una regla de integración debe escribirse como requisito de sistema y no como “convención verbal” del equipo.</p>
-<p>Siguiente lección: <code>12-semana-11/03-bdd-integracion-features.md</code>.</p>
+<p>Un requirement bien redactado para esta semana no habla de botones concretos ni de animaciones. Habla de comportamiento sistémico: cuando ticketing solicita catálogo, la ruta activa debe cambiar a <code>knowledgeCatalog</code> a través del coordinador. Esa formulación sobrevive a cambios de diseño sin perder intención.</p>
+<pre><code class="language-markdown">### Requirement: Feature navigation through routing contract
+Ticketing SHALL request navigation through HelpdeskNavigationRouting.
+Root coordinator SHALL own selected tab state transitions.
+Direct tab mutation from feature view models SHALL be disallowed.</code></pre>
+<h2 id="12-semana-11-02-spec-integracion-v1-pr-ctica-guiada">Práctica guiada</h2>
+<p>Redacta un requirement adicional para el camino inverso, cuando el usuario vuelve a tickets. Asegúrate de que el requirement se pueda traducir en test sin abrir la UI.</p>
+<h2 id="12-semana-11-02-spec-integracion-v1-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Verifica que puedes justificar por qué “lo dejamos como convención” no es suficiente en integración multi-feature. Si no hablas de control de cambios y de auditoría técnica, revisa la lección.</p>
+<h2 id="12-semana-11-02-spec-integracion-v1-siguiente-lecci-n">Siguiente lección</h2>
+<p>Continúa con <code>12-semana-11/03-bdd-integracion-features.md</code>, donde transformaremos la spec en escenarios BDD legibles para todo el equipo.</p>
 </section>
 <section id="12-semana-11-03-bdd-integracion-features" class="lesson" data-topic-id="12-semana-11-03-bdd-integracion-features" data-lesson-path="12-semana-11/03-bdd-integracion-features.md">
 <div class="lesson-path">12-semana-11/03-bdd-integracion-features.md</div>
-<h1 id="12-semana-11-03-bdd-integracion-features-semana-11-lecci-n-3-bdd-de-integraci-n-para-alinear-arquitectura-y-comportamiento">Semana 11 · Lección 3: BDD de integración para alinear arquitectura y comportamiento</h1>
-<p>BDD en esta semana no describe detalles de UI, describe comunicación entre piezas. Eso es importante porque en integración el error típico es centrarse en cómo se ve la pantalla y olvidar quién tiene derecho a cambiar el estado global.</p>
-<p>Los escenarios clave de Week 11 comprueban tres cosas. Primero, que ticketing emite intención por contrato. Segundo, que el coordinador cambia estado cuando recibe esa intención. Tercero, que el composition root conecta ambas piezas sin dependencia circular.</p>
+<h1 id="12-semana-11-03-bdd-integracion-features-semana-11-lecci-n-3-bdd-de-integraci-n-para-validar-conversaci-n-entre-features">Semana 11 · Lección 3: BDD de integración para validar conversación entre features</h1>
+<p>BDD en esta semana no gira alrededor de reglas de una sola entidad. Gira alrededor de cómo dos features se coordinan sin romper límites. Esto exige escribir escenarios que hablen de intención y resultado, no de implementación interna de vistas.</p>
+<p>Los escenarios base deben cubrir tres preguntas. La primera pregunta es si ticketing emite la intención de abrir catálogo por el contrato correcto. La segunda pregunta es si el coordinador realmente cambia la tab activa. La tercera pregunta es si el composition root conecta ambos extremos sin dependencia circular.</p>
 <pre class="mermaid">sequenceDiagram
-    participant U as Usuario
-    participant VM as TicketListViewModel
-    participant R as HelpdeskNavigationRouting
-    participant C as HelpdeskRootCoordinator
+    participant User as Usuario
+    participant TicketVM as TicketListViewModel
+    participant Router as HelpdeskNavigationRouting
+    participant Coordinator as HelpdeskRootCoordinator
+    User->>TicketVM: pulsa abrir catálogo
+    TicketVM->>Router: showKnowledgeCatalog()
+    Router->>Coordinator: transición de ruta
+    Coordinator-->>User: tab knowledgeCatalog activa</pre>
+<p>Este bloque Gherkin expresa esa intención de forma clara y verificable.</p>
+<pre><code class="language-gherkin">Feature: Integración de navegación entre features
+  Scenario: Ticketing solicita abrir catálogo por contrato
+    Given un TicketListViewModel con router inyectado
+    When el usuario solicita abrir catálogo
+    Then se invoca showKnowledgeCatalog en el router
 
-    U->>VM: abrir catálogo
-    VM->>R: showKnowledgeCatalog()
-    R->>C: comando de ruta
-    C-->>U: tab knowledgeCatalog activa</pre>
-<pre><code class="language-gherkin">Feature: Integración de features
-  Scenario: Ticketing emite ruta de catálogo
-    Given un view model con router inyectado
-    When se solicita abrir catálogo
-    Then se llama showKnowledgeCatalog</code></pre>
-<p>La utilidad de estos escenarios es que sobreviven a cambios de UI. Aunque mañana cambie el diseño de tabs, la regla de integración seguirá siendo la misma y tus pruebas seguirán protegiendo el contrato.</p>
-<p>La práctica guiada consiste en reescribir uno de estos escenarios en lenguaje aún más simple, como si se lo explicaras a alguien de negocio, y luego compararlo con el original.</p>
-<p>La verificación de comprensión antes de TDD es responder qué escenario detectaría antes un acoplamiento directo entre ticketing y estado raíz.</p>
-<p>Siguiente lección: <code>12-semana-11/04-tdd-router-coordinator.md</code>.</p>
+  Scenario: Coordinador actualiza tab activa al recibir intención
+    Given un HelpdeskRootCoordinator inicializado en tickets
+    When se ejecuta showKnowledgeCatalog
+    Then la tab activa pasa a knowledgeCatalog</code></pre>
+<p>La ventaja de este enfoque es que el comportamiento queda protegido aunque cambies estructura visual del root view. Mientras el contrato y el coordinador mantengan semántica, la integración sigue siendo correcta.</p>
+<h2 id="12-semana-11-03-bdd-integracion-features-pr-ctica-guiada">Práctica guiada</h2>
+<p>Escribe un escenario donde una implementación incorrecta cambie la tab sin pasar por router. Luego explica cómo detectarías ese anti patrón en revisión de código antes de que llegue a producción.</p>
+<h2 id="12-semana-11-03-bdd-integracion-features-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Comprueba que puedes explicar por qué un escenario BDD de integración debe centrarse en propiedad del estado y no solo en efecto visual final. Si no ves esa diferencia, relee la secuencia.</p>
+<h2 id="12-semana-11-03-bdd-integracion-features-siguiente-lecci-n">Siguiente lección</h2>
+<p>Sigue en <code>12-semana-11/04-tdd-router-coordinator.md</code>, donde llevaremos estos escenarios a pruebas Swift de contrato, coordinador y wiring.</p>
 </section>
 <section id="12-semana-11-04-tdd-router-coordinator" class="lesson" data-topic-id="12-semana-11-04-tdd-router-coordinator" data-lesson-path="12-semana-11/04-tdd-router-coordinator.md">
 <div class="lesson-path">12-semana-11/04-tdd-router-coordinator.md</div>
-<h1 id="12-semana-11-04-tdd-router-coordinator-semana-11-lecci-n-4-tdd-del-contrato-de-navegaci-n-y-del-coordinador">Semana 11 · Lección 4: TDD del contrato de navegación y del coordinador</h1>
-<p>Con los escenarios definidos, TDD convierte la integración en una defensa automática contra regresiones. Esta semana escribimos tests antes de producción para confirmar que el view model solo sabe hablar con el contrato y que el coordinador gobierna el estado de tabs.</p>
-<p>La primera prueba importante usa un <code>router spy</code>. Si al ejecutar <code>openKnowledgeCatalog()</code> no se invoca el método del contrato, la integración falla aunque la UI parezca funcionar. La segunda prueba valida transición de estado del coordinador entre <code>tickets</code> y <code>knowledgeCatalog</code>.</p>
+<h1 id="12-semana-11-04-tdd-router-coordinator-semana-11-lecci-n-4-tdd-para-blindar-contrato-de-router-y-coordinaci-n-de-tabs">Semana 11 · Lección 4: TDD para blindar contrato de router y coordinación de tabs</h1>
+<p>En integración de features, los tests más valiosos suelen ser los que validan contratos y propiedad de estado. Esta lección aplica exactamente esa idea. En lugar de empezar por una UI test frágil, empezamos por pruebas que confirman quién habla con quién y quién decide la ruta final.</p>
+<p>Primero probamos <code>TicketListViewModel</code> con <code>NavigationRouterSpy</code>. Si <code>openKnowledgeCatalog()</code> no llama a <code>showKnowledgeCatalog()</code>, el contrato está roto. Después probamos <code>HelpdeskRootCoordinator</code> para asegurar que las transiciones de tab obedecen la intención recibida.</p>
 <pre class="mermaid">flowchart LR
-    A[Escenario BDD integración] --> B[Test rojo router contract]
-    B --> C[Implementación mínima en view model]
-    C --> D[Test rojo coordinador]
-    D --> E[Implementación estado de tabs]
-    E --> F[Test verde]</pre>
-<pre><code class="language-swift">@Test
+    A[Escenario BDD integración] --> B[Test router contract]
+    B --> C[Test coordinator transitions]
+    C --> D[Test de wiring en AppRootBuilder]
+    D --> E[Integración estable]</pre>
+<p>Este test es fundamental porque captura la regla de desacoplamiento de forma directa y legible.</p>
+<pre><code class="language-swift">@MainActor
+@Test
 func ticketListViewModelRoutesToKnowledgeCatalogThroughContract() {
+    let repository = TicketRepositoryActorSpy(seed: [
+        TicketFixtures.ticket(id: "T-501", status: .open)
+    ])
     let router = NavigationRouterSpy()
-    let sut = TicketListViewModel(..., router: router)
+
+    let sut = TicketListViewModel(
+        listTicketsUseCase: ListTicketsUseCase(repository: repository),
+        transitionTicketStatusUseCase: TransitionTicketStatusUseCase(repository: repository),
+        router: router
+    )
 
     sut.openKnowledgeCatalog()
 
     #expect(router.showKnowledgeCatalogCalls == 1)
+    #expect(router.showTicketsCalls == 0)
+}</code></pre>
+<p>Y esta prueba complementaria asegura que el coordinador sí gobierna el estado global de tab.</p>
+<pre><code class="language-swift">@MainActor
+@Test
+func rootCoordinatorSwitchesBetweenTabs() {
+    let coordinator = HelpdeskRootCoordinator()
+    #expect(coordinator.selectedTab == .tickets)
+
+    coordinator.showKnowledgeCatalog()
+    #expect(coordinator.selectedTab == .knowledgeCatalog)
 }</code></pre>
 <pre><code class="language-bash">swift test --package-path project/HelpdeskSDD</code></pre>
-<p>La práctica guiada consiste en forzar temporalmente un acoplamiento directo desde el view model al coordinador concreto y observar qué pruebas dejan de tener sentido. Ese ejercicio te enseña por qué la abstracción no es decorativa.</p>
-<p>La verificación de comprensión antes de producción es responder por qué en integración un test de contrato suele ser más estable que un test visual de navegación.</p>
-<p>Siguiente lección: <code>12-semana-11/05-codigo-root-shell-navigation.md</code>.</p>
+<h2 id="12-semana-11-04-tdd-router-coordinator-pr-ctica-guiada">Práctica guiada</h2>
+<p>Haz una modificación temporal donde <code>TicketListViewModel</code> intente cambiar tab directa sin usar router. Observa qué pruebas dejan de validar el comportamiento esperado y cómo esa señal te obliga a corregir arquitectura.</p>
+<h2 id="12-semana-11-04-tdd-router-coordinator-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Verifica que puedes defender por qué estos tests son más estables en el tiempo que una prueba de click visual sobre pestañas. Si no hablas de semántica contractual, revisa la lección.</p>
+<h2 id="12-semana-11-04-tdd-router-coordinator-siguiente-lecci-n">Siguiente lección</h2>
+<p>Continúa con <code>12-semana-11/05-codigo-root-shell-navigation.md</code>, donde implementaremos el shell raíz y su wiring de producción siguiendo exactamente el contrato probado.</p>
 </section>
 <section id="12-semana-11-05-codigo-root-shell-navigation" class="lesson" data-topic-id="12-semana-11-05-codigo-root-shell-navigation" data-lesson-path="12-semana-11/05-codigo-root-shell-navigation.md">
 <div class="lesson-path">12-semana-11/05-codigo-root-shell-navigation.md</div>
-<h1 id="12-semana-11-05-codigo-root-shell-navigation-semana-11-lecci-n-5-c-digo-de-producci-n-para-shell-ra-z-y-navegaci-n-integrada">Semana 11 · Lección 5: código de producción para shell raíz y navegación integrada</h1>
-<p>En esta lección materializamos la integración en producción. Añadimos <code>HelpdeskRootCoordinator</code> como dueño del estado de navegación, <code>HelpdeskNavigationRouting</code> como contrato, y <code>HelpdeskRootView</code> como shell que compone las dos features en un <code>TabView</code> controlado por ese estado.</p>
-<p>La clave aquí es que <code>TicketListViewModel</code> no conoce tabs ni rutas concretas. Solo conoce un protocolo con intención de navegación. Esa diferencia hace que la feature de tickets pueda evolucionar sin depender del layout global.</p>
+<h1 id="12-semana-11-05-codigo-root-shell-navigation-semana-11-lecci-n-5-producci-n-del-root-shell-con-coordinador-como-due-o-de-navegaci-n">Semana 11 · Lección 5: producción del root shell con coordinador como dueño de navegación</h1>
+<p>Con pruebas verdes de contrato y transición, pasamos a producción. Aquí se conectan tres piezas concretas del repositorio. <code>TicketListViewModel</code> emite intención con <code>router?.showKnowledgeCatalog()</code>. <code>HelpdeskRootCoordinator</code> mantiene <code>selectedTab</code>. <code>HelpdeskRootView</code> observa ese estado y compone las dos features en un <code>TabView</code>.</p>
+<p>La fuerza de este diseño está en su claridad de responsabilidades. El view model de ticketing no sabe nada de tabs. El coordinador no sabe nada de reglas de ticket o catálogo. La root view no inventa navegación, solo refleja estado y delega cambios al coordinador.</p>
 <pre class="mermaid">flowchart TD
-    A[TicketListViewModel] -->|router contract| B[HelpdeskRootCoordinator]
-    B --> C[HelpdeskRootView]
-    C --> D[TicketListView]
-    C --> E[KnowledgeCatalogView]</pre>
+    A[TicketListViewModel] -->|showKnowledgeCatalog| B[HelpdeskNavigationRouting]
+    B --> C[HelpdeskRootCoordinator.selectedTab]
+    C --> D[HelpdeskRootView TabView]
+    D --> E[Tickets Tab]
+    D --> F[Catálogo Tab]</pre>
+<p>El contrato de navegación y su implementación real se ven así.</p>
+<pre><code class="language-swift">@MainActor
+public protocol HelpdeskNavigationRouting: AnyObject {
+    func showTickets()
+    func showKnowledgeCatalog()
+}
+
+@MainActor
+@Observable
+public final class HelpdeskRootCoordinator: HelpdeskNavigationRouting {
+    public private(set) var selectedTab: HelpdeskTab
+
+    public func showKnowledgeCatalog() {
+        selectedTab = .knowledgeCatalog
+    }
+}</code></pre>
+<p>Y en la feature de tickets, la navegación queda reducida a intención.</p>
 <pre><code class="language-swift">public func openKnowledgeCatalog() {
     router?.showKnowledgeCatalog()
 }</code></pre>
-<pre><code class="language-swift">public func showKnowledgeCatalog() {
-    selectedTab = .knowledgeCatalog
-}</code></pre>
-<p>En paralelo, el <code>HelpdeskAppRootBuilder</code> pasa a ser el punto de composición explícito. Crea coordinador, inyecta router en ticketing y construye el root shell con ambos view models.</p>
-<p>La práctica guiada consiste en ejecutar la app, pulsar “Catálogo” desde ticketing y verificar que el cambio de tab sucede por el coordinador, no por lógica ad hoc en la vista.</p>
-<p>La verificación de comprensión antes del refactor es responder por qué este diseño reduce el impacto de cambiar navegación en semanas futuras.</p>
-<p>Siguiente lección: <code>12-semana-11/06-refactor-wiring-entre-features.md</code>.</p>
+<p>Esta simplicidad es intencional. Cuanto más crezca la app, más valor tiene que cada pieza haga poco, pero lo haga con límites claros.</p>
+<h2 id="12-semana-11-05-codigo-root-shell-navigation-pr-ctica-guiada">Práctica guiada</h2>
+<p>Ejecuta la app y dispara <code>openKnowledgeCatalog()</code> desde ticketing. Comprueba que el cambio de pestaña proviene del coordinador y no de lógica duplicada en la vista. Si encuentras lógica duplicada, anótala como deuda a refactorizar.</p>
+<h2 id="12-semana-11-05-codigo-root-shell-navigation-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Comprueba que puedes explicar por qué este patrón te permitirá añadir nuevas rutas en semanas futuras tocando menos archivos. Si no puedes señalar qué archivos se mantienen intactos, repasa diagrama y código.</p>
+<h2 id="12-semana-11-05-codigo-root-shell-navigation-siguiente-lecci-n">Siguiente lección</h2>
+<p>Sigue en <code>12-semana-11/06-refactor-wiring-entre-features.md</code>, donde consolidaremos wiring para soportar crecimiento con menor fricción.</p>
 </section>
 <section id="12-semana-11-06-refactor-wiring-entre-features" class="lesson" data-topic-id="12-semana-11-06-refactor-wiring-entre-features" data-lesson-path="12-semana-11/06-refactor-wiring-entre-features.md">
 <div class="lesson-path">12-semana-11/06-refactor-wiring-entre-features.md</div>
-<h1 id="12-semana-11-06-refactor-wiring-entre-features-semana-11-lecci-n-6-refactor-de-wiring-para-sostener-integraci-n-a-medio-plazo">Semana 11 · Lección 6: refactor de wiring para sostener integración a medio plazo</h1>
-<p>Después de integrar, toca limpiar y consolidar. El refactor de Week 11 se enfoca en confirmar que la frontera de integración está donde debe estar: en contrato + coordinador + composition root. Si alguna feature vuelve a conocer estado global de navegación por fuera de ese camino, la arquitectura empieza a degradarse.</p>
-<p>Esta lección revisa que las dependencias siguen la dirección correcta. Ticketing emite intención, el coordinador interpreta ruta, el root shell presenta destino. Ninguna de esas piezas debería “saltar” a otra con dependencias directas innecesarias.</p>
+<h1 id="12-semana-11-06-refactor-wiring-entre-features-semana-11-lecci-n-6-refactor-del-wiring-para-preparar-crecimiento-de-m-s-features">Semana 11 · Lección 6: refactor del wiring para preparar crecimiento de más features</h1>
+<p>Tras integrar dos features, el siguiente paso sano es revisar wiring con mentalidad de futuro. Esta lección no añade una funcionalidad nueva visible, pero añade algo igual de valioso: reduce la probabilidad de romper integración cuando el sistema crezca.</p>
+<p>El foco está en <code>HelpdeskAppRootBuilder</code>. Ese composition root es el lugar donde se crean coordinador y view models, y donde se decide cómo se conectan por contrato. Si ese punto se mantiene limpio, incorporar nuevas features es una extensión controlada. Si se degrada, cada integración futura será más costosa.</p>
 <pre class="mermaid">flowchart LR
-    A[Feature Ticketing] --> B[Contrato navegación]
-    B --> C[Coordinador raíz]
-    C --> D[Root shell]
-    D --> E[Feature Catálogo]</pre>
-<p>El resultado esperado del refactor es estabilidad de cambio. Si mañana agregas una tercera tab, el trabajo principal ocurre en coordinador y root shell, no en todos los view models.</p>
-<pre><code class="language-text">Refactor checks week11:
-TicketListViewModel no muta estado de tab directamente.
-HelpdeskRootCoordinator concentra transiciones de navegación.
-HelpdeskAppRootBuilder define wiring explícito para integración.</code></pre>
-<p>La práctica guiada consiste en añadir mentalmente una tercera feature al diagrama y explicar qué archivos tocarías y cuáles no deberías tocar.</p>
-<p>La verificación de comprensión antes del checkpoint es responder por qué centralizar la ruta en coordinator ayuda tanto a debugging como a evolución arquitectónica.</p>
-<p>Siguiente lección: <code>12-semana-11/07-checkpoint-evaluacion.md</code>.</p>
+    A[HelpdeskAppRootBuilder] --> B[makeRootCoordinator]
+    A --> C[makeTicketListViewModel(router:)]
+    A --> D[makeKnowledgeCatalogViewModel]
+    B --> E[HelpdeskRootView]
+    C --> E
+    D --> E</pre>
+<p>Un refactor bueno aquí elimina atajos y explicita decisiones. En concreto, evita que una feature cree sus propias rutas globales y obliga a pasar por el coordinador inyectado. Esta consistencia te da una arquitectura más predecible.</p>
+<pre><code class="language-swift">public func makeRootView() -&gt; HelpdeskRootView {
+    let coordinator = makeRootCoordinator()
+    let ticketViewModel = makeTicketListViewModel(router: coordinator)
+    let knowledgeViewModel = makeKnowledgeCatalogViewModel()
+
+    return HelpdeskRootView(
+        coordinator: coordinator,
+        ticketViewModel: ticketViewModel,
+        knowledgeCatalogViewModel: knowledgeViewModel
+    )
+}</code></pre>
+<h2 id="12-semana-11-06-refactor-wiring-entre-features-pr-ctica-guiada">Práctica guiada</h2>
+<p>Imagina que debes añadir una tercera feature llamada “Analytics”. Describe qué ampliarías en el builder y qué clases existentes no deberían necesitar cambios si el wiring está bien diseñado.</p>
+<h2 id="12-semana-11-06-refactor-wiring-entre-features-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Verifica que puedes argumentar por qué composition root explícito reduce deuda frente a crear dependencias en caliente desde vistas. Si no conectas tu respuesta con testabilidad, vuelve a la lección.</p>
+<h2 id="12-semana-11-06-refactor-wiring-entre-features-siguiente-lecci-n">Siguiente lección</h2>
+<p>Pasa a <code>12-semana-11/07-checkpoint-evaluacion.md</code>, donde cerraremos la semana confirmando integración desacoplada con evidencia completa.</p>
 </section>
 <section id="12-semana-11-07-checkpoint-evaluacion" class="lesson" data-topic-id="12-semana-11-07-checkpoint-evaluacion" data-lesson-path="12-semana-11/07-checkpoint-evaluacion.md">
 <div class="lesson-path">12-semana-11/07-checkpoint-evaluacion.md</div>
-<h1 id="12-semana-11-07-checkpoint-evaluacion-semana-11-lecci-n-7-checkpoint-de-integraci-n-para-cierre-enterprise">Semana 11 · Lección 7: checkpoint de integración para cierre enterprise</h1>
-<p>Este checkpoint verifica si la integración entre features quedó realmente profesional. Una integración enterprise no se valida solo porque “al pulsar se ve otra pantalla”. Se valida cuando el comportamiento está protegido por contrato, hay pruebas de wiring y la arquitectura conserva sus límites sin acoplamientos cruzados.</p>
+<h1 id="12-semana-11-07-checkpoint-evaluacion-semana-11-lecci-n-7-checkpoint-de-integraci-n-desacoplada-con-evidencia-reproducible">Semana 11 · Lección 7: checkpoint de integración desacoplada con evidencia reproducible</h1>
+<p>Este checkpoint confirma algo muy concreto: dos features ya no están aisladas, están integradas, y esa integración respeta arquitectura. Para cerrar la semana necesitas evidencias de contrato, de estado y de wiring. Sin esas tres capas, la integración puede parecer correcta en UI y aun así ser frágil internamente.</p>
+<p>La evaluación de cierre se apoya en una cadena continua. OpenSpec define el contrato, BDD expresa comportamiento esperado, TDD protege implementaciones clave y el circuito de validaciones asegura que nada quedó fuera por accidente.</p>
 <pre class="mermaid">flowchart TD
-    A[OpenSpec week11] --> B[BDD integración]
-    B --> C[Tests router y coordinador]
-    C --> D[Pruebas de composition root]
-    D --> E[Validadores del curso]
-    E --> F[Cierre week11]</pre>
-<p>El circuito de validación debe ejecutarse entero, porque la integración toca tanto código como contenido docente y publicación. Si dejas fuera una parte, la evidencia queda incompleta.</p>
+    A[Spec week11] --> B[BDD integración]
+    B --> C[Tests router/coordinator]
+    C --> D[Tests AppRootBuilder wiring]
+    D --> E[Quality gates y validadores]
+    E --> F[Cierre de semana]</pre>
+<p>Ejecuta el bloque completo de verificación para que la evidencia sea defendible por cualquier revisor externo.</p>
 <pre><code class="language-bash">swift test --package-path project/HelpdeskSDD
+./scripts/run-quality-gates.sh
 npm run -s openspec:validate
 python3 scripts/validate-course-structure.py
 python3 scripts/validate-openspec.py
 python3 scripts/check-links.py
 python3 scripts/validate-pedagogy.py
 python3 scripts/build-html.py</code></pre>
-<p>La práctica guiada consiste en romper temporalmente el método <code>showKnowledgeCatalog()</code> del coordinador y confirmar que los tests de integración fallan exactamente donde esperas. Después restaura y reejecuta todo en verde.</p>
-<p>La verificación de comprensión final del checkpoint es responder qué parte de la evidencia enseñarías primero a un tech lead para demostrar que la integración es desacoplada y no accidental.</p>
-<p>Siguiente lección: <code>12-semana-11/08-bitacora-commits.md</code>.</p>
+<p>Si algo falla, no cierres en falso. El objetivo de este curso no es marcar semanas como completadas por calendario, sino construir criterio profesional basado en señal objetiva.</p>
+<h2 id="12-semana-11-07-checkpoint-evaluacion-pr-ctica-guiada">Práctica guiada</h2>
+<p>Rompe temporalmente <code>showKnowledgeCatalog()</code> en el coordinador para que no cambie tab y ejecuta suite. Observa qué pruebas capturan la regresión y cómo esa señal te guía al punto exacto de reparación.</p>
+<h2 id="12-semana-11-07-checkpoint-evaluacion-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Comprueba que puedes explicar por qué una integración desacoplada se demuestra mejor con tests de contrato que con observación manual de pantallas. Si no puedes justificarlo con estabilidad y precisión diagnóstica, revisa el checkpoint.</p>
+<h2 id="12-semana-11-07-checkpoint-evaluacion-siguiente-lecci-n">Siguiente lección</h2>
+<p>Continúa en <code>12-semana-11/08-bitacora-commits.md</code>, donde dejaremos el cierre de integración en un historial git auditable y fácil de revisar.</p>
 </section>
 <section id="12-semana-11-08-bitacora-commits" class="lesson" data-topic-id="12-semana-11-08-bitacora-commits" data-lesson-path="12-semana-11/08-bitacora-commits.md">
 <div class="lesson-path">12-semana-11/08-bitacora-commits.md</div>
-<h1 id="12-semana-11-08-bitacora-commits-semana-11-lecci-n-8-bit-cora-de-integraci-n-para-trazabilidad-de-decisiones">Semana 11 · Lección 8: bitácora de integración para trazabilidad de decisiones</h1>
-<p>La bitácora de Week 11 tiene que permitir reconstruir una respuesta concreta: cómo pasamos de dos features aisladas a un flujo integrado sin violar desacoplamiento. Si esa historia no se puede seguir en commits, cualquier revisión futura será lenta y confusa.</p>
-<p>El historial recomendable mantiene tres bloques. Un bloque para lecciones y narrativa, un bloque para implementación y pruebas de navegación, y un bloque para OpenSpec y publicación. Ese patrón hace que el repositorio sea auditable incluso por alguien que no participó en la semana.</p>
+<h1 id="12-semana-11-08-bitacora-commits-semana-11-lecci-n-8-bit-cora-de-integraci-n-para-que-las-decisiones-sean-auditables-meses-despu-s">Semana 11 · Lección 8: bitácora de integración para que las decisiones sean auditables meses después</h1>
+<p>La bitácora de esta semana debe responder una pregunta central: cómo se conectaron ticketing y catálogo sin romper desacoplamiento. Si el historial no puede responder eso con claridad, la integración está técnicamente incompleta aunque la app navegue.</p>
+<p>Un patrón sano en este cierre es separar commits por intención. Un commit para narrativa y contrato de semana. Otro para código y pruebas de router/coordinador/wiring. Otro para validaciones finales y publicación. Esta estructura reduce ruido y acelera revisión en equipo.</p>
 <pre class="mermaid">flowchart LR
-    A[Plan de integración] --> B[Docs semana11]
-    B --> C[Código router/coordinador/root]
-    C --> D[Tests de wiring]
-    D --> E[OpenSpec + scripts]
-    E --> F[Historial defendible]</pre>
-<p>Cuando el equipo lea esta bitácora debe encontrar decisiones, no solo cambios. El commit de código tiene que responder dónde se desacopló navegación. El commit de pruebas debe responder cómo se protege esa decisión. El commit OpenSpec debe responder por qué esa integración era requisito y no detalle opcional.</p>
-<pre><code class="language-text">git status --short
+    A[Contrato week11] --> B[Commit docs y spec]
+    B --> C[Commit integración de código]
+    C --> D[Commit tests de contrato y wiring]
+    D --> E[Commit validación y publicación]</pre>
+<p>La calidad del historial no depende de tener muchos commits, sino de que cada commit responda una pregunta técnica concreta. Cuando alguien pregunte “dónde garantizamos que ticketing no toca tabs directas”, debe existir un commit y una prueba que lo muestren de forma inequívoca.</p>
+<pre><code class="language-bash">git status --short
 swift test --package-path project/HelpdeskSDD
-npm run -s openspec:validate
+./scripts/run-quality-gates.sh
+python3 scripts/check-links.py
 python3 scripts/validate-pedagogy.py
 python3 scripts/build-html.py
 git add &lt;bloque-semantico&gt;
-git commit -m "mensaje atomico week11 integración"</code></pre>
-<p>La práctica guiada final consiste en leer tus tres commits de semana y explicar qué pregunta de auditoría responde cada uno.</p>
-<p>La verificación de comprensión de cierre es responder por qué una bitácora clara acelera onboarding técnico cuando un nuevo miembro entra al proyecto.</p>
-<p>Siguiente semana: <code>13-semana-12/00-semana-12-roadmap.md</code>.</p>
+git commit -m "docs(week11): rewrite feature integration module as deep narrative flow"</code></pre>
+<h2 id="12-semana-11-08-bitacora-commits-pr-ctica-guiada">Práctica guiada</h2>
+<p>Revisa los commits de cierre de semana y escribe qué pregunta de revisión responde cada uno. Si encuentras commits que no responden ninguna pregunta clara, define cómo los dividirías para mejorar trazabilidad.</p>
+<h2 id="12-semana-11-08-bitacora-commits-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Comprueba que puedes diferenciar entre “historial con archivos cambiados” e “historial con decisiones trazables”. Si no puedes explicarlo con un ejemplo real de esta semana, vuelve al inicio.</p>
+<h2 id="12-semana-11-08-bitacora-commits-siguiente-semana">Siguiente semana</h2>
+<p>Sigue en <code>13-semana-12/00-semana-12-roadmap.md</code>, donde entraremos en gobernanza de límites de módulo y enforcement automatizado de dependencias.</p>
 </section>
 <section id="13-semana-12-00-semana-12-roadmap" class="lesson" data-topic-id="13-semana-12-00-semana-12-roadmap" data-lesson-path="13-semana-12/00-semana-12-roadmap.md">
 <div class="lesson-path">13-semana-12/00-semana-12-roadmap.md</div>
