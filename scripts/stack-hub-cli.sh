@@ -30,6 +30,7 @@ Opciones:
   --doctor                 Diagnóstico completo de entorno y salud.
   --logs [-f|--follow]     Muestra log del hub (opcional en vivo).
   --selftest               Smoke aislado en puerto temporal.
+  --selftest-strict        Selftest con consulta IA real.
   -h, --help               Muestra esta ayuda.
 
 Ejemplos:
@@ -41,6 +42,7 @@ Ejemplos:
   stack-hub --logs
   stack-hub --logs --follow
   stack-hub --selftest
+  stack-hub --selftest --strict
   stack-hub ios --restart
   stack-hub --stop
 EOF
@@ -64,6 +66,8 @@ main() {
   local course="hub"
   local mode_set=0
   local restart=0
+  local run_selftest=0
+  local selftest_strict=0
 
   while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -95,11 +99,13 @@ main() {
       --strict)
         export STACK_MY_ARCH_AUTO_REBUILD_MODE="strict"
         mode_set=1
+        selftest_strict=1
         shift
         ;;
       --fast)
         export STACK_MY_ARCH_AUTO_REBUILD_MODE="fast"
         mode_set=1
+        selftest_strict=0
         shift
         ;;
       --force-rebuild)
@@ -131,7 +137,13 @@ main() {
         exec /bin/zsh -f "$LOGS_SCRIPT"
         ;;
       selftest|--selftest)
-        exec /bin/zsh -f "$SELFTEST_SCRIPT"
+        run_selftest=1
+        shift
+        ;;
+      --selftest-strict)
+        run_selftest=1
+        selftest_strict=1
+        shift
         ;;
       -h|--help)
         usage
@@ -151,6 +163,13 @@ main() {
 
   if [[ "$restart" -eq 1 ]]; then
     /bin/zsh -f "$STOP_SCRIPT" >/dev/null 2>&1 || true
+  fi
+
+  if [[ "$run_selftest" -eq 1 ]]; then
+    if [[ "$selftest_strict" -eq 1 ]]; then
+      exec /bin/zsh -f "$SELFTEST_SCRIPT" --strict
+    fi
+    exec /bin/zsh -f "$SELFTEST_SCRIPT"
   fi
 
   exec /bin/zsh -f "$LAUNCH_SCRIPT" --course "$course"
