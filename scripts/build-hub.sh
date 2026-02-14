@@ -12,6 +12,7 @@ IOS_ROOT="$PROJECTS_ROOT/stack-my-architecture-ios"
 ANDROID_ROOT="$PROJECTS_ROOT/stack-my-architecture-android"
 SDD_ROOT="$PROJECTS_ROOT/stack-my-architecture-SDD"
 SDD_AUDIT_SCRIPT="$SDD_ROOT/scripts/run-full-audit.sh"
+VERIFY_SCRIPT="$SCRIPT_DIR/verify-hub-build.py"
 
 IOS_OUTPUT="$IOS_ROOT/dist"
 ANDROID_OUTPUT="$ANDROID_ROOT/dist"
@@ -91,21 +92,21 @@ if [[ ! -d "$IOS_ROOT" || ! -d "$ANDROID_ROOT" || ! -d "$SDD_ROOT" ]]; then
 fi
 
 say "Starting hub build (mode=$MODE)"
-say "[1/6] Building iOS HTML output..."
+say "[1/7] Building iOS HTML output..."
 python3 "$IOS_ROOT/scripts/build-html.py"
 
-say "[2/6] Building Android HTML output..."
+say "[2/7] Building Android HTML output..."
 python3 "$ANDROID_ROOT/scripts/build-html.py"
 
 if [[ "$MODE" == "fast" ]]; then
-  say "[3/6] Fast mode: skipping strict SDD gate and building SDD HTML only..."
+  say "[3/7] Fast mode: skipping strict SDD gate and building SDD HTML only..."
   python3 "$SDD_ROOT/scripts/build-html.py"
 else
   if [[ ! -x "$SDD_AUDIT_SCRIPT" ]]; then
     echo "[ERROR] Missing or non-executable SDD audit script: $SDD_AUDIT_SCRIPT"
     exit 1
   fi
-  say "[3/6] Running strict SDD full audit gate..."
+  say "[3/7] Running strict SDD full audit gate..."
   "$SDD_AUDIT_SCRIPT"
 fi
 
@@ -127,13 +128,13 @@ copy_dir() {
   fi
 }
 
-say "[4/6] Copying iOS output folder AS-IS to hub/ios ..."
+say "[4/7] Copying iOS output folder AS-IS to hub/ios ..."
 copy_dir "$IOS_OUTPUT" "$HUB_ROOT/ios"
 
-say "[5/6] Copying Android output folder AS-IS to hub/android ..."
+say "[5/7] Copying Android output folder AS-IS to hub/android ..."
 copy_dir "$ANDROID_OUTPUT" "$HUB_ROOT/android"
 
-say "[6/6] Copying SDD output folder AS-IS to hub/sdd ..."
+say "[6/7] Copying SDD output folder AS-IS to hub/sdd ..."
 copy_dir "$SDD_OUTPUT" "$HUB_ROOT/sdd"
 
 if [[ -f "$HUB_ROOT/ios/curso-stack-my-architecture.html" ]]; then
@@ -147,6 +148,14 @@ fi
 if [[ -f "$HUB_ROOT/sdd/curso-stack-my-architecture-sdd.html" ]]; then
   cp "$HUB_ROOT/sdd/curso-stack-my-architecture-sdd.html" "$HUB_ROOT/sdd/index.html"
 fi
+
+if [[ ! -x "$VERIFY_SCRIPT" ]]; then
+  echo "[ERROR] Missing or non-executable hub verification script: $VERIFY_SCRIPT"
+  exit 1
+fi
+
+say "[7/7] Verifying hub output integrity..."
+python3 "$VERIFY_SCRIPT"
 
 say "Hub ready: $HUB_ROOT/index.html"
 say "Build log: $LOG_FILE"

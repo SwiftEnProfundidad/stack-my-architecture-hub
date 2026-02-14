@@ -1,0 +1,96 @@
+#!/usr/bin/env python3
+"""Smoke test del contenido publicado en el hub."""
+
+from __future__ import annotations
+
+from pathlib import Path
+import sys
+
+HUB_ROOT = Path(__file__).resolve().parent.parent
+
+REQUIRED_FILES = [
+    "index.html",
+    "ios/index.html",
+    "ios/curso-stack-my-architecture.html",
+    "android/index.html",
+    "android/curso-stack-my-architecture-android.html",
+    "sdd/index.html",
+    "sdd/curso-stack-my-architecture-sdd.html",
+]
+
+REQUIRED_SHARED_ASSETS = [
+    "assets/assistant-bridge.js",
+    "assets/assistant-panel.css",
+    "assets/assistant-panel.js",
+    "assets/course-switcher.css",
+    "assets/course-switcher.js",
+    "assets/study-ux.css",
+    "assets/study-ux.js",
+    "assets/theme-controls.js",
+]
+
+COURSE_META = {
+    "ios/index.html": "stack-my-architecture-ios",
+    "android/index.html": "stack-my-architecture-android",
+    "sdd/index.html": "stack-my-architecture-sdd",
+}
+
+
+def read_text(rel_path: str) -> str:
+    return (HUB_ROOT / rel_path).read_text(encoding="utf-8")
+
+
+def main() -> int:
+    errors: list[str] = []
+
+    for rel_path in REQUIRED_FILES:
+        path = HUB_ROOT / rel_path
+        if not path.exists():
+            errors.append(f"Missing required file: {rel_path}")
+            continue
+        if path.stat().st_size < 256:
+            errors.append(f"File too small / suspicious: {rel_path}")
+
+    for course in ("ios", "android", "sdd"):
+        for rel_asset in REQUIRED_SHARED_ASSETS:
+            rel_path = f"{course}/{rel_asset}"
+            if not (HUB_ROOT / rel_path).exists():
+                errors.append(f"Missing required asset: {rel_path}")
+
+    try:
+        root_index = read_text("index.html")
+        for href in ("./ios/index.html", "./android/index.html", "./sdd/index.html"):
+            if href not in root_index:
+                errors.append(f"Root index missing course link: {href}")
+    except Exception as exc:  # pragma: no cover - defensive
+        errors.append(f"Cannot read root index: {exc}")
+
+    for rel_path, course_id in COURSE_META.items():
+        try:
+            content = read_text(rel_path)
+        except Exception as exc:  # pragma: no cover - defensive
+            errors.append(f"Cannot read {rel_path}: {exc}")
+            continue
+
+        lower = content.lower()
+        if "<!doctype html>" not in lower:
+            errors.append(f"{rel_path} missing HTML doctype")
+        if f'meta name="course-id" content="{course_id}"' not in lower:
+            errors.append(f"{rel_path} missing expected course-id meta: {course_id}")
+        if "assistant-panel.js" not in content:
+            errors.append(f"{rel_path} missing assistant panel wiring")
+        if "course-switcher.js" not in content:
+            errors.append(f"{rel_path} missing course switcher wiring")
+
+    if errors:
+        print("[ERROR] Hub build verification failed")
+        for err in errors:
+            print(f" - {err}")
+        return 1
+
+    print("[OK] Hub build verification passed")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

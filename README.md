@@ -120,6 +120,7 @@ SKIP_SDD_AUDIT=1 ./scripts/build-hub.sh
 ```
 
 El script además deja traza en `.runtime/build-hub.log` y evita ejecuciones concurrentes con lock.
+Además ejecuta un smoke test final de publicación (`scripts/verify-hub-build.py`) para validar que rutas y assets críticos quedaron consistentes antes de marcar el build como correcto.
 
 Consulta:
 
