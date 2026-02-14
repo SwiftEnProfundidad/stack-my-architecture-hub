@@ -1148,15 +1148,15 @@ blockquote p {
 </ul></li>
 <li class="nav-section"><strong>Semana 15</strong>
 <ul>
-  <li><a class="doc-nav-link" data-lesson-path="16-semana-15/00-semana-15-roadmap.md" href="#16-semana-15-00-semana-15-roadmap">Semana 15: hardening real para no llegar débil a la defensa final</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="16-semana-15/01-problema-hardening-sin-presupuesto.md" href="#16-semana-15-01-problema-hardening-sin-presupuesto">Semana 15 · Lección 1: el problema no es la deuda, es la deuda sin límite</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="16-semana-15/02-spec-hardening-v1.md" href="#16-semana-15-02-spec-hardening-v1">Semana 15 · Lección 2: especificar hardening como contrato vivo</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="16-semana-15/03-bdd-hardening.md" href="#16-semana-15-03-bdd-hardening">Semana 15 · Lección 3: BDD para hacer observable la degradación</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="16-semana-15/04-tdd-hardening-evaluator.md" href="#16-semana-15-04-tdd-hardening-evaluator">Semana 15 · Lección 4: TDD del evaluador que convierte métricas en decisión</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="16-semana-15/05-codigo-hardening-cli.md" href="#16-semana-15-05-codigo-hardening-cli">Semana 15 · Lección 5: código de producción para probe y validación hardening</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="16-semana-15/06-refactor-presupuestos-rendimiento.md" href="#16-semana-15-06-refactor-presupuestos-rendimiento">Semana 15 · Lección 6: refactor para separar política y mecanismo</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="16-semana-15/07-checkpoint-evaluacion.md" href="#16-semana-15-07-checkpoint-evaluacion">Semana 15 · Lección 7: checkpoint de hardening con evidencia defendible</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="16-semana-15/08-bitacora-commits.md" href="#16-semana-15-08-bitacora-commits">Semana 15 · Lección 8: bitácora de commits para cerrar hardening con trazabilidad</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="16-semana-15/00-semana-15-roadmap.md" href="#16-semana-15-00-semana-15-roadmap">Semana 15: hardening con presupuestos medibles para evitar degradación silenciosa</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="16-semana-15/01-problema-hardening-sin-presupuesto.md" href="#16-semana-15-01-problema-hardening-sin-presupuesto">Semana 15 · Lección 1: la deuda no mata en un día, mata por acumulación silenciosa</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="16-semana-15/02-spec-hardening-v1.md" href="#16-semana-15-02-spec-hardening-v1">Semana 15 · Lección 2: especificar hardening como requisito de calidad interna del producto</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="16-semana-15/03-bdd-hardening.md" href="#16-semana-15-03-bdd-hardening">Semana 15 · Lección 3: BDD de hardening para traducir salud técnica en comportamientos claros</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="16-semana-15/04-tdd-hardening-evaluator.md" href="#16-semana-15-04-tdd-hardening-evaluator">Semana 15 · Lección 4: TDD de `HardeningEvaluator` para blindar presupuestos en el tiempo</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="16-semana-15/05-codigo-hardening-cli.md" href="#16-semana-15-05-codigo-hardening-cli">Semana 15 · Lección 5: producción con `HelpdeskHardeningCLI` y script de chequeo end-to-end</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="16-semana-15/06-refactor-presupuestos-rendimiento.md" href="#16-semana-15-06-refactor-presupuestos-rendimiento">Semana 15 · Lección 6: refactor de presupuestos para separar política de implementación</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="16-semana-15/07-checkpoint-evaluacion.md" href="#16-semana-15-07-checkpoint-evaluacion">Semana 15 · Lección 7: checkpoint de hardening para cierre con señal objetiva</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="16-semana-15/08-bitacora-commits.md" href="#16-semana-15-08-bitacora-commits">Semana 15 · Lección 8: bitácora de hardening para auditar salud técnica con contexto</a></li>
 </ul></li>
 <li class="nav-section"><strong>Semana 16</strong>
 <ul>
@@ -8883,183 +8883,253 @@ git commit -m "docs(week14): rewrite release readiness module as deep narrative 
 </section>
 <section id="16-semana-15-00-semana-15-roadmap" class="lesson" data-topic-id="16-semana-15-00-semana-15-roadmap" data-lesson-path="16-semana-15/00-semana-15-roadmap.md">
 <div class="lesson-path">16-semana-15/00-semana-15-roadmap.md</div>
-<h1 id="16-semana-15-00-semana-15-roadmap-semana-15-hardening-real-para-no-llegar-d-bil-a-la-defensa-final">Semana 15: hardening real para no llegar débil a la defensa final</h1>
-<p>Hasta Week 14 aprendiste a liberar sin improvisar gracias a canary y rollback drill. En Week 15 damos un paso distinto y muy enterprise: convertir la calidad de post-release en una regla ejecutable. El problema de muchos equipos no es que no sepan optimizar, es que no saben cuándo una optimización es urgente y cuándo una deuda ya cruzó un límite peligroso. Esta semana crea ese sistema nervioso.</p>
-<p>La meta pedagógica es que entiendas hardening como parte del ciclo SDD, no como actividad de "cuando quede tiempo". Eso significa que spec, escenarios, tests, producción y refactor vuelven a trabajar juntos, pero ahora sobre dos señales nuevas: rendimiento base y deuda abierta con presupuesto.</p>
+<h1 id="16-semana-15-00-semana-15-roadmap-semana-15-hardening-con-presupuestos-medibles-para-evitar-degradaci-n-silenciosa">Semana 15: hardening con presupuestos medibles para evitar degradación silenciosa</h1>
+<p>Después de asegurar releases y rollback en la semana anterior, ahora toca proteger el sistema frente a otro enemigo menos visible: la degradación progresiva. Semana 15 introduce una disciplina de hardening basada en presupuestos explícitos de latencia y deuda abierta, evaluados de forma automática.</p>
+<p>La idea central es simple y poderosa. Lo que no se mide con umbral no se gobierna. Si no defines presupuesto para p95 de operaciones y para deuda técnica abierta, cualquier deterioro puede normalizarse hasta que el coste de recuperación sea alto.</p>
 <pre class="mermaid">flowchart LR
-    A[OpenSpec week15] --> B[BDD de hardening]
-    B --> C[TDD de HardeningEvaluator]
-    C --> D[Produccion CLI con probe]
-    D --> E[Integracion en quality gates]
-    E --> F[Cierre con evidencia]</pre>
-<p>El resultado medible de la semana es simple de explicar y potente para operar. Debe existir una ejecución reproducible que mida p95 de create y list en un probe controlado, que cuente deuda abierta desde un registro versionado y que falle automáticamente si el presupuesto definido por política se rompe.</p>
-<pre><code class="language-yaml">week15_definition_of_done:
-  hardening_check: "script run-hardening-check.sh en verde o rojo determinista"
-  quality_gate_signal: "hardening_green integrado como check critico"
-  artifacts: "plan de hardening y debt register versionados"
-  evidence: "tests y validadores en verde"</code></pre>
-<p>La práctica guiada de apertura consiste en pensar en una regresión lenta que hayas sufrido o imaginado y describir cómo te habría ayudado tener un presupuesto explícito en vez de intuiciones. La verificación de comprensión previa es responder por qué un equipo puede tener cero bugs críticos hoy y aun así estar degradándose técnicamente de forma silenciosa.</p>
-<p>Siguiente lección: <code>16-semana-15/01-problema-hardening-sin-presupuesto.md</code>.</p>
+    A[Probe de rendimiento] --> B[HardeningInput]
+    C[Debt register] --> B
+    D[HardeningThresholds] --> E[HardeningEvaluator]
+    B --> E
+    E --> F[hardening_green]
+    F --> G[Quality gates]</pre>
+<p>En el repositorio, esta semana se apoya en <code>HelpdeskHardening</code>, <code>HelpdeskHardeningCLI</code>, el script <code>scripts/run-hardening-check.sh</code> y artefactos de política en <code>docs/hardening/week15-hardening-plan.md</code> y <code>docs/hardening/week15-debt-register.yaml</code>.</p>
+<pre><code class="language-yaml">week15_outcome:
+  technical_goal: "evaluator + cli + probe con p95 reproducible"
+  governance_goal: "presupuestos de latencia y deuda versionados"
+  integration_goal: "hardening_green como gate crítico"
+  educational_goal: "detectar degradación antes de que duela"</code></pre>
+<p>La práctica guiada de apertura consiste en recordar una degradación lenta que hayas visto o imaginado y describir qué umbral habría disparado acción temprana. Este ejercicio te entrena a pensar en prevención, no en reacción tardía.</p>
+<p>La verificación de comprensión previa es directa: por qué un sistema puede pasar todas las pruebas funcionales y, aun así, estar empeorando técnicamente cada semana. Si no puedes responder sin hablar de presupuestos y tendencias, relee este roadmap.</p>
+<h2 id="16-semana-15-00-semana-15-roadmap-siguiente-lecci-n">Siguiente lección</h2>
+<p>Continúa en <code>16-semana-15/01-problema-hardening-sin-presupuesto.md</code>, donde analizaremos por qué la deuda sin límite explícito termina rompiendo velocidad de entrega.</p>
 </section>
 <section id="16-semana-15-01-problema-hardening-sin-presupuesto" class="lesson" data-topic-id="16-semana-15-01-problema-hardening-sin-presupuesto" data-lesson-path="16-semana-15/01-problema-hardening-sin-presupuesto.md">
 <div class="lesson-path">16-semana-15/01-problema-hardening-sin-presupuesto.md</div>
-<h1 id="16-semana-15-01-problema-hardening-sin-presupuesto-semana-15-lecci-n-1-el-problema-no-es-la-deuda-es-la-deuda-sin-l-mite">Semana 15 · Lección 1: el problema no es la deuda, es la deuda sin límite</h1>
-<p>Cuando un equipo dice "ya optimizaremos", normalmente no está tomando una decisión técnica: está aplazando una conversación incómoda. Ese aplazamiento se vuelve caro porque el sistema no se rompe de golpe, se vuelve lentamente más pesado. Week 15 empieza aquí, en ese punto donde todavía parece que todo funciona, pero cada cambio cuesta más, cada build tarda más y cada incidente tarda más en cerrarse.</p>
-<p>La analogía útil para un perfil junior es la mochila del instituto. Si metes un libro extra cada día, no notas el problema el primer día. Lo notas cuando ya te duele la espalda y te preguntas en qué momento pasó. La deuda técnica sin presupuesto funciona igual. Por eso en entorno enterprise no basta con registrar deuda, hay que gobernarla con umbrales.</p>
+<h1 id="16-semana-15-01-problema-hardening-sin-presupuesto-semana-15-lecci-n-1-la-deuda-no-mata-en-un-d-a-mata-por-acumulaci-n-silenciosa">Semana 15 · Lección 1: la deuda no mata en un día, mata por acumulación silenciosa</h1>
+<p>El problema más traicionero en ingeniería no siempre es un bug crítico. A menudo es una suma de pequeñas degradaciones que nadie bloquea porque cada una parece tolerable en el momento. Cuando por fin se percibe el dolor, ya hay demasiadas piezas afectadas.</p>
+<p>Sin presupuesto técnico, el equipo se acostumbra a frases ambiguas como “va un poco más lento pero no pasa nada” o “lo dejamos para más adelante”. Ese “más adelante” suele llegar cuando el sistema ya perdió agilidad y cada cambio cuesta más.</p>
 <pre class="mermaid">flowchart TD
-    A[Sin presupuesto de deuda] --> B[Deuda crece sin freno]
-    B --> C[Cada cambio tarda mas]
-    C --> D[Menor velocidad de entrega]
-    D --> E[Mas riesgo operativo]
-    F[Con presupuesto y chequeo] --> G[Deuda controlada]</pre>
-<p>En esta semana definimos una regla operable. Si la métrica de p95 supera presupuesto o si los items abiertos del debt register superan límite, el sistema se pone rojo. No hay discusión subjetiva ni excusas del estilo "luego lo miro".</p>
-<pre><code class="language-text">Principio Week 15:
-lo que no tiene presupuesto medible no se puede gobernar con rigor.</code></pre>
-<p>La práctica guiada consiste en escribir una mini-historia de un proyecto donde la deuda "pequeña" terminó bloqueando una entrega importante. La verificación de comprensión previa es explicar por qué decir "somos ágiles" no sustituye tener un presupuesto técnico explícito.</p>
-<p>Siguiente lección: <code>16-semana-15/02-spec-hardening-v1.md</code>.</p>
+    A[Sin umbrales explícitos] --> B[Degradación pequeña tolerada]
+    B --> C[Acumulación de deuda]
+    C --> D[Menor velocidad de cambio]
+    D --> E[Riesgo operativo mayor]</pre>
+<p>La lección clave para un perfil junior es que hardening no es una fase final de lujo. Es una práctica continua de control de salud del sistema. Igual que mides tests en verde, debes medir si el coste técnico sigue dentro de límites aceptados.</p>
+<p>Este principio se resume en una frase útil para toda tu carrera.</p>
+<pre><code class="language-text">Si no hay presupuesto, no hay criterio para decir "esto ya es demasiado".</code></pre>
+<h2 id="16-semana-15-01-problema-hardening-sin-presupuesto-pr-ctica-guiada">Práctica guiada</h2>
+<p>Escribe un ejemplo de deuda “pequeña” que podría volverse grave en tres meses y define qué métrica observable te ayudaría a detectarla pronto.</p>
+<h2 id="16-semana-15-01-problema-hardening-sin-presupuesto-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Comprueba que puedes explicar por qué “no hay incidencias críticas hoy” no implica que el sistema esté sano a medio plazo. Si no conectas con degradación acumulativa, repasa la lección.</p>
+<h2 id="16-semana-15-01-problema-hardening-sin-presupuesto-siguiente-lecci-n">Siguiente lección</h2>
+<p>Sigue en <code>16-semana-15/02-spec-hardening-v1.md</code>, donde transformaremos este riesgo en un contrato OpenSpec con entradas, umbrales y decisión determinista.</p>
 </section>
 <section id="16-semana-15-02-spec-hardening-v1" class="lesson" data-topic-id="16-semana-15-02-spec-hardening-v1" data-lesson-path="16-semana-15/02-spec-hardening-v1.md">
 <div class="lesson-path">16-semana-15/02-spec-hardening-v1.md</div>
-<h1 id="16-semana-15-02-spec-hardening-v1-semana-15-lecci-n-2-especificar-hardening-como-contrato-vivo">Semana 15 · Lección 2: especificar hardening como contrato vivo</h1>
-<p>Ahora convertimos el problema en contrato. En SDD no empezamos por código porque el código tiende a resolver lo inmediato, mientras la spec obliga a declarar reglas de negocio técnico de forma explícita. Aquí el negocio técnico es claro: mantener capacidad de evolución sin degradación silenciosa.</p>
-<p>La spec Week 15 añade un requisito nuevo sobre hardening budgets. Este requisito define que el check debe ejecutar un probe sintético, medir p95 de create y list, contar deuda abierta en un registro versionado y devolver una decisión determinista. La palabra determinista es clave. Si el mismo estado produce resultados distintos, el equipo pierde confianza y deja de usar la señal.</p>
+<h1 id="16-semana-15-02-spec-hardening-v1-semana-15-lecci-n-2-especificar-hardening-como-requisito-de-calidad-interna-del-producto">Semana 15 · Lección 2: especificar hardening como requisito de calidad interna del producto</h1>
+<p>Con el problema claro, ahora formalizamos el contrato. En esta semana no especificamos una pantalla nueva, especificamos una capacidad del sistema para cuidarse a sí mismo: detectar cuándo rendimiento y deuda cruzan límites aceptables.</p>
+<p>El contrato v1 define entradas concretas de hardening. Debe saberse si el probe se ejecutó, cuál fue el p95 de list y create, y cuántos items de deuda abierta existen. También define umbrales máximos para cada dimensión y exige que la salida sea una decisión reproducible.</p>
 <pre class="mermaid">flowchart LR
-    A[Policy hardening] --> B[Probe metrics]
-    C[Debt register] --> D[Hardening evaluator]
-    B --> D
-    D --> E[hardening_green]
-    E --> F[Quality gates globales]</pre>
-<p>El valor pedagógico de esta lección está en entender que también existe una capa de requisitos para calidad interna. No todo requisito viene de usuario final. En enterprise, mantener velocidad sostenible también es requisito del sistema.</p>
-<pre><code class="language-yaml">spec_delta_week15:
-  requirement: "hardening budgets for latency and debt"
-  inputs:
-    - "list p95"
-    - "create p95"
-    - "open debt items"
-  output: "hardening pass or fail"
-  integration: "quality gates as critical signal"</code></pre>
-<p>La práctica guiada consiste en reescribir con tus palabras la frase "deuda con presupuesto" para que la entienda una persona no técnica de tu equipo. La verificación de comprensión es justificar por qué este requisito debe vivir en OpenSpec y no solo en un README técnico.</p>
-<p>Siguiente lección: <code>16-semana-15/03-bdd-hardening.md</code>.</p>
+    A[Hardening policy] --> B[HardeningThresholds]
+    C[Probe metrics] --> D[HardeningInput]
+    E[Debt register count] --> D
+    B --> F[HardeningEvaluationRequest]
+    D --> F
+    F --> G[HardeningReport]</pre>
+<p>El ciclo OpenSpec de esta semana mantiene la disciplina habitual del curso.</p>
+<pre><code class="language-bash">/opsx:new week15-hardening-performance-budget
+/opsx:ff
+/opsx:apply
+/opsx:verify</code></pre>
+<p>Un requirement útil aquí debe dejar claro que la señal de hardening es crítica dentro de quality gates. Si no lo haces explícito, el check corre pero no gobierna.</p>
+<pre><code class="language-markdown">### Requirement: Hardening budgets for latency and debt
+The system SHALL evaluate probe execution, p95 budgets and open debt budgets.
+The hardening result SHALL be deterministic and actionable.
+Quality gates SHALL fail when hardening signal is false.</code></pre>
+<h2 id="16-semana-15-02-spec-hardening-v1-pr-ctica-guiada">Práctica guiada</h2>
+<p>Toma los presupuestos por defecto de <code>run-hardening-check.sh</code> y explica en qué contexto te parecerían demasiado estrictos o demasiado laxos. El objetivo es entrenar criterio de ajuste, no buscar un número universal.</p>
+<h2 id="16-semana-15-02-spec-hardening-v1-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Verifica que puedes justificar por qué este contrato debe vivir en spec y no solo en scripts. Si no mencionas trazabilidad y revisión de cambios, vuelve a la lección.</p>
+<h2 id="16-semana-15-02-spec-hardening-v1-siguiente-lecci-n">Siguiente lección</h2>
+<p>Continúa con <code>16-semana-15/03-bdd-hardening.md</code>, donde llevaremos este contrato a escenarios BDD de paso y bloqueo.</p>
 </section>
 <section id="16-semana-15-03-bdd-hardening" class="lesson" data-topic-id="16-semana-15-03-bdd-hardening" data-lesson-path="16-semana-15/03-bdd-hardening.md">
 <div class="lesson-path">16-semana-15/03-bdd-hardening.md</div>
-<h1 id="16-semana-15-03-bdd-hardening-semana-15-lecci-n-3-bdd-para-hacer-observable-la-degradaci-n">Semana 15 · Lección 3: BDD para hacer observable la degradación</h1>
-<p>Con la spec definida, bajamos a escenarios observables. El BDD de Week 15 describe tres comportamientos esenciales. El primero es el camino verde cuando métricas y deuda están bajo presupuesto. El segundo es el camino rojo cuando el p95 supera umbral. El tercero es el camino rojo cuando la deuda abierta cruza límite.</p>
-<p>La decisión didáctica aquí es muy importante. No describimos cómo calcular p95 por dentro; describimos qué tiene que pasar desde fuera. Ese enfoque te protege frente a refactors internos porque la expectativa funcional permanece estable aunque cambie la implementación.</p>
+<h1 id="16-semana-15-03-bdd-hardening-semana-15-lecci-n-3-bdd-de-hardening-para-traducir-salud-t-cnica-en-comportamientos-claros">Semana 15 · Lección 3: BDD de hardening para traducir salud técnica en comportamientos claros</h1>
+<p>BDD en esta semana permite expresar de forma simple cuándo el sistema está dentro de presupuesto y cuándo debe bloquear avance. Esta claridad evita discusiones subjetivas sobre si una degradación “es grave o no”.</p>
+<p>Los escenarios base cubren camino verde con probe ejecutado y métricas bajo umbral, y camino rojo por p95 excedido o deuda abierta por encima de límite. Así se protege tanto rendimiento como sostenibilidad de mantenimiento.</p>
 <pre class="mermaid">flowchart TD
-    A[Escenarios BDD week15] --> B[Verde dentro de presupuesto]
-    A --> C[Rojo por regresion de latencia]
-    A --> D[Rojo por exceso de deuda]
-    B --> E[Confianza operativa]
-    C --> F[Accion correctiva]
+    A[Escenarios BDD hardening] --> B[Verde dentro de presupuesto]
+    A --> C[Rojo por latencia]
+    A --> D[Rojo por deuda]
+    B --> E[avance]
+    C --> F[acción correctiva]
     D --> F</pre>
-<p>La clave pedagógica para un junior es separar síntoma y mecanismo. El síntoma observable es "check rojo". El mecanismo interno puede ser un actor, un script o una CLI. En BDD nos importa el síntoma porque es lo que consume el resto del sistema.</p>
-<pre><code class="language-gherkin">Scenario: Hardening fails when debt budget is exceeded
-  Given open debt items are above configured budget
-  When hardening evaluator runs
-  Then the hardening report result is failed</code></pre>
-<p>La práctica guiada consiste en proponer un cuarto escenario que te gustaría ver en Week 16 y explicar por qué aporta valor sin duplicar los ya existentes. La verificación de comprensión es responder qué riesgo introduces si en BDD describes internals en vez de comportamiento observable.</p>
-<p>Siguiente lección: <code>16-semana-15/04-tdd-hardening-evaluator.md</code>.</p>
+<p>Este bloque Gherkin resume la semántica mínima esperada.</p>
+<pre><code class="language-gherkin">Feature: Hardening performance and debt budgets
+  Scenario: Hardening passes within budget
+    Given probe executed and metrics under thresholds
+    And open debt items are within budget
+    When hardening evaluator runs
+    Then hardening report is passed
+
+  Scenario: Hardening fails when open debt exceeds budget
+    Given open debt items are above threshold
+    When hardening evaluator runs
+    Then hardening report is failed</code></pre>
+<h2 id="16-semana-15-03-bdd-hardening-pr-ctica-guiada">Práctica guiada</h2>
+<p>Añade un escenario donde <code>probeExecuted</code> sea false y explica por qué ese caso debe fallar aunque las demás métricas parezcan razonables.</p>
+<h2 id="16-semana-15-03-bdd-hardening-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Comprueba que puedes explicar por qué BDD en esta semana describe resultados de salud y no algoritmos internos de cálculo de percentiles. Si mezclas ambos niveles, revisa la lección.</p>
+<h2 id="16-semana-15-03-bdd-hardening-siguiente-lecci-n">Siguiente lección</h2>
+<p>Sigue en <code>16-semana-15/04-tdd-hardening-evaluator.md</code>, donde convertiremos los escenarios en pruebas unitarias de <code>HardeningEvaluator</code>.</p>
 </section>
 <section id="16-semana-15-04-tdd-hardening-evaluator" class="lesson" data-topic-id="16-semana-15-04-tdd-hardening-evaluator" data-lesson-path="16-semana-15/04-tdd-hardening-evaluator.md">
 <div class="lesson-path">16-semana-15/04-tdd-hardening-evaluator.md</div>
-<h1 id="16-semana-15-04-tdd-hardening-evaluator-semana-15-lecci-n-4-tdd-del-evaluador-que-convierte-m-tricas-en-decisi-n">Semana 15 · Lección 4: TDD del evaluador que convierte métricas en decisión</h1>
-<p>Llegamos al núcleo técnico de la semana. El evaluador <code>HardeningEvaluator</code> transforma una entrada objetiva en un reporte con checks identificables. El patrón es igual al que vienes entrenando desde semanas previas: primero test rojo que define comportamiento, después implementación mínima para verde, luego refactor de legibilidad.</p>
-<p>El primer test protege el camino verde. Verifica que con probe ejecutado, p95 dentro de presupuesto y deuda controlada, el reporte completo pasa. Después aparecen los tests de fallo. Uno fuerza latencia fuera de límite y otro fuerza deuda fuera de presupuesto. Esto evita que el evaluador se convierta en una suma de ifs sin intención.</p>
+<h1 id="16-semana-15-04-tdd-hardening-evaluator-semana-15-lecci-n-4-tdd-de-hardeningevaluator-para-blindar-presupuestos-en-el-tiempo">Semana 15 · Lección 4: TDD de <code>HardeningEvaluator</code> para blindar presupuestos en el tiempo</h1>
+<p>Con escenarios BDD definidos, ahora aseguramos comportamiento del evaluador con tests. El objetivo es que cualquier cambio futuro que altere semántica de presupuestos se detecte inmediatamente.</p>
+<p><code>HardeningEvaluator</code> evalúa cuatro checks: ejecución de probe, presupuesto de list p95, presupuesto de create p95 y presupuesto de deuda abierta. El reporte global pasa solo cuando los cuatro checks están en verde.</p>
 <pre class="mermaid">flowchart LR
-    A[Test verde esperado] --> B[Implementacion minima]
-    B --> C[Test rojo por list p95]
-    C --> D[Ajuste de check list]
-    D --> E[Test rojo por deuda]
-    E --> F[Reporte final estable]</pre>
-<p>En TDD, una buena señal es que puedas leer los nombres de tests y entender el contrato sin abrir la implementación. Si los nombres no cuentan historia, el equipo pierde trazabilidad mental.</p>
-<pre><code class="language-swift">@Test
+    A[Escenarios BDD] --> B[Test rojo budget verde]
+    B --> C[Implementación mínima]
+    C --> D[Test rojo latencia excedida]
+    D --> E[Test rojo deuda excedida]
+    E --> F[Reporte estable y legible]</pre>
+<p>Este test del repositorio muestra un camino rojo muy representativo para gobernanza técnica.</p>
+<pre><code class="language-swift">import Testing
+@testable import HelpdeskHardening
+
+@Test
 func reportFailsWhenOpenDebtItemsExceedBudget() {
+    let evaluator = HardeningEvaluator()
+    let request = HardeningEvaluationRequest(
+        thresholds: HardeningThresholds(
+            maxListP95Milliseconds: 30,
+            maxCreateP95Milliseconds: 30,
+            maxOpenDebtItems: 1
+        ),
+        input: HardeningInput(
+            probeExecuted: true,
+            listP95Milliseconds: 12,
+            createP95Milliseconds: 14,
+            openDebtItems: 3
+        )
+    )
+
     let report = evaluator.evaluate(request)
+
+    #expect(report.passed == false)
     #expect(report.checks.first { $0.id == "open_debt_budget" }?.passed == false)
 }</code></pre>
-<p>La práctica guiada consiste en escribir un test extra para el caso donde el probe no se ejecutó y comprobar que el check <code>probe_executed</code> queda rojo. La verificación de comprensión es explicar por qué conviene reportar varios checks y no solo un booleano final.</p>
-<p>Siguiente lección: <code>16-semana-15/05-codigo-hardening-cli.md</code>.</p>
+<pre><code class="language-bash">swift test --package-path project/HelpdeskSDD</code></pre>
+<h2 id="16-semana-15-04-tdd-hardening-evaluator-pr-ctica-guiada">Práctica guiada</h2>
+<p>Fuerza temporalmente un valor muy bajo en <code>maxListP95Milliseconds</code> para provocar fallo y observa cómo el reporte explica la relación actual/umbral. Luego restaura para recuperar verde.</p>
+<h2 id="16-semana-15-04-tdd-hardening-evaluator-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Verifica que puedes explicar por qué este tipo de test protege decisiones de política, no solo lógica aritmética. Si no conectas con gobernanza de calidad, repasa la lección.</p>
+<h2 id="16-semana-15-04-tdd-hardening-evaluator-siguiente-lecci-n">Siguiente lección</h2>
+<p>Continúa con <code>16-semana-15/05-codigo-hardening-cli.md</code>, donde integraremos probe, evaluación y scripts en un flujo operativo único.</p>
 </section>
 <section id="16-semana-15-05-codigo-hardening-cli" class="lesson" data-topic-id="16-semana-15-05-codigo-hardening-cli" data-lesson-path="16-semana-15/05-codigo-hardening-cli.md">
 <div class="lesson-path">16-semana-15/05-codigo-hardening-cli.md</div>
-<h1 id="16-semana-15-05-codigo-hardening-cli-semana-15-lecci-n-5-c-digo-de-producci-n-para-probe-y-validaci-n-hardening">Semana 15 · Lección 5: código de producción para probe y validación hardening</h1>
-<p>Esta lección conecta el evaluador con operación real. Se crea <code>HelpdeskHardeningCLI</code> con dos modos. El modo <code>--probe</code> ejecuta un laboratorio sintético sobre el repositorio en memoria y calcula p95 para create y list. El modo evaluación recibe un JSON con thresholds e input y devuelve un reporte codificado que decide si la semana puede avanzar.</p>
-<p>La razón de separar modos es pedagógica y técnica. Pedagógica porque te deja ver el ciclo completo de adquisición de señal y decisión. Técnica porque permite reusar el evaluador con entradas externas en el futuro, por ejemplo métricas de CI o una fuente más avanzada.</p>
+<h1 id="16-semana-15-05-codigo-hardening-cli-semana-15-lecci-n-5-producci-n-con-helpdeskhardeningcli-y-script-de-chequeo-end-to-end">Semana 15 · Lección 5: producción con <code>HelpdeskHardeningCLI</code> y script de chequeo end-to-end</h1>
+<p>Esta lección convierte hardening en capacidad operativa completa. <code>HelpdeskHardeningCLI</code> tiene dos rutas de ejecución. Con <code>--probe</code> genera métricas sintéticas p95 sobre operaciones create/list en repositorio en memoria. Con un <code>request.json</code> evalúa esas métricas contra thresholds y devuelve un reporte determinista.</p>
+<p>El script <code>scripts/run-hardening-check.sh</code> une ambas rutas. Ejecuta probe, cuenta deuda abierta desde <code>week15-debt-register.yaml</code>, arma <code>HardeningEvaluationRequest</code> y lanza la evaluación final. Ese reporte alimenta luego <code>run-quality-gates.sh</code> como señal crítica.</p>
 <pre class="mermaid">sequenceDiagram
-    participant S as run-hardening-check.sh
-    participant C as HardeningCLI --probe
-    participant R as Request builder
-    participant E as HardeningEvaluator
-    participant G as Quality gates
-
-    S->>C: run probe
-    C-->>R: metrics JSON
-    R->>E: thresholds + metrics + debt count
-    E-->>G: hardening_green</pre>
-<p>En esta misma entrega se añade <code>scripts/run-hardening-check.sh</code>, que ejecuta el probe, lee deuda abierta desde <code>week15-debt-register.yaml</code>, construye el request y ejecuta la evaluación final. Después <code>run-quality-gates.sh</code> incorpora <code>hardening_green</code> como señal crítica.</p>
+    participant Script as run-hardening-check.sh
+    participant CLI as HelpdeskHardeningCLI
+    participant Eval as HardeningEvaluator
+    participant Gates as run-quality-gates.sh
+    Script->>CLI: --probe
+    CLI-->>Script: p95 metrics
+    Script->>Eval: thresholds + metrics + openDebtItems
+    Eval-->>Script: hardening report
+    Script->>Gates: hardening_green</pre>
+<p>Una parte clave del script son los presupuestos por entorno, que pueden ajustarse con variables de entorno para ensayos controlados.</p>
+<pre><code class="language-bash">max_list_p95_ms="${MAX_LIST_P95_MS:-30}"
+max_create_p95_ms="${MAX_CREATE_P95_MS:-30}"
+max_open_debt_items="${MAX_OPEN_DEBT_ITEMS:-3}"</code></pre>
+<p>La ejecución de referencia es directa.</p>
 <pre><code class="language-bash">./scripts/run-hardening-check.sh
 ./scripts/run-quality-gates.sh</code></pre>
-<p>La práctica guiada consiste en subir temporalmente el número de deudas abiertas para forzar un rojo y observar cómo se propaga hasta quality gates. La verificación de comprensión es explicar por qué esta propagación evita que hardening quede como recomendación opcional.</p>
-<p>Siguiente lección: <code>16-semana-15/06-refactor-presupuestos-rendimiento.md</code>.</p>
+<h2 id="16-semana-15-05-codigo-hardening-cli-pr-ctica-guiada">Práctica guiada</h2>
+<p>Ejecuta el check con <code>MAX_OPEN_DEBT_ITEMS=1</code> para forzar rojo por deuda y revisa cómo aparece el fallo en el reporte. Después vuelve al valor por defecto y confirma recuperación.</p>
+<h2 id="16-semana-15-05-codigo-hardening-cli-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Comprueba que puedes explicar por qué separar adquisición de señal (probe) y decisión (evaluator) mejora mantenibilidad. Si no lo conectas con adaptación futura de fuentes de métricas, revisa la lección.</p>
+<h2 id="16-semana-15-05-codigo-hardening-cli-siguiente-lecci-n">Siguiente lección</h2>
+<p>Sigue en <code>16-semana-15/06-refactor-presupuestos-rendimiento.md</code>, donde refinaremos política y umbrales para evitar hardcoding frágil.</p>
 </section>
 <section id="16-semana-15-06-refactor-presupuestos-rendimiento" class="lesson" data-topic-id="16-semana-15-06-refactor-presupuestos-rendimiento" data-lesson-path="16-semana-15/06-refactor-presupuestos-rendimiento.md">
 <div class="lesson-path">16-semana-15/06-refactor-presupuestos-rendimiento.md</div>
-<h1 id="16-semana-15-06-refactor-presupuestos-rendimiento-semana-15-lecci-n-6-refactor-para-separar-pol-tica-y-mecanismo">Semana 15 · Lección 6: refactor para separar política y mecanismo</h1>
-<p>Después de dejar el circuito funcionando, hacemos refactor consciente. El objetivo no es embellecer código, es proteger decisiones para que cambiar la política no obligue a reescribir el motor. Por eso el presupuesto queda expresado en artefactos versionados de hardening y la evaluación en un módulo dedicado.</p>
-<p>Esta separación te entrena para situaciones enterprise donde el umbral cambia por contexto operativo. Si todo está mezclado, cada ajuste abre riesgo de regresión. Si política y mecanismo están aislados, ajustar presupuesto es un cambio de contrato gobernado, no una cirugía a ciegas.</p>
-<pre class="mermaid">flowchart TD
-    A[Politica de hardening] --> B[request JSON]
-    B --> C[HardeningEvaluator]
-    D[Probe tecnico] --> B
-    E[Debt register] --> B
-    C --> F[Reporte estable]</pre>
-<p>También aplicamos refactor de narrativa técnica. El plan de hardening y el debt register viven en <code>docs/hardening</code> para que el alumno vea que gobernanza de calidad no es un comentario suelto en scripts.</p>
-<pre><code class="language-text">Regla de refactor Week 15:
-si cambias un umbral, debe quedar claro por que cambió,
-dónde cambió y qué evidencia valida el nuevo valor.</code></pre>
-<p>La práctica guiada consiste en cambiar temporalmente un threshold por variable de entorno y observar cómo se comporta el sistema con un presupuesto estricto y con uno relajado. La verificación de comprensión es justificar qué parte pertenece a política y qué parte pertenece a mecanismo dentro de esta semana.</p>
-<p>Siguiente lección: <code>16-semana-15/07-checkpoint-evaluacion.md</code>.</p>
+<h1 id="16-semana-15-06-refactor-presupuestos-rendimiento-semana-15-lecci-n-6-refactor-de-presupuestos-para-separar-pol-tica-de-implementaci-n">Semana 15 · Lección 6: refactor de presupuestos para separar política de implementación</h1>
+<p>Con el flujo funcionando, ahora reforzamos diseño para evolución. El objetivo es que cambiar un umbral no implique tocar múltiples piezas con riesgo de inconsistencias. Para lograrlo, la política se mantiene en artefactos versionados y el mecanismo en evaluador estable.</p>
+<p>Este refactor te enseña una habilidad importante de arquitectura: diferenciar decisión de negocio técnico y motor de ejecución. En week15, los presupuestos son decisión. El cálculo de checks es mecanismo. Mezclarlos complica mantenimiento y dificulta auditoría.</p>
+<pre class="mermaid">flowchart LR
+    A[Plan hardening versionado] --> B[thresholds in request]
+    C[Probe + debt input] --> B
+    B --> D[HardeningEvaluator]
+    D --> E[HardeningReport]</pre>
+<p>Una práctica útil en esta fase es documentar explícitamente por qué se ajusta un umbral. Sin esa justificación, el cambio puede parecer arbitrario y perder credibilidad ante el equipo.</p>
+<pre><code class="language-text">Cambio de umbral recomendado:
+explicar motivo, impacto esperado y evidencia posterior de que la política sigue siendo realista.</code></pre>
+<h2 id="16-semana-15-06-refactor-presupuestos-rendimiento-pr-ctica-guiada">Práctica guiada</h2>
+<p>Ajusta temporalmente <code>MAX_LIST_P95_MS</code> a un valor estricto y observa cuántas ejecuciones fallan. Luego elige un valor más realista y explica en dos párrafos por qué ese ajuste mejora equilibrio entre exigencia y estabilidad.</p>
+<h2 id="16-semana-15-06-refactor-presupuestos-rendimiento-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Verifica que puedes explicar qué parte de week15 pertenece a política y qué parte pertenece a implementación. Si la frontera no está clara, repasa el diagrama.</p>
+<h2 id="16-semana-15-06-refactor-presupuestos-rendimiento-siguiente-lecci-n">Siguiente lección</h2>
+<p>Continúa con <code>16-semana-15/07-checkpoint-evaluacion.md</code>, donde cerraremos hardening con evidencia de ejecución reproducible.</p>
 </section>
 <section id="16-semana-15-07-checkpoint-evaluacion" class="lesson" data-topic-id="16-semana-15-07-checkpoint-evaluacion" data-lesson-path="16-semana-15/07-checkpoint-evaluacion.md">
 <div class="lesson-path">16-semana-15/07-checkpoint-evaluacion.md</div>
-<h1 id="16-semana-15-07-checkpoint-evaluacion-semana-15-lecci-n-7-checkpoint-de-hardening-con-evidencia-defendible">Semana 15 · Lección 7: checkpoint de hardening con evidencia defendible</h1>
-<p>El checkpoint de Week 15 confirma que hardening ya no es discurso. Debes poder ejecutar una secuencia que pruebe el módulo nuevo, ejecute el check de hardening, propague el resultado a quality gates y mantenga el resto del curso estable. Esta secuencia no se memoriza; se entiende como contrato operativo.</p>
-<p>El punto clave del checkpoint es que combina tres niveles. El nivel local valida lógica del evaluador con tests unitarios. El nivel operativo valida el script de check con datos reales del repo. El nivel sistémico valida que quality gates integra correctamente la señal <code>hardening_green</code>.</p>
-<pre class="mermaid">flowchart LR
-    A[Hardening tests] --> B[run-hardening-check]
-    B --> C[run-quality-gates]
-    C --> D[Validadores del curso]
-    D --> E[Cierre week15]</pre>
-<p>Si un alumno pasa este checkpoint, ya puede detectar y argumentar una degradación técnica sin depender de intuición. Esa habilidad es justo la que diferencia ejecución profesional de “programar y cruzar dedos”.</p>
+<h1 id="16-semana-15-07-checkpoint-evaluacion-semana-15-lecci-n-7-checkpoint-de-hardening-para-cierre-con-se-al-objetiva">Semana 15 · Lección 7: checkpoint de hardening para cierre con señal objetiva</h1>
+<p>Este checkpoint valida que hardening ya no es un apartado teórico del curso. Debes demostrar pruebas del evaluador, ejecución real de script de hardening y propagación de la señal en quality gates.</p>
+<p>La fortaleza de este cierre es su carácter reproductible. Cualquier persona del equipo debe poder ejecutar el mismo circuito y obtener la misma conclusión sobre estado de presupuesto técnico.</p>
+<pre class="mermaid">flowchart TD
+    A[Hardening unit tests] --> B[run-hardening-check.sh]
+    B --> C[hardening_green]
+    C --> D[run-quality-gates.sh]
+    D --> E[validadores globales]
+    E --> F[cierre week15]</pre>
+<p>Ejecuta este bloque para completar cierre de semana con evidencia íntegra.</p>
 <pre><code class="language-bash">swift test --package-path project/HelpdeskSDD
 ./scripts/run-hardening-check.sh
 ./scripts/run-quality-gates.sh
+npm run -s openspec:validate
+python3 scripts/validate-course-structure.py
 python3 scripts/validate-openspec.py
+python3 scripts/check-links.py
 python3 scripts/validate-pedagogy.py
 python3 scripts/build-html.py</code></pre>
-<p>La práctica guiada consiste en forzar un fallo con <code>MAX_OPEN_DEBT_ITEMS=1</code> y describir qué check exacto queda rojo y por qué. La verificación de comprensión final es explicar qué ventaja tiene detectar degradación en Week 15 en vez de descubrirla durante la defensa final.</p>
-<p>Siguiente lección: <code>16-semana-15/08-bitacora-commits.md</code>.</p>
+<h2 id="16-semana-15-07-checkpoint-evaluacion-pr-ctica-guiada">Práctica guiada</h2>
+<p>Lanza una ejecución con presupuesto extremadamente bajo para provocar rojo, identifica el check exacto que falla y documenta qué ajuste harías para volver a un presupuesto realista sin perder rigor.</p>
+<h2 id="16-semana-15-07-checkpoint-evaluacion-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Comprueba que puedes explicar por qué detectar degradación en esta semana ahorra coste frente a descubrirla en una incidencia de producción. Si no conectas con prevención, vuelve al inicio.</p>
+<h2 id="16-semana-15-07-checkpoint-evaluacion-siguiente-lecci-n">Siguiente lección</h2>
+<p>Sigue en <code>16-semana-15/08-bitacora-commits.md</code>, donde registraremos el cierre de hardening con trazabilidad de decisión y evidencia.</p>
 </section>
 <section id="16-semana-15-08-bitacora-commits" class="lesson" data-topic-id="16-semana-15-08-bitacora-commits" data-lesson-path="16-semana-15/08-bitacora-commits.md">
 <div class="lesson-path">16-semana-15/08-bitacora-commits.md</div>
-<h1 id="16-semana-15-08-bitacora-commits-semana-15-lecci-n-8-bit-cora-de-commits-para-cerrar-hardening-con-trazabilidad">Semana 15 · Lección 8: bitácora de commits para cerrar hardening con trazabilidad</h1>
-<p>Cerramos la semana dejando rastro auditado. La bitácora no existe para inflar burocracia; existe para que cualquier compañero pueda reconstruir qué cambió, por qué cambió y cómo se validó. En un entorno enterprise esa capacidad reduce tiempo de onboarding, facilita incident response y mejora confianza entre equipos.</p>
-<p>En Week 15, los commits atómicos recomendados separan claramente el trabajo. Un bloque para módulo hardening y tests. Otro bloque para OpenSpec y BDD. Otro bloque para contenido docente y scripts de publicación. Esta separación evita commits gigantes que mezclan intención técnica y documentación sin hilo.</p>
-<pre class="mermaid">flowchart TD
-    A[Commit 1 codigo hardening] --> B[Commit 2 OpenSpec week15]
-    B --> C[Commit 3 lecciones y validadores]
-    C --> D[Build HTML]
-    D --> E[Publicacion en hub]</pre>
-<p>El criterio de calidad de la bitácora es que un revisor pueda leer solo los mensajes y entender el avance real de la semana sin abrir cincuenta archivos a la vez.</p>
-<pre><code class="language-bash">git add project/HelpdeskSDD scripts docs/hardening
-git commit -m "feat(week15): add hardening evaluator, probe CLI and gate signal"
-git add openspec project/HelpdeskSDD/BDD
-git commit -m "docs(openspec): archive week15 hardening performance budget change"
-git add 16-semana-15 scripts/build-html.py scripts/validate-*.py
-git commit -m "docs(week15): publish complete hardening learning module"</code></pre>
-<p>La práctica guiada consiste en revisar tus mensajes de commit y comprobar si explican intención y evidencia o solo describen archivos tocados. La verificación de comprensión final es responder qué riesgo operativo introduces cuando mezclas varios cambios no relacionados en un solo commit.</p>
-<p>Siguiente semana: <code>17-semana-16/00-semana-16-roadmap.md</code>.</p>
+<h1 id="16-semana-15-08-bitacora-commits-semana-15-lecci-n-8-bit-cora-de-hardening-para-auditar-salud-t-cnica-con-contexto">Semana 15 · Lección 8: bitácora de hardening para auditar salud técnica con contexto</h1>
+<p>La bitácora de week15 debe dejar clara una transición: pasar de percepciones sobre rendimiento y deuda a una política ejecutable con gate crítico. Si el historial no muestra esa transición, el valor de la semana se debilita aunque el código funcione.</p>
+<p>Un patrón de commits sólido en esta fase separa intención y bloques técnicos. Primero narrativa y contrato de semana. Después módulo de hardening con tests. Luego scripts y artefactos de política. Por último, validación y publicación.</p>
+<pre class="mermaid">flowchart LR
+    A[Contrato week15] --> B[Commit docs y spec]
+    B --> C[Commit evaluator + tests]
+    C --> D[Commit scripts + debt policy]
+    D --> E[Commit validación/publicación]</pre>
+<p>Esta estructura permite responder preguntas clave de auditoría, por ejemplo dónde se definió <code>open_debt_budget</code> y dónde se conectó <code>hardening_green</code> en el flujo global.</p>
+<pre><code class="language-bash">git status --short
+swift test --package-path project/HelpdeskSDD
+./scripts/run-hardening-check.sh
+./scripts/run-quality-gates.sh
+python3 scripts/build-html.py
+git add &lt;bloque-semantico&gt;
+git commit -m "docs(week15): rewrite hardening module as deep narrative flow"</code></pre>
+<h2 id="16-semana-15-08-bitacora-commits-pr-ctica-guiada">Práctica guiada</h2>
+<p>Revisa los commits de cierre e intenta reconstruir la semana sin abrir chat ni notas externas. Si no puedes seguir el hilo técnico, ajusta la granularidad y mensajes en tu próximo ciclo.</p>
+<h2 id="16-semana-15-08-bitacora-commits-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Comprueba que puedes defender por qué una bitácora clara de hardening mejora la capacidad de mentoría técnica dentro del equipo. Si no conectas con aprendizaje colectivo, revisa la lección.</p>
+<h2 id="16-semana-15-08-bitacora-commits-siguiente-semana">Siguiente semana</h2>
+<p>Continúa en <code>17-semana-16/00-semana-16-roadmap.md</code>, donde realizaremos la defensa final con trazabilidad integral y criterios de aceptación enterprise.</p>
 </section>
 <section id="17-semana-16-00-semana-16-roadmap" class="lesson" data-topic-id="17-semana-16-00-semana-16-roadmap" data-lesson-path="17-semana-16/00-semana-16-roadmap.md">
 <div class="lesson-path">17-semana-16/00-semana-16-roadmap.md</div>
