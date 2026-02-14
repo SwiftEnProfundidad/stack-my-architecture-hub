@@ -34,6 +34,7 @@ Opciones:
   --selftest               Smoke aislado en puerto temporal.
   --selftest-strict        Selftest con consulta IA real.
   --backup-runtime [name]  Crea snapshot de .runtime.
+  --backup-runtime-keep N  Auto-prune tras backup (mantiene N).
   --list-runtime-backups   Lista snapshots disponibles.
   --restore-runtime <ref>  Restaura snapshot (archivo o latest).
   --prune-runtime-backups <keep>  Mantiene N snapshots y borra el resto.
@@ -51,6 +52,7 @@ Ejemplos:
   stack-hub --selftest --strict
   stack-hub --backup-runtime
   stack-hub --backup-runtime before-migration
+  stack-hub --backup-runtime --backup-runtime-keep 20
   stack-hub --list-runtime-backups
   stack-hub --restore-runtime latest
   stack-hub --prune-runtime-backups 10
@@ -82,6 +84,7 @@ main() {
   local selftest_strict=0
   local run_backup=0
   local backup_name=""
+  local backup_keep=""
   local run_list_backups=0
   local run_restore=0
   local restore_ref=""
@@ -175,6 +178,15 @@ main() {
           shift
         fi
         ;;
+      --backup-runtime-keep)
+        if [[ -z "${2:-}" ]]; then
+          echo "❌ Falta valor para --backup-runtime-keep"
+          exit 1
+        fi
+        run_backup=1
+        backup_keep="$2"
+        shift 2
+        ;;
       --list-runtime-backups)
         run_list_backups=1
         shift
@@ -222,10 +234,14 @@ main() {
   fi
 
   if [[ "$run_backup" -eq 1 ]]; then
+    local backup_args=("backup")
     if [[ -n "$backup_name" ]]; then
-      exec /bin/zsh -f "$SNAPSHOT_SCRIPT" backup --name "$backup_name"
+      backup_args+=("--name" "$backup_name")
     fi
-    exec /bin/zsh -f "$SNAPSHOT_SCRIPT" backup
+    if [[ -n "$backup_keep" ]]; then
+      backup_args+=("--keep" "$backup_keep")
+    fi
+    exec /bin/zsh -f "$SNAPSHOT_SCRIPT" "${backup_args[@]}"
   fi
 
   if [[ "$run_restore" -eq 1 ]]; then

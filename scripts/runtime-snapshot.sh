@@ -10,7 +10,7 @@ STOP_SCRIPT="$SCRIPT_DIR/stop-hub.sh"
 usage() {
   cat <<'EOF'
 Uso:
-  runtime-snapshot.sh backup [--name <alias>]
+  runtime-snapshot.sh backup [--name <alias>] [--keep <n>]
   runtime-snapshot.sh list
   runtime-snapshot.sh restore <latest|archivo.tar.gz>
   runtime-snapshot.sh prune <keep>
@@ -20,6 +20,7 @@ Notas:
   - restore detiene el hub antes de restaurar
   - restore limpia hub.pid/hub.port al terminar (seguridad)
   - prune mantiene los <keep> más recientes y borra el resto
+  - backup puede autoprunear con --keep o STACK_MY_ARCH_RUNTIME_BACKUP_KEEP
 EOF
 }
 
@@ -29,8 +30,23 @@ sanitize_name() {
   printf '%s' "$raw" | sed -E 's/[^A-Za-z0-9._-]+/-/g'
 }
 
+validate_keep_value() {
+  local keep="$1"
+  if ! [[ "$keep" =~ ^[0-9]+$ ]]; then
+    echo "❌ Valor inválido para keep/prune: $keep (debe ser entero >= 0)"
+    exit 1
+  fi
+}
+
 backup_runtime() {
   local name="${1:-}"
+  local keep_override="${2:-}"
+  local keep_after_backup="${keep_override:-${STACK_MY_ARCH_RUNTIME_BACKUP_KEEP:-}}"
+
+  if [ -n "$keep_after_backup" ]; then
+    validate_keep_value "$keep_after_backup"
+  fi
+
   mkdir -p "$RUNTIME_DIR" "$SNAPSHOT_DIR"
 
   local timestamp
@@ -87,6 +103,11 @@ EOF
   tar -czf "$output" -C "$tmpdir" runtime
   rm -rf "$tmpdir"
   echo "✅ Snapshot creado: $output"
+
+  if [ -n "$keep_after_backup" ]; then
+    echo "ℹ️ Auto-prune tras backup (keep=$keep_after_backup)"
+    prune_snapshots "$keep_after_backup"
+  fi
 }
 
 list_snapshots() {
@@ -105,10 +126,7 @@ prune_snapshots() {
   local keep="$1"
   mkdir -p "$SNAPSHOT_DIR"
 
-  if ! [[ "$keep" =~ ^[0-9]+$ ]]; then
-    echo "❌ Valor inválido para prune: $keep (debe ser entero >= 0)"
-    exit 1
-  fi
+  validate_keep_value "$keep"
 
   local entries
   entries="$(printf '%s\n' "$SNAPSHOT_DIR"/*.tar.gz(N) | sort -r)"
@@ -209,22 +227,41 @@ main() {
     backup)
       shift
       local name=""
-      if [ "${1:-}" = "--name" ]; then
-        if [ -z "${2:-}" ]; then
-          echo "❌ Falta valor para --name"
-          exit 1
-        fi
-        name="$2"
-        shift 2
-      elif [ -n "${1:-}" ]; then
-        name="$1"
-        shift
-      fi
-      if [ $# -gt 0 ]; then
-        echo "❌ Argumentos no soportados para backup: $*"
-        exit 1
-      fi
-      backup_runtime "$name"
+      local keep=""
+      while [ $# -gt 0 ]; do
+        case "$1" in
+          --name)
+            if [ -z "${2:-}" ]; then
+              echo "❌ Falta valor para --name"
+              exit 1
+            fi
+            name="$2"
+            shift 2
+            ;;
+          --keep)
+            if [ -z "${2:-}" ]; then
+              echo "❌ Falta valor para --keep"
+              exit 1
+            fi
+            keep="$2"
+            shift 2
+            ;;
+          --*)
+            echo "❌ Opción no soportada para backup: $1"
+            exit 1
+            ;;
+          *)
+            if [ -z "$name" ]; then
+              name="$1"
+              shift
+            else
+              echo "❌ Argumento inesperado para backup: $1"
+              exit 1
+            fi
+            ;;
+        esac
+      done
+      backup_runtime "$name" "$keep"
       ;;
     list)
       shift

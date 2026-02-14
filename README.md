@@ -77,6 +77,7 @@ stack-hub --selftest
 stack-hub --selftest --strict
 stack-hub --backup-runtime
 stack-hub --backup-runtime before-upgrade
+stack-hub --backup-runtime --backup-runtime-keep 20
 stack-hub --list-runtime-backups
 stack-hub --restore-runtime latest
 stack-hub --prune-runtime-backups 10
@@ -104,9 +105,16 @@ Snapshots de runtime:
 ```bash
 stack-hub --backup-runtime
 stack-hub --backup-runtime before-upgrade
+stack-hub --backup-runtime --backup-runtime-keep 20
 stack-hub --list-runtime-backups
 stack-hub --restore-runtime latest
 stack-hub --prune-runtime-backups 10
+```
+
+También puedes fijar auto-prune por variable de entorno:
+
+```bash
+STACK_MY_ARCH_RUNTIME_BACKUP_KEEP=20 stack-hub --backup-runtime
 ```
 
 `--stop` ahora evita matar procesos ajenos si el puerto fue reutilizado por otra app.
