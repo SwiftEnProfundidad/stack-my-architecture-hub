@@ -1088,15 +1088,15 @@ blockquote p {
 </ul></li>
 <li class="nav-section"><strong>Semana 10</strong>
 <ul>
-  <li><a class="doc-nav-link" data-lesson-path="11-semana-10/00-semana-10-roadmap.md" href="#11-semana-10-00-semana-10-roadmap">Semana 10: segunda feature real sin romper lo construido</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="11-semana-10/01-problema-feature-catalogo.md" href="#11-semana-10-01-problema-feature-catalogo">Semana 10 · Lección 1: el problema no es solo resolver tickets, es evitar que vuelvan a aparecer</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="11-semana-10/02-spec-catalogo-v1.md" href="#11-semana-10-02-spec-catalogo-v1">Semana 10 · Lección 2: convertir la intención del catálogo en contrato OpenSpec</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="11-semana-10/03-bdd-catalogo.md" href="#11-semana-10-03-bdd-catalogo">Semana 10 · Lección 3: BDD para alinear publicación y catálogo con negocio real</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="11-semana-10/04-tdd-catalogo-domain-application.md" href="#11-semana-10-04-tdd-catalogo-domain-application">Semana 10 · Lección 4: TDD en dominio y aplicación para blindar la nueva feature</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="11-semana-10/05-codigo-catalogo-memory-repository.md" href="#11-semana-10-05-codigo-catalogo-memory-repository">Semana 10 · Lección 5: código de producción para publicar y listar artículos en memoria</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="11-semana-10/06-refactor-boundary-catalogo.md" href="#11-semana-10-06-refactor-boundary-catalogo">Semana 10 · Lección 6: refactor de fronteras para que la feature 2 no contamine la feature 1</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="11-semana-10/07-checkpoint-evaluacion.md" href="#11-semana-10-07-checkpoint-evaluacion">Semana 10 · Lección 7: checkpoint para demostrar que la segunda feature es estable</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="11-semana-10/08-bitacora-commits.md" href="#11-semana-10-08-bitacora-commits">Semana 10 · Lección 8: bitácora para demostrar crecimiento arquitectónico sin regresión</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="11-semana-10/00-semana-10-roadmap.md" href="#11-semana-10-00-semana-10-roadmap">Semana 10: segunda feature real para demostrar que la arquitectura escala de verdad</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="11-semana-10/01-problema-feature-catalogo.md" href="#11-semana-10-01-problema-feature-catalogo">Semana 10 · Lección 1: resolver incidencias no basta si el conocimiento no se vuelve sistema</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="11-semana-10/02-spec-catalogo-v1.md" href="#11-semana-10-02-spec-catalogo-v1">Semana 10 · Lección 2: especificar catálogo en OpenSpec para evitar una feature ambigua</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="11-semana-10/03-bdd-catalogo.md" href="#11-semana-10-03-bdd-catalogo">Semana 10 · Lección 3: BDD del catálogo para que producto y código hablen el mismo idioma</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="11-semana-10/04-tdd-catalogo-domain-application.md" href="#11-semana-10-04-tdd-catalogo-domain-application">Semana 10 · Lección 4: TDD de dominio y aplicación para asegurar la feature antes de la UI</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="11-semana-10/05-codigo-catalogo-memory-repository.md" href="#11-semana-10-05-codigo-catalogo-memory-repository">Semana 10 · Lección 5: producción del catálogo con repositorio en memoria y wiring SwiftUI</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="11-semana-10/06-refactor-boundary-catalogo.md" href="#11-semana-10-06-refactor-boundary-catalogo">Semana 10 · Lección 6: refactor de fronteras para crecer sin mezclar conceptos</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="11-semana-10/07-checkpoint-evaluacion.md" href="#11-semana-10-07-checkpoint-evaluacion">Semana 10 · Lección 7: checkpoint de integración para cerrar la segunda feature con criterio enterprise</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="11-semana-10/08-bitacora-commits.md" href="#11-semana-10-08-bitacora-commits">Semana 10 · Lección 8: bitácora de commits para demostrar crecimiento sin regresiones ocultas</a></li>
 </ul></li>
 <li class="nav-section"><strong>Semana 11</strong>
 <ul>
@@ -7593,222 +7593,287 @@ git commit -m "docs(week9): rewrite security compliance module as deep narrative
 </section>
 <section id="11-semana-10-00-semana-10-roadmap" class="lesson" data-topic-id="11-semana-10-00-semana-10-roadmap" data-lesson-path="11-semana-10/00-semana-10-roadmap.md">
 <div class="lesson-path">11-semana-10/00-semana-10-roadmap.md</div>
-<h1 id="11-semana-10-00-semana-10-roadmap-semana-10-segunda-feature-real-sin-romper-lo-construido">Semana 10: segunda feature real sin romper lo construido</h1>
-<p>Hasta la semana anterior resolvimos tickets de forma robusta, observable y con controles de seguridad básicos. Ese avance es bueno, pero un sistema enterprise no se queda solo en reaccionar a problemas; también necesita reutilizar conocimiento para que los mismos incidentes no se repitan una y otra vez. Semana 10 introduce esa capacidad mediante la segunda feature del curso: un catálogo de conocimiento.</p>
-<p>El objetivo técnico de esta semana es demostrar que la arquitectura no depende de una única feature. Si al añadir el catálogo tenemos que romper contratos o mezclar capas, la arquitectura no era sólida. Si en cambio podemos repetir el flujo OpenSpec, BDD, TDD y producción con la misma disciplina, entonces sí estamos construyendo una base que escala.</p>
+<h1 id="11-semana-10-00-semana-10-roadmap-semana-10-segunda-feature-real-para-demostrar-que-la-arquitectura-escala-de-verdad">Semana 10: segunda feature real para demostrar que la arquitectura escala de verdad</h1>
+<p>Hasta la semana nueve construiste un sistema de ticketing con observabilidad, resiliencia y controles básicos de seguridad. Ahora llega una prueba más exigente que cualquier examen teórico: añadir una segunda feature con entidad propia sin romper lo ya construido. Semana 10 existe para eso. Si la arquitectura solo funciona con una feature, no es arquitectura robusta, es una maqueta afortunada.</p>
+<p>La nueva feature es el catálogo de conocimiento. En términos de producto, su valor es reducir repetición de incidencias al convertir soluciones frecuentes en artículos reutilizables. En términos de arquitectura, su valor es comprobar que podemos repetir el ciclo OpenSpec, BDD, TDD y producción sin colapsar fronteras entre dominios.</p>
 <pre class="mermaid">flowchart LR
-    A[OpenSpec week10] --> B[BDD catálogo]
-    B --> C[TDD dominio y casos de uso]
-    C --> D[Producción en memoria + SwiftUI]
-    D --> E[Refactor de fronteras]
-    E --> F[Checkpoint y cierre]</pre>
-<p>La definición de cierre de semana vuelve a ser concreta y auditable. Debes poder publicar y listar artículos de conocimiento con validaciones de dominio claras, pruebas en verde y trazabilidad completa en historial.</p>
-<pre><code class="language-yaml">week10_definition_of_done:
-  feature: "catálogo de conocimiento publicado y listable"
-  rules: "validación de borrador en dominio"
-  architecture: "casos de uso y repositorio por contrato"
-  evidence: "tests por capa + OpenSpec + build html"</code></pre>
-<p>La práctica guiada de arranque consiste en recordar tres tickets repetidos de tu experiencia y redactar, en lenguaje simple, qué artículo de conocimiento habría evitado cada uno. Este ejercicio te coloca en mentalidad de producto antes de tocar código.</p>
-<p>La verificación de comprensión previa es responder por qué una segunda feature es la prueba más honesta de que tu arquitectura realmente está desacoplada.</p>
-<p>Siguiente lección: <code>11-semana-10/01-problema-feature-catalogo.md</code>.</p>
+    A[Ticketing consolidado] --> B[Need de conocimiento reutilizable]
+    B --> C[OpenSpec week10]
+    C --> D[BDD catálogo]
+    D --> E[TDD dominio y aplicación]
+    E --> F[Producción con repositorio por contrato]
+    F --> G[Integración en AppRoot sin acoplar features]</pre>
+<p>Un error habitual al llegar aquí es acelerar por confianza. Como ya hemos construido semanas anteriores, parece tentador “ir directo a la vista”. Precisamente aquí debes reforzar disciplina. La segunda feature no es un sprint aislado; es una verificación estructural de que el sistema puede crecer sin deuda arquitectónica explosiva.</p>
+<pre><code class="language-yaml">week10_outcome:
+  product_capability: "publicar y listar artículos de conocimiento"
+  architectural_goal: "dos features conviviendo con límites claros"
+  quality_goal: "reglas de dominio protegidas por tests"
+  evidence_goal: "trazabilidad completa desde spec hasta publicación"</code></pre>
+<p>La práctica guiada de apertura consiste en un ejercicio de negocio aplicado. Piensa en tres tickets que un equipo suele resolver de forma repetitiva y formula qué artículo de conocimiento los convertiría en resolución más rápida y consistente. Este paso te sitúa en mentalidad de producto antes de escribir una sola línea de código.</p>
+<p>La verificación de comprensión previa de esta semana es simple y profunda a la vez: debes poder explicar por qué añadir una segunda feature es la validación más honesta de una arquitectura limpia. Si no puedes defenderlo sin hablar de límites entre módulos y contratos, relee este roadmap.</p>
+<h2 id="11-semana-10-00-semana-10-roadmap-siguiente-lecci-n">Siguiente lección</h2>
+<p>Continúa en <code>11-semana-10/01-problema-feature-catalogo.md</code>, donde modelaremos el problema operativo que resuelve el catálogo y por qué no basta con “documentar en cualquier sitio”.</p>
 </section>
 <section id="11-semana-10-01-problema-feature-catalogo" class="lesson" data-topic-id="11-semana-10-01-problema-feature-catalogo" data-lesson-path="11-semana-10/01-problema-feature-catalogo.md">
 <div class="lesson-path">11-semana-10/01-problema-feature-catalogo.md</div>
-<h1 id="11-semana-10-01-problema-feature-catalogo-semana-10-lecci-n-1-el-problema-no-es-solo-resolver-tickets-es-evitar-que-vuelvan-a-aparecer">Semana 10 · Lección 1: el problema no es solo resolver tickets, es evitar que vuelvan a aparecer</h1>
-<p>Un equipo de soporte puede ser rápido cerrando incidencias y aun así estar atrapado en un bucle de trabajo repetitivo. Eso pasa cuando cada solución se queda en la cabeza de una persona o perdida en mensajes internos. Desde fuera parece que el sistema funciona, pero por dentro quema tiempo y genera dependencia de expertos concretos.</p>
-<p>La segunda feature del curso ataca justo ese punto. No construimos un catálogo porque suene bonito, sino porque convierte soluciones repetibles en un activo del producto. Cuando una solución está publicada con reglas claras, cualquier persona del equipo puede reutilizarla sin improvisar.</p>
+<h1 id="11-semana-10-01-problema-feature-catalogo-semana-10-lecci-n-1-resolver-incidencias-no-basta-si-el-conocimiento-no-se-vuelve-sistema">Semana 10 · Lección 1: resolver incidencias no basta si el conocimiento no se vuelve sistema</h1>
+<p>Imagina un equipo de soporte técnicamente competente. Resuelven tickets rápido, tienen buena actitud y trabajan muchas horas. Aun así, al cabo de unas semanas aparecen los mismos problemas con variaciones mínimas. La causa no es falta de talento. La causa es que el conocimiento queda disperso en chats, memoria individual o hilos de correo difíciles de recuperar.</p>
+<p>Desde fuera parece que “la app funciona”, pero desde dentro el coste operativo sube sin parar. Cada ticket repetido consume tiempo que podría invertirse en mejorar el producto. Este cuello de botella no se arregla con más reuniones ni con más voluntad. Se arregla convirtiendo conocimiento en una feature formal del sistema.</p>
 <pre class="mermaid">flowchart TD
-    A[Tickets repetidos] --> B[Tiempo perdido]
-    B --> C[Saturacion del equipo]
-    C --> D[Mayor riesgo operativo]
-    E[Catalogo de conocimiento] --> F[Reutilizacion de soluciones]
-    F --> G[Menos tickets repetidos]</pre>
-<p>La decisión de arquitectura aquí es importante. El catálogo no puede ser un texto libre pegado en la UI; debe tener dominio, contrato y casos de uso como cualquier feature seria. Si no lo haces así, en dos meses tendrás datos inconsistentes y nadie confiará en el contenido.</p>
+    A[Incidencia repetida] --> B[Resolución manual]
+    B --> C[Conocimiento queda en cabeza de alguien]
+    C --> D[Nueva incidencia similar]
+    D --> E[Ciclo de repetición]
+    F[Catálogo de conocimiento] --> G[Solución publicada y reutilizable]
+    G --> H[Reducción de repetición]</pre>
+<p>La lección clave para un perfil junior es esta: una feature de conocimiento no es una “wiki bonita”. Es una capacidad de producto con reglas de dominio. Si aceptas cualquier artículo sin validación mínima, la calidad del catálogo se degrada en días y nadie vuelve a confiar en él. La confianza se construye con estructura, no con buenas intenciones.</p>
+<p>Mira este borrador de ejemplo. No importa si el contenido final cambia; importa que la información tenga formato mínimo para ser útil y consistente.</p>
 <pre><code class="language-swift">let draft = KnowledgeArticleDraft(
-    title: "Recuperar acceso en iOS",
-    summary: "Flujo mínimo para volver a iniciar sesión.",
-    body: "Valida correo, ejecuta recuperación y confirma nuevo inicio de sesión.",
+    title: "Recuperar acceso en iOS corporativo",
+    summary: "Pasos mínimos para recuperar sesión sin perder datos del usuario.",
+    body: "Valida identidad, ejecuta recuperación segura, confirma nuevo login y registra evidencia.",
     category: "howto",
-    tags: ["ios", "auth"]
+    tags: ["ios", "auth", "support"]
 )</code></pre>
-<p>La práctica guiada consiste en tomar un problema frecuente de soporte y redactar un primer borrador de artículo con título, resumen y cuerpo. Si no puedes explicar el problema con claridad, todavía no estás listo para automatizar su solución.</p>
-<p>La verificación de comprensión antes de especificación es responder por qué documentar conocimiento en una feature formal reduce riesgo técnico y no solo riesgo operativo.</p>
-<p>Siguiente lección: <code>11-semana-10/02-spec-catalogo-v1.md</code>.</p>
+<p>Cuando modelas el problema así, el catálogo deja de ser “texto suelto” y pasa a ser una pieza del sistema con semántica propia. Ese cambio de mentalidad es exactamente lo que buscamos en la semana.</p>
+<h2 id="11-semana-10-01-problema-feature-catalogo-pr-ctica-guiada">Práctica guiada</h2>
+<p>Escribe un caso realista de ticket repetido y redacta un borrador de artículo que permitiría resolverlo sin depender de una persona concreta del equipo. Luego revisa si ese borrador sería comprensible para alguien nuevo en el proyecto.</p>
+<h2 id="11-semana-10-01-problema-feature-catalogo-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Comprueba que puedes explicar por qué guardar soluciones en mensajes internos no equivale a tener una feature de conocimiento. Si tu explicación no menciona estructura, validación y recuperabilidad, vuelve a repasar la lección.</p>
+<h2 id="11-semana-10-01-problema-feature-catalogo-siguiente-lecci-n">Siguiente lección</h2>
+<p>Avanza a <code>11-semana-10/02-spec-catalogo-v1.md</code>, donde formalizaremos la feature en OpenSpec para que implementación y pruebas salgan alineadas desde el inicio.</p>
 </section>
 <section id="11-semana-10-02-spec-catalogo-v1" class="lesson" data-topic-id="11-semana-10-02-spec-catalogo-v1" data-lesson-path="11-semana-10/02-spec-catalogo-v1.md">
 <div class="lesson-path">11-semana-10/02-spec-catalogo-v1.md</div>
-<h1 id="11-semana-10-02-spec-catalogo-v1-semana-10-lecci-n-2-convertir-la-intenci-n-del-cat-logo-en-contrato-openspec">Semana 10 · Lección 2: convertir la intención del catálogo en contrato OpenSpec</h1>
-<p>Ya tenemos claro el problema, ahora toca impedir ambigüedades. Una intención como “vamos a tener artículos de ayuda” no sirve para construir software enterprise. Necesitamos un contrato que diga qué se considera un artículo válido, qué categorías están permitidas y cómo se devuelve el catálogo para que la experiencia sea estable.</p>
-<p>OpenSpec nos obliga a hacer ese trabajo antes de implementar. Esa disciplina evita que la IA, o nosotros mismos, inventemos reglas distintas en cada archivo.</p>
-<pre class="mermaid">flowchart LR
-    A[Problema operativo] --> B[Proposal week10]
-    B --> C[Requirement catálogo]
-    C --> D[Escenarios observables]
-    D --> E[Tareas implementables]</pre>
-<p>En Week 10 definimos reglas mínimas que se pueden verificar por máquina. Título, resumen y cuerpo tienen longitudes mínimas, la categoría debe pertenecer al conjunto permitido, y la lista final se devuelve por fecha de publicación descendente.</p>
-<pre><code class="language-yaml">knowledge_catalog_contract_v1:
-  required_fields: "title, summary, body, category"
-  category_allowlist: "faq, troubleshooting, howto"
-  list_order: "publishedAt DESC"
-  rejection: "error de validación si no cumple reglas"</code></pre>
-<p>Este paso no es burocracia, es protección del sistema. Cuando un requisito está escrito así de claro, mañana cualquier cambio pasa por el mismo filtro y no por opiniones sueltas en una reunión.</p>
-<pre><code class="language-text">/opsx:new week10-knowledge-catalog-feature
+<h1 id="11-semana-10-02-spec-catalogo-v1-semana-10-lecci-n-2-especificar-cat-logo-en-openspec-para-evitar-una-feature-ambigua">Semana 10 · Lección 2: especificar catálogo en OpenSpec para evitar una feature ambigua</h1>
+<p>Con el problema claro, llega el momento de traducir intención en contrato. Esta fase es decisiva porque una spec pobre crea código impredecible. En SDD, el objetivo de la spec no es “tener documentación”, es reducir ambigüedad para que negocio, ingeniería y pruebas compartan la misma definición de correcto.</p>
+<p>El cambio de esta semana es <code>week10-knowledge-catalog-feature</code>. Debe responder preguntas concretas: qué hace válido un artículo, qué categorías admite la primera versión y cómo se ordena la lista al consultar catálogo. Si esas respuestas quedan implícitas, aparecerán divergencias en cada capa.</p>
+<pre class="mermaid">flowchart TD
+    A[Need de conocimiento reusable] --> B[Spec week10]
+    B --> C[Requirements medibles]
+    C --> D[Escenarios BDD]
+    D --> E[Tareas técnicas implementables]
+    E --> F[Pruebas y trazabilidad]</pre>
+<p>El flujo de trabajo OpenSpec se mantiene igual para consolidar hábito de ingeniería. La repetición aquí es una ventaja: cuanto más estandarizas, menos dependes de memoria individual.</p>
+<pre><code class="language-bash">/opsx:new week10-knowledge-catalog-feature
 /opsx:ff
 /opsx:apply
 /opsx:verify</code></pre>
-<p>La práctica guiada consiste en proponer una categoría nueva y defender si debe entrar en el contrato v1 o esperar a v2. El valor está en razonar alcance, no en acumular campos.</p>
-<p>La verificación de comprensión antes de BDD es responder por qué “funciona en demo” no sustituye un contrato de comportamiento explícito.</p>
-<p>Siguiente lección: <code>11-semana-10/03-bdd-catalogo.md</code>.</p>
+<p>Una buena especificación para esta feature define reglas mínimas de calidad de contenido. Por ejemplo, título, resumen y cuerpo con longitud mínima, categoría restringida a una allowlist inicial y orden del catálogo por <code>publishedAt</code> descendente. Cada regla de ese contrato se puede transformar en test sin interpretación libre.</p>
+<pre><code class="language-markdown">### Requirement: Knowledge article draft validation
+The system SHALL reject drafts with short title, summary or body.
+The system SHALL reject categories outside faq, troubleshooting and howto.
+The system SHALL list published articles ordered by publishedAt descending.</code></pre>
+<p>Si usas IA para iterar la spec, pide explícitamente que el modelo identifique requisitos no verificables y proponga redacción más observable. Después revisa tú la semántica final, porque la IA te acelera escritura pero no sustituye criterio de producto.</p>
+<h2 id="11-semana-10-02-spec-catalogo-v1-pr-ctica-guiada">Práctica guiada</h2>
+<p>Propón una categoría nueva que te parezca razonable y discute si debe entrar en v1 o quedar para v2. La respuesta buena no es “sí” o “no” sin más, sino una justificación de alcance y riesgo de complejidad.</p>
+<h2 id="11-semana-10-02-spec-catalogo-v1-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Verifica que puedes explicar por qué una regla como “el artículo debe ser útil” no sirve como requirement técnico si no se traduce en condición observable. Si no puedes mostrar cómo testear la regla, aún no está bien formulada.</p>
+<h2 id="11-semana-10-02-spec-catalogo-v1-siguiente-lecci-n">Siguiente lección</h2>
+<p>Continúa con <code>11-semana-10/03-bdd-catalogo.md</code>, donde convertiremos estos requirements en escenarios de comportamiento que el equipo entero pueda leer y validar.</p>
 </section>
 <section id="11-semana-10-03-bdd-catalogo" class="lesson" data-topic-id="11-semana-10-03-bdd-catalogo" data-lesson-path="11-semana-10/03-bdd-catalogo.md">
 <div class="lesson-path">11-semana-10/03-bdd-catalogo.md</div>
-<h1 id="11-semana-10-03-bdd-catalogo-semana-10-lecci-n-3-bdd-para-alinear-publicaci-n-y-cat-logo-con-negocio-real">Semana 10 · Lección 3: BDD para alinear publicación y catálogo con negocio real</h1>
-<p>Con el contrato definido, BDD convierte ese contrato en comportamiento observable. Esta traducción es crítica porque elimina la distancia entre lo que negocio necesita y lo que ingeniería implementa. Si un escenario BDD está bien escrito, cualquier persona del equipo entiende cuándo la feature está correcta y cuándo no.</p>
-<p>En esta semana usamos tres escenarios clave. El primero valida publicación correcta, el segundo protege contra categorías inválidas, y el tercero garantiza orden de catálogo por fecha. Con esas tres piezas ya controlas el flujo principal de la feature.</p>
+<h1 id="11-semana-10-03-bdd-catalogo-semana-10-lecci-n-3-bdd-del-cat-logo-para-que-producto-y-c-digo-hablen-el-mismo-idioma">Semana 10 · Lección 3: BDD del catálogo para que producto y código hablen el mismo idioma</h1>
+<p>BDD en esta semana cumple dos funciones a la vez. La primera es validar comportamiento funcional de la nueva feature. La segunda es servir de contrato compartido entre perfiles distintos. Cuando el escenario está bien escrito, un PM, un QA y una persona de backend pueden discutir el mismo comportamiento sin perderse en detalles internos.</p>
+<p>La clave didáctica aquí es que los escenarios deben representar decisiones de negocio observables. Publicar un artículo válido debe terminar en catálogo. Una categoría fuera de allowlist debe fallar con error explícito. El listado debe devolver orden consistente por fecha. Si estas tres cosas no están claras, la feature será inestable.</p>
 <pre class="mermaid">sequenceDiagram
-    participant User as Soporte
-    participant UC as PublishKnowledgeArticleUseCase
+    participant Support as Soporte
+    participant Publish as PublishKnowledgeArticleUseCase
     participant Repo as KnowledgeBaseRepository
     participant List as ListKnowledgeArticlesUseCase
-
-    User->>UC: publicar borrador
-    UC->>Repo: create(article)
-    User->>List: listar catálogo
+    Support->>Publish: enviar borrador
+    Publish->>Repo: create(article)
+    Support->>List: solicitar catálogo
     List->>Repo: list()
     Repo-->>List: artículos ordenados</pre>
+<p>Estos escenarios capturan la base del contrato sin meter detalle técnico innecesario. Observa que describen comportamiento y resultado, no implementación.</p>
 <pre><code class="language-gherkin">Feature: Catálogo de conocimiento
-  Scenario: Publicar artículo válido
-    Given un borrador válido
-    When se publica
-    Then el artículo queda disponible en catálogo
+  Scenario: Publicar un borrador válido lo incorpora al catálogo
+    Given un borrador con título, resumen y cuerpo válidos
+    And una categoría permitida
+    When se publica el artículo
+    Then el artículo queda persistido en el repositorio
 
-  Scenario: Rechazar categoría inválida
-    Given un borrador con categoría no permitida
-    When se publica
-    Then se devuelve error de validación</code></pre>
-<p>Observa el patrón. No estamos probando detalles internos del código. Estamos probando comportamientos que sí importan al usuario y a la operación.</p>
-<p>La práctica guiada consiste en leer tus tres escenarios y preguntarte si una persona que no programa podría entenderlos. Si la respuesta es no, el escenario está demasiado técnico y pierde su función de comunicación.</p>
-<p>La verificación de comprensión antes de TDD es explicar cuál de estos escenarios detecta antes una regresión en la gobernanza del catálogo.</p>
-<p>Siguiente lección: <code>11-semana-10/04-tdd-catalogo-domain-application.md</code>.</p>
+  Scenario: Categoría inválida bloquea la publicación
+    Given un borrador con categoría legal
+    When se publica el artículo
+    Then se devuelve un error unsupportedCategory
+
+  Scenario: El catálogo se devuelve por fecha descendente
+    Given dos artículos publicados en fechas distintas
+    When se consulta el catálogo
+    Then el artículo más reciente aparece primero</code></pre>
+<p>Cuando entrenes esta fase, piensa siempre en legibilidad humana. Si solo tú entiendes el escenario porque está lleno de jerga interna, BDD perdió su propósito principal.</p>
+<h2 id="11-semana-10-03-bdd-catalogo-pr-ctica-guiada">Práctica guiada</h2>
+<p>Redacta un escenario nuevo donde dos artículos tengan la misma categoría pero distinta fecha de publicación. Explica por qué el criterio de orden por fecha sigue siendo obligatorio incluso cuando la categoría coincide.</p>
+<h2 id="11-semana-10-03-bdd-catalogo-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Comprueba que puedes distinguir un escenario BDD de un caso de prueba unitario. Si no puedes diferenciar lenguaje de negocio frente a detalle de implementación, vuelve al ejemplo.</p>
+<h2 id="11-semana-10-03-bdd-catalogo-siguiente-lecci-n">Siguiente lección</h2>
+<p>Sigue con <code>11-semana-10/04-tdd-catalogo-domain-application.md</code>, donde transformaremos estos escenarios en pruebas Swift sobre dominio y aplicación.</p>
 </section>
 <section id="11-semana-10-04-tdd-catalogo-domain-application" class="lesson" data-topic-id="11-semana-10-04-tdd-catalogo-domain-application" data-lesson-path="11-semana-10/04-tdd-catalogo-domain-application.md">
 <div class="lesson-path">11-semana-10/04-tdd-catalogo-domain-application.md</div>
-<h1 id="11-semana-10-04-tdd-catalogo-domain-application-semana-10-lecci-n-4-tdd-en-dominio-y-aplicaci-n-para-blindar-la-nueva-feature">Semana 10 · Lección 4: TDD en dominio y aplicación para blindar la nueva feature</h1>
-<p>Ahora bajamos de escenario a prueba ejecutable. En Week 10, TDD empieza por dominio porque ahí viven las reglas que no pueden depender de la UI ni de infraestructura. Si permites que un artículo inválido pase aquí, todo lo demás se vuelve frágil.</p>
-<p>Después validamos aplicación para asegurar que los casos de uso construyen artículos correctamente y delegan persistencia al contrato de repositorio. Esta separación te permite evolucionar almacenamiento sin tocar reglas de negocio.</p>
+<h1 id="11-semana-10-04-tdd-catalogo-domain-application-semana-10-lecci-n-4-tdd-de-dominio-y-aplicaci-n-para-asegurar-la-feature-antes-de-la-ui">Semana 10 · Lección 4: TDD de dominio y aplicación para asegurar la feature antes de la UI</h1>
+<p>Ahora entramos en una de las prácticas con mayor retorno en arquitectura limpia: proteger reglas de negocio en dominio y proteger orquestación en aplicación, antes de dedicar tiempo a la interfaz. En esta semana, esa decisión te evita construir un catálogo visualmente correcto pero semánticamente inconsistente.</p>
+<p>El primer foco de TDD es <code>KnowledgeArticleDraft.validate()</code>. Ahí viven reglas como longitud mínima y allowlist de categorías. El segundo foco es <code>PublishKnowledgeArticleUseCase</code> y <code>ListKnowledgeArticlesUseCase</code>, que deben componer artículo con id/fecha correctos y delegar persistencia al contrato del repositorio.</p>
 <pre class="mermaid">flowchart LR
-    A[BDD catálogo] --> B[Test rojo de KnowledgeArticleDraft]
-    B --> C[Validación mínima en dominio]
-    C --> D[Test rojo de Publish/List use cases]
-    D --> E[Implementación en aplicación]
-    E --> F[Test verde]</pre>
-<p>El primer test que escribes comprueba que una categoría fuera de la allowlist falla con un error explícito. El segundo comprueba que publicar un borrador válido genera id y fecha de publicación antes de persistir.</p>
-<pre><code class="language-swift">@Test
+    A[Escenario BDD] --> B[Test rojo en KnowledgeArticleDraft]
+    B --> C[Implementación mínima de validación]
+    C --> D[Test rojo en use cases]
+    D --> E[Implementación de aplicación]
+    E --> F[Verde y refactor seguro]</pre>
+<p>Este test de dominio es un buen ejemplo porque expresa claramente el comportamiento de rechazo cuando una categoría sale de la allowlist.</p>
+<pre><code class="language-swift">import Testing
+@testable import HelpdeskDomain
+
+@Test
 func knowledgeDraftFailsWhenCategoryIsUnsupported() {
     let draft = KnowledgeArticleDraft(
         title: "Título suficientemente largo",
         summary: "Resumen válido para la regla mínima.",
-        body: "Contenido suficientemente extenso para cumplir validación.",
+        body: "Contenido suficientemente extenso para cumplir validación de dominio.",
         category: "legal",
-        tags: ["x"]
+        tags: ["policy"]
     )
 
     #expect(throws: KnowledgeArticleValidationError.unsupportedCategory("legal")) {
         try draft.validate()
     }
 }</code></pre>
+<p>Y este bloque de aplicación muestra cómo publicar un borrador válido genera un artículo listo para persistir, con responsabilidad clara de cada dependencia.</p>
+<pre><code class="language-swift">let useCase = PublishKnowledgeArticleUseCase(
+    repository: repositorySpy,
+    idGenerator: FixedKnowledgeIDGenerator(id: KnowledgeArticleID(rawValue: "A-100")),
+    dateProvider: FixedDateProvider(date: Date(timeIntervalSince1970: 1_710_000_100))
+)
+let article = try await useCase.execute(validDraft)
+#expect(article.id.rawValue == "A-100")</code></pre>
 <pre><code class="language-bash">swift test --package-path project/HelpdeskSDD</code></pre>
-<p>La práctica guiada consiste en romper adrede una regla de longitud mínima y observar qué tests caen. Esa evidencia te muestra que el sistema te protege incluso cuando alguien modifica reglas sin revisar impacto.</p>
-<p>La verificación de comprensión antes de producción es explicar por qué TDD en dominio suele tener mejor retorno que empezar por UI.</p>
-<p>Siguiente lección: <code>11-semana-10/05-codigo-catalogo-memory-repository.md</code>.</p>
+<h2 id="11-semana-10-04-tdd-catalogo-domain-application-pr-ctica-guiada">Práctica guiada</h2>
+<p>Rompe temporalmente la regla de resumen mínimo en <code>validate()</code> y ejecuta la suite. Observa qué pruebas fallan y por qué. Luego restaura la regla y verifica recuperación completa en verde.</p>
+<h2 id="11-semana-10-04-tdd-catalogo-domain-application-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Asegúrate de poder explicar por qué estas pruebas deben existir aunque la UI parezca funcionar en una demo manual. Si no hablas de regresiones semánticas silenciosas, repasa la lección.</p>
+<h2 id="11-semana-10-04-tdd-catalogo-domain-application-siguiente-lecci-n">Siguiente lección</h2>
+<p>Continúa en <code>11-semana-10/05-codigo-catalogo-memory-repository.md</code>, donde conectaremos dominio y aplicación con infraestructura en memoria e integración SwiftUI.</p>
 </section>
 <section id="11-semana-10-05-codigo-catalogo-memory-repository" class="lesson" data-topic-id="11-semana-10-05-codigo-catalogo-memory-repository" data-lesson-path="11-semana-10/05-codigo-catalogo-memory-repository.md">
 <div class="lesson-path">11-semana-10/05-codigo-catalogo-memory-repository.md</div>
-<h1 id="11-semana-10-05-codigo-catalogo-memory-repository-semana-10-lecci-n-5-c-digo-de-producci-n-para-publicar-y-listar-art-culos-en-memoria">Semana 10 · Lección 5: código de producción para publicar y listar artículos en memoria</h1>
-<p>Con pruebas en rojo, implementamos producción mínima en infraestructura y presentación. La pieza principal de esta lección es <code>InMemoryKnowledgeBaseRepository</code>, que cumple el contrato de repositorio del catálogo sin acoplar dominio a detalles de almacenamiento. Esta elección es coherente con el punto del curso: primero arquitectura y comportamiento, después tecnología final de persistencia.</p>
-<p>Además añadimos <code>KnowledgeCatalogViewModel</code> y <code>KnowledgeCatalogView</code> para visualizar la segunda feature en SwiftUI con wiring limpio desde el <code>HelpdeskAppRootBuilder</code>.</p>
+<h1 id="11-semana-10-05-codigo-catalogo-memory-repository-semana-10-lecci-n-5-producci-n-del-cat-logo-con-repositorio-en-memoria-y-wiring-swiftui">Semana 10 · Lección 5: producción del catálogo con repositorio en memoria y wiring SwiftUI</h1>
+<p>Con la intención protegida por pruebas, ahora sí implementamos la capa de producción para la feature. El repositorio elegido en esta semana es <code>InMemoryKnowledgeBaseRepository</code>. Esta elección no es “provisional por pereza”, es estratégica para centrar aprendizaje en arquitectura y comportamiento antes de entrar en persistencia definitiva.</p>
+<p>El contrato <code>KnowledgeBaseRepository</code> separa aplicación de infraestructura. Gracias a eso, <code>PublishKnowledgeArticleUseCase</code> y <code>ListKnowledgeArticlesUseCase</code> no saben dónde ni cómo se guardan los artículos. Solo saben qué comportamiento esperan. Esta separación es la que te permitirá migrar almacenamiento en semanas posteriores sin reescribir dominio.</p>
 <pre class="mermaid">flowchart TD
     A[PublishKnowledgeArticleUseCase] --> B[KnowledgeBaseRepository]
-    B --> C[InMemoryKnowledgeBaseRepository]
-    D[ListKnowledgeArticlesUseCase] --> B
-    D --> E[KnowledgeCatalogViewModel]
+    C[ListKnowledgeArticlesUseCase] --> B
+    B --> D[InMemoryKnowledgeBaseRepository]
+    C --> E[KnowledgeCatalogViewModel]
     E --> F[KnowledgeCatalogView]</pre>
-<p>El repositorio garantiza dos comportamientos críticos. Rechaza ids duplicados y devuelve la lista ordenada por <code>publishedAt</code> descendente para que la vista no tenga que reconstruir reglas de negocio.</p>
-<pre><code class="language-swift">public func list() async throws -&gt; [KnowledgeArticle] {
-    storage.values.sorted { $0.publishedAt &gt; $1.publishedAt }
+<p>El núcleo del repositorio en memoria garantiza unicidad por id y orden por fecha descendente, que es una regla funcional del catálogo y no un capricho de UI.</p>
+<pre><code class="language-swift">public actor InMemoryKnowledgeBaseRepository: KnowledgeBaseRepository {
+    private var storage: [KnowledgeArticleID: KnowledgeArticle] = [:]
+
+    public func create(_ article: KnowledgeArticle) async throws {
+        guard storage[article.id] == nil else {
+            throw KnowledgeBaseRepositoryError.duplicateArticleID
+        }
+        storage[article.id] = article
+    }
+
+    public func list() async throws -&gt; [KnowledgeArticle] {
+        storage.values.sorted { $0.publishedAt &gt; $1.publishedAt }
+    }
 }</code></pre>
-<p>Y en la capa de interfaz, el ViewModel refresca catálogo de forma asíncrona manteniendo la semántica de errores operativos que ya usábamos en ticketing.</p>
-<pre><code class="language-swift">public func refresh() async {
-    isLoading = true
-    defer { isLoading = false }
-    articles = try await listKnowledgeArticlesUseCase.execute()
-}</code></pre>
-<p>La práctica guiada consiste en publicar dos artículos con fechas distintas y verificar visualmente y por test que el más nuevo aparece primero.</p>
-<p>La verificación de comprensión antes del refactor es responder por qué el orden debe vivir en contrato de repositorio y no en cada pantalla.</p>
-<p>Siguiente lección: <code>11-semana-10/06-refactor-boundary-catalogo.md</code>.</p>
+<p>En interfaz, <code>HelpdeskAppRootBuilder</code> compone <code>KnowledgeCatalogViewModel</code> con <code>ListKnowledgeArticlesUseCase</code>, manteniendo la misma filosofía de wiring explícito que ya vienes practicando. Esa coherencia de ensamblado es clave para escalar features sin caos.</p>
+<h2 id="11-semana-10-05-codigo-catalogo-memory-repository-pr-ctica-guiada">Práctica guiada</h2>
+<p>Publica dos artículos con timestamps distintos en un test y verifica que el listado devuelve primero el más reciente. Luego crea un intento de duplicado por id y confirma que se lanza <code>duplicateArticleID</code>.</p>
+<h2 id="11-semana-10-05-codigo-catalogo-memory-repository-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Comprueba que puedes justificar por qué la regla de orden vive en el repositorio y no en la vista. Si tu explicación no menciona consistencia entre consumidores, revisa el diseño.</p>
+<h2 id="11-semana-10-05-codigo-catalogo-memory-repository-siguiente-lecci-n">Siguiente lección</h2>
+<p>Avanza a <code>11-semana-10/06-refactor-boundary-catalogo.md</code>, donde reforzaremos fronteras para evitar contaminación entre ticketing y catálogo.</p>
 </section>
 <section id="11-semana-10-06-refactor-boundary-catalogo" class="lesson" data-topic-id="11-semana-10-06-refactor-boundary-catalogo" data-lesson-path="11-semana-10/06-refactor-boundary-catalogo.md">
 <div class="lesson-path">11-semana-10/06-refactor-boundary-catalogo.md</div>
-<h1 id="11-semana-10-06-refactor-boundary-catalogo-semana-10-lecci-n-6-refactor-de-fronteras-para-que-la-feature-2-no-contamine-la-feature-1">Semana 10 · Lección 6: refactor de fronteras para que la feature 2 no contamine la feature 1</h1>
-<p>Cuando una nueva feature entra en un código existente, el riesgo más común no es que falle un test; el riesgo real es empezar a mezclar conceptos hasta que nadie sepa qué pertenece a ticketing y qué pertenece al catálogo. Esta lección existe para evitar esa deriva.</p>
-<p>El refactor de Week 10 revisa límites de responsabilidad. Ticketing mantiene sus entidades y casos de uso, el catálogo mantiene los suyos, y el ensamblado en <code>HelpdeskAppRootBuilder</code> compone ambos sin cruzar dependencias innecesarias. Esta separación prepara el terreno para la modularización más fuerte de semanas posteriores.</p>
+<h1 id="11-semana-10-06-refactor-boundary-catalogo-semana-10-lecci-n-6-refactor-de-fronteras-para-crecer-sin-mezclar-conceptos">Semana 10 · Lección 6: refactor de fronteras para crecer sin mezclar conceptos</h1>
+<p>Con dos features activas, el riesgo ya no es solo romper una función. El riesgo es erosionar arquitectura por pequeñas decisiones de conveniencia. Esta lección te enseña a detectar y corregir esas fugas antes de que se vuelvan deuda crónica.</p>
+<p>La regla directriz es clara. Ticketing y catálogo son bounded contexts distintos dentro del mismo producto. Pueden convivir y colaborar en la app root, pero no deben compartir estado mutable ni reglas de dominio por debajo de la composición. Cuando respetas esa regla, cada feature puede evolucionar a ritmos distintos sin efecto dominó.</p>
 <pre class="mermaid">flowchart LR
-    A[Feature Ticketing] --> C[AppRootBuilder]
-    B[Feature Catalogo] --> C
-    C --> D[Views SwiftUI]</pre>
-<p>Un indicador de buen refactor aquí es que puedes cambiar reglas del catálogo sin tocar tests de transición de ticket. Si tocas una cosa y rompe la otra, hay acoplamiento oculto.</p>
-<pre><code class="language-text">Boundary checks de week10:
-- TicketRepository y KnowledgeBaseRepository son contratos distintos.
-- TicketListViewModel y KnowledgeCatalogViewModel no comparten estado mutable.
-- El builder compone dependencias, no mueve reglas entre features.</code></pre>
-<p>La práctica guiada consiste en buscar una dependencia sospechosa entre ticketing y catálogo y explicar cómo la eliminarías sin romper comportamiento actual. Este ejercicio desarrolla criterio de arquitectura, no solo habilidad de codificación.</p>
-<p>La verificación de comprensión antes del checkpoint es responder por qué “compila” no significa “está bien desacoplado”.</p>
-<p>Siguiente lección: <code>11-semana-10/07-checkpoint-evaluacion.md</code>.</p>
+    A[Feature Ticketing] --> C[HelpdeskAppRootBuilder]
+    B[Feature Catálogo] --> C
+    C --> D[HelpdeskRootView]
+    D --> E[Tabs desacopladas]</pre>
+<p>En refactor práctico, esto significa revisar dependencias de view models, repositorios y casos de uso para asegurar que cada pieza depende de su contrato correcto. También significa comprobar que los tests de ticketing no fallan cuando cambias reglas del catálogo, y viceversa.</p>
+<pre><code class="language-swift">public struct HelpdeskAppRootBuilder {
+    private let ticketRepository: InMemoryTicketRepository
+    private let knowledgeRepository: InMemoryKnowledgeBaseRepository
+
+    public func makeKnowledgeCatalogViewModel() -&gt; KnowledgeCatalogViewModel {
+        KnowledgeCatalogViewModel(
+            listKnowledgeArticlesUseCase: ListKnowledgeArticlesUseCase(repository: knowledgeRepository)
+        )
+    }
+}</code></pre>
+<h2 id="11-semana-10-06-refactor-boundary-catalogo-pr-ctica-guiada">Práctica guiada</h2>
+<p>Busca una dependencia potencialmente cruzada entre feature de tickets y feature de catálogo. Describe cómo la aislarías mediante contrato o composición sin alterar comportamiento visible del usuario.</p>
+<h2 id="11-semana-10-06-refactor-boundary-catalogo-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Verifica que puedes explicar por qué “todo en el mismo package compila” no implica que los límites estén bien definidos. Si no mencionas direcciones de dependencia, repasa el objetivo de esta lección.</p>
+<h2 id="11-semana-10-06-refactor-boundary-catalogo-siguiente-lecci-n">Siguiente lección</h2>
+<p>Pasa a <code>11-semana-10/07-checkpoint-evaluacion.md</code>, donde cerraremos la semana validando estabilidad de la segunda feature en contexto completo.</p>
 </section>
 <section id="11-semana-10-07-checkpoint-evaluacion" class="lesson" data-topic-id="11-semana-10-07-checkpoint-evaluacion" data-lesson-path="11-semana-10/07-checkpoint-evaluacion.md">
 <div class="lesson-path">11-semana-10/07-checkpoint-evaluacion.md</div>
-<h1 id="11-semana-10-07-checkpoint-evaluacion-semana-10-lecci-n-7-checkpoint-para-demostrar-que-la-segunda-feature-es-estable">Semana 10 · Lección 7: checkpoint para demostrar que la segunda feature es estable</h1>
-<p>Este checkpoint confirma que no hicimos una demo aislada, sino una integración real en el sistema del curso. El criterio de cierre exige coherencia entre OpenSpec, escenarios BDD, pruebas por capa y publicación HTML del contenido. Si una de esas piezas falla, Week 10 no está cerrada.</p>
+<h1 id="11-semana-10-07-checkpoint-evaluacion-semana-10-lecci-n-7-checkpoint-de-integraci-n-para-cerrar-la-segunda-feature-con-criterio-enterprise">Semana 10 · Lección 7: checkpoint de integración para cerrar la segunda feature con criterio enterprise</h1>
+<p>En este punto no basta decir que “el catálogo funciona”. Debes demostrar que la feature está integrada sin degradar calidad global. El checkpoint de Week 10 valida exactamente eso: contrato OpenSpec, escenarios BDD, pruebas de dominio/aplicación/infra y validaciones del curso en un mismo circuito reproducible.</p>
+<p>Piensa en este cierre como un simulacro real de entrega en una organización internacional. Si cualquier pieza crítica falla, la release no avanza. Ese hábito es el que te prepara para trabajar en equipos donde la calidad no depende de heroicidades, sino de procesos repetibles.</p>
 <pre class="mermaid">flowchart TD
-    A[OpenSpec week10] --> B[BDD catálogo]
-    B --> C[Tests dominio y aplicación]
-    C --> D[Tests infraestructura y SwiftUI]
-    D --> E[Validadores del curso]
-    E --> F[Cierre defendible]</pre>
-<p>El checkpoint debe ejecutarse de forma completa para que la evidencia sea auditada por otra persona sin contexto adicional. Si dejas comandos fuera, la semana no es reproducible.</p>
+    A[Spec week10] --> B[BDD catálogo]
+    B --> C[Tests de dominio]
+    C --> D[Tests de aplicación e infra]
+    D --> E[Validadores globales]
+    E --> F[Build y publicación]</pre>
+<p>La ejecución recomendada para cierre es esta, sin saltos ni atajos. Cada comando aporta una dimensión de evidencia.</p>
 <pre><code class="language-bash">swift test --package-path project/HelpdeskSDD
+./scripts/run-quality-gates.sh
 npm run -s openspec:validate
 python3 scripts/validate-course-structure.py
 python3 scripts/validate-openspec.py
 python3 scripts/check-links.py
 python3 scripts/validate-pedagogy.py
 python3 scripts/build-html.py</code></pre>
-<p>La práctica guiada consiste en introducir un fallo controlado en la validación de categoría del catálogo, ejecutar la suite y observar exactamente qué tests detectan la regresión. Después restaura el estado correcto y vuelve a ejecutar el circuito completo.</p>
-<p>La verificación de comprensión final del checkpoint es responder qué evidencia mostrarías a un arquitecto externo para convencerle de que la feature 2 no degradó la calidad global del sistema.</p>
-<p>Siguiente lección: <code>11-semana-10/08-bitacora-commits.md</code>.</p>
+<p>Si una validación cae, lo correcto es diagnosticar causa raíz y corregir. Lo incorrecto es justificar que “en general está bien”. Este punto separa un flujo amateur de un flujo profesional.</p>
+<h2 id="11-semana-10-07-checkpoint-evaluacion-pr-ctica-guiada">Práctica guiada</h2>
+<p>Introduce un fallo controlado en la allowlist de categorías del dominio y ejecuta el circuito. Anota qué señal cae primero y cómo conecta esa señal con el requirement original de OpenSpec.</p>
+<h2 id="11-semana-10-07-checkpoint-evaluacion-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Comprueba que puedes argumentar qué evidencia mostrarías para demostrar que la segunda feature no introdujo regresión en la primera. Si no puedes enlazar tests y trazabilidad, vuelve a revisar el checkpoint.</p>
+<h2 id="11-semana-10-07-checkpoint-evaluacion-siguiente-lecci-n">Siguiente lección</h2>
+<p>Continúa en <code>11-semana-10/08-bitacora-commits.md</code>, donde formalizaremos el cierre de semana en un historial de commits claro y auditable.</p>
 </section>
 <section id="11-semana-10-08-bitacora-commits" class="lesson" data-topic-id="11-semana-10-08-bitacora-commits" data-lesson-path="11-semana-10/08-bitacora-commits.md">
 <div class="lesson-path">11-semana-10/08-bitacora-commits.md</div>
-<h1 id="11-semana-10-08-bitacora-commits-semana-10-lecci-n-8-bit-cora-para-demostrar-crecimiento-arquitect-nico-sin-regresi-n">Semana 10 · Lección 8: bitácora para demostrar crecimiento arquitectónico sin regresión</h1>
-<p>La bitácora de esta semana debe dejar claro que la segunda feature se construyó con el mismo rigor que la primera. Si el historial solo muestra cambios mezclados sin intención, no podrás defender decisiones cuando haya revisión técnica o auditoría de producto.</p>
-<p>Un historial bien hecho en Week 10 separa claramente bloques de trabajo. Un bloque para narrativa pedagógica, otro para implementación de catálogo y pruebas, y otro para OpenSpec y scripts de publicación. Esta forma de trabajar reduce ruido y acelera revisiones en equipo.</p>
+<h1 id="11-semana-10-08-bitacora-commits-semana-10-lecci-n-8-bit-cora-de-commits-para-demostrar-crecimiento-sin-regresiones-ocultas">Semana 10 · Lección 8: bitácora de commits para demostrar crecimiento sin regresiones ocultas</h1>
+<p>La bitácora de esta semana debe contar una historia completa de expansión arquitectónica. No basta con “se añadió catálogo”. Debe quedar claro cómo se definió la intención, cómo se protegió con pruebas y cómo se publicó sin romper la base existente. Esa historia, bien escrita en git, es una herramienta de colaboración tan importante como el propio código.</p>
+<p>Un buen patrón de cierre consiste en agrupar cambios por intención semántica. Primero contenido docente y spec de semana. Después implementación y pruebas del catálogo. Luego validación integral y publicación. Este orden reduce carga cognitiva en revisión y facilita auditoría posterior.</p>
 <pre class="mermaid">flowchart LR
-    A[Plan week10] --> B[Docs semana]
-    B --> C[Codigo + tests feature2]
-    C --> D[OpenSpec + scripts]
-    D --> E[Validacion final]
-    E --> F[Historial auditable]</pre>
-<p>La calidad de commits se mide por capacidad de respuesta. Cuando alguien pregunte dónde se definió el orden por fecha del catálogo, el commit debe señalarlo de forma directa. Cuando pregunten dónde se protegió categoría inválida, el commit debe contener la prueba correspondiente.</p>
-<pre><code class="language-text">git status --short
+    A[Intención week10] --> B[Commit docs + spec]
+    B --> C[Commit código + tests catálogo]
+    C --> D[Commit validación y build]
+    D --> E[Commit publicación hub]
+    E --> F[Historial navegable]</pre>
+<p>En la práctica diaria, el cierre se apoya en comandos simples pero ejecutados con rigor. Lo importante no es memorizar comandos, sino usarlos para sostener trazabilidad real.</p>
+<pre><code class="language-bash">git status --short
 swift test --package-path project/HelpdeskSDD
-npm run -s openspec:validate
+./scripts/run-quality-gates.sh
+python3 scripts/check-links.py
 python3 scripts/validate-pedagogy.py
 python3 scripts/build-html.py
 git add &lt;bloque-semantico&gt;
-git commit -m "mensaje atomico week10 feature2"</code></pre>
-<p>La práctica guiada final consiste en leer tus commits en orden cronológico e intentar reconstruir la semana sin abrir ningún chat. Si no puedes hacerlo, la trazabilidad todavía es débil.</p>
-<p>La verificación de comprensión que cierra Week 10 es explicar por qué una bitácora técnica clara también mejora la calidad pedagógica del curso.</p>
-<p>Siguiente semana: <code>12-semana-11/00-semana-11-roadmap.md</code>.</p>
+git commit -m "docs(week10): rewrite knowledge catalog module as deep narrative flow"</code></pre>
+<p>Con este nivel de disciplina, cuando un compañero nuevo pregunte dónde se decidió el orden del catálogo o dónde se impidió categoría inválida, podrá encontrar la respuesta en minutos. Ese es el estándar que queremos construir a lo largo del curso.</p>
+<h2 id="11-semana-10-08-bitacora-commits-pr-ctica-guiada">Práctica guiada</h2>
+<p>Relee los commits que cierran tu semana y verifica si cada uno responde una pregunta concreta de revisión técnica. Si detectas un commit ambiguo, describe cómo lo partirías en dos sin perder contexto.</p>
+<h2 id="11-semana-10-08-bitacora-commits-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Comprueba que puedes explicar por qué “tener los archivos correctos” no equivale a “tener trazabilidad de decisiones”. Si no distingues entre estado final y proceso verificable, vuelve al inicio de esta lección.</p>
+<h2 id="11-semana-10-08-bitacora-commits-siguiente-semana">Siguiente semana</h2>
+<p>Sigue en <code>12-semana-11/00-semana-11-roadmap.md</code>, donde abordaremos integración entre features y navegación desacoplada con contratos explícitos.</p>
 </section>
 <section id="12-semana-11-00-semana-11-roadmap" class="lesson" data-topic-id="12-semana-11-00-semana-11-roadmap" data-lesson-path="12-semana-11/00-semana-11-roadmap.md">
 <div class="lesson-path">12-semana-11/00-semana-11-roadmap.md</div>
