@@ -13,6 +13,7 @@ ANDROID_ROOT="$PROJECTS_ROOT/stack-my-architecture-android"
 SDD_ROOT="$PROJECTS_ROOT/stack-my-architecture-SDD"
 SDD_AUDIT_SCRIPT="$SDD_ROOT/scripts/run-full-audit.sh"
 VERIFY_SCRIPT="$SCRIPT_DIR/verify-hub-build.py"
+RUNTIME_SMOKE_SCRIPT="$SCRIPT_DIR/smoke-hub-runtime.sh"
 
 IOS_OUTPUT="$IOS_ROOT/dist"
 ANDROID_OUTPUT="$ANDROID_ROOT/dist"
@@ -92,21 +93,21 @@ if [[ ! -d "$IOS_ROOT" || ! -d "$ANDROID_ROOT" || ! -d "$SDD_ROOT" ]]; then
 fi
 
 say "Starting hub build (mode=$MODE)"
-say "[1/7] Building iOS HTML output..."
+say "[1/8] Building iOS HTML output..."
 python3 "$IOS_ROOT/scripts/build-html.py"
 
-say "[2/7] Building Android HTML output..."
+say "[2/8] Building Android HTML output..."
 python3 "$ANDROID_ROOT/scripts/build-html.py"
 
 if [[ "$MODE" == "fast" ]]; then
-  say "[3/7] Fast mode: skipping strict SDD gate and building SDD HTML only..."
+  say "[3/8] Fast mode: skipping strict SDD gate and building SDD HTML only..."
   python3 "$SDD_ROOT/scripts/build-html.py"
 else
   if [[ ! -x "$SDD_AUDIT_SCRIPT" ]]; then
     echo "[ERROR] Missing or non-executable SDD audit script: $SDD_AUDIT_SCRIPT"
     exit 1
   fi
-  say "[3/7] Running strict SDD full audit gate..."
+  say "[3/8] Running strict SDD full audit gate..."
   "$SDD_AUDIT_SCRIPT"
 fi
 
@@ -128,13 +129,13 @@ copy_dir() {
   fi
 }
 
-say "[4/7] Copying iOS output folder AS-IS to hub/ios ..."
+say "[4/8] Copying iOS output folder AS-IS to hub/ios ..."
 copy_dir "$IOS_OUTPUT" "$HUB_ROOT/ios"
 
-say "[5/7] Copying Android output folder AS-IS to hub/android ..."
+say "[5/8] Copying Android output folder AS-IS to hub/android ..."
 copy_dir "$ANDROID_OUTPUT" "$HUB_ROOT/android"
 
-say "[6/7] Copying SDD output folder AS-IS to hub/sdd ..."
+say "[6/8] Copying SDD output folder AS-IS to hub/sdd ..."
 copy_dir "$SDD_OUTPUT" "$HUB_ROOT/sdd"
 
 if [[ -f "$HUB_ROOT/ios/curso-stack-my-architecture.html" ]]; then
@@ -154,8 +155,19 @@ if [[ ! -x "$VERIFY_SCRIPT" ]]; then
   exit 1
 fi
 
-say "[7/7] Verifying hub output integrity..."
+say "[7/8] Verifying hub output integrity..."
 python3 "$VERIFY_SCRIPT"
+
+if [[ "$MODE" == "fast" || "${SKIP_RUNTIME_SMOKE:-0}" == "1" ]]; then
+  say "[8/8] Runtime smoke skipped (mode=$MODE, SKIP_RUNTIME_SMOKE=${SKIP_RUNTIME_SMOKE:-0})"
+else
+  if [[ ! -x "$RUNTIME_SMOKE_SCRIPT" ]]; then
+    echo "[ERROR] Missing or non-executable runtime smoke script: $RUNTIME_SMOKE_SCRIPT"
+    exit 1
+  fi
+  say "[8/8] Running runtime smoke test on temporary server..."
+  "$RUNTIME_SMOKE_SCRIPT"
+fi
 
 say "Hub ready: $HUB_ROOT/index.html"
 say "Build log: $LOG_FILE"
