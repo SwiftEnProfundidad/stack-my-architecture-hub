@@ -5,6 +5,7 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 LAUNCH_SCRIPT="$SCRIPT_DIR/launch-hub.sh"
 STOP_SCRIPT="$SCRIPT_DIR/stop-hub.sh"
 STATUS_SCRIPT="$SCRIPT_DIR/hub-status.sh"
+DOCTOR_SCRIPT="$SCRIPT_DIR/hub-doctor.sh"
 
 usage() {
   cat <<'EOF'
@@ -23,6 +24,7 @@ Opciones:
   --skip-auto-rebuild      Desactiva rebuild automático en este arranque.
   --stop                   Detiene el hub.
   --status                 Estado del hub (PID/puerto/health/manifest).
+  --doctor                 Diagnóstico completo de entorno y salud.
   -h, --help               Muestra esta ayuda.
 
 Ejemplos:
@@ -30,6 +32,7 @@ Ejemplos:
   stack-hub sdd --strict
   stack-hub --course ios --port 46200
   stack-hub --status
+  stack-hub --doctor
   stack-hub --stop
 EOF
 }
@@ -102,6 +105,9 @@ main() {
         ;;
       status|--status)
         exec /bin/zsh -f "$STATUS_SCRIPT"
+        ;;
+      doctor|--doctor)
+        exec /bin/zsh -f "$DOCTOR_SCRIPT"
         ;;
       -h|--help)
         usage

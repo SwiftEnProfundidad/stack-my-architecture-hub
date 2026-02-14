@@ -70,6 +70,7 @@ stack-hub --course android --port 46200
 stack-hub --force-rebuild
 stack-hub --skip-auto-rebuild
 stack-hub --status
+stack-hub --doctor
 stack-hub --stop
 ```
 
