@@ -9,6 +9,7 @@ DOCTOR_SCRIPT="$SCRIPT_DIR/hub-doctor.sh"
 LOGS_SCRIPT="$SCRIPT_DIR/hub-logs.sh"
 SELFTEST_SCRIPT="$SCRIPT_DIR/hub-selftest.sh"
 SNAPSHOT_SCRIPT="$SCRIPT_DIR/runtime-snapshot.sh"
+AUDIT_ALL_SCRIPT="$SCRIPT_DIR/hub-audit-all.sh"
 
 usage() {
   cat <<'EOF'
@@ -33,6 +34,7 @@ Opciones:
   --logs [-f|--follow]     Muestra log del hub (opcional en vivo).
   --selftest               Smoke aislado en puerto temporal.
   --selftest-strict        Selftest con consulta IA real.
+  --audit-all              Doctor + verify latest + selftest + status.
   --backup-runtime [name]  Crea snapshot de .runtime.
   --backup-runtime-keep N  Auto-prune tras backup (mantiene N).
   --list-runtime-backups   Lista snapshots disponibles.
@@ -51,6 +53,7 @@ Ejemplos:
   stack-hub --logs --follow
   stack-hub --selftest
   stack-hub --selftest --strict
+  stack-hub --audit-all
   stack-hub --backup-runtime
   stack-hub --backup-runtime before-migration
   stack-hub --backup-runtime --backup-runtime-keep 20
@@ -87,6 +90,7 @@ main() {
   local run_backup=0
   local backup_name=""
   local backup_keep=""
+  local run_audit_all=0
   local run_list_backups=0
   local run_verify=0
   local verify_ref=""
@@ -174,6 +178,10 @@ main() {
         selftest_strict=1
         shift
         ;;
+      --audit-all)
+        run_audit_all=1
+        shift
+        ;;
       --backup-runtime)
         run_backup=1
         shift
@@ -255,6 +263,10 @@ main() {
       backup_args+=("--keep" "$backup_keep")
     fi
     exec /bin/zsh -f "$SNAPSHOT_SCRIPT" "${backup_args[@]}"
+  fi
+
+  if [[ "$run_audit_all" -eq 1 ]]; then
+    exec /bin/zsh -f "$AUDIT_ALL_SCRIPT"
   fi
 
   if [[ "$run_verify" -eq 1 ]]; then

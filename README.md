@@ -75,6 +75,7 @@ stack-hub --logs
 stack-hub --logs --follow
 stack-hub --selftest
 stack-hub --selftest --strict
+stack-hub --audit-all
 stack-hub --backup-runtime
 stack-hub --backup-runtime before-upgrade
 stack-hub --backup-runtime --backup-runtime-keep 20
@@ -117,6 +118,19 @@ También puedes fijar auto-prune por variable de entorno:
 
 ```bash
 STACK_MY_ARCH_RUNTIME_BACKUP_KEEP=20 stack-hub --backup-runtime
+```
+
+Auditoría integral en un comando:
+
+```bash
+stack-hub --audit-all
+```
+
+Opcional:
+
+```bash
+STACK_MY_ARCH_AUDIT_SELFTEST=basic stack-hub --audit-all
+STACK_MY_ARCH_AUDIT_SELFTEST=off STACK_MY_ARCH_AUDIT_ALLOW_NO_SNAPSHOT=1 stack-hub --audit-all
 ```
 
 `--stop` ahora evita matar procesos ajenos si el puerto fue reutilizado por otra app.
