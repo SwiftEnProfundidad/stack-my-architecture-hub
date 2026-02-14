@@ -52,6 +52,26 @@ Detener hub:
 /bin/zsh -f scripts/stop-hub.sh
 ```
 
+## Comando global `stack-hub` (recomendado)
+
+Instala launcher CLI en `~/.local/bin/stack-hub`:
+
+```bash
+/bin/zsh -f /Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture-hub/scripts/install-cli-launcher.sh
+```
+
+Uso:
+
+```bash
+stack-hub
+stack-hub ios
+stack-hub sdd --strict
+stack-hub --course android --port 46200
+stack-hub --force-rebuild
+stack-hub --skip-auto-rebuild
+stack-hub --stop
+```
+
 Crear app de Escritorio (doble clic):
 
 ```bash
