@@ -7,6 +7,7 @@ PROJECTS_ROOT="$(cd "$HUB_ROOT/.." && pwd)"
 IOS_ROOT="$PROJECTS_ROOT/stack-my-architecture-ios"
 ANDROID_ROOT="$PROJECTS_ROOT/stack-my-architecture-android"
 SDD_ROOT="$PROJECTS_ROOT/stack-my-architecture-SDD"
+SDD_AUDIT_SCRIPT="$SDD_ROOT/scripts/run-full-audit.sh"
 
 IOS_OUTPUT="$IOS_ROOT/dist"
 ANDROID_OUTPUT="$ANDROID_ROOT/dist"
@@ -23,8 +24,17 @@ python3 "$IOS_ROOT/scripts/build-html.py"
 echo "[2/6] Building Android HTML output..."
 python3 "$ANDROID_ROOT/scripts/build-html.py"
 
-echo "[3/6] Building SDD HTML output..."
-python3 "$SDD_ROOT/scripts/build-html.py"
+if [[ "${SKIP_SDD_AUDIT:-0}" == "1" ]]; then
+  echo "[3/6] WARNING: SKIP_SDD_AUDIT=1, skipping strict SDD gate and building HTML only..."
+  python3 "$SDD_ROOT/scripts/build-html.py"
+else
+  if [[ ! -x "$SDD_AUDIT_SCRIPT" ]]; then
+    echo "[ERROR] Missing or non-executable SDD audit script: $SDD_AUDIT_SCRIPT"
+    exit 1
+  fi
+  echo "[3/6] Running strict SDD full audit gate..."
+  "$SDD_AUDIT_SCRIPT"
+fi
 
 copy_dir() {
   local src="$1"

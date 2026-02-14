@@ -87,6 +87,25 @@ curl "http://127.0.0.1:${PORT}/config"
 curl "http://127.0.0.1:${PORT}/metrics"
 ```
 
+## Publicación del hub con gate SDD
+
+Para regenerar y copiar los tres cursos al hub:
+
+```bash
+./scripts/build-hub.sh
+```
+
+Desde ahora, la publicación del curso SDD pasa por gate estricto automático:
+
+- ejecuta `stack-my-architecture-SDD/scripts/run-full-audit.sh`
+- si falla cualquier validación/tests/build, el hub no publica SDD
+
+Solo para debug rápido (no recomendado), puedes saltar ese gate:
+
+```bash
+SKIP_SDD_AUDIT=1 ./scripts/build-hub.sh
+```
+
 Consulta:
 
 ```bash
