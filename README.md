@@ -100,11 +100,26 @@ Desde ahora, la publicación del curso SDD pasa por gate estricto automático:
 - ejecuta `stack-my-architecture-SDD/scripts/run-full-audit.sh`
 - si falla cualquier validación/tests/build, el hub no publica SDD
 
-Solo para debug rápido (no recomendado), puedes saltar ese gate:
+Modo rápido solo para debug local (no recomendado para publicar):
+
+```bash
+./scripts/build-hub.sh --fast
+```
+
+También puedes usar:
+
+```bash
+./scripts/build-hub.sh --mode strict
+./scripts/build-hub.sh --mode fast
+```
+
+Compatibilidad legacy:
 
 ```bash
 SKIP_SDD_AUDIT=1 ./scripts/build-hub.sh
 ```
+
+El script además deja traza en `.runtime/build-hub.log` y evita ejecuciones concurrentes con lock.
 
 Consulta:
 
