@@ -1124,15 +1124,15 @@ blockquote p {
 </ul></li>
 <li class="nav-section"><strong>Semana 13</strong>
 <ul>
-  <li><a class="doc-nav-link" data-lesson-path="14-semana-13/00-semana-13-roadmap.md" href="#14-semana-13-00-semana-13-roadmap">Semana 13: gobernanza real con RFC y ADR como parte del ciclo SDD</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="14-semana-13/01-problema-gobernanza-sin-evidencia.md" href="#14-semana-13-01-problema-gobernanza-sin-evidencia">Semana 13 · Lección 1: el problema no es decidir, es no dejar rastro de la decisión</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="14-semana-13/02-spec-gobernanza-rfc-adr-v1.md" href="#14-semana-13-02-spec-gobernanza-rfc-adr-v1">Semana 13 · Lección 2: especificar gobernanza como requisito de plataforma</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="14-semana-13/03-bdd-gobernanza.md" href="#14-semana-13-03-bdd-gobernanza">Semana 13 · Lección 3: BDD de gobernanza para hacer visible lo que antes era implícito</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="14-semana-13/04-tdd-governance-validator.md" href="#14-semana-13-04-tdd-governance-validator">Semana 13 · Lección 4: TDD del validador de gobernanza para bloquear omisiones críticas</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="14-semana-13/05-codigo-gobernanza-integrada.md" href="#14-semana-13-05-codigo-gobernanza-integrada">Semana 13 · Lección 5: código de producción para gobernanza integrada en quality gates</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="14-semana-13/06-refactor-lifecycle-rfc-adr.md" href="#14-semana-13-06-refactor-lifecycle-rfc-adr">Semana 13 · Lección 6: refactor del ciclo RFC-ADR para que no se vuelva burocracia</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="14-semana-13/07-checkpoint-evaluacion.md" href="#14-semana-13-07-checkpoint-evaluacion">Semana 13 · Lección 7: checkpoint de gobernanza para cierre defendible</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="14-semana-13/08-bitacora-commits.md" href="#14-semana-13-08-bitacora-commits">Semana 13 · Lección 8: bitácora de decisiones para auditoría de arquitectura</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="14-semana-13/00-semana-13-roadmap.md" href="#14-semana-13-00-semana-13-roadmap">Semana 13: gobernanza técnica con RFC y ADR como parte del flujo de entrega</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="14-semana-13/01-problema-gobernanza-sin-evidencia.md" href="#14-semana-13-01-problema-gobernanza-sin-evidencia">Semana 13 · Lección 1: el riesgo real es olvidar por qué decidimos lo que decidimos</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="14-semana-13/02-spec-gobernanza-rfc-adr-v1.md" href="#14-semana-13-02-spec-gobernanza-rfc-adr-v1">Semana 13 · Lección 2: convertir gobernanza en contrato operativo y no en recomendación</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="14-semana-13/03-bdd-gobernanza.md" href="#14-semana-13-03-bdd-gobernanza">Semana 13 · Lección 3: BDD de gobernanza para hacer auditable lo que antes era difuso</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="14-semana-13/04-tdd-governance-validator.md" href="#14-semana-13-04-tdd-governance-validator">Semana 13 · Lección 4: TDD del validador de gobernanza para detectar omisiones antes de merge</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="14-semana-13/05-codigo-gobernanza-integrada.md" href="#14-semana-13-05-codigo-gobernanza-integrada">Semana 13 · Lección 5: producción con gobernanza integrada en quality gates</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="14-semana-13/06-refactor-lifecycle-rfc-adr.md" href="#14-semana-13-06-refactor-lifecycle-rfc-adr">Semana 13 · Lección 6: refactor del ciclo RFC y ADR para que la gobernanza sea ligera y útil</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="14-semana-13/07-checkpoint-evaluacion.md" href="#14-semana-13-07-checkpoint-evaluacion">Semana 13 · Lección 7: checkpoint de gobernanza automatizada para cierre defendible</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="14-semana-13/08-bitacora-commits.md" href="#14-semana-13-08-bitacora-commits">Semana 13 · Lección 8: bitácora de gobernanza para preservar memoria técnica del sistema</a></li>
 </ul></li>
 <li class="nav-section"><strong>Semana 14</strong>
 <ul>
@@ -8405,160 +8405,194 @@ git commit -m "docs(week12): rewrite module governance module as deep narrative 
 </section>
 <section id="14-semana-13-00-semana-13-roadmap" class="lesson" data-topic-id="14-semana-13-00-semana-13-roadmap" data-lesson-path="14-semana-13/00-semana-13-roadmap.md">
 <div class="lesson-path">14-semana-13/00-semana-13-roadmap.md</div>
-<h1 id="14-semana-13-00-semana-13-roadmap-semana-13-gobernanza-real-con-rfc-y-adr-como-parte-del-ciclo-sdd">Semana 13: gobernanza real con RFC y ADR como parte del ciclo SDD</h1>
-<p>Hasta Semana 12 ya protegemos comportamiento funcional, observabilidad, seguridad y fronteras de módulo. El siguiente salto enterprise es gobernar decisiones de arquitectura de alto impacto con evidencia explícita. Semana 13 introduce ese músculo con un flujo práctico de RFC y ADR integrado en validaciones automáticas.</p>
-<p>El objetivo no es producir documentos por producirlos. El objetivo es que cualquier cambio estructural importante deje rastro técnico claro sobre contexto, decisión y consecuencias, y que esa evidencia se pueda verificar por máquina antes de avanzar.</p>
+<h1 id="14-semana-13-00-semana-13-roadmap-semana-13-gobernanza-t-cnica-con-rfc-y-adr-como-parte-del-flujo-de-entrega">Semana 13: gobernanza técnica con RFC y ADR como parte del flujo de entrega</h1>
+<p>Después de proteger features, seguridad y límites de módulo, aparece una pregunta inevitable en proyectos serios: cómo aseguramos que las decisiones arquitectónicas importantes no se pierdan con el tiempo. Semana 13 responde a esa pregunta integrando gobernanza documental verificable dentro del flujo SDD.</p>
+<p>Aquí no tratamos RFC y ADR como burocracia. Los tratamos como evidencia estructural de decisiones de alto impacto. OpenSpec define qué debe hacer el sistema; RFC y ADR capturan por qué se eligió una dirección y qué consecuencias tiene. Cuando esa evidencia se valida automáticamente y entra en quality gates, la gobernanza deja de ser opcional.</p>
 <pre class="mermaid">flowchart LR
-    A[OpenSpec week13] --> B[BDD de gobernanza]
-    B --> C[TDD del validador de artefactos]
-    C --> D[Producción: ADR + RFC + script]
-    D --> E[Integración en quality gates]
-    E --> F[Checkpoint de cierre]</pre>
-<p>La definición de cierre de semana exige artefactos concretos. Debe existir un set mínimo de ADRs con estructura estable, un RFC base para cambios mayores y una validación automática que bloquee avance si faltan piezas de gobernanza.</p>
-<pre><code class="language-yaml">week13_definition_of_done:
-  adr: "al menos 3 ADR válidos en docs/adr"
-  rfc: "al menos 1 RFC válido en docs/rfc"
-  validator: "script governance en verde o rojo según evidencia"
-  gate: "quality gates incluye governance_artifacts_green"</code></pre>
-<p>La práctica guiada de arranque consiste en elegir un cambio técnico que hayas vivido y escribir, en una frase, qué parte habría ido al RFC y qué parte habría ido al ADR.</p>
-<p>La verificación de comprensión previa es responder por qué en cambios grandes no basta con que el código funcione hoy, sino que también debe poder explicarse y auditarse mañana.</p>
-<p>Siguiente lección: <code>14-semana-13/01-problema-gobernanza-sin-evidencia.md</code>.</p>
+    A[Cambio estructural] --> B[RFC con problema y propuesta]
+    B --> C[ADR con decisión persistente]
+    C --> D[Validador de gobernanza]
+    D --> E[governance_artifacts_green]
+    E --> F[Quality gates]</pre>
+<p>La semana se apoya en artefactos reales del repo, como <code>docs/rfc/rfc-0001-governance-flow-for-major-changes.md</code>, los ADR en <code>docs/adr/</code> y el script <code>scripts/validate-governance-artifacts.py</code>. El aprendizaje clave no es memorizar nombres, sino entender que la decisión técnica también necesita tests y señal de calidad.</p>
+<pre><code class="language-yaml">week13_outcome:
+  governance_goal: "decisiones de arquitectura con evidencia trazable"
+  technical_goal: "validador automático de RFC/ADR integrado en gates"
+  process_goal: "ciclo de cambio con contexto, decisión y consecuencias"
+  verification_goal: "pipeline falla si artefactos no cumplen estructura"</code></pre>
+<p>La práctica guiada inicial consiste en elegir una decisión de arquitectura de semanas pasadas y describir qué habría ido a RFC y qué a ADR. Esta distinción temprana evita que ambos documentos se mezclen y pierdan utilidad.</p>
+<p>La verificación de comprensión previa es directa: debes poder explicar por qué un sistema puede compilar y pasar tests funcionales, pero seguir siendo frágil si no conserva memoria de sus decisiones estructurales.</p>
+<h2 id="14-semana-13-00-semana-13-roadmap-siguiente-lecci-n">Siguiente lección</h2>
+<p>Continúa en <code>14-semana-13/01-problema-gobernanza-sin-evidencia.md</code>, donde veremos cómo la falta de evidencia técnica rompe continuidad de equipo y multiplica decisiones contradictorias.</p>
 </section>
 <section id="14-semana-13-01-problema-gobernanza-sin-evidencia" class="lesson" data-topic-id="14-semana-13-01-problema-gobernanza-sin-evidencia" data-lesson-path="14-semana-13/01-problema-gobernanza-sin-evidencia.md">
 <div class="lesson-path">14-semana-13/01-problema-gobernanza-sin-evidencia.md</div>
-<h1 id="14-semana-13-01-problema-gobernanza-sin-evidencia-semana-13-lecci-n-1-el-problema-no-es-decidir-es-no-dejar-rastro-de-la-decisi-n">Semana 13 · Lección 1: el problema no es decidir, es no dejar rastro de la decisión</h1>
-<p>En equipos de producto se toman decisiones técnicas todos los días. El problema aparece cuando esas decisiones importantes no quedan registradas con contexto y consecuencias. En ese escenario, tres meses después nadie recuerda por qué se eligió un camino y cada discusión vuelve a empezar desde cero.</p>
-<p>Este fallo no es menor. Cuando no hay evidencia de decisión, aumentan los cambios contradictorios, las regresiones de arquitectura y la dependencia de personas concretas. El conocimiento deja de estar en el sistema y se queda en la memoria de quien estuvo en la reunión.</p>
+<h1 id="14-semana-13-01-problema-gobernanza-sin-evidencia-semana-13-lecci-n-1-el-riesgo-real-es-olvidar-por-qu-decidimos-lo-que-decidimos">Semana 13 · Lección 1: el riesgo real es olvidar por qué decidimos lo que decidimos</h1>
+<p>Un equipo puede tomar buenas decisiones técnicas en el presente y aun así pagar un coste enorme meses después si esas decisiones no quedan registradas con contexto. Este problema es más frecuente de lo que parece porque al principio todo el mundo “recuerda” por qué se eligió una arquitectura. Con el tiempo cambian personas, prioridades y presión de entrega, y la memoria oral deja de ser suficiente.</p>
+<p>Cuando no hay gobernanza documental mínima, las discusiones vuelven a empezar desde cero, se reabren decisiones ya tomadas y aparecen cambios incompatibles entre sí. El daño no suele verse en un solo bug grande. Se ve como una pérdida progresiva de coherencia técnica.</p>
 <pre class="mermaid">flowchart TD
-    A[Decision importante sin registro] --> B[Contexto perdido]
-    B --> C[Repeticion de debates]
-    C --> D[Deriva arquitectonica]
-    D --> E[Riesgo operativo]
-    F[RFC + ADR versionados] --> G[Trazabilidad estable]</pre>
-<p>La idea clave de Week 13 es sencilla. Cambios estructurales necesitan evidencia estructural. RFC y ADR no sustituyen OpenSpec; lo complementan para capturar razonamiento de diseño y gobernanza.</p>
-<pre><code class="language-text">OpenSpec responde: que debe hacer el sistema.
-RFC y ADR responden: por que y como se tomo la decision de cambio.</code></pre>
-<p>La práctica guiada consiste en recordar una decisión técnica difícil y escribir qué información se perdió con el tiempo por no haberla documentado bien.</p>
-<p>La verificación de comprensión antes de especificación es responder por qué la ausencia de rastro de decisión puede romper continuidad de equipo aunque el código compile.</p>
-<p>Siguiente lección: <code>14-semana-13/02-spec-gobernanza-rfc-adr-v1.md</code>.</p>
+    A[Decisión sin rastro] --> B[Contexto se diluye]
+    B --> C[Nuevo equipo reinterpreta]
+    C --> D[Decisiones contradictorias]
+    D --> E[Arquitectura inestable]</pre>
+<p>La enseñanza para un perfil junior es muy importante aquí. Gobernanza no es “escribir más papeles”. Gobernanza es reducir incertidumbre futura. Si alguien te pregunta dentro de seis meses por qué se impuso un contrato de navegación o por qué se metió <code>module_boundary_green</code> en gates, la respuesta debe estar en el repo, no en la memoria de una persona.</p>
+<p>Este contraste resume bien el problema.</p>
+<pre><code class="language-text">Sin evidencia: "creo que lo hicimos por rendimiento".
+Con evidencia: "la decisión está en ADR 0002 y sus consecuencias en la sección correspondiente".</code></pre>
+<h2 id="14-semana-13-01-problema-gobernanza-sin-evidencia-pr-ctica-guiada">Práctica guiada</h2>
+<p>Toma una decisión técnica conocida del curso y escribe cómo la explicarías hoy sin abrir ningún documento. Luego abre el ADR o RFC correspondiente y compara precisión. Esa diferencia te mostrará por qué la evidencia escrita mejora calidad del sistema.</p>
+<h2 id="14-semana-13-01-problema-gobernanza-sin-evidencia-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Comprueba que puedes explicar por qué la ausencia de rastro de decisiones incrementa dependencia de personas concretas y reduce resiliencia del equipo. Si no puedes relacionarlo con continuidad operativa, repasa la lección.</p>
+<h2 id="14-semana-13-01-problema-gobernanza-sin-evidencia-siguiente-lecci-n">Siguiente lección</h2>
+<p>Sigue en <code>14-semana-13/02-spec-gobernanza-rfc-adr-v1.md</code>, donde convertiremos este riesgo en un contrato OpenSpec con validación automatizada.</p>
 </section>
 <section id="14-semana-13-02-spec-gobernanza-rfc-adr-v1" class="lesson" data-topic-id="14-semana-13-02-spec-gobernanza-rfc-adr-v1" data-lesson-path="14-semana-13/02-spec-gobernanza-rfc-adr-v1.md">
 <div class="lesson-path">14-semana-13/02-spec-gobernanza-rfc-adr-v1.md</div>
-<h1 id="14-semana-13-02-spec-gobernanza-rfc-adr-v1-semana-13-lecci-n-2-especificar-gobernanza-como-requisito-de-plataforma">Semana 13 · Lección 2: especificar gobernanza como requisito de plataforma</h1>
-<p>Con el problema definido, lo convertimos en contrato OpenSpec. En esta semana el contrato declara que los cambios de arquitectura de impacto deben incluir artefactos mínimos de gobernanza y que esos artefactos se validan automáticamente.</p>
-<p>Esta decisión evita depender de buena voluntad o de revisiones manuales variables. Si falta una sección clave en un ADR o no existe RFC cuando el cambio lo requiere, la validación debe fallar de forma explícita.</p>
+<h1 id="14-semana-13-02-spec-gobernanza-rfc-adr-v1-semana-13-lecci-n-2-convertir-gobernanza-en-contrato-operativo-y-no-en-recomendaci-n">Semana 13 · Lección 2: convertir gobernanza en contrato operativo y no en recomendación</h1>
+<p>Con el problema claro, ahora formalizamos reglas mínimas para que la gobernanza sea verificable por máquina. En esta semana, el contrato define qué estructura deben cumplir ADR y RFC y cómo se interpreta su validez dentro del flujo de calidad.</p>
+<p>El validador real del repo exige encabezados concretos. En ADR se buscan secciones como <code>## Estado</code>, <code>## Contexto</code>, <code>## Decisión</code> y <code>## Consecuencias</code>. En RFC se exigen <code>## Problema</code>, <code>## Propuesta</code>, <code>## Plan</code>, <code>## Riesgos</code> y <code>## Criterios de éxito</code>. Esta exigencia no es caprichosa; garantiza que cada decisión deje la información mínima para auditoría y mantenimiento.</p>
 <pre class="mermaid">flowchart LR
-    A[Policy de gobernanza] --> B[Validador de artefactos]
-    B --> C[Resultado pass/fail]
-    C --> D[Quality gates]
-    D --> E[Decision de avance]</pre>
-<p>El contrato v1 de Week 13 fija un mínimo claro. Al menos tres ADR con estructura estándar, al menos un RFC con secciones de problema y propuesta, y un chequeo integrado en quality gates.</p>
-<pre><code class="language-yaml">governance_contract_v1:
-  adr_minimum: 3
-  rfc_minimum: 1
-  validation: "script automatizado de gobernanza"
-  gate_signal: "governance_artifacts_green"</code></pre>
-<pre><code class="language-text">/opsx:new week13-rfc-adr-governance
+    A[OpenSpec week13] --> B[Reglas de estructura RFC/ADR]
+    B --> C[validate-governance-artifacts.py]
+    C --> D[Señal governance_artifacts_green]
+    D --> E[Quality gates]</pre>
+<p>El flujo OpenSpec se mantiene idéntico al resto del curso para preservar trazabilidad de extremo a extremo.</p>
+<pre><code class="language-bash">/opsx:new week13-rfc-adr-governance
 /opsx:ff
 /opsx:apply
 /opsx:verify</code></pre>
-<p>La práctica guiada consiste en revisar un ADR real del repo y explicar qué parte representa contexto, cuál representa decisión y cuál representa consecuencias.</p>
-<p>La verificación de comprensión antes de BDD es responder por qué un requisito de gobernanza debe estar en spec del sistema y no escondido en una wiki externa.</p>
-<p>Siguiente lección: <code>14-semana-13/03-bdd-gobernanza.md</code>.</p>
+<p>Un requirement útil en esta semana debe dejar claro que la validación falla cuando faltan artefactos o secciones obligatorias, y que ese fallo bloquea el avance global. Así evitas que la gobernanza se convierta en un checklist manual que alguien puede saltar en un día de urgencia.</p>
+<pre><code class="language-markdown">### Requirement: Governance artifacts as release condition
+The system SHALL validate minimum RFC and ADR structure.
+The governance signal SHALL be critical in quality gates.
+Release progression SHALL fail when governance artifacts are invalid.</code></pre>
+<h2 id="14-semana-13-02-spec-gobernanza-rfc-adr-v1-pr-ctica-guiada">Práctica guiada</h2>
+<p>Abre un ADR existente y localiza sus cuatro secciones obligatorias. Después imagina qué duda futura quedaría sin responder si faltara cada sección.</p>
+<h2 id="14-semana-13-02-spec-gobernanza-rfc-adr-v1-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Verifica que puedes explicar por qué esta política debe vivir en el repositorio y no en una guía externa desincronizada. Si no mencionas versionado y automatización, revisa la lección.</p>
+<h2 id="14-semana-13-02-spec-gobernanza-rfc-adr-v1-siguiente-lecci-n">Siguiente lección</h2>
+<p>Continúa con <code>14-semana-13/03-bdd-gobernanza.md</code>, donde pasaremos de requirements a escenarios BDD de cumplimiento y fallo.</p>
 </section>
 <section id="14-semana-13-03-bdd-gobernanza" class="lesson" data-topic-id="14-semana-13-03-bdd-gobernanza" data-lesson-path="14-semana-13/03-bdd-gobernanza.md">
 <div class="lesson-path">14-semana-13/03-bdd-gobernanza.md</div>
-<h1 id="14-semana-13-03-bdd-gobernanza-semana-13-lecci-n-3-bdd-de-gobernanza-para-hacer-visible-lo-que-antes-era-impl-cito">Semana 13 · Lección 3: BDD de gobernanza para hacer visible lo que antes era implícito</h1>
-<p>BDD en esta semana describe comportamientos de gobernanza, no casos de negocio directos. Eso puede parecer raro al principio, pero es exactamente lo que necesitamos para entrenar estándares enterprise. Si gobernanza no se expresa en escenarios observables, acaba siendo una recomendación que nadie puede verificar.</p>
-<p>Los escenarios de Week 13 cubren tres rutas. Una ruta verde con ADR y RFC correctos. Una ruta roja cuando falta estructura en ADR. Y una ruta de integración donde quality gates falla si gobernanza está en rojo.</p>
+<h1 id="14-semana-13-03-bdd-gobernanza-semana-13-lecci-n-3-bdd-de-gobernanza-para-hacer-auditable-lo-que-antes-era-difuso">Semana 13 · Lección 3: BDD de gobernanza para hacer auditable lo que antes era difuso</h1>
+<p>BDD en esta semana ayuda a traducir una idea abstracta en comportamiento observable. En vez de decir “deberíamos documentar mejor”, definimos qué debe pasar cuando los artefactos cumplen estructura y qué debe pasar cuando no la cumplen.</p>
+<p>Los escenarios base de gobernanza deben cubrir un camino verde, un camino rojo y la propagación del resultado a quality gates. Esta triple cobertura evita que el sistema aparente control documental cuando en realidad no bloquea nada.</p>
 <pre class="mermaid">sequenceDiagram
-    participant G as GovernanceValidator
-    participant A as ADR files
-    participant R as RFC files
-    participant Q as QualityGates
+    participant Docs as docs/adr + docs/rfc
+    participant Validator as GovernanceValidator
+    participant Gates as QualityGates
+    Docs->>Validator: validar estructura mínima
+    Validator-->>Gates: governance_artifacts_green true/false
+    Gates-->>Docs: decisión global de avance</pre>
+<p>El siguiente bloque Gherkin refleja esta intención de manera legible para perfiles técnicos y no técnicos.</p>
+<pre><code class="language-gherkin">Feature: Gobernanza de cambios estructurales
+  Scenario: Artefactos cumplen estructura mínima
+    Given existen ADR y RFC válidos según policy
+    When se ejecuta el validador de gobernanza
+    Then el resultado es passed
 
-    A->>G: validate ADR structure
-    R->>G: validate RFC structure
-    G-->>Q: governance_artifacts_green
-    Q-->>G: global pass/fail</pre>
-<pre><code class="language-gherkin">Feature: Gobernanza técnica
-  Scenario: Artefactos completos
-    Given ADR y RFC con estructura válida
-    When se ejecuta el validador
-    Then el resultado es passed</code></pre>
-<p>La práctica guiada consiste en redactar un escenario adicional donde un archivo de gobernanza tenga nombre inválido y justificar por qué también debería fallar.</p>
-<p>La verificación de comprensión antes de TDD es responder qué valor aporta capturar este comportamiento en BDD frente a dejarlo solo en una checklist humana.</p>
-<p>Siguiente lección: <code>14-semana-13/04-tdd-governance-validator.md</code>.</p>
+  Scenario: Falta sección obligatoria en ADR
+    Given un ADR sin sección Consecuencias
+    When se ejecuta el validador de gobernanza
+    Then el resultado es failed</code></pre>
+<h2 id="14-semana-13-03-bdd-gobernanza-pr-ctica-guiada">Práctica guiada</h2>
+<p>Escribe un escenario adicional para nombre de archivo inválido en ADR o RFC y explica por qué el naming también forma parte de trazabilidad en equipos grandes.</p>
+<h2 id="14-semana-13-03-bdd-gobernanza-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Comprueba que puedes defender por qué un escenario BDD de gobernanza no es “sobre-documentación”, sino un mecanismo de control de calidad de decisiones. Si no conectas con mantenibilidad, vuelve a la lección.</p>
+<h2 id="14-semana-13-03-bdd-gobernanza-siguiente-lecci-n">Siguiente lección</h2>
+<p>Sigue en <code>14-semana-13/04-tdd-governance-validator.md</code>, donde implementaremos y probaremos el validador con foco en errores accionables.</p>
 </section>
 <section id="14-semana-13-04-tdd-governance-validator" class="lesson" data-topic-id="14-semana-13-04-tdd-governance-validator" data-lesson-path="14-semana-13/04-tdd-governance-validator.md">
 <div class="lesson-path">14-semana-13/04-tdd-governance-validator.md</div>
-<h1 id="14-semana-13-04-tdd-governance-validator-semana-13-lecci-n-4-tdd-del-validador-de-gobernanza-para-bloquear-omisiones-cr-ticas">Semana 13 · Lección 4: TDD del validador de gobernanza para bloquear omisiones críticas</h1>
-<p>Ahora convertimos los escenarios en defensas ejecutables. En esta semana, la práctica de TDD se aplica al validador de artefactos: reglas de nombre, secciones requeridas y mínimos de presencia de ADR y RFC. Cuando estas reglas están automatizadas, el equipo detecta omisiones antes de merge y no después de incidentes.</p>
-<p>El objetivo no es perseguir formato por formato. El objetivo es proteger que las decisiones importantes no queden incompletas o imposibles de auditar.</p>
+<h1 id="14-semana-13-04-tdd-governance-validator-semana-13-lecci-n-4-tdd-del-validador-de-gobernanza-para-detectar-omisiones-antes-de-merge">Semana 13 · Lección 4: TDD del validador de gobernanza para detectar omisiones antes de merge</h1>
+<p>Ahora la gobernanza baja a código ejecutable. En esta lección trabajamos con <code>scripts/validate-governance-artifacts.py</code> y su comportamiento esperado. El objetivo no es validar gramática perfecta de documentos, sino asegurar mínimos estructurales que sostienen trazabilidad técnica.</p>
+<p>Un punto clave aquí es la calidad de mensajes de error. Si el script solo dice “failed”, el equipo pierde tiempo buscando causa. Si el script indica archivo y sección faltante, el feedback es rápido y accionable. Esa diferencia mejora muchísimo la adopción real de la práctica.</p>
 <pre class="mermaid">flowchart LR
-    A[BDD gobernanza] --> B[Test rojo de estructura ADR]
-    B --> C[Implementacion de validacion]
-    C --> D[Test rojo de estructura RFC]
-    D --> E[Integracion con quality gates]
-    E --> F[Test verde]</pre>
-<p>En código, un validador mínimo debe poder decir exactamente qué archivo falla y qué sección falta.</p>
-<pre><code class="language-python">if "## Contexto" not in adr_text:
-    errors.append("ADR missing heading ## Contexto")</code></pre>
+    A[Escenario BDD gobernanza] --> B[Test rojo de sección faltante]
+    B --> C[Implementación de chequeo por headings]
+    C --> D[Test rojo de naming inválido]
+    D --> E[Errores detallados]
+    E --> F[Verde]</pre>
+<p>Este fragmento del validador ilustra cómo se comprueban encabezados obligatorios de ADR.</p>
+<pre><code class="language-python">ADR_REQUIRED_HEADINGS = [
+    "## Estado",
+    "## Contexto",
+    "## Decisión",
+    "## Consecuencias",
+]
+
+for heading in ADR_REQUIRED_HEADINGS:
+    if heading not in text:
+        errors.append(f"{file.relative_to(ROOT)} missing heading: {heading}")</code></pre>
 <pre><code class="language-bash">python3 scripts/validate-governance-artifacts.py</code></pre>
-<p>La práctica guiada consiste en quitar temporalmente una sección obligatoria de un ADR y observar el mensaje exacto de error que devuelve el script.</p>
-<p>La verificación de comprensión antes de producción es responder por qué los mensajes de error detallados mejoran más el flujo que un simple “governance failed”.</p>
-<p>Siguiente lección: <code>14-semana-13/05-codigo-gobernanza-integrada.md</code>.</p>
+<h2 id="14-semana-13-04-tdd-governance-validator-pr-ctica-guiada">Práctica guiada</h2>
+<p>Elimina temporalmente <code>## Riesgos</code> de un RFC de prueba y ejecuta el validador. Observa el mensaje exacto y valora si te permitiría corregir en menos de un minuto. Después restaura el archivo para dejar estado verde.</p>
+<h2 id="14-semana-13-04-tdd-governance-validator-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Verifica que puedes explicar por qué los requisitos mínimos de estructura mejoran continuidad de equipo aunque no garanticen calidad perfecta del contenido. Si no distingues mínimo viable de excelencia editorial, repasa la lección.</p>
+<h2 id="14-semana-13-04-tdd-governance-validator-siguiente-lecci-n">Siguiente lección</h2>
+<p>Continúa con <code>14-semana-13/05-codigo-gobernanza-integrada.md</code>, donde conectaremos el validador al flujo real de quality gates.</p>
 </section>
 <section id="14-semana-13-05-codigo-gobernanza-integrada" class="lesson" data-topic-id="14-semana-13-05-codigo-gobernanza-integrada" data-lesson-path="14-semana-13/05-codigo-gobernanza-integrada.md">
 <div class="lesson-path">14-semana-13/05-codigo-gobernanza-integrada.md</div>
-<h1 id="14-semana-13-05-codigo-gobernanza-integrada-semana-13-lecci-n-5-c-digo-de-producci-n-para-gobernanza-integrada-en-quality-gates">Semana 13 · Lección 5: código de producción para gobernanza integrada en quality gates</h1>
-<p>Esta lección baja la gobernanza a ejecución real. Se añaden artefactos <code>docs/adr</code> y <code>docs/rfc</code>, se implementa <code>validate-governance-artifacts.py</code> y esa señal se conecta con quality gates como criterio crítico. El resultado práctico es que la entrega no avanza si falta evidencia mínima de decisión.</p>
-<p>También se mantiene coherencia con las semanas anteriores. Igual que protegimos fronteras de módulo con <code>module_boundary_green</code>, ahora protegemos gobernanza con <code>governance_artifacts_green</code>.</p>
+<h1 id="14-semana-13-05-codigo-gobernanza-integrada-semana-13-lecci-n-5-producci-n-con-gobernanza-integrada-en-quality-gates">Semana 13 · Lección 5: producción con gobernanza integrada en quality gates</h1>
+<p>Con el validador funcionando, ahora conectamos esa señal a la decisión global de calidad. Este paso convierte la gobernanza en parte del flujo de entrega, no en una verificación opcional manual que puede olvidarse.</p>
+<p>En el repo, <code>run-quality-gates.sh</code> ejecuta <code>validate-governance-artifacts.py</code> y propaga su resultado a <code>governanceArtifactsGreen</code> dentro de <code>QualityGateInput</code>. Después, <code>QualityGateEvaluator</code> emite el check <code>governance_artifacts_green</code> como crítico.</p>
 <pre class="mermaid">flowchart TD
-    A[docs/adr + docs/rfc] --> B[validate-governance-artifacts.py]
-    B --> C[run-quality-gates.sh]
+    A[validate-governance-artifacts.py] --> B[governance_artifacts.ok]
+    B --> C[QualityGateInput.governanceArtifactsGreen]
     C --> D[QualityGateEvaluator]
-    D --> E[Reporte global]</pre>
-<p>El punto clave en <code>run-quality-gates.sh</code> es tratar gobernanza como check de primera clase, no como script opcional al final.</p>
+    D --> E[quality report global]</pre>
+<p>El enlace operativo clave se ve así en shell.</p>
 <pre><code class="language-bash">run_check governance_artifacts python3 "$ROOT/scripts/validate-governance-artifacts.py"</code></pre>
-<p>Y el modelo de quality gates incorpora ese valor en su entrada para tomar decisión global reproducible.</p>
-<pre><code class="language-swift">let input = QualityGateInput(
-  ...,
-  governanceArtifactsGreen: true,
-  swiftWarningCount: 0
+<p>Y en el evaluador se modela como check explícito con mensaje claro de estado.</p>
+<pre><code class="language-swift">QualityGateCheck(
+    id: "governance_artifacts_green",
+    passed: input.governanceArtifactsGreen,
+    message: input.governanceArtifactsGreen
+        ? "governance artifacts valid"
+        : "governance artifacts invalid"
 )</code></pre>
-<p>La práctica guiada consiste en ejecutar quality gates con un ADR inválido y comprobar cómo la señal roja de gobernanza propaga el fallo al resultado final.</p>
-<p>La verificación de comprensión antes del refactor es responder por qué esta integración reduce dependencia de revisiones subjetivas en cambios complejos.</p>
-<p>Siguiente lección: <code>14-semana-13/06-refactor-lifecycle-rfc-adr.md</code>.</p>
+<h2 id="14-semana-13-05-codigo-gobernanza-integrada-pr-ctica-guiada">Práctica guiada</h2>
+<p>Rompe intencionalmente un ADR para que falle el validador y ejecuta <code>./scripts/run-quality-gates.sh</code>. Comprueba que el reporte global queda en <code>failed</code> y que la causa es identificable en el check correcto.</p>
+<h2 id="14-semana-13-05-codigo-gobernanza-integrada-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Comprueba que puedes explicar por qué esta integración elimina discusiones subjetivas del tipo “la documentación ya la arreglamos luego”. Si no hablas de bloqueo automático, revisa la lección.</p>
+<h2 id="14-semana-13-05-codigo-gobernanza-integrada-siguiente-lecci-n">Siguiente lección</h2>
+<p>Sigue en <code>14-semana-13/06-refactor-lifecycle-rfc-adr.md</code>, donde refinaremos el ciclo RFC/ADR para mantener utilidad sin caer en burocracia vacía.</p>
 </section>
 <section id="14-semana-13-06-refactor-lifecycle-rfc-adr" class="lesson" data-topic-id="14-semana-13-06-refactor-lifecycle-rfc-adr" data-lesson-path="14-semana-13/06-refactor-lifecycle-rfc-adr.md">
 <div class="lesson-path">14-semana-13/06-refactor-lifecycle-rfc-adr.md</div>
-<h1 id="14-semana-13-06-refactor-lifecycle-rfc-adr-semana-13-lecci-n-6-refactor-del-ciclo-rfc-adr-para-que-no-se-vuelva-burocracia">Semana 13 · Lección 6: refactor del ciclo RFC-ADR para que no se vuelva burocracia</h1>
-<p>Con el sistema funcionando, el riesgo ahora es usar RFC y ADR como trámite decorativo. Esta lección refactoriza el enfoque para que cada documento tenga un propósito claro en el ciclo de cambio. El RFC abre debate de alcance y propuesta. El ADR fija decisiones persistentes que impactan arquitectura.</p>
-<p>La mejora práctica consiste en mantener un hilo claro entre OpenSpec, RFC y ADRs de semana. Cuando ese hilo existe, revisar decisiones históricas es rápido y útil. Cuando no existe, los documentos se convierten en texto aislado sin valor operativo.</p>
+<h1 id="14-semana-13-06-refactor-lifecycle-rfc-adr-semana-13-lecci-n-6-refactor-del-ciclo-rfc-y-adr-para-que-la-gobernanza-sea-ligera-y-til">Semana 13 · Lección 6: refactor del ciclo RFC y ADR para que la gobernanza sea ligera y útil</h1>
+<p>Una vez que la validación existe, el nuevo riesgo es burocratizar el proceso. Esta lección refactoriza la práctica para que cada artefacto cumpla su propósito sin duplicidades. RFC debe capturar problema, propuesta, plan, riesgos y criterios de éxito del cambio. ADR debe fijar una decisión concreta y sus consecuencias persistentes.</p>
+<p>Cuando este reparto se respeta, la lectura histórica del sistema es rápida y útil. Cuando se mezcla, aparecen documentos largos pero poco accionables. El objetivo profesional es gobernanza eficiente, no gobernanza pesada.</p>
 <pre class="mermaid">flowchart LR
-    A[OpenSpec change] --> B[RFC de direccion]
-    B --> C[ADR de decisiones]
-    C --> D[Implementacion]
-    D --> E[Validacion automatica]</pre>
-<p>El refactor también significa usar lenguaje preciso. Un ADR no debe repetir todo el RFC, debe centrarse en una decisión y sus consecuencias. Un RFC no debe convertirse en bitácora de commits, debe capturar problema y propuesta de cambio.</p>
-<pre><code class="language-text">Heurística de calidad:
-si un nuevo miembro entiende la decision en menos de cinco minutos,
-el documento esta cumpliendo su funcion.</code></pre>
-<p>La práctica guiada consiste en releer un ADR y condensarlo en tres frases: contexto, decisión y consecuencia principal. Si no puedes hacerlo, el ADR aún está difuso.</p>
-<p>La verificación de comprensión antes del checkpoint es responder por qué separar bien RFC y ADR reduce ruido y mejora velocidad de implementación.</p>
-<p>Siguiente lección: <code>14-semana-13/07-checkpoint-evaluacion.md</code>.</p>
+    A[Need de cambio estructural] --> B[RFC de dirección]
+    B --> C[Debate técnico]
+    C --> D[ADR de decisión final]
+    D --> E[Implementación]
+    E --> F[Validación automática]</pre>
+<p>Una heurística práctica para evaluar calidad de artefactos es preguntarte si una persona nueva puede reconstruir contexto y decisión en pocos minutos. Si necesita leer chats antiguos o preguntar oralmente, el artefacto no está cumpliendo su función.</p>
+<pre><code class="language-text">RFC orienta cambio futuro.
+ADR explica estado arquitectónico actual.</code></pre>
+<h2 id="14-semana-13-06-refactor-lifecycle-rfc-adr-pr-ctica-guiada">Práctica guiada</h2>
+<p>Toma un RFC existente y escribe qué ADR debería acompañarlo para cerrar el ciclo. Después verifica si esa relación ya está trazada en el repositorio o si falta conectar ambos.</p>
+<h2 id="14-semana-13-06-refactor-lifecycle-rfc-adr-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Verifica que puedes explicar por qué “más páginas” no significa “mejor gobernanza”. Si no distingues claridad de volumen, revisa la lección.</p>
+<h2 id="14-semana-13-06-refactor-lifecycle-rfc-adr-siguiente-lecci-n">Siguiente lección</h2>
+<p>Pasa a <code>14-semana-13/07-checkpoint-evaluacion.md</code>, donde cerraremos la semana con evidencia de gobernanza automatizada y consistente.</p>
 </section>
 <section id="14-semana-13-07-checkpoint-evaluacion" class="lesson" data-topic-id="14-semana-13-07-checkpoint-evaluacion" data-lesson-path="14-semana-13/07-checkpoint-evaluacion.md">
 <div class="lesson-path">14-semana-13/07-checkpoint-evaluacion.md</div>
-<h1 id="14-semana-13-07-checkpoint-evaluacion-semana-13-lecci-n-7-checkpoint-de-gobernanza-para-cierre-defendible">Semana 13 · Lección 7: checkpoint de gobernanza para cierre defendible</h1>
-<p>El cierre de Week 13 exige demostrar que la gobernanza está viva y automatizada. No basta con tener archivos en <code>docs/</code>; hace falta validar estructura, integrar señal en quality gates y sostener coherencia con OpenSpec y contenido del curso.</p>
+<h1 id="14-semana-13-07-checkpoint-evaluacion-semana-13-lecci-n-7-checkpoint-de-gobernanza-automatizada-para-cierre-defendible">Semana 13 · Lección 7: checkpoint de gobernanza automatizada para cierre defendible</h1>
+<p>Este checkpoint valida que la gobernanza ya forma parte del sistema y no depende de recordar tareas manuales. Debes demostrar existencia de artefactos, validación estructural correcta y propagación de la señal en quality gates.</p>
+<p>La lógica de cierre aquí es idéntica a la que aplicas en código funcional: contrato, pruebas, ejecución y evidencia. La diferencia es que ahora el objeto de validación es la salud de decisiones arquitectónicas.</p>
 <pre class="mermaid">flowchart TD
-    A[ADR y RFC versionados] --> B[Validador de gobernanza]
-    B --> C[Quality gates con governance signal]
-    C --> D[Validadores del curso]
-    D --> E[Cierre week13]</pre>
-<p>El circuito de validación de esta semana debe ejecutarse completo y registrarse como evidencia reproducible.</p>
+    A[docs/adr + docs/rfc] --> B[validate-governance-artifacts.py]
+    B --> C[run-quality-gates.sh]
+    C --> D[quality report]
+    D --> E[validadores de curso]
+    E --> F[cierre week13]</pre>
+<p>Ejecuta este bloque completo para dejar cierre reproducible.</p>
 <pre><code class="language-bash">swift test --package-path project/HelpdeskSDD
 python3 scripts/validate-governance-artifacts.py
 ./scripts/run-quality-gates.sh
@@ -8568,32 +8602,37 @@ python3 scripts/validate-openspec.py
 python3 scripts/check-links.py
 python3 scripts/validate-pedagogy.py
 python3 scripts/build-html.py</code></pre>
-<p>La práctica guiada consiste en romper a propósito el nombre de un ADR para que no cumpla el patrón y verificar que el validador reporta el problema exacto.</p>
-<p>La verificación de comprensión final del checkpoint es responder qué diferencia hay entre “documentación presente” y “documentación gobernada con reglas automáticas”.</p>
-<p>Siguiente lección: <code>14-semana-13/08-bitacora-commits.md</code>.</p>
+<h2 id="14-semana-13-07-checkpoint-evaluacion-pr-ctica-guiada">Práctica guiada</h2>
+<p>Renombra temporalmente un ADR con un formato inválido y ejecuta el circuito. Observa cómo aparece el fallo en el validador y cómo se refleja después en quality gates. Luego restaura naming correcto y cierra en verde.</p>
+<h2 id="14-semana-13-07-checkpoint-evaluacion-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Comprueba que puedes explicar la diferencia entre tener documentos presentes y tener documentos gobernados por reglas automáticas de calidad. Si la diferencia no queda clara, repasa la secuencia del checkpoint.</p>
+<h2 id="14-semana-13-07-checkpoint-evaluacion-siguiente-lecci-n">Siguiente lección</h2>
+<p>Continúa en <code>14-semana-13/08-bitacora-commits.md</code>, donde formalizaremos el cierre en un historial de decisiones legible para auditoría técnica.</p>
 </section>
 <section id="14-semana-13-08-bitacora-commits" class="lesson" data-topic-id="14-semana-13-08-bitacora-commits" data-lesson-path="14-semana-13/08-bitacora-commits.md">
 <div class="lesson-path">14-semana-13/08-bitacora-commits.md</div>
-<h1 id="14-semana-13-08-bitacora-commits-semana-13-lecci-n-8-bit-cora-de-decisiones-para-auditor-a-de-arquitectura">Semana 13 · Lección 8: bitácora de decisiones para auditoría de arquitectura</h1>
-<p>La bitácora de Week 13 debe dejar claro cómo pasamos de gobernanza implícita a gobernanza verificable. Si un auditor técnico revisa el historial, debe poder ubicar rápidamente dónde se introdujo el validador, dónde se añadieron ADR y RFC, y dónde se conectó todo con quality gates.</p>
-<p>El patrón de commits atómicos se mantiene porque facilita trazabilidad. Un bloque para narrativa semanal, otro para implementación técnica y artefactos de gobernanza, y otro para OpenSpec con scripts de publicación.</p>
+<h1 id="14-semana-13-08-bitacora-commits-semana-13-lecci-n-8-bit-cora-de-gobernanza-para-preservar-memoria-t-cnica-del-sistema">Semana 13 · Lección 8: bitácora de gobernanza para preservar memoria técnica del sistema</h1>
+<p>El cierre de esta semana requiere una bitácora que cuente cómo la gobernanza pasó de práctica informal a control automatizado. Si el historial no muestra esa transición con claridad, el valor de la semana se diluye aunque los archivos existan.</p>
+<p>La estrategia de commits sigue el patrón que venimos aplicando. Primero, intención y narrativa de semana. Segundo, implementación del validador y artefactos necesarios. Tercero, integración con quality gates y validación final. Este orden permite que cualquier revisión reconstruya causa y efecto sin esfuerzo excesivo.</p>
 <pre class="mermaid">flowchart LR
-    A[Plan week13] --> B[Docs pedagogicos]
-    B --> C[Validator + ADR + RFC + gates]
-    C --> D[OpenSpec + wiring]
-    D --> E[Validacion final]
-    E --> F[Historial auditable]</pre>
-<p>En esta semana, el valor de la bitácora es doble. Sirve para reconstruir cambios técnicos y también para reconstruir razonamiento de decisión. Ese doble uso es el que más valor aporta en contextos enterprise con equipos grandes o distribuidos.</p>
-<pre><code class="language-text">git status --short
+    A[Problema de gobernanza] --> B[Commit de contrato y docs]
+    B --> C[Commit validator + artifacts]
+    C --> D[Commit integración gates]
+    D --> E[Commit publicación]</pre>
+<p>Una bitácora útil de week13 debe dejar rastros claros de preguntas reales: dónde se exige <code>## Consecuencias</code> en ADR, dónde se integra <code>governance_artifacts_green</code>, y con qué comandos se validó cierre.</p>
+<pre><code class="language-bash">git status --short
 swift test --package-path project/HelpdeskSDD
 python3 scripts/validate-governance-artifacts.py
 ./scripts/run-quality-gates.sh
 python3 scripts/build-html.py
 git add &lt;bloque-semantico&gt;
-git commit -m "mensaje atomico week13 governance"</code></pre>
-<p>La práctica guiada final consiste en leer tus commits de la semana e identificar cuál responde mejor a la pregunta “cómo se garantiza que las decisiones arquitectónicas quedan auditables”.</p>
-<p>La verificación de comprensión de cierre es responder por qué la trazabilidad de decisiones reduce riesgo operativo en cambios futuros.</p>
-<p>Siguiente semana: <code>15-semana-14/00-semana-14-roadmap.md</code>.</p>
+git commit -m "docs(week13): rewrite governance module as deep narrative flow"</code></pre>
+<h2 id="14-semana-13-08-bitacora-commits-pr-ctica-guiada">Práctica guiada</h2>
+<p>Revisa los commits de esta semana e intenta responder tres preguntas de auditoría sin abrir el código, solo con mensajes y diff de cada commit. Ajusta tus próximos mensajes de commit si detectas lagunas de contexto.</p>
+<h2 id="14-semana-13-08-bitacora-commits-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<p>Comprueba que puedes justificar por qué la trazabilidad de decisiones es una capacidad de ingeniería y no solo una habilidad documental. Si no conectas con reducción de riesgo operativo, revisa la lección.</p>
+<h2 id="14-semana-13-08-bitacora-commits-siguiente-semana">Siguiente semana</h2>
+<p>Sigue en <code>15-semana-14/00-semana-14-roadmap.md</code>, donde abordaremos release readiness y rollback drills con criterios enterprise de operación.</p>
 </section>
 <section id="15-semana-14-00-semana-14-roadmap" class="lesson" data-topic-id="15-semana-14-00-semana-14-roadmap" data-lesson-path="15-semana-14/00-semana-14-roadmap.md">
 <div class="lesson-path">15-semana-14/00-semana-14-roadmap.md</div>
