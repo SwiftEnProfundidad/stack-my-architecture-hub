@@ -13,11 +13,13 @@ Uso:
   runtime-snapshot.sh backup [--name <alias>]
   runtime-snapshot.sh list
   runtime-snapshot.sh restore <latest|archivo.tar.gz>
+  runtime-snapshot.sh prune <keep>
 
 Notas:
   - Los snapshots se guardan en .runtime/snapshots/
   - restore detiene el hub antes de restaurar
   - restore limpia hub.pid/hub.port al terminar (seguridad)
+  - prune mantiene los <keep> más recientes y borra el resto
 EOF
 }
 
@@ -97,6 +99,41 @@ list_snapshots() {
   fi
   echo "Snapshots disponibles (más reciente primero):"
   echo "$entries"
+}
+
+prune_snapshots() {
+  local keep="$1"
+  mkdir -p "$SNAPSHOT_DIR"
+
+  if ! [[ "$keep" =~ ^[0-9]+$ ]]; then
+    echo "❌ Valor inválido para prune: $keep (debe ser entero >= 0)"
+    exit 1
+  fi
+
+  local entries
+  entries="$(printf '%s\n' "$SNAPSHOT_DIR"/*.tar.gz(N) | sort -r)"
+  if [ -z "$entries" ]; then
+    echo "ℹ️ No hay snapshots para podar en: $SNAPSHOT_DIR"
+    return 0
+  fi
+
+  local index=0
+  local deleted=0
+  local kept=0
+  local file
+
+  while IFS= read -r file; do
+    [ -n "$file" ] || continue
+    index=$((index + 1))
+    if [ "$index" -le "$keep" ]; then
+      kept=$((kept + 1))
+      continue
+    fi
+    rm -f "$file"
+    deleted=$((deleted + 1))
+  done <<< "$entries"
+
+  echo "✅ Prune completado: kept=$kept deleted=$deleted"
 }
 
 resolve_snapshot_path() {
@@ -210,6 +247,20 @@ main() {
         exit 1
       fi
       restore_runtime "$ref"
+      ;;
+    prune)
+      shift
+      if [ -z "${1:-}" ]; then
+        echo "❌ Debes indicar cuántos snapshots mantener (keep)."
+        exit 1
+      fi
+      local keep="$1"
+      shift
+      if [ $# -gt 0 ]; then
+        echo "❌ Argumentos no soportados para prune: $*"
+        exit 1
+      fi
+      prune_snapshots "$keep"
       ;;
     -h|--help)
       usage

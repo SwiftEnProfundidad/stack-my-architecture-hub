@@ -79,6 +79,7 @@ stack-hub --backup-runtime
 stack-hub --backup-runtime before-upgrade
 stack-hub --list-runtime-backups
 stack-hub --restore-runtime latest
+stack-hub --prune-runtime-backups 10
 stack-hub ios --restart
 stack-hub --stop
 stack-hub --stop-force
@@ -105,6 +106,7 @@ stack-hub --backup-runtime
 stack-hub --backup-runtime before-upgrade
 stack-hub --list-runtime-backups
 stack-hub --restore-runtime latest
+stack-hub --prune-runtime-backups 10
 ```
 
 `--stop` ahora evita matar procesos ajenos si el puerto fue reutilizado por otra app.

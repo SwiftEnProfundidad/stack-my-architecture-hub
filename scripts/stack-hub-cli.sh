@@ -36,6 +36,7 @@ Opciones:
   --backup-runtime [name]  Crea snapshot de .runtime.
   --list-runtime-backups   Lista snapshots disponibles.
   --restore-runtime <ref>  Restaura snapshot (archivo o latest).
+  --prune-runtime-backups <keep>  Mantiene N snapshots y borra el resto.
   -h, --help               Muestra esta ayuda.
 
 Ejemplos:
@@ -52,6 +53,7 @@ Ejemplos:
   stack-hub --backup-runtime before-migration
   stack-hub --list-runtime-backups
   stack-hub --restore-runtime latest
+  stack-hub --prune-runtime-backups 10
   stack-hub --stop-force
   stack-hub ios --restart
   stack-hub --stop
@@ -83,6 +85,8 @@ main() {
   local run_list_backups=0
   local run_restore=0
   local restore_ref=""
+  local run_prune=0
+  local prune_keep=""
 
   while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -184,6 +188,15 @@ main() {
         restore_ref="$2"
         shift 2
         ;;
+      --prune-runtime-backups)
+        if [[ -z "${2:-}" ]]; then
+          echo "❌ Falta valor para --prune-runtime-backups"
+          exit 1
+        fi
+        run_prune=1
+        prune_keep="$2"
+        shift 2
+        ;;
       -h|--help)
         usage
         exit 0
@@ -217,6 +230,10 @@ main() {
 
   if [[ "$run_restore" -eq 1 ]]; then
     exec /bin/zsh -f "$SNAPSHOT_SCRIPT" restore "$restore_ref"
+  fi
+
+  if [[ "$run_prune" -eq 1 ]]; then
+    exec /bin/zsh -f "$SNAPSHOT_SCRIPT" prune "$prune_keep"
   fi
 
   if [[ "$run_selftest" -eq 1 ]]; then
