@@ -4,6 +4,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 LAUNCH_SCRIPT="$SCRIPT_DIR/launch-hub.sh"
 STOP_SCRIPT="$SCRIPT_DIR/stop-hub.sh"
+STATUS_SCRIPT="$SCRIPT_DIR/hub-status.sh"
 
 usage() {
   cat <<'EOF'
@@ -21,12 +22,14 @@ Opciones:
   --force-rebuild          Fuerza rebuild aunque manifest+commits coincidan.
   --skip-auto-rebuild      Desactiva rebuild automático en este arranque.
   --stop                   Detiene el hub.
+  --status                 Estado del hub (PID/puerto/health/manifest).
   -h, --help               Muestra esta ayuda.
 
 Ejemplos:
   stack-hub
   stack-hub sdd --strict
   stack-hub --course ios --port 46200
+  stack-hub --status
   stack-hub --stop
 EOF
 }
@@ -96,6 +99,9 @@ main() {
         ;;
       --stop)
         exec /bin/zsh -f "$STOP_SCRIPT"
+        ;;
+      status|--status)
+        exec /bin/zsh -f "$STATUS_SCRIPT"
         ;;
       -h|--help)
         usage
