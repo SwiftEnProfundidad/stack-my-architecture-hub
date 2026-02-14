@@ -6,6 +6,8 @@ HUB_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 PROJECTS_ROOT="$(cd "$HUB_ROOT/.." && pwd)"
 RUNTIME_DIR="$HUB_ROOT/.runtime"
 LOCK_DIR="$RUNTIME_DIR/build-hub.lock"
+LOCK_PID_FILE="$LOCK_DIR/pid"
+LOCK_STARTED_FILE="$LOCK_DIR/started_at_utc"
 LOG_FILE="$RUNTIME_DIR/build-hub.log"
 
 IOS_ROOT="$PROJECTS_ROOT/stack-my-architecture-ios"
@@ -39,6 +41,42 @@ EOF
 
 say() {
   printf '[%s] %s\n' "$(date '+%H:%M:%S')" "$*"
+}
+
+acquire_lock() {
+  if mkdir "$LOCK_DIR" 2>/dev/null; then
+    printf '%s\n' "$$" > "$LOCK_PID_FILE"
+    date -u '+%Y-%m-%dT%H:%M:%SZ' > "$LOCK_STARTED_FILE"
+    return 0
+  fi
+
+  local owner_pid=""
+  if [[ -f "$LOCK_PID_FILE" ]]; then
+    owner_pid="$(cat "$LOCK_PID_FILE" 2>/dev/null || true)"
+  fi
+
+  if [[ -n "$owner_pid" && "$owner_pid" =~ ^[0-9]+$ ]] && kill -0 "$owner_pid" >/dev/null 2>&1; then
+    local owner_cmd
+    owner_cmd="$(ps -p "$owner_pid" -o command= 2>/dev/null || true)"
+    echo "[ERROR] Another build-hub execution is in progress. Lock: $LOCK_DIR (pid=$owner_pid)"
+    if [[ -n "$owner_cmd" ]]; then
+      echo "[ERROR] Owner command: $owner_cmd"
+    fi
+    return 1
+  fi
+
+  say "WARNING: Stale lock detected. Recovering lock at $LOCK_DIR"
+  rm -rf "$LOCK_DIR"
+  if ! mkdir "$LOCK_DIR" 2>/dev/null; then
+    echo "[ERROR] Could not recover lock at $LOCK_DIR"
+    return 1
+  fi
+  printf '%s\n' "$$" > "$LOCK_PID_FILE"
+  date -u '+%Y-%m-%dT%H:%M:%SZ' > "$LOCK_STARTED_FILE"
+}
+
+release_lock() {
+  rm -rf "$LOCK_DIR"
 }
 
 while [[ $# -gt 0 ]]; do
@@ -84,11 +122,10 @@ fi
 mkdir -p "$RUNTIME_DIR"
 exec > >(tee -a "$LOG_FILE") 2>&1
 
-if ! mkdir "$LOCK_DIR" 2>/dev/null; then
-  echo "[ERROR] Another build-hub execution is in progress. Lock: $LOCK_DIR"
+if ! acquire_lock; then
   exit 1
 fi
-trap 'rm -rf "$LOCK_DIR"' EXIT
+trap release_lock EXIT
 
 if [[ ! -d "$IOS_ROOT" || ! -d "$ANDROID_ROOT" || ! -d "$SDD_ROOT" ]]; then
   echo "[ERROR] Could not find sibling repos: stack-my-architecture-ios, stack-my-architecture-android, stack-my-architecture-SDD"

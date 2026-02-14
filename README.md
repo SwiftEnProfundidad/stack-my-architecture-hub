@@ -119,7 +119,7 @@ Compatibilidad legacy:
 SKIP_SDD_AUDIT=1 ./scripts/build-hub.sh
 ```
 
-El script además deja traza en `.runtime/build-hub.log` y evita ejecuciones concurrentes con lock.
+El script además deja traza en `.runtime/build-hub.log`, evita ejecuciones concurrentes con lock y recupera automáticamente locks obsoletos (stale) tras cierres inesperados.
 Además ejecuta un smoke test final de publicación (`scripts/verify-hub-build.py`) para validar que rutas y assets críticos quedaron consistentes antes de marcar el build como correcto.
 En modo `strict`, también ejecuta smoke runtime real (`scripts/smoke-hub-runtime.sh`) levantando un servidor temporal y verificando endpoints (`/health`, `/config`, `/ios`, `/android`, `/sdd`).
 Al finalizar, genera `.runtime/build-manifest.json` con trazabilidad de publicación (commits, hashes y tamaños de artefactos copiados).
