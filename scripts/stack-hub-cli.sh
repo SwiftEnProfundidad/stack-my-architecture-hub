@@ -7,6 +7,7 @@ STOP_SCRIPT="$SCRIPT_DIR/stop-hub.sh"
 STATUS_SCRIPT="$SCRIPT_DIR/hub-status.sh"
 DOCTOR_SCRIPT="$SCRIPT_DIR/hub-doctor.sh"
 LOGS_SCRIPT="$SCRIPT_DIR/hub-logs.sh"
+SELFTEST_SCRIPT="$SCRIPT_DIR/hub-selftest.sh"
 
 usage() {
   cat <<'EOF'
@@ -28,6 +29,7 @@ Opciones:
   --status                 Estado del hub (PID/puerto/health/manifest).
   --doctor                 Diagnóstico completo de entorno y salud.
   --logs [-f|--follow]     Muestra log del hub (opcional en vivo).
+  --selftest               Smoke aislado en puerto temporal.
   -h, --help               Muestra esta ayuda.
 
 Ejemplos:
@@ -38,6 +40,7 @@ Ejemplos:
   stack-hub --doctor
   stack-hub --logs
   stack-hub --logs --follow
+  stack-hub --selftest
   stack-hub ios --restart
   stack-hub --stop
 EOF
@@ -126,6 +129,9 @@ main() {
           exec /bin/zsh -f "$LOGS_SCRIPT" --follow
         fi
         exec /bin/zsh -f "$LOGS_SCRIPT"
+        ;;
+      selftest|--selftest)
+        exec /bin/zsh -f "$SELFTEST_SCRIPT"
         ;;
       -h|--help)
         usage

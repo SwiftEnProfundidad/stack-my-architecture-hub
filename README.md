@@ -73,6 +73,7 @@ stack-hub --status
 stack-hub --doctor
 stack-hub --logs
 stack-hub --logs --follow
+stack-hub --selftest
 stack-hub ios --restart
 stack-hub --stop
 ```
@@ -81,6 +82,12 @@ Opcional para logs:
 
 ```bash
 STACK_MY_ARCH_LOG_LINES=300 stack-hub --logs
+```
+
+Opcional para selftest:
+
+```bash
+STACK_MY_ARCH_SELFTEST_PORT=47650 stack-hub --selftest
 ```
 
 Compatibilidad: `open-proxy.command`, `open-hub.command` y `open-hub-localhost.command` delegan internamente en el mismo CLI (`stack-hub`) para evitar rutas de arranque duplicadas.
