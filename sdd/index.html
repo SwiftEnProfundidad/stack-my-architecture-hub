@@ -1444,7 +1444,7 @@ blockquote p {
 <hr>
 <h2 id="docs-openspec-politica-del-curso-2-qu-es-openspec-en-este-curso-en-una-frase">2. Qué es OpenSpec en este curso (en una frase)</h2>
 <p>OpenSpec es un sistema de carpetas + artefactos que te obliga a contestar, por escrito y con rigor:</p>
-<p>qué quieres construir y por qué (<code>proposal.md</code>), qué comportamiento debe tener (<code>specs/.../spec.md</code>), cómo lo vas a implementar (<code>design.md</code>), qué pasos vas a ejecutar (<code>tasks.md</code>) y cómo demuestras que está bien (tests/build + <code>/opsx:verify</code>).</p>
+<p>qué quieres construir y por qué (<code>openspec/changes/<change-name>/proposal.md</code>), qué comportamiento debe tener (<code>openspec/changes/<change-name>/specs/<dominio>/spec.md</code>), cómo lo vas a implementar (<code>openspec/changes/<change-name>/design.md</code>), qué pasos vas a ejecutar (<code>openspec/changes/<change-name>/tasks.md</code>) y cómo demuestras que está bien (tests/build + <code>/opsx:verify</code>).</p>
 <hr>
 <h2 id="docs-openspec-politica-del-curso-3-regla-n-mero-1-openspec-manda">3. Regla número 1: OpenSpec manda</h2>
 <p><strong>Si hay conflicto entre:</strong></p>
@@ -1523,7 +1523,7 @@ swift test --package-path project/HelpdeskSDD</code></pre>
 <p>OpenSpec crea una carpeta <code>openspec/</code> con dos zonas principales:</p>
 <p><code>openspec/specs/</code> y <code>openspec/changes/</code>. En <code>openspec/specs/</code> viven las reglas actuales del sistema, es decir, “la verdad” de cómo funciona hoy. En <code>openspec/changes/</code> vive un cambio en curso: lo que quieres añadir, modificar o eliminar, con su propuesta, su diseño y sus tareas.</p>
 <p>Dentro de un cambio, siempre hay 4 artefactos:</p>
-<p><code>proposal.md</code>, que captura el “por qué” y el “qué”; <code>specs/<dominio>/spec.md</code>, que captura requisitos y escenarios (delta spec); <code>design.md</code>, que captura el “cómo” técnico; y <code>tasks.md</code>, que captura la lista de tareas implementables.</p>
+<p><code>openspec/changes/<change-name>/proposal.md</code>, que captura el “por qué” y el “qué”; <code>openspec/changes/<change-name>/specs/<dominio>/spec.md</code>, que captura requisitos y escenarios (delta spec); <code>openspec/changes/<change-name>/design.md</code>, que captura el “cómo” técnico; y <code>openspec/changes/<change-name>/tasks.md</code>, que captura la lista de tareas implementables.</p>
 <p>OpenSpec te guía con un workflow tipo:</p>
 <pre class="mermaid">flowchart TD
   A[Crear cambio /opsx:new] --> B[Crear artefactos /opsx:ff]
@@ -1565,7 +1565,7 @@ El sistema DEBE permitir crear tickets con validación mínima.
 <h2 id="docs-openspec-00-openspec-en-este-curso-6-c-mo-se-usa-la-ia-de-forma-profesional-prompts-oficiales">6. Cómo se usa la IA de forma profesional (prompts “oficiales”)</h2>
 <p>OpenSpec te da una estructura. Tú le das buenos inputs.</p>
 <p>Aquí tienes prompts base (adaptables) para trabajar con IA:</p>
-<h3 id="docs-openspec-00-openspec-en-este-curso-6-1-prompt-para-proposal-md">6.1 Prompt para <code>proposal.md</code></h3>
+<h3 id="docs-openspec-00-openspec-en-este-curso-6-1-prompt-para-openspec-changes-change-name-proposal-md">6.1 Prompt para <code>openspec/changes/<change-name>/proposal.md</code></h3>
 <pre><code class="language-text">Actúa como Product Owner y Arquitecto.
 Necesito una propuesta para el cambio: &lt;NOMBRE_CAMBIO&gt;.
 Contexto: &lt;CONTEXTO_NEGOCIO&gt;.
@@ -1576,12 +1576,12 @@ No inventes requisitos: si falta info, lista preguntas.</code></pre>
 Con base en la propuesta, escribe requisitos en formato ADDED/MODIFIED/REMOVED.
 Cada requisito debe tener escenarios GIVEN/WHEN/THEN observables.
 Incluye casos límite y errores.</code></pre>
-<h3 id="docs-openspec-00-openspec-en-este-curso-6-3-prompt-para-design-md">6.3 Prompt para <code>design.md</code></h3>
+<h3 id="docs-openspec-00-openspec-en-este-curso-6-3-prompt-para-openspec-changes-change-name-design-md">6.3 Prompt para <code>openspec/changes/<change-name>/design.md</code></h3>
 <pre><code class="language-text">Actúa como Arquitecto senior.
 Propón un diseño que cumpla los requisitos SIN sobreingeniería.
 Incluye: componentes, contratos, responsabilidades, y un diagrama Mermaid.
 Enumera trade-offs y por qué eliges esta opción.</code></pre>
-<h3 id="docs-openspec-00-openspec-en-este-curso-6-4-prompt-para-tasks-md">6.4 Prompt para <code>tasks.md</code></h3>
+<h3 id="docs-openspec-00-openspec-en-este-curso-6-4-prompt-para-openspec-changes-change-name-tasks-md">6.4 Prompt para <code>openspec/changes/<change-name>/tasks.md</code></h3>
 <pre><code class="language-text">Actúa como Tech Lead.
 Divide el cambio en tareas pequeñas y verificables (checkboxes).
 Cada tarea debe indicar evidencia: test o comando.
@@ -9366,7 +9366,7 @@ git commit -m "docs(week16): rewrite final defense module as deep narrative flow
 <h2 id="17-semana-16-08-bitacora-commits-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
 <p>Comprueba que puedes explicar por qué un historial claro también es parte de la calidad del producto en entornos enterprise. Si no conectas con mantenimiento y continuidad de equipo, revisa la lección.</p>
 <h2 id="17-semana-16-08-bitacora-commits-siguiente-fase">Siguiente fase</h2>
-<p>Cierre global del curso y revisión final del informe en <code>00-informe/00-informe-curso.md</code> para defensa integral de todo el recorrido.</p>
+<p>Cierre global del curso y revisión final del informe en <code>00-informe/INFORME-CURSO.md</code> para defensa integral de todo el recorrido.</p>
 </section>
 <section id="anexos-diagramas-atlas-sdd" class="lesson" data-topic-id="anexos-diagramas-atlas-sdd" data-lesson-path="anexos/diagramas/atlas-sdd.md">
 <div class="lesson-path">anexos/diagramas/atlas-sdd.md</div>
