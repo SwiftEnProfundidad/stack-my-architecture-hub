@@ -75,6 +75,10 @@ stack-hub --logs
 stack-hub --logs --follow
 stack-hub --selftest
 stack-hub --selftest --strict
+stack-hub --backup-runtime
+stack-hub --backup-runtime before-upgrade
+stack-hub --list-runtime-backups
+stack-hub --restore-runtime latest
 stack-hub ios --restart
 stack-hub --stop
 stack-hub --stop-force
@@ -93,6 +97,15 @@ STACK_MY_ARCH_SELFTEST_PORT=47650 stack-hub --selftest
 ```
 
 `--selftest --strict` ejecuta además una consulta real al asistente (coste API muy bajo) para validar el ciclo extremo a extremo.
+
+Snapshots de runtime:
+
+```bash
+stack-hub --backup-runtime
+stack-hub --backup-runtime before-upgrade
+stack-hub --list-runtime-backups
+stack-hub --restore-runtime latest
+```
 
 `--stop` ahora evita matar procesos ajenos si el puerto fue reutilizado por otra app.
 Solo fuerza parada ciega con:

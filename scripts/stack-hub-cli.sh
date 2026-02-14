@@ -8,6 +8,7 @@ STATUS_SCRIPT="$SCRIPT_DIR/hub-status.sh"
 DOCTOR_SCRIPT="$SCRIPT_DIR/hub-doctor.sh"
 LOGS_SCRIPT="$SCRIPT_DIR/hub-logs.sh"
 SELFTEST_SCRIPT="$SCRIPT_DIR/hub-selftest.sh"
+SNAPSHOT_SCRIPT="$SCRIPT_DIR/runtime-snapshot.sh"
 
 usage() {
   cat <<'EOF'
@@ -32,6 +33,9 @@ Opciones:
   --logs [-f|--follow]     Muestra log del hub (opcional en vivo).
   --selftest               Smoke aislado en puerto temporal.
   --selftest-strict        Selftest con consulta IA real.
+  --backup-runtime [name]  Crea snapshot de .runtime.
+  --list-runtime-backups   Lista snapshots disponibles.
+  --restore-runtime <ref>  Restaura snapshot (archivo o latest).
   -h, --help               Muestra esta ayuda.
 
 Ejemplos:
@@ -44,6 +48,10 @@ Ejemplos:
   stack-hub --logs --follow
   stack-hub --selftest
   stack-hub --selftest --strict
+  stack-hub --backup-runtime
+  stack-hub --backup-runtime before-migration
+  stack-hub --list-runtime-backups
+  stack-hub --restore-runtime latest
   stack-hub --stop-force
   stack-hub ios --restart
   stack-hub --stop
@@ -70,6 +78,11 @@ main() {
   local restart=0
   local run_selftest=0
   local selftest_strict=0
+  local run_backup=0
+  local backup_name=""
+  local run_list_backups=0
+  local run_restore=0
+  local restore_ref=""
 
   while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -150,6 +163,27 @@ main() {
         selftest_strict=1
         shift
         ;;
+      --backup-runtime)
+        run_backup=1
+        shift
+        if [[ -n "${1:-}" ]] && [[ "${1}" != --* ]]; then
+          backup_name="$1"
+          shift
+        fi
+        ;;
+      --list-runtime-backups)
+        run_list_backups=1
+        shift
+        ;;
+      --restore-runtime)
+        if [[ -z "${2:-}" ]]; then
+          echo "❌ Falta valor para --restore-runtime"
+          exit 1
+        fi
+        run_restore=1
+        restore_ref="$2"
+        shift 2
+        ;;
       -h|--help)
         usage
         exit 0
@@ -168,6 +202,21 @@ main() {
 
   if [[ "$restart" -eq 1 ]]; then
     /bin/zsh -f "$STOP_SCRIPT" >/dev/null 2>&1 || true
+  fi
+
+  if [[ "$run_list_backups" -eq 1 ]]; then
+    exec /bin/zsh -f "$SNAPSHOT_SCRIPT" list
+  fi
+
+  if [[ "$run_backup" -eq 1 ]]; then
+    if [[ -n "$backup_name" ]]; then
+      exec /bin/zsh -f "$SNAPSHOT_SCRIPT" backup --name "$backup_name"
+    fi
+    exec /bin/zsh -f "$SNAPSHOT_SCRIPT" backup
+  fi
+
+  if [[ "$run_restore" -eq 1 ]]; then
+    exec /bin/zsh -f "$SNAPSHOT_SCRIPT" restore "$restore_ref"
   fi
 
   if [[ "$run_selftest" -eq 1 ]]; then
