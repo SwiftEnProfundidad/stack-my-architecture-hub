@@ -77,6 +77,7 @@ stack-hub --selftest
 stack-hub --selftest --strict
 stack-hub ios --restart
 stack-hub --stop
+stack-hub --stop-force
 ```
 
 Opcional para logs:
@@ -92,6 +93,13 @@ STACK_MY_ARCH_SELFTEST_PORT=47650 stack-hub --selftest
 ```
 
 `--selftest --strict` ejecuta además una consulta real al asistente (coste API muy bajo) para validar el ciclo extremo a extremo.
+
+`--stop` ahora evita matar procesos ajenos si el puerto fue reutilizado por otra app.
+Solo fuerza parada ciega con:
+
+```bash
+stack-hub --stop-force
+```
 
 Compatibilidad: `open-proxy.command`, `open-hub.command` y `open-hub-localhost.command` delegan internamente en el mismo CLI (`stack-hub`) para evitar rutas de arranque duplicadas.
 

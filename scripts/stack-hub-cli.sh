@@ -25,6 +25,7 @@ Opciones:
   --force-rebuild          Fuerza rebuild aunque manifest+commits coincidan.
   --skip-auto-rebuild      Desactiva rebuild automático en este arranque.
   --stop                   Detiene el hub.
+  --stop-force             Fuerza parada aunque PID/puerto no parezcan del hub.
   --restart                Reinicia el hub y luego abre curso.
   --status                 Estado del hub (PID/puerto/health/manifest).
   --doctor                 Diagnóstico completo de entorno y salud.
@@ -43,6 +44,7 @@ Ejemplos:
   stack-hub --logs --follow
   stack-hub --selftest
   stack-hub --selftest --strict
+  stack-hub --stop-force
   stack-hub ios --restart
   stack-hub --stop
 EOF
@@ -118,6 +120,9 @@ main() {
         ;;
       --stop)
         exec /bin/zsh -f "$STOP_SCRIPT"
+        ;;
+      --stop-force)
+        STACK_MY_ARCH_STOP_FORCE=1 exec /bin/zsh -f "$STOP_SCRIPT"
         ;;
       --restart)
         restart=1
