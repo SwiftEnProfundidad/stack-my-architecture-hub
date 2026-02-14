@@ -71,7 +71,16 @@ stack-hub --force-rebuild
 stack-hub --skip-auto-rebuild
 stack-hub --status
 stack-hub --doctor
+stack-hub --logs
+stack-hub --logs --follow
+stack-hub ios --restart
 stack-hub --stop
+```
+
+Opcional para logs:
+
+```bash
+STACK_MY_ARCH_LOG_LINES=300 stack-hub --logs
 ```
 
 Compatibilidad: `open-proxy.command`, `open-hub.command` y `open-hub-localhost.command` delegan internamente en el mismo CLI (`stack-hub`) para evitar rutas de arranque duplicadas.

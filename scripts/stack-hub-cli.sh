@@ -6,6 +6,7 @@ LAUNCH_SCRIPT="$SCRIPT_DIR/launch-hub.sh"
 STOP_SCRIPT="$SCRIPT_DIR/stop-hub.sh"
 STATUS_SCRIPT="$SCRIPT_DIR/hub-status.sh"
 DOCTOR_SCRIPT="$SCRIPT_DIR/hub-doctor.sh"
+LOGS_SCRIPT="$SCRIPT_DIR/hub-logs.sh"
 
 usage() {
   cat <<'EOF'
@@ -23,8 +24,10 @@ Opciones:
   --force-rebuild          Fuerza rebuild aunque manifest+commits coincidan.
   --skip-auto-rebuild      Desactiva rebuild automático en este arranque.
   --stop                   Detiene el hub.
+  --restart                Reinicia el hub y luego abre curso.
   --status                 Estado del hub (PID/puerto/health/manifest).
   --doctor                 Diagnóstico completo de entorno y salud.
+  --logs [-f|--follow]     Muestra log del hub (opcional en vivo).
   -h, --help               Muestra esta ayuda.
 
 Ejemplos:
@@ -33,6 +36,9 @@ Ejemplos:
   stack-hub --course ios --port 46200
   stack-hub --status
   stack-hub --doctor
+  stack-hub --logs
+  stack-hub --logs --follow
+  stack-hub ios --restart
   stack-hub --stop
 EOF
 }
@@ -54,6 +60,7 @@ validate_course() {
 main() {
   local course="hub"
   local mode_set=0
+  local restart=0
 
   while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -103,11 +110,22 @@ main() {
       --stop)
         exec /bin/zsh -f "$STOP_SCRIPT"
         ;;
+      --restart)
+        restart=1
+        shift
+        ;;
       status|--status)
         exec /bin/zsh -f "$STATUS_SCRIPT"
         ;;
       doctor|--doctor)
         exec /bin/zsh -f "$DOCTOR_SCRIPT"
+        ;;
+      logs|--logs)
+        shift
+        if [[ "${1:-}" = "--follow" ]] || [[ "${1:-}" = "-f" ]]; then
+          exec /bin/zsh -f "$LOGS_SCRIPT" --follow
+        fi
+        exec /bin/zsh -f "$LOGS_SCRIPT"
         ;;
       -h|--help)
         usage
@@ -123,6 +141,10 @@ main() {
 
   if [[ "$mode_set" -eq 0 ]] && [[ -z "${STACK_MY_ARCH_AUTO_REBUILD_MODE:-}" ]]; then
     export STACK_MY_ARCH_AUTO_REBUILD_MODE="fast"
+  fi
+
+  if [[ "$restart" -eq 1 ]]; then
+    /bin/zsh -f "$STOP_SCRIPT" >/dev/null 2>&1 || true
   fi
 
   exec /bin/zsh -f "$LAUNCH_SCRIPT" --course "$course"
