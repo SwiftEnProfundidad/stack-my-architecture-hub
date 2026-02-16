@@ -55,7 +55,7 @@
   let currentTopic = resolveCurrentTopic(topics, location.hash, localStorage.getItem(keyLastTopic));
   if (!currentTopic) return;
 
-  renderTopic(currentTopic.id, 'none');
+  renderTopic(currentTopic.id, false);
   applyZen(localStorage.getItem(keyZen) === '1');
   updateCompletionUi();
   updateReviewUi();
@@ -82,7 +82,7 @@
   window.addEventListener('hashchange', function () {
     const next = resolveCurrentTopic(topics, location.hash, null);
     if (!next) return;
-    renderTopic(next.id, 'top');
+    renderTopic(next.id, true);
   });
 
   function ensureStatsShape(raw) {
@@ -248,7 +248,7 @@
       prevBtn.textContent = '⬅ Lección anterior';
       prevBtn.disabled = index === 0;
       prevBtn.addEventListener('click', function () {
-        if (index > 0) renderTopic(topics[index - 1].id, 'top');
+        if (index > 0) renderTopic(topics[index - 1].id, true);
       });
 
       const doneBtn = document.createElement('button');
@@ -264,7 +264,7 @@
       nextBtn.textContent = 'Siguiente lección ➡';
       nextBtn.disabled = index === topics.length - 1;
       nextBtn.addEventListener('click', function () {
-        if (index < topics.length - 1) renderTopic(topics[index + 1].id, 'top');
+        if (index < topics.length - 1) renderTopic(topics[index + 1].id, true);
       });
 
       nav.appendChild(prevBtn);
@@ -273,7 +273,7 @@
     });
   }
 
-  function renderTopic(topicId, scrollMode) {
+  function renderTopic(topicId, shouldRestoreScroll) {
     const target = topics.find((t) => t.id === topicId);
     if (!target) return;
 
@@ -308,11 +308,7 @@
     updateReviewUi();
     updateProgressUi();
 
-    if (scrollMode === 'top') {
-      requestAnimationFrame(() => {
-        setTimeout(() => { window.scrollTo({ top: 0, behavior: 'auto' }); }, 0);
-      });
-    } else if (scrollMode === 'restore') {
+    if (shouldRestoreScroll) {
       restoreScrollForTopic(currentTopic.id);
     }
 
@@ -434,7 +430,7 @@
       if (currentTopic && currentTopic.id === target.id) {
         restoreScrollForTopic(target.id);
       } else {
-        renderTopic(target.id, 'restore');
+        renderTopic(target.id, true);
       }
       return;
     }
@@ -445,7 +441,7 @@
       restoreScrollForTopic(pending.id);
       return;
     }
-    renderTopic(pending.id, 'restore');
+    renderTopic(pending.id, true);
   }
 
   function updateResumeButtonState() {
@@ -460,13 +456,13 @@
   function goInicio() {
     const first = topics[0];
     if (!first) return;
-    renderTopic(first.id, 'top');
+    renderTopic(first.id, true);
   }
 
   function goFirstIncomplete() {
     const pending = topics.find((t) => !completed[t.id]);
     if (!pending) return;
-    renderTopic(pending.id, 'top');
+    renderTopic(pending.id, true);
   }
 
   function goRelative(delta) {
@@ -475,7 +471,7 @@
     if (idx < 0) return;
     const next = topics[idx + delta];
     if (!next) return;
-    renderTopic(next.id, 'top');
+    renderTopic(next.id, true);
   }
 
   function toggleCompletion(topicId) {
