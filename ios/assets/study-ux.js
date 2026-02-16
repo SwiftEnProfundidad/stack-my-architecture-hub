@@ -55,7 +55,7 @@
   let currentTopic = resolveCurrentTopic(topics, location.hash, localStorage.getItem(keyLastTopic));
   if (!currentTopic) return;
 
-  renderTopic(currentTopic.id, false);
+  renderTopic(currentTopic.id, 'none');
   applyZen(localStorage.getItem(keyZen) === '1');
   updateCompletionUi();
   updateReviewUi();
@@ -82,7 +82,7 @@
   window.addEventListener('hashchange', function () {
     const next = resolveCurrentTopic(topics, location.hash, null);
     if (!next) return;
-    renderTopic(next.id, true);
+    renderTopic(next.id, 'top');
   });
 
   function ensureStatsShape(raw) {
@@ -157,7 +157,8 @@
 
   function setFontSize(px, persist = true) {
     const next = Math.min(maxFontSize, Math.max(minFontSize, Number(px) || baseFontSize));
-    document.documentElement.style.fontSize = `${next}px`;
+    const content = document.getElementById('content');
+    if (content) content.style.fontSize = `${next}px`;
     if (persist) localStorage.setItem(keyFontSize, String(next));
     if (fontDownBtn) fontDownBtn.disabled = next <= minFontSize;
     if (fontUpBtn) fontUpBtn.disabled = next >= maxFontSize;
@@ -247,7 +248,7 @@
       prevBtn.textContent = '⬅ Lección anterior';
       prevBtn.disabled = index === 0;
       prevBtn.addEventListener('click', function () {
-        if (index > 0) renderTopic(topics[index - 1].id, true);
+        if (index > 0) renderTopic(topics[index - 1].id, 'top');
       });
 
       const doneBtn = document.createElement('button');
@@ -263,7 +264,7 @@
       nextBtn.textContent = 'Siguiente lección ➡';
       nextBtn.disabled = index === topics.length - 1;
       nextBtn.addEventListener('click', function () {
-        if (index < topics.length - 1) renderTopic(topics[index + 1].id, true);
+        if (index < topics.length - 1) renderTopic(topics[index + 1].id, 'top');
       });
 
       nav.appendChild(prevBtn);
@@ -272,7 +273,7 @@
     });
   }
 
-  function renderTopic(topicId, shouldRestoreScroll) {
+  function renderTopic(topicId, scrollMode) {
     const target = topics.find((t) => t.id === topicId);
     if (!target) return;
 
@@ -285,7 +286,14 @@
     navLinks.forEach((link) => {
       const active = link.dataset.topicId === topicId;
       link.classList.toggle('study-nav-active', active);
-      if (active) link.scrollIntoView({ block: 'nearest' });
+      if (active) {
+        var sidebar = document.getElementById('sidebar');
+        if (sidebar) {
+          var linkTop = link.offsetTop;
+          var sidebarH = sidebar.clientHeight;
+          sidebar.scrollTop = Math.max(0, linkTop - sidebarH / 3);
+        }
+      }
     });
 
     currentTopic = target;
@@ -300,7 +308,11 @@
     updateReviewUi();
     updateProgressUi();
 
-    if (shouldRestoreScroll) {
+    if (scrollMode === 'top') {
+      requestAnimationFrame(() => {
+        setTimeout(() => { window.scrollTo({ top: 0, behavior: 'auto' }); }, 0);
+      });
+    } else if (scrollMode === 'restore') {
       restoreScrollForTopic(currentTopic.id);
     }
 
@@ -422,7 +434,7 @@
       if (currentTopic && currentTopic.id === target.id) {
         restoreScrollForTopic(target.id);
       } else {
-        renderTopic(target.id, true);
+        renderTopic(target.id, 'restore');
       }
       return;
     }
@@ -433,7 +445,7 @@
       restoreScrollForTopic(pending.id);
       return;
     }
-    renderTopic(pending.id, true);
+    renderTopic(pending.id, 'restore');
   }
 
   function updateResumeButtonState() {
@@ -448,13 +460,13 @@
   function goInicio() {
     const first = topics[0];
     if (!first) return;
-    renderTopic(first.id, true);
+    renderTopic(first.id, 'top');
   }
 
   function goFirstIncomplete() {
     const pending = topics.find((t) => !completed[t.id]);
     if (!pending) return;
-    renderTopic(pending.id, true);
+    renderTopic(pending.id, 'top');
   }
 
   function goRelative(delta) {
@@ -463,7 +475,7 @@
     if (idx < 0) return;
     const next = topics[idx + delta];
     if (!next) return;
-    renderTopic(next.id, true);
+    renderTopic(next.id, 'top');
   }
 
   function toggleCompletion(topicId) {

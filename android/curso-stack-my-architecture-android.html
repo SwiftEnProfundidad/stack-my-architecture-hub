@@ -149,6 +149,30 @@
 }
 
 /* ============================================
+   STYLE: BOLD - Dark Mode overrides
+   Alto contraste, manteniendo la identidad naranja
+   ============================================ */
+[data-theme="dark"][data-style="bold"] {
+    --bg: #0a0a0f;
+    --bg-elevated: #141419;
+    --bg-surface: #1e1e24;
+    
+    --text: #ffffff;
+    --text-secondary: #d0d0e0;
+    --text-muted: #a0a0b0;
+    
+    --accent: #ff6b35;
+    --accent-light: #ff8c5a;
+    --accent-dark: #e55a2b;
+    --accent-soft: rgba(255, 107, 53, 0.15);
+    
+    --sidebar-bg: #0f0f14;
+    --code-bg: #1a1a22;
+    --border: #3a3a45;
+    --border-light: #2a2a35;
+}
+
+/* ============================================
    STYLE: PAPER
    Cálido, orgánico, académico
    ============================================ */
@@ -355,7 +379,7 @@ h1, h2, h3, h4 {
 }
 
 h1 {
-    font-size: 2.5rem;
+    font-size: 2.5em;
     margin: 0 0 var(--space-lg);
     padding-bottom: var(--space-md);
     border-bottom: 3px solid var(--accent);
@@ -374,7 +398,7 @@ h1::after {
 }
 
 h2 {
-    font-size: 1.75rem;
+    font-size: 1.75em;
     margin: var(--space-2xl) 0 var(--space-md);
     color: var(--text);
     display: flex;
@@ -391,14 +415,14 @@ h2::before {
 }
 
 h3 {
-    font-size: 1.375rem;
+    font-size: 1.375em;
     margin: var(--space-xl) 0 var(--space-sm);
     color: var(--text);
     font-weight: 600;
 }
 
 h4 {
-    font-size: 1.125rem;
+    font-size: 1.125em;
     margin: var(--space-lg) 0 var(--space-sm);
     color: var(--text-secondary);
     font-weight: 600;
@@ -432,19 +456,29 @@ hr.lesson-separator {
    BLOQUES DE CÓDIGO
    ============================================ */
 pre {
-    background: var(--code-bg);
+    background: transparent;
     border: 1px solid var(--border);
     border-radius: var(--radius-md);
-    padding: var(--space-lg);
+    padding: 0;
     overflow-x: auto;
     margin: var(--space-lg) 0;
-    font-size: 0.875rem;
+    font-size: 0.875em;
     line-height: 1.6;
     box-shadow: var(--shadow-sm);
 }
 
+pre > code {
+    display: block;
+    padding: var(--space-lg);
+    border-radius: var(--radius-md);
+    background: var(--code-bg);
+}
+
 pre.sma-code-enhanced {
     position: relative;
+}
+
+pre.sma-code-enhanced > code {
     padding-top: calc(var(--space-lg) + 1.2rem);
 }
 
@@ -646,19 +680,19 @@ blockquote p {
         padding: 20px 16px;
         width: 100%;
     }
-    h1 { font-size: 1.6rem; margin: 32px 0 12px; }
-    h2 { font-size: 1.3rem; margin: 28px 0 10px; }
-    h3 { font-size: 1.1rem; margin: 20px 0 8px; }
-    h4 { font-size: 1rem; margin: 16px 0 6px; }
-    pre { padding: 12px; font-size: 0.82rem; }
+    h1 { font-size: 1.6em; margin: 32px 0 12px; }
+    h2 { font-size: 1.3em; margin: 28px 0 10px; }
+    h3 { font-size: 1.1em; margin: 20px 0 8px; }
+    h4 { font-size: 1em; margin: 16px 0 6px; }
+    pre { padding: 0; font-size: 0.82em; }
     th, td { padding: 8px 10px; font-size: 0.85rem; }
 }
 
 @media (max-width: 480px) {
     #content { padding: 16px 12px; }
-    h1 { font-size: 1.4rem; }
-    h2 { font-size: 1.2rem; }
-    pre { padding: 10px; font-size: 0.78rem; overflow-x: scroll; }
+    h1 { font-size: 1.4em; }
+    h2 { font-size: 1.2em; }
+    pre { padding: 0; font-size: 0.78em; overflow-x: scroll; }
 }
 
 /* Dark theme */
@@ -821,6 +855,7 @@ blockquote p {
 </div>
 
 <div id="course-switcher" class="course-switcher" aria-label="Selector de cursos">
+    <button id="course-switcher-toggle" type="button">&#9776; Cursos</button>
     <div id="course-switcher-menu" class="course-switcher-menu">
         <a id="course-switcher-home" href="#">Cursos</a>
         <a id="course-switcher-ios" href="#">Curso iOS</a>
@@ -1384,7 +1419,7 @@ nivel = nivel + 1</code></pre>
         println("Puedes usar modo normal")
     }
 }</code></pre>
-<p>Vamos línea por línea. La línea <code>fun main() {</code> abre el punto de inicio del ejemplo. La línea <code>val bateria = 15</code> guarda un número entero que representa porcentaje de batería. Después llega <code>if (bateria < 20) {</code>. Aquí el programa evalúa una condición. Si <code>bateria</code> es menor que 20, esa condición es verdadera. En ese caso se ejecuta <code>println("Activa modo ahorro")</code>. Si la condición no se cumple, el programa salta al bloque <code>else</code> y ejecuta <code>println("Puedes usar modo normal")</code>. La llave final cierra la función.</p>
+<p>Vamos línea por línea. La línea <code>fun main() {</code> abre el punto de inicio del ejemplo. La línea <code>val bateria = 15</code> guarda un número entero que representa porcentaje de batería. Después llega <code>if (bateria &lt; 20) {</code>. Aquí el programa evalúa una condición. Si <code>bateria</code> es menor que 20, esa condición es verdadera. En ese caso se ejecuta <code>println("Activa modo ahorro")</code>. Si la condición no se cumple, el programa salta al bloque <code>else</code> y ejecuta <code>println("Puedes usar modo normal")</code>. La llave final cierra la función.</p>
 <p>El resultado esperado con batería 15 es que se imprima “Activa modo ahorro”. Si cambias batería a 80, el resultado esperado cambia y se imprime “Puedes usar modo normal”. Con ese pequeño experimento entiendes que el programa responde a datos, no a magia.</p>
 <p>Ahora vamos con la repetición. Un bucle sirve para repetir una acción varias veces. Imagina que quieres mostrar un mensaje cinco veces. Sin bucle tendrías que copiar la misma línea cinco veces. Con bucle lo expresas de forma más limpia.</p>
 <pre><code class="language-kotlin">fun main() {
@@ -2066,7 +2101,7 @@ fun AppNavHost(
 <p>Línea <code>onGoToTasks = { navController.navigate(...) }</code>: cuando UI emite intención, aquí ejecutamos la navegación real.</p>
 <p>Bloque <code>composable(AppRoute.Tasks.route)</code>: registra pantalla de lista.</p>
 <p>Línea <code>onBack = { navController.popBackStack() }</code>: define comportamiento del botón volver.</p>
-<p>Línea <code>onTaskClicked = { taskId -> ... }</code>: cuando se pulsa una tarea, navegamos al detalle con ruta construida.</p>
+<p>Línea <code>onTaskClicked = { taskId -&gt; ... }</code>: cuando se pulsa una tarea, navegamos al detalle con ruta construida.</p>
 <p>Bloque <code>composable(route = AppRoute.TaskDetail.route, arguments = ...)</code>: registra destino con argumento obligatorio.</p>
 <p>Línea <code>navArgument("taskId") { type = NavType.StringType }</code>: define contrato de tipo del argumento.</p>
 <p>Línea <code>val taskId = ...orEmpty()</code>: lee argumento con fallback seguro.</p>
@@ -2449,7 +2484,7 @@ interface TasksDao {
 <p>Explicación línea por línea:</p>
 <p>Línea <code>@Dao</code>: indica a Room que esta interfaz define acceso a datos.</p>
 <p>Línea <code>@Query("SELECT * FROM tasks ORDER BY updatedAt DESC")</code>: SQL para leer tareas ordenadas por actualización.</p>
-<p>Línea <code>fun observeTasks(): Flow<List<TaskEntity>></code>: devuelve flujo reactivo; cada cambio en tabla puede emitirse.</p>
+<p>Línea <code>fun observeTasks(): Flow&lt;List&lt;TaskEntity&gt;&gt;</code>: devuelve flujo reactivo; cada cambio en tabla puede emitirse.</p>
 <p>Línea <code>@Insert(onConflict = OnConflictStrategy.REPLACE)</code>: inserta y, si la clave existe, reemplaza.</p>
 <p>Línea <code>suspend fun upsertAll(...)</code>: operación asíncrona de guardado en lote.</p>
 <p>Línea <code>@Query("DELETE FROM tasks")</code>: SQL para limpiar tabla.</p>
@@ -2641,7 +2676,7 @@ fun TasksScreen(viewModel: TasksViewModel) {
 )</code></pre>
 <p>Explicación línea por línea:</p>
 <p>Línea <code>val Context.userPreferencesDataStore</code>: define propiedad de extensión sobre <code>Context</code>.</p>
-<p>Línea <code>DataStore<Preferences></code>: declara tipo de almacenamiento basado en preferencias.</p>
+<p>Línea <code>DataStore&lt;Preferences&gt;</code>: declara tipo de almacenamiento basado en preferencias.</p>
 <p>Línea <code>by preferencesDataStore(name = "user_preferences")</code>: crea delegado que gestiona instancia segura.</p>
 <p>Qué problema resuelve: evita crear múltiples instancias manuales en distintos puntos.</p>
 <p>Qué pasa si lo duplicas con nombres distintos sin criterio: fragmentas configuración del usuario.</p>
@@ -2654,7 +2689,7 @@ fun TasksScreen(viewModel: TasksViewModel) {
 }</code></pre>
 <p>Explicación línea por línea:</p>
 <p>Línea <code>interface UserPreferencesRepository</code>: contrato estable para capa superior.</p>
-<p>Línea <code>val isDarkModeEnabled: Flow<Boolean></code>: flujo reactivo del valor guardado.</p>
+<p>Línea <code>val isDarkModeEnabled: Flow&lt;Boolean&gt;</code>: flujo reactivo del valor guardado.</p>
 <p>Línea <code>suspend fun setDarkMode(...)</code>: operación asíncrona de escritura.</p>
 <p>Qué problema resuelve: desacopla ViewModel de API concreta de DataStore.</p>
 <p>Qué pasa si eliminas interfaz y usas implementación directa en ViewModel: menor testabilidad y mayor acoplamiento.</p>
@@ -2893,7 +2928,7 @@ fun SettingsScreen(viewModel: SettingsViewModel = hiltViewModel()) {
 <p>Línea <code>runCatching { ... }</code>: captura éxito/error sin try-catch verboso.</p>
 <p>Línea <code>repository.syncPendingTasks()</code>: delega trabajo real.</p>
 <p>Línea <code>Result.success()</code>: marca ejecución exitosa.</p>
-<p>Línea <code>if (runAttemptCount < 3) Result.retry() else Result.failure()</code>: estrategia simple de reintentos.</p>
+<p>Línea <code>if (runAttemptCount &lt; 3) Result.retry() else Result.failure()</code>: estrategia simple de reintentos.</p>
 <p>Qué problema resuelve: resiliencia mínima ante fallos transitorios.</p>
 <p>Qué pasa si cambias <code>Result.retry()</code> por <code>Result.failure()</code> siempre: reduces tolerancia a fallos temporales de red.</p>
 <hr>
@@ -2973,7 +3008,7 @@ class App : Application(), Configuration.Provider {
 }</code></pre>
 <p>Explicación línea por línea:</p>
 <p>Firma <code>class SyncScheduler(...)</code>: encapsula programación de sync.</p>
-<p>Línea <code>PeriodicWorkRequestBuilder<SyncTasksWorker>(...)</code>: crea trabajo periódico del worker.</p>
+<p>Línea <code>PeriodicWorkRequestBuilder&lt;SyncTasksWorker&gt;(...)</code>: crea trabajo periódico del worker.</p>
 <p>Línea <code>repeatInterval = 6 HOURS</code>: intervalo de ejecución base.</p>
 <p>Bloque <code>setConstraints(...)</code>: define condiciones para ejecutar.</p>
 <p>Línea <code>NetworkType.CONNECTED</code>: solo ejecuta con red.</p>
@@ -3106,7 +3141,7 @@ class TasksScreenTest {
 <p>Línea <code>@RunWith(AndroidJUnit4::class)</code>: indica que esta clase usa runner Android JUnit4.</p>
 <p>Línea <code>class TasksScreenTest {</code>: define suite de pruebas de esta pantalla.</p>
 <p>Línea <code>@get:Rule</code>: marca la regla que prepara entorno de prueba.</p>
-<p>Línea <code>createAndroidComposeRule<ComponentActivity>()</code>: crea actividad host para montar composables en test instrumentado.</p>
+<p>Línea <code>createAndroidComposeRule&lt;ComponentActivity&gt;()</code>: crea actividad host para montar composables en test instrumentado.</p>
 <p>Línea <code>@Test</code>: marca función de prueba ejecutable.</p>
 <p>Línea <code>fun whenError_thenShowsRetryButton()</code>: nombre describe condición y resultado esperado.</p>
 <p>Bloque <code>setContent { ... }</code>: monta exactamente la UI que quieres validar.</p>
@@ -3247,8 +3282,8 @@ fun whenRetryClicked_thenCallbackIsInvoked() {
 <p>Explicación línea por línea:</p>
 <p>Línea <code>class FakeTasksRepository : TasksRepository</code>: fake que cumple el contrato real.</p>
 <p>Línea <code>var shouldFail: Boolean = false</code>: interruptor para simular fallo controlado.</p>
-<p>Línea <code>var tasksToReturn: List<Task> = emptyList()</code>: datos que el fake devolverá.</p>
-<p>Línea <code>override fun observeTasks(): Flow<List<Task>></code>: implementación del stream observado por ViewModel.</p>
+<p>Línea <code>var tasksToReturn: List&lt;Task&gt; = emptyList()</code>: datos que el fake devolverá.</p>
+<p>Línea <code>override fun observeTasks(): Flow&lt;List&lt;Task&gt;&gt;</code>: implementación del stream observado por ViewModel.</p>
 <p>Línea <code>if (shouldFail)</code>: decide si el escenario es error.</p>
 <p>Línea <code>flow { throw IllegalStateException("Error simulado") }</code>: emite fallo para validar manejo de errores.</p>
 <p>Línea <code>flowOf(tasksToReturn)</code>: emite lista en escenario de éxito.</p>
@@ -3368,7 +3403,7 @@ fun whenLoadFails_thenUiStateContainsError() = runTest {
 }</code></pre>
 <p>Explicación línea por línea:</p>
 <p>Línea <code>private var storage...</code>: almacenamiento en memoria para simular tabla local.</p>
-<p>Línea <code>observeTasks(): Flow<List<TaskEntity>> = flowOf(storage)</code>: stream simple con estado actual.</p>
+<p>Línea <code>observeTasks(): Flow&lt;List&lt;TaskEntity&gt;&gt; = flowOf(storage)</code>: stream simple con estado actual.</p>
 <p>Línea <code>upsertAll(...)</code>: reemplaza contenido para simular persistencia.</p>
 <p>Línea <code>clearAll()</code>: limpia almacenamiento simulado.</p>
 <p>Ahora el test del repositorio.</p>
@@ -3489,7 +3524,7 @@ fun replaceTasks_replacesLocalStorage() = runTest {
 <p>Explicación línea por línea:</p>
 <p>Línea <code>interface TasksApiService {</code> define una interfaz Kotlin. Una interfaz es un contrato: describe qué funciones existen, sin implementar cómo se ejecutan. Aquí el “cómo” lo generará Retrofit.</p>
 <p>Línea <code>@GET("tasks")</code> usa una anotación. Una anotación es metadato que instruye a una herramienta. En este caso, le dice a Retrofit que esta función ejecuta una request HTTP GET a la ruta <code>tasks</code>.</p>
-<p>Línea <code>suspend fun getTasks(): List<TaskDto></code> define una función suspendida. <code>suspend</code> indica que puede pausarse sin bloquear hilo, lo que encaja con corrutinas. Devuelve una lista de <code>TaskDto</code>, no de dominio, porque aquí seguimos en infraestructura.</p>
+<p>Línea <code>suspend fun getTasks(): List&lt;TaskDto&gt;</code> define una función suspendida. <code>suspend</code> indica que puede pausarse sin bloquear hilo, lo que encaja con corrutinas. Devuelve una lista de <code>TaskDto</code>, no de dominio, porque aquí seguimos en infraestructura.</p>
 <p>Línea <code>@POST("tasks/sync")</code> indica endpoint POST para sincronización.</p>
 <p>Línea <code>suspend fun syncTasks(@Body payload: SyncTasksRequestDto): SyncTasksResponseDto</code> define una función que envía cuerpo HTTP. <code>@Body</code> marca que <code>payload</code> se serializa como body JSON. Devuelve un DTO de respuesta.</p>
 <p>Por qué se usa aquí: porque necesitamos un contrato explícito y mantenible de endpoints.</p>
@@ -3516,7 +3551,7 @@ data class SyncTasksResponseDto(
 <p>Línea <code>val title: String</code> define título remoto.</p>
 <p>Línea <code>val done: Boolean</code> define estado remoto como verdadero o falso.</p>
 <p>Línea <code>data class SyncTasksRequestDto(</code> crea tipo del body para sincronizar.</p>
-<p>Línea <code>val items: List<TaskDto></code> indica que enviamos una lista de tareas remotas.</p>
+<p>Línea <code>val items: List&lt;TaskDto&gt;</code> indica que enviamos una lista de tareas remotas.</p>
 <p>Línea <code>data class SyncTasksResponseDto(</code> crea tipo de respuesta de sincronización.</p>
 <p>Línea <code>val synced: Int</code> indica cuántos elementos fueron sincronizados según backend.</p>
 <p>Por qué se usa aquí: porque el contrato de red puede cambiar sin romper directamente dominio y UI.</p>
@@ -3573,7 +3608,7 @@ data class SyncTasksResponseDto(
 }</code></pre>
 <p>Explicación línea por línea:</p>
 <p>Línea <code>class AuthInterceptor(</code> define clase concreta de interceptor.</p>
-<p>Línea <code>private val tokenProvider: () -> String?</code> inyecta función que obtiene token actual. <code>() -> String?</code> significa “función sin parámetros que devuelve String nullable”.</p>
+<p>Línea <code>private val tokenProvider: () -&gt; String?</code> inyecta función que obtiene token actual. <code>() -&gt; String?</code> significa “función sin parámetros que devuelve String nullable”.</p>
 <p>Línea <code>) : Interceptor {</code> indica que la clase implementa interfaz <code>Interceptor</code>.</p>
 <p>Línea <code>override fun intercept(chain: Interceptor.Chain): Response {</code> implementa método obligatorio. <code>chain</code> representa la cadena de ejecución HTTP.</p>
 <p>Línea <code>val original = chain.request()</code> obtiene request original.</p>
@@ -3627,10 +3662,10 @@ fun provideTasksApiService(retrofit: Retrofit): TasksApiService {
     data class NetworkError(val throwable: Throwable) : NetworkResult&lt;Nothing&gt;
 }</code></pre>
 <p>Explicación línea por línea:</p>
-<p>Línea <code>sealed interface NetworkResult<out T> {</code> define interfaz sellada genérica. <code>sealed</code> significa que todas sus implementaciones quedan controladas en el mismo archivo, lo que permite <code>when</code> exhaustivo. <code><out T></code> indica covarianza para tipo de salida.</p>
-<p>Línea <code>data class Success<T>(val data: T) : NetworkResult<T></code> representa caso exitoso con datos.</p>
-<p>Línea <code>data class HttpError(val code: Int, val message: String?) : NetworkResult<Nothing></code> representa error HTTP con código y mensaje opcional.</p>
-<p>Línea <code>data class NetworkError(val throwable: Throwable) : NetworkResult<Nothing></code> representa error técnico de red, timeout, DNS, etc.</p>
+<p>Línea <code>sealed interface NetworkResult&lt;out T&gt; {</code> define interfaz sellada genérica. <code>sealed</code> significa que todas sus implementaciones quedan controladas en el mismo archivo, lo que permite <code>when</code> exhaustivo. <code>&lt;out T&gt;</code> indica covarianza para tipo de salida.</p>
+<p>Línea <code>data class Success&lt;T&gt;(val data: T) : NetworkResult&lt;T&gt;</code> representa caso exitoso con datos.</p>
+<p>Línea <code>data class HttpError(val code: Int, val message: String?) : NetworkResult&lt;Nothing&gt;</code> representa error HTTP con código y mensaje opcional.</p>
+<p>Línea <code>data class NetworkError(val throwable: Throwable) : NetworkResult&lt;Nothing&gt;</code> representa error técnico de red, timeout, DNS, etc.</p>
 <p>Por qué se usa aquí: normaliza cómo las capas superiores reciben resultados.</p>
 <p>Qué pasaría si no se usa: cada data source inventaría su propio formato de error y rompería consistencia.</p>
 <p>Ahora envolvemos llamadas con una función segura.</p>
@@ -3644,9 +3679,9 @@ fun provideTasksApiService(retrofit: Retrofit): TasksApiService {
     }
 }</code></pre>
 <p>Explicación línea por línea:</p>
-<p>Línea <code>suspend fun <T> safeApiCall(...)</code> declara función genérica suspendida reutilizable.</p>
-<p>Línea <code>block: suspend () -> T</code> recibe una lambda suspendida que ejecutará la llamada real.</p>
-<p>Línea <code>: NetworkResult<T></code> indica retorno unificado.</p>
+<p>Línea <code>suspend fun &lt;T&gt; safeApiCall(...)</code> declara función genérica suspendida reutilizable.</p>
+<p>Línea <code>block: suspend () -&gt; T</code> recibe una lambda suspendida que ejecutará la llamada real.</p>
+<p>Línea <code>: NetworkResult&lt;T&gt;</code> indica retorno unificado.</p>
 <p>Línea <code>return try {</code> inicia captura controlada de errores.</p>
 <p>Línea <code>NetworkResult.Success(block())</code> ejecuta llamada y encapsula éxito.</p>
 <p>Línea <code>catch (e: HttpException)</code> captura errores HTTP de Retrofit.</p>
@@ -3668,7 +3703,7 @@ fun provideTasksApiService(retrofit: Retrofit): TasksApiService {
 <p>Explicación línea por línea:</p>
 <p>Línea <code>class TasksRemoteDataSource(</code> define fuente remota específica de feature tareas.</p>
 <p>Línea <code>private val api: TasksApiService</code> inyecta contrato HTTP ya configurado.</p>
-<p>Línea <code>suspend fun fetchTasks(): NetworkResult<List<TaskDto>></code> define caso de uso remoto de lectura.</p>
+<p>Línea <code>suspend fun fetchTasks(): NetworkResult&lt;List&lt;TaskDto&gt;&gt;</code> define caso de uso remoto de lectura.</p>
 <p>Línea <code>return safeApiCall { api.getTasks() }</code> ejecuta endpoint dentro de wrapper unificado.</p>
 <p>Por qué se usa aquí: encapsula infraestructura de red en pieza enfocada.</p>
 <p>Qué pasaría si ViewModel llamara <code>api</code> directo: romperías separación de capas y mezclarías presentación con infraestructura.</p>
@@ -3790,7 +3825,7 @@ interface TasksDao {
 <p>Línea <code>@Dao</code> marca interfaz de acceso a datos de Room.</p>
 <p>Línea <code>interface TasksDao</code> define contrato local.</p>
 <p>Línea <code>@Query("SELECT * FROM tasks ORDER BY updatedAtMillis DESC")</code> define consulta de lectura principal para UI.</p>
-<p>Línea <code>fun observeTasks(): Flow<List<TaskEntity>></code> devuelve <code>Flow</code>, un stream reactivo que emite cambios automáticos.</p>
+<p>Línea <code>fun observeTasks(): Flow&lt;List&lt;TaskEntity&gt;&gt;</code> devuelve <code>Flow</code>, un stream reactivo que emite cambios automáticos.</p>
 <p>Línea <code>@Query("SELECT * FROM tasks WHERE syncState = :state")</code> define consulta por estado de sincronización.</p>
 <p>Línea <code>suspend fun getBySyncState(...)</code> permite obtener pendientes en una corrutina.</p>
 <p>Línea <code>@Insert(onConflict = OnConflictStrategy.REPLACE)</code> define inserción/reemplazo por id.</p>
@@ -3825,8 +3860,8 @@ interface TasksDao {
 <p>Línea <code>class TasksRepository(</code> crea clase de coordinación.</p>
 <p>Línea <code>private val dao: TasksDao</code> inyecta fuente local.</p>
 <p>Línea <code>private val syncScheduler: SyncScheduler</code> inyecta pieza que programa sincronización en background.</p>
-<p>Línea <code>private val clock: () -> Long</code> inyecta reloj para testabilidad y consistencia temporal.</p>
-<p>Línea <code>fun observeTasks(): Flow<List<TaskEntity>></code> expone lectura local reactiva.</p>
+<p>Línea <code>private val clock: () -&gt; Long</code> inyecta reloj para testabilidad y consistencia temporal.</p>
+<p>Línea <code>fun observeTasks(): Flow&lt;List&lt;TaskEntity&gt;&gt;</code> expone lectura local reactiva.</p>
 <p>Línea <code>return dao.observeTasks()</code> delega en Room la fuente de verdad de UI.</p>
 <p>Línea <code>suspend fun markTaskDoneOfflineFirst(...)</code> define escritura local primero.</p>
 <p>Línea <code>val updated = current.copy(...)</code> crea versión nueva de la tarea.</p>
@@ -3871,14 +3906,14 @@ interface TasksDao {
 <p>Línea <code>class TasksSyncOrchestrator(</code> define componente especializado en sincronización.</p>
 <p>Línea <code>private val dao: TasksDao</code> inyecta acceso local.</p>
 <p>Línea <code>private val remote: TasksRemoteDataSource</code> inyecta capa remota.</p>
-<p>Línea <code>private val clock: () -> Long</code> inyecta reloj para marcas temporales.</p>
+<p>Línea <code>private val clock: () -&gt; Long</code> inyecta reloj para marcas temporales.</p>
 <p>Línea <code>suspend fun syncPendingTasks()</code> define operación principal de sync.</p>
 <p>Línea <code>val pending = dao.getBySyncState(SyncState.PENDING)</code> carga pendientes.</p>
 <p>Línea <code>if (pending.isEmpty()) return</code> corta temprano si no hay trabajo.</p>
 <p>Línea <code>val result = remote.pushTasks(pending)</code> intenta sincronizar lote pendiente.</p>
 <p>Línea <code>when (result)</code> ramifica por resultado unificado.</p>
 <p>Bloque <code>is NetworkResult.Success</code> maneja éxito.</p>
-<p>Línea <code>pending.map { item -> item.copy(...) }</code> transforma cada pendiente a sincronizado.</p>
+<p>Línea <code>pending.map { item -&gt; item.copy(...) }</code> transforma cada pendiente a sincronizado.</p>
 <p>Línea <code>syncState = SyncState.SYNCED</code> marca estado final correcto.</p>
 <p>Línea <code>updatedAtMillis = clock()</code> actualiza marca temporal local.</p>
 <p>Línea <code>dao.upsertAll(synced)</code> persiste lote sincronizado.</p>
@@ -3912,7 +3947,7 @@ interface TasksDao {
 <p>Línea <code>class SyncScheduler(</code> encapsula programación de trabajos.</p>
 <p>Línea <code>private val workManager: WorkManager</code> inyecta motor de trabajos persistentes.</p>
 <p>Línea <code>fun scheduleOneTimeSync()</code> define método para disparar sincronización puntual.</p>
-<p>Línea <code>OneTimeWorkRequestBuilder<TasksSyncWorker>()</code> crea request de ejecución única del worker.</p>
+<p>Línea <code>OneTimeWorkRequestBuilder&lt;TasksSyncWorker&gt;()</code> crea request de ejecución única del worker.</p>
 <p>Línea <code>.setConstraints(...)</code> define condiciones para ejecutar.</p>
 <p>Línea <code>.setRequiredNetworkType(NetworkType.CONNECTED)</code> exige red conectada.</p>
 <p>Línea <code>.build()</code> finaliza request.</p>
@@ -4053,9 +4088,9 @@ class ConflictResolver {
 <p>Línea <code>class ConflictResolver</code> crea componente dedicado a la decisión.</p>
 <p>Línea <code>fun resolve(local: TaskEntity, remote: TaskDto)</code> recibe ambas versiones a comparar.</p>
 <p>Línea <code>return when {</code> inicia evaluación por condiciones.</p>
-<p>Línea <code>local.updatedAtMillis > remote.updatedAtMillis</code> detecta local más reciente.</p>
+<p>Línea <code>local.updatedAtMillis &gt; remote.updatedAtMillis</code> detecta local más reciente.</p>
 <p>Línea <code>ConflictResolution.KeepLocal(...)</code> devuelve decisión explícita con razón.</p>
-<p>Línea <code>local.updatedAtMillis < remote.updatedAtMillis</code> detecta remoto más reciente.</p>
+<p>Línea <code>local.updatedAtMillis &lt; remote.updatedAtMillis</code> detecta remoto más reciente.</p>
 <p>Línea <code>ConflictResolution.KeepRemote(...)</code> devuelve decisión correspondiente.</p>
 <p>Línea <code>else</code> cubre empate de timestamp.</p>
 <p>Línea <code>ConflictResolution.ManualReview(...)</code> evita decisiones silenciosas en empates.</p>
@@ -4211,7 +4246,7 @@ fun TaskEntity.toUiState(): TaskUiState {
 <p>Línea <code>fun d(...)</code> define método para eventos de depuración.</p>
 <p>Línea <code>tag: String</code> identifica origen del log, por ejemplo <code>TasksRepository</code>.</p>
 <p>Línea <code>message: String</code> contiene descripción breve del evento.</p>
-<p>Línea <code>metadata: Map<String, String> = emptyMap()</code> añade campos estructurados opcionales sin obligar siempre a enviarlos.</p>
+<p>Línea <code>metadata: Map&lt;String, String&gt; = emptyMap()</code> añade campos estructurados opcionales sin obligar siempre a enviarlos.</p>
 <p>Línea <code>fun i(...)</code> define nivel informativo.</p>
 <p>Línea <code>fun w(...)</code> define advertencias que no rompen flujo pero sí merecen atención.</p>
 <p>Línea <code>fun e(...)</code> define errores.</p>
@@ -4385,7 +4420,7 @@ object ObservabilityModule {
 }</code></pre>
 <p>Explicación línea por línea:</p>
 <p>Línea <code>class FakeLogger : AppLogger</code> crea doble de prueba que implementa el mismo contrato.</p>
-<p>Línea <code>val entries = mutableListOf<String>()</code> almacena logs capturados para assertions.</p>
+<p>Línea <code>val entries = mutableListOf&lt;String&gt;()</code> almacena logs capturados para assertions.</p>
 <p>Cada override añade una entrada en formato simple y verificable.</p>
 <p>La línea de <code>e(...)</code> también incluye el tipo de excepción para validar trazabilidad de errores.</p>
 <p>Por qué se usa aquí: pruebas de observabilidad sin depender de Logcat real.</p>
@@ -4474,7 +4509,7 @@ class TasksOfflineSyncIntegrationTest {
 <p>Línea <code>private lateinit var db</code> guarda instancia de DB real para cada test.</p>
 <p>Línea <code>private lateinit var tasksDao</code> prepara DAO real que usará el repositorio.</p>
 <p>Línea <code>@Before fun setup()</code> inicializa entorno limpio antes de cada caso.</p>
-<p>Línea <code>ApplicationProvider.getApplicationContext<Context>()</code> obtiene contexto de test sin Activity.</p>
+<p>Línea <code>ApplicationProvider.getApplicationContext&lt;Context&gt;()</code> obtiene contexto de test sin Activity.</p>
 <p>Línea <code>Room.inMemoryDatabaseBuilder(...)</code> crea base de datos temporal, rápida y aislada.</p>
 <p>Línea <code>.allowMainThreadQueries()</code> simplifica test; en producción no se recomienda, en tests ayuda a reducir ruido de configuración.</p>
 <p>Línea <code>.build()</code> construye DB.</p>
@@ -4699,7 +4734,7 @@ fun syncPendingTasks_cuandoApiFalla_mantienePending_paraReintento() = runTest {
 <p>Si ves error de esquema Room en test, revisa que el <code>AppDatabase</code> usado en test incluya exactamente las entidades y DAOs actuales.</p>
 <p>Si ves tests inestables por tiempo, elimina <code>System.currentTimeMillis()</code> en SUT y usa <code>clock</code> inyectable como hicimos aquí.</p>
 <p>Si ves que <code>syncState</code> queda incorrecto, revisa que el orquestador no esté haciendo <code>markSynced</code> fuera del bloque de éxito de API.</p>
-<p>Si no sube payload en éxito, revisa mapper <code>TaskEntity -> SyncTaskPayload</code> y campos obligatorios del endpoint.</p>
+<p>Si no sube payload en éxito, revisa mapper <code>TaskEntity -&gt; SyncTaskPayload</code> y campos obligatorios del endpoint.</p>
 <hr>
 <h2 id="02-midlevel-05-pruebas-de-integracion-offline-sync-13-ejercicio-guiado">13) Ejercicio guiado</h2>
 <p>Implementa un cuarto caso de integración: cuando hay dos tareas <code>PENDING</code>, la sincronización debe enviar ambas en una misma ejecución y marcar ambas como <code>SYNCED</code>.</p>
@@ -4747,7 +4782,7 @@ fun syncPendingTasks_conDosPendientes_sincronizaAmbas() = runTest {
 <hr>
 <h2 id="02-midlevel-06-quality-gates-ci-offline-sync-qu-vamos-a-automatizar-en-este-primer-gate">Qué vamos a automatizar en este primer gate</h2>
 <p>En este punto del curso todavía no necesitamos un pipeline enorme. Lo que sí necesitamos es un pipeline que ya tenga dientes y bloquee regresiones reales. Por eso vamos a exigir que el código formatee y compile bien, y que pase la suite que acabas de crear para offline-sync.</p>
-<p>Eso significa que una PR que rompa la transición <code>PENDING -> SYNCED</code> no podrá entrar, aunque localmente alguien no se haya dado cuenta.</p>
+<p>Eso significa que una PR que rompa la transición <code>PENDING -&gt; SYNCED</code> no podrá entrar, aunque localmente alguien no se haya dado cuenta.</p>
 <hr>
 <h2 id="02-midlevel-06-quality-gates-ci-offline-sync-crear-workflow-de-github-actions">Crear workflow de GitHub Actions</h2>
 <p>Dentro del repo Android crea el archivo <code>.github/workflows/android-quality-gates.yml</code>.</p>
@@ -6103,7 +6138,7 @@ Condición para reabrir cambios de alto riesgo en login
         return snapshot.isCriticalDegradationActive || criticalBudget &lt; 0.15
     }
 }</code></pre>
-<p>La decisión de usar <code>minOf</code> mantiene foco en el punto más débil del sistema. El umbral <code>< 0.15</code> no es mágico ni universal; es un guardrail inicial para evitar seguir asumiendo riesgo cuando el margen ya es muy estrecho. Lo correcto es calibrarlo con histórico del producto.</p>
+<p>La decisión de usar <code>minOf</code> mantiene foco en el punto más débil del sistema. El umbral <code>&lt; 0.15</code> no es mágico ni universal; es un guardrail inicial para evitar seguir asumiendo riesgo cuando el margen ya es muy estrecho. Lo correcto es calibrarlo con histórico del producto.</p>
 <h2 id="03-senior-06-simulacion-sprint-bajo-presion-roadmap-y-fiabilidad-qu-hacer-si-la-tendencia-no-mejora">Qué hacer si la tendencia no mejora</h2>
 <p>Si la revisión de mitad de sprint muestra que login sigue degradado o el budget sigue cayendo, el equipo no espera al cierre para reaccionar. Reduce riesgo adicional, prioriza mitigación más agresiva y renegocia alcance de roadmap con base en la condición acordada al inicio.</p>
 <p>Esta parte es crítica porque convierte la gobernanza en sistema vivo y no en ritual inicial.</p>
