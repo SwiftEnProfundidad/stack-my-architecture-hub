@@ -33,19 +33,23 @@
 
   function applyCodeTheme(theme) {
     localStorage.setItem('course-code-theme', theme);
-    document.documentElement.setAttribute('data-code-theme', theme);
-    var btn = document.getElementById('code-theme-cycle-btn');
-    if (btn) btn.textContent = 'Codigo: ' + theme.charAt(0).toUpperCase() + theme.slice(1).replace(/-/g, ' ');
+    const btn = document.getElementById('code-theme-cycle-btn');
+    if (btn) btn.textContent = 'Código: ' + theme.charAt(0).toUpperCase() + theme.slice(1).replace(/-/g, ' ');
 
-    rehighlightAll();
-  }
+    const hljsLink = document.getElementById('hljs-theme');
+    if (hljsLink) {
+      const themeMap = {
+        monokai: 'monokai.min.css',
+        github: 'github.min.css',
+        'github-dark': 'github-dark.min.css',
+        'atom-one-dark': 'atom-one-dark.min.css'
+      };
+      hljsLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/' + (themeMap[theme] || 'monokai.min.css');
+    }
 
-  function rehighlightAll() {
-    if (!window.hljs) return;
-    document.querySelectorAll('pre code[data-highlighted]').forEach(function (block) {
-      block.removeAttribute('data-highlighted');
-      window.hljs.highlightElement(block);
-    });
+    if (window.hljs) {
+      document.querySelectorAll('pre code').forEach(block => window.hljs.highlightElement(block));
+    }
   }
 
   function cycleCodeTheme() {
@@ -79,19 +83,17 @@
   function rerenderMermaidSafely() {
     if (typeof mermaid === 'undefined') return;
 
-    var blocks = document.querySelectorAll('pre.mermaid');
-    blocks.forEach(function (el) {
-      var original = el.dataset.originalMermaid;
-      if (!original) return;
-      el.innerHTML = '';
-      el.textContent = original;
+    const blocks = document.querySelectorAll('pre.mermaid');
+    blocks.forEach((el) => {
+      if (!el.dataset.originalMermaid) {
+        el.dataset.originalMermaid = el.textContent || '';
+      }
+      el.textContent = el.dataset.originalMermaid;
       el.removeAttribute('data-processed');
     });
 
-    try {
-      mermaid.initialize({ startOnLoad: false, theme: currentMermaidTheme(), securityLevel: 'loose' });
-      mermaid.run({ querySelector: 'pre.mermaid' }).catch(function () {});
-    } catch (e) {}
+    mermaid.initialize({ startOnLoad: false, theme: currentMermaidTheme(), securityLevel: 'loose' });
+    mermaid.run({ querySelector: 'pre.mermaid' });
   }
 
   window.applyStyle = applyStyle;

@@ -343,27 +343,6 @@
         var textarea = document.createElement('textarea');
         textarea.placeholder = 'Pregunta algo sobre el contenido seleccionado o sobre el tema actual.';
 
-        textarea.addEventListener('paste', function (e) {
-            var items = e.clipboardData && e.clipboardData.items ? Array.from(e.clipboardData.items) : [];
-            var imageItems = items.filter(function (item) {
-                return item.type && item.type.indexOf('image/') === 0;
-            });
-            if (imageItems.length > 0) {
-                e.preventDefault();
-                var files = imageItems.map(function (item) { return item.getAsFile(); }).filter(Boolean);
-                if (files.length > 0) {
-                    handleSelectedFiles(files);
-                }
-            }
-        });
-
-        textarea.addEventListener('keydown', function (e) {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                submitQuestion(textarea.value);
-            }
-        });
-
         var fileInput = document.createElement('input');
         fileInput.type = 'file';
         fileInput.className = 'assistant-file-input';
@@ -1026,7 +1005,7 @@
             .then(function (json) {
                 if (!json) return null;
                 var budget = normalizeBudgetValue(
-                    (json.soft_daily_budget_usd != null ? json.soft_daily_budget_usd : json.softDailyBudgetUsd),
+                    json.soft_daily_budget_usd ?? json.softDailyBudgetUsd,
                     state.softDailyBudgetUsd
                 );
                 state.softDailyBudgetUsd = budget;
@@ -1124,7 +1103,7 @@
                 var localBudgetStored = localStorage.getItem(KEY_DAILY_BUDGET);
                 if (!localBudgetStored && (cfg.soft_daily_budget_usd || cfg.softDailyBudgetUsd || cfg.soft_daily_budget_usd === 0 || cfg.softDailyBudgetUsd === 0)) {
                     state.softDailyBudgetUsd = normalizeBudgetValue(
-                        (cfg.soft_daily_budget_usd != null ? cfg.soft_daily_budget_usd : cfg.softDailyBudgetUsd),
+                        cfg.soft_daily_budget_usd ?? cfg.softDailyBudgetUsd,
                         state.softDailyBudgetUsd
                     );
                     saveConfig();
