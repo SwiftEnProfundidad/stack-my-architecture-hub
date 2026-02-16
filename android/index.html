@@ -1729,6 +1729,19 @@ fun PantallaDetalle() {
 <section id="01-junior-00-introduccion" class="lesson" data-topic-id="01-junior-00-introduccion" data-lesson-path="01-junior/00-introduccion.md">
 <div class="lesson-path">01-junior/00-introduccion.md</div>
 <h1 id="01-junior-00-introduccion-nivel-junior-00-de-nivel-cero-a-desarrollo-android-real">Nivel Junior · 00 · De Nivel Cero a desarrollo Android real</h1>
+<p>> <strong>Estado actual de FieldOps:</strong> v1.0 — Scaffold funcional con auth (mock), tasks (list + detail), navegación básica, DataStore, Room y unit tests mínimos.</p>
+<p>></p>
+<p>> <strong>Objetivo de versión:</strong> v1.0 (Junior) — App funcional con arquitectura limpia inicial, UDF, persistencia local y tests unitarios.</p>
+<p>></p>
+<p>> <strong>Comandos de verificación:</strong></p>
+<p>> ```bash</p>
+<p>> cd proyecto-android</p>
+<p>> ./gradlew :app:assembleDebug        # Compila la app</p>
+<p>> ./gradlew testDebugUnitTest          # Ejecuta tests unitarios</p>
+<p>> ./gradlew lintDebug                  # Análisis estático</p>
+<p>> ```</p>
+<p>></p>
+<p>> <strong>Proyecto:</strong> ver <a href="../05-proyecto-final/00-brief-ruralgo-fieldops.md">Brief FieldOps</a> · <a href="../05-proyecto-final/01-rubrica-empleabilidad.md">Rúbrica</a> · <a href="../05-proyecto-final/02-evidencias-obligatorias.md">Evidencias obligatorias</a></p>
 <p>Si has completado Nivel Cero, ya tienes algo muy valioso: no le tienes miedo al código. Eso parece pequeño, pero en realidad es enorme. Muchas personas se quedan bloqueadas porque ven Android como algo misterioso. Tú ya no estás en ese punto. Tú ya sabes abrir Android Studio, escribir Kotlin básico, crear pantallas simples y moverte entre ellas. Ahora empieza una nueva etapa.</p>
 <p>En Junior vamos a pasar de ejercicios guiados a desarrollo con criterio profesional inicial. Eso significa que no solo vas a escribir código que “funciona”. Vas a aprender a escribir código que también sea claro, mantenible y preparado para crecer.</p>
 <p>Para entender bien el cambio de nivel, imagina esta comparación. En Nivel Cero aprendiste a conducir en una calle tranquila, con buena visibilidad y poca velocidad. En Junior vamos a entrar a la ciudad real. Habrá más señales, más decisiones y más responsabilidad. No vamos a correr. Vamos a avanzar con método.</p>
@@ -3477,6 +3490,21 @@ fun replaceTasks_replacesLocalStorage() = runTest {
 <section id="02-midlevel-00-introduccion" class="lesson" data-topic-id="02-midlevel-00-introduccion" data-lesson-path="02-midlevel/00-introduccion.md">
 <div class="lesson-path">02-midlevel/00-introduccion.md</div>
 <h1 id="02-midlevel-00-introduccion-nivel-midlevel-00-qu-cambia-desde-junior-y-por-qu-">Nivel Midlevel · 00 · Qué cambia desde Junior y por qué</h1>
+<p>> <strong>Estado actual de FieldOps:</strong> v1.0 completada — Auth, tasks, persistencia local y tests unitarios funcionando.</p>
+<p>></p>
+<p>> <strong>Objetivo de versión:</strong> v2.0 (Midlevel) — Sincronización offline-first, red robusta (Retrofit/OkHttp), resiliencia, caché estratégica, Macrobenchmark y Baseline Profiles.</p>
+<p>></p>
+<p>> <strong>Comandos de verificación:</strong></p>
+<p>> ```bash</p>
+<p>> cd proyecto-android</p>
+<p>> ./gradlew :app:assembleDebug</p>
+<p>> ./gradlew testDebugUnitTest</p>
+<p>> ./gradlew lintDebug</p>
+<p>> ./gradlew connectedDebugAndroidTest   # requiere emulador</p>
+<p>> ./gradlew :benchmark:connectedCheck   # Macrobenchmark (desde este nivel)</p>
+<p>> ```</p>
+<p>></p>
+<p>> <strong>Proyecto:</strong> ver <a href="../05-proyecto-final/00-brief-ruralgo-fieldops.md">Brief FieldOps</a> · <a href="../05-proyecto-final/01-rubrica-empleabilidad.md">Rúbrica</a> · <a href="../05-proyecto-final/02-evidencias-obligatorias.md">Evidencias obligatorias</a></p>
 <p>Has cerrado Junior con una base sólida. Ya sabes organizar features, manejar estado, navegar, inyectar dependencias, persistir en local y probar lo esencial. Ahora empieza Midlevel, y aquí cambia el tipo de problema.</p>
 <p>En Junior el foco principal era construir bien. En Midlevel el foco principal será construir bien bajo condiciones reales: red inestable, latencia, errores de servidor, conflictos de datos, sincronización y observabilidad mínima para entender qué pasa en producción.</p>
 <p>Este cambio es importante porque una app no vive en laboratorio. Vive en teléfonos con batería baja, conexiones lentas, permisos denegados y usuarios que esperan que todo funcione igual.</p>
@@ -5530,6 +5558,18 @@ class MidlevelGate {
 <section id="03-senior-00-introduccion" class="lesson" data-topic-id="03-senior-00-introduccion" data-lesson-path="03-senior/00-introduccion.md">
 <div class="lesson-path">03-senior/00-introduccion.md</div>
 <h1 id="03-senior-00-introduccion-nivel-senior-00-introducci-n-de-construir-features-a-operar-producto-real">Nivel Senior · 00 · Introducción: de construir features a operar producto real</h1>
+<p>> <strong>Estado actual de FieldOps:</strong> v2.0 completada — Sincronización offline-first, red robusta, resiliencia, benchmarks.</p>
+<p>></p>
+<p>> <strong>Objetivo de versión:</strong> v3.0 (Senior) — Release strategy, rollback seguro, feature flags, observabilidad con SLOs, gobierno de calidad, adaptador Firebase opcional.</p>
+<p>></p>
+<p>> <strong>Comandos de verificación:</strong></p>
+<p>> ```bash</p>
+<p>> cd proyecto-android</p>
+<p>> ./scripts/quality-gates.sh            # Gates completos (assemble + test + lint + instrumented)</p>
+<p>> ./gradlew :benchmark:connectedCheck   # Performance</p>
+<p>> ```</p>
+<p>></p>
+<p>> <strong>Proyecto:</strong> ver <a href="../05-proyecto-final/00-brief-ruralgo-fieldops.md">Brief FieldOps</a> · <a href="../05-proyecto-final/01-rubrica-empleabilidad.md">Rúbrica</a> · <a href="../05-proyecto-final/02-evidencias-obligatorias.md">Evidencias obligatorias</a></p>
 <p>Hasta aquí ya recorriste un camino que no es menor. Aprendiste a construir con orden, a proteger calidad en CI, a medir rendimiento y a evolucionar arquitectura sin romper todo cada dos semanas. Ese trabajo te dio base técnica sólida. Ahora viene el cambio de mentalidad que separa a quien implementa bien de quien sostiene productos en el tiempo.</p>
 <p>En este nivel Senior el foco ya no es solo “que funcione”. El foco pasa a ser “que siga funcionando bajo presión”, con releases frecuentes, con incidentes reales, con deuda viva y con decisiones que impactan a más de un equipo.</p>
 <p>Esa diferencia puede sonar abstracta, pero se siente muy concreta el día que una release sube errores en producción y tienes que decidir en minutos si haces rollback, parchado caliente o mitigación gradual. Ahí no te salva saber un API de memoria. Te salva tener criterio operativo.</p>
@@ -6194,6 +6234,18 @@ sin convertir cada planning en una guerra entre áreas.</code></pre>
 <section id="04-maestria-00-introduccion" class="lesson" data-topic-id="04-maestria-00-introduccion" data-lesson-path="04-maestria/00-introduccion.md">
 <div class="lesson-path">04-maestria/00-introduccion.md</div>
 <h1 id="04-maestria-00-introduccion-nivel-maestr-a-00-introducci-n-escalar-sin-perder-claridad">Nivel Maestría · 00 · Introducción: escalar sin perder claridad</h1>
+<p>> <strong>Estado actual de FieldOps:</strong> v3.0 completada — Release strategy, rollback, feature flags, observabilidad, SLOs.</p>
+<p>></p>
+<p>> <strong>Objetivo de versión:</strong> v4.0 (Maestría) — Gobernanza a escala, contratos evolutivos entre dominios, mantenibilidad a largo plazo, defensa técnica de decisiones.</p>
+<p>></p>
+<p>> <strong>Comandos de verificación:</strong></p>
+<p>> ```bash</p>
+<p>> cd proyecto-android</p>
+<p>> ./scripts/quality-gates.sh            # Gates completos</p>
+<p>> ./gradlew :benchmark:connectedCheck   # Performance</p>
+<p>> ```</p>
+<p>></p>
+<p>> <strong>Proyecto:</strong> ver <a href="../05-proyecto-final/00-brief-ruralgo-fieldops.md">Brief FieldOps</a> · <a href="../05-proyecto-final/01-rubrica-empleabilidad.md">Rúbrica</a> · <a href="../05-proyecto-final/02-evidencias-obligatorias.md">Evidencias obligatorias</a></p>
 <p>Llegar a Maestría no significa que ahora todo se vuelve más difícil por obligación. Significa algo más interesante y más desafiante: empiezas a tomar decisiones cuyo impacto ya no se queda en una sola feature ni en un solo sprint. Lo que diseñes aquí afecta cómo colaboran equipos, cómo evolucionan contratos durante meses y cómo se sostiene el producto cuando cambia el negocio.</p>
 <p>Por eso, esta etapa no trata de “más patrones” por acumular. Trata de aprender a escalar complejidad sin perder legibilidad, velocidad ni fiabilidad.</p>
 <h2 id="04-maestria-00-introduccion-qu-cambia-respecto-a-senior">Qué cambia respecto a Senior</h2>
