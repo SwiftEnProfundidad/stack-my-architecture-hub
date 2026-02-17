@@ -1,0 +1,21 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/ios/:path*",
+      "destination": "https://architecture-stack.vercel.app/ios/:path*",
+      "permanent": false
+    },
+    {
+      "source": "/sdd/:path*",
+      "destination": "https://architecture-stack-sdd.vercel.app/:path*",
+      "permanent": false
+    },
+    {
+      "source": "/android/:path*",
+      "destination": "/:path*",
+      "permanent": false
+    }
+  ]
+}

@@ -3,16 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="darkreader-lock">
 <meta name="course-id" content="stack-my-architecture-android">
 <title>Stack: My Architecture Android</title>
-<link rel="stylesheet" href="assets/study-ux.css">
-<link rel="stylesheet" href="assets/course-switcher.css">
-<link rel="stylesheet" href="assets/assistant-panel.css">
-<script defer src="assets/study-ux.js"></script>
-<script defer src="assets/course-switcher.js"></script>
-<script defer src="assets/theme-controls.js"></script>
-<script defer src="assets/assistant-panel.js"></script>
-<script defer src="assets/assistant-bridge.js"></script>
+<link rel="stylesheet" href="assets/study-ux.css?v=1771369480">
+<link rel="stylesheet" href="assets/course-switcher.css?v=1771369480">
+<link rel="stylesheet" href="assets/assistant-panel.css?v=1771369480">
+<script defer src="assets/study-ux.js?v=1771369480"></script>
+<script defer src="assets/course-switcher.js?v=1771369480"></script>
+<script defer src="assets/theme-controls.js?v=1771369480"></script>
+<script defer src="assets/assistant-panel.js?v=1771369480"></script>
+<script defer src="assets/assistant-bridge.js?v=1771369480"></script>
 
 <!-- Google Fonts - Inter -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -536,13 +537,164 @@ p code, li code, td code {
 }
 
 /* Mermaid diagrams */
+:root {
+    --mermaid-bg: #ffffff;
+    --mermaid-text: #0f172a;
+    --mermaid-node-bg: #f8fafc;
+    --mermaid-node-border: #1d4ed8;
+    --mermaid-line: #1e40af;
+    --mermaid-label-bg: #eef2ff;
+    --mermaid-legend-direct: #d946ef;
+    --mermaid-legend-dashed-closed: #64748b;
+    --mermaid-legend-dashed-open: #2563eb;
+    --mermaid-legend-solid-open: #059669;
+}
+
+.sma-mermaid-block {
+    margin: var(--space-lg) 0;
+}
+
+.sma-mermaid-legend {
+    border: 1px solid var(--border);
+    background: var(--bg-surface);
+    border-radius: var(--radius-md);
+    padding: 10px 12px;
+    margin: 0 0 var(--space-sm);
+}
+
+.sma-mermaid-legend-title {
+    margin: 0 0 8px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+}
+
+.sma-mermaid-legend-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 6px 12px;
+}
+
+.sma-mermaid-legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.78rem;
+    color: var(--text);
+}
+
+.sma-arrow {
+    position: relative;
+    width: 34px;
+    height: 0;
+    border-top: 2px solid currentColor;
+    flex: 0 0 34px;
+}
+
+.sma-arrow::after {
+    content: '';
+    position: absolute;
+    right: -1px;
+    top: -5px;
+    border-left: 8px solid currentColor;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+}
+
+.sma-arrow.direct-closed { color: var(--mermaid-legend-direct); }
+
+.sma-arrow.dashed-closed {
+    color: var(--mermaid-legend-dashed-closed);
+    border-top-style: dashed;
+}
+
+.sma-arrow.dashed-open {
+    color: var(--mermaid-legend-dashed-open);
+    border-top-style: dashed;
+}
+
+.sma-arrow.dashed-open::after,
+.sma-arrow.solid-open::after {
+    border-left-color: transparent;
+    border: 2px solid currentColor;
+    width: 8px;
+    height: 8px;
+    border-left: 0;
+    border-bottom: 0;
+    transform: rotate(45deg);
+    right: -2px;
+    top: -4px;
+    background: transparent;
+}
+
+.sma-arrow.solid-open { color: var(--mermaid-legend-solid-open); }
+
 pre.mermaid {
-    background: white;
+    background: var(--mermaid-bg);
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
     text-align: center;
     padding: var(--space-xl);
     box-shadow: var(--shadow);
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+pre.mermaid svg {
+    max-width: 100%;
+    height: auto;
+}
+
+html[data-theme][data-style] pre.mermaid .label,
+html[data-theme][data-style] pre.mermaid .nodeLabel,
+html[data-theme][data-style] pre.mermaid .edgeLabel,
+html[data-theme][data-style] pre.mermaid .cluster-label,
+html[data-theme][data-style] pre.mermaid text,
+html[data-theme][data-style] pre.mermaid tspan {
+    fill: var(--mermaid-text) !important;
+    color: var(--mermaid-text) !important;
+}
+
+html[data-theme][data-style] pre.mermaid .node rect,
+html[data-theme][data-style] pre.mermaid .node polygon,
+html[data-theme][data-style] pre.mermaid .node circle,
+html[data-theme][data-style] pre.mermaid .node ellipse,
+html[data-theme][data-style] pre.mermaid .cluster rect,
+html[data-theme][data-style] pre.mermaid .actor,
+html[data-theme][data-style] pre.mermaid .labelBox {
+    fill: var(--mermaid-node-bg) !important;
+    stroke: var(--mermaid-node-border) !important;
+}
+
+html[data-theme][data-style] pre.mermaid .edgePath .path,
+html[data-theme][data-style] pre.mermaid path.relation,
+html[data-theme][data-style] pre.mermaid line {
+    stroke: var(--mermaid-line) !important;
+}
+
+html[data-theme][data-style] pre.mermaid .messageLine0,
+html[data-theme][data-style] pre.mermaid .messageLine1,
+html[data-theme][data-style] pre.mermaid .messageLine2 {
+    stroke: var(--mermaid-line) !important;
+    stroke-width: 2px !important;
+    opacity: 1 !important;
+}
+
+html[data-theme][data-style] pre.mermaid .arrowheadPath,
+html[data-theme][data-style] pre.mermaid marker path,
+html[data-theme][data-style] pre.mermaid marker polygon,
+html[data-theme][data-style] pre.mermaid marker polyline {
+    fill: var(--mermaid-line) !important;
+    stroke: var(--mermaid-line) !important;
+    opacity: 1 !important;
+}
+
+html[data-theme][data-style] pre.mermaid .edgeLabel rect,
+html[data-theme][data-style] pre.mermaid .labelBkg {
+    fill: var(--mermaid-label-bg) !important;
+    opacity: 1 !important;
 }
 
 /* ============================================
@@ -714,7 +866,6 @@ blockquote p {
 [data-theme="dark"] #sidebar a { color: #8b949e; }
 [data-theme="dark"] #sidebar a:hover { background: #21262d; color: var(--accent); }
 [data-theme="dark"] #sidebar li.nav-section > strong { color: #f0f6fc; }
-[data-theme="dark"] pre.mermaid { background: #161b22; }
 [data-theme="dark"] .lesson-path { color: #8b949e; }
 
 /* Back to top */
@@ -880,7 +1031,7 @@ blockquote p {
   <li><a class="doc-nav-link" data-lesson-path="00-informe/PLAN-REFUERZO-CURSO-ANDROID.md" href="#00-informe-PLAN-REFUERZO-CURSO-ANDROID">Plan de refuerzo integral del curso Android</a></li>
   <li><a class="doc-nav-link" data-lesson-path="00-informe/MEJORAS-POR-MODULO-Y-EVIDENCIAS.md" href="#00-informe-MEJORAS-POR-MODULO-Y-EVIDENCIAS">Mejoras por módulo, criterios y evidencias</a></li>
 </ul></li>
-<li class="nav-section"><strong>00-nivel-cero</strong>
+<li class="nav-section"><strong>Nivel Cero: Fundamentos</strong>
 <ul>
   <li><a class="doc-nav-link" data-lesson-path="00-nivel-cero/00-introduccion.md" href="#00-nivel-cero-00-introduccion">Nivel Cero · Introducción</a></li>
   <li><a class="doc-nav-link" data-lesson-path="00-nivel-cero/00-setup.md" href="#00-nivel-cero-00-setup">Nivel Cero · Setup</a></li>
@@ -898,7 +1049,7 @@ blockquote p {
   <li><a class="doc-nav-link" data-lesson-path="00-nivel-cero/12-proyecto-rutina-diaria.md" href="#00-nivel-cero-12-proyecto-rutina-diaria">Nivel Cero · 12 · Proyecto integrador: Rutina Diaria</a></li>
   <li><a class="doc-nav-link" data-lesson-path="00-nivel-cero/entregables-nivel-cero.md" href="#00-nivel-cero-entregables-nivel-cero">Entregables de Nivel Cero</a></li>
 </ul></li>
-<li class="nav-section"><strong>01-junior</strong>
+<li class="nav-section"><strong>Nivel Junior</strong>
 <ul>
   <li><a class="doc-nav-link" data-lesson-path="01-junior/00-introduccion.md" href="#01-junior-00-introduccion">Nivel Junior · 00 · De Nivel Cero a desarrollo Android real</a></li>
   <li><a class="doc-nav-link" data-lesson-path="01-junior/00-setup-junior.md" href="#01-junior-00-setup-junior">Nivel Junior · 00-setup · Entorno profesional Android paso a paso</a></li>
@@ -913,7 +1064,7 @@ blockquote p {
   <li><a class="doc-nav-link" data-lesson-path="01-junior/09-pruebas-unitarias-viewmodel-repositorio.md" href="#01-junior-09-pruebas-unitarias-viewmodel-repositorio">Nivel Junior · 09 · Pruebas unitarias de ViewModel y repositorio explicadas paso a paso</a></li>
   <li><a class="doc-nav-link" data-lesson-path="01-junior/entregables-nivel-junior.md" href="#01-junior-entregables-nivel-junior">Entregables de Nivel Junior</a></li>
 </ul></li>
-<li class="nav-section"><strong>02-midlevel</strong>
+<li class="nav-section"><strong>Nivel Midlevel</strong>
 <ul>
   <li><a class="doc-nav-link" data-lesson-path="02-midlevel/00-introduccion.md" href="#02-midlevel-00-introduccion">Nivel Midlevel · 00 · Qué cambia desde Junior y por qué</a></li>
   <li><a class="doc-nav-link" data-lesson-path="02-midlevel/01-red-robusta-retrofit-okhttp.md" href="#02-midlevel-01-red-robusta-retrofit-okhttp">Nivel Midlevel · 01 · Capa de red robusta con Retrofit y OkHttp, guiada paso a paso</a></li>
@@ -930,7 +1081,7 @@ blockquote p {
   <li><a class="doc-nav-link" data-lesson-path="02-midlevel/12-evolucion-navegacion-y-deeplinks-compatibles.md" href="#02-midlevel-12-evolucion-navegacion-y-deeplinks-compatibles">Nivel Midlevel · 12 · Evolución de navegación y deep links sin romper rutas existentes</a></li>
   <li><a class="doc-nav-link" data-lesson-path="02-midlevel/entregables-nivel-midlevel.md" href="#02-midlevel-entregables-nivel-midlevel">Entregables de Nivel Midlevel</a></li>
 </ul></li>
-<li class="nav-section"><strong>03-senior</strong>
+<li class="nav-section"><strong>Nivel Senior</strong>
 <ul>
   <li><a class="doc-nav-link" data-lesson-path="03-senior/00-introduccion.md" href="#03-senior-00-introduccion">Nivel Senior · 00 · Introducción: de construir features a operar producto real</a></li>
   <li><a class="doc-nav-link" data-lesson-path="03-senior/01-release-strategy-y-rollback-seguro.md" href="#03-senior-01-release-strategy-y-rollback-seguro">Nivel Senior · 01 · Release strategy y rollback seguro en Android</a></li>
@@ -941,7 +1092,7 @@ blockquote p {
   <li><a class="doc-nav-link" data-lesson-path="03-senior/06-simulacion-sprint-bajo-presion-roadmap-y-fiabilidad.md" href="#03-senior-06-simulacion-sprint-bajo-presion-roadmap-y-fiabilidad">Nivel Senior · 06 · Simulación completa de sprint bajo presión: cómo decidir sin improvisar</a></li>
   <li><a class="doc-nav-link" data-lesson-path="03-senior/07-cierre-del-bloque-senior-y-transicion-a-maestria.md" href="#03-senior-07-cierre-del-bloque-senior-y-transicion-a-maestria">Nivel Senior · 07 · Cierre de Senior: consolidar capacidades antes de escalar a Maestría</a></li>
 </ul></li>
-<li class="nav-section"><strong>04-maestria</strong>
+<li class="nav-section"><strong>Nivel Maestria</strong>
 <ul>
   <li><a class="doc-nav-link" data-lesson-path="04-maestria/00-introduccion.md" href="#04-maestria-00-introduccion">Nivel Maestría · 00 · Introducción: escalar sin perder claridad</a></li>
   <li><a class="doc-nav-link" data-lesson-path="04-maestria/01-contratos-evolutivos-entre-dominios.md" href="#04-maestria-01-contratos-evolutivos-entre-dominios">Nivel Maestría · 01 · Contratos evolutivos entre dominios Android</a></li>
@@ -961,7 +1112,7 @@ blockquote p {
   <li><a class="doc-nav-link" data-lesson-path="04-maestria/15-mapa-de-carrera-android-de-junior-a-senior.md" href="#04-maestria-15-mapa-de-carrera-android-de-junior-a-senior">Nivel Maestría · 15 · Mapa de carrera Android: de junior a senior con criterio</a></li>
   <li><a class="doc-nav-link" data-lesson-path="04-maestria/16-cierre-definitivo-del-recorrido-android.md" href="#04-maestria-16-cierre-definitivo-del-recorrido-android">Nivel Maestría · 16 · Cierre definitivo del recorrido Android</a></li>
 </ul></li>
-<li class="nav-section"><strong>05-proyecto-final</strong>
+<li class="nav-section"><strong>Proyecto Final</strong>
 <ul>
   <li><a class="doc-nav-link" data-lesson-path="05-proyecto-final/00-brief.md" href="#05-proyecto-final-00-brief">Brief del proyecto final</a></li>
   <li><a class="doc-nav-link" data-lesson-path="05-proyecto-final/00-brief-ruralgo-fieldops.md" href="#05-proyecto-final-00-brief-ruralgo-fieldops">Proyecto final integrador · RuralGO FieldOps</a></li>
@@ -1729,9 +1880,9 @@ fun PantallaDetalle() {
 <section id="01-junior-00-introduccion" class="lesson" data-topic-id="01-junior-00-introduccion" data-lesson-path="01-junior/00-introduccion.md">
 <div class="lesson-path">01-junior/00-introduccion.md</div>
 <h1 id="01-junior-00-introduccion-nivel-junior-00-de-nivel-cero-a-desarrollo-android-real">Nivel Junior · 00 · De Nivel Cero a desarrollo Android real</h1>
-<p>> <strong>Estado actual de FieldOps:</strong> v1.0 — Scaffold funcional con auth (mock), tasks (list + detail), navegación básica, DataStore, Room y unit tests mínimos.</p>
+<p>> <strong>Estado actual de FieldOps:</strong> v1.0 — Auth (mock), tasks (list + detail), navegación con sealed routes, Hilt DI, DataStore, Room, Retrofit/OkHttp (con fallback), WorkManager (SyncWorker), 9 unit tests + 3 integration tests.</p>
 <p>></p>
-<p>> <strong>Objetivo de versión:</strong> v1.0 (Junior) — App funcional con arquitectura limpia inicial, UDF, persistencia local y tests unitarios.</p>
+<p>> <strong>Objetivo de versión:</strong> v1.0 (Junior) — App funcional con arquitectura limpia inicial, UDF, persistencia local, capa de red y tests unitarios.</p>
 <p>></p>
 <p>> <strong>Comandos de verificación:</strong></p>
 <p>> ```bash</p>
@@ -2022,11 +2173,13 @@ fun TasksScreen(
 <p>La segunda idea es <strong>ruta</strong>. Una ruta es una cadena que identifica un destino. Puede incluir parámetros. Por ejemplo: <code>tasks</code> o <code>tasks/{taskId}</code>.</p>
 <p>La tercera idea es <strong>NavController</strong>. Es el componente que ejecuta la navegación: ir hacia adelante, volver atrás y mantener una pila interna de destinos, que se llama back stack.</p>
 <p>Ahora te muestro un diagrama simple para visualizar todo esto antes del código.</p>
+<div class="sma-mermaid-block">
 <pre class="mermaid">flowchart LR
-    A[HomeScreen] -->|navigate tasks| B[TasksScreen]
-    B -->|navigate tasks/{taskId}| C[TaskDetailScreen]
-    C -->|popBackStack| B
-    B -->|popBackStack| A</pre>
+    A[HomeScreen] --&gt;|navigate tasks| B[TasksScreen]
+    B --&gt;|navigate task detail| C[TaskDetailScreen]
+    C --&gt;|popBackStack| B
+    B --&gt;|popBackStack| A</pre>
+</div>
 <p>Este diagrama te dice algo muy importante: navegar no es lineal, es un flujo con ida y vuelta controlada.</p>
 <hr>
 <h2 id="01-junior-03-navegacion-moderna-navigation-compose-1-estructura-mental-del-m-dulo">1) Estructura mental del módulo</h2>
@@ -2165,6 +2318,8 @@ fun TasksScreen(
 <p>Qué pasaría si lo cambias y acoplas al NavController: más difícil testear UI y más acoplamiento entre capas.</p>
 <hr>
 <h2 id="01-junior-03-navegacion-moderna-navigation-compose-6-diagrama-de-responsabilidades-qui-n-hace-qu-">6) Diagrama de responsabilidades (quién hace qué)</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
 <pre class="mermaid">flowchart TD
     UI[Composable Screen]
     EV[Evento UI]
@@ -2172,10 +2327,11 @@ fun TasksScreen(
     NAV[NavController]
     DEST[Destino]
 
-    UI --> EV
-    EV --> HOST
-    HOST --> NAV
-    NAV --> DEST</pre>
+    UI --&gt; EV
+    EV --&gt; HOST
+    HOST --&gt; NAV
+    NAV --&gt; DEST</pre>
+</div>
 <p>Interpretación: la pantalla emite evento, el host decide, el controller ejecuta.</p>
 <hr>
 <h2 id="01-junior-03-navegacion-moderna-navigation-compose-7-qu-pasa-si-algo-sale-mal">7) Qué pasa si algo sale mal</h2>
@@ -2242,6 +2398,8 @@ navController.navigate("task-detail/$id")</code></pre>
 <hr>
 <h2 id="01-junior-04-hilt-integracion-inicial-2-diagrama-de-flujo-de-dependencias">2) Diagrama de flujo de dependencias</h2>
 <p>Antes de código, mira el flujo para tener un mapa mental.</p>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
 <pre class="mermaid">flowchart TD
     A[Application configurada con Hilt]
     B[Contenedor de dependencias]
@@ -2249,10 +2407,11 @@ navController.navigate("task-detail/$id")</code></pre>
     D[ViewModel construido por Hilt]
     E[Pantalla que obtiene ViewModel]
 
-    A --> B
-    C --> B
-    B --> D
-    E --> D</pre>
+    A --&gt; B
+    C --&gt; B
+    B --&gt; D
+    E --&gt; D</pre>
+</div>
 <p>Lectura del diagrama: la app arranca Hilt, el módulo registra proveedores, el contenedor construye ViewModel con dependencias, y la pantalla obtiene el ViewModel.</p>
 <hr>
 <h2 id="01-junior-04-hilt-integracion-inicial-3-paso-1-preparar-la-clase-application">3) Paso 1 · Preparar la clase Application</h2>
@@ -2400,12 +2559,15 @@ class TasksViewModel @Inject constructor(
 <p>Síntoma: dependencias no disponibles en componente Android.</p>
 <hr>
 <h2 id="01-junior-04-hilt-integracion-inicial-10-diagrama-de-dependencias-responsabilidad-">10) Diagrama de dependencias (responsabilidad)</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
 <pre class="mermaid">flowchart LR
-    UI[TasksRoute Composable] --> VM[TasksViewModel]
-    VM --> REP[TasksRepository interface]
-    REP --> IMPL[TasksRepositoryImpl]
-    MOD[TasksModule con proveedores] --> REP
-    APP[App inicializa Hilt] --> MOD</pre>
+    UI[TasksRoute Composable] --&gt; VM[TasksViewModel]
+    VM --&gt; REP[TasksRepository interface]
+    REP --&gt; IMPL[TasksRepositoryImpl]
+    MOD[TasksModule con proveedores] --&gt; REP
+    APP[App inicializa Hilt] --&gt; MOD</pre>
+</div>
 <p>Interpretación: UI depende del ViewModel. ViewModel depende de interfaz. Módulo decide implementación concreta.</p>
 <hr>
 <h2 id="01-junior-04-hilt-integracion-inicial-11-mini-reto-obligatorio">11) Mini reto obligatorio</h2>
@@ -2441,6 +2603,8 @@ class TasksViewModel @Inject constructor(
 </ul>
 <hr>
 <h2 id="01-junior-05-room-offline-first-2-diagrama-de-flujo-de-datos-offline-first">2) Diagrama de flujo de datos offline-first</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
 <pre class="mermaid">flowchart TD
     UI[Composable UI]
     VM[ViewModel]
@@ -2449,15 +2613,16 @@ class TasksViewModel @Inject constructor(
     DB[(Room DB)]
     API[(Remote API)]
 
-    UI --> VM
-    VM --> REP
-    REP --> DAO
-    DAO --> DB
-    REP --> API
-    API --> REP
-    REP --> DAO
-    DAO --> VM
-    VM --> UI</pre>
+    UI --&gt; VM
+    VM --&gt; REP
+    REP --&gt; DAO
+    DAO --&gt; DB
+    REP --&gt; API
+    API --&gt; REP
+    REP --&gt; DAO
+    DAO --&gt; VM
+    VM --&gt; UI</pre>
+</div>
 <p>Lectura del diagrama: la UI no depende de red. La UI depende del estado, y el estado llega desde local. La red sincroniza, pero no controla directamente el render de pantalla.</p>
 <hr>
 <h2 id="01-junior-05-room-offline-first-3-paso-1-crear-la-entidad">3) Paso 1 · Crear la entidad</h2>
@@ -2597,11 +2762,13 @@ fun Task.toEntity(now: Long): TaskEntity {
 <h2 id="01-junior-05-room-offline-first-8-integraci-n-con-viewmodel-y-ui">8) Integración con ViewModel y UI</h2>
 <p>ViewModel debe exponer <code>StateFlow</code> y la UI debe colectar lifecycle-aware.</p>
 <p>Diagrama breve:</p>
+<div class="sma-mermaid-block">
 <pre class="mermaid">flowchart LR
-    DB[(Room)] --> DAO[Flow<TaskEntity>]
-    DAO --> REP[map to Task]
-    REP --> VM[StateFlow<UiState>]
-    VM --> UI[Compose]</pre>
+    DB[(Room)] --&gt; DAO[Flow&lt;TaskEntity&gt;]
+    DAO --&gt; REP[map to Task]
+    REP --&gt; VM[StateFlow&lt;UiState&gt;]
+    VM --&gt; UI[Compose]</pre>
+</div>
 <p>Si esta cadena se respeta, una actualización local se refleja en pantalla de forma natural.</p>
 <hr>
 <h2 id="01-junior-05-room-offline-first-9-correcto-vs-incorrecto">9) Correcto vs incorrecto</h2>
@@ -2664,13 +2831,16 @@ fun TasksScreen(viewModel: TasksViewModel) {
 <p>Queremos guardar si el usuario tiene modo oscuro activo y que ese valor sobreviva entre sesiones.</p>
 <p>Además, queremos que cuando cambie esa preferencia, la UI reaccione automáticamente sin lógica manual frágil.</p>
 <p>Diagrama de flujo:</p>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
 <pre class="mermaid">flowchart LR
-    UI[SettingsScreen] -->|evento switch| VM[SettingsViewModel]
-    VM --> REP[UserPreferencesRepository]
-    REP --> DS[(DataStore)]
-    DS --> REP
-    REP --> VM
-    VM --> UI</pre>
+    UI[SettingsScreen] --&gt;|evento switch| VM[SettingsViewModel]
+    VM --&gt; REP[UserPreferencesRepository]
+    REP --&gt; DS[(DataStore)]
+    DS --&gt; REP
+    REP --&gt; VM
+    VM --&gt; UI</pre>
+</div>
 <p>Lectura del diagrama: UI emite evento, repositorio guarda, DataStore emite nuevo valor, ViewModel recalcula estado, UI se actualiza.</p>
 <hr>
 <h2 id="01-junior-06-datastore-estado-ligero-3-paso-1-definir-clave-de-preferencia">3) Paso 1 · Definir clave de preferencia</h2>
@@ -2894,13 +3064,16 @@ fun SettingsScreen(viewModel: SettingsViewModel = hiltViewModel()) {
 <p>WorkManager está para trabajo que debe sobrevivir a cierres, reinicios o cambios de estado del sistema.</p>
 <hr>
 <h2 id="01-junior-07-workmanager-tareas-persistentes-3-diagrama-de-flujo-de-ejecuci-n">3) Diagrama de flujo de ejecución</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
 <pre class="mermaid">flowchart LR
-    UI[Evento de app] --> SCH[Scheduler]
-    SCH --> WM[WorkManager]
-    WM --> WRK[SyncTasksWorker]
-    WRK --> REP[Repository]
-    REP --> LOC[(Room)]
-    REP --> REM[(API)]</pre>
+    UI[Evento de app] --&gt; SCH[Scheduler]
+    SCH --&gt; WM[WorkManager]
+    WM --&gt; WRK[SyncTasksWorker]
+    WRK --&gt; REP[Repository]
+    REP --&gt; LOC[(Room)]
+    REP --&gt; REM[(API)]</pre>
+</div>
 <p>Lectura: el usuario o la app dispara programación, WorkManager decide cuándo ejecutar según constraints, worker orquesta y repositorio hace trabajo real.</p>
 <hr>
 <h2 id="01-junior-07-workmanager-tareas-persistentes-4-paso-1-definir-contrato-de-negocio-del-trabajo">4) Paso 1 · Definir contrato de negocio del trabajo</h2>
@@ -3052,12 +3225,15 @@ class App : Application(), Configuration.Provider {
 <p>Si no observas estado en debug, puedes pensar que “no funciona” sin evidencia.</p>
 <hr>
 <h2 id="01-junior-07-workmanager-tareas-persistentes-11-diagrama-de-responsabilidades">11) Diagrama de responsabilidades</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
 <pre class="mermaid">flowchart TD
-    SCH[Scheduler] --> WM[WorkManager]
-    WM --> W[Worker]
-    W --> R[Repository]
-    R --> L[(Local)]
-    R --> N[(Network)]</pre>
+    SCH[Scheduler] --&gt; WM[WorkManager]
+    WM --&gt; W[Worker]
+    W --&gt; R[Repository]
+    R --&gt; L[(Local)]
+    R --&gt; N[(Network)]</pre>
+</div>
 <p>Interpretación: scheduler programa, worker orquesta, repositorio ejecuta negocio.</p>
 <hr>
 <h2 id="01-junior-07-workmanager-tareas-persistentes-12-errores-frecuentes-y-qu-los-causa">12) Errores frecuentes y qué los causa</h2>
@@ -3097,12 +3273,14 @@ class App : Application(), Configuration.Provider {
 <p>Ese orden no es casual. Primero comprobamos presencia visual, luego interacción, luego robustez.</p>
 <hr>
 <h2 id="01-junior-08-compose-ui-testing-2-diagrama-mental-del-test-de-ui-en-compose">2) Diagrama mental del test de UI en Compose</h2>
+<div class="sma-mermaid-block">
 <pre class="mermaid">flowchart LR
-    T[Test] --> R[ComposeTestRule]
-    R --> C[setContent]
-    C --> UI[Composables]
-    UI --> N[Árbol semántico]
-    N --> A[assert / performClick]</pre>
+    T[Test] --&gt; R[ComposeTestRule]
+    R --&gt; C[setContent]
+    C --&gt; UI[Composables]
+    UI --&gt; N[Árbol semántico]
+    N --&gt; A[assert / performClick]</pre>
+</div>
 <p>Lectura del diagrama: el test crea una regla, la regla monta UI, esa UI expone nodos semánticos, y sobre esos nodos hacemos acciones y aserciones.</p>
 <hr>
 <h2 id="01-junior-08-compose-ui-testing-3-configuraci-n-m-nima-en-gradle-explicada-l-nea-por-l-nea-">3) Configuración mínima en Gradle (explicada línea por línea)</h2>
@@ -3214,11 +3392,13 @@ fun whenRetryClicked_thenCallbackIsInvoked() {
 <p>Qué problema resuelve: tests más estables y menos frágiles ante cambios de copy.</p>
 <hr>
 <h2 id="01-junior-08-compose-ui-testing-7-flujo-profesional-para-testear-estados-de-pantalla">7) Flujo profesional para testear estados de pantalla</h2>
+<div class="sma-mermaid-block">
 <pre class="mermaid">flowchart TD
-    S[Definir estado a probar] --> C[Montar UI con setContent]
-    C --> Q[Seleccionar nodo semántico]
-    Q --> X[Interactuar si aplica]
-    X --> V[Verificar resultado visible]</pre>
+    S[Definir estado a probar] --&gt; C[Montar UI con setContent]
+    C --&gt; Q[Seleccionar nodo semántico]
+    Q --&gt; X[Interactuar si aplica]
+    X --&gt; V[Verificar resultado visible]</pre>
+</div>
 <p>Este flujo evita una trampa común: empezar por detalles internos en vez de comportamiento observable.</p>
 <hr>
 <h2 id="01-junior-08-compose-ui-testing-8-buenas-pr-cticas-m-nimas-que-s-debes-aplicar">8) Buenas prácticas mínimas que sí debes aplicar</h2>
@@ -3267,12 +3447,15 @@ fun whenRetryClicked_thenCallbackIsInvoked() {
 <p>Este orden es importante porque te entrena a separar responsabilidades.</p>
 <hr>
 <h2 id="01-junior-09-pruebas-unitarias-viewmodel-repositorio-2-diagrama-de-dependencias-para-tests-unitarios">2) Diagrama de dependencias para tests unitarios</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
 <pre class="mermaid">flowchart LR
-    T[Test] --> VM[TasksViewModel]
-    VM --> R[TasksRepository Fake]
+    T[Test] --&gt; VM[TasksViewModel]
+    VM --&gt; R[TasksRepository Fake]
 
-    T2[Test Repositorio] --> REP[TasksRepositoryRoom]
-    REP --> DAO[TasksDao Fake]</pre>
+    T2[Test Repositorio] --&gt; REP[TasksRepositoryRoom]
+    REP --&gt; DAO[TasksDao Fake]</pre>
+</div>
 <p>Lectura: en tests del ViewModel no usamos repositorio real; en tests del repositorio no usamos DB real.</p>
 <hr>
 <h2 id="01-junior-09-pruebas-unitarias-viewmodel-repositorio-3-crear-fake-de-repositorio-para-pruebas-de-viewmodel">3) Crear fake de repositorio para pruebas de ViewModel</h2>
@@ -3443,12 +3626,15 @@ fun replaceTasks_replacesLocalStorage() = runTest {
 <p>Qué problema resuelve: comprueba que repositorio transforma/persiste como se espera.</p>
 <hr>
 <h2 id="01-junior-09-pruebas-unitarias-viewmodel-repositorio-8-diagrama-de-flujo-interno-de-una-prueba-de-viewmodel">8) Diagrama de flujo interno de una prueba de ViewModel</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
 <pre class="mermaid">flowchart TD
-    A[Preparar fake] --> B[Crear ViewModel]
-    B --> C[Disparar evento]
-    C --> D[advanceUntilIdle]
-    D --> E[Leer uiState]
-    E --> F[asserts]</pre>
+    A[Preparar fake] --&gt; B[Crear ViewModel]
+    B --&gt; C[Disparar evento]
+    C --&gt; D[advanceUntilIdle]
+    D --&gt; E[Leer uiState]
+    E --&gt; F[asserts]</pre>
+</div>
 <p>Este flujo te evita un error clásico: hacer asserts antes de que termine la ejecución asíncrona.</p>
 <hr>
 <h2 id="01-junior-09-pruebas-unitarias-viewmodel-repositorio-9-errores-frecuentes-y-c-mo-evitarlos">9) Errores frecuentes y cómo evitarlos</h2>
@@ -3490,9 +3676,9 @@ fun replaceTasks_replacesLocalStorage() = runTest {
 <section id="02-midlevel-00-introduccion" class="lesson" data-topic-id="02-midlevel-00-introduccion" data-lesson-path="02-midlevel/00-introduccion.md">
 <div class="lesson-path">02-midlevel/00-introduccion.md</div>
 <h1 id="02-midlevel-00-introduccion-nivel-midlevel-00-qu-cambia-desde-junior-y-por-qu-">Nivel Midlevel · 00 · Qué cambia desde Junior y por qué</h1>
-<p>> <strong>Estado actual de FieldOps:</strong> v1.0 completada — Auth, tasks, persistencia local y tests unitarios funcionando.</p>
+<p>> <strong>Estado actual de FieldOps:</strong> v1.0 completada con Retrofit/OkHttp integrado, SyncWorker con WorkManager, sealed routes, 9 unit tests + 3 integration tests (MockWebServer). Módulos benchmark y baselineprofile creados.</p>
 <p>></p>
-<p>> <strong>Objetivo de versión:</strong> v2.0 (Midlevel) — Sincronización offline-first, red robusta (Retrofit/OkHttp), resiliencia, caché estratégica, Macrobenchmark y Baseline Profiles.</p>
+<p>> <strong>Objetivo de versión:</strong> v2.0 (Midlevel) — Sincronización offline-first completa, resolución de conflictos, observabilidad, integration tests e2e, Macrobenchmark ejecutado y Baseline Profiles generados.</p>
 <p>></p>
 <p>> <strong>Comandos de verificación:</strong></p>
 <p>> ```bash</p>
@@ -3531,12 +3717,15 @@ fun replaceTasks_replacesLocalStorage() = runTest {
 <p>Queremos que cualquier feature pueda consumir API con un único estilo de configuración, con errores traducidos a un contrato común y con una frontera clara entre infraestructura y dominio.</p>
 <p>Eso nos prepara para aplicar Clean Architecture y DDD de forma gradual, no como teoría adelantada. Aquí la capa remota vive en infraestructura. El repositorio orquesta. El dominio recibe tipos que entiende.</p>
 <p>Diagrama de flujo de responsabilidades, en forma simple y sin símbolos conflictivos para Mermaid:</p>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
 <pre class="mermaid">flowchart LR
-    UI[Pantalla Compose] --> VM[ViewModel]
-    VM --> REP[Repositorio de feature]
-    REP --> REM[Fuente remota]
-    REM --> API[Servicio Retrofit]
-    API --> NET[OkHttp]</pre>
+    UI[Pantalla Compose] --&gt; VM[ViewModel]
+    VM --&gt; REP[Repositorio de feature]
+    REP --&gt; REM[Fuente remota]
+    REM --&gt; API[Servicio Retrofit]
+    API --&gt; NET[OkHttp]</pre>
+</div>
 <p>Lectura del diagrama: UI no habla HTTP. UI habla con ViewModel. ViewModel habla con repositorio. Repositorio decide cuándo leer remoto. Fuente remota encapsula detalles de Retrofit y OkHttp.</p>
 <hr>
 <h2 id="02-midlevel-01-red-robusta-retrofit-okhttp-2-definir-contrato-http-con-interfaz-de-servicio">2) Definir contrato HTTP con interfaz de servicio</h2>
@@ -3794,13 +3983,16 @@ fun provideTasksApiService(retrofit: Retrofit): TasksApiService {
 <p>En este módulo usaremos una regla inicial simple y controlada para no adelantar complejidad innecesaria.</p>
 <hr>
 <h2 id="02-midlevel-02-offline-first-sincronizacion-3-diagrama-de-flujo-de-datos">3) Diagrama de flujo de datos</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
 <pre class="mermaid">flowchart LR
-    UI[Pantalla] --> VM[ViewModel]
-    VM --> REP[Repositorio]
-    REP --> LOC[(Room)]
-    REP --> ORC[Orquestador Sync]
-    ORC --> REM[API Remota]
-    ORC --> WM[WorkManager]</pre>
+    UI[Pantalla] --&gt; VM[ViewModel]
+    VM --&gt; REP[Repositorio]
+    REP --&gt; LOC[(Room)]
+    REP --&gt; ORC[Orquestador Sync]
+    ORC --&gt; REM[API Remota]
+    ORC --&gt; WM[WorkManager]</pre>
+</div>
 <p>Lectura del diagrama: la UI nunca habla directo con red. La UI observa datos locales. El repositorio coordina. El orquestador se encarga de sincronizar con remoto y reintentos.</p>
 <hr>
 <h2 id="02-midlevel-02-offline-first-sincronizacion-4-modelo-de-sincronizaci-n-en-la-entidad-local">4) Modelo de sincronización en la entidad local</h2>
@@ -4030,12 +4222,14 @@ interface TasksDao {
 <p>Para este nivel usaremos una política simple y explícita: gana la versión más reciente por marca temporal, y se registra la decisión para observabilidad.</p>
 <hr>
 <h2 id="02-midlevel-03-consistencia-y-resolucion-de-conflictos-3-diagrama-de-flujo-de-resoluci-n">3) Diagrama de flujo de resolución</h2>
+<div class="sma-mermaid-block">
 <pre class="mermaid">flowchart TD
-    P[Pendientes locales] --> R[Leer remoto]
-    R --> C[Comparar versiones]
-    C -->|Local mas reciente| L[Persistir local en remoto]
-    C -->|Remoto mas reciente| M[Actualizar local con remoto]
-    C -->|Empate o invalido| E[Marcar conflicto y registrar evento]</pre>
+    P[Pendientes locales] --&gt; R[Leer remoto]
+    R --&gt; C[Comparar versiones]
+    C --&gt;|Local mas reciente| L[Persistir local en remoto]
+    C --&gt;|Remoto mas reciente| M[Actualizar local con remoto]
+    C --&gt;|Empate o invalido| E[Marcar conflicto y registrar evento]</pre>
+</div>
 <p>Lectura del diagrama: no hay magia. Primero detectas candidatos, luego comparas metadatos, después aplicas una única regla por caso y dejas evidencia del camino elegido.</p>
 <hr>
 <h2 id="02-midlevel-03-consistencia-y-resolucion-de-conflictos-4-modelo-de-metadatos-para-consistencia">4) Modelo de metadatos para consistencia</h2>
@@ -5558,7 +5752,7 @@ class MidlevelGate {
 <section id="03-senior-00-introduccion" class="lesson" data-topic-id="03-senior-00-introduccion" data-lesson-path="03-senior/00-introduccion.md">
 <div class="lesson-path">03-senior/00-introduccion.md</div>
 <h1 id="03-senior-00-introduccion-nivel-senior-00-introducci-n-de-construir-features-a-operar-producto-real">Nivel Senior · 00 · Introducción: de construir features a operar producto real</h1>
-<p>> <strong>Estado actual de FieldOps:</strong> v2.0 completada — Sincronización offline-first, red robusta, resiliencia, benchmarks.</p>
+<p>> <strong>Estado actual de FieldOps:</strong> v2.0 en progreso — Retrofit/OkHttp + SyncWorker integrados, release buildType con minify/signing placeholder, proguard-rules.pro, módulos benchmark/baselineprofile creados. Pendiente: offline-first completo, observabilidad, CI ejecutado.</p>
 <p>></p>
 <p>> <strong>Objetivo de versión:</strong> v3.0 (Senior) — Release strategy, rollback seguro, feature flags, observabilidad con SLOs, gobierno de calidad, adaptador Firebase opcional.</p>
 <p>></p>
@@ -5611,17 +5805,17 @@ class MidlevelGate {
 <p>Si el build no es determinista, todo lo demás falla. Necesitas que la versión que testeaste sea realmente la que publicas. Para eso, la configuración de Gradle no puede depender de estados implícitos o de máquinas locales.</p>
 <p>Un <code>build.gradle.kts</code> de módulo <code>app</code> con variantes claras suele verse así:</p>
 <pre><code class="language-kotlin">android {
-    namespace = "com.stackmyarchitecture.android"
+    namespace = "com.stackmyarchitecture.fieldops"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.stackmyarchitecture.android"
+        applicationId = "com.stackmyarchitecture.fieldops"
         minSdk = 26
         targetSdk = 36
         versionCode = 10100
         versionName = "1.1.0"
 
-        testInstrumentationRunner = "com.stackmyarchitecture.android.HiltTestRunner"
+        testInstrumentationRunner = "com.stackmyarchitecture.fieldops.HiltTestRunner"
     }
 
     buildTypes {
@@ -6234,7 +6428,7 @@ sin convertir cada planning en una guerra entre áreas.</code></pre>
 <section id="04-maestria-00-introduccion" class="lesson" data-topic-id="04-maestria-00-introduccion" data-lesson-path="04-maestria/00-introduccion.md">
 <div class="lesson-path">04-maestria/00-introduccion.md</div>
 <h1 id="04-maestria-00-introduccion-nivel-maestr-a-00-introducci-n-escalar-sin-perder-claridad">Nivel Maestría · 00 · Introducción: escalar sin perder claridad</h1>
-<p>> <strong>Estado actual de FieldOps:</strong> v3.0 completada — Release strategy, rollback, feature flags, observabilidad, SLOs.</p>
+<p>> <strong>Estado actual de FieldOps:</strong> v3.0 pendiente — Release buildType configurado con minify/signing. Pendiente: feature flags, observabilidad real, SLOs, runbooks operativos.</p>
 <p>></p>
 <p>> <strong>Objetivo de versión:</strong> v4.0 (Maestría) — Gobernanza a escala, contratos evolutivos entre dominios, mantenibilidad a largo plazo, defensa técnica de decisiones.</p>
 <p>></p>
@@ -8041,14 +8235,21 @@ function renderMermaid() {
         return;
     }
 
+    document.querySelectorAll('pre.mermaid').forEach(function(el) {
+        if (!el.dataset.originalMermaid) {
+            el.dataset.originalMermaid = (el.textContent || '').trimEnd();
+        }
+        if (el.dataset.originalMermaid) {
+            el.innerHTML = '';
+            el.textContent = el.dataset.originalMermaid;
+        }
+        el.removeAttribute('data-processed');
+    });
+
     mermaid.initialize({
         startOnLoad: false,
         theme: currentMermaidTheme(),
         securityLevel: 'loose'
-    });
-
-    document.querySelectorAll('pre.mermaid').forEach(el => {
-        el.removeAttribute('data-processed');
     });
 
     mermaid.run({ querySelector: 'pre.mermaid' });

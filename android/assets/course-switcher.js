@@ -1,4 +1,11 @@
 (function () {
+  var REMOTE_LINKS = {
+    home: 'https://architecture-stack.vercel.app',
+    ios: 'https://architecture-stack.vercel.app/ios/index.html',
+    android: 'https://architecture-stack-android.vercel.app',
+    sdd: 'https://architecture-stack-sdd.vercel.app'
+  };
+
   function deriveHubBase() {
     var href = window.location.href;
     if (href.indexOf('/ios/') !== -1) return href.split('/ios/')[0];
@@ -7,10 +14,15 @@
     return '';
   }
 
-  function withFileSchemeIfNeeded(path) {
+  function isWebContext() {
+    return window.location.protocol === 'http:' || window.location.protocol === 'https:';
+  }
+
+  function resolveCourseLink(path, remoteFallback) {
     var base = deriveHubBase();
-    if (!base) return path;
-    return base + path;
+    if (base) return base + path;
+    if (isWebContext()) return remoteFallback;
+    return path;
   }
 
   function setLinks() {
@@ -19,10 +31,10 @@
     var android = document.getElementById('course-switcher-android');
     var sdd = document.getElementById('course-switcher-sdd');
     if (!home || !ios || !android) return;
-    home.href = withFileSchemeIfNeeded('/index.html');
-    ios.href = withFileSchemeIfNeeded('/ios/index.html');
-    android.href = withFileSchemeIfNeeded('/android/index.html');
-    if (sdd) sdd.href = withFileSchemeIfNeeded('/sdd/index.html');
+    home.href = resolveCourseLink('/index.html', REMOTE_LINKS.home);
+    ios.href = resolveCourseLink('/ios/index.html', REMOTE_LINKS.ios);
+    android.href = resolveCourseLink('/android/index.html', REMOTE_LINKS.android);
+    if (sdd) sdd.href = resolveCourseLink('/sdd/index.html', REMOTE_LINKS.sdd);
     home.textContent = '🏠 Cursos';
     ios.textContent = '📱 Curso iOS';
     android.textContent = '🤖 Curso Android';
