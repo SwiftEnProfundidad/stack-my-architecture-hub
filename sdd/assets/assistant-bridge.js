@@ -1,15 +1,4 @@
 ; (function () {
-    // Constantes de configuración
-    var CONFIG = {
-        BUTTON_WIDTH: 180,
-        BUTTON_HEIGHT: 36,
-        OFFSET_Y: 8,
-        VIEWPORT_MARGIN: 8,
-        DEBOUNCE_DELAY: 50,
-        MAX_SELECTION_LENGTH: 1200,
-        MAX_CONTEXT_LENGTH: 900
-    };
-
     function ensureAiButtonInControls() {
         var controls = document.getElementById('study-ux-controls');
         if (!controls) return;
@@ -34,9 +23,7 @@
         if (!sel) return '';
         var text = String(sel.toString() || '').trim();
         if (!text) return '';
-        if (text.length > CONFIG.MAX_SELECTION_LENGTH) {
-            text = text.slice(0, CONFIG.MAX_SELECTION_LENGTH);
-        }
+        if (text.length > 1200) text = text.slice(0, 1200);
         return text;
     }
 
@@ -72,9 +59,7 @@
         var element = node && node.nodeType === 1 ? node : (node ? node.parentElement : null);
         var contextHost = element && element.closest ? element.closest('pre, code, p, li, blockquote, h1, h2, h3, h4') : null;
         var surrounding = contextHost ? String(contextHost.textContent || '').trim() : '';
-        if (surrounding.length > CONFIG.MAX_CONTEXT_LENGTH) {
-            surrounding = surrounding.slice(0, CONFIG.MAX_CONTEXT_LENGTH);
-        }
+        if (surrounding.length > 900) surrounding = surrounding.slice(0, 900);
 
         return {
             selectedText: text,
@@ -88,117 +73,122 @@
         var btn = document.createElement('button');
         btn.type = 'button';
         btn.className = 'sma-assistant-selection-btn';
-        btn.style.position = 'fixed';
-        btn.style.zIndex = '99999';
-        btn.style.display = 'none';
-        btn.style.pointerEvents = 'auto';
         btn.textContent = 'Consultar al asistente';
+        btn.style.display = 'none';
 
-        var state = {
-            lastMouseX: 0,
-            lastMouseY: 0,
-            visible: false,
-            isMouseDown: false,
-            mouseDownTimeout: null,
-            selectionTimeout: null
-        };
+        var HIDE_DELAY_MS = 1500;
+        var hideTimer = null;
+        var lastPayload = null;
+        var lastRect = null;
 
-        // Track mouse position continuously
-        document.addEventListener('mousemove', function (e) {
-            state.lastMouseX = e.clientX;
-            state.lastMouseY = e.clientY;
-        });
-
-        // Track when user starts selecting (mouse down on content)
-        document.addEventListener('mousedown', function (e) {
-            // Only consider left mouse button
-            if (e.button !== 0) return;
-            
-            // Don't hide if clicking on the button itself
-            if (e.target === btn) return;
-            
-            // Don't hide if clicking inside the assistant panel
-            var panel = document.querySelector('.sma-assistant-panel');
-            if (panel && panel.contains(e.target)) return;
-            
-            // Cancel any pending selection timeout
-            if (state.selectionTimeout) {
-                clearTimeout(state.selectionTimeout);
-                state.selectionTimeout = null;
+        function cancelHideTimer() {
+            if (hideTimer) {
+                clearTimeout(hideTimer);
+                hideTimer = null;
             }
-            
-            // Mark that mouse is down
-            state.isMouseDown = true;
-            hide();
-        });
+        }
 
-        // When mouse up, check if we have a selection
-        document.addEventListener('mouseup', function (e) {
-            // Only handle left mouse button
-            if (e.button !== 0) return;
-            
-            // Update mouse position
-            state.lastMouseX = e.clientX;
-            state.lastMouseY = e.clientY;
-            
-            // Mark mouse as up
-            state.isMouseDown = false;
-            
-            // Debounced check for selection
-            state.selectionTimeout = setTimeout(function () {
-                state.selectionTimeout = null;
-                var text = selectionText();
-                if (text) {
-                    show(state.lastMouseX, state.lastMouseY);
+        function scheduleHide(clearPayload, delayMs) {
+            cancelHideTimer();
+            var delay = typeof delayMs === 'number' ? delayMs : HIDE_DELAY_MS;
+            hideTimer = setTimeout(function () {
+                hideSelectionButton(btn);
+                if (clearPayload) {
+                    lastPayload = null;
+                    lastRect = null;
                 }
-            }, CONFIG.DEBOUNCE_DELAY);
-        });
+            }, delay);
+        }
 
-        // Handle selection via keyboard (Shift+arrows, etc)
-        document.addEventListener('selectionchange', function () {
-            // Don't process during mouse selection (mouse is still down)
-            if (state.isMouseDown) return;
-            
-            // Cancel any pending timeout
-            if (state.selectionTimeout) {
-                clearTimeout(state.selectionTimeout);
+        function normalizeRect(rect) {
+            if (!rect) return null;
+            return {
+                top: Number(rect.top || 0),
+                left: Number(rect.left || 0),
+                bottom: Number(rect.bottom || 0),
+                right: Number(rect.right || 0),
+                width: Number(rect.width || 0),
+                height: Number(rect.height || 0)
+            };
+        }
+
+        function showButtonAt(rect) {
+            if (!rect) return;
+            btn.style.display = 'inline-block';
+
+            var viewportWidth = window.innerWidth || document.documentElement.clientWidth || 0;
+            var viewportHeight = window.innerHeight || document.documentElement.clientHeight || 0;
+            var offsetWidth = btn.offsetWidth || 0;
+            var offsetHeight = btn.offsetHeight || 0;
+
+            var left = Math.max(8, rect.left);
+            var top = Math.max(8, rect.bottom + 10);
+
+            if (viewportWidth > 24 && offsetWidth > 0) {
+                left = Math.min(left, viewportWidth - offsetWidth - 8);
             }
-            
-            state.selectionTimeout = setTimeout(function () {
-                state.selectionTimeout = null;
-                var text = selectionText();
-                if (text && !state.visible) {
-                    // Use current selection position if available
-                    var sel = window.getSelection();
-                    if (sel && sel.rangeCount > 0) {
-                        var rect = sel.getRangeAt(0).getBoundingClientRect();
-                        if (rect && (rect.width || rect.height)) {
-                            show(rect.left + rect.width / 2, rect.bottom + CONFIG.OFFSET_Y);
-                        }
-                    }
-                }
-            }, CONFIG.DEBOUNCE_DELAY);
-        });
-
-        // Hide on Escape key
-        document.addEventListener('keyup', function (e) {
-            if (e.key === 'Escape') { 
-                hide(); 
-                return; 
+            if (viewportHeight > 24 && offsetHeight > 0) {
+                top = Math.min(top, viewportHeight - offsetHeight - 8);
             }
-        });
 
-        // Button click handler
-        btn.addEventListener('mousedown', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-        });
+            btn.style.top = String(top) + 'px';
+            btn.style.left = String(left) + 'px';
+        }
 
-        btn.addEventListener('click', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
+        function showFromCurrentSelection() {
             var payload = selectionPayload();
-            hide();
+            if (!payload) {
+                if (lastPayload && lastRect) {
+                    cancelHideTimer();
+                    showButtonAt(lastRect);
+                    scheduleHide(false);
+                    return;
+                }
+                scheduleHide(true, 300);
+                return;
+            }
+
+            var sel = window.getSelection();
+            if (!sel || sel.rangeCount === 0) {
+                if (lastPayload && lastRect) {
+                    cancelHideTimer();
+                    showButtonAt(lastRect);
+                    scheduleHide(false);
+                    return;
+                }
+                scheduleHide(true, 300);
+                return;
+            }
+
+            var rect = sel.getRangeAt(0).getBoundingClientRect();
+            if (!rect || (!rect.width && !rect.height)) {
+                if (lastPayload && lastRect) {
+                    cancelHideTimer();
+                    showButtonAt(lastRect);
+                    scheduleHide(false);
+                    return;
+                }
+                scheduleHide(true, 300);
+                return;
+            }
+
+            cancelHideTimer();
+            lastPayload = payload;
+            lastRect = normalizeRect(rect);
+            showButtonAt(lastRect);
+        }
+
+        btn.addEventListener('mousedown', function (event) {
+            event.preventDefault();
+            cancelHideTimer();
+        });
+
+        btn.addEventListener('click', function () {
+            cancelHideTimer();
+            var payload = selectionPayload() || lastPayload;
+            hideSelectionButton(btn);
+            lastPayload = null;
+            lastRect = null;
             if (!payload) return;
             if (window.SMAAssistantPanel) {
                 window.SMAAssistantPanel.askSelection(payload);
@@ -207,29 +197,56 @@
 
         document.body.appendChild(btn);
 
-        function show(x, y) {
-            // Position centered horizontally on cursor, slightly below
-            var left = x - CONFIG.BUTTON_WIDTH / 2;
-            var top = y + CONFIG.OFFSET_Y;
-            
-            // Keep within viewport bounds
-            left = Math.max(CONFIG.VIEWPORT_MARGIN, Math.min(left, 
-                window.innerWidth - CONFIG.BUTTON_WIDTH - CONFIG.VIEWPORT_MARGIN));
-            top = Math.max(CONFIG.VIEWPORT_MARGIN, Math.min(top, 
-                window.innerHeight - CONFIG.BUTTON_HEIGHT - CONFIG.VIEWPORT_MARGIN));
-            
-            btn.style.left = left + 'px';
-            btn.style.top = top + 'px';
-            btn.style.display = 'inline-block';
-            state.visible = true;
-        }
+        document.addEventListener('selectionchange', showFromCurrentSelection);
+        document.addEventListener('mouseup', showFromCurrentSelection);
+        document.addEventListener('keyup', function (event) {
+            if (event.key === 'Escape') {
+                cancelHideTimer();
+                hideSelectionButton(btn);
+                lastPayload = null;
+                lastRect = null;
+                return;
+            }
+            showFromCurrentSelection();
+        });
 
-        function hide() {
-            btn.style.display = 'none';
-            state.visible = false;
-        }
+        document.addEventListener('click', function (event) {
+            if (event.target === btn) return;
+            var target = event.target;
+            var panel = document.querySelector('.sma-assistant-panel');
+            if (panel && panel.contains(target)) return;
+            if (selectionPayload()) {
+                showFromCurrentSelection();
+                return;
+            }
+            cancelHideTimer();
+            hideSelectionButton(btn);
+            lastPayload = null;
+            lastRect = null;
+        });
+
+        document.addEventListener('scroll', function () {
+            if (btn.style.display === 'none') return;
+            var payload = selectionPayload();
+            if (payload) {
+                lastPayload = payload;
+                showFromCurrentSelection();
+                return;
+            }
+            scheduleHide(true, 250);
+        }, true);
+    }
+
+    function hideSelectionButton(btn) {
+        btn.style.display = 'none';
     }
 
     ensureAiButtonInControls();
+    if (document.body && typeof MutationObserver !== 'undefined') {
+        var observer = new MutationObserver(function () {
+            ensureAiButtonInControls();
+        });
+        observer.observe(document.body, { childList: true, subtree: true });
+    }
     ensureSelectionButton();
 })();
