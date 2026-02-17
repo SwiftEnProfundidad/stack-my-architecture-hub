@@ -377,7 +377,14 @@ open_course() {
       ;;
   esac
 
-  local url="http://127.0.0.1:${port}${path}"
+  local cache_bust
+  cache_bust="$(/bin/date +%s)"
+  local separator="?"
+  if [[ "$path" == *"?"* ]]; then
+    separator="&"
+  fi
+
+  local url="http://127.0.0.1:${port}${path}${separator}_cb=${cache_bust}"
   open "$url" >/dev/null 2>&1 || true
   echo "✅ Hub listo en: http://127.0.0.1:${port}/index.html"
   echo "✅ Abierto en el navegador: $url"

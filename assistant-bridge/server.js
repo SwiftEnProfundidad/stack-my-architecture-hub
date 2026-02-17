@@ -124,9 +124,24 @@ app.get('/metrics', (_req, res) => {
 app.post(QUERY_PATH, handleQuery);
 app.post(QUERY_ALIAS_PATH, handleQuery);
 
-app.use(express.static(HUB_ROOT, { extensions: ['html'] }));
+app.use(express.static(HUB_ROOT, {
+    extensions: ['html'],
+    etag: false,
+    lastModified: false,
+    cacheControl: false,
+    setHeaders: (res) => {
+        res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+        res.setHeader('Pragma', 'no-cache');
+        res.setHeader('Expires', '0');
+        res.setHeader('Surrogate-Control', 'no-store');
+    }
+}));
 
 app.get('/', (_req, res) => {
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
+    res.setHeader('Surrogate-Control', 'no-store');
     res.sendFile(path.join(HUB_ROOT, 'index.html'));
 });
 
