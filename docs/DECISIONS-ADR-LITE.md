@@ -43,3 +43,25 @@ Registrar estabilidad del Hub con commit+tag explícitos.
 
 ### Motivación
 Punto de rollback y referencia clara de estado estable.
+
+## ADR-LITE-004 — Continuidad guiada por documentos de control
+### Fecha
+2026-02-24
+
+### Decisión
+Tomar como fuente de verdad operativa los 4 documentos en `stack-my-architecture-hub/docs/`:
+1. `STACK-ARCHITECTURE-MASTER-TRACKER.md`
+2. `HUB-STABILITY-LOG.md`
+3. `SESSION-HANDOFF.md`
+4. `DECISIONS-ADR-LITE.md`
+
+En casos de confusión con `codex resume`, operar con `--all` y resolver por nombre/ID del hilo.
+
+### Motivación
+1. Reducir deriva de contexto entre sesiones.
+2. Evitar errores por filtro de `cwd` en `resume`.
+3. Garantizar continuidad operacional independiente del picker.
+
+### Impacto
+1. Menor ambigüedad al retomar trabajo.
+2. Handoff más fiable entre bloques operativos.

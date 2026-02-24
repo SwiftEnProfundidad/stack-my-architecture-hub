@@ -34,6 +34,28 @@ Mejoras clave:
 2. Tag: `hub-stable-20260224`
 3. Estado: Estable
 
+## Regresión post-sync de cursos
+### Fecha
+2026-02-24
+
+### Contexto
+Se sincronizaron los bundles publicados de `ios`, `android` y `sdd` en el Hub para reflejar el estado actual de los repos fuente.
+
+### Evidencia versionada
+1. Commit: `b4399a7`
+2. Scope: `ios/*.html`, `android/*.html`, `sdd/*.html`
+
+### Verificación funcional
+1. `./scripts/smoke-hub-runtime.sh` -> OK (runtime smoke en puerto temporal).
+2. Validación manual de rutas en runtime local activo:
+   - `GET /index.html` -> 200
+   - `GET /ios/index.html` -> 200
+   - `GET /android/index.html` -> 200
+   - `GET /sdd/index.html` -> 200
+
+### Resultado
+Hub mantiene estabilidad operativa y apertura de cursos tras el sync.
+
 ## Nota operativa
 Si reaparece síntoma similar:
 1. Revisar `.runtime/hub.port` y `.runtime/hub.pid` del hub.

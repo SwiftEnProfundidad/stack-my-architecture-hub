@@ -16,6 +16,8 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 2. Hub estabilizado tras incidencia de `Cannot GET /index.html`.
 3. Hito de estabilidad del Hub registrado en commit y tag.
 4. Flujo de seguimiento cross-chat estandarizado con documentos `docs/`.
+5. Hub sincronizado con bundles actualizados de iOS/Android/SDD.
+6. Validación runtime del Hub en verde tras sincronización.
 
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.
@@ -24,6 +26,7 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 4. Verificación de rutas publicadas de cursos (`/ios`, `/android`, `/sdd`).
 5. Commit de estabilidad en Hub.
 6. Tag de estabilidad en Hub.
+7. Sync versionado de bundles de cursos en Hub (`b4399a7`).
 
 ## Bloqueos actuales
 1. Ninguno operativo en la app/hub.
@@ -34,6 +37,15 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 2. Registrar cada cambio de Hub en `docs/HUB-STABILITY-LOG.md`.
 3. Actualizar `docs/SESSION-HANDOFF.md` al cerrar cada sesión de trabajo.
 4. Consolidar decisiones de operación en `docs/DECISIONS-ADR-LITE.md`.
+
+## Última validación operativa
+1. Runtime smoke: `./scripts/smoke-hub-runtime.sh` -> OK.
+2. Rutas activas verificadas en runtime local:
+   - `/index.html` -> 200
+   - `/ios/index.html` -> 200
+   - `/android/index.html` -> 200
+   - `/sdd/index.html` -> 200
+3. Commit asociado del bloque operativo: `b4399a7`.
 
 ## Referencias de estabilidad del Hub
 1. Commit: `1940c7d`
