@@ -19,6 +19,7 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 5. Hub sincronizado con bundles actualizados de iOS/Android/SDD.
 6. Validación runtime del Hub en verde tras sincronización.
 7. SDD week06 offline-cache integrado en `main` con ciclo RED-GREEN-REFACTOR completo.
+8. iOS Fase 6 cerrada: pipeline de enlaces/anchors + revisión visual trimestral Mermaid/assets completadas y versionadas.
 
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.
@@ -31,6 +32,9 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 8. Merge en SDD de `week06-offline-cache-partial-sync` (`76d5764`).
 9. Sync versionado en Hub solo del bundle SDD post-merge (`017b3dc`).
 10. Ajuste de tracking SDD a estado real en `main` (`34fb52a`) y resync final de Hub SDD (`d8d286e`).
+11. Cierre operativo iOS Fase 6:
+    - `0291000` (pipeline enlaces/anchors automatizado)
+    - `c2f3e40` (revisión visual trimestral Mermaid/assets + evidencia)
 
 ## Bloqueos actuales
 1. Ninguno operativo en la app/hub.
@@ -38,7 +42,7 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 
 ## Próximos pasos recomendados
 1. Mantener este tracker como fuente única de estado transversal.
-2. Registrar cada cambio de Hub en `docs/HUB-STABILITY-LOG.md`.
+2. Ejecutar sync selectivo de iOS en Hub cuando se decida publicación del bloque Fase 6.
 3. Actualizar `docs/SESSION-HANDOFF.md` al cerrar cada sesión de trabajo.
 4. Consolidar decisiones de operación en `docs/DECISIONS-ADR-LITE.md`.
 
