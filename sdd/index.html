@@ -6,14 +6,14 @@
 <meta name="darkreader-lock">
 <meta name="course-id" content="stack-my-architecture-sdd">
 <title>Stack: IA + Spec-Driven Development</title>
-<link rel="stylesheet" href="assets/study-ux.css?v=1771924224">
-<link rel="stylesheet" href="assets/course-switcher.css?v=1771924224">
-<link rel="stylesheet" href="assets/assistant-panel.css?v=1771924224">
-<script defer src="assets/study-ux.js?v=1771924224"></script>
-<script defer src="assets/course-switcher.js?v=1771924224"></script>
-<script defer src="assets/theme-controls.js?v=1771924224"></script>
-<script defer src="assets/assistant-panel.js?v=1771924224"></script>
-<script defer src="assets/assistant-bridge.js?v=1771924224"></script>
+<link rel="stylesheet" href="assets/study-ux.css?v=1771932743">
+<link rel="stylesheet" href="assets/course-switcher.css?v=1771932743">
+<link rel="stylesheet" href="assets/assistant-panel.css?v=1771932743">
+<script defer src="assets/study-ux.js?v=1771932743"></script>
+<script defer src="assets/course-switcher.js?v=1771932743"></script>
+<script defer src="assets/theme-controls.js?v=1771932743"></script>
+<script defer src="assets/assistant-panel.js?v=1771932743"></script>
+<script defer src="assets/assistant-bridge.js?v=1771932743"></script>
 
 <!-- Google Fonts - Inter -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -3232,6 +3232,16 @@ sin que nada falle, y el contrato quedaría desprotegido.</code></pre>
   <li><strong>GIVEN</strong> existen operaciones pendientes del período offline</li>
   <li><strong>WHEN</strong> la fuente remota se vuelve disponible y se activa la sincronización</li>
   <li><strong>THEN</strong> las operaciones pendientes son aplicadas a la fuente remota y la cola se reduce</li>
+</ul>
+<h4 id="openspec-specs-ticketing-spec-scenario-conservar-solo-operaciones-no-aplicadas-ante-fallo-parcial-de-sincronizaci-n">Scenario: Conservar solo operaciones no aplicadas ante fallo parcial de sincronización</h4>
+<ul>
+  <li><strong>GIVEN</strong> existen múltiples operaciones pendientes en cola</li>
+  <li><strong>AND</strong> una operación previa puede aplicarse exitosamente en remoto</li>
+  <li><strong>AND</strong> una operación posterior falla por conflicto de dominio</li>
+  <li><strong>WHEN</strong> se activa la sincronización</li>
+  <li><strong>THEN</strong> el sistema conserva en cola solo las operaciones no aplicadas</li>
+  <li><strong>AND</strong> las operaciones ya aplicadas no se reencolan</li>
+  <li><strong>AND</strong> el error de dominio se propaga al llamador</li>
 </ul>
 <h3 id="openspec-specs-ticketing-spec-requirement-emitir-eventos-de-observabilidad-base-para-operaciones-de-repositorio">Requirement: Emitir eventos de observabilidad base para operaciones de repositorio</h3>
 <p>El sistema MUST emitir eventos de telemetría estructurados para operaciones de repositorio para soportar diagnóstico operacional sin acoplar lógica de negocio a frameworks de logging.</p>
