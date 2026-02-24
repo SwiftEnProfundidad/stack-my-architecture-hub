@@ -79,6 +79,24 @@ Se integró en `stack-my-architecture-SDD/main` el bloque week06 de sincronizaci
 ### Resultado
 El Hub conserva estabilidad y apertura de cursos tras integrar el cambio de SDD.
 
+## Resync final por normalización de tracking SDD
+### Fecha
+2026-02-24
+
+### Contexto
+Tras cerrar el ticket en `main` de SDD, se normalizó el estado de tracking (`branch: main`) para reflejar estado real (`34fb52a`). Se aplicó un resync final del bundle SDD en Hub.
+
+### Evidencia versionada
+1. SDD tracking real en main: `34fb52a`
+2. Hub resync SDD: `d8d286e`
+
+### Verificación funcional
+1. `./scripts/smoke-hub-runtime.sh` -> OK.
+2. Rutas de cursos verificadas dentro de smoke -> OK.
+
+### Resultado
+Hub permanece estable tras la normalización final de tracking y publicación SDD.
+
 ## Nota operativa
 Si reaparece síntoma similar:
 1. Revisar `.runtime/hub.port` y `.runtime/hub.pid` del hub.

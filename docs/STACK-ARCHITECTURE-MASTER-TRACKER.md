@@ -30,6 +30,7 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 7. Sync versionado de bundles de cursos en Hub (`b4399a7`).
 8. Merge en SDD de `week06-offline-cache-partial-sync` (`76d5764`).
 9. Sync versionado en Hub solo del bundle SDD post-merge (`017b3dc`).
+10. Ajuste de tracking SDD a estado real en `main` (`34fb52a`) y resync final de Hub SDD (`d8d286e`).
 
 ## Bloqueos actuales
 1. Ninguno operativo en la app/hub.
@@ -50,7 +51,9 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
    - `/sdd/index.html` -> OK
 3. Commits asociados del bloque operativo:
    - `76d5764` (SDD main merge)
-   - `017b3dc` (Hub sync SDD)
+   - `34fb52a` (SDD tracking actualizado en main)
+   - `017b3dc` (Hub sync SDD post-merge)
+   - `d8d286e` (Hub resync SDD con tracking final)
 
 ## Referencias de estabilidad del Hub
 1. Commit: `1940c7d`

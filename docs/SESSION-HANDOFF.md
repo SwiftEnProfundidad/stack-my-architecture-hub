@@ -20,9 +20,12 @@ Repos incluidos:
 ## Último bloque operativo cerrado
 1. Merge en SDD de ticket week06 offline-cache parcial con TDD completo.
 2. Commit SDD: `76d5764` (`merge(week06): integrate offline partial sync tdd cycle`)
-3. Sync en Hub del bundle SDD tras merge.
-4. Commit Hub: `017b3dc` (`chore(hub): sync sdd bundle after week06 tdd cycle`)
-5. Validación runtime:
+3. Tracking SDD normalizado a estado real en `main`.
+4. Commit SDD: `34fb52a` (`docs(tracking): mark week06 ticket merged on main`)
+5. Sync y resync final en Hub del bundle SDD tras merge/tracking:
+   - `017b3dc`
+   - `d8d286e`
+6. Validación runtime:
    - `./scripts/smoke-hub-runtime.sh` -> OK
    - Rutas `/index.html`, `/ios/index.html`, `/android/index.html`, `/sdd/index.html` verificadas dentro de smoke.
 
