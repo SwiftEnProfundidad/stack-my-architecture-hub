@@ -18,6 +18,7 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 4. Flujo de seguimiento cross-chat estandarizado con documentos `docs/`.
 5. Hub sincronizado con bundles actualizados de iOS/Android/SDD.
 6. Validación runtime del Hub en verde tras sincronización.
+7. SDD week06 offline-cache integrado en `main` con ciclo RED-GREEN-REFACTOR completo.
 
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.
@@ -27,6 +28,8 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 5. Commit de estabilidad en Hub.
 6. Tag de estabilidad en Hub.
 7. Sync versionado de bundles de cursos en Hub (`b4399a7`).
+8. Merge en SDD de `week06-offline-cache-partial-sync` (`76d5764`).
+9. Sync versionado en Hub solo del bundle SDD post-merge (`017b3dc`).
 
 ## Bloqueos actuales
 1. Ninguno operativo en la app/hub.
@@ -40,12 +43,14 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 
 ## Última validación operativa
 1. Runtime smoke: `./scripts/smoke-hub-runtime.sh` -> OK.
-2. Rutas activas verificadas en runtime local:
-   - `/index.html` -> 200
-   - `/ios/index.html` -> 200
-   - `/android/index.html` -> 200
-   - `/sdd/index.html` -> 200
-3. Commit asociado del bloque operativo: `b4399a7`.
+2. Runtime smoke verifica rutas del Hub en servidor temporal:
+   - `/index.html` -> OK
+   - `/ios/index.html` -> OK
+   - `/android/index.html` -> OK
+   - `/sdd/index.html` -> OK
+3. Commits asociados del bloque operativo:
+   - `76d5764` (SDD main merge)
+   - `017b3dc` (Hub sync SDD)
 
 ## Referencias de estabilidad del Hub
 1. Commit: `1940c7d`

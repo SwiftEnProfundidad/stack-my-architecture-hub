@@ -18,16 +18,19 @@ Repos incluidos:
 3. Tag: `hub-stable-20260224`
 
 ## Último bloque operativo cerrado
-1. Sync de bundles publicados del Hub con repos fuente (`ios`, `android`, `sdd`).
-2. Commit: `b4399a7` (`chore(hub): sync published course bundles`)
-3. Validación runtime:
+1. Merge en SDD de ticket week06 offline-cache parcial con TDD completo.
+2. Commit SDD: `76d5764` (`merge(week06): integrate offline partial sync tdd cycle`)
+3. Sync en Hub del bundle SDD tras merge.
+4. Commit Hub: `017b3dc` (`chore(hub): sync sdd bundle after week06 tdd cycle`)
+5. Validación runtime:
    - `./scripts/smoke-hub-runtime.sh` -> OK
-   - `/index.html`, `/ios/index.html`, `/android/index.html`, `/sdd/index.html` -> HTTP 200
+   - Rutas `/index.html`, `/ios/index.html`, `/android/index.html`, `/sdd/index.html` verificadas dentro de smoke.
 
 ## Trabajo en curso
 1. Asegurar continuidad de contexto entre chats/sesiones.
 2. Estandarizar seguimiento con documentos de control en `docs/`.
 3. Mantener commits atómicos: contenido publicado y tracking en bloques separados.
+4. Mantener política de sync selectivo del Hub cuando iOS/Android estén en WIP local.
 
 ## Siguiente paso concreto
 1. Usar este paquete `docs/` como base del seguimiento del nuevo thread.

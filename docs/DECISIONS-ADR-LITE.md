@@ -65,3 +65,19 @@ En casos de confusión con `codex resume`, operar con `--all` y resolver por nom
 ### Impacto
 1. Menor ambigüedad al retomar trabajo.
 2. Handoff más fiable entre bloques operativos.
+
+## ADR-LITE-005 — Sync selectivo del Hub con repos en WIP
+### Fecha
+2026-02-24
+
+### Decisión
+Cuando existan cambios locales no cerrados en repos fuente (por ejemplo iOS/Android), evitar `build-hub` global y sincronizar solo el curso objetivo para no publicar WIP de otros repos.
+
+### Motivación
+1. Proteger estabilidad del Hub en producción local.
+2. Evitar contaminación cruzada entre tracks en paralelo.
+3. Mantener commits de publicación con alcance controlado.
+
+### Impacto
+1. Publicaciones más predecibles por curso.
+2. Menor riesgo de regresión accidental en cursos no objetivo.

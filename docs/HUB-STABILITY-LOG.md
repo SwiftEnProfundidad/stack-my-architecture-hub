@@ -56,6 +56,29 @@ Se sincronizaron los bundles publicados de `ios`, `android` y `sdd` en el Hub pa
 ### Resultado
 Hub mantiene estabilidad operativa y apertura de cursos tras el sync.
 
+## Regresión post-merge SDD week06
+### Fecha
+2026-02-24
+
+### Contexto
+Se integró en `stack-my-architecture-SDD/main` el bloque week06 de sincronización parcial offline (`76d5764`) y se sincronizó solo el bundle publicado de SDD en Hub para evitar arrastre de WIP en iOS/Android.
+
+### Evidencia versionada
+1. SDD merge: `76d5764` (`merge(week06): integrate offline partial sync tdd cycle`)
+2. Hub sync SDD: `017b3dc` (`chore(hub): sync sdd bundle after week06 tdd cycle`)
+3. Scope Hub: `sdd/*.html`
+
+### Verificación funcional
+1. `./scripts/smoke-hub-runtime.sh` -> OK (runtime smoke en puerto temporal).
+2. Validación de rutas de cursos dentro de smoke:
+   - `/index.html` -> OK
+   - `/ios/index.html` -> OK
+   - `/android/index.html` -> OK
+   - `/sdd/index.html` -> OK
+
+### Resultado
+El Hub conserva estabilidad y apertura de cursos tras integrar el cambio de SDD.
+
 ## Nota operativa
 Si reaparece síntoma similar:
 1. Revisar `.runtime/hub.port` y `.runtime/hub.pid` del hub.
