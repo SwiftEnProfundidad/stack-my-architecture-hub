@@ -97,6 +97,31 @@ Tras cerrar el ticket en `main` de SDD, se normalizó el estado de tracking (`br
 ### Resultado
 Hub permanece estable tras la normalización final de tracking y publicación SDD.
 
+## Regresión post-sync selectivo iOS Fase 6
+### Fecha
+2026-02-24
+
+### Contexto
+Tras cerrar en iOS la Fase 6 de QA (pipeline de enlaces/anchors + revisión visual trimestral), se sincronizó únicamente el bundle publicado de iOS en Hub para evitar arrastre de WIP en Android/SDD.
+
+### Evidencia versionada
+1. iOS cierre Fase 6:
+   - `0291000` (`chore(qa): automate links-anchor validation in dist pipeline`)
+   - `c2f3e40` (`chore(qa): close quarterly visual mermaid-assets review`)
+2. Hub sync selectivo iOS: `bcba91d` (`chore(hub): sync ios bundle after phase6 qa closure`)
+3. Scope Hub: `ios/*.html`
+
+### Verificación funcional
+1. `./scripts/smoke-hub-runtime.sh` -> OK (puerto temporal `46210`).
+2. Rutas verificadas dentro del smoke:
+   - `/index.html` -> OK
+   - `/ios/index.html` -> OK
+   - `/android/index.html` -> OK
+   - `/sdd/index.html` -> OK
+
+### Resultado
+Hub mantiene estabilidad operativa tras publicar selectivamente iOS.
+
 ## Nota operativa
 Si reaparece síntoma similar:
 1. Revisar `.runtime/hub.port` y `.runtime/hub.pid` del hub.

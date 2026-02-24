@@ -18,27 +18,29 @@ Repos incluidos:
 3. Tag: `hub-stable-20260224`
 
 ## Último bloque operativo cerrado
-1. Cierre de Fase 6 en `stack-my-architecture-ios` con ciclo operativo en dos tareas.
-2. Task 1 (pipeline): validación automática enlaces/anchors integrada en workflow.
-   - Commit iOS: `0291000` (`chore(qa): automate links-anchor validation in dist pipeline`)
-3. Task 2 (visual trimestral): revisión Mermaid/assets del HTML final con evidencia.
-   - Commit iOS: `c2f3e40` (`chore(qa): close quarterly visual mermaid-assets review`)
-   - Evidencia: `stack-my-architecture-ios/00-informe/AUDITORIA-REVISION-VISUAL-TRIMESTRAL-2026Q1.md`
-4. Tracking iOS actualizado:
-   - `stack-my-architecture-ios/PHASE-TRACKER-IOS-AUDIT.md`
-   - `stack-my-architecture-ios/00-informe/TODO.md`
-5. No se ejecuta sync global del Hub en este bloque para evitar publicar WIP de otros repos (política de sync selectivo vigente).
+1. Sync selectivo del bundle iOS en Hub tras cierre de Fase 6.
+2. Commits fuente iOS del bloque:
+   - `0291000` (`chore(qa): automate links-anchor validation in dist pipeline`)
+   - `c2f3e40` (`chore(qa): close quarterly visual mermaid-assets review`)
+3. Commit Hub de publicación selectiva:
+   - `bcba91d` (`chore(hub): sync ios bundle after phase6 qa closure`)
+4. Scope de publicación en Hub:
+   - `ios/curso-stack-my-architecture.html`
+   - `ios/index.html`
+5. Validación runtime:
+   - `./scripts/smoke-hub-runtime.sh` -> OK
+   - Rutas `/index.html`, `/ios/index.html`, `/android/index.html`, `/sdd/index.html` verificadas dentro de smoke.
 
 ## Trabajo en curso
 1. Asegurar continuidad de contexto entre chats/sesiones.
 2. Estandarizar seguimiento con documentos de control en `docs/`.
 3. Mantener commits atómicos: contenido publicado y tracking en bloques separados.
 4. Mantener política de sync selectivo del Hub cuando iOS/Android estén en WIP local.
-5. Preparar publicación selectiva de iOS en Hub cuando se confirme ventana de sync.
+5. Monitorear próximos sync selectivos de Android/SDD según cierre de bloques en repos fuente.
 
 ## Siguiente paso concreto
 1. Usar este paquete `docs/` como base del seguimiento del nuevo thread.
-2. Si se decide publicar iOS, ejecutar sync selectivo del bundle iOS en Hub y validar smoke+rutas.
+2. Si cambian Android o SDD, ejecutar sync selectivo por curso en Hub y validar smoke+rutas.
 3. Mantener actualización de este archivo al cerrar cada bloque de trabajo.
 
 ## Riesgos abiertos

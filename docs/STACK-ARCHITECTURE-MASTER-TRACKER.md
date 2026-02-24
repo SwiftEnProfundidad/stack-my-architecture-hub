@@ -20,6 +20,7 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 6. Validación runtime del Hub en verde tras sincronización.
 7. SDD week06 offline-cache integrado en `main` con ciclo RED-GREEN-REFACTOR completo.
 8. iOS Fase 6 cerrada: pipeline de enlaces/anchors + revisión visual trimestral Mermaid/assets completadas y versionadas.
+9. Sync selectivo de iOS aplicado en Hub y validado por smoke runtime.
 
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.
@@ -35,6 +36,7 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 11. Cierre operativo iOS Fase 6:
     - `0291000` (pipeline enlaces/anchors automatizado)
     - `c2f3e40` (revisión visual trimestral Mermaid/assets + evidencia)
+12. Publicación selectiva iOS en Hub (`bcba91d`) con validación runtime en verde.
 
 ## Bloqueos actuales
 1. Ninguno operativo en la app/hub.
@@ -42,7 +44,7 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 
 ## Próximos pasos recomendados
 1. Mantener este tracker como fuente única de estado transversal.
-2. Ejecutar sync selectivo de iOS en Hub cuando se decida publicación del bloque Fase 6.
+2. Aplicar sync selectivo por curso (Android/SDD) cuando se cierren nuevos bloques en repos fuente.
 3. Actualizar `docs/SESSION-HANDOFF.md` al cerrar cada sesión de trabajo.
 4. Consolidar decisiones de operación en `docs/DECISIONS-ADR-LITE.md`.
 
@@ -58,6 +60,7 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
    - `34fb52a` (SDD tracking actualizado en main)
    - `017b3dc` (Hub sync SDD post-merge)
    - `d8d286e` (Hub resync SDD con tracking final)
+   - `bcba91d` (Hub sync selectivo iOS post Fase 6)
 
 ## Referencias de estabilidad del Hub
 1. Commit: `1940c7d`
