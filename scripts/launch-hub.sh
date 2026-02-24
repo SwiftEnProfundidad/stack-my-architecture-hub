@@ -17,6 +17,35 @@ SDD_REPO="$PROJECTS_ROOT/stack-my-architecture-SDD"
 
 mkdir -p "$RUNTIME_DIR"
 
+# Desktop app launches may not include Homebrew in PATH.
+DEFAULT_PATH="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+export PATH="/opt/homebrew/bin:/usr/local/bin:${PATH:-$DEFAULT_PATH}"
+
+resolve_binary() {
+  local tool="$1"
+  shift
+
+  local candidate
+  candidate="$(command -v "$tool" 2>/dev/null || true)"
+  if [ -n "$candidate" ]; then
+    printf '%s' "$candidate"
+    return 0
+  fi
+
+  for candidate in "$@"; do
+    if [ -x "$candidate" ]; then
+      printf '%s' "$candidate"
+      return 0
+    fi
+  done
+
+  return 1
+}
+
+NODE_BIN="$(resolve_binary node /opt/homebrew/bin/node /usr/local/bin/node || true)"
+NPM_BIN="$(resolve_binary npm /opt/homebrew/bin/npm /usr/local/bin/npm || true)"
+
+
 extract_key_from_file() {
   local file="$1"
   if [ ! -f "$file" ]; then
@@ -225,7 +254,17 @@ is_port_listening() {
 
 health_ok() {
   local port="$1"
-  curl -fsS "http://127.0.0.1:${port}/health" >/dev/null 2>&1
+  local health_payload
+  health_payload="$(curl -fsS "http://127.0.0.1:${port}/health" 2>/dev/null || true)"
+  if [ -z "$health_payload" ]; then
+    return 1
+  fi
+
+  if [[ "$health_payload" != *'"ok":true'* ]] || [[ "$health_payload" != *'"service":"assistant-bridge"'* ]]; then
+    return 1
+  fi
+
+  curl -fsS "http://127.0.0.1:${port}/index.html" >/dev/null 2>&1
 }
 
 wait_health() {
@@ -339,13 +378,23 @@ start_server() {
 
   cd "$BRIDGE_DIR"
 
+  if [ -z "$NODE_BIN" ]; then
+    echo "❌ No se encontró node en PATH (entorno de app sin Homebrew)."
+    return 1
+  fi
+
   if [ ! -d node_modules ]; then
+    if [ -z "$NPM_BIN" ]; then
+      echo "❌ No se encontró npm para instalar dependencias iniciales."
+      return 1
+    fi
+
     echo "📦 Instalando dependencias (primera vez)..."
-    npm install --silent
+    "$NPM_BIN" install --silent
   fi
 
   : > "$LOG_FILE"
-  PORT="$port" OPENAI_API_KEY="$api_key" nohup node server.js >>"$LOG_FILE" 2>&1 &
+  PORT="$port" OPENAI_API_KEY="$api_key" nohup "$NODE_BIN" server.js >>"$LOG_FILE" 2>&1 &
   local pid=$!
   echo "$pid" > "$PID_FILE"
   echo "$port" > "$PORT_FILE"
@@ -355,10 +404,52 @@ start_server() {
     if kill -0 "$pid" >/dev/null 2>&1; then
       kill "$pid" >/dev/null 2>&1 || true
     fi
-    rm -f "$PID_FILE"
+    rm -f "$PID_FILE" "$PORT_FILE"
     return 1
   fi
 }
+
+open_url_with_fallback() {
+  local url="$1"
+  local ts
+  ts="$(/bin/date '+%Y-%m-%d %H:%M:%S')"
+
+  # Prefer explicit browsers to guarantee foreground focus.
+  if /usr/bin/open -a "Google Chrome" "$url" >/dev/null 2>&1; then
+    echo "[$ts] browser_open: explicit app ok -> Google Chrome" >>"$LOG_FILE"
+    return 0
+  fi
+
+  if /usr/bin/open -a "Safari" "$url" >/dev/null 2>&1; then
+    echo "[$ts] browser_open: explicit app ok -> Safari" >>"$LOG_FILE"
+    return 0
+  fi
+
+  if /usr/bin/open -a "Comet" "$url" >/dev/null 2>&1; then
+    echo "[$ts] browser_open: explicit app ok -> Comet" >>"$LOG_FILE"
+    return 0
+  fi
+
+  if /usr/bin/open "$url" >/dev/null 2>&1; then
+    echo "[$ts] browser_open: default open ok" >>"$LOG_FILE"
+    return 0
+  fi
+
+  if /usr/bin/osascript - "$url" <<'APPLESCRIPT' >/dev/null 2>&1
+on run argv
+  set targetUrl to item 1 of argv
+  open location targetUrl
+end run
+APPLESCRIPT
+  then
+    echo "[$ts] browser_open: osascript open location ok" >>"$LOG_FILE"
+    return 0
+  fi
+
+  echo "[$ts] browser_open: failed all methods" >>"$LOG_FILE"
+  return 1
+}
+
 
 open_course() {
   local port="$1"
@@ -385,7 +476,9 @@ open_course() {
   fi
 
   local url="http://127.0.0.1:${port}${path}${separator}_cb=${cache_bust}"
-  open "$url" >/dev/null 2>&1 || true
+  if ! open_url_with_fallback "$url"; then
+    echo "⚠️ No se pudo abrir navegador automáticamente. URL: $url"
+  fi
   echo "✅ Hub listo en: http://127.0.0.1:${port}/index.html"
   echo "✅ Abierto en el navegador: $url"
 }
@@ -434,9 +527,7 @@ main() {
   local api_key
   api_key="$(resolve_api_key || true)"
   if [ -z "$api_key" ]; then
-    echo "❌ OPENAI_API_KEY no está configurada."
-    echo "Define OPENAI_API_KEY o crea assistant-bridge/.env con OPENAI_API_KEY=..."
-    exit 1
+    echo "⚠️ OPENAI_API_KEY no está configurada: el hub arrancará sin chat IA."
   fi
 
   echo "🚀 Arrancando Hub + proxy en puerto $port ..."

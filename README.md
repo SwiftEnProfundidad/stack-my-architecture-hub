@@ -10,40 +10,40 @@ El launcher robusto evita depender de `~/.zshrc`, elige un puerto libre no gené
 Además, antes de abrir, comprueba si el hub publicado está stale (comparando `build-manifest.json` + commits actuales de `hub/ios/android/sdd`) y, si detecta cambios, lanza rebuild automático.
 
 ```bash
-/Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture-hub/open-proxy.command
+/Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture/stack-my-architecture-hub/open-proxy.command
 ```
 
 Abrir directamente un curso:
 
 ```bash
-/Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture-hub/open-proxy.command --course sdd
-/Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture-hub/open-proxy.command ios
-/Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture-hub/open-proxy.command android
+/Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture/stack-my-architecture-hub/open-proxy.command --course sdd
+/Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture/stack-my-architecture-hub/open-proxy.command ios
+/Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture/stack-my-architecture-hub/open-proxy.command android
 ```
 
 Opcional: fijar puerto manualmente.
 
 ```bash
-STACK_MY_ARCH_HUB_PORT=46200 /Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture-hub/open-proxy.command
+STACK_MY_ARCH_HUB_PORT=46200 /Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture/stack-my-architecture-hub/open-proxy.command
 ```
 
 Control de auto-rebuild al arrancar:
 
 ```bash
 # Modo de rebuild automático (por defecto: fast)
-STACK_MY_ARCH_AUTO_REBUILD_MODE=strict /Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture-hub/open-proxy.command
+STACK_MY_ARCH_AUTO_REBUILD_MODE=strict /Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture/stack-my-architecture-hub/open-proxy.command
 
 # Forzar rebuild aunque manifest+commits coincidan
-STACK_MY_ARCH_FORCE_REBUILD=1 /Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture-hub/open-proxy.command
+STACK_MY_ARCH_FORCE_REBUILD=1 /Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture/stack-my-architecture-hub/open-proxy.command
 
 # Saltar auto-rebuild temporalmente
-STACK_MY_ARCH_SKIP_AUTO_REBUILD=1 /Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture-hub/open-proxy.command
+STACK_MY_ARCH_SKIP_AUTO_REBUILD=1 /Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture/stack-my-architecture-hub/open-proxy.command
 ```
 
 Si quieres evitar completamente llamadas manuales en terminal, crea la app de Escritorio y abre el curso con doble clic:
 
 ```bash
-/bin/zsh -f /Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture-hub/scripts/install-desktop-app.sh
+/bin/zsh -f /Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture/stack-my-architecture-hub/scripts/install-desktop-app.sh
 ```
 
 Detener hub:
@@ -57,7 +57,7 @@ Detener hub:
 Instala launcher CLI en `~/.local/bin/stack-hub`:
 
 ```bash
-/bin/zsh -f /Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture-hub/scripts/install-cli-launcher.sh
+/bin/zsh -f /Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture/stack-my-architecture-hub/scripts/install-cli-launcher.sh
 ```
 
 Uso:
@@ -181,7 +181,7 @@ open "http://127.0.0.1:${PORT}/index.html"
 También puedes usar directamente el launcher robusto:
 
 ```bash
-/Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture-hub/open-proxy.command
+/Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture/stack-my-architecture-hub/open-proxy.command
 ```
 
 ## Endpoints

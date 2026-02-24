@@ -3,65 +3,96 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 HUB_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
-CLI_SCRIPT="$SCRIPT_DIR/stack-hub-cli.sh"
+TOGGLE_SCRIPT="$SCRIPT_DIR/toggle-hub.sh"
 STOP_SCRIPT="$SCRIPT_DIR/stop-hub.sh"
 
 DESKTOP_DIR="$HOME/Desktop"
 LAUNCH_APP="$DESKTOP_DIR/Stack My Architecture Hub.app"
 STOP_APP="$DESKTOP_DIR/Stop Stack My Architecture Hub.app"
+HUB_SHORT_APP="$DESKTOP_DIR/Hub.app"
+
+CUSTOM_ICON="$SCRIPT_DIR/assets/hub-icon.icns"
+CHATGPT_ICON="/Applications/ChatGPT.app/Contents/Resources/AppIcon.icns"
+FALLBACK_ICON="/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/ToolbarCustomizeIcon.icns"
 
 mkdir -p "$DESKTOP_DIR"
-chmod +x "$CLI_SCRIPT" "$STOP_SCRIPT"
+chmod +x "$TOGGLE_SCRIPT" "$STOP_SCRIPT"
 
-if command -v osacompile >/dev/null 2>&1; then
-  TMP_LAUNCH="$(mktemp /tmp/sma-launch-XXXX.applescript)"
-  TMP_STOP="$(mktemp /tmp/sma-stop-XXXX.applescript)"
+resolve_icon() {
+  if [ -f "$CUSTOM_ICON" ]; then
+    printf '%s' "$CUSTOM_ICON"
+    return 0
+  fi
+  if [ -f "$CHATGPT_ICON" ]; then
+    printf '%s' "$CHATGPT_ICON"
+    return 0
+  fi
+  printf '%s' "$FALLBACK_ICON"
+}
 
-  cat >"$TMP_LAUNCH" <<EOF
-on run
-  try
-    do shell script "/bin/zsh -f " & quoted form of "$CLI_SCRIPT"
-  on error errMsg number errNum
-    display alert "Stack My Architecture Hub" message errMsg as critical
-  end try
-end run
-EOF
+create_bundle_app() {
+  local app_path="$1"
+  local app_name="$2"
+  local bundle_id="$3"
+  local target_script="$4"
+  local icon_path="$5"
 
-  cat >"$TMP_STOP" <<EOF
-on run
-  try
-    do shell script "/bin/zsh -f " & quoted form of "$STOP_SCRIPT"
-  on error errMsg number errNum
-    display alert "Stop Stack My Architecture Hub" message errMsg as critical
-  end try
-end run
-EOF
+  rm -rf "$app_path"
+  mkdir -p "$app_path/Contents/MacOS" "$app_path/Contents/Resources"
 
-  rm -rf "$LAUNCH_APP" "$STOP_APP"
-  osacompile -o "$LAUNCH_APP" "$TMP_LAUNCH"
-  osacompile -o "$STOP_APP" "$TMP_STOP"
-  rm -f "$TMP_LAUNCH" "$TMP_STOP"
+  cat >"$app_path/Contents/Info.plist" <<EOF_PLIST
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>CFBundleDevelopmentRegion</key>
+  <string>en</string>
+  <key>CFBundleExecutable</key>
+  <string>launcher</string>
+  <key>CFBundleIdentifier</key>
+  <string>${bundle_id}</string>
+  <key>CFBundleInfoDictionaryVersion</key>
+  <string>6.0</string>
+  <key>CFBundleName</key>
+  <string>${app_name}</string>
+  <key>CFBundlePackageType</key>
+  <string>APPL</string>
+  <key>CFBundleShortVersionString</key>
+  <string>1.0</string>
+  <key>CFBundleVersion</key>
+  <string>1</string>
+  <key>CFBundleIconFile</key>
+  <string>hub-icon.icns</string>
+  <key>LSMinimumSystemVersion</key>
+  <string>11.0</string>
+</dict>
+</plist>
+EOF_PLIST
 
-  echo "✅ App creada: $LAUNCH_APP"
-  echo "✅ App creada: $STOP_APP"
-else
-  LAUNCH_CMD="$DESKTOP_DIR/Stack My Architecture Hub.command"
-  STOP_CMD="$DESKTOP_DIR/Stop Stack My Architecture Hub.command"
-
-  cat >"$LAUNCH_CMD" <<EOF
+  cat >"$app_path/Contents/MacOS/launcher" <<EOF_LAUNCH
 #!/bin/zsh
-exec /bin/zsh -f "$CLI_SCRIPT"
-EOF
+set -euo pipefail
+nohup /bin/zsh -f "$target_script" >/dev/null 2>&1 &
+exit 0
+EOF_LAUNCH
+  chmod +x "$app_path/Contents/MacOS/launcher"
 
-  cat >"$STOP_CMD" <<EOF
-#!/bin/zsh
-exec /bin/zsh -f "$STOP_SCRIPT"
-EOF
+  if [ -f "$icon_path" ]; then
+    cp "$icon_path" "$app_path/Contents/Resources/hub-icon.icns"
+  fi
 
-  chmod +x "$LAUNCH_CMD" "$STOP_CMD"
-  echo "⚠️ osacompile no disponible. Se crearon .command en el Escritorio."
-  echo "✅ $LAUNCH_CMD"
-  echo "✅ $STOP_CMD"
-fi
+  xattr -dr com.apple.quarantine "$app_path" >/dev/null 2>&1 || true
+  codesign --force --deep --sign - "$app_path" >/dev/null 2>&1 || true
+}
 
+ICON_PATH="$(resolve_icon)"
+
+create_bundle_app "$LAUNCH_APP" "Stack My Architecture Hub" "com.stackmyarchitecture.hub" "$TOGGLE_SCRIPT" "$ICON_PATH"
+create_bundle_app "$STOP_APP" "Stop Stack My Architecture Hub" "com.stackmyarchitecture.hub.stop" "$STOP_SCRIPT" "$ICON_PATH"
+create_bundle_app "$HUB_SHORT_APP" "Hub" "com.stackmyarchitecture.hub.short" "$TOGGLE_SCRIPT" "$ICON_PATH"
+
+echo "✅ App creada: $LAUNCH_APP"
+echo "✅ App creada: $STOP_APP"
+echo "✅ App creada: $HUB_SHORT_APP"
 echo "ℹ️ Hub root: $HUB_ROOT"
+echo "ℹ️ Icono aplicado: $ICON_PATH"
