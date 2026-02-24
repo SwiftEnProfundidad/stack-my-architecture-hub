@@ -6,14 +6,14 @@
 <meta name="darkreader-lock">
 <meta name="course-id" content="stack-my-architecture-sdd">
 <title>Stack: IA + Spec-Driven Development</title>
-<link rel="stylesheet" href="assets/study-ux.css?v=1771932743">
-<link rel="stylesheet" href="assets/course-switcher.css?v=1771932743">
-<link rel="stylesheet" href="assets/assistant-panel.css?v=1771932743">
-<script defer src="assets/study-ux.js?v=1771932743"></script>
-<script defer src="assets/course-switcher.js?v=1771932743"></script>
-<script defer src="assets/theme-controls.js?v=1771932743"></script>
-<script defer src="assets/assistant-panel.js?v=1771932743"></script>
-<script defer src="assets/assistant-bridge.js?v=1771932743"></script>
+<link rel="stylesheet" href="assets/study-ux.css?v=1771936910">
+<link rel="stylesheet" href="assets/course-switcher.css?v=1771936910">
+<link rel="stylesheet" href="assets/assistant-panel.css?v=1771936910">
+<script defer src="assets/study-ux.js?v=1771936910"></script>
+<script defer src="assets/course-switcher.js?v=1771936910"></script>
+<script defer src="assets/theme-controls.js?v=1771936910"></script>
+<script defer src="assets/assistant-panel.js?v=1771936910"></script>
+<script defer src="assets/assistant-bridge.js?v=1771936910"></script>
 
 <!-- Google Fonts - Inter -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -2005,6 +2005,24 @@ Evidencia: swift test → ✔ ticketDraftFailsWhenSubjectIsTooShort passed</code
     - "Banco de quizzes por etapa"
     - "Casos sectoriales adicionales"
     - "Version fast-track de 8 semanas"</code></pre>
+<h2 id="00-informe-TODO-ejecucion-actual-del-ticket">Ejecucion actual del ticket</h2>
+<pre><code class="language-yaml">execution_lane:
+  tracking_md: "00-informe/TODO.md"
+  branch: "feat/week06-offline-cache-partial-sync"
+  in_progress: []
+  done:
+    - id: WEEK06-OFFLINE-SYNC-003
+      title: "Sincronizacion parcial conserva aplicadas y propaga error de dominio"
+      stage: REFACTOR
+      status: done
+      scope:
+        - "openspec/specs/ticketing/spec.md"
+        - "project/HelpdeskSDD/BDD/week06-offline-cache.feature"
+        - "project/HelpdeskSDD/Sources/HelpdeskInfrastructureOfflineCache/OfflineFirstTicketRepository.swift"
+        - "project/HelpdeskSDD/Tests/HelpdeskInfrastructureOfflineCacheTests/OfflineFirstTicketRepositoryTests.swift"
+      evidence:
+        - "swift test --package-path project/HelpdeskSDD --filter syncPartiallySuccessfulQueueRetainsOnlyUnflushedOperations"
+        - "swift test --package-path project/HelpdeskSDD"</code></pre>
 <h2 id="00-informe-TODO-backlog-priorizado">Backlog priorizado</h2>
 <p>El backlog se mantiene en formato artefacto para facilitar revision de equipo y seguimiento de avance con criterios verificables.</p>
 <pre><code class="language-yaml">backlog_priorities:
