@@ -122,6 +122,33 @@ Tras cerrar en iOS la Fase 6 de QA (pipeline de enlaces/anchors + revisión visu
 ### Resultado
 Hub mantiene estabilidad operativa tras publicar selectivamente iOS.
 
+## Regresión post-sync selectivo Android + SDD
+### Fecha
+2026-02-24
+
+### Contexto
+Se validaron los cambios pendientes de `android/*.html` y `sdd/*.html` en Hub contra sus repos fuente y se publicaron de forma selectiva.
+
+### Evidencia versionada
+1. Hub sync selectivo Android + SDD: `dac88cc` (`chore(hub): sync android and sdd bundles`)
+2. Scope Hub:
+   - `android/curso-stack-my-architecture-android.html`
+   - `android/index.html`
+   - `sdd/curso-stack-my-architecture-sdd.html`
+   - `sdd/index.html`
+
+### Verificación funcional
+1. Comparación binaria con fuentes `dist` -> OK (`cmp` en 4/4 archivos).
+2. `./scripts/smoke-hub-runtime.sh` -> OK (puerto temporal `46210`).
+3. Rutas verificadas dentro del smoke:
+   - `/index.html` -> OK
+   - `/ios/index.html` -> OK
+   - `/android/index.html` -> OK
+   - `/sdd/index.html` -> OK
+
+### Resultado
+Hub se mantiene estable tras sincronizar Android + SDD.
+
 ## Nota operativa
 Si reaparece síntoma similar:
 1. Revisar `.runtime/hub.port` y `.runtime/hub.pid` del hub.
