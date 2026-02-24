@@ -18,14 +18,16 @@ Repos incluidos:
 3. Tag: `hub-stable-20260224`
 
 ## Último bloque operativo cerrado
-1. Merge en SDD de ticket week06 offline-cache parcial con TDD completo.
-2. Commit SDD: `76d5764` (`merge(week06): integrate offline partial sync tdd cycle`)
-3. Tracking SDD normalizado a estado real en `main`.
-4. Commit SDD: `34fb52a` (`docs(tracking): mark week06 ticket merged on main`)
-5. Sync y resync final en Hub del bundle SDD tras merge/tracking:
-   - `017b3dc`
-   - `d8d286e`
-6. Validación runtime:
+1. Validación y sync selectivo de Android + SDD en Hub.
+2. Commit Hub del bloque:
+   - `dac88cc` (`chore(hub): sync android and sdd bundles`)
+3. Scope de publicación:
+   - `android/curso-stack-my-architecture-android.html`
+   - `android/index.html`
+   - `sdd/curso-stack-my-architecture-sdd.html`
+   - `sdd/index.html`
+4. Validación ejecutada:
+   - Comparación `cmp` contra `dist` de origen en 4/4 archivos -> OK
    - `./scripts/smoke-hub-runtime.sh` -> OK
    - Rutas `/index.html`, `/ios/index.html`, `/android/index.html`, `/sdd/index.html` verificadas dentro de smoke.
 
@@ -34,10 +36,11 @@ Repos incluidos:
 2. Estandarizar seguimiento con documentos de control en `docs/`.
 3. Mantener commits atómicos: contenido publicado y tracking en bloques separados.
 4. Mantener política de sync selectivo del Hub cuando iOS/Android estén en WIP local.
+5. Monitorear próximos sync selectivos por curso según cierre de bloques en repos fuente.
 
 ## Siguiente paso concreto
 1. Usar este paquete `docs/` como base del seguimiento del nuevo thread.
-2. Si cambian repos fuente, ejecutar sync/publicación del Hub y validar smoke+rutas.
+2. Si cambian Android o SDD, ejecutar sync selectivo por curso en Hub y validar smoke+rutas.
 3. Mantener actualización de este archivo al cerrar cada bloque de trabajo.
 
 ## Riesgos abiertos

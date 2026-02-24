@@ -97,6 +97,58 @@ Tras cerrar el ticket en `main` de SDD, se normalizó el estado de tracking (`br
 ### Resultado
 Hub permanece estable tras la normalización final de tracking y publicación SDD.
 
+## Regresión post-sync selectivo iOS Fase 6
+### Fecha
+2026-02-24
+
+### Contexto
+Tras cerrar en iOS la Fase 6 de QA (pipeline de enlaces/anchors + revisión visual trimestral), se sincronizó únicamente el bundle publicado de iOS en Hub para evitar arrastre de WIP en Android/SDD.
+
+### Evidencia versionada
+1. iOS cierre Fase 6:
+   - `0291000` (`chore(qa): automate links-anchor validation in dist pipeline`)
+   - `c2f3e40` (`chore(qa): close quarterly visual mermaid-assets review`)
+2. Hub sync selectivo iOS: `bcba91d` (`chore(hub): sync ios bundle after phase6 qa closure`)
+3. Scope Hub: `ios/*.html`
+
+### Verificación funcional
+1. `./scripts/smoke-hub-runtime.sh` -> OK (puerto temporal `46210`).
+2. Rutas verificadas dentro del smoke:
+   - `/index.html` -> OK
+   - `/ios/index.html` -> OK
+   - `/android/index.html` -> OK
+   - `/sdd/index.html` -> OK
+
+### Resultado
+Hub mantiene estabilidad operativa tras publicar selectivamente iOS.
+
+## Regresión post-sync selectivo Android + SDD
+### Fecha
+2026-02-24
+
+### Contexto
+Se validaron los cambios pendientes de `android/*.html` y `sdd/*.html` en Hub contra sus repos fuente y se publicaron de forma selectiva.
+
+### Evidencia versionada
+1. Hub sync selectivo Android + SDD: `dac88cc` (`chore(hub): sync android and sdd bundles`)
+2. Scope Hub:
+   - `android/curso-stack-my-architecture-android.html`
+   - `android/index.html`
+   - `sdd/curso-stack-my-architecture-sdd.html`
+   - `sdd/index.html`
+
+### Verificación funcional
+1. Comparación binaria con fuentes `dist` -> OK (`cmp` en 4/4 archivos).
+2. `./scripts/smoke-hub-runtime.sh` -> OK (puerto temporal `46210`).
+3. Rutas verificadas dentro del smoke:
+   - `/index.html` -> OK
+   - `/ios/index.html` -> OK
+   - `/android/index.html` -> OK
+   - `/sdd/index.html` -> OK
+
+### Resultado
+Hub se mantiene estable tras sincronizar Android + SDD.
+
 ## Nota operativa
 Si reaparece síntoma similar:
 1. Revisar `.runtime/hub.port` y `.runtime/hub.pid` del hub.
