@@ -2,6 +2,12 @@
 
 Fecha de corte: 2026-02-25
 
+## Leyenda
+- ✅ Hecho
+- 🚧 En construccion (maximo 1)
+- ⏳ Pendiente
+- ⛔ Bloqueado
+
 ## Estado actual
 Workspace unificado en:
 `/Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture`
@@ -45,10 +51,10 @@ Repos incluidos:
 3. `./scripts/smoke-hub-runtime.sh` -> OK.
 4. Resultado operativo: no se requiere publicación selectiva en este ciclo.
 
-## Tablero operativo (solo 1 IN PROGRESS)
-1. [DONE] Publicación selectiva cross-course iOS + Android + SDD en Hub (`c9cd8c3`).
-2. [DONE] Ciclo de control de espera activa ejecutado el 2026-02-25 (sin drift + smoke OK).
-3. [IN PROGRESS] Espera activa del próximo cierre versionado en repos fuente para sync selectivo del Hub con validación `./scripts/check-selective-sync-drift.sh` + smoke.
+## Tablero operativo (la unica en construccion vive en Master Tracker)
+1. ✅ Publicación selectiva cross-course iOS + Android + SDD en Hub (`c9cd8c3`).
+2. ✅ Ciclo de control de espera activa ejecutado el 2026-02-25 (sin drift + smoke OK).
+3. ⏳ Espera activa del próximo cierre versionado en repos fuente para sync selectivo del Hub con validación `./scripts/check-selective-sync-drift.sh` + smoke.
 
 ## Siguiente paso concreto
 1. Usar este paquete `docs/` como base del seguimiento del nuevo thread.
