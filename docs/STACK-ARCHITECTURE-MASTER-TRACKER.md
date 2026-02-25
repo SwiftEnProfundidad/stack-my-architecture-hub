@@ -34,6 +34,7 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 14. Baseline operativo de control fijado en `develop` para `ios/android/SDD` en cumplimiento del contrato GitFlow hard de `AGENTS.md`.
 15. Re-ejecución de ciclo de espera activa sobre baseline `develop` (2026-02-25 10:17 CET): sin drift (`6/6`) y smoke OK.
 16. Ciclo de espera activa recurrente (2026-02-25 11:14 CET) con baseline operativo actual en `main` (`ios/android/SDD`): sin drift (`6/6`) y smoke OK.
+17. Ciclo de espera activa recurrente (2026-02-25 11:21 CET) sobre baseline `main`: sin drift (`6/6`) y smoke OK.
 
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.
@@ -58,12 +59,14 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 18. Transición de baseline a `develop` en repos fuente (2026-02-25 10:04 CET) + ciclo de espera activa en verde (`no drift 6/6` + smoke OK).
 19. Ciclo de espera activa recurrente (2026-02-25 10:17 CET) sobre `develop`: `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)` y `./scripts/smoke-hub-runtime.sh` -> OK.
 20. Ciclo de espera activa recurrente (2026-02-25 11:14 CET) sobre baseline `main`: `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)` y `./scripts/smoke-hub-runtime.sh` -> OK.
+21. Ciclo de espera activa recurrente (2026-02-25 11:21 CET) sobre baseline `main`: `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)` y `./scripts/smoke-hub-runtime.sh` -> OK.
 
 ## Tablero operativo (solo 1 en construcción)
 1. ✅ Publicar sync selectivo cross-course iOS + Android + SDD en Hub (`c9cd8c3`).
 2. ✅ Ciclo de control de espera activa ejecutado el 2026-02-25: sin drift (`6/6`) y smoke OK.
 3. ✅ Espera activa recurrente ejecutada (2026-02-25 11:14 CET): sin drift (`6/6`) y smoke OK sobre baseline operativo actual (`main`).
-4. 🚧 Espera activa del próximo cierre en repos fuente para ejecutar nuevo sync selectivo en Hub (gate: `./scripts/check-selective-sync-drift.sh` + smoke runtime).
+4. ✅ Espera activa recurrente ejecutada (2026-02-25 11:21 CET): sin drift (`6/6`) y smoke OK sobre baseline `main`.
+5. 🚧 Espera activa del próximo cierre en repos fuente para ejecutar nuevo sync selectivo en Hub (gate: `./scripts/check-selective-sync-drift.sh` + smoke runtime).
 
 ## Bloqueos actuales
 1. Ninguno operativo en la app/hub.

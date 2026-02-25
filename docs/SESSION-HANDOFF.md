@@ -26,7 +26,7 @@ Repos incluidos:
 ## Último bloque operativo cerrado
 1. Ciclo de espera activa recurrente sin publicación selectiva.
 2. Fecha/hora de ejecución:
-   - `2026-02-25 11:14 CET`
+   - `2026-02-25 11:21 CET`
 3. Baseline operativo de control:
    - `stack-my-architecture-ios` -> `main`
    - `stack-my-architecture-android` -> `main`
@@ -44,7 +44,7 @@ Repos incluidos:
 3. Monitorear próximos sync selectivos por curso según cierre de bloques en repos fuente con gate automático `./scripts/check-selective-sync-drift.sh`.
 
 ## Última comprobación de espera activa
-1. Fecha: 2026-02-25 11:14 CET.
+1. Fecha: 2026-02-25 11:21 CET.
 2. `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
 3. `./scripts/smoke-hub-runtime.sh` -> OK.
 4. Baseline de control: `ios`, `android` y `SDD` en `main` local.
@@ -52,7 +52,7 @@ Repos incluidos:
 
 ## Tablero operativo (la unica en construccion vive en Master Tracker)
 1. ✅ Publicación selectiva cross-course iOS + Android + SDD en Hub (`c9cd8c3`).
-2. ✅ Ciclo de control de espera activa ejecutado el 2026-02-25 11:14 CET (baseline `main`, sin drift + smoke OK).
+2. ✅ Ciclo de control de espera activa ejecutado el 2026-02-25 11:21 CET (baseline `main`, sin drift + smoke OK).
 3. ⏳ Espera activa del próximo cierre versionado en repos fuente para sync selectivo del Hub con validación `./scripts/check-selective-sync-drift.sh` + smoke.
 
 ## Siguiente paso concreto
