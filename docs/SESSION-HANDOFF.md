@@ -24,24 +24,20 @@ Repos incluidos:
 3. Tag: `hub-stable-20260224`
 
 ## Último bloque operativo cerrado
-1. Ciclo de espera activa recurrente sin publicación selectiva.
-2. Fecha/hora de ejecución:
-   - `2026-02-25 11:21 CET`
-3. Baseline operativo de control:
-   - `stack-my-architecture-ios` -> `main`
-   - `stack-my-architecture-android` -> `main`
-   - `stack-my-architecture-SDD` -> `main` local
-4. Validación ejecutada:
-   - `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`
-   - `./scripts/smoke-hub-runtime.sh` -> OK
-   - Rutas `/index.html`, `/ios/index.html`, `/android/index.html`, `/sdd/index.html` verificadas dentro de smoke.
-5. Resultado:
-   - No se requiere publicación selectiva en este ciclo.
+1. Consolidación anti-bucle del tracking de espera activa.
+2. Acción aplicada:
+   - deduplicación de entradas repetidas en `MASTER-TRACKER` y `HUB-STABILITY-LOG`.
+3. Política operativa fijada:
+   - registrar nuevos ciclos solo con trigger real (merge fuente, drift detectado o instrucción explícita).
+4. Última evidencia técnica vigente:
+   - `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)` (2026-02-25 11:21 CET)
+   - `./scripts/smoke-hub-runtime.sh` -> OK (2026-02-25 11:21 CET)
 
 ## Trabajo en curso
 1. Mantener commits atómicos: contenido publicado y tracking en bloques separados.
 2. Mantener política de sync selectivo del Hub cuando algún repo fuente esté en WIP local.
-3. Monitorear próximos sync selectivos por curso según cierre de bloques en repos fuente con gate automático `./scripts/check-selective-sync-drift.sh`.
+3. Ejecutar y registrar espera activa solo ante trigger real (merge fuente, drift detectado o instrucción explícita).
+4. Monitorear próximos sync selectivos por curso según cierre de bloques en repos fuente con gate automático `./scripts/check-selective-sync-drift.sh`.
 
 ## Última comprobación de espera activa
 1. Fecha: 2026-02-25 11:21 CET.
@@ -52,13 +48,14 @@ Repos incluidos:
 
 ## Tablero operativo (la unica en construccion vive en Master Tracker)
 1. ✅ Publicación selectiva cross-course iOS + Android + SDD en Hub (`c9cd8c3`).
-2. ✅ Ciclo de control de espera activa ejecutado el 2026-02-25 11:21 CET (baseline `main`, sin drift + smoke OK).
+2. ✅ Tracking anti-bucle consolidado con última evidencia técnica válida de `2026-02-25 11:21 CET`.
 3. ⏳ Espera activa del próximo cierre versionado en repos fuente para sync selectivo del Hub con validación `./scripts/check-selective-sync-drift.sh` + smoke.
 
 ## Siguiente paso concreto
 1. Usar este paquete `docs/` como base del seguimiento del nuevo thread.
 2. Si cambian Android o SDD, ejecutar sync selectivo por curso en Hub y validar smoke+rutas.
-3. Mantener actualización de este archivo al cerrar cada bloque de trabajo.
+3. Si no hay trigger real, no registrar un nuevo ciclo de espera activa.
+4. Mantener actualización de este archivo al cerrar cada bloque de trabajo.
 
 ## Riesgos abiertos
 1. `codex resume` filtra por `cwd` si no se usa `--all`.

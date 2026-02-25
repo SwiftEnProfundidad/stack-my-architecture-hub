@@ -97,3 +97,22 @@ Estandarizar el uso de `./scripts/check-selective-sync-drift.sh` como gate previ
 ### Impacto
 1. Menor fricción para ejecutar la tarea en curso de "espera activa".
 2. Menor probabilidad de error humano al decidir si procede un sync.
+
+## ADR-LITE-007 — Política anti-bucle para espera activa
+### Fecha
+2026-02-25
+
+### Decisión
+Registrar nuevos ciclos de "espera activa" en tracking únicamente cuando exista trigger real:
+1. merge/cierre versionado en repos fuente (`ios`, `android`, `SDD`),
+2. drift detectado por `./scripts/check-selective-sync-drift.sh`, o
+3. instrucción explícita del usuario.
+
+### Motivación
+1. Evitar ruido documental por ejecuciones repetidas sin cambios.
+2. Mantener el estado operativo legible y accionable.
+3. Reducir sensación de bucle en sesiones largas.
+
+### Impacto
+1. Menos entradas redundantes en `MASTER-TRACKER` y `HUB-STABILITY-LOG`.
+2. Mejor trazabilidad de eventos relevantes.

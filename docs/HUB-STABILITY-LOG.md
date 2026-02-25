@@ -198,17 +198,19 @@ Se ejecutó ciclo de control para detectar deriva entre bundles publicados del H
 ### Resultado
 No se requiere sync selectivo en este ciclo; Hub permanece estable.
 
-## Ciclo de espera activa baseline main (sin publicación)
+## Ciclos de espera activa consolidados (sin publicación)
 ### Fecha
 2026-02-25
 
 ### Contexto
-Se normalizó el baseline de control en repos fuente para monitoreo operativo:
-1. `stack-my-architecture-ios` -> `main`
-2. `stack-my-architecture-android` -> `main`
-3. `stack-my-architecture-SDD` -> `main` local (sin `merge/rebase` automático contra `origin/main` por política safe).
+Se registraron varios ciclos de espera activa durante ajuste de baseline operativo (`main`/`develop`) sin cambios de publicación selectiva.
 
-### Verificación funcional
+### Ejecuciones registradas
+1. `09:56 CET` baseline `main` (`ios`, `android`, `SDD` local) -> `no drift (6/6)` + smoke OK.
+2. `10:04 CET` y `10:17 CET` baseline `develop` -> `no drift (6/6)` + smoke OK.
+3. `11:14 CET` y `11:21 CET` baseline `main` -> `no drift (6/6)` + smoke OK.
+
+### Evidencia técnica común
 1. `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
 2. `./scripts/smoke-hub-runtime.sh` -> OK (puerto temporal `46210`).
 3. Rutas verificadas dentro de smoke:
@@ -218,73 +220,13 @@ Se normalizó el baseline de control en repos fuente para monitoreo operativo:
    - `/sdd/index.html` -> OK
 
 ### Resultado
-No se requiere sync selectivo en este ciclo; Hub permanece estable sobre baseline `main`.
+No se requiere sync selectivo en estos ciclos; Hub permanece estable.
 
-## Ciclo de espera activa baseline develop (sin publicación)
-### Fecha
-2026-02-25
-
-### Contexto
-Se alineó el baseline operativo de repos fuente a `develop` para cumplir contrato GitFlow hard de `AGENTS.md`:
-1. `stack-my-architecture-ios` -> `develop`
-2. `stack-my-architecture-android` -> `develop`
-3. `stack-my-architecture-SDD` -> `develop`
-
-### Verificación funcional
-1. `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
-2. `./scripts/smoke-hub-runtime.sh` -> OK (puerto temporal `46210`).
-3. Rutas verificadas dentro de smoke:
-   - `/index.html` -> OK
-   - `/ios/index.html` -> OK
-   - `/android/index.html` -> OK
-   - `/sdd/index.html` -> OK
-
-### Resultado
-No se requiere sync selectivo en este ciclo; Hub permanece estable sobre baseline `develop`.
-
-## Ciclo de espera activa recurrente baseline main (sin publicación)
-### Fecha
-2026-02-25
-
-### Contexto
-Se ejecutó un nuevo ciclo operativo de espera activa con baseline actual en `main` para repos fuente:
-1. `stack-my-architecture-ios` -> `main`
-2. `stack-my-architecture-android` -> `main`
-3. `stack-my-architecture-SDD` -> `main` local
-
-### Verificación funcional
-1. `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
-2. `./scripts/smoke-hub-runtime.sh` -> OK (puerto temporal `46210`).
-3. Rutas verificadas dentro de smoke:
-   - `/index.html` -> OK
-   - `/ios/index.html` -> OK
-   - `/android/index.html` -> OK
-   - `/sdd/index.html` -> OK
-
-### Resultado
-No se requiere sync selectivo en este ciclo; Hub permanece estable sobre baseline operativo actual (`main`).
-
-## Ciclo de espera activa recurrente baseline main (sin publicación)
-### Fecha
-2026-02-25
-
-### Contexto
-Se ejecutó un nuevo ciclo de control de espera activa sobre baseline `main` para validar ausencia de deriva antes de cualquier sync selectivo:
-1. `stack-my-architecture-ios` -> `main`
-2. `stack-my-architecture-android` -> `main`
-3. `stack-my-architecture-SDD` -> `main` local
-
-### Verificación funcional
-1. `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
-2. `./scripts/smoke-hub-runtime.sh` -> OK (puerto temporal `46210`).
-3. Rutas verificadas dentro de smoke:
-   - `/index.html` -> OK
-   - `/ios/index.html` -> OK
-   - `/android/index.html` -> OK
-   - `/sdd/index.html` -> OK
-
-### Resultado
-No se requiere sync selectivo en este ciclo; Hub permanece estable sobre baseline `main`.
+### Política anti-bucle
+Registrar un nuevo ciclo en este log solo cuando exista trigger real:
+1. merge/cierre versionado en repo fuente,
+2. deriva detectada por `check-selective-sync-drift.sh`, o
+3. instrucción explícita del usuario.
 
 ## Nota operativa
 Si reaparece síntoma similar:
