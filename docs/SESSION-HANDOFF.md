@@ -1,6 +1,6 @@
 # SESSION HANDOFF
 
-Fecha de corte: 2026-02-24
+Fecha de corte: 2026-02-25
 
 ## Estado actual
 Workspace unificado en:
@@ -18,25 +18,30 @@ Repos incluidos:
 3. Tag: `hub-stable-20260224`
 
 ## Último bloque operativo cerrado
-1. Validación y sync selectivo de Android + SDD en Hub.
+1. Validación y sync selectivo cross-course de iOS + Android + SDD en Hub.
 2. Commit Hub del bloque:
-   - `dac88cc` (`chore(hub): sync android and sdd bundles`)
+   - `c9cd8c3` (`chore(hub): sync ios android sdd bundles from source dist`)
 3. Scope de publicación:
+   - `ios/curso-stack-my-architecture.html`
+   - `ios/index.html`
    - `android/curso-stack-my-architecture-android.html`
    - `android/index.html`
    - `sdd/curso-stack-my-architecture-sdd.html`
    - `sdd/index.html`
 4. Validación ejecutada:
-   - Comparación `cmp` contra `dist` de origen en 4/4 archivos -> OK
+   - Comparación `cmp` contra `dist` de origen en 6/6 archivos -> OK
+   - Nota: `ios/index.html` validado contra `stack-my-architecture-ios/dist/curso-stack-my-architecture.html` (mirror del curso).
    - `./scripts/smoke-hub-runtime.sh` -> OK
    - Rutas `/index.html`, `/ios/index.html`, `/android/index.html`, `/sdd/index.html` verificadas dentro de smoke.
 
 ## Trabajo en curso
-1. Asegurar continuidad de contexto entre chats/sesiones.
-2. Estandarizar seguimiento con documentos de control en `docs/`.
-3. Mantener commits atómicos: contenido publicado y tracking en bloques separados.
-4. Mantener política de sync selectivo del Hub cuando iOS/Android estén en WIP local.
-5. Monitorear próximos sync selectivos por curso según cierre de bloques en repos fuente.
+1. Mantener commits atómicos: contenido publicado y tracking en bloques separados.
+2. Mantener política de sync selectivo del Hub cuando algún repo fuente esté en WIP local.
+3. Monitorear próximos sync selectivos por curso según cierre de bloques en repos fuente.
+
+## Tablero operativo (solo 1 IN PROGRESS)
+1. [DONE] Publicación selectiva cross-course iOS + Android + SDD en Hub (`c9cd8c3`).
+2. [IN PROGRESS] Espera activa del próximo cierre versionado en repos fuente para sync selectivo del Hub con validación `cmp` + smoke.
 
 ## Siguiente paso concreto
 1. Usar este paquete `docs/` como base del seguimiento del nuevo thread.

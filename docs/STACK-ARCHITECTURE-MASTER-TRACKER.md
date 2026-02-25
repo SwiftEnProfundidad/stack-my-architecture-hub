@@ -1,6 +1,6 @@
 # STACK ARCHITECTURE MASTER TRACKER
 
-Fecha de actualización: 2026-02-24
+Fecha de actualización: 2026-02-25
 
 ## Objetivo global
 Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Architecture sin perder continuidad entre sesiones.
@@ -22,6 +22,7 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 8. iOS Fase 6 cerrada: pipeline de enlaces/anchors + revisión visual trimestral Mermaid/assets completadas y versionadas.
 9. Sync selectivo de iOS aplicado en Hub y validado por smoke runtime.
 10. Sync selectivo de Android + SDD aplicado en Hub con validación de integridad y smoke runtime en verde.
+11. Sync selectivo cross-course (iOS + Android + SDD) publicado en Hub con verificación `cmp` 6/6 y runtime smoke en verde.
 
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.
@@ -39,6 +40,11 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
     - `c2f3e40` (revisión visual trimestral Mermaid/assets + evidencia)
 12. Publicación selectiva iOS en Hub (`bcba91d`) con validación runtime en verde.
 13. Publicación selectiva Android + SDD en Hub (`dac88cc`) con validación de integridad (`cmp`) y runtime smoke.
+14. Publicación selectiva cross-course iOS + Android + SDD en Hub (`c9cd8c3`) con validación de integridad (`cmp` 6/6) y runtime smoke.
+
+## Tablero operativo (solo 1 en construcción)
+1. [DONE] Publicar sync selectivo cross-course iOS + Android + SDD en Hub (`c9cd8c3`).
+2. [IN PROGRESS] Espera activa del próximo cierre en repos fuente para ejecutar nuevo sync selectivo en Hub (gate: `cmp` + smoke runtime).
 
 ## Bloqueos actuales
 1. Ninguno operativo en la app/hub.
@@ -64,6 +70,7 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
    - `d8d286e` (Hub resync SDD con tracking final)
    - `bcba91d` (Hub sync selectivo iOS post Fase 6)
    - `dac88cc` (Hub sync selectivo Android + SDD)
+   - `c9cd8c3` (Hub sync selectivo cross-course iOS + Android + SDD)
 
 ## Referencias de estabilidad del Hub
 1. Commit: `1940c7d`

@@ -149,6 +149,36 @@ Se validaron los cambios pendientes de `android/*.html` y `sdd/*.html` en Hub co
 ### Resultado
 Hub se mantiene estable tras sincronizar Android + SDD.
 
+## Regresión post-sync selectivo cross-course iOS + Android + SDD
+### Fecha
+2026-02-25
+
+### Contexto
+Se detectaron cambios versionables en bundles publicados de `ios`, `android` y `sdd` en Hub y se aplicó sync selectivo cross-course manteniendo política de no publicar WIP fuera de alcance.
+
+### Evidencia versionada
+1. Hub sync cross-course: `c9cd8c3` (`chore(hub): sync ios android sdd bundles from source dist`)
+2. Scope Hub:
+   - `ios/curso-stack-my-architecture.html`
+   - `ios/index.html`
+   - `android/curso-stack-my-architecture-android.html`
+   - `android/index.html`
+   - `sdd/curso-stack-my-architecture-sdd.html`
+   - `sdd/index.html`
+
+### Verificación funcional
+1. Comparación binaria con repos fuente -> OK (`cmp` 6/6):
+   - `ios/index.html` se valida contra `stack-my-architecture-ios/dist/curso-stack-my-architecture.html` (mirror operativo del curso en iOS).
+2. `./scripts/smoke-hub-runtime.sh` -> OK (puerto temporal `46210`).
+3. Rutas verificadas dentro de smoke:
+   - `/index.html` -> OK
+   - `/ios/index.html` -> OK
+   - `/android/index.html` -> OK
+   - `/sdd/index.html` -> OK
+
+### Resultado
+Hub mantiene estabilidad operativa tras el sync selectivo cross-course.
+
 ## Nota operativa
 Si reaparece síntoma similar:
 1. Revisar `.runtime/hub.port` y `.runtime/hub.pid` del hub.
