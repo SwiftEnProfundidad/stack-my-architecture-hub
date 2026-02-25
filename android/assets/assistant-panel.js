@@ -552,6 +552,26 @@
         return origin;
     }
 
+    function isLocalProxyEnvironment() {
+        if (location.protocol === 'file:') return true;
+        var host = String(location && location.hostname ? location.hostname : '').trim().toLowerCase();
+        return host === 'localhost' || host === '127.0.0.1';
+    }
+
+    function assistantUnavailableMessage() {
+        if (isLocalProxyEnvironment()) {
+            return 'Asistente no disponible. Inicia stack-my-architecture-hub/open-proxy.command';
+        }
+        return 'Asistente no disponible en este deployment. Revisa OPENAI_API_KEY y rutas del assistant-bridge.';
+    }
+
+    function proxyRecoveryHint() {
+        if (isLocalProxyEnvironment()) {
+            return ' Inicia stack-my-architecture-hub/open-proxy.command si el proxy no está activo.';
+        }
+        return ' Revisa que Vercel tenga OPENAI_API_KEY y que /assistant/query responda correctamente.';
+    }
+
     function proxyCandidates() {
         var list = [
             normalizeProxyBase(state.proxyBase),
@@ -563,6 +583,10 @@
         if (location.protocol === 'http:' || location.protocol === 'https:') {
             var origin = normalizeProxyBase(location.origin);
             if (origin) list.push(origin);
+            var host = String(location && location.hostname ? location.hostname : '').trim().toLowerCase();
+            if (host.endsWith('.vercel.app') && host !== 'architecture-stack.vercel.app') {
+                list.push('https://architecture-stack.vercel.app');
+            }
         }
 
         return uniqueList(list.filter(Boolean));
@@ -1135,7 +1159,7 @@
         return ensureProxyBaseReachable()
             .then(function (ok) {
                 if (!ok) {
-                    setStatus('Asistente no disponible. Inicia stack-my-architecture-hub/open-proxy.command', 'warning');
+                    setStatus(assistantUnavailableMessage(), 'warning');
                     return null;
                 }
                 return fetch(proxyUrl('/config'));
@@ -1203,7 +1227,7 @@
                 renderPendingAttachments();
             })
             .catch(function () {
-                setStatus('Asistente no disponible. Inicia stack-my-architecture-hub/open-proxy.command', 'warning');
+                setStatus(assistantUnavailableMessage(), 'warning');
             });
     }
 
@@ -1368,7 +1392,7 @@
                 var message = err && err.name === 'AbortError'
                     ? 'Tiempo de espera agotado al consultar el asistente.'
                     : (err && err.message ? err.message : 'error desconocido');
-                setStatus(message + ' Inicia stack-my-architecture-hub/open-proxy.command si el proxy no está activo.', 'error');
+                setStatus(message + proxyRecoveryHint(), 'error');
             })
             .finally(function () {
                 clearTimeout(timeoutId);
