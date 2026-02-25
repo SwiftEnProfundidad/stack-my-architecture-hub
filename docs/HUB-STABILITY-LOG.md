@@ -179,6 +179,25 @@ Se detectaron cambios versionables en bundles publicados de `ios`, `android` y `
 ### Resultado
 Hub mantiene estabilidad operativa tras el sync selectivo cross-course.
 
+## Ciclo de espera activa sin publicación
+### Fecha
+2026-02-25
+
+### Contexto
+Se ejecutó ciclo de control para detectar deriva entre bundles publicados del Hub y `dist` de repos fuente, sin cambios de publicación pendientes.
+
+### Verificación funcional
+1. `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
+2. `./scripts/smoke-hub-runtime.sh` -> OK (puerto temporal `46210`).
+3. Rutas verificadas dentro de smoke:
+   - `/index.html` -> OK
+   - `/ios/index.html` -> OK
+   - `/android/index.html` -> OK
+   - `/sdd/index.html` -> OK
+
+### Resultado
+No se requiere sync selectivo en este ciclo; Hub permanece estable.
+
 ## Nota operativa
 Si reaparece síntoma similar:
 1. Revisar `.runtime/hub.port` y `.runtime/hub.pid` del hub.
