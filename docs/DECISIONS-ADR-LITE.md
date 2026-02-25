@@ -81,3 +81,19 @@ Cuando existan cambios locales no cerrados en repos fuente (por ejemplo iOS/Andr
 ### Impacto
 1. Publicaciones más predecibles por curso.
 2. Menor riesgo de regresión accidental en cursos no objetivo.
+
+## ADR-LITE-006 — Gate automático de drift antes de sync selectivo
+### Fecha
+2026-02-25
+
+### Decisión
+Estandarizar el uso de `./scripts/check-selective-sync-drift.sh` como gate previo al sync selectivo del Hub.
+
+### Motivación
+1. Reducir validaciones manuales repetitivas con `cmp`.
+2. Detectar de forma consistente drift y fuentes faltantes.
+3. Dejar trazabilidad operativa en un comando único y testeado.
+
+### Impacto
+1. Menor fricción para ejecutar la tarea en curso de "espera activa".
+2. Menor probabilidad de error humano al decidir si procede un sync.

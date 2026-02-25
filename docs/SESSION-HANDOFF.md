@@ -37,11 +37,11 @@ Repos incluidos:
 ## Trabajo en curso
 1. Mantener commits atómicos: contenido publicado y tracking en bloques separados.
 2. Mantener política de sync selectivo del Hub cuando algún repo fuente esté en WIP local.
-3. Monitorear próximos sync selectivos por curso según cierre de bloques en repos fuente.
+3. Monitorear próximos sync selectivos por curso según cierre de bloques en repos fuente con gate automático `./scripts/check-selective-sync-drift.sh`.
 
 ## Tablero operativo (solo 1 IN PROGRESS)
 1. [DONE] Publicación selectiva cross-course iOS + Android + SDD en Hub (`c9cd8c3`).
-2. [IN PROGRESS] Espera activa del próximo cierre versionado en repos fuente para sync selectivo del Hub con validación `cmp` + smoke.
+2. [IN PROGRESS] Espera activa del próximo cierre versionado en repos fuente para sync selectivo del Hub con validación `./scripts/check-selective-sync-drift.sh` + smoke.
 
 ## Siguiente paso concreto
 1. Usar este paquete `docs/` como base del seguimiento del nuevo thread.
@@ -60,3 +60,5 @@ Repos incluidos:
 `codex resume "UNIFY-WORKSPACE-STACK-ARCHITECTURE" --all -C "/Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture"`
 3. Crear sesión nueva en esta raíz:
 `cd "/Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture" && codex`
+4. Validar drift de sync selectivo del Hub:
+`cd "/Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture/stack-my-architecture-hub" && ./scripts/check-selective-sync-drift.sh`
