@@ -206,6 +206,18 @@ Desde ahora, la publicación del curso SDD pasa por gate estricto automático:
 - ejecuta `stack-my-architecture-SDD/scripts/run-full-audit.sh`
 - si falla cualquier validación/tests/build, el hub no publica SDD
 
+Para sync selectivo manual (sin `build-hub` global), valida drift primero:
+
+```bash
+./scripts/check-selective-sync-drift.sh
+```
+
+Si este checker devuelve drift, aplica sync selectivo del/los curso(s) afectados y después ejecuta:
+
+```bash
+./scripts/smoke-hub-runtime.sh
+```
+
 Modo rápido solo para debug local (no recomendado para publicar):
 
 ```bash
