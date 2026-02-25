@@ -60,7 +60,8 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 ## Tablero operativo (solo 1 en construcción)
 1. ✅ Publicar sync selectivo cross-course iOS + Android + SDD en Hub (`c9cd8c3`).
 2. ✅ Ciclos de espera activa consolidados (último: `2026-02-25 11:21 CET`) con `no drift (6/6)` y smoke OK.
-3. 🚧 Espera activa del próximo cierre en repos fuente para ejecutar nuevo sync selectivo en Hub (gate: `./scripts/check-selective-sync-drift.sh` + smoke runtime).
+3. ✅ Espera activa del próximo cierre en repos fuente cerrada por consolidación anti-bucle (2026-02-25), sin trigger técnico pendiente.
+4. 🚧 Standby operativo: abrir próximo bloque de sync selectivo solo con trigger real (merge fuente, drift detectado o instrucción explícita).
 
 ## Bloqueos actuales
 1. Ninguno operativo en la app/hub.

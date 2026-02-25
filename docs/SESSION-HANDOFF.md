@@ -24,19 +24,19 @@ Repos incluidos:
 3. Tag: `hub-stable-20260224`
 
 ## Último bloque operativo cerrado
-1. Consolidación anti-bucle del tracking de espera activa.
+1. Cierre administrativo de la task abierta de espera activa en tablero operativo.
 2. Acción aplicada:
-   - deduplicación de entradas repetidas en `MASTER-TRACKER` y `HUB-STABILITY-LOG`.
-3. Política operativa fijada:
+   - tarea anterior marcada como `✅` y transición a modo standby controlado.
+3. Política operativa vigente:
    - registrar nuevos ciclos solo con trigger real (merge fuente, drift detectado o instrucción explícita).
-4. Última evidencia técnica vigente:
+4. Última evidencia técnica consolidada:
    - `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)` (2026-02-25 11:21 CET)
    - `./scripts/smoke-hub-runtime.sh` -> OK (2026-02-25 11:21 CET)
 
 ## Trabajo en curso
 1. Mantener commits atómicos: contenido publicado y tracking en bloques separados.
 2. Mantener política de sync selectivo del Hub cuando algún repo fuente esté en WIP local.
-3. Ejecutar y registrar espera activa solo ante trigger real (merge fuente, drift detectado o instrucción explícita).
+3. Standby operativo hasta trigger real (merge fuente, drift detectado o instrucción explícita).
 4. Monitorear próximos sync selectivos por curso según cierre de bloques en repos fuente con gate automático `./scripts/check-selective-sync-drift.sh`.
 
 ## Última comprobación de espera activa
@@ -49,7 +49,8 @@ Repos incluidos:
 ## Tablero operativo (la unica en construccion vive en Master Tracker)
 1. ✅ Publicación selectiva cross-course iOS + Android + SDD en Hub (`c9cd8c3`).
 2. ✅ Tracking anti-bucle consolidado con última evidencia técnica válida de `2026-02-25 11:21 CET`.
-3. ⏳ Espera activa del próximo cierre versionado en repos fuente para sync selectivo del Hub con validación `./scripts/check-selective-sync-drift.sh` + smoke.
+3. ✅ Espera activa previa cerrada por consolidación anti-bucle (sin trigger técnico pendiente).
+4. ⏳ Standby operativo hasta trigger real para abrir el siguiente bloque de sync selectivo.
 
 ## Siguiente paso concreto
 1. Usar este paquete `docs/` como base del seguimiento del nuevo thread.
