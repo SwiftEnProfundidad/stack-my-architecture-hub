@@ -31,6 +31,7 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 11. Sync selectivo cross-course (iOS + Android + SDD) publicado en Hub con verificación `cmp` 6/6 y runtime smoke en verde.
 12. Gate automático de deriva para sync selectivo disponible en `scripts/check-selective-sync-drift.sh` con test shell versionado.
 13. Ciclo de espera activa ejecutado (2026-02-25) con gate automático: sin drift (`6/6`) y runtime smoke en verde.
+14. Baseline operativo de control fijado en `main` para `ios/android`; `SDD` controlado desde `main` local sin integración automática con `origin/main` cuando no hay instrucción explícita.
 
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.
@@ -51,6 +52,7 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 14. Publicación selectiva cross-course iOS + Android + SDD en Hub (`c9cd8c3`) con validación de integridad (`cmp` 6/6) y runtime smoke.
 15. Checker automatizado de drift para sync selectivo (`2c01f15`) con cobertura de casos `match`, `drift` y `missing source`.
 16. Ciclo de espera activa sin publicación (2026-02-25): `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)` y `./scripts/smoke-hub-runtime.sh` -> OK.
+17. Ciclo de espera activa baseline `main` (2026-02-25 09:56 CET): `no drift (6/6)` + smoke OK, sin publicación requerida.
 
 ## Tablero operativo (solo 1 en construcción)
 1. ✅ Publicar sync selectivo cross-course iOS + Android + SDD en Hub (`c9cd8c3`).
@@ -60,6 +62,7 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 ## Bloqueos actuales
 1. Ninguno operativo en la app/hub.
 2. Riesgo de seguimiento: confusión en `codex resume` por filtro de `cwd`.
+3. Riesgo de referencia remota en `SDD`: `main` local difiere de `origin/main`; no se integra sin instrucción explícita para evitar mezclar líneas de trabajo.
 
 ## Próximos pasos recomendados
 1. Mantener este tracker como fuente única de estado transversal.
