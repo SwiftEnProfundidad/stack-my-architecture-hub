@@ -220,6 +220,28 @@ Se normalizó el baseline de control en repos fuente para monitoreo operativo:
 ### Resultado
 No se requiere sync selectivo en este ciclo; Hub permanece estable sobre baseline `main`.
 
+## Ciclo de espera activa baseline develop (sin publicación)
+### Fecha
+2026-02-25
+
+### Contexto
+Se alineó el baseline operativo de repos fuente a `develop` para cumplir contrato GitFlow hard de `AGENTS.md`:
+1. `stack-my-architecture-ios` -> `develop`
+2. `stack-my-architecture-android` -> `develop`
+3. `stack-my-architecture-SDD` -> `develop`
+
+### Verificación funcional
+1. `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
+2. `./scripts/smoke-hub-runtime.sh` -> OK (puerto temporal `46210`).
+3. Rutas verificadas dentro de smoke:
+   - `/index.html` -> OK
+   - `/ios/index.html` -> OK
+   - `/android/index.html` -> OK
+   - `/sdd/index.html` -> OK
+
+### Resultado
+No se requiere sync selectivo en este ciclo; Hub permanece estable sobre baseline `develop`.
+
 ## Nota operativa
 Si reaparece síntoma similar:
 1. Revisar `.runtime/hub.port` y `.runtime/hub.pid` del hub.
