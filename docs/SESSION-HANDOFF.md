@@ -39,9 +39,16 @@ Repos incluidos:
 2. Mantener política de sync selectivo del Hub cuando algún repo fuente esté en WIP local.
 3. Monitorear próximos sync selectivos por curso según cierre de bloques en repos fuente con gate automático `./scripts/check-selective-sync-drift.sh`.
 
+## Última comprobación de espera activa
+1. Fecha: 2026-02-25 09:03 CET.
+2. `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
+3. `./scripts/smoke-hub-runtime.sh` -> OK.
+4. Resultado operativo: no se requiere publicación selectiva en este ciclo.
+
 ## Tablero operativo (solo 1 IN PROGRESS)
 1. [DONE] Publicación selectiva cross-course iOS + Android + SDD en Hub (`c9cd8c3`).
-2. [IN PROGRESS] Espera activa del próximo cierre versionado en repos fuente para sync selectivo del Hub con validación `./scripts/check-selective-sync-drift.sh` + smoke.
+2. [DONE] Ciclo de control de espera activa ejecutado el 2026-02-25 (sin drift + smoke OK).
+3. [IN PROGRESS] Espera activa del próximo cierre versionado en repos fuente para sync selectivo del Hub con validación `./scripts/check-selective-sync-drift.sh` + smoke.
 
 ## Siguiente paso concreto
 1. Usar este paquete `docs/` como base del seguimiento del nuevo thread.

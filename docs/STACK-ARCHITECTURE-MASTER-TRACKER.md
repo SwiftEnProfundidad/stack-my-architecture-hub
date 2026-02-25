@@ -24,6 +24,7 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 10. Sync selectivo de Android + SDD aplicado en Hub con validación de integridad y smoke runtime en verde.
 11. Sync selectivo cross-course (iOS + Android + SDD) publicado en Hub con verificación `cmp` 6/6 y runtime smoke en verde.
 12. Gate automático de deriva para sync selectivo disponible en `scripts/check-selective-sync-drift.sh` con test shell versionado.
+13. Ciclo de espera activa ejecutado (2026-02-25) con gate automático: sin drift (`6/6`) y runtime smoke en verde.
 
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.
@@ -43,10 +44,12 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 13. Publicación selectiva Android + SDD en Hub (`dac88cc`) con validación de integridad (`cmp`) y runtime smoke.
 14. Publicación selectiva cross-course iOS + Android + SDD en Hub (`c9cd8c3`) con validación de integridad (`cmp` 6/6) y runtime smoke.
 15. Checker automatizado de drift para sync selectivo (`2c01f15`) con cobertura de casos `match`, `drift` y `missing source`.
+16. Ciclo de espera activa sin publicación (2026-02-25): `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)` y `./scripts/smoke-hub-runtime.sh` -> OK.
 
 ## Tablero operativo (solo 1 en construcción)
 1. [DONE] Publicar sync selectivo cross-course iOS + Android + SDD en Hub (`c9cd8c3`).
-2. [IN PROGRESS] Espera activa del próximo cierre en repos fuente para ejecutar nuevo sync selectivo en Hub (gate: `./scripts/check-selective-sync-drift.sh` + smoke runtime).
+2. [DONE] Ciclo de control de espera activa ejecutado el 2026-02-25: sin drift (`6/6`) y smoke OK.
+3. [IN PROGRESS] Espera activa del próximo cierre en repos fuente para ejecutar nuevo sync selectivo en Hub (gate: `./scripts/check-selective-sync-drift.sh` + smoke runtime).
 
 ## Bloqueos actuales
 1. Ninguno operativo en la app/hub.
