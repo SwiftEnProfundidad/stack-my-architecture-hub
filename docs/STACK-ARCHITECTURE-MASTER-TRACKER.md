@@ -2,6 +2,12 @@
 
 Fecha de actualización: 2026-02-25
 
+## Leyenda
+- ✅ Hecho
+- 🚧 En construccion (maximo 1)
+- ⏳ Pendiente
+- ⛔ Bloqueado
+
 ## Objetivo global
 Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Architecture sin perder continuidad entre sesiones.
 
@@ -47,9 +53,9 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 16. Ciclo de espera activa sin publicación (2026-02-25): `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)` y `./scripts/smoke-hub-runtime.sh` -> OK.
 
 ## Tablero operativo (solo 1 en construcción)
-1. [DONE] Publicar sync selectivo cross-course iOS + Android + SDD en Hub (`c9cd8c3`).
-2. [DONE] Ciclo de control de espera activa ejecutado el 2026-02-25: sin drift (`6/6`) y smoke OK.
-3. [IN PROGRESS] Espera activa del próximo cierre en repos fuente para ejecutar nuevo sync selectivo en Hub (gate: `./scripts/check-selective-sync-drift.sh` + smoke runtime).
+1. ✅ Publicar sync selectivo cross-course iOS + Android + SDD en Hub (`c9cd8c3`).
+2. ✅ Ciclo de control de espera activa ejecutado el 2026-02-25: sin drift (`6/6`) y smoke OK.
+3. 🚧 Espera activa del próximo cierre en repos fuente para ejecutar nuevo sync selectivo en Hub (gate: `./scripts/check-selective-sync-drift.sh` + smoke runtime).
 
 ## Bloqueos actuales
 1. Ninguno operativo en la app/hub.
