@@ -1,0 +1,28 @@
+{
+  "rewrites": [
+    {
+      "source": "/health",
+      "destination": "/api/assistant-bridge?route=health"
+    },
+    {
+      "source": "/config",
+      "destination": "/api/assistant-bridge?route=config"
+    },
+    {
+      "source": "/config/runtime",
+      "destination": "/api/assistant-bridge?route=config-runtime"
+    },
+    {
+      "source": "/metrics",
+      "destination": "/api/assistant-bridge?route=metrics"
+    },
+    {
+      "source": "/assistant/query",
+      "destination": "/api/assistant-bridge?route=assistant-query"
+    },
+    {
+      "source": "/ask",
+      "destination": "/api/assistant-bridge?route=assistant-query"
+    }
+  ]
+}
