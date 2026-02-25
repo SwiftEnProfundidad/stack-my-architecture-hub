@@ -46,7 +46,7 @@ Repos incluidos:
 3. Monitorear próximos sync selectivos por curso según cierre de bloques en repos fuente con gate automático `./scripts/check-selective-sync-drift.sh`.
 
 ## Última comprobación de espera activa
-1. Fecha: 2026-02-25 10:04 CET.
+1. Fecha: 2026-02-25 10:17 CET.
 2. `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
 3. `./scripts/smoke-hub-runtime.sh` -> OK.
 4. Baseline de control: `ios`, `android` y `SDD` en `develop` (alineado con contrato GitFlow hard de `AGENTS.md`).
