@@ -242,6 +242,28 @@ Se alineó el baseline operativo de repos fuente a `develop` para cumplir contra
 ### Resultado
 No se requiere sync selectivo en este ciclo; Hub permanece estable sobre baseline `develop`.
 
+## Ciclo de espera activa recurrente baseline main (sin publicación)
+### Fecha
+2026-02-25
+
+### Contexto
+Se ejecutó un nuevo ciclo operativo de espera activa con baseline actual en `main` para repos fuente:
+1. `stack-my-architecture-ios` -> `main`
+2. `stack-my-architecture-android` -> `main`
+3. `stack-my-architecture-SDD` -> `main` local
+
+### Verificación funcional
+1. `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
+2. `./scripts/smoke-hub-runtime.sh` -> OK (puerto temporal `46210`).
+3. Rutas verificadas dentro de smoke:
+   - `/index.html` -> OK
+   - `/ios/index.html` -> OK
+   - `/android/index.html` -> OK
+   - `/sdd/index.html` -> OK
+
+### Resultado
+No se requiere sync selectivo en este ciclo; Hub permanece estable sobre baseline operativo actual (`main`).
+
 ## Nota operativa
 Si reaparece síntoma similar:
 1. Revisar `.runtime/hub.port` y `.runtime/hub.pid` del hub.

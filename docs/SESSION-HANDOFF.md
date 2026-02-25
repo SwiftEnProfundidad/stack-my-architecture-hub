@@ -24,21 +24,19 @@ Repos incluidos:
 3. Tag: `hub-stable-20260224`
 
 ## Último bloque operativo cerrado
-1. Validación y sync selectivo cross-course de iOS + Android + SDD en Hub.
-2. Commit Hub del bloque:
-   - `c9cd8c3` (`chore(hub): sync ios android sdd bundles from source dist`)
-3. Scope de publicación:
-   - `ios/curso-stack-my-architecture.html`
-   - `ios/index.html`
-   - `android/curso-stack-my-architecture-android.html`
-   - `android/index.html`
-   - `sdd/curso-stack-my-architecture-sdd.html`
-   - `sdd/index.html`
+1. Ciclo de espera activa recurrente sin publicación selectiva.
+2. Fecha/hora de ejecución:
+   - `2026-02-25 11:14 CET`
+3. Baseline operativo de control:
+   - `stack-my-architecture-ios` -> `main`
+   - `stack-my-architecture-android` -> `main`
+   - `stack-my-architecture-SDD` -> `main` local
 4. Validación ejecutada:
-   - Comparación `cmp` contra `dist` de origen en 6/6 archivos -> OK
-   - Nota: `ios/index.html` validado contra `stack-my-architecture-ios/dist/curso-stack-my-architecture.html` (mirror del curso).
+   - `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`
    - `./scripts/smoke-hub-runtime.sh` -> OK
    - Rutas `/index.html`, `/ios/index.html`, `/android/index.html`, `/sdd/index.html` verificadas dentro de smoke.
+5. Resultado:
+   - No se requiere publicación selectiva en este ciclo.
 
 ## Trabajo en curso
 1. Mantener commits atómicos: contenido publicado y tracking en bloques separados.
@@ -46,15 +44,15 @@ Repos incluidos:
 3. Monitorear próximos sync selectivos por curso según cierre de bloques en repos fuente con gate automático `./scripts/check-selective-sync-drift.sh`.
 
 ## Última comprobación de espera activa
-1. Fecha: 2026-02-25 10:17 CET.
+1. Fecha: 2026-02-25 11:14 CET.
 2. `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
 3. `./scripts/smoke-hub-runtime.sh` -> OK.
-4. Baseline de control: `ios`, `android` y `SDD` en `develop` (alineado con contrato GitFlow hard de `AGENTS.md`).
+4. Baseline de control: `ios`, `android` y `SDD` en `main` local.
 5. Resultado operativo: no se requiere publicación selectiva en este ciclo.
 
 ## Tablero operativo (la unica en construccion vive en Master Tracker)
 1. ✅ Publicación selectiva cross-course iOS + Android + SDD en Hub (`c9cd8c3`).
-2. ✅ Ciclo de control de espera activa ejecutado el 2026-02-25 (baseline `develop`, sin drift + smoke OK).
+2. ✅ Ciclo de control de espera activa ejecutado el 2026-02-25 11:14 CET (baseline `main`, sin drift + smoke OK).
 3. ⏳ Espera activa del próximo cierre versionado en repos fuente para sync selectivo del Hub con validación `./scripts/check-selective-sync-drift.sh` + smoke.
 
 ## Siguiente paso concreto
