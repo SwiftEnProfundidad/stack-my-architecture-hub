@@ -44,6 +44,7 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 24. Hallazgo crítico de enlaces en SDD (`/tmp/helpdesk-board-export.md`) corregido y revalidado en verde.
 25. Índice raíz de `anexos/` y guía de leyenda Mermaid (4 flechas) estandarizados en los 3 cursos.
 26. Calibración de `scripts/validate-pedagogy.py` en SDD cerrada con TDD (RED/GREEN/REFACTOR) y cobertura de tests para falsos positivos de listas/tablas.
+27. Backlog iOS de Mermaid semántica cerrado (`P2: 5 -> 0`) y publicación selectiva cross-course en Hub revalidada (`no drift 6/6` + smoke OK).
 
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.
@@ -79,6 +80,9 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
     - tests unitarios nuevos en `scripts/tests/test_validate_pedagogy.py`
     - `python3 -m unittest scripts/tests/test_validate_pedagogy.py` -> PASS
     - `python3 scripts/validate-pedagogy.py` -> PASS (148 files)
+24. Cierre de backlog iOS Mermaid + publicación:
+    - iOS PR `#5` (`chore/close-ios-mermaid-p2-20260226` -> `develop`) merge `4e41a5f`
+    - Hub sync cross-course (`ios`, `android`, `sdd`) con `check-selective-sync-drift` en `no drift (6/6)` y smoke runtime OK
 
 ## Tablero operativo (solo 1 en construcción)
 1. ✅ Publicar sync selectivo cross-course iOS + Android + SDD en Hub (`c9cd8c3`).
@@ -90,7 +94,8 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 7. ✅ Cerrar pendientes de higiene SDD (upstream de `main` + exclusión de artefactos locales no versionables).
 8. ✅ Cerrar auditoría profunda de cursos (línea a línea + Mermaid/snippets + visual QA 3 temas + anexos).
 9. ✅ Afinar `scripts/validate-pedagogy.py` de SDD para reducir falsos positivos de listas/tablas sin degradar calidad.
-10. ⏳ Próximo bloque operativo pendiente de trigger real (merge fuente, drift detectado o instrucción explícita).
+10. ✅ Cerrar backlog iOS Mermaid semántica (`P2 5->0`) y publicar resync cross-course en Hub.
+11. ⏳ Próximo bloque operativo pendiente de trigger real (merge fuente, drift detectado o instrucción explícita).
 
 ## Bloqueos actuales
 1. Ninguno operativo en la app/hub.
@@ -143,6 +148,11 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
    - `python3 scripts/validate-lesson-sequence.py` -> PASS
    - `python3 scripts/validate-markdown-snippets.py` -> PASS
    - `python3 scripts/build-html.py` -> PASS
+9. Validación técnica del bloque de cierre backlog iOS Mermaid + publicación:
+   - iOS: `python3 scripts/audit-mermaid-semantic.py` -> `OK=151, P1=0, P2=0`
+   - iOS: `./scripts/run-qa-audit-bundle.sh` -> PASS
+   - Hub: `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`
+   - Hub: `./scripts/smoke-hub-runtime.sh` -> OK
 
 ## Referencias de estabilidad del Hub
 1. Commit: `1940c7d`
