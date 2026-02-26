@@ -403,6 +403,33 @@ Se detectó regresión visual en la leyenda de flechas Mermaid: puntas desplazad
 ### Resultado
 Hub mantiene estabilidad operativa y la leyenda de flechas queda visualmente alineada en los tres cursos.
 
+## Regresión post-refuerzo pedagógico iOS de semántica Mermaid + sync selectivo
+### Fecha
+2026-02-26
+
+### Contexto
+Se detectó brecha didáctica: las lecciones de arquitectura iOS no aplicaban de forma explícita las 4 flechas Mermaid (`-->`, `-.->`, `-.o`, `--o`) sobre el diagrama real de módulos/features de la app ejemplo.
+
+### Evidencia versionada
+1. iOS:
+   - PR: `SwiftEnProfundidad/stack-my-architecture-ios#8`
+   - Merge commit: `1ea125e`
+   - Lecciones actualizadas:
+     - `02-integracion/09-app-final-etapa-2.md`
+     - `04-arquitecto/05-guia-arquitectura.md`
+
+### Verificación funcional
+1. iOS:
+   - `python3 scripts/build-html.py` -> PASS.
+   - cobertura en lecciones (sin anexos) con las 4 flechas en Mermaid: `2/2`.
+2. Hub:
+   - `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
+   - `./scripts/smoke-hub-runtime.sh` -> OK.
+   - rutas verificadas: `/index.html`, `/ios/index.html`, `/android/index.html`, `/sdd/index.html` -> OK.
+
+### Resultado
+Hub mantiene estabilidad operativa tras publicar el refuerzo pedagógico de flechas en iOS.
+
 ## Nota operativa
 Si reaparece síntoma similar:
 1. Revisar `.runtime/hub.port` y `.runtime/hub.pid` del hub.

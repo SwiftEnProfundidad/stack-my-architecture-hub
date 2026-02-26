@@ -6,14 +6,14 @@
 <meta name="darkreader-lock">
 <meta name="course-id" content="stack-my-architecture-ios">
 <title>Stack: My Architecture iOS</title>
-<link rel="stylesheet" href="assets/study-ux.css?v=1772145948">
-<link rel="stylesheet" href="assets/course-switcher.css?v=1772145948">
-<link rel="stylesheet" href="assets/assistant-panel.css?v=1772145948">
-<script defer src="assets/study-ux.js?v=1772145948"></script>
-<script defer src="assets/course-switcher.js?v=1772145948"></script>
-<script defer src="assets/theme-controls.js?v=1772145948"></script>
-<script defer src="assets/assistant-panel.js?v=1772145948"></script>
-<script defer src="assets/assistant-bridge.js?v=1772145948"></script>
+<link rel="stylesheet" href="assets/study-ux.css?v=1772149940">
+<link rel="stylesheet" href="assets/course-switcher.css?v=1772149940">
+<link rel="stylesheet" href="assets/assistant-panel.css?v=1772149940">
+<script defer src="assets/study-ux.js?v=1772149940"></script>
+<script defer src="assets/course-switcher.js?v=1772149940"></script>
+<script defer src="assets/theme-controls.js?v=1772149940"></script>
+<script defer src="assets/assistant-panel.js?v=1772149940"></script>
+<script defer src="assets/assistant-bridge.js?v=1772149940"></script>
 
 <!-- Google Fonts - Inter -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13527,6 +13527,67 @@ func test_load_cancels_previous_load() async {
     style B fill:#fff3e0</pre>
 </div>
 <p>El <code>AppCoordinator</code> es el centro de todo. Recibe eventos de las features y decide a qué pantalla navegar.</p>
+<h2 id="02-integracion-09-app-final-etapa-2-lectura-de-flechas-aplicada-a-la-app-ejemplo">Lectura de flechas aplicada a la app ejemplo</h2>
+<p>Aquí no solo importa “que haya cajas conectadas”, importa <strong>qué significa cada conexión</strong> en términos arquitectónicos.</p>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+    subgraph APP[&quot;App module (composition)&quot;]
+        APPROOT[&quot;StackMyArchitectureApp&quot;]
+        CR[&quot;CompositionRoot&quot;]
+        COORD[&quot;AppCoordinator&quot;]
+    end
+
+    subgraph LOGIN[&quot;Login feature module&quot;]
+        LVM[&quot;LoginViewModel&quot;]
+        LUC[&quot;LoginUseCase&quot;]
+        LGW[&quot;AuthGateway (protocol)&quot;]
+        LREMOTE[&quot;RemoteAuthGateway&quot;]
+    end
+
+    subgraph CATALOG[&quot;Catalog feature module&quot;]
+        CVM[&quot;CatalogViewModel&quot;]
+        CUC[&quot;LoadProductsUseCase&quot;]
+        CREPO[&quot;ProductRepository (protocol)&quot;]
+        CREMOTE[&quot;RemoteProductRepository&quot;]
+        CSTORE[&quot;LocalProductStore&quot;]
+    end
+
+    APPROOT -.-&gt; CR
+    CR -.-&gt; COORD
+    CR -.-&gt; LREMOTE
+    CR -.-&gt; CREMOTE
+
+    LVM --&gt; LUC
+    CVM --&gt; CUC
+    LVM --&gt; COORD
+    CVM --&gt; COORD
+
+    LUC -.o LGW
+    CUC -.o CREPO
+
+    LREMOTE --o LGW
+    CREMOTE --o CREPO
+    CREMOTE --&gt; CSTORE</pre>
+</div>
+<p>Lectura semántica (la clave didáctica):</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime:</li>
+</ol>
+<p>   <code>LoginViewModel --&gt; LoginUseCase</code>, <code>CatalogViewModel --&gt; LoadProductsUseCase</code>, <code>RemoteProductRepository --&gt; LocalProductStore</code>.</p>
+<ol>
+  <li><code>-.-&gt;</code> wiring/configuración:</li>
+</ol>
+<p>   <code>CompositionRoot</code> no “ejecuta negocio”; <strong>construye e inyecta</strong> <code>AppCoordinator</code> y adapters.</p>
+<ol>
+  <li><code>-.o</code> contrato/abstracción:</li>
+</ol>
+<p>   los use cases apuntan a puertos (<code>AuthGateway</code>, <code>ProductRepository</code>) y no a implementaciones concretas.</p>
+<ol>
+  <li><code>--o</code> salida/propagación:</li>
+</ol>
+<p>   los adapters concretos satisfacen y propagan el contrato hacia el core (<code>RemoteAuthGateway --o AuthGateway</code>, <code>RemoteProductRepository --o ProductRepository</code>).</p>
+<p>Si en un diagrama de arquitectura de la app ves estas flechas mezcladas sin criterio, casi siempre hay acoplamiento oculto.</p>
 <hr>
 <h2 id="02-integracion-09-app-final-etapa-2-paso-1-actualizar-el-appcoordinator-para-m-ltiples-features">Paso 1: Actualizar el AppCoordinator para múltiples features</h2>
 <p>Primero, asegúrate de que tu <code>AppCoordinator</code> (creado en la lección de navegación) pueda manejar destinos de ambas features:</p>
@@ -20893,6 +20954,56 @@ public let accessToken: String</code></pre>
 <ul>
   <li><code>Login</code> y <code>Catalog</code> con owners por feature;</li>
   <li><code>SharedKernel</code>, navegación y quality gates con ownership de plataforma.</li>
+</ul>
+<h2 id="04-arquitecto-05-guia-arquitectura-sem-ntica-de-flechas-sobre-m-dulos-y-features-reales">Semántica de flechas sobre módulos y features reales</h2>
+<p>Este es el punto que suele faltar en cursos: no basta con dibujar capas, hay que <strong>explicar el tipo de acoplamiento</strong> entre módulos.</p>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart TB
+    CR[&quot;App/CompositionRoot&quot;]
+
+    subgraph LOGIN[&quot;Login feature&quot;]
+        LUI[&quot;Login Interface&quot;]
+        LAPP[&quot;Login Application&quot;]
+        LDOM[&quot;Login Domain&quot;]
+        LPORT[&quot;AuthGateway protocol&quot;]
+        LINF[&quot;RemoteAuthGateway adapter&quot;]
+    end
+
+    subgraph CATALOG[&quot;Catalog feature&quot;]
+        CUI[&quot;Catalog Interface&quot;]
+        CAPP[&quot;Catalog Application&quot;]
+        CDOM[&quot;Catalog Domain&quot;]
+        CPORT[&quot;ProductRepository protocol&quot;]
+        CINF[&quot;RemoteProductRepository adapter&quot;]
+        CSTORE[&quot;LocalProductStore&quot;]
+    end
+
+    CR -.-&gt; LINF
+    CR -.-&gt; CINF
+
+    LUI --&gt; LAPP
+    LAPP --&gt; LDOM
+    LAPP -.o LPORT
+    LINF --o LPORT
+
+    CUI --&gt; CAPP
+    CAPP --&gt; CDOM
+    CAPP -.o CPORT
+    CINF --o CPORT
+    CINF --&gt; CSTORE</pre>
+</div>
+<p>Cómo leerlo en revisión técnica:</p>
+<ol>
+  <li><code>--&gt;</code> indica dependencia de ejecución real (flujo operativo).</li>
+  <li><code>-.-&gt;</code> indica solo ensamblaje/configuración (sin ejecutar negocio).</li>
+  <li><code>-.o</code> indica que el core depende de un contrato, no de una implementación.</li>
+  <li><code>--o</code> indica salida/propagación desde una implementación concreta que satisface ese contrato.</li>
+</ol>
+<p>Regla práctica de arquitectura:</p>
+<ul>
+  <li>si <code>Application</code> apunta con <code>--&gt;</code> a <code>Remote...Repository</code>, hay fuga de infraestructura;</li>
+  <li>si <code>CompositionRoot</code> aparece con <code>--&gt;</code> sobre use cases/domain, el diagrama está confundiendo wiring con ejecución.</li>
 </ul>
 <hr>
 <h2 id="04-arquitecto-05-guia-arquitectura-convenciones-de-nombrado-por-qu-existen">Convenciones de nombrado (por qué existen)</h2>

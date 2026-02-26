@@ -206,3 +206,22 @@ Estandarizar la geometría CSS de la leyenda de flechas Mermaid en iOS/Android/S
 1. Leyenda visualmente consistente en `ios/android/sdd`.
 2. Sync selectivo de Hub en `no drift (6/6)` y smoke runtime en verde.
 3. Evidencia visual validada en Playwright CLI con métricas homogéneas (`lineTop=6px`, `headTop=6px`, `height=12px`).
+
+## ADR-LITE-013 — Semántica explícita de 4 flechas Mermaid en lecciones de arquitectura iOS
+### Fecha
+2026-02-26
+
+### Decisión
+Exigir que las lecciones núcleo de arquitectura iOS apliquen y expliquen explícitamente las cuatro semánticas de flecha Mermaid (`-->`, `-.->`, `-.o`, `--o`) sobre el diagrama real de módulos/features de la app ejemplo.
+
+### Motivación
+1. Evitar que la leyenda quede como teoría desconectada de los diagramas de lección.
+2. Mejorar comprensión de acoplamientos reales (runtime, wiring, contrato, propagación).
+3. Reducir ambigüedad en revisiones técnicas y en seguimiento del alumno.
+
+### Impacto
+1. Lecciones actualizadas:
+   - `02-integracion/09-app-final-etapa-2.md`
+   - `04-arquitecto/05-guia-arquitectura.md`
+2. El alumno puede mapear cada conexión del diagrama a una semántica arquitectónica concreta.
+3. Publicación en Hub sin regresión runtime (`no drift 6/6` + smoke OK).
