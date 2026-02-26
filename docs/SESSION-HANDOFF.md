@@ -24,19 +24,19 @@ Repos incluidos:
 3. Tag: `hub-stable-20260224`
 
 ## Último bloque operativo cerrado
-1. Cierre de backlog iOS de trazabilidad scaffold + publicación selectiva de iOS en Hub.
+1. Publicación productiva en Vercel del estado actualizado del Hub tras build estricto.
 2. Acción aplicada:
-   - remediación de 4 hallazgos `P2` de trazabilidad scaffold en iOS (`P2: 4 -> 0`).
-   - ejecución de QA integral iOS tras remediación (`run-qa-audit-bundle.sh`).
-   - sync selectivo de `ios` en Hub contra `dist` fuente.
-   - verificación de publicación con `no drift (6/6)` y smoke runtime OK.
+   - ejecución de `./scripts/build-hub.sh --mode strict` en verde.
+   - revalidación de deriva y runtime (`no drift 6/6` + smoke OK).
+   - publicación en Vercel `production` con alias final `https://architecture-stack.vercel.app`.
+   - preservación explícita de BYOK multi-provider en `assistant-panel.js` para `ios/android/sdd`.
 3. Política operativa vigente:
    - no abrir una nueva task en `🚧` sin trigger real (merge fuente, drift detectado o instrucción explícita).
 4. Última evidencia técnica consolidada:
-   - iOS: `python3 scripts/audit-scaffold-traceability.py` -> `Hallazgos: total=0 (P1=0, P2=0)`.
-   - iOS: `./scripts/run-qa-audit-bundle.sh` -> PASS.
+   - Hub: `./scripts/build-hub.sh --mode strict` -> PASS.
    - Hub: `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
    - Hub: `./scripts/smoke-hub-runtime.sh` -> OK.
+   - Vercel: rutas públicas `/, /ios/, /android/, /sdd/` en `200`.
 
 ## Trabajo en curso
 1. No hay task activa en construcción.
@@ -63,7 +63,8 @@ Repos incluidos:
 9. ✅ Calibración del validador pedagógico SDD cerrada en GitFlow.
 10. ✅ Cierre de backlog iOS Mermaid semántica + publicación cross-course.
 11. ✅ Cierre de backlog iOS trazabilidad scaffold + publicación selectiva de iOS.
-12. ⏳ Próximo bloque operativo pendiente de trigger real.
+12. ✅ Publicación productiva en Vercel sin regresión de BYOK multi-provider.
+13. ⏳ Próximo bloque operativo pendiente de trigger real.
 
 ## Siguiente paso concreto
 1. Mantener este paquete `docs/` como fuente de verdad transversal.
