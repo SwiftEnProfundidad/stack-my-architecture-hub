@@ -1,6 +1,6 @@
 # SESSION HANDOFF
 
-Fecha de corte: 2026-02-25
+Fecha de corte: 2026-02-26
 
 ## Leyenda
 - ✅ Hecho
@@ -24,39 +24,43 @@ Repos incluidos:
 3. Tag: `hub-stable-20260224`
 
 ## Último bloque operativo cerrado
-1. Cierre administrativo de la task abierta de espera activa en tablero operativo.
+1. Ejecución RED+GREEN del bloque BYOK multi-provider para asistente IA del Hub.
 2. Acción aplicada:
-   - tarea anterior marcada como `✅` y transición a modo standby controlado.
+   - contrato de tests serverless creado (`scripts/tests/test-assistant-bridge-byok.js`).
+   - backend `api/assistant-bridge.js` actualizado a BYOK obligatorio con proveedores `openai`, `anthropic` y `gemini`.
+   - paneles `ios`, `android` y `sdd` alineados con selector de proveedor + API key por sesión.
 3. Política operativa vigente:
-   - registrar nuevos ciclos solo con trigger real (merge fuente, drift detectado o instrucción explícita).
+   - mantener una sola task en `🚧` hasta cerrar GitFlow del bloque.
 4. Última evidencia técnica consolidada:
-   - `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)` (2026-02-25 11:21 CET)
-   - `./scripts/smoke-hub-runtime.sh` -> OK (2026-02-25 11:21 CET)
+   - `node --test scripts/tests/test-assistant-bridge-byok.js` -> PASS (5/5).
+   - `./scripts/tests/test-check-selective-sync-drift.sh` -> PASS.
+   - `./scripts/smoke-hub-runtime.sh` -> OK.
 
 ## Trabajo en curso
-1. Mantener commits atómicos: contenido publicado y tracking en bloques separados.
-2. Mantener política de sync selectivo del Hub cuando algún repo fuente esté en WIP local.
-3. Standby operativo hasta trigger real (merge fuente, drift detectado o instrucción explícita).
-4. Monitorear próximos sync selectivos por curso según cierre de bloques en repos fuente con gate automático `./scripts/check-selective-sync-drift.sh`.
+1. Cerrar GitFlow del bloque BYOK desde `feature/byok-multi-provider-assistant` hacia `develop`.
+2. Mantener commits atómicos por etapa (`RED`, `GREEN`, `REFACTOR`).
+3. Mantener estabilidad del Hub y apertura de cursos durante el cierre de rama.
+4. Actualizar tracker/handoff al completar push, PR y merge.
 
 ## Última comprobación de espera activa
-1. Fecha: 2026-02-25 11:21 CET.
-2. `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
-3. `./scripts/smoke-hub-runtime.sh` -> OK.
-4. Baseline de control: `ios`, `android` y `SDD` en `main` local.
-5. Resultado operativo: no se requiere publicación selectiva en este ciclo.
+1. Fecha: 2026-02-26.
+2. `node --test scripts/tests/test-assistant-bridge-byok.js` -> PASS.
+3. `./scripts/tests/test-check-selective-sync-drift.sh` -> PASS.
+4. `./scripts/smoke-hub-runtime.sh` -> OK.
+5. Resultado operativo: sin regresión runtime del Hub tras introducir BYOK.
 
 ## Tablero operativo (la unica en construccion vive en Master Tracker)
 1. ✅ Publicación selectiva cross-course iOS + Android + SDD en Hub (`c9cd8c3`).
 2. ✅ Tracking anti-bucle consolidado con última evidencia técnica válida de `2026-02-25 11:21 CET`.
 3. ✅ Espera activa previa cerrada por consolidación anti-bucle (sin trigger técnico pendiente).
-4. ⏳ Standby operativo hasta trigger real para abrir el siguiente bloque de sync selectivo.
+4. ✅ Standby operativo cerrado por trigger explícito para iniciar BYOK.
+5. 🚧 Cierre GitFlow BYOK multi-provider (push, PR y merge).
 
 ## Siguiente paso concreto
-1. Usar este paquete `docs/` como base del seguimiento del nuevo thread.
-2. Si cambian Android o SDD, ejecutar sync selectivo por curso en Hub y validar smoke+rutas.
-3. Si no hay trigger real, no registrar un nuevo ciclo de espera activa.
-4. Mantener actualización de este archivo al cerrar cada bloque de trabajo.
+1. Publicar rama `feature/byok-multi-provider-assistant`.
+2. Abrir y fusionar PR a `develop` sin romper smoke runtime.
+3. Registrar hash de merge y evidencia final en tracker + handoff.
+4. Retomar política anti-bucle tras cerrar el bloque actual.
 
 ## Riesgos abiertos
 1. `codex resume` filtra por `cwd` si no se usa `--all`.
