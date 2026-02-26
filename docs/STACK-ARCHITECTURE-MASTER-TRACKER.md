@@ -45,6 +45,7 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 25. Índice raíz de `anexos/` y guía de leyenda Mermaid (4 flechas) estandarizados en los 3 cursos.
 26. Calibración de `scripts/validate-pedagogy.py` en SDD cerrada con TDD (RED/GREEN/REFACTOR) y cobertura de tests para falsos positivos de listas/tablas.
 27. Backlog iOS de Mermaid semántica cerrado (`P2: 5 -> 0`) y publicación selectiva cross-course en Hub revalidada (`no drift 6/6` + smoke OK).
+28. Backlog iOS de trazabilidad scaffold cerrado (`P2: 4 -> 0`) y publicación selectiva de iOS en Hub validada (`no drift 6/6` + smoke OK).
 
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.
@@ -83,6 +84,9 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 24. Cierre de backlog iOS Mermaid + publicación:
     - iOS PR `#5` (`chore/close-ios-mermaid-p2-20260226` -> `develop`) merge `4e41a5f`
     - Hub sync cross-course (`ios`, `android`, `sdd`) con `check-selective-sync-drift` en `no drift (6/6)` y smoke runtime OK
+25. Cierre de backlog iOS trazabilidad scaffold + publicación selectiva:
+    - iOS PR `#6` (`chore/close-ios-scaffold-p2-20260226` -> `develop`) merge `e07b197`
+    - Hub sync selectivo `ios` con `check-selective-sync-drift` en `no drift (6/6)` y smoke runtime OK
 
 ## Tablero operativo (solo 1 en construcción)
 1. ✅ Publicar sync selectivo cross-course iOS + Android + SDD en Hub (`c9cd8c3`).
@@ -95,7 +99,8 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 8. ✅ Cerrar auditoría profunda de cursos (línea a línea + Mermaid/snippets + visual QA 3 temas + anexos).
 9. ✅ Afinar `scripts/validate-pedagogy.py` de SDD para reducir falsos positivos de listas/tablas sin degradar calidad.
 10. ✅ Cerrar backlog iOS Mermaid semántica (`P2 5->0`) y publicar resync cross-course en Hub.
-11. ⏳ Próximo bloque operativo pendiente de trigger real (merge fuente, drift detectado o instrucción explícita).
+11. ✅ Cerrar backlog iOS de trazabilidad scaffold (`P2 4->0`) y publicar sync selectivo de iOS en Hub.
+12. ⏳ Próximo bloque operativo pendiente de trigger real (merge fuente, drift detectado o instrucción explícita).
 
 ## Bloqueos actuales
 1. Ninguno operativo en la app/hub.
@@ -150,6 +155,11 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
    - `python3 scripts/build-html.py` -> PASS
 9. Validación técnica del bloque de cierre backlog iOS Mermaid + publicación:
    - iOS: `python3 scripts/audit-mermaid-semantic.py` -> `OK=151, P1=0, P2=0`
+   - iOS: `./scripts/run-qa-audit-bundle.sh` -> PASS
+   - Hub: `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`
+   - Hub: `./scripts/smoke-hub-runtime.sh` -> OK
+10. Validación técnica del bloque de cierre backlog iOS trazabilidad scaffold + publicación:
+   - iOS: `python3 scripts/audit-scaffold-traceability.py` -> `Hallazgos: total=0 (P1=0, P2=0)`
    - iOS: `./scripts/run-qa-audit-bundle.sh` -> PASS
    - Hub: `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`
    - Hub: `./scripts/smoke-hub-runtime.sh` -> OK
