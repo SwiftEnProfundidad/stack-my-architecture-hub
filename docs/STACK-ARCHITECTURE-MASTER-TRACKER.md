@@ -38,6 +38,7 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 18. Fase GREEN del bloque BYOK cerrada: `api/assistant-bridge.js` ya exige BYOK y enruta `openai`, `anthropic` y `gemini`.
 19. Paneles IA de `ios`, `android` y `sdd` alineados para selector de proveedor + API key por sesión.
 20. Bloque BYOK multi-provider integrado en `develop` vía PR `#16` (merge `6aeb7e0`).
+21. Standby operativo del bloque BYOK cerrado administrativamente por instrucción explícita del usuario.
 
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.
@@ -72,7 +73,8 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 3. ✅ Espera activa del próximo cierre en repos fuente cerrada por consolidación anti-bucle (2026-02-25), sin trigger técnico pendiente.
 4. ✅ Standby operativo cerrado por trigger explícito del usuario para abrir bloque BYOK.
 5. ✅ Cerrar bloque BYOK multi-provider en GitFlow (push, PR, merge y actualización final de tracking).
-6. 🚧 Standby operativo: abrir próximo bloque solo con trigger real (merge fuente, drift detectado o instrucción explícita).
+6. ✅ Standby operativo posterior al BYOK cerrado administrativamente por instrucción explícita del usuario.
+7. ⏳ Próximo bloque operativo pendiente de trigger real (merge fuente, drift detectado o instrucción explícita).
 
 ## Bloqueos actuales
 1. Ninguno operativo en la app/hub.
