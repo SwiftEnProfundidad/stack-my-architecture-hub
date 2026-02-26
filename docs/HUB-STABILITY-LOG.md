@@ -338,6 +338,38 @@ Se cerró en iOS el backlog de trazabilidad contra scaffold (hallazgos `P2` de `
 ### Resultado
 Hub mantiene estabilidad operativa tras publicar el cierre de trazabilidad scaffold en iOS.
 
+## Publicación productiva post-build estricto sin regresión BYOK
+### Fecha
+2026-02-26
+
+### Contexto
+Tras validar build estricto del Hub se detectó que la copia AS-IS desde cursos fuente reemplazaba `assistant-panel.js` por una variante sin selector de proveedor/BYOK. Se preservó la variante BYOK multi-provider en Hub y se publicó a producción.
+
+### Acción aplicada
+1. Build estricto en verde: `./scripts/build-hub.sh --mode strict`.
+2. Revalidación local de integridad runtime:
+   - `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`
+   - `./scripts/smoke-hub-runtime.sh` -> OK.
+3. Restauración explícita de `assistant-panel.js` BYOK multi-provider en:
+   - `ios/assets/assistant-panel.js`
+   - `android/assets/assistant-panel.js`
+   - `sdd/assets/assistant-panel.js`
+4. Publicación productiva:
+   - `npx -y vercel deploy --prod --yes`
+   - alias final `https://architecture-stack.vercel.app`.
+
+### Verificación funcional
+1. Rutas públicas:
+   - `https://architecture-stack.vercel.app/` -> `200`
+   - `https://architecture-stack.vercel.app/ios/` -> `200`
+   - `https://architecture-stack.vercel.app/android/` -> `200`
+   - `https://architecture-stack.vercel.app/sdd/` -> `200`
+2. Verificación de BYOK en runtime público:
+   - `ios/assets/assistant-panel.js` contiene `KEY_PROVIDER`, opciones `anthropic/gemini` y campo `API key (BYOK)`.
+
+### Resultado
+Producción publicada y estable con contenido actualizado, rutas en verde y panel IA manteniendo BYOK multi-provider.
+
 ## Nota operativa
 Si reaparece síntoma similar:
 1. Revisar `.runtime/hub.port` y `.runtime/hub.pid` del hub.

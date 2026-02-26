@@ -46,6 +46,7 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 26. Calibración de `scripts/validate-pedagogy.py` en SDD cerrada con TDD (RED/GREEN/REFACTOR) y cobertura de tests para falsos positivos de listas/tablas.
 27. Backlog iOS de Mermaid semántica cerrado (`P2: 5 -> 0`) y publicación selectiva cross-course en Hub revalidada (`no drift 6/6` + smoke OK).
 28. Backlog iOS de trazabilidad scaffold cerrado (`P2: 4 -> 0`) y publicación selectiva de iOS en Hub validada (`no drift 6/6` + smoke OK).
+29. Publicación productiva en Vercel revalidada tras build estricto del Hub, manteniendo BYOK multi-provider en paneles IA.
 
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.
@@ -87,6 +88,10 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 25. Cierre de backlog iOS trazabilidad scaffold + publicación selectiva:
     - iOS PR `#6` (`chore/close-ios-scaffold-p2-20260226` -> `develop`) merge `e07b197`
     - Hub sync selectivo `ios` con `check-selective-sync-drift` en `no drift (6/6)` y smoke runtime OK
+26. Publicación productiva post-build estricto:
+    - despliegue Vercel `production` aliasado en `https://architecture-stack.vercel.app`
+    - verificación de rutas públicas `/, /ios/, /android/, /sdd/` en `200`
+    - preservación de BYOK multi-provider en `assistant-panel.js` para `ios/android/sdd`
 
 ## Tablero operativo (solo 1 en construcción)
 1. ✅ Publicar sync selectivo cross-course iOS + Android + SDD en Hub (`c9cd8c3`).
@@ -100,7 +105,8 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 9. ✅ Afinar `scripts/validate-pedagogy.py` de SDD para reducir falsos positivos de listas/tablas sin degradar calidad.
 10. ✅ Cerrar backlog iOS Mermaid semántica (`P2 5->0`) y publicar resync cross-course en Hub.
 11. ✅ Cerrar backlog iOS de trazabilidad scaffold (`P2 4->0`) y publicar sync selectivo de iOS en Hub.
-12. ⏳ Próximo bloque operativo pendiente de trigger real (merge fuente, drift detectado o instrucción explícita).
+12. ✅ Publicar en Vercel el estado actual validado del Hub sin regresión de BYOK multi-provider.
+13. ⏳ Próximo bloque operativo pendiente de trigger real (merge fuente, drift detectado o instrucción explícita).
 
 ## Bloqueos actuales
 1. Ninguno operativo en la app/hub.
@@ -163,6 +169,12 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
    - iOS: `./scripts/run-qa-audit-bundle.sh` -> PASS
    - Hub: `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`
    - Hub: `./scripts/smoke-hub-runtime.sh` -> OK
+11. Validación técnica del bloque de publicación productiva en Vercel:
+   - Hub: `./scripts/build-hub.sh --mode strict` -> PASS
+   - Hub: `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`
+   - Hub: `./scripts/smoke-hub-runtime.sh` -> OK
+   - Vercel: `npx -y vercel deploy --prod --yes` -> alias `https://architecture-stack.vercel.app`
+   - Runtime público: `/, /ios/, /android/, /sdd/` en `200`
 
 ## Referencias de estabilidad del Hub
 1. Commit: `1940c7d`
