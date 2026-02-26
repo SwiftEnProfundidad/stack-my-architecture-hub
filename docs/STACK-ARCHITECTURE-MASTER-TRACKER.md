@@ -43,6 +43,7 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 23. Auditoría profunda cross-course completada sobre iOS/Android/SDD (fuente + dist + runtime Hub) con evidencia técnica y visual.
 24. Hallazgo crítico de enlaces en SDD (`/tmp/helpdesk-board-export.md`) corregido y revalidado en verde.
 25. Índice raíz de `anexos/` y guía de leyenda Mermaid (4 flechas) estandarizados en los 3 cursos.
+26. Calibración de `scripts/validate-pedagogy.py` en SDD cerrada con TDD (RED/GREEN/REFACTOR) y cobertura de tests para falsos positivos de listas/tablas.
 
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.
@@ -74,6 +75,10 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 22. Auditoría profunda de cursos y lecciones cerrada con informe maestro:
     - `docs/AUDITORIA-CURSOS-PROFUNDA-20260226.md`
     - evidencias visuales en `output/playwright/`
+23. Calibración del validador pedagógico SDD:
+    - tests unitarios nuevos en `scripts/tests/test_validate_pedagogy.py`
+    - `python3 -m unittest scripts/tests/test_validate_pedagogy.py` -> PASS
+    - `python3 scripts/validate-pedagogy.py` -> PASS (148 files)
 
 ## Tablero operativo (solo 1 en construcción)
 1. ✅ Publicar sync selectivo cross-course iOS + Android + SDD en Hub (`c9cd8c3`).
@@ -84,7 +89,8 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 6. ✅ Standby operativo posterior al BYOK cerrado administrativamente por instrucción explícita del usuario.
 7. ✅ Cerrar pendientes de higiene SDD (upstream de `main` + exclusión de artefactos locales no versionables).
 8. ✅ Cerrar auditoría profunda de cursos (línea a línea + Mermaid/snippets + visual QA 3 temas + anexos).
-9. ⏳ Afinar `scripts/validate-pedagogy.py` de SDD para reducir falsos positivos de listas/tablas sin degradar calidad.
+9. ✅ Afinar `scripts/validate-pedagogy.py` de SDD para reducir falsos positivos de listas/tablas sin degradar calidad.
+10. ⏳ Próximo bloque operativo pendiente de trigger real (merge fuente, drift detectado o instrucción explícita).
 
 ## Bloqueos actuales
 1. Ninguno operativo en la app/hub.
@@ -97,7 +103,7 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 3. Aplicar sync selectivo por curso (iOS/Android/SDD) cuando se cierren nuevos bloques en repos fuente.
 4. Actualizar `docs/SESSION-HANDOFF.md` al cerrar cada sesión de trabajo.
 5. Consolidar próximas decisiones operativas en `docs/DECISIONS-ADR-LITE.md`.
-6. Priorizar calibración del validador pedagógico de SDD como siguiente bloque técnico.
+6. Ejecutar siguiente bloque solo ante trigger real (merge fuente, drift detectado o instrucción explícita).
 
 ## Última validación operativa
 1. Runtime smoke: `./scripts/smoke-hub-runtime.sh` -> OK.
@@ -130,6 +136,13 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
    - Android: `python3 scripts/check-links.py && python3 scripts/build-html.py` -> PASS
    - SDD: `python3 scripts/check-links.py && python3 scripts/validate-markdown-snippets.py && python3 scripts/build-html.py` -> PASS
    - Visual QA Hub (Playwright CLI): `ios/android/sdd` en `enterprise|bold|paper` + `light|dark` -> contraste AA y leyenda 4 flechas OK (6/6 por curso)
+8. Validación técnica del bloque de calibración de validador SDD:
+   - `python3 -m unittest scripts/tests/test_validate_pedagogy.py` -> PASS (4/4)
+   - `python3 scripts/validate-pedagogy.py` -> PASS (148 files)
+   - `python3 scripts/check-links.py` -> PASS
+   - `python3 scripts/validate-lesson-sequence.py` -> PASS
+   - `python3 scripts/validate-markdown-snippets.py` -> PASS
+   - `python3 scripts/build-html.py` -> PASS
 
 ## Referencias de estabilidad del Hub
 1. Commit: `1940c7d`
