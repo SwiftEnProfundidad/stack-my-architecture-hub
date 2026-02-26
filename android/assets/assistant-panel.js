@@ -5,6 +5,9 @@
     var KEY_MODEL = STORAGE_PREFIX + 'model';
     var KEY_MAX_TOKENS = STORAGE_PREFIX + 'max_tokens';
     var KEY_PROXY_BASE = STORAGE_PREFIX + 'proxy_base';
+    var KEY_DAILY_BUDGET = STORAGE_PREFIX + 'daily_budget_usd';
+    var KEY_PROVIDER = STORAGE_PREFIX + 'provider';
+    var SESSION_API_KEY_PREFIX = STORAGE_PREFIX + 'api_key:';
 
     var VISION_FALLBACK_MODEL = 'gpt-4o-mini';
     var MEMORY_RECENT_LIMIT = 8;
@@ -15,14 +18,43 @@
     var SMALL_PNG_MAX_BYTES = 350 * 1024;
     var JPEG_QUALITY = 0.85;
     var DAILY_WARNING_DEFAULT = 0.25;
+    var DEFAULT_PROVIDER_OPTIONS = [
+        {
+            id: 'openai',
+            label: 'OpenAI',
+            models: ['gpt-4o-mini', 'gpt-4.1-mini'],
+            defaultModel: 'gpt-4o-mini',
+            visionModels: ['gpt-4*', 'gpt-5*']
+        },
+        {
+            id: 'anthropic',
+            label: 'Anthropic',
+            models: ['claude-3-5-haiku-latest', 'claude-3-7-sonnet-latest'],
+            defaultModel: 'claude-3-5-haiku-latest',
+            visionModels: ['claude-3*']
+        },
+        {
+            id: 'gemini',
+            label: 'Google Gemini',
+            models: ['gemini-2.0-flash', 'gemini-2.0-flash-lite'],
+            defaultModel: 'gemini-2.0-flash',
+            visionModels: ['gemini-*']
+        }
+    ];
 
     var courseId = detectCourseId() || 'unknown';
     var KEY_MEMORY = 'sma:' + courseId + ':assistant:memory';
+    var initialProviders = cloneDefaultProviders();
+    var initialModelsByProvider = buildModelsByProvider(initialProviders);
+    var initialVisionByProvider = buildVisionModelsByProvider(initialProviders);
+    var initialProvider = normalizeProvider(localStorage.getItem(KEY_PROVIDER) || 'openai');
 
     var state = {
         isOpen: localStorage.getItem(KEY_OPEN) === '1',
+        provider: initialProvider,
         model: localStorage.getItem(KEY_MODEL) || 'gpt-4o-mini',
         maxTokens: Number(localStorage.getItem(KEY_MAX_TOKENS) || 600),
+        maxTokensCap: 8192,
         proxyBase: normalizeProxyBase(localStorage.getItem(KEY_PROXY_BASE) || defaultProxyBase()),
         queryPath: '/assistant/query',
         messages: readMessages(),
@@ -30,12 +62,17 @@
         isLoading: false,
         metrics: null,
         lastRequest: null,
+        softDailyBudgetUsd: Number(localStorage.getItem(KEY_DAILY_BUDGET) || 2.0),
         dailyWarningUsd: DAILY_WARNING_DEFAULT,
-        availableModels: ['gpt-5.3', 'gpt-5.2', 'gpt-5.2-codex', 'gpt-4o-mini', 'gpt-4.1-mini'],
+        availableProviders: initialProviders,
+        availableModelsByProvider: initialModelsByProvider,
+        availableModels: initialModelsByProvider[initialProvider] || initialModelsByProvider.openai,
         maxAttachments: IMAGE_MAX_ATTACHMENTS,
         maxImageBytes: IMAGE_MAX_BYTES,
         allowedImageTypes: ['image/png', 'image/jpeg', 'image/webp', 'image/gif', 'image/bmp', 'image/tiff', 'image/heic', 'image/heif'],
-        visionModels: [VISION_FALLBACK_MODEL]
+        visionModelsByProvider: initialVisionByProvider,
+        visionModels: initialVisionByProvider[initialProvider] || [VISION_FALLBACK_MODEL],
+        apiKeys: readStoredApiKeys()
     };
 
     var refs = {
@@ -43,8 +80,11 @@
         body: null,
         textarea: null,
         status: null,
+        providerSelect: null,
+        apiKeyInput: null,
         modelSelect: null,
         tokensInput: null,
+        dailyBudgetInput: null,
         proxyInput: null,
         metricsBox: null,
         sendBtn: null,
@@ -54,6 +94,200 @@
         attachmentsCounter: null,
         clearContextBtn: null
     };
+
+    function cloneDefaultProviders() {
+        return DEFAULT_PROVIDER_OPTIONS.map(function (item) {
+            return {
+                id: item.id,
+                label: item.label,
+                models: item.models.slice(),
+                defaultModel: item.defaultModel,
+                visionModels: item.visionModels.slice()
+            };
+        });
+    }
+
+    function supportedProviderIds() {
+        return DEFAULT_PROVIDER_OPTIONS.map(function (item) {
+            return item.id;
+        });
+    }
+
+    function isSupportedProvider(provider) {
+        return supportedProviderIds().indexOf(String(provider || '').trim().toLowerCase()) >= 0;
+    }
+
+    function normalizeProvider(provider) {
+        var value = String(provider || '').trim().toLowerCase();
+        if (!isSupportedProvider(value)) return 'openai';
+        return value;
+    }
+
+    function normalizeProvidersFromConfig(providers) {
+        var source = Array.isArray(providers) ? providers : [];
+        var normalized = [];
+
+        source.forEach(function (item) {
+            if (!item || typeof item !== 'object') return;
+            var id = String(item.id || item.provider || '').trim().toLowerCase();
+            if (!isSupportedProvider(id)) return;
+
+            var fallback = defaultProviderConfig(id);
+            var models = Array.isArray(item.models) ? item.models.map(function (value) {
+                return String(value || '').trim();
+            }).filter(Boolean) : fallback.models.slice();
+            if (!models.length) models = fallback.models.slice();
+
+            var visionModels = Array.isArray(item.vision_models) ? item.vision_models.map(function (value) {
+                return String(value || '').trim();
+            }).filter(Boolean) : fallback.visionModels.slice();
+            if (!visionModels.length) visionModels = fallback.visionModels.slice();
+
+            var defaultModel = String(item.default_model || item.defaultModel || '').trim();
+            if (!defaultModel || models.indexOf(defaultModel) < 0) {
+                defaultModel = fallback.defaultModel && models.indexOf(fallback.defaultModel) >= 0
+                    ? fallback.defaultModel
+                    : models[0];
+            }
+
+            normalized.push({
+                id: id,
+                label: String(item.label || fallback.label).trim() || fallback.label,
+                models: models,
+                defaultModel: defaultModel,
+                visionModels: visionModels
+            });
+        });
+
+        return normalized.length ? normalized : cloneDefaultProviders();
+    }
+
+    function defaultProviderConfig(provider) {
+        var id = normalizeProvider(provider);
+        for (var i = 0; i < DEFAULT_PROVIDER_OPTIONS.length; i += 1) {
+            if (DEFAULT_PROVIDER_OPTIONS[i].id === id) {
+                return DEFAULT_PROVIDER_OPTIONS[i];
+            }
+        }
+        return DEFAULT_PROVIDER_OPTIONS[0];
+    }
+
+    function buildModelsByProvider(providers) {
+        var map = {};
+        (providers || []).forEach(function (item) {
+            map[item.id] = Array.isArray(item.models) ? item.models.slice() : [];
+        });
+        return map;
+    }
+
+    function buildVisionModelsByProvider(providers) {
+        var map = {};
+        (providers || []).forEach(function (item) {
+            map[item.id] = Array.isArray(item.visionModels) ? item.visionModels.slice() : [];
+        });
+        return map;
+    }
+
+    function modelsForProvider(provider) {
+        var id = normalizeProvider(provider);
+        var models = state.availableModelsByProvider[id];
+        if (Array.isArray(models) && models.length) return models.slice();
+        return defaultProviderConfig(id).models.slice();
+    }
+
+    function visionModelsForProvider(provider) {
+        var id = normalizeProvider(provider);
+        var patterns = state.visionModelsByProvider[id];
+        if (Array.isArray(patterns) && patterns.length) return patterns.slice();
+        return defaultProviderConfig(id).visionModels.slice();
+    }
+
+    function providerLabel(provider) {
+        var id = normalizeProvider(provider);
+        for (var i = 0; i < state.availableProviders.length; i += 1) {
+            if (state.availableProviders[i].id === id) return state.availableProviders[i].label;
+        }
+        return defaultProviderConfig(id).label;
+    }
+
+    function providerStorageKey(provider) {
+        return SESSION_API_KEY_PREFIX + normalizeProvider(provider);
+    }
+
+    function readStoredApiKey(provider) {
+        try {
+            return String(sessionStorage.getItem(providerStorageKey(provider)) || '').trim();
+        } catch (_err) {
+            return '';
+        }
+    }
+
+    function writeStoredApiKey(provider, value) {
+        var key = providerStorageKey(provider);
+        var apiKey = String(value || '').trim();
+        try {
+            if (!apiKey) {
+                sessionStorage.removeItem(key);
+                return;
+            }
+            sessionStorage.setItem(key, apiKey);
+        } catch (_err) {
+            return;
+        }
+    }
+
+    function readStoredApiKeys() {
+        var out = {};
+        supportedProviderIds().forEach(function (provider) {
+            out[provider] = readStoredApiKey(provider);
+        });
+        return out;
+    }
+
+    function refreshProviderSelectOptions() {
+        if (!refs.providerSelect) return;
+        refs.providerSelect.innerHTML = '';
+        state.availableProviders.forEach(function (provider) {
+            var option = document.createElement('option');
+            option.value = provider.id;
+            option.textContent = provider.label;
+            refs.providerSelect.appendChild(option);
+        });
+        refs.providerSelect.value = state.provider;
+    }
+
+    function refreshModelSelectOptions() {
+        if (!refs.modelSelect) return;
+        refs.modelSelect.innerHTML = '';
+        state.availableModels.forEach(function (model) {
+            var option = document.createElement('option');
+            option.value = model;
+            option.textContent = model;
+            refs.modelSelect.appendChild(option);
+        });
+        refs.modelSelect.value = state.model;
+    }
+
+    function refreshApiKeyInput() {
+        if (!refs.apiKeyInput) return;
+        refs.apiKeyInput.value = String(state.apiKeys[state.provider] || '');
+    }
+
+    function syncProviderModelState(provider, preferredModel) {
+        var id = normalizeProvider(provider);
+        state.provider = id;
+        state.availableModels = modelsForProvider(id);
+        state.visionModels = visionModelsForProvider(id);
+
+        var fallback = defaultProviderConfig(id);
+        var candidate = String(preferredModel || state.model || '').trim();
+        if (!candidate || state.availableModels.indexOf(candidate) < 0) {
+            candidate = state.availableModels.indexOf(fallback.defaultModel) >= 0
+                ? fallback.defaultModel
+                : (state.availableModels[0] || fallback.defaultModel || VISION_FALLBACK_MODEL);
+        }
+        state.model = candidate;
+    }
 
     function detectCourseId() {
         var meta = document.querySelector('meta[name="course-id"]');
@@ -182,10 +416,37 @@
         return text.slice(0, Math.max(1, maxLen - 1)).trim() + '…';
     }
 
+    function clampNumber(value, min, max, fallback) {
+        var n = Number(value);
+        if (!Number.isFinite(n)) return fallback;
+        if (n < min) return min;
+        if (n > max) return max;
+        return Math.round(n);
+    }
+
+    function normalizeBudgetValue(value, fallback) {
+        var n = Number(value);
+        if (!Number.isFinite(n) || n < 0) return fallback;
+        return Math.round(n * 100) / 100;
+    }
+
+    function formatBudgetValue(value) {
+        return String(normalizeBudgetValue(value, 2.0));
+    }
+
+    function sanitizeLocalStateConfig() {
+        state.maxTokensCap = clampNumber(state.maxTokensCap, 100, 50000, 8192);
+        state.maxTokens = clampNumber(state.maxTokens, 100, state.maxTokensCap, 600);
+        state.softDailyBudgetUsd = normalizeBudgetValue(state.softDailyBudgetUsd, 2.0);
+        syncProviderModelState(state.provider, state.model);
+    }
+
     function saveConfig() {
+        localStorage.setItem(KEY_PROVIDER, state.provider);
         localStorage.setItem(KEY_MODEL, state.model);
         localStorage.setItem(KEY_MAX_TOKENS, String(state.maxTokens));
         localStorage.setItem(KEY_PROXY_BASE, state.proxyBase);
+        localStorage.setItem(KEY_DAILY_BUDGET, String(state.softDailyBudgetUsd));
     }
 
     function setOpen(isOpen) {
@@ -223,6 +484,26 @@
         var grid = document.createElement('div');
         grid.className = 'sma-assistant-config-grid';
 
+        var providerLabelNode = document.createElement('label');
+        providerLabelNode.textContent = 'Proveedor';
+        var providerSelect = document.createElement('select');
+        state.availableProviders.forEach(function (provider) {
+            var option = document.createElement('option');
+            option.value = provider.id;
+            option.textContent = provider.label;
+            providerSelect.appendChild(option);
+        });
+        providerSelect.value = state.provider;
+        providerSelect.addEventListener('change', function () {
+            syncProviderModelState(providerSelect.value, null);
+            providerSelect.value = state.provider;
+            refreshModelSelectOptions();
+            refreshApiKeyInput();
+            saveConfig();
+            renderMetrics(state.metrics);
+        });
+        providerLabelNode.appendChild(providerSelect);
+
         var modelLabel = document.createElement('label');
         modelLabel.textContent = 'Modelo';
         var modelSelect = document.createElement('select');
@@ -239,23 +520,53 @@
         });
         modelLabel.appendChild(modelSelect);
 
+        var apiKeyLabel = document.createElement('label');
+        apiKeyLabel.textContent = 'API key (BYOK)';
+        var apiKeyInput = document.createElement('input');
+        apiKeyInput.type = 'password';
+        apiKeyInput.autocomplete = 'off';
+        apiKeyInput.placeholder = 'Tu API key personal';
+        apiKeyInput.value = String(state.apiKeys[state.provider] || '');
+        apiKeyInput.addEventListener('input', function () {
+            var value = String(apiKeyInput.value || '').trim();
+            state.apiKeys[state.provider] = value;
+            writeStoredApiKey(state.provider, value);
+        });
+        apiKeyLabel.appendChild(apiKeyInput);
+
         var tokensLabel = document.createElement('label');
         tokensLabel.textContent = 'Máx tokens (recomendado 600)';
         var tokensInput = document.createElement('input');
         tokensInput.type = 'number';
         tokensInput.min = '100';
-        tokensInput.max = '1200';
-        tokensInput.step = '50';
+        tokensInput.max = String(state.maxTokensCap);
+        tokensInput.step = '100';
         tokensInput.value = String(state.maxTokens);
         tokensInput.addEventListener('change', function () {
-            var value = Number(tokensInput.value || 600);
-            if (!value || value < 100) value = 600;
-            if (value > 1200) value = 1200;
+            var value = clampNumber(tokensInput.value, 100, state.maxTokensCap, state.maxTokens);
             state.maxTokens = value;
             tokensInput.value = String(value);
             saveConfig();
         });
         tokensLabel.appendChild(tokensInput);
+
+        var dailyBudgetLabel = document.createElement('label');
+        dailyBudgetLabel.textContent = 'Presupuesto diario (USD)';
+        var dailyBudgetInput = document.createElement('input');
+        dailyBudgetInput.type = 'number';
+        dailyBudgetInput.min = '0';
+        dailyBudgetInput.step = '0.10';
+        dailyBudgetInput.value = formatBudgetValue(state.softDailyBudgetUsd);
+        dailyBudgetInput.addEventListener('change', function () {
+            var value = normalizeBudgetValue(dailyBudgetInput.value, state.softDailyBudgetUsd);
+            state.softDailyBudgetUsd = value;
+            dailyBudgetInput.value = formatBudgetValue(value);
+            saveConfig();
+            syncRuntimeConfig().then(function () {
+                refreshMetrics();
+            });
+        });
+        dailyBudgetLabel.appendChild(dailyBudgetInput);
 
         var proxyLabel = document.createElement('label');
         proxyLabel.textContent = 'Proxy local';
@@ -272,8 +583,11 @@
         });
         proxyLabel.appendChild(proxyInput);
 
+        grid.appendChild(providerLabelNode);
         grid.appendChild(modelLabel);
+        grid.appendChild(apiKeyLabel);
         grid.appendChild(tokensLabel);
+        grid.appendChild(dailyBudgetLabel);
         grid.appendChild(proxyLabel);
         config.appendChild(grid);
 
@@ -417,8 +731,11 @@
         refs.body = body;
         refs.textarea = textarea;
         refs.status = status;
+        refs.providerSelect = providerSelect;
+        refs.apiKeyInput = apiKeyInput;
         refs.modelSelect = modelSelect;
         refs.tokensInput = tokensInput;
+        refs.dailyBudgetInput = dailyBudgetInput;
         refs.proxyInput = proxyInput;
         refs.metricsBox = metricsBox;
         refs.sendBtn = sendBtn;
@@ -562,14 +879,14 @@
         if (isLocalProxyEnvironment()) {
             return 'Asistente no disponible. Inicia stack-my-architecture-hub/open-proxy.command';
         }
-        return 'Asistente no disponible en este deployment. Revisa OPENAI_API_KEY y rutas del assistant-bridge.';
+        return 'Asistente no disponible en este deployment. Revisa rutas del assistant-bridge.';
     }
 
     function proxyRecoveryHint() {
         if (isLocalProxyEnvironment()) {
             return ' Inicia stack-my-architecture-hub/open-proxy.command si el proxy no está activo.';
         }
-        return ' Revisa que Vercel tenga OPENAI_API_KEY y que /assistant/query responda correctamente.';
+        return ' Revisa que /assistant/query responda correctamente.';
     }
 
     function proxyCandidates() {
@@ -605,7 +922,15 @@
     }
 
     function supportsVisionModel(model) {
-        return state.visionModels.indexOf(String(model || '').trim()) >= 0;
+        var value = String(model || '').trim();
+        return (state.visionModels || []).some(function (pattern) {
+            var normalizedPattern = String(pattern || '').trim();
+            if (!normalizedPattern) return false;
+            if (normalizedPattern.endsWith('*')) {
+                return value.indexOf(normalizedPattern.slice(0, -1)) === 0;
+            }
+            return value === normalizedPattern;
+        });
     }
 
     function updateAttachmentCounter(note, tone) {
@@ -1036,9 +1361,13 @@
 
         var normalized = normalizeMetrics(state.metrics || {});
         var last = state.lastRequest;
+        var activeDailyBudgetUsd = normalized.softDailyBudgetUsd > 0
+            ? normalized.softDailyBudgetUsd
+            : state.softDailyBudgetUsd;
         var lines = [];
 
         if (last) {
+            lines.push('<div><strong>Proveedor</strong>: ' + escapeHtml(providerLabel(last.provider || state.provider)) + '</div>');
             var modelLine = '<div><strong>Modelo activo</strong>: ' + escapeHtml(last.model || state.model) + '</div>';
             lines.push(modelLine);
             lines.push('<div><strong>Última consulta</strong>: ' + last.inputTokens + ' / ' + last.outputTokens + ' / ' + last.totalTokens + ' tokens</div>');
@@ -1048,6 +1377,7 @@
                 lines.push('<div class="assistant-metric-warning"><strong>Aviso</strong>: ' + escapeHtml(last.warning) + '</div>');
             }
         } else {
+            lines.push('<div><strong>Proveedor</strong>: ' + escapeHtml(providerLabel(state.provider)) + '</div>');
             lines.push('<div><strong>Modelo activo</strong>: ' + escapeHtml(state.model) + '</div>');
             lines.push('<div>Sin consultas recientes en esta sesión.</div>');
         }
@@ -1056,8 +1386,8 @@
         lines.push('<div><strong>Coste total de sesión</strong>: ' + normalized.totalEstimatedCostUsd.toFixed(6) + ' USD</div>');
         lines.push('<div><strong>Requests totales</strong>: ' + normalized.totalRequests + '</div>');
 
-        if (normalized.softDailyBudgetUsd > 0) {
-            lines.push('<div><strong>Presupuesto diario</strong>: ' + normalized.dailyCostUsd.toFixed(6) + ' / ' + normalized.softDailyBudgetUsd.toFixed(2) + ' USD</div>');
+        if (activeDailyBudgetUsd > 0) {
+            lines.push('<div><strong>Presupuesto diario</strong>: ' + normalized.dailyCostUsd.toFixed(6) + ' / ' + activeDailyBudgetUsd.toFixed(2) + ' USD</div>');
         }
 
         if (normalized.dailyCostUsd >= state.dailyWarningUsd) {
@@ -1155,6 +1485,43 @@
         return tryPath(0);
     }
 
+    function syncRuntimeConfig(options) {
+        var opts = options || {};
+        return ensureProxyBaseReachable()
+            .then(function (ok) {
+                if (!ok) return null;
+                return fetch(proxyUrl('/config/runtime'), {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        softDailyBudgetUsd: state.softDailyBudgetUsd
+                    })
+                });
+            })
+            .then(function (res) {
+                if (!res) return null;
+                if (!res.ok) throw new Error('HTTP ' + res.status);
+                return res.json();
+            })
+            .then(function (json) {
+                if (!json) return null;
+                var budget = normalizeBudgetValue(
+                    json.soft_daily_budget_usd ?? json.softDailyBudgetUsd,
+                    state.softDailyBudgetUsd
+                );
+                state.softDailyBudgetUsd = budget;
+                if (refs.dailyBudgetInput) refs.dailyBudgetInput.value = formatBudgetValue(budget);
+                saveConfig();
+                return json;
+            })
+            .catch(function () {
+                if (!opts.silent) {
+                    setStatus('No se pudo actualizar el presupuesto diario en el proxy.', 'warning');
+                }
+                return null;
+            });
+    }
+
     function fetchBridgeConfig() {
         return ensureProxyBaseReachable()
             .then(function (ok) {
@@ -1172,28 +1539,50 @@
             .then(function (cfg) {
                 if (!cfg) return;
 
-                var models = Array.isArray(cfg.models) && cfg.models.length ? cfg.models : state.availableModels;
-                state.availableModels = models;
+                var providers = Array.isArray(cfg.providers) && cfg.providers.length
+                    ? normalizeProvidersFromConfig(cfg.providers)
+                    : state.availableProviders;
 
-                if (!models.includes(state.model)) {
-                    state.model = cfg.default_model || models[0];
-                    saveConfig();
+                state.availableProviders = providers;
+                state.availableModelsByProvider = buildModelsByProvider(providers);
+                state.visionModelsByProvider = buildVisionModelsByProvider(providers);
+
+                var defaultProvider = normalizeProvider(cfg.default_provider || cfg.defaultProvider || state.provider);
+                var nextProvider = normalizeProvider(state.provider);
+                var providerExists = providers.some(function (item) {
+                    return item.id === nextProvider;
+                });
+
+                if (!providerExists) {
+                    nextProvider = defaultProvider;
                 }
 
-                if (refs.modelSelect) {
-                    refs.modelSelect.innerHTML = '';
-                    models.forEach(function (m) {
-                        var option = document.createElement('option');
-                        option.value = m;
-                        option.textContent = m;
-                        refs.modelSelect.appendChild(option);
-                    });
-                    refs.modelSelect.value = state.model;
+                var providerModels = modelsForProvider(nextProvider);
+                if ((!providerModels || !providerModels.length) && Array.isArray(cfg.models) && cfg.models.length) {
+                    providerModels = cfg.models.slice();
+                    state.availableModelsByProvider[nextProvider] = providerModels.slice();
                 }
+
+                var preferredModel = cfg.default_model || cfg.defaultModel || state.model;
+                syncProviderModelState(nextProvider, preferredModel);
+                refreshProviderSelectOptions();
+                refreshModelSelectOptions();
+                refreshApiKeyInput();
+                saveConfig();
 
                 if (cfg.max_tokens_default && !localStorage.getItem(KEY_MAX_TOKENS)) {
                     state.maxTokens = Number(cfg.max_tokens_default);
                     if (refs.tokensInput) refs.tokensInput.value = String(state.maxTokens);
+                }
+
+                if (cfg.max_tokens_cap || cfg.maxTokensCap) {
+                    var maxTokensCap = clampNumber(cfg.max_tokens_cap || cfg.maxTokensCap, 100, 50000, state.maxTokensCap);
+                    state.maxTokensCap = maxTokensCap;
+                    state.maxTokens = clampNumber(state.maxTokens, 100, maxTokensCap, state.maxTokens);
+                    if (refs.tokensInput) {
+                        refs.tokensInput.max = String(maxTokensCap);
+                        refs.tokensInput.value = String(state.maxTokens);
+                    }
                 }
 
                 if (cfg.query_path || cfg.queryPath) {
@@ -1212,9 +1601,10 @@
                 }
 
                 if (Array.isArray(cfg.vision_models) && cfg.vision_models.length) {
-                    state.visionModels = cfg.vision_models.map(function (value) {
+                    state.visionModelsByProvider[state.provider] = cfg.vision_models.map(function (value) {
                         return String(value || '').trim();
                     }).filter(Boolean);
+                    state.visionModels = visionModelsForProvider(state.provider);
                 }
 
                 if (cfg.daily_warning_usd || cfg.dailyWarningUsd) {
@@ -1224,7 +1614,20 @@
                     }
                 }
 
+                var localBudgetStored = localStorage.getItem(KEY_DAILY_BUDGET);
+                if (!localBudgetStored && (cfg.soft_daily_budget_usd || cfg.softDailyBudgetUsd || cfg.soft_daily_budget_usd === 0 || cfg.softDailyBudgetUsd === 0)) {
+                    state.softDailyBudgetUsd = normalizeBudgetValue(
+                        cfg.soft_daily_budget_usd ?? cfg.softDailyBudgetUsd,
+                        state.softDailyBudgetUsd
+                    );
+                    saveConfig();
+                }
+                if (refs.dailyBudgetInput) refs.dailyBudgetInput.value = formatBudgetValue(state.softDailyBudgetUsd);
+
                 renderPendingAttachments();
+                if (localBudgetStored) {
+                    return syncRuntimeConfig({ silent: true });
+                }
             })
             .catch(function () {
                 setStatus(assistantUnavailableMessage(), 'warning');
@@ -1289,6 +1692,13 @@
             return;
         }
 
+        var provider = normalizeProvider(state.provider);
+        var apiKey = String(state.apiKeys[provider] || '').trim();
+        if (!apiKey) {
+            setStatus('Configura tu API key (BYOK) para ' + providerLabel(provider) + ' antes de consultar.', 'warning');
+            return;
+        }
+
         var attachmentsSnapshot = state.pendingAttachments.slice(0, state.maxAttachments).map(function (att) {
             return {
                 id: att.id,
@@ -1314,6 +1724,8 @@
         var payload = {
             prompt: question,
             question: question,
+            provider: provider,
+            apiKey: apiKey,
             model: effectiveModel,
             selectedModel: selectedModel,
             maxTokens: state.maxTokens,
@@ -1359,6 +1771,7 @@
                 );
 
                 state.lastRequest = {
+                    provider: provider,
                     model: responseModel,
                     requestedModel: selectedModel,
                     warning: warningText,
@@ -1421,5 +1834,6 @@
         }
     };
 
+    sanitizeLocalStateConfig();
     createPanel();
 })();
