@@ -24,26 +24,27 @@ Repos incluidos:
 3. Tag: `hub-stable-20260224`
 
 ## Último bloque operativo cerrado
-1. Auditoría profunda cross-course (`ios`, `android`, `sdd`) ejecutada en fuente + `dist` + runtime Hub.
+1. Calibración del validador pedagógico de SDD cerrada en ciclo TDD (`RED -> GREEN -> REFACTOR`).
 2. Acción aplicada:
-   - fix crítico de enlace inline en SDD (`openspec/changes/drafts/intake-ticket.md`).
-   - creación de índice raíz de `anexos/` en iOS/Android/SDD.
-   - guía de leyenda Mermaid con 4 flechas añadida en anexos de iOS/Android/SDD.
-   - reporte maestro versionado: `docs/AUDITORIA-CURSOS-PROFUNDA-20260226.md`.
+   - tests nuevos en `scripts/tests/test_validate_pedagogy.py` para controlar falsos positivos.
+   - ajuste de heurística anti-chuleta en `scripts/validate-pedagogy.py` para permitir listas/tablas cuando existe narrativa suficiente.
+   - regresión completa en verde (`check-links`, `validate-lesson-sequence`, `validate-markdown-snippets`, `build-html`).
+   - corrección del encabezado de `docs/AUDITORIA-CURSOS-PROFUNDA-20260226.md`.
 3. Política operativa vigente:
    - no abrir una nueva task en `🚧` sin trigger real (merge fuente, drift detectado o instrucción explícita).
 4. Última evidencia técnica consolidada:
-   - iOS QA bundle en verde (`./scripts/run-qa-audit-bundle.sh`).
-   - Android checks en verde (`check-links` + `build-html`).
-   - SDD checks en verde (`check-links` + `validate-markdown-snippets` + `build-html`).
-   - Visual QA en verde en 3 estilos y 2 temas por curso (evidencia en `output/playwright/`).
+   - `python3 -m unittest scripts/tests/test_validate_pedagogy.py` -> PASS (4/4).
+   - `python3 scripts/validate-pedagogy.py` -> PASS (148 files).
+   - `python3 scripts/check-links.py` -> PASS.
+   - `python3 scripts/validate-lesson-sequence.py` -> PASS.
+   - `python3 scripts/validate-markdown-snippets.py` -> PASS.
+   - `python3 scripts/build-html.py` -> PASS.
 
 ## Trabajo en curso
 1. No hay task activa en construcción.
 2. Mantener política anti-bucle: abrir nuevo bloque solo con trigger real.
 3. Mantener commits atómicos cuando se active nuevo bloque.
 4. Monitorear drift selectivo con `./scripts/check-selective-sync-drift.sh`.
-5. Siguiente candidato técnico: calibrar `scripts/validate-pedagogy.py` de SDD (falsos positivos por listas/tablas).
 
 ## Última comprobación de espera activa
 1. Fecha: 2026-02-26.
@@ -61,14 +62,14 @@ Repos incluidos:
 6. ✅ Standby operativo posterior al BYOK cerrado administrativamente.
 7. ✅ Pendientes de higiene SDD cerrados.
 8. ✅ Auditoría profunda de cursos cerrada (sin P0/P1 abiertos).
-9. ⏳ Próximo bloque operativo pendiente de trigger real.
+9. ✅ Calibración del validador pedagógico SDD cerrada en GitFlow.
+10. ⏳ Próximo bloque operativo pendiente de trigger real.
 
 ## Siguiente paso concreto
 1. Mantener este paquete `docs/` como fuente de verdad transversal.
 2. Abrir nuevo bloque solo ante trigger real (merge fuente, drift detectado o instrucción explícita).
 3. Si hay cambios en iOS/Android/SDD, ejecutar sync selectivo y validar smoke+rutas.
 4. Actualizar handoff al cerrar cada bloque real.
-5. Ejecutar calibración de validador pedagógico SDD en bloque dedicado cuando se active trigger.
 
 ## Riesgos abiertos
 1. `codex resume` filtra por `cwd` si no se usa `--all`.

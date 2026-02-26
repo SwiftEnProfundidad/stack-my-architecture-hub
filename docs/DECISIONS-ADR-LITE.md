@@ -152,3 +152,20 @@ Estandarizar en iOS/Android/SDD:
 1. Los 3 cursos publican anexos con entrada única y estructura trazable.
 2. Queda cubierta representación mínima de los 4 tipos de flecha en snippets Mermaid por curso.
 3. La auditoría visual en 3 estilos/2 temas mantiene legibilidad y consistencia de leyenda.
+
+## ADR-LITE-010 — Calibración anti-chuleta del validador pedagógico SDD
+### Fecha
+2026-02-26
+
+### Decisión
+Cambiar la regla anti-chuleta de `scripts/validate-pedagogy.py` para no bloquear automáticamente listas/tablas Markdown cuando hay narrativa suficiente.
+
+### Motivación
+1. Reducir falsos positivos masivos en lecciones válidas con narrativa + apoyo estructurado.
+2. Mantener señal útil del validador para casos realmente “chuleta” (listado/tablas sin desarrollo explicativo).
+3. Permitir ejecución estable de quality gates sin degradar estándar pedagógico.
+
+### Impacto
+1. Se añade cobertura unitaria en `scripts/tests/test_validate_pedagogy.py`.
+2. `python3 scripts/validate-pedagogy.py` vuelve a verde en el baseline actual (148 files).
+3. Se conserva detección de casos list-only/table-only sin narrativa.
