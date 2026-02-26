@@ -37,7 +37,7 @@ Cobertura ejecutada:
 - Continuidad pedagógica P2: 9
 - Saltos/prerrequisitos/redundancias P2: 10
 - Plantilla pedagógica P2: 62
-- Mermaid semántica P2: 5
+- Mermaid semántica P2: 0 (cerrado en fase de backlog posterior, PR iOS #5)
 - Trazabilidad scaffold P2: 4
 
 2. SDD: `scripts/validate-pedagogy.py` marca masivamente listas/tablas como “formato chuleta”.

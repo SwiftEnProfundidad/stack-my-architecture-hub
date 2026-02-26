@@ -6,14 +6,14 @@
 <meta name="darkreader-lock">
 <meta name="course-id" content="stack-my-architecture-ios">
 <title>Stack: My Architecture iOS</title>
-<link rel="stylesheet" href="assets/study-ux.css?v=1772005668">
-<link rel="stylesheet" href="assets/course-switcher.css?v=1772005668">
-<link rel="stylesheet" href="assets/assistant-panel.css?v=1772005668">
-<script defer src="assets/study-ux.js?v=1772005668"></script>
-<script defer src="assets/course-switcher.js?v=1772005668"></script>
-<script defer src="assets/theme-controls.js?v=1772005668"></script>
-<script defer src="assets/assistant-panel.js?v=1772005668"></script>
-<script defer src="assets/assistant-bridge.js?v=1772005668"></script>
+<link rel="stylesheet" href="assets/study-ux.css?v=1772143253">
+<link rel="stylesheet" href="assets/course-switcher.css?v=1772143253">
+<link rel="stylesheet" href="assets/assistant-panel.css?v=1772143253">
+<script defer src="assets/study-ux.js?v=1772143253"></script>
+<script defer src="assets/course-switcher.js?v=1772143253"></script>
+<script defer src="assets/theme-controls.js?v=1772143253"></script>
+<script defer src="assets/assistant-panel.js?v=1772143253"></script>
+<script defer src="assets/assistant-bridge.js?v=1772143253"></script>
 
 <!-- Google Fonts - Inter -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -2728,6 +2728,7 @@ blockquote p {
 <hr>
 <h2 id="01-fundamentos-00-introduccion-tu-mapa-de-progresi-n-de-cero-a-arquitecto">Tu mapa de progresión: de cero a arquitecto</h2>
 <p>Antes de empezar, mira dónde estás y a dónde vas. Este diagrama muestra el camino completo del curso. Cada etapa construye sobre la anterior, sin saltos:</p>
+<p>La lectura correcta es izquierda a derecha por etapas: <strong>Etapa 1: Junior</strong>, <strong>Etapa 2: Mid</strong>, <strong>Etapa 3: Senior</strong>, <strong>Etapa 4: Arquitecto</strong> y <strong>Etapa 5: Maestria</strong>. Dentro de cada subgraph, cada bloque representa una capacidad concreta que habilita la siguiente.</p>
 <div class="sma-mermaid-block">
 <div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
 <pre class="mermaid">graph TD
@@ -2797,6 +2798,8 @@ blockquote p {
 <h2 id="01-fundamentos-00-introduccion-qu-vas-a-construir-en-esta-etapa">Qué vas a construir en esta etapa</h2>
 <p>En la Etapa 1 vas a construir una <strong>feature de Login</strong> completa. "Completa" no significa "con animaciones bonitas y social login". Significa que va a tener todas las piezas que necesita una feature profesional.</p>
 <h3 id="01-fundamentos-00-introduccion-diagrama-anatom-a-de-tu-primera-feature">Diagrama: anatomía de tu primera feature</h3>
+<p>En esta anatomía, cada subgraph tiene un rol explícito: <strong>Especificacion BDD</strong> define comportamiento, <strong>Domain</strong> define reglas puras, <strong>Application</strong> orquesta, <strong>Infrastructure</strong> conecta con el mundo real, <strong>Interface</strong> presenta estado en SwiftUI y <strong>ADR</strong> captura decisiones de arquitectura.</p>
+<p>Fíjate en nombres concretos del diagrama porque aparecerán en toda la etapa: <code>Email</code>, <code>Password</code>, <code>AuthGateway</code>, <code>LoginUseCase</code>, <code>RemoteAuthGateway</code>, <code>StubAuthGateway</code>, <code>LoginViewModel</code> y <code>LoginView</code>.</p>
 <div class="sma-mermaid-block">
 <div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
 <pre class="mermaid">graph TD
@@ -2900,6 +2903,7 @@ blockquote p {
 <p>Cuando el diagrama se escriba en Mermaid, la convención se mantiene con <strong>línea + etiqueta textual</strong> para no perder semántica (por ejemplo “contrato/protocolo” o “evento”), aunque la punta visual no siempre tenga toda la granularidad de una lámina estática.</p>
 <p>Regla práctica: antes de dibujar, decide si la flecha representa <strong>uso directo</strong>, <strong>wiring</strong>, <strong>contrato</strong> o <strong>evento</strong>. Si no puedes decirlo en una frase, el diagrama está mezclando conceptos.</p>
 <h3 id="01-fundamentos-00-introduccion-las-cajas-grandes-subgraphs-agrupaciones">Las cajas grandes (subgraphs): agrupaciones</h3>
+<p>Este mini-diagrama no representa una feature real; es un patrón de lectura para entender qué significa un <code>subgraph</code> y cómo interpretar que <code>Elemento 1</code> y <code>Elemento 2</code> pertenecen al mismo <code>Grupo1</code>.</p>
 <div class="sma-mermaid-block">
 <pre class="mermaid">graph TD
     subgraph Grupo1[&quot;Nombre del grupo&quot;]
@@ -6557,6 +6561,7 @@ struct StackMyArchitectureApp: App {
 <p>Esta lección no tiene código nuevo. Es una lección de reflexión y consolidación. Si te la saltas, los siguientes capítulos funcionarán igual, pero entenderás menos el "por qué" detrás de cada decisión.</p>
 <hr>
 <h3 id="01-fundamentos-05-feature-login-05-tdd-ciclo-completo-diagrama-mapa-de-tests-por-capa-de-la-feature-login">Diagrama: mapa de tests por capa de la feature Login</h3>
+<p>El mapa distribuye evidencia por capa para evitar huecos: <strong>Domain</strong> valida reglas (<code>EmailTests</code>, <code>PasswordTests</code>), <strong>Application</strong> valida orquestación (<code>LoginUseCaseTests</code>), <strong>Infrastructure</strong> valida integración remota (<code>RemoteAuthGatewayTests</code>) y <strong>Interface</strong> valida estado/UI (<code>LoginViewModelTests</code>).</p>
 <div class="sma-mermaid-block">
 <div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
 <pre class="mermaid">graph TD
@@ -6586,6 +6591,7 @@ struct StackMyArchitectureApp: App {
     style Interface fill:#ffe0cc,stroke:#fd7e14</pre>
 </div>
 <p><strong>Total: 28 tests</strong> para una sola feature. Todos se ejecutan en menos de 1 segundo.</p>
+<p>La relación entre cajas también importa: <code>Domain -&gt; Application -&gt; Infrastructure</code> indica profundidad técnica, mientras <code>Application -&gt; Interface</code> confirma que el estado de UI depende del caso de uso y no al revés.</p>
 <p>> <strong>Nota:</strong> Los 28 tests descritos aquí son el diseño conceptual completo de la feature Login. El scaffold SPM del repositorio (<code>apps/ios/ArchitectureKit</code>) consolida algunos de estos tests y tiene 26 tests totales incluyendo Login, Catalog y Composition. La diferencia se debe a que el scaffold agrupa ciertos escenarios en tests de integración de mayor nivel.</p>
 <hr>
 <h2 id="01-fundamentos-05-feature-login-05-tdd-ciclo-completo-el-mapa-completo-de-tests-que-escribimos">El mapa completo de tests que escribimos</h2>
@@ -29869,6 +29875,7 @@ timer = nil</code></pre>
 <hr>
 <h2 id="anexos-diagramas-atlas-arquitectura-7-estructura-spm-objetivo-etapa-4">7. Estructura SPM objetivo (Etapa 4)</h2>
 <p>Este diagrama muestra la estructura de targets SPM hacia la que evoluciona el proyecto:</p>
+<p>Antes de leer flechas, ubica los bloques principales: <code>SharedKernel</code>, <code>Platform</code>, <code>BackendFirebase</code>, <code>Feature Login</code>, <code>Feature Catalog</code>, <code>NavigationPlatform</code> y <code>AppComposition</code>. Dentro de Login y Catalog, el patrón se repite explícitamente (<code>LoginDomain</code>, <code>LoginApplication</code>, <code>LoginInterface</code>, <code>LoginInfrastructure</code>, <code>CatalogDomain</code>, <code>CatalogApplication</code>, <code>CatalogInterface</code>, <code>CatalogInfrastructure</code>).</p>
 <div class="sma-mermaid-block">
 <div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
 <pre class="mermaid">graph TD
@@ -29941,6 +29948,7 @@ timer = nil</code></pre>
     style NAV fill:#e2d5f1,stroke:#6f42c1
     style COMP fill:#f8d7da,stroke:#dc3545</pre>
 </div>
+<p>La semántica clave de este grafo es que <code>AppComposition</code> conecta wiring, mientras <code>SharedKernel</code> actúa como base común; <code>Platform</code> y <code>BackendFirebase</code> proveen infraestructura técnica; y las capas <code>Domain</code>, <code>Application</code>, <code>Interface</code> e <code>Infrastructure</code> se mantienen separadas por frontera de imports.</p>
 <p><strong>Reglas de dependencia (enforceables por CI):</strong></p>
 <table>
 <thead>
@@ -29991,6 +29999,9 @@ timer = nil</code></pre>
 <p><strong>Entre features:</strong> nunca importar clases internas de otra feature. Solo comunicacion via <code>NavigationPlatform</code> (eventos) o <code>FeatureXContracts</code> (modelos publicos).</p>
 <hr>
 <h2 id="anexos-diagramas-atlas-arquitectura-8-backend-firebase-encapsulado-en-infrastructure">8. Backend Firebase encapsulado en Infrastructure</h2>
+<p>Este diagrama separa tres fronteras: <strong>Domain</strong> (Session, Product, AuthGateway, ProductRepository), <strong>Infrastructure</strong> (implementaciones concretas) y <strong>BackendFirebase</strong> (adaptadores Firebase y configuración). La idea clave es que los puertos del Domain no dependen de Firebase.</p>
+<p>Lee el flujo así: <code>FirebaseAuthGateway</code> y <code>FirestoreProductRepository</code> viven en Infrastructure, implementan puertos del Domain y delegan en <code>FirebaseAuthAdapter</code>, <code>FirestoreProductAdapter</code> y <code>FirebaseConfig</code> dentro de BackendFirebase.</p>
+<p>En términos de contrato, <code>AuthGateway</code> y <code>ProductRepository</code> siguen siendo puertos del Domain; <code>FirebaseAuthGateway</code> y <code>FirestoreProductRepository</code> son adaptadores de Infrastructure, y <code>FirebaseAuthAdapter</code>, <code>FirestoreProductAdapter</code> junto con <code>FirebaseConfig</code> quedan encapsulados en BackendFirebase.</p>
 <div class="sma-mermaid-block">
 <div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
 <pre class="mermaid">graph TD

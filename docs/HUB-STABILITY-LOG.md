@@ -219,6 +219,33 @@ Se registraron varios ciclos de espera activa durante ajuste de baseline operati
    - `/android/index.html` -> OK
    - `/sdd/index.html` -> OK
 
+## Regresión post-cierre backlog iOS Mermaid + resync cross-course
+### Fecha
+2026-02-26
+
+### Contexto
+Se cerró en iOS el backlog de coherencia semántica Mermaid (hallazgos `P2` de `5 -> 0`) y se aplicó resync selectivo cross-course de bundles publicados (`ios`, `android`, `sdd`) en Hub para alinear runtime con estado fuente actual.
+
+### Evidencia versionada
+1. iOS cierre backlog Mermaid:
+   - PR: `SwiftEnProfundidad/stack-my-architecture-ios#5`
+   - Merge commit: `4e41a5f`
+2. Hub resync cross-course post-backlog:
+   - branch de publicación: `chore/sync-bundles-after-backlog-phase-20260226`
+   - validación de deriva: `no drift (6/6)` tras copia selectiva
+
+### Verificación funcional
+1. `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
+2. `./scripts/smoke-hub-runtime.sh` -> OK (puerto temporal `46210`).
+3. Rutas verificadas dentro de smoke:
+   - `/index.html` -> OK
+   - `/ios/index.html` -> OK
+   - `/android/index.html` -> OK
+   - `/sdd/index.html` -> OK
+
+### Resultado
+Hub mantiene estabilidad operativa tras publicar el cierre de backlog iOS y sincronizar bundles cross-course.
+
 ### Resultado
 No se requiere sync selectivo en estos ciclos; Hub permanece estable.
 

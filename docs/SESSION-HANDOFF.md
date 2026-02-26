@@ -24,21 +24,19 @@ Repos incluidos:
 3. Tag: `hub-stable-20260224`
 
 ## Último bloque operativo cerrado
-1. Calibración del validador pedagógico de SDD cerrada en ciclo TDD (`RED -> GREEN -> REFACTOR`).
+1. Cierre de backlog iOS Mermaid semántica + publicación selectiva cross-course en Hub.
 2. Acción aplicada:
-   - tests nuevos en `scripts/tests/test_validate_pedagogy.py` para controlar falsos positivos.
-   - ajuste de heurística anti-chuleta en `scripts/validate-pedagogy.py` para permitir listas/tablas cuando existe narrativa suficiente.
-   - regresión completa en verde (`check-links`, `validate-lesson-sequence`, `validate-markdown-snippets`, `build-html`).
-   - corrección del encabezado de `docs/AUDITORIA-CURSOS-PROFUNDA-20260226.md`.
+   - remediación de 5 hallazgos `P2` de Mermaid semántica en iOS (`P2: 5 -> 0`).
+   - ejecución de QA integral iOS tras remediación (`run-qa-audit-bundle.sh`).
+   - sync selectivo cross-course en Hub (`ios`, `android`, `sdd`) contra `dist` fuente.
+   - verificación de publicación con `no drift (6/6)` y smoke runtime OK.
 3. Política operativa vigente:
    - no abrir una nueva task en `🚧` sin trigger real (merge fuente, drift detectado o instrucción explícita).
 4. Última evidencia técnica consolidada:
-   - `python3 -m unittest scripts/tests/test_validate_pedagogy.py` -> PASS (4/4).
-   - `python3 scripts/validate-pedagogy.py` -> PASS (148 files).
-   - `python3 scripts/check-links.py` -> PASS.
-   - `python3 scripts/validate-lesson-sequence.py` -> PASS.
-   - `python3 scripts/validate-markdown-snippets.py` -> PASS.
-   - `python3 scripts/build-html.py` -> PASS.
+   - iOS: `python3 scripts/audit-mermaid-semantic.py` -> `OK=151, P1=0, P2=0`.
+   - iOS: `./scripts/run-qa-audit-bundle.sh` -> PASS.
+   - Hub: `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
+   - Hub: `./scripts/smoke-hub-runtime.sh` -> OK.
 
 ## Trabajo en curso
 1. No hay task activa en construcción.
@@ -63,7 +61,8 @@ Repos incluidos:
 7. ✅ Pendientes de higiene SDD cerrados.
 8. ✅ Auditoría profunda de cursos cerrada (sin P0/P1 abiertos).
 9. ✅ Calibración del validador pedagógico SDD cerrada en GitFlow.
-10. ⏳ Próximo bloque operativo pendiente de trigger real.
+10. ✅ Cierre de backlog iOS Mermaid semántica + publicación cross-course.
+11. ⏳ Próximo bloque operativo pendiente de trigger real.
 
 ## Siguiente paso concreto
 1. Mantener este paquete `docs/` como fuente de verdad transversal.
