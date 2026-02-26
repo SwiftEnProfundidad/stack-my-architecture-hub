@@ -266,6 +266,24 @@ Tras completar el bloque BYOK multi-provider y su merge en `develop`, se solicit
 ### Resultado
 Continuidad estable sin trabajo activo pendiente; próximo bloque se abrirá solo con trigger real.
 
+## Cierre de pendientes de higiene SDD
+### Fecha
+2026-02-26
+
+### Contexto
+Quedaban dos pendientes operativos detectados en `stack-my-architecture-SDD`:
+1. `main` sin upstream configurado.
+2. Artefactos locales no versionables (`.vercel/`, `dist/`, `project/`) apareciendo como `untracked`.
+
+### Acción aplicada
+1. Upstream de `main` configurado a `origin/main` en el entorno local operativo.
+2. Exclusión de artefactos de ruido cerrada por dos capas:
+   - versionada en `develop` del monorepo SDD vía PR `#2` (`7981f59`),
+   - local inmediata en `.git/info/exclude` para mantener `main` limpio.
+
+### Resultado
+Repositorio SDD en estado limpio para operación diaria sin ruido en `git status`.
+
 ## Nota operativa
 Si reaparece síntoma similar:
 1. Revisar `.runtime/hub.port` y `.runtime/hub.pid` del hub.
