@@ -40,6 +40,9 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 20. Bloque BYOK multi-provider integrado en `develop` vía PR `#16` (merge `6aeb7e0`).
 21. Standby operativo del bloque BYOK cerrado administrativamente por instrucción explícita del usuario.
 22. Pendientes de higiene SDD cerrados: upstream de `main` configurado y artefactos locales excluidos de tracking.
+23. Auditoría profunda cross-course completada sobre iOS/Android/SDD (fuente + dist + runtime Hub) con evidencia técnica y visual.
+24. Hallazgo crítico de enlaces en SDD (`/tmp/helpdesk-board-export.md`) corregido y revalidado en verde.
+25. Índice raíz de `anexos/` y guía de leyenda Mermaid (4 flechas) estandarizados en los 3 cursos.
 
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.
@@ -68,6 +71,9 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 19. Fase REFACTOR BYOK tracking/docs (`32d3e6f`).
 20. Merge PR BYOK a `develop` (`6aeb7e0`).
 21. Higiene SDD (artefactos locales) mergeada en `develop` de monorepo SDD por PR `#2` (`7981f59`).
+22. Auditoría profunda de cursos y lecciones cerrada con informe maestro:
+    - `docs/AUDITORIA-CURSOS-PROFUNDA-20260226.md`
+    - evidencias visuales en `output/playwright/`
 
 ## Tablero operativo (solo 1 en construcción)
 1. ✅ Publicar sync selectivo cross-course iOS + Android + SDD en Hub (`c9cd8c3`).
@@ -77,7 +83,8 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 5. ✅ Cerrar bloque BYOK multi-provider en GitFlow (push, PR, merge y actualización final de tracking).
 6. ✅ Standby operativo posterior al BYOK cerrado administrativamente por instrucción explícita del usuario.
 7. ✅ Cerrar pendientes de higiene SDD (upstream de `main` + exclusión de artefactos locales no versionables).
-8. ⏳ Próximo bloque operativo pendiente de trigger real (merge fuente, drift detectado o instrucción explícita).
+8. ✅ Cerrar auditoría profunda de cursos (línea a línea + Mermaid/snippets + visual QA 3 temas + anexos).
+9. ⏳ Afinar `scripts/validate-pedagogy.py` de SDD para reducir falsos positivos de listas/tablas sin degradar calidad.
 
 ## Bloqueos actuales
 1. Ninguno operativo en la app/hub.
@@ -90,6 +97,7 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 3. Aplicar sync selectivo por curso (iOS/Android/SDD) cuando se cierren nuevos bloques en repos fuente.
 4. Actualizar `docs/SESSION-HANDOFF.md` al cerrar cada sesión de trabajo.
 5. Consolidar próximas decisiones operativas en `docs/DECISIONS-ADR-LITE.md`.
+6. Priorizar calibración del validador pedagógico de SDD como siguiente bloque técnico.
 
 ## Última validación operativa
 1. Runtime smoke: `./scripts/smoke-hub-runtime.sh` -> OK.
@@ -117,6 +125,11 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
    - PR: `SwiftEnProfundidad/stack-my-architecture#2` (`chore/sdd-ignore-local-artifacts-20260226` -> `develop`)
    - Commit merge: `7981f59`
    - Ajuste local operativo: `main` en SDD con upstream `origin/main` y `.git/info/exclude` saneado (`.vercel/`, `dist/`, `project/`).
+7. Validación técnica del bloque de auditoría profunda:
+   - iOS: `./scripts/run-qa-audit-bundle.sh` -> PASS
+   - Android: `python3 scripts/check-links.py && python3 scripts/build-html.py` -> PASS
+   - SDD: `python3 scripts/check-links.py && python3 scripts/validate-markdown-snippets.py && python3 scripts/build-html.py` -> PASS
+   - Visual QA Hub (Playwright CLI): `ios/android/sdd` en `enterprise|bold|paper` + `light|dark` -> contraste AA y leyenda 4 flechas OK (6/6 por curso)
 
 ## Referencias de estabilidad del Hub
 1. Commit: `1940c7d`
