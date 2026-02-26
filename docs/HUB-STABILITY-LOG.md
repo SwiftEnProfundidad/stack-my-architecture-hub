@@ -252,6 +252,20 @@ Trigger explícito para abandonar standby e iniciar refuerzo económico del asis
 ### Resultado
 Hub sigue estable y el asistente queda desacoplado de una key de servidor obligatoria.
 
+## Cierre administrativo de standby operativo
+### Fecha
+2026-02-26
+
+### Contexto
+Tras completar el bloque BYOK multi-provider y su merge en `develop`, se solicitó cierre explícito de la task de standby operativo.
+
+### Acción aplicada
+1. Standby marcado como `✅` en `MASTER-TRACKER` y `SESSION-HANDOFF`.
+2. Estado operativo regresado a espera pasiva sin task en construcción.
+
+### Resultado
+Continuidad estable sin trabajo activo pendiente; próximo bloque se abrirá solo con trigger real.
+
 ## Nota operativa
 Si reaparece síntoma similar:
 1. Revisar `.runtime/hub.port` y `.runtime/hub.pid` del hub.

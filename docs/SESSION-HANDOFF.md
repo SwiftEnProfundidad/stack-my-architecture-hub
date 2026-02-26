@@ -24,21 +24,19 @@ Repos incluidos:
 3. Tag: `hub-stable-20260224`
 
 ## Último bloque operativo cerrado
-1. Cierre completo GitFlow del bloque BYOK multi-provider para asistente IA del Hub.
+1. Cierre administrativo del standby operativo posterior al bloque BYOK.
 2. Acción aplicada:
-   - contrato de tests serverless creado (`scripts/tests/test-assistant-bridge-byok.js`).
-   - backend `api/assistant-bridge.js` actualizado a BYOK obligatorio con proveedores `openai`, `anthropic` y `gemini`.
-   - paneles `ios`, `android` y `sdd` alineados con selector de proveedor + API key por sesión.
-   - PR fusionada a `develop`: `#16` (merge `6aeb7e0`).
+   - tarea de standby marcada como `✅` por instrucción explícita del usuario.
+   - tablero operativo normalizado sin tareas activas en construcción.
+   - estado listo para abrir próximo bloque únicamente con trigger real.
 3. Política operativa vigente:
-   - mantener una sola task en `🚧` en tablero (standby controlado hasta trigger real).
+   - no abrir una nueva task en `🚧` sin trigger real (merge fuente, drift detectado o instrucción explícita).
 4. Última evidencia técnica consolidada:
-   - `node --test scripts/tests/test-assistant-bridge-byok.js` -> PASS (5/5).
-   - `./scripts/tests/test-check-selective-sync-drift.sh` -> PASS.
-   - `./scripts/smoke-hub-runtime.sh` -> OK.
+   - merge previo del bloque BYOK: PR `#16` (`6aeb7e0`).
+   - cierre documental de standby versionado en tracker/handoff.
 
 ## Trabajo en curso
-1. Standby operativo tras cierre de PR BYOK.
+1. No hay task activa en construcción.
 2. Mantener política anti-bucle: abrir nuevo bloque solo con trigger real.
 3. Mantener commits atómicos cuando se active nuevo bloque.
 4. Monitorear drift selectivo con `./scripts/check-selective-sync-drift.sh`.
@@ -56,7 +54,8 @@ Repos incluidos:
 3. ✅ Espera activa previa cerrada por consolidación anti-bucle (sin trigger técnico pendiente).
 4. ✅ Standby operativo cerrado por trigger explícito para iniciar BYOK.
 5. ✅ Cierre GitFlow BYOK multi-provider (push, PR y merge).
-6. 🚧 Standby operativo hasta próximo trigger real.
+6. ✅ Standby operativo posterior al BYOK cerrado administrativamente.
+7. ⏳ Próximo bloque operativo pendiente de trigger real.
 
 ## Siguiente paso concreto
 1. Mantener este paquete `docs/` como fuente de verdad transversal.
