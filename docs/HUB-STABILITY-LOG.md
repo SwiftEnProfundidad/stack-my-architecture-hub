@@ -228,7 +228,7 @@ Registrar un nuevo ciclo en este log solo cuando exista trigger real:
 2. deriva detectada por `check-selective-sync-drift.sh`, o
 3. instrucción explícita del usuario.
 
-## Regresión post-bloque BYOK multi-provider (feature branch)
+## Regresión post-bloque BYOK multi-provider (merge en develop)
 ### Fecha
 2026-02-26
 
@@ -241,6 +241,8 @@ Trigger explícito para abandonar standby e iniciar refuerzo económico del asis
 ### Evidencia versionada
 1. `04e087a` (`test(hub): define byok multi-provider assistant contract (red)`)
 2. `7eb89d4` (`feat(hub): enforce byok with openai claude gemini providers (green)`)
+3. `32d3e6f` (`docs(tracking): log byok block and keep single in-progress task (refactor)`)
+4. Merge PR `#16` en `develop`: `6aeb7e0`
 
 ### Verificación funcional
 1. `node --test scripts/tests/test-assistant-bridge-byok.js` -> PASS (5/5).
