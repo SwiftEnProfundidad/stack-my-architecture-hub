@@ -370,6 +370,39 @@ Tras validar build estricto del Hub se detectó que la copia AS-IS desde cursos 
 ### Resultado
 Producción publicada y estable con contenido actualizado, rutas en verde y panel IA manteniendo BYOK multi-provider.
 
+## Regresión post-fix visual de leyenda Mermaid (flechas) + sync selectivo
+### Fecha
+2026-02-26
+
+### Contexto
+Se detectó regresión visual en la leyenda de flechas Mermaid: puntas desplazadas respecto a su línea en runtime. Se aplicó corrección en los tres generadores de curso y se republicaron bundles selectivamente en Hub.
+
+### Evidencia versionada
+1. iOS:
+   - PR: `SwiftEnProfundidad/stack-my-architecture-ios#7`
+   - Merge commit: `dcc51fe`
+2. Android:
+   - PR: `SwiftEnProfundidad/stack-my-architecture-android#4`
+   - Merge commit: `06da672`
+3. SDD:
+   - PR: `SwiftEnProfundidad/stack-my-architecture#5`
+   - Merge commit: `9d1620a`
+
+### Verificación funcional
+1. RED: dist previo mostraba geometría desalineada (`height: 0`, `top: -5px`, `top: -4px`).
+2. GREEN:
+   - `python3 scripts/build-html.py` en iOS/Android/SDD -> PASS.
+3. REFACTOR:
+   - CSS unificado en los 3 builders con línea y punta centradas (`top: 50%` + `translateY(-50%)`).
+4. Hub:
+   - `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
+   - `./scripts/smoke-hub-runtime.sh` -> OK.
+5. Validación visual Playwright CLI:
+   - métricas homogéneas en `ios/android/sdd`: `lineTop=6px`, `headTop=6px`, `height=12px`.
+
+### Resultado
+Hub mantiene estabilidad operativa y la leyenda de flechas queda visualmente alineada en los tres cursos.
+
 ## Nota operativa
 Si reaparece síntoma similar:
 1. Revisar `.runtime/hub.port` y `.runtime/hub.pid` del hub.
