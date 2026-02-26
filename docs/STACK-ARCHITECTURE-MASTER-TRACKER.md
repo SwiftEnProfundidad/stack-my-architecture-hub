@@ -48,6 +48,7 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 28. Backlog iOS de trazabilidad scaffold cerrado (`P2: 4 -> 0`) y publicación selectiva de iOS en Hub validada (`no drift 6/6` + smoke OK).
 29. Publicación productiva en Vercel revalidada tras build estricto del Hub, manteniendo BYOK multi-provider en paneles IA.
 30. Leyenda Mermaid de flechas alineada visualmente en iOS/Android/SDD (puntas centradas con su línea) y publicada en Hub sin regresión runtime.
+31. Lecciones núcleo de iOS ahora aplican y explican explícitamente las 4 flechas Mermaid sobre el diagrama real de módulos/features de la app ejemplo.
 
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.
@@ -98,6 +99,10 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
     - Android PR `#4` (`fix/legend-arrows-alignment-20260226` -> `develop`) merge `06da672`
     - SDD PR `#5` (`fix/legend-arrows-alignment-20260226` -> `develop`) merge `9d1620a`
     - Hub sync selectivo de `ios/android/sdd` revalidado (`no drift 6/6` + smoke OK)
+28. Refuerzo pedagógico iOS de semántica de flechas Mermaid:
+    - iOS PR `#8` (`feature/ios-arrow-semantics-in-lessons-20260226` -> `develop`) merge `1ea125e`
+    - lecciones actualizadas: `02-integracion/09-app-final-etapa-2.md` y `04-arquitecto/05-guia-arquitectura.md`
+    - Hub sync selectivo de `ios` revalidado (`no drift 6/6` + smoke OK)
 
 ## Tablero operativo (solo 1 en construcción)
 1. ✅ Publicar sync selectivo cross-course iOS + Android + SDD en Hub (`c9cd8c3`).
@@ -113,7 +118,8 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 11. ✅ Cerrar backlog iOS de trazabilidad scaffold (`P2 4->0`) y publicar sync selectivo de iOS en Hub.
 12. ✅ Publicar en Vercel el estado actual validado del Hub sin regresión de BYOK multi-provider.
 13. ✅ Corregir alineación visual de la leyenda de flechas Mermaid (puntas centradas y consistentes en iOS/Android/SDD).
-14. ⏳ Próximo bloque operativo pendiente de trigger real (merge fuente, drift detectado o instrucción explícita).
+14. ✅ Reforzar semántica de flechas Mermaid en lecciones iOS con aplicación explícita en arquitectura real de la app ejemplo.
+15. ⏳ Próximo bloque operativo pendiente de trigger real (merge fuente, drift detectado o instrucción explícita).
 
 ## Bloqueos actuales
 1. Ninguno operativo en la app/hub.
@@ -192,6 +198,13 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
     - Hub: `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
     - Hub: `./scripts/smoke-hub-runtime.sh` -> OK.
     - Visual QA (Playwright CLI) en `ios/android/sdd`: métricas de alineación consistentes (`lineTop=6px`, `headTop=6px`, `height=12px`).
+13. Validación técnica del bloque pedagógico de flechas Mermaid en iOS:
+    - iOS: `python3 scripts/build-html.py` -> PASS (117 archivos).
+    - Cobertura lecciones (no anexos) con 4 flechas (`-->`, `-.->`, `-.o`, `--o`): 2/2
+      - `02-integracion/09-app-final-etapa-2.md`
+      - `04-arquitecto/05-guia-arquitectura.md`
+    - Hub: `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
+    - Hub: `./scripts/smoke-hub-runtime.sh` -> OK.
 
 ## Referencias de estabilidad del Hub
 1. Commit: `1940c7d`

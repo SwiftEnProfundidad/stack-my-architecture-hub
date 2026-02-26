@@ -24,26 +24,27 @@ Repos incluidos:
 3. Tag: `hub-stable-20260224`
 
 ## Último bloque operativo cerrado
-1. Corrección visual de leyenda Mermaid (flechas) en iOS/Android/SDD + sync selectivo en Hub.
+1. Refuerzo pedagógico de flechas Mermaid en iOS + sync selectivo en Hub.
 2. Acción aplicada:
-   - ajuste CSS en `scripts/build-html.py` de iOS/Android/SDD para centrar línea y punta de cada flecha en la leyenda Mermaid.
+   - actualización de dos lecciones núcleo iOS para aplicar y explicar explícitamente las 4 flechas Mermaid sobre arquitectura real:
+     - `02-integracion/09-app-final-etapa-2.md`
+     - `04-arquitecto/05-guia-arquitectura.md`
    - ciclo RED-GREEN-REFACTOR aplicado:
-     - RED: detección de offsets desalineados en dist (`height: 0`, `top: -5px`, `top: -4px`).
-     - GREEN: build HTML en verde en los 3 cursos.
-     - REFACTOR: geometría común centrada (`top: 50%` + `translateY(-50%)`).
-   - sync selectivo en Hub de `ios/android/sdd` + verificación `no drift (6/6)`.
+     - RED: detección de falta de aplicación explícita de `-.o` y `--o` en lecciones de arquitectura.
+     - GREEN: Mermaid actualizado con `-->`, `-.->`, `-.o`, `--o` + explicación semántica conexión por conexión.
+     - REFACTOR: lenguaje unificado en ambas lecciones para lectura arquitectónica consistente.
+   - sync selectivo en Hub de `ios` + verificación `no drift (6/6)`.
    - validación runtime en Hub por smoke test (rutas en verde).
-   - validación visual Playwright CLI con métricas consistentes (`lineTop=6px`, `headTop=6px`, `height=12px`).
+   - evidencia versionada en iOS PR `#8` (merge `1ea125e`).
 3. Política operativa vigente:
    - no abrir una nueva task en `🚧` sin trigger real (merge fuente, drift detectado o instrucción explícita).
 4. Última evidencia técnica consolidada:
-   - iOS/Android/SDD: `python3 scripts/build-html.py` -> PASS.
+   - iOS: `python3 scripts/build-html.py` -> PASS.
+   - lecciones iOS (no anexos) con 4 flechas Mermaid: 2/2.
    - Hub: `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
    - Hub: `./scripts/smoke-hub-runtime.sh` -> OK.
-   - PRs mergeadas en `develop`:
-     - iOS `#7` (`dcc51fe`)
-     - Android `#4` (`06da672`)
-     - SDD `#5` (`9d1620a`)
+   - PR mergeada en `develop`:
+     - iOS `#8` (`1ea125e`)
 
 ## Trabajo en curso
 1. No hay task activa en construcción.
@@ -71,7 +72,8 @@ Repos incluidos:
 11. ✅ Cierre de backlog iOS trazabilidad scaffold + publicación selectiva de iOS.
 12. ✅ Publicación productiva en Vercel sin regresión de BYOK multi-provider.
 13. ✅ Corrección visual de leyenda Mermaid (flechas) en iOS/Android/SDD + sync selectivo estable en Hub.
-14. ⏳ Próximo bloque operativo pendiente de trigger real.
+14. ✅ Refuerzo pedagógico iOS: aplicación explícita de las 4 flechas Mermaid en lecciones de arquitectura de la app ejemplo.
+15. ⏳ Próximo bloque operativo pendiente de trigger real.
 
 ## Siguiente paso concreto
 1. Mantener este paquete `docs/` como fuente de verdad transversal.
