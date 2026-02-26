@@ -311,6 +311,33 @@ Quedaban dos pendientes operativos detectados en `stack-my-architecture-SDD`:
 ### Resultado
 Repositorio SDD en estado limpio para operación diaria sin ruido en `git status`.
 
+## Regresión post-cierre backlog iOS trazabilidad scaffold + sync selectivo iOS
+### Fecha
+2026-02-26
+
+### Contexto
+Se cerró en iOS el backlog de trazabilidad contra scaffold (hallazgos `P2` de `4 -> 0`) y se publicó únicamente el bundle de `ios` en Hub para mantener alineado el runtime sin arrastrar cambios no relacionados de otros cursos.
+
+### Evidencia versionada
+1. iOS cierre backlog trazabilidad scaffold:
+   - PR: `SwiftEnProfundidad/stack-my-architecture-ios#6`
+   - Merge commit: `e07b197`
+2. Hub sync selectivo post-cierre:
+   - branch de publicación: `docs/tracking-close-ios-scaffold-p2-20260226`
+   - validación de deriva: `no drift (6/6)` tras copia selectiva de `ios`
+
+### Verificación funcional
+1. `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
+2. `./scripts/smoke-hub-runtime.sh` -> OK (puerto temporal `46210`).
+3. Rutas verificadas dentro de smoke:
+   - `/index.html` -> OK
+   - `/ios/index.html` -> OK
+   - `/android/index.html` -> OK
+   - `/sdd/index.html` -> OK
+
+### Resultado
+Hub mantiene estabilidad operativa tras publicar el cierre de trazabilidad scaffold en iOS.
+
 ## Nota operativa
 Si reaparece síntoma similar:
 1. Revisar `.runtime/hub.port` y `.runtime/hub.pid` del hub.

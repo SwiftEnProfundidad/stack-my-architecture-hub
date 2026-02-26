@@ -169,3 +169,20 @@ Cambiar la regla anti-chuleta de `scripts/validate-pedagogy.py` para no bloquear
 1. Se añade cobertura unitaria en `scripts/tests/test_validate_pedagogy.py`.
 2. `python3 scripts/validate-pedagogy.py` vuelve a verde en el baseline actual (148 files).
 3. Se conserva detección de casos list-only/table-only sin narrativa.
+
+## ADR-LITE-011 — Cierre de trazabilidad scaffold iOS con publicación selectiva
+### Fecha
+2026-02-26
+
+### Decisión
+Cerrar el backlog de trazabilidad scaffold pendiente en iOS (Etapa 5) y publicar únicamente el bundle de `ios` en Hub tras validación de deriva y smoke runtime.
+
+### Motivación
+1. Eliminar hallazgos `P2` abiertos de trazabilidad (`4 -> 0`) sin esperar a un bloque cross-course.
+2. Mantener Hub alineado con el estado fuente real de iOS sin arrastrar cambios no relacionados.
+3. Reforzar ciclo operativo RED/GREEN/REFACTOR con evidencia técnica al cierre.
+
+### Impacto
+1. Lecciones de cierre de Etapa 5 incluyen bloque explícito `Ruta scaffold relacionada`.
+2. Auditoría `AUDITORIA-TRAZABILIDAD-SCAFFOLD` queda en `Hallazgos: total=0 (P1=0, P2=0)`.
+3. Hub mantiene `no drift (6/6)` y smoke runtime OK tras sync selectivo de `ios`.
