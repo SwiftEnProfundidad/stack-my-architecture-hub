@@ -186,3 +186,23 @@ Cerrar el backlog de trazabilidad scaffold pendiente en iOS (Etapa 5) y publicar
 1. Lecciones de cierre de Etapa 5 incluyen bloque explícito `Ruta scaffold relacionada`.
 2. Auditoría `AUDITORIA-TRAZABILIDAD-SCAFFOLD` queda en `Hallazgos: total=0 (P1=0, P2=0)`.
 3. Hub mantiene `no drift (6/6)` y smoke runtime OK tras sync selectivo de `ios`.
+
+## ADR-LITE-012 — Geometría centrada de flechas en leyenda Mermaid
+### Fecha
+2026-02-26
+
+### Decisión
+Estandarizar la geometría CSS de la leyenda de flechas Mermaid en iOS/Android/SDD con línea y punta centradas verticalmente:
+1. línea en `::before` con `top: 50%` y `translateY(-50%)`,
+2. punta en `::after` también centrada,
+3. variantes dashed/open aplicadas sobre esa misma base.
+
+### Motivación
+1. El esquema previo (`height: 0` + offsets negativos) producía puntas visualmente desplazadas.
+2. La percepción de calidad del contenido caía en una pieza pedagógica recurrente.
+3. Se necesitaba una base única y robusta para evitar reaparición del bug al regenerar bundles.
+
+### Impacto
+1. Leyenda visualmente consistente en `ios/android/sdd`.
+2. Sync selectivo de Hub en `no drift (6/6)` y smoke runtime en verde.
+3. Evidencia visual validada en Playwright CLI con métricas homogéneas (`lineTop=6px`, `headTop=6px`, `height=12px`).
