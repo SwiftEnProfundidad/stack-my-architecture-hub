@@ -133,3 +133,22 @@ Exigir API key del usuario en cada consulta del asistente y soportar proveedores
 1. El panel del asistente añade selector de proveedor y campo API key BYOK por sesión.
 2. El endpoint `/assistant/query` rechaza requests sin key de usuario.
 3. Se mantiene el smoke runtime del Hub sin regresión en rutas publicadas.
+
+## ADR-LITE-009 — Índice de anexos y semántica Mermaid unificada en cursos
+### Fecha
+2026-02-26
+
+### Decisión
+Estandarizar en iOS/Android/SDD:
+1. `anexos/README.md` como índice raíz obligatorio de navegación.
+2. guía explícita de leyenda de flechas Mermaid con las 4 semánticas (`-->`, `-.->`, `-.o`, `--o`).
+
+### Motivación
+1. Mejorar seguimiento del alumno en contenido de apoyo sin navegación dispersa.
+2. Reducir ambigüedad al interpretar diagramas entre cursos.
+3. Evitar deriva semántica entre material fuente y material publicado en Hub.
+
+### Impacto
+1. Los 3 cursos publican anexos con entrada única y estructura trazable.
+2. Queda cubierta representación mínima de los 4 tipos de flecha en snippets Mermaid por curso.
+3. La auditoría visual en 3 estilos/2 temas mantiene legibilidad y consistencia de leyenda.

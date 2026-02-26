@@ -24,22 +24,26 @@ Repos incluidos:
 3. Tag: `hub-stable-20260224`
 
 ## Último bloque operativo cerrado
-1. Cierre de pendientes de higiene en `stack-my-architecture-SDD`.
+1. Auditoría profunda cross-course (`ios`, `android`, `sdd`) ejecutada en fuente + `dist` + runtime Hub.
 2. Acción aplicada:
-   - upstream de `main` configurado en SDD (`origin/main`).
-   - artefactos locales no versionables de SDD excluidos de tracking (`.vercel/`, `dist/`, `project/`).
-   - PR de higiene mergeada en monorepo SDD: `SwiftEnProfundidad/stack-my-architecture#2` (`7981f59`).
+   - fix crítico de enlace inline en SDD (`openspec/changes/drafts/intake-ticket.md`).
+   - creación de índice raíz de `anexos/` en iOS/Android/SDD.
+   - guía de leyenda Mermaid con 4 flechas añadida en anexos de iOS/Android/SDD.
+   - reporte maestro versionado: `docs/AUDITORIA-CURSOS-PROFUNDA-20260226.md`.
 3. Política operativa vigente:
    - no abrir una nueva task en `🚧` sin trigger real (merge fuente, drift detectado o instrucción explícita).
 4. Última evidencia técnica consolidada:
-   - `stack-my-architecture-SDD` en `main...origin/main` sin cambios.
-   - cierre de pendientes SDD registrado en tracker/handoff.
+   - iOS QA bundle en verde (`./scripts/run-qa-audit-bundle.sh`).
+   - Android checks en verde (`check-links` + `build-html`).
+   - SDD checks en verde (`check-links` + `validate-markdown-snippets` + `build-html`).
+   - Visual QA en verde en 3 estilos y 2 temas por curso (evidencia en `output/playwright/`).
 
 ## Trabajo en curso
 1. No hay task activa en construcción.
 2. Mantener política anti-bucle: abrir nuevo bloque solo con trigger real.
 3. Mantener commits atómicos cuando se active nuevo bloque.
 4. Monitorear drift selectivo con `./scripts/check-selective-sync-drift.sh`.
+5. Siguiente candidato técnico: calibrar `scripts/validate-pedagogy.py` de SDD (falsos positivos por listas/tablas).
 
 ## Última comprobación de espera activa
 1. Fecha: 2026-02-26.
@@ -56,13 +60,15 @@ Repos incluidos:
 5. ✅ Cierre GitFlow BYOK multi-provider (push, PR y merge).
 6. ✅ Standby operativo posterior al BYOK cerrado administrativamente.
 7. ✅ Pendientes de higiene SDD cerrados.
-8. ⏳ Próximo bloque operativo pendiente de trigger real.
+8. ✅ Auditoría profunda de cursos cerrada (sin P0/P1 abiertos).
+9. ⏳ Próximo bloque operativo pendiente de trigger real.
 
 ## Siguiente paso concreto
 1. Mantener este paquete `docs/` como fuente de verdad transversal.
 2. Abrir nuevo bloque solo ante trigger real (merge fuente, drift detectado o instrucción explícita).
 3. Si hay cambios en iOS/Android/SDD, ejecutar sync selectivo y validar smoke+rutas.
 4. Actualizar handoff al cerrar cada bloque real.
+5. Ejecutar calibración de validador pedagógico SDD en bloque dedicado cuando se active trigger.
 
 ## Riesgos abiertos
 1. `codex resume` filtra por `cwd` si no se usa `--all`.
