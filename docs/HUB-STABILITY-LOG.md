@@ -228,6 +228,28 @@ Registrar un nuevo ciclo en este log solo cuando exista trigger real:
 2. deriva detectada por `check-selective-sync-drift.sh`, o
 3. instrucción explícita del usuario.
 
+## Regresión post-bloque BYOK multi-provider (feature branch)
+### Fecha
+2026-02-26
+
+### Contexto
+Trigger explícito para abandonar standby e iniciar refuerzo económico del asistente IA:
+1. BYOK obligatorio por request para evitar consumo de key de plataforma.
+2. Soporte multi-provider en bridge serverless (`openai`, `anthropic`, `gemini`).
+3. Paneles de cursos alineados con selector de proveedor + API key por sesión.
+
+### Evidencia versionada
+1. `04e087a` (`test(hub): define byok multi-provider assistant contract (red)`)
+2. `7eb89d4` (`feat(hub): enforce byok with openai claude gemini providers (green)`)
+
+### Verificación funcional
+1. `node --test scripts/tests/test-assistant-bridge-byok.js` -> PASS (5/5).
+2. `./scripts/tests/test-check-selective-sync-drift.sh` -> PASS.
+3. `./scripts/smoke-hub-runtime.sh` -> OK (rutas base en verde).
+
+### Resultado
+Hub sigue estable y el asistente queda desacoplado de una key de servidor obligatoria.
+
 ## Nota operativa
 Si reaparece síntoma similar:
 1. Revisar `.runtime/hub.port` y `.runtime/hub.pid` del hub.

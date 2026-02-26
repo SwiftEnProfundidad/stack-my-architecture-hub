@@ -116,3 +116,20 @@ Registrar nuevos ciclos de "espera activa" en tracking únicamente cuando exista
 ### Impacto
 1. Menos entradas redundantes en `MASTER-TRACKER` y `HUB-STABILITY-LOG`.
 2. Mejor trazabilidad de eventos relevantes.
+
+## ADR-LITE-008 — BYOK obligatorio y soporte multi-provider en asistente IA
+### Fecha
+2026-02-26
+
+### Decisión
+Exigir API key del usuario en cada consulta del asistente y soportar proveedores `openai`, `anthropic` y `gemini` en el bridge serverless del Hub.
+
+### Motivación
+1. Evitar que el coste de tokens recaiga en una key compartida del administrador.
+2. Permitir que cada alumno use su proveedor y facturación propia.
+3. Mantener continuidad funcional del asistente dentro de la app Hub sin depender de un único vendor.
+
+### Impacto
+1. El panel del asistente añade selector de proveedor y campo API key BYOK por sesión.
+2. El endpoint `/assistant/query` rechaza requests sin key de usuario.
+3. Se mantiene el smoke runtime del Hub sin regresión en rutas publicadas.

@@ -1,6 +1,6 @@
 # STACK ARCHITECTURE MASTER TRACKER
 
-Fecha de actualización: 2026-02-25
+Fecha de actualización: 2026-02-26
 
 ## Leyenda
 - ✅ Hecho
@@ -33,6 +33,10 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 13. Gate automático de espera activa consolidado: última ejecución `2026-02-25 11:21 CET` sobre baseline `main` -> `no drift (6/6)` + smoke OK.
 14. Histórico de baseline de control registrado: transición `develop -> main` documentada sin regresiones.
 15. Política anti-bucle aplicada: no registrar ciclos repetidos sin trigger real (merge fuente, drift detectado o instrucción explícita).
+16. Trigger explícito aplicado para abandonar standby e iniciar bloque BYOK multi-provider.
+17. Fase RED del bloque BYOK cerrada con test de contrato serverless en `scripts/tests/test-assistant-bridge-byok.js`.
+18. Fase GREEN del bloque BYOK cerrada: `api/assistant-bridge.js` ya exige BYOK y enruta `openai`, `anthropic` y `gemini`.
+19. Paneles IA de `ios`, `android` y `sdd` alineados para selector de proveedor + API key por sesión.
 
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.
@@ -56,12 +60,15 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
     - baseline `main` (`09:56 CET`) -> `no drift (6/6)` + smoke OK
     - baseline `develop` (`10:04 CET` y `10:17 CET`) -> `no drift (6/6)` + smoke OK
     - baseline `main` recurrente (`11:14 CET` y `11:21 CET`) -> `no drift (6/6)` + smoke OK
+17. Fase RED BYOK multi-provider (`04e087a`).
+18. Fase GREEN BYOK multi-provider (`7eb89d4`).
 
 ## Tablero operativo (solo 1 en construcción)
 1. ✅ Publicar sync selectivo cross-course iOS + Android + SDD en Hub (`c9cd8c3`).
 2. ✅ Ciclos de espera activa consolidados (último: `2026-02-25 11:21 CET`) con `no drift (6/6)` y smoke OK.
 3. ✅ Espera activa del próximo cierre en repos fuente cerrada por consolidación anti-bucle (2026-02-25), sin trigger técnico pendiente.
-4. 🚧 Standby operativo: abrir próximo bloque de sync selectivo solo con trigger real (merge fuente, drift detectado o instrucción explícita).
+4. ✅ Standby operativo cerrado por trigger explícito del usuario para abrir bloque BYOK.
+5. 🚧 Cerrar bloque BYOK multi-provider en GitFlow (push, PR, merge y actualización final de tracking).
 
 ## Bloqueos actuales
 1. Ninguno operativo en la app/hub.
@@ -70,10 +77,10 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 
 ## Próximos pasos recomendados
 1. Mantener este tracker como fuente única de estado transversal.
-2. Ejecutar y registrar ciclo de espera activa solo con trigger real (merge fuente, drift detectado o instrucción explícita).
-3. Aplicar sync selectivo por curso (iOS/Android/SDD) cuando se cierren nuevos bloques en repos fuente.
-4. Actualizar `docs/SESSION-HANDOFF.md` al cerrar cada sesión de trabajo.
-5. Consolidar decisiones de operación en `docs/DECISIONS-ADR-LITE.md`.
+2. Completar cierre GitFlow del bloque BYOK (`feature/byok-multi-provider-assistant` -> `develop`).
+3. Registrar evidencia de merge BYOK y validación final en `HUB-STABILITY-LOG`.
+4. Aplicar sync selectivo por curso (iOS/Android/SDD) cuando se cierren nuevos bloques en repos fuente.
+5. Actualizar `docs/SESSION-HANDOFF.md` al cerrar cada sesión de trabajo.
 
 ## Última validación operativa
 1. Runtime smoke: `./scripts/smoke-hub-runtime.sh` -> OK.
@@ -90,6 +97,10 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
    - `bcba91d` (Hub sync selectivo iOS post Fase 6)
    - `dac88cc` (Hub sync selectivo Android + SDD)
    - `c9cd8c3` (Hub sync selectivo cross-course iOS + Android + SDD)
+4. Validación técnica del bloque BYOK en feature branch:
+   - `node --test scripts/tests/test-assistant-bridge-byok.js` -> PASS (5/5)
+   - `./scripts/tests/test-check-selective-sync-drift.sh` -> PASS
+   - `./scripts/smoke-hub-runtime.sh` -> OK
 
 ## Referencias de estabilidad del Hub
 1. Commit: `1940c7d`
