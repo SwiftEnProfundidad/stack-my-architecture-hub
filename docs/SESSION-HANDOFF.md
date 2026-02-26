@@ -24,19 +24,26 @@ Repos incluidos:
 3. Tag: `hub-stable-20260224`
 
 ## Último bloque operativo cerrado
-1. Publicación productiva en Vercel del estado actualizado del Hub tras build estricto.
+1. Corrección visual de leyenda Mermaid (flechas) en iOS/Android/SDD + sync selectivo en Hub.
 2. Acción aplicada:
-   - ejecución de `./scripts/build-hub.sh --mode strict` en verde.
-   - revalidación de deriva y runtime (`no drift 6/6` + smoke OK).
-   - publicación en Vercel `production` con alias final `https://architecture-stack.vercel.app`.
-   - preservación explícita de BYOK multi-provider en `assistant-panel.js` para `ios/android/sdd`.
+   - ajuste CSS en `scripts/build-html.py` de iOS/Android/SDD para centrar línea y punta de cada flecha en la leyenda Mermaid.
+   - ciclo RED-GREEN-REFACTOR aplicado:
+     - RED: detección de offsets desalineados en dist (`height: 0`, `top: -5px`, `top: -4px`).
+     - GREEN: build HTML en verde en los 3 cursos.
+     - REFACTOR: geometría común centrada (`top: 50%` + `translateY(-50%)`).
+   - sync selectivo en Hub de `ios/android/sdd` + verificación `no drift (6/6)`.
+   - validación runtime en Hub por smoke test (rutas en verde).
+   - validación visual Playwright CLI con métricas consistentes (`lineTop=6px`, `headTop=6px`, `height=12px`).
 3. Política operativa vigente:
    - no abrir una nueva task en `🚧` sin trigger real (merge fuente, drift detectado o instrucción explícita).
 4. Última evidencia técnica consolidada:
-   - Hub: `./scripts/build-hub.sh --mode strict` -> PASS.
+   - iOS/Android/SDD: `python3 scripts/build-html.py` -> PASS.
    - Hub: `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
    - Hub: `./scripts/smoke-hub-runtime.sh` -> OK.
-   - Vercel: rutas públicas `/, /ios/, /android/, /sdd/` en `200`.
+   - PRs mergeadas en `develop`:
+     - iOS `#7` (`dcc51fe`)
+     - Android `#4` (`06da672`)
+     - SDD `#5` (`9d1620a`)
 
 ## Trabajo en curso
 1. No hay task activa en construcción.
@@ -46,10 +53,9 @@ Repos incluidos:
 
 ## Última comprobación de espera activa
 1. Fecha: 2026-02-26.
-2. `node --test scripts/tests/test-assistant-bridge-byok.js` -> PASS.
-3. `./scripts/tests/test-check-selective-sync-drift.sh` -> PASS.
-4. `./scripts/smoke-hub-runtime.sh` -> OK.
-5. Resultado operativo: sin regresión runtime del Hub tras introducir BYOK y fusionar PR #16.
+2. `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
+3. `./scripts/smoke-hub-runtime.sh` -> OK.
+4. Resultado operativo: sin regresión runtime tras alinear la leyenda Mermaid en los 3 cursos.
 
 ## Tablero operativo (la unica en construccion vive en Master Tracker)
 1. ✅ Publicación selectiva cross-course iOS + Android + SDD en Hub (`c9cd8c3`).
@@ -64,7 +70,8 @@ Repos incluidos:
 10. ✅ Cierre de backlog iOS Mermaid semántica + publicación cross-course.
 11. ✅ Cierre de backlog iOS trazabilidad scaffold + publicación selectiva de iOS.
 12. ✅ Publicación productiva en Vercel sin regresión de BYOK multi-provider.
-13. ⏳ Próximo bloque operativo pendiente de trigger real.
+13. ✅ Corrección visual de leyenda Mermaid (flechas) en iOS/Android/SDD + sync selectivo estable en Hub.
+14. ⏳ Próximo bloque operativo pendiente de trigger real.
 
 ## Siguiente paso concreto
 1. Mantener este paquete `docs/` como fuente de verdad transversal.
