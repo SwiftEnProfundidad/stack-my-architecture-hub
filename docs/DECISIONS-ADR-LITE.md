@@ -319,3 +319,29 @@ Blindar `scripts/build-hub.sh` para preservar `assets/assistant-panel.js` existe
 1. `build-hub.sh` guarda/restaura `assistant-panel.js` por curso durante sync.
 2. `smoke-hub-runtime.sh` falla si no detecta `KEY_PROVIDER` en los assistant panels publicados.
 3. El flujo de build/sync queda protegido sin frenar sincronización de HTML de cursos.
+
+## ADR-LITE-019 — Baseline de empleabilidad y rigor enterprise en los 3 cursos
+### Fecha
+2026-02-27
+
+### Decisión
+Estandarizar en iOS, Android y SDD un baseline comun de evaluacion formativa con:
+1. `00-informe/MATRIZ-COMPETENCIAS.md`,
+2. `00-informe/RUBRICA-GATES-POR-FASE.md`,
+3. `00-informe/SCORECARD-EMPLEABILIDAD.md`,
+4. validador `scripts/validate-learning-gates.py`,
+5. validador `scripts/validate-diagram-semantics.py`.
+
+Complementariamente, publicar en Hub:
+1. guia visual de diagramas por capas/modulos/features,
+2. template Mermaid reusable para lecciones.
+
+### Motivación
+1. Elevar empleabilidad y defensa tecnica con evidencia objetiva por fase.
+2. Mantener rigor enterprise transversal entre iOS, Android y SDD.
+3. Reducir ambiguedad didactica en diagramas y contratos arquitectonicos.
+
+### Impacto
+1. Se vuelve auditable la existencia minima de artefactos de aprendizaje por curso.
+2. Se valida automaticamente la semantica de flechas Mermaid en fuentes de lecciones.
+3. El Hub consolida una referencia unica de estilo para arquitectura por capas.
