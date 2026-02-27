@@ -490,7 +490,7 @@ Se ejecutó un bloque completo para pasar de cobertura puntual a cobertura total
    - PR: `SwiftEnProfundidad/stack-my-architecture#7`
    - Merge commit: `b5c23fa`
 4. Hub:
-   - Sync full coverage en rama de publicación `chore/hub-sync-full-arrow-semantics-20260227`
+   - Sync full coverage merge `dae0e49` (PR `#28`)
 
 ### Verificación funcional
 1. Cobertura lecciones con Mermaid:
