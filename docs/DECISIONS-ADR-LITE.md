@@ -345,3 +345,22 @@ Complementariamente, publicar en Hub:
 1. Se vuelve auditable la existencia minima de artefactos de aprendizaje por curso.
 2. Se valida automaticamente la semantica de flechas Mermaid en fuentes de lecciones.
 3. El Hub consolida una referencia unica de estilo para arquitectura por capas.
+
+## ADR-LITE-020 — Cierre de brechas accionables y exclusión explícita de artefactos administrativos
+### Fecha
+2026-02-27
+
+### Decisión
+Cerrar el backlog de brechas accionables de lecciones en iOS/Android/SDD y excluir del backlog pedagógico de lección los artefactos administrativos:
+1. `CHANGELOG.md`
+2. `ADR-*`
+
+### Motivación
+1. Evitar mezclar documentación administrativa con criterios pedagógicos de lección.
+2. Mantener foco en aprendizaje del alumno sobre contenido de curso real.
+3. Permitir cierre objetivo de `P0/P1` sin introducir ruido en artefactos de governance.
+
+### Impacto
+1. Backlog de lecciones reales queda en `P0=0`, `P1=0`.
+2. Los pendientes residuales de matriz automática se clasifican como no accionables por alcance.
+3. El plan maestro puede cerrarse técnicamente aun con bloqueo externo de despliegue (cuota Vercel).
