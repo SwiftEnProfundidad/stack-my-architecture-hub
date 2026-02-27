@@ -145,6 +145,14 @@ Cerrar todas las brechas pedagogicas y tecnicas en iOS, Android y SDD para que e
 | 11.3 | ⛔ | Despliegue final en Vercel (una sola ejecucion final) | Bloqueado por cuota diaria (`api-deployments-free-per-day`) |
 | 11.4 | ✅ | Cierre de backlog: 0 `🚧`, pendientes justificados o movidos | Estado operativo limpio |
 
+## Fase 12 - Correccion visual Mermaid post-cierre
+| ID | Estado | Task | Entregable |
+| --- | --- | --- | --- |
+| 12.1 | ✅ | Reparar Mermaid roto por sintaxis `-.o` en lecciones auto-gapfix | Diagramas renderizados sin `Syntax error in text` |
+| 12.2 | ✅ | Rediseñar bloque por capas con semantica robusta y 4 flechas validas | Mermaid con `-->`, `-.->`, `==>`, `--o` + leyenda alineada |
+| 12.3 | ✅ | Ajustar tooling de render + validador de semantica | `build-html.py` y `validate-diagram-semantics.py` consistentes |
+| 12.4 | ✅ | Cerrar GitFlow iOS + Android y sincronizar Hub | PRs cerradas + Hub strict/drift/smoke en verde |
+
 ## Dependencias criticas
 1. No empezar Android GREEN sin cerrar iOS REFACTOR+QA+merge.
 2. No empezar SDD GREEN sin cerrar Android REFACTOR+QA+merge.
@@ -159,7 +167,9 @@ Cerrar todas las brechas pedagogicas y tecnicas en iOS, Android y SDD para que e
    - `docs/PLAN-LOTES-ATOMICOS-20260227.md`
 2. GitFlow por repo:
    - iOS PR `#13` -> merge `1fbb0c8`
+   - iOS PR `#14` -> merge `e2a2e91`
    - Android PR `#10` -> merge `d183d1e`
+   - Android PR `#11` -> merge `03db5b8`
    - SDD PR `#11` -> merge `aa1e4cf`
    - SDD PR `#12` -> merge `7deaa30`
    - Hub PR `#36` -> merge `c0b65a5`

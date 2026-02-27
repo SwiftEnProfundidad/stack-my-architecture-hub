@@ -53,6 +53,8 @@ Repos incluidos:
    - Android PR `#10` -> merge `d183d1e` (cierre de brechas accionables en lecciones).
    - SDD PR `#11` -> merge `aa1e4cf` (auditoría plan maestro).
    - SDD PR `#12` -> merge `7deaa30` (fix validador pedagógico en informe).
+   - iOS PR `#14` -> merge `e2a2e91` (reparación visual Mermaid post-cierre).
+   - Android PR `#11` -> merge `03db5b8` (reparación visual Mermaid post-cierre).
 4. Política operativa vigente:
    - no abrir una nueva task en `🚧` sin trigger real (merge fuente, drift detectado o instrucción explícita).
 5. Última evidencia técnica consolidada:
@@ -70,6 +72,7 @@ Repos incluidos:
      - `./scripts/build-hub.sh --mode strict` -> PASS.
      - `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
      - `./scripts/smoke-hub-runtime.sh` -> OK.
+     - corrección Mermaid post-cierre validada visualmente con Playwright (sin `Syntax error in text` en muestra iOS).
      - intento `npx -y vercel deploy --prod --yes` -> BLOQUEADO por cuota diaria (`api-deployments-free-per-day`).
      - asserts BYOK en smoke:
        - `/ios/assets/assistant-panel.js` contiene `KEY_PROVIDER`.
@@ -112,6 +115,7 @@ Repos incluidos:
 22. ✅ Ejecutar plan maestro de implementación de cursos (fases iOS -> Android -> SDD cerradas).
 23. ✅ Integración final Hub cerrada (`build-hub strict`, `no drift`, `smoke`).
 24. ⛔ Despliegue final Vercel bloqueado por cuota diaria (`api-deployments-free-per-day`).
+25. ✅ Corrección visual Mermaid post-cierre integrada (fuentes iOS/Android + sync Hub).
 
 ## Siguiente paso concreto
 1. Mantener este paquete `docs/` como fuente de verdad transversal.

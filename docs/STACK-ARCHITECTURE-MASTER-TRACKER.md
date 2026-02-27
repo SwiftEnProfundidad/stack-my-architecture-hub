@@ -74,6 +74,10 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 41. Backlog de brechas accionables cerrado:
     - Matriz automática: `P0=3` solo en archivos administrativos (`CHANGELOG`, `ADR`) excluidos del alcance de lección.
     - Backlog de lecciones reales: `P0=0`, `P1=0`.
+42. Corrección post-cierre por regresión visual Mermaid:
+    - iOS PR `#14` merge `e2a2e91`.
+    - Android PR `#11` merge `03db5b8`.
+    - Scope: reemplazo de sintaxis problemática `-.o` por semántica robusta `-->`, `-.->`, `==>`, `--o`; ajuste de renderer + validador.
 
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.
@@ -183,6 +187,7 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 23. ✅ Cerrar Fase 0 y fases de ejecución por curso (iOS -> Android -> SDD).
 24. ✅ Integración Hub final con `build-hub --mode strict`, `no drift (6/6)` y smoke OK.
 25. ⛔ Despliegue final Vercel bloqueado por cuota diaria (`api-deployments-free-per-day`).
+26. ✅ Corrección visual Mermaid post-cierre integrada y validada en Hub (`build-hub strict`, `no drift`, `smoke`).
 
 ## Bloqueos actuales
 1. Bloqueo externo de publicación: cuota diaria de deployments Vercel agotada.

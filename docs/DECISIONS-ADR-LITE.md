@@ -364,3 +364,26 @@ Cerrar el backlog de brechas accionables de lecciones en iOS/Android/SDD y exclu
 1. Backlog de lecciones reales queda en `P0=0`, `P1=0`.
 2. Los pendientes residuales de matriz automática se clasifican como no accionables por alcance.
 3. El plan maestro puede cerrarse técnicamente aun con bloqueo externo de despliegue (cuota Vercel).
+
+## ADR-LITE-021 — Estándar de flechas Mermaid robusto para evitar parse errors
+### Fecha
+2026-02-27
+
+### Decisión
+Adoptar como estándar transversal de semántica Mermaid las flechas:
+1. `-->` dependencia directa,
+2. `-.->` wiring/configuración,
+3. `==>` contrato/abstracción,
+4. `--o` salida/propagación.
+
+Queda deprecado el uso de `-.o` en bloques pedagógicos auto-generados por riesgo de parseo inconsistente.
+
+### Motivación
+1. Se detectó regresión visual con `Syntax error in text` en Mermaid renderizado.
+2. El estándar anterior mezclaba semántica pedagógica con un token frágil (`-.o`).
+3. Se necesita estabilidad visual en lecciones publicadas y validación automática coherente.
+
+### Impacto
+1. iOS/Android actualizan contenido y tooling para usar el nuevo estándar de 4 flechas.
+2. Los validadores de semántica Mermaid quedan alineados con el estándar robusto.
+3. El Hub recupera render consistente de diagramas sin regresión runtime.
