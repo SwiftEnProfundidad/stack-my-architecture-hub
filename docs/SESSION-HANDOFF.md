@@ -24,21 +24,30 @@ Repos incluidos:
 3. Tag: `hub-stable-20260224`
 
 ## Último bloque operativo cerrado
-1. Guardrail anti-sobrescritura BYOK cerrado en Hub + resync selectivo cross-course.
+1. Bloque empleabilidad + rigor enterprise cerrado end-to-end.
 2. Acción aplicada:
-   - `scripts/build-hub.sh` preserva `assets/assistant-panel.js` en `ios/android/sdd` antes del copy AS-IS.
-   - `scripts/smoke-hub-runtime.sh` añade asserts BYOK (`KEY_PROVIDER`) en los 3 assistant panels publicados.
-   - resync selectivo de bundles (`ios/android/sdd`) tras activar guardrail para dejar baseline estable.
+   - iOS/Android/SDD incorporan baseline comun:
+     - `00-informe/MATRIZ-COMPETENCIAS.md`
+     - `00-informe/RUBRICA-GATES-POR-FASE.md`
+     - `00-informe/SCORECARD-EMPLEABILIDAD.md`
+   - iOS/Android/SDD incorporan validadores:
+     - `scripts/validate-learning-gates.py`
+     - `scripts/validate-diagram-semantics.py`
+   - Hub incorpora:
+     - `docs/PLAN-EMPLEABILIDAD-RIGOR-ENTERPRISE-20260227.md`
+     - `docs/GUIA-DIAGRAMAS-ARQUITECTURA-CAPAS-Y-FLECHAS.md`
+     - `docs/TEMPLATE-DIAGRAMA-ARQUITECTURA-MERMAID.md`
+   - sync selectivo de bundles (`ios/android/sdd`) y validacion runtime del Hub.
    - ciclo RED-GREEN-REFACTOR aplicado:
-     - RED: detección de sobrescritura de `assistant-panel.js` tras build/sync global del Hub.
-     - GREEN: guardado/restauración automática de assistant panel por curso durante copia de `dist`.
-     - REFACTOR: smoke runtime reforzado para fallar si desaparece BYOK multi-provider.
-   - sync selectivo cross-course en Hub (`ios`, `android`, `sdd`) + verificación `no drift (6/6)`.
-   - validación runtime en Hub por smoke test (rutas en verde).
+     - RED: `build-hub --strict` falla por gate pedagogico en nuevos documentos SDD.
+     - GREEN: se anaden Mermaid + snippet no-Mermaid en los 3 documentos nuevos de SDD.
+     - REFACTOR: validadores de semantica Mermaid quedan calibrados con deteccion exacta de `-.->`.
+   - validacion final en verde de repos fuente + Hub strict.
 3. Evidencia versionada:
-   - Hub guardrail: `7178c28` (`fix(hub): preserve assistant panel during course sync`).
-   - Hub resync: `89a2e7f` (`chore(hub): resync course bundles after guardrail update`).
-   - branch: `fix/hub-preserve-assistant-panel-sync-20260227`.
+   - iOS PR `#12` -> merge `2767696`.
+   - Android PR `#9` -> merge `483744f`.
+   - SDD PR `#10` -> merge `6c2fa09`.
+   - Hub PR `#33` -> merge `079bfbb`.
 4. Política operativa vigente:
    - no abrir una nueva task en `🚧` sin trigger real (merge fuente, drift detectado o instrucción explícita).
 5. Última evidencia técnica consolidada:
@@ -62,12 +71,9 @@ Repos incluidos:
        - `/sdd/assets/assistant-panel.js` contiene `KEY_PROVIDER`.
 
 ## Trabajo en curso
-1. 🚧 Bloque activo: `PLAN-EMPLEABILIDAD-RIGOR-ENTERPRISE-20260227.md` (Fase 4 en curso).
-2. Fases cerradas del bloque activo:
-   - Fase 1: matriz/rubrica/scorecard en iOS/Android/SDD.
-   - Fase 2: validadores `validate-learning-gates.py` y `validate-diagram-semantics.py` en iOS/Android/SDD.
-   - Fase 3: guia + template de diagramas en Hub.
-3. Pendiente de cierre: commits atomicos + push + PR + merge en 4 repos y cierre de tracking.
+1. No hay task activa en construccion.
+2. Mantener politica anti-bucle: abrir nuevo bloque solo con trigger real.
+3. Mantener commits atomicos al abrir nuevo bloque.
 
 ## Última comprobación de espera activa
 1. Fecha: 2026-02-27.
@@ -96,13 +102,14 @@ Repos incluidos:
 18. ✅ Fijar bloque `INDICE + buscador` al scroll y corregir separación superior para evitar clipping visual.
 19. ✅ Blindar build/sync del Hub para preservar `assistant-panel.js` y evitar regresión BYOK multi-provider.
 20. ✅ Trigger real aplicado para abrir bloque de empleabilidad + rigor enterprise.
-21. 🚧 Cierre GitFlow del bloque empleabilidad + rigor enterprise (4 repos + tracking final).
+21. ✅ Cierre GitFlow del bloque empleabilidad + rigor enterprise (4 repos + tracking final).
+22. ⏳ Proximo bloque operativo pendiente de trigger real.
 
 ## Siguiente paso concreto
 1. Mantener este paquete `docs/` como fuente de verdad transversal.
-2. Cerrar el bloque activo en GitFlow: commits atomicos, push, PR y merge.
-3. Revalidar Hub (`build-hub --strict`, drift, smoke) tras merges.
-4. Actualizar handoff al cerrar el bloque real.
+2. Abrir nuevo bloque solo ante trigger real (merge fuente, drift detectado o instruccion explicita).
+3. Si hay cambios en iOS/Android/SDD, ejecutar sync selectivo y validar smoke+rutas.
+4. Actualizar handoff al cerrar cada bloque real.
 
 ## Riesgos abiertos
 1. `codex resume` filtra por `cwd` si no se usa `--all`.
