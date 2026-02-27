@@ -170,14 +170,37 @@ copy_dir() {
   fi
 }
 
+copy_course_output_preserving_assistant_panel() {
+  local src="$1"
+  local dst="$2"
+  local label="$3"
+  local assistant_rel="assets/assistant-panel.js"
+  local dst_assistant="$dst/$assistant_rel"
+  local backup_file="$RUNTIME_DIR/.preserve-${label}-assistant-panel.js"
+  local had_backup=0
+
+  if [[ -f "$dst_assistant" ]]; then
+    cp "$dst_assistant" "$backup_file"
+    had_backup=1
+  fi
+
+  copy_dir "$src" "$dst"
+
+  if [[ "$had_backup" -eq 1 ]]; then
+    mkdir -p "$dst/assets"
+    cp "$backup_file" "$dst_assistant"
+    rm -f "$backup_file"
+  fi
+}
+
 say "[4/8] Copying iOS output folder AS-IS to hub/ios ..."
-copy_dir "$IOS_OUTPUT" "$HUB_ROOT/ios"
+copy_course_output_preserving_assistant_panel "$IOS_OUTPUT" "$HUB_ROOT/ios" "ios"
 
 say "[5/8] Copying Android output folder AS-IS to hub/android ..."
-copy_dir "$ANDROID_OUTPUT" "$HUB_ROOT/android"
+copy_course_output_preserving_assistant_panel "$ANDROID_OUTPUT" "$HUB_ROOT/android" "android"
 
 say "[6/8] Copying SDD output folder AS-IS to hub/sdd ..."
-copy_dir "$SDD_OUTPUT" "$HUB_ROOT/sdd"
+copy_course_output_preserving_assistant_panel "$SDD_OUTPUT" "$HUB_ROOT/sdd" "sdd"
 
 if [[ -f "$HUB_ROOT/ios/curso-stack-my-architecture.html" ]]; then
   cp "$HUB_ROOT/ios/curso-stack-my-architecture.html" "$HUB_ROOT/ios/index.html"

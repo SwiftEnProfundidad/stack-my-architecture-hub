@@ -101,6 +101,9 @@ check_http_contains "http://127.0.0.1:${PORT}/ios/index.html" "stack-my-architec
 check_http_contains "http://127.0.0.1:${PORT}/android/index.html" "stack-my-architecture-android"
 check_http_contains "http://127.0.0.1:${PORT}/sdd/index.html" "stack-my-architecture-sdd"
 check_http_contains "http://127.0.0.1:${PORT}/ios/assets/study-ux.js" "(function () {"
+check_http_contains "http://127.0.0.1:${PORT}/ios/assets/assistant-panel.js" "KEY_PROVIDER"
+check_http_contains "http://127.0.0.1:${PORT}/android/assets/assistant-panel.js" "KEY_PROVIDER"
+check_http_contains "http://127.0.0.1:${PORT}/sdd/assets/assistant-panel.js" "KEY_PROVIDER"
 check_http_contains "http://127.0.0.1:${PORT}/sdd/assets/assistant-panel.js" "KEY_DAILY_BUDGET"
 
 echo "[OK] Runtime smoke test passed (port $PORT)"
