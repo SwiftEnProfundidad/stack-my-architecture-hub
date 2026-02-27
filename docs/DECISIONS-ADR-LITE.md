@@ -285,3 +285,20 @@ Estandarizar un buscador de lecciones en la sidebar de iOS, Android y SDD desde 
 1. iOS, Android y SDD publican el mismo patrón de búsqueda lateral en sus bundles.
 2. El Hub hereda la mejora vía sync selectivo sin romper runtime ni BYOK.
 3. La validación operativa se mantiene en verde (`build-hub --mode strict`, `no drift`, `smoke runtime`).
+
+## ADR-LITE-017 — Bloque sticky para cabecera de sidebar (INDICE + buscador)
+### Fecha
+2026-02-27
+
+### Decisión
+Fijar como estándar que el bloque superior de navegación lateral (`INDICE` + buscador) sea sticky dentro de la sidebar en iOS, Android y SDD, con separación superior adicional y separador visual inferior.
+
+### Motivación
+1. Evitar pérdida de contexto al hacer scroll en menús largos.
+2. Eliminar clipping visual del título `INDICE` por falta de aire superior.
+3. Mantener consistencia UX entre cursos y en publicación Hub.
+
+### Impacto
+1. Los 3 generadores `scripts/build-html.py` incorporan `sidebar-top` sticky.
+2. La navegación mantiene visible el buscador durante todo el recorrido de lecciones.
+3. Hub publica el ajuste sin regresión runtime (`no drift 6/6`, smoke OK).
