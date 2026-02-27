@@ -469,6 +469,51 @@ Tras cerrar el refuerzo iOS, se detectó brecha equivalente en Android y SDD: fa
 ### Resultado
 Hub mantiene estabilidad operativa tras extender el refuerzo semántico de flechas a los tres cursos.
 
+## Regresión post-cobertura total Mermaid (iOS -> Android -> SDD) + sync full coverage
+### Fecha
+2026-02-27
+
+### Contexto
+Se ejecutó un bloque completo para pasar de cobertura puntual a cobertura total de semántica Mermaid en lecciones con diagrama:
+1. iOS primero, luego Android, y finalmente SDD.
+2. Inclusión explícita de `-->`, `-.->`, `-.o`, `--o` en las lecciones pendientes.
+3. Publicación de bundles actualizados en Hub sin alterar BYOK multi-provider.
+
+### Evidencia versionada
+1. iOS:
+   - PR: `SwiftEnProfundidad/stack-my-architecture-ios#9`
+   - Merge commit: `062ac6d`
+2. Android:
+   - PR: `SwiftEnProfundidad/stack-my-architecture-android#6`
+   - Merge commit: `a83b6ba`
+3. SDD:
+   - PR: `SwiftEnProfundidad/stack-my-architecture#7`
+   - Merge commit: `b5c23fa`
+4. Hub:
+   - Sync full coverage en rama de publicación `chore/hub-sync-full-arrow-semantics-20260227`
+
+### Verificación funcional
+1. Cobertura lecciones con Mermaid:
+   - iOS: `58/58` con 4 flechas.
+   - Android: `10/10` con 4 flechas.
+   - SDD: `157/157` con 4 flechas (excluyendo `00-informe`).
+2. Validaciones de repos fuente:
+   - iOS: `python3 scripts/build-html.py` -> PASS.
+   - Android: `python3 scripts/check-links.py && python3 scripts/build-html.py` -> PASS.
+   - SDD: `python3 scripts/check-links.py && python3 scripts/validate-markdown-snippets.py && python3 scripts/build-html.py` -> PASS.
+3. Hub:
+   - `./scripts/build-hub.sh --mode strict` -> PASS.
+   - `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
+   - `./scripts/smoke-hub-runtime.sh` -> OK.
+4. Rutas verificadas dentro de smoke:
+   - `/index.html` -> OK
+   - `/ios/index.html` -> OK
+   - `/android/index.html` -> OK
+   - `/sdd/index.html` -> OK
+
+### Resultado
+Hub mantiene estabilidad operativa tras publicar la cobertura total Mermaid en los 3 cursos.
+
 ## Nota operativa
 Si reaparece síntoma similar:
 1. Revisar `.runtime/hub.port` y `.runtime/hub.pid` del hub.

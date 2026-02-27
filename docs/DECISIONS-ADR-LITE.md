@@ -246,3 +246,22 @@ Extender el estándar de semántica explícita de 4 flechas Mermaid (`-->`, `-.-
    - `12-semana-11/05-codigo-root-shell-navigation.md`
    - `12-semana-11/06-refactor-wiring-entre-features.md`
 3. Hub publica sync selectivo cross-course sin regresión runtime (`no drift 6/6` + smoke OK).
+
+## ADR-LITE-015 — Cobertura total de semántica Mermaid en lecciones con diagrama
+### Fecha
+2026-02-27
+
+### Decisión
+Evolucionar de cobertura puntual a cobertura total en lecciones con Mermaid, ejecutando en orden operativo iOS -> Android -> SDD y cerrando publicación en Hub.
+
+### Motivación
+1. Evitar que la semántica de flechas aparezca solo en lecciones aisladas.
+2. Aumentar consistencia didáctica a lo largo de todo el recorrido formativo.
+3. Mantener una lectura arquitectónica homogénea en los tres cursos.
+
+### Impacto
+1. iOS queda en `58/58` lecciones con Mermaid y 4 flechas.
+2. Android queda en `10/10` lecciones con Mermaid y 4 flechas.
+3. SDD queda en `157/157` lecciones con Mermaid y 4 flechas (excluyendo `00-informe`).
+4. Hub publica sync full coverage con `no drift (6/6)` y smoke runtime en verde.
+5. Plan operativo de ejecución documentado en `docs/PLAN-COBERTURA-TOTAL-FLECHAS-20260227.md`.
