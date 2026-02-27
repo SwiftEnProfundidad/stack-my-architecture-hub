@@ -34,7 +34,7 @@ Repos incluidos:
      - `scripts/validate-learning-gates.py`
      - `scripts/validate-diagram-semantics.py`
    - Hub incorpora:
-     - `docs/PLAN-EMPLEABILIDAD-RIGOR-ENTERPRISE-20260227.md`
+     - `docs/PLAN-MAESTRO-IMPLEMENTACION-CURSOS-20260227.md`
      - `docs/GUIA-DIAGRAMAS-ARQUITECTURA-CAPAS-Y-FLECHAS.md`
      - `docs/TEMPLATE-DIAGRAMA-ARQUITECTURA-MERMAID.md`
    - sync selectivo de bundles (`ios/android/sdd`) y validacion runtime del Hub.

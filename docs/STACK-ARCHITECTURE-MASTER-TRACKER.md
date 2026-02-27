@@ -63,7 +63,7 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
     - Android PR `#9` merge `483744f`.
     - SDD PR `#10` merge `6c2fa09`.
     - Hub PR `#33` merge `079bfbb`.
-    - Plan operativo cerrado: `docs/PLAN-EMPLEABILIDAD-RIGOR-ENTERPRISE-20260227.md`.
+    - Plan operativo activo: `docs/PLAN-MAESTRO-IMPLEMENTACION-CURSOS-20260227.md`.
 
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.
