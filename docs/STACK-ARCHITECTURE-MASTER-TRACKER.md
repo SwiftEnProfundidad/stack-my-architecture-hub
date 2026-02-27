@@ -117,7 +117,7 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
     - iOS PR `#9` (`feature/ios-arrow-semantics-full-coverage-20260227` -> `develop`) merge `062ac6d`
     - Android PR `#6` (`feature/android-arrow-semantics-full-coverage-20260227` -> `develop`) merge `a83b6ba`
     - SDD PR `#7` (`feature/sdd-arrow-semantics-full-coverage-20260227` -> `develop`) merge `b5c23fa`
-    - Hub sync selectivo full coverage (`ios`, `android`, `sdd`) en esta rama de publicación (`chore/hub-sync-full-arrow-semantics-20260227`).
+    - Hub sync selectivo full coverage (`ios`, `android`, `sdd`) merge `dae0e49` (PR `#28`).
 
 ## Tablero operativo (solo 1 en construcción)
 1. ✅ Publicar sync selectivo cross-course iOS + Android + SDD en Hub (`c9cd8c3`).

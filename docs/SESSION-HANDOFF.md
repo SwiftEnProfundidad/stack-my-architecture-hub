@@ -41,7 +41,7 @@ Repos incluidos:
    - iOS PR `#9` (`feature/ios-arrow-semantics-full-coverage-20260227` -> `develop`) merge `062ac6d`.
    - Android PR `#6` (`feature/android-arrow-semantics-full-coverage-20260227` -> `develop`) merge `a83b6ba`.
    - SDD PR `#7` (`feature/sdd-arrow-semantics-full-coverage-20260227` -> `develop`) merge `b5c23fa`.
-   - Hub sync full coverage en esta rama de publicación (`chore/hub-sync-full-arrow-semantics-20260227`).
+   - Hub sync full coverage merge `dae0e49` (PR `#28`).
 4. Política operativa vigente:
    - no abrir una nueva task en `🚧` sin trigger real (merge fuente, drift detectado o instrucción explícita).
 5. Última evidencia técnica consolidada:
