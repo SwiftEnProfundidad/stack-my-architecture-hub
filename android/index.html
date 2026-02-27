@@ -6,14 +6,14 @@
 <meta name="darkreader-lock">
 <meta name="course-id" content="stack-my-architecture-android">
 <title>Stack: My Architecture Android</title>
-<link rel="stylesheet" href="assets/study-ux.css?v=1772145948">
-<link rel="stylesheet" href="assets/course-switcher.css?v=1772145948">
-<link rel="stylesheet" href="assets/assistant-panel.css?v=1772145948">
-<script defer src="assets/study-ux.js?v=1772145948"></script>
-<script defer src="assets/course-switcher.js?v=1772145948"></script>
-<script defer src="assets/theme-controls.js?v=1772145948"></script>
-<script defer src="assets/assistant-panel.js?v=1772145948"></script>
-<script defer src="assets/assistant-bridge.js?v=1772145948"></script>
+<link rel="stylesheet" href="assets/study-ux.css?v=1772150456">
+<link rel="stylesheet" href="assets/course-switcher.css?v=1772150456">
+<link rel="stylesheet" href="assets/assistant-panel.css?v=1772150456">
+<script defer src="assets/study-ux.js?v=1772150456"></script>
+<script defer src="assets/course-switcher.js?v=1772150456"></script>
+<script defer src="assets/theme-controls.js?v=1772150456"></script>
+<script defer src="assets/assistant-panel.js?v=1772150456"></script>
+<script defer src="assets/assistant-bridge.js?v=1772150456"></script>
 
 <!-- Google Fonts - Inter -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -2429,6 +2429,57 @@ navController.navigate("task-detail/$id")</code></pre>
     E --&gt; D</pre>
 </div>
 <p>Lectura del diagrama: la app arranca Hilt, el módulo registra proveedores, el contenedor construye ViewModel con dependencias, y la pantalla obtiene el ViewModel.</p>
+<h2 id="01-junior-04-hilt-integracion-inicial-lectura-de-flechas-aplicada-a-m-dulos-reales-sin-ambig-edad-">Lectura de flechas aplicada a módulos reales (sin ambigüedad)</h2>
+<p>Para que el diagrama no sea decorativo, aquí se aplican las 4 flechas sobre piezas reales del curso:</p>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+    subgraph APP[&quot;App module&quot;]
+        APPSTART[&quot;@HiltAndroidApp\nApplication&quot;]
+        MODULE[&quot;TasksModule\n@Provides&quot;]
+        CONTAINER[&quot;Hilt Container&quot;]
+    end
+
+    subgraph FEATURE[&quot;Tasks feature module&quot;]
+        UI[&quot;TasksScreen&quot;]
+        VM[&quot;TasksViewModel&quot;]
+        PORT[&quot;TasksRepository\n(interface)&quot;]
+    end
+
+    subgraph DATA[&quot;Data module&quot;]
+        IMPL[&quot;TasksRepositoryImpl&quot;]
+        DAO[&quot;TasksDao&quot;]
+        API[&quot;TasksApi&quot;]
+    end
+
+    APPSTART -.-&gt; CONTAINER
+    MODULE -.-&gt; CONTAINER
+    CONTAINER -.-&gt; VM
+
+    UI --&gt; VM
+    VM -.o PORT
+    IMPL --o PORT
+    IMPL --&gt; DAO
+    IMPL --&gt; API</pre>
+</div>
+<p>Lectura semántica conexión por conexión:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime:</li>
+</ol>
+<p>   <code>TasksScreen --&gt; TasksViewModel</code>, <code>TasksRepositoryImpl --&gt; TasksDao</code>, <code>TasksRepositoryImpl --&gt; TasksApi</code>.</p>
+<ol>
+  <li><code>-.-&gt;</code> wiring/configuración:</li>
+</ol>
+<p>   <code>@HiltAndroidApp</code>, <code>TasksModule</code> y <code>Hilt Container</code> conectan dependencias, pero no ejecutan caso de uso por sí mismos.</p>
+<ol>
+  <li><code>-.o</code> contrato/abstracción:</li>
+</ol>
+<p>   <code>TasksViewModel</code> depende del contrato <code>TasksRepository</code> en lugar de una clase concreta.</p>
+<ol>
+  <li><code>--o</code> salida/propagación:</li>
+</ol>
+<p>   <code>TasksRepositoryImpl</code> satisface y propaga ese contrato hacia el flujo real de datos.</p>
+<p>Si en revisión técnica ves <code>TasksViewModel --&gt; TasksRepositoryImpl</code>, hay fuga de infraestructura.</p>
 <hr>
 <h2 id="01-junior-04-hilt-integracion-inicial-3-paso-1-preparar-la-clase-application">3) Paso 1 · Preparar la clase Application</h2>
 <h3 id="01-junior-04-hilt-integracion-inicial-qu-hace-este-paso">Qué hace este paso</h3>
@@ -4010,6 +4061,64 @@ fun provideTasksApiService(retrofit: Retrofit): TasksApiService {
     ORC --&gt; WM[WorkManager]</pre>
 </div>
 <p>Lectura del diagrama: la UI nunca habla directo con red. La UI observa datos locales. El repositorio coordina. El orquestador se encarga de sincronizar con remoto y reintentos.</p>
+<h2 id="02-midlevel-02-offline-first-sincronizacion-sem-ntica-de-flechas-aplicada-al-dise-o-offline-first-de-la-app-ejemplo">Semántica de flechas aplicada al diseño offline-first de la app ejemplo</h2>
+<p>En esta arquitectura no basta con “poner cajas y líneas”; cada flecha comunica un tipo de acoplamiento:</p>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+    subgraph APP[&quot;App / DI module&quot;]
+        ROOT[&quot;AppRoot + Hilt modules&quot;]
+    end
+
+    subgraph FEATURE[&quot;Tasks feature module&quot;]
+        UI[&quot;TasksScreen&quot;]
+        VM[&quot;TasksViewModel&quot;]
+        REPO[&quot;TasksRepository&quot;]
+        STORE_PORT[&quot;LocalTasksStore\n(port)&quot;]
+        SYNC_PORT[&quot;TasksSyncPort\n(port)&quot;]
+    end
+
+    subgraph DATA[&quot;Data + Infra modules&quot;]
+        ROOM[&quot;RoomTasksStore\n(adapter)&quot;]
+        ORCH[&quot;TasksSyncOrchestrator\n(adapter)&quot;]
+        API[&quot;TasksApi&quot;]
+        WM[&quot;WorkManager&quot;]
+    end
+
+    ROOT -.-&gt; REPO
+    ROOT -.-&gt; ORCH
+
+    UI --&gt; VM
+    VM --&gt; REPO
+    REPO -.o STORE_PORT
+    REPO -.o SYNC_PORT
+
+    ROOM --o STORE_PORT
+    ORCH --o SYNC_PORT
+    ORCH --&gt; API
+    ORCH --&gt; WM</pre>
+</div>
+<p>Cómo leerlo correctamente:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime:</li>
+</ol>
+<p>   <code>TasksViewModel --&gt; TasksRepository</code>, <code>TasksSyncOrchestrator --&gt; TasksApi</code>, <code>TasksSyncOrchestrator --&gt; WorkManager</code>.</p>
+<ol>
+  <li><code>-.-&gt;</code> wiring/configuración:</li>
+</ol>
+<p>   <code>AppRoot + Hilt</code> ensamblan dependencias (<code>TasksRepository</code>, <code>TasksSyncOrchestrator</code>) sin ejecutar reglas de negocio.</p>
+<ol>
+  <li><code>-.o</code> contrato/abstracción:</li>
+</ol>
+<p>   el repositorio habla con puertos (<code>LocalTasksStore</code>, <code>TasksSyncPort</code>) y no con implementaciones concretas.</p>
+<ol>
+  <li><code>--o</code> salida/propagación:</li>
+</ol>
+<p>   <code>RoomTasksStore</code> y <code>TasksSyncOrchestrator</code> cumplen esos puertos y conectan el core con infra real.</p>
+<p>Regla de revisión rápida:</p>
+<ul>
+  <li>si ves <code>TasksViewModel --&gt; RoomTasksStore</code>, hay acoplamiento indebido de UI a infraestructura.</li>
+</ul>
 <hr>
 <h2 id="02-midlevel-02-offline-first-sincronizacion-4-modelo-de-sincronizaci-n-en-la-entidad-local">4) Modelo de sincronización en la entidad local</h2>
 <p>Vamos a extender la entidad local para guardar metadatos de sincronización.</p>

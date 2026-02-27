@@ -1,6 +1,6 @@
 # STACK ARCHITECTURE MASTER TRACKER
 
-Fecha de actualización: 2026-02-26
+Fecha de actualización: 2026-02-27
 
 ## Leyenda
 - ✅ Hecho
@@ -49,6 +49,7 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 29. Publicación productiva en Vercel revalidada tras build estricto del Hub, manteniendo BYOK multi-provider en paneles IA.
 30. Leyenda Mermaid de flechas alineada visualmente en iOS/Android/SDD (puntas centradas con su línea) y publicada en Hub sin regresión runtime.
 31. Lecciones núcleo de iOS ahora aplican y explican explícitamente las 4 flechas Mermaid sobre el diagrama real de módulos/features de la app ejemplo.
+32. Refuerzo pedagógico de semántica de flechas Mermaid extendido a Android y SDD; los 3 cursos (iOS/Android/SDD) aplican explícitamente las 4 flechas en lecciones núcleo y están publicados en Hub.
 
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.
@@ -103,6 +104,10 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
     - iOS PR `#8` (`feature/ios-arrow-semantics-in-lessons-20260226` -> `develop`) merge `1ea125e`
     - lecciones actualizadas: `02-integracion/09-app-final-etapa-2.md` y `04-arquitecto/05-guia-arquitectura.md`
     - Hub sync selectivo de `ios` revalidado (`no drift 6/6` + smoke OK)
+29. Refuerzo pedagógico cross-course de semántica Mermaid (Android + SDD) + publicación Hub:
+    - Android PR `#5` (`feature/android-arrow-semantics-lessons-20260227` -> `develop`) merge `3cbddcf`
+    - SDD PR `#6` (`feature/sdd-arrow-semantics-lessons-20260227` -> `develop`) merge `fe8a8a6`
+    - Hub sync selectivo cross-course (`ios`, `android`, `sdd`) merge `7f9520c`
 
 ## Tablero operativo (solo 1 en construcción)
 1. ✅ Publicar sync selectivo cross-course iOS + Android + SDD en Hub (`c9cd8c3`).
@@ -119,7 +124,8 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 12. ✅ Publicar en Vercel el estado actual validado del Hub sin regresión de BYOK multi-provider.
 13. ✅ Corregir alineación visual de la leyenda de flechas Mermaid (puntas centradas y consistentes en iOS/Android/SDD).
 14. ✅ Reforzar semántica de flechas Mermaid en lecciones iOS con aplicación explícita en arquitectura real de la app ejemplo.
-15. ⏳ Próximo bloque operativo pendiente de trigger real (merge fuente, drift detectado o instrucción explícita).
+15. ✅ Extender aplicación explícita de las 4 flechas Mermaid a Android + SDD y publicar sync selectivo cross-course en Hub.
+16. ⏳ Próximo bloque operativo pendiente de trigger real (merge fuente, drift detectado o instrucción explícita).
 
 ## Bloqueos actuales
 1. Ninguno operativo en la app/hub.
@@ -205,6 +211,19 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
       - `04-arquitecto/05-guia-arquitectura.md`
     - Hub: `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
     - Hub: `./scripts/smoke-hub-runtime.sh` -> OK.
+14. Validación técnica del bloque cross-course Android + SDD de flechas Mermaid:
+    - Android: `python3 scripts/check-links.py && python3 scripts/build-html.py` -> PASS.
+    - SDD: `python3 scripts/check-links.py && python3 scripts/validate-markdown-snippets.py && python3 scripts/build-html.py` -> PASS.
+    - Cobertura lecciones (no anexos) con 4 flechas (`-->`, `-.->`, `-.o`, `--o`):
+      - iOS: `2/2`
+      - Android: `2/2`
+      - SDD: `2/2`
+    - Hub: `./scripts/build-hub.sh --mode strict` -> PASS.
+    - Hub: `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
+    - Hub: `./scripts/smoke-hub-runtime.sh` -> OK.
+    - Merges de origen:
+      - Android PR `#5` -> `3cbddcf`
+      - SDD PR `#6` -> `fe8a8a6`
 
 ## Referencias de estabilidad del Hub
 1. Commit: `1940c7d`
