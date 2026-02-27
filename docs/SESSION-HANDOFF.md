@@ -71,9 +71,11 @@ Repos incluidos:
        - `/sdd/assets/assistant-panel.js` contiene `KEY_PROVIDER`.
 
 ## Trabajo en curso
-1. No hay task activa en construccion.
-2. Mantener politica anti-bucle: abrir nuevo bloque solo con trigger real.
-3. Mantener commits atomicos al abrir nuevo bloque.
+1. 🚧 Bloque activo: ejecución completa de `docs/PLAN-MAESTRO-IMPLEMENTACION-CURSOS-20260227.md`.
+2. Task cerrada en este bloque:
+   - `0.1` inventario exacto cross-course (`docs/INVENTARIO-CROSS-COURSE-LECCIONES-ANEXOS-20260227.tsv`).
+3. Task activa:
+   - `0.2` matriz de brechas por lección (baseline automático en `docs/MATRIZ-BRECHAS-CROSS-COURSE-20260227.tsv`, pendiente revisión manual).
 
 ## Última comprobación de espera activa
 1. Fecha: 2026-02-27.
@@ -103,13 +105,14 @@ Repos incluidos:
 19. ✅ Blindar build/sync del Hub para preservar `assistant-panel.js` y evitar regresión BYOK multi-provider.
 20. ✅ Trigger real aplicado para abrir bloque de empleabilidad + rigor enterprise.
 21. ✅ Cierre GitFlow del bloque empleabilidad + rigor enterprise (4 repos + tracking final).
-22. ⏳ Proximo bloque operativo pendiente de trigger real.
+22. 🚧 Ejecutar plan maestro de implementación de cursos (Task 0.2 en curso).
+23. ⏳ Cerrar Fase 0 y pasar a Fase 1 iOS RED.
 
 ## Siguiente paso concreto
 1. Mantener este paquete `docs/` como fuente de verdad transversal.
-2. Abrir nuevo bloque solo ante trigger real (merge fuente, drift detectado o instruccion explicita).
-3. Si hay cambios en iOS/Android/SDD, ejecutar sync selectivo y validar smoke+rutas.
-4. Actualizar handoff al cerrar cada bloque real.
+2. Cerrar Task 0.2 con revisión manual de brechas (texto, visual, anexos) sobre baseline automático.
+3. Definir lotes atómicos (Task 0.3) y ejecutar Fase 1 iOS RED.
+4. Mantener commits atómicos y actualizar handoff al cerrar cada subfase.
 
 ## Riesgos abiertos
 1. `codex resume` filtra por `cwd` si no se usa `--all`.
