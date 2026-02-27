@@ -752,3 +752,29 @@ Se detectó degradación visual y de parseo en algunos diagramas Mermaid auto-in
 
 ### Resultado
 Se elimina la regresión visual/parse Mermaid y el Hub mantiene estabilidad operativa.
+
+## Regresión post-upgrade SVG de arquitectura por capas (estilo mock)
+### Fecha
+2026-02-27
+
+### Contexto
+Se migró el render del diagrama de arquitectura por capas a SVG inline en repos fuente para alinear visualmente con el mock (módulos, flechas y leyenda consistente), y se publicó sync selectivo cross-course en Hub.
+
+### Evidencia versionada
+1. iOS PR `#15` -> merge `2208297`.
+2. Android PR `#12` -> merge `3896bad`.
+3. SDD PR `#13` -> merge `0338ba9`.
+4. Hub sync bundles -> commit `06ab4cc`.
+
+### Verificación funcional
+1. Hub: `./scripts/build-hub.sh --mode strict` -> PASS.
+2. Hub: `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
+3. Hub: `./scripts/smoke-hub-runtime.sh` -> OK.
+4. Rutas runtime en verde:
+   - `/index.html`
+   - `/ios/index.html`
+   - `/android/index.html`
+   - `/sdd/index.html`
+
+### Resultado
+Hub mantiene estabilidad operativa tras el upgrade SVG de arquitectura y conserva apertura correcta de cursos.
