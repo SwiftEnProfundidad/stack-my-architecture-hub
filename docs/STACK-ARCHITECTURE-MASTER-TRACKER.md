@@ -58,11 +58,12 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 35. Buscador lateral de lecciones integrado en iOS/Android/SDD y publicado en Hub con sync selectivo estable.
 36. Ajuste UX del buscador lateral: bloque `INDICE + buscador` fijo al scroll y con separación superior corregida en iOS/Android/SDD.
 37. Guardrail de publicación aplicado en Hub: `build-hub.sh` preserva `assets/assistant-panel.js` de `ios/android/sdd` durante sync para no romper BYOK multi-provider.
-38. Bloque empleabilidad + rigor enterprise activado con plan versionado:
-    - Fase 1 cerrada en iOS/Android/SDD (matriz + rubrica + scorecard).
-    - Fase 2 cerrada con validadores nuevos de learning gates y semantica Mermaid (4 flechas).
-    - Fase 3 cerrada en Hub con guia y template de diagramas por capas/modulos/features.
-    - Fase 4 abierta para cierre GitFlow (commits atomicos + push + PR + merge + tracking final).
+38. Bloque empleabilidad + rigor enterprise cerrado end-to-end en GitFlow:
+    - iOS PR `#12` merge `2767696`.
+    - Android PR `#9` merge `483744f`.
+    - SDD PR `#10` merge `6c2fa09`.
+    - Hub PR `#33` merge `079bfbb`.
+    - Plan operativo cerrado: `docs/PLAN-EMPLEABILIDAD-RIGOR-ENTERPRISE-20260227.md`.
 
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.
@@ -140,6 +141,11 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
     - Hub fix guardrail: `fix/hub-preserve-assistant-panel-sync-20260227` commit `7178c28`
     - Hub resync post-guardrail (`ios`, `android`, `sdd`) commit `89a2e7f`
     - Smoke runtime reforzado con assert BYOK (`KEY_PROVIDER`) en `ios/android/sdd/assets/assistant-panel.js`
+34. Cierre del bloque empleabilidad + rigor enterprise:
+    - iOS PR `#12` (`feature/ios-learning-gates-foundation-20260227` -> `develop`) merge `2767696`
+    - Android PR `#9` (`feature/android-learning-gates-foundation-20260227` -> `develop`) merge `483744f`
+    - SDD PR `#10` (`feature/sdd-learning-gates-foundation-20260227` -> `develop`) merge `6c2fa09`
+    - Hub PR `#33` (`chore/hub-diagram-styleguide-foundation-20260227` -> `develop`) merge `079bfbb`
 
 ## Tablero operativo (solo 1 en construcción)
 1. ✅ Publicar sync selectivo cross-course iOS + Android + SDD en Hub (`c9cd8c3`).
@@ -162,7 +168,8 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 18. ✅ Fijar bloque `INDICE + buscador` al scroll de sidebar y corregir separación superior para evitar clipping visual.
 19. ✅ Blindar build/sync del Hub para preservar `assistant-panel.js` y evitar regresión BYOK multi-provider.
 20. ✅ Trigger operativo aplicado para abrir bloque de empleabilidad + rigor enterprise.
-21. 🚧 Cerrar bloque empleabilidad + rigor enterprise en GitFlow (push, PR, merge y cierre de tracking/handoff).
+21. ✅ Cerrar bloque empleabilidad + rigor enterprise en GitFlow (push, PR, merge y cierre de tracking/handoff).
+22. ⏳ Próximo bloque operativo pendiente de trigger real (merge fuente, drift detectado o instrucción explícita).
 
 ## Bloqueos actuales
 1. Ninguno operativo en la app/hub.

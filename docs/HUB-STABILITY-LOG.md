@@ -653,6 +653,12 @@ Si reaparece síntoma similar:
 ### Contexto
 Se activo un bloque cross-course para elevar empleabilidad y rigor enterprise con artefactos nuevos en iOS, Android y SDD, mas validadores automaticos y guia de diagramas en Hub.
 
+### Evidencia versionada
+1. iOS PR `#12` -> merge `2767696`.
+2. Android PR `#9` -> merge `483744f`.
+3. SDD PR `#10` -> merge `6c2fa09`.
+4. Hub PR `#33` -> merge `079bfbb`.
+
 ### Incidencia detectada en RED
 1. `./scripts/build-hub.sh --mode strict` fallo inicialmente por gate pedagogico en SDD.
 2. Causa: los nuevos documentos en `00-informe/` no incluian bloque Mermaid ni artefacto no-Mermaid, requeridos por `scripts/validate-pedagogy.py`.
