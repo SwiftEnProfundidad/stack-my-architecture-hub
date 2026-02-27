@@ -24,22 +24,21 @@ Repos incluidos:
 3. Tag: `hub-stable-20260224`
 
 ## Último bloque operativo cerrado
-1. Ajuste visual del buscador lateral cerrado en orden iOS -> Android -> SDD + sync selectivo cross-course en Hub.
+1. Guardrail anti-sobrescritura BYOK cerrado en Hub + resync selectivo cross-course.
 2. Acción aplicada:
-   - iOS: bloque `INDICE + buscador` encapsulado en `sidebar-top` sticky con separación superior adicional.
-   - Android: mismo ajuste visual/estructural para mantener consistencia de navegación.
-   - SDD: mismo ajuste visual/estructural + checklist completo `AGENTS.md` en verde.
+   - `scripts/build-hub.sh` preserva `assets/assistant-panel.js` en `ios/android/sdd` antes del copy AS-IS.
+   - `scripts/smoke-hub-runtime.sh` añade asserts BYOK (`KEY_PROVIDER`) en los 3 assistant panels publicados.
+   - resync selectivo de bundles (`ios/android/sdd`) tras activar guardrail para dejar baseline estable.
    - ciclo RED-GREEN-REFACTOR aplicado:
-     - RED: detección de clipping del título `INDICE` y pérdida de buscador al hacer scroll en menú.
-     - GREEN: implementación de `sidebar-top` sticky + padding superior + separador visual bajo buscador.
-     - REFACTOR: homogeneización del patrón CSS/HTML en los 3 `scripts/build-html.py`.
+     - RED: detección de sobrescritura de `assistant-panel.js` tras build/sync global del Hub.
+     - GREEN: guardado/restauración automática de assistant panel por curso durante copia de `dist`.
+     - REFACTOR: smoke runtime reforzado para fallar si desaparece BYOK multi-provider.
    - sync selectivo cross-course en Hub (`ios`, `android`, `sdd`) + verificación `no drift (6/6)`.
    - validación runtime en Hub por smoke test (rutas en verde).
 3. Evidencia versionada:
-   - iOS PR `#11` (`fix/ios-sidebar-sticky-search-20260227` -> `develop`) merge `0427c63`.
-   - Android PR `#8` (`fix/android-sidebar-sticky-search-20260227` -> `develop`) merge `1cf8fa4`.
-   - SDD PR `#9` (`fix/sdd-sidebar-sticky-search-20260227` -> `develop`) merge `bd2b6a3`.
-   - Hub sync selectivo `ios/android/sdd` commit `ae04a43` en `fix/hub-sidebar-sticky-search-20260227`.
+   - Hub guardrail: `7178c28` (`fix(hub): preserve assistant panel during course sync`).
+   - Hub resync: `89a2e7f` (`chore(hub): resync course bundles after guardrail update`).
+   - branch: `fix/hub-preserve-assistant-panel-sync-20260227`.
 4. Política operativa vigente:
    - no abrir una nueva task en `🚧` sin trigger real (merge fuente, drift detectado o instrucción explícita).
 5. Última evidencia técnica consolidada:
@@ -53,9 +52,14 @@ Repos incluidos:
      - `python3 scripts/validate-markdown-snippets.py` -> PASS.
      - `python3 scripts/build-html.py` -> PASS.
      - `swift test --package-path project/HelpdeskSDD` -> PASS.
-   - Hub: `./scripts/build-hub.sh --mode strict` -> PASS.
-   - Hub: `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
-   - Hub: `./scripts/smoke-hub-runtime.sh` -> OK.
+   - Hub:
+     - `./scripts/build-hub.sh --mode strict` -> PASS.
+     - `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
+     - `./scripts/smoke-hub-runtime.sh` -> OK.
+     - asserts BYOK en smoke:
+       - `/ios/assets/assistant-panel.js` contiene `KEY_PROVIDER`.
+       - `/android/assets/assistant-panel.js` contiene `KEY_PROVIDER`.
+       - `/sdd/assets/assistant-panel.js` contiene `KEY_PROVIDER`.
 
 ## Trabajo en curso
 1. No hay task activa en construcción.
@@ -88,7 +92,8 @@ Repos incluidos:
 16. ✅ Cobertura total Mermaid en iOS -> Android -> SDD + sync Hub y plan versionado.
 17. ✅ Buscador lateral de lecciones en iOS/Android/SDD + sync selectivo Hub.
 18. ✅ Fijar bloque `INDICE + buscador` al scroll y corregir separación superior para evitar clipping visual.
-19. ⏳ Próximo bloque operativo pendiente de trigger real.
+19. ✅ Blindar build/sync del Hub para preservar `assistant-panel.js` y evitar regresión BYOK multi-provider.
+20. ⏳ Próximo bloque operativo pendiente de trigger real.
 
 ## Siguiente paso concreto
 1. Mantener este paquete `docs/` como fuente de verdad transversal.
