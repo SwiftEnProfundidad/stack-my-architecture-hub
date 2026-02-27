@@ -6,14 +6,14 @@
 <meta name="darkreader-lock">
 <meta name="course-id" content="stack-my-architecture-android">
 <title>Stack: My Architecture Android</title>
-<link rel="stylesheet" href="assets/study-ux.css?v=1772198396">
-<link rel="stylesheet" href="assets/course-switcher.css?v=1772198396">
-<link rel="stylesheet" href="assets/assistant-panel.css?v=1772198396">
-<script defer src="assets/study-ux.js?v=1772198396"></script>
-<script defer src="assets/course-switcher.js?v=1772198396"></script>
-<script defer src="assets/theme-controls.js?v=1772198396"></script>
-<script defer src="assets/assistant-panel.js?v=1772198396"></script>
-<script defer src="assets/assistant-bridge.js?v=1772198396"></script>
+<link rel="stylesheet" href="assets/study-ux.css?v=1772201907">
+<link rel="stylesheet" href="assets/course-switcher.css?v=1772201907">
+<link rel="stylesheet" href="assets/assistant-panel.css?v=1772201907">
+<script defer src="assets/study-ux.js?v=1772201907"></script>
+<script defer src="assets/course-switcher.js?v=1772201907"></script>
+<script defer src="assets/theme-controls.js?v=1772201907"></script>
+<script defer src="assets/assistant-panel.js?v=1772201907"></script>
+<script defer src="assets/assistant-bridge.js?v=1772201907"></script>
 
 <!-- Google Fonts - Inter -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1467,6 +1467,45 @@ FIN</code></pre>
 FIN</code></pre>
 <p>En esta solución, la condición de la hora ajusta el ritmo de la mañana. Esa adaptación es exactamente lo que hará una app cuando reacciona a estados distintos.</p>
 <p>Como evidencia de progreso de esta lección, guarda tres cosas. Guarda tu algoritmo del desayuno, guarda tu algoritmo de puntualidad y escribe una explicación corta con tus palabras sobre por qué el orden importa en programación. Si puedes hacer estas tres cosas con claridad, has comenzado muy bien el curso.</p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="00-nivel-cero-00-introduccion-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Rule]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[Screen]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[RemoteDataSource]
+    I2[LocalDataSource]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ul>
 </section>
 <section id="00-nivel-cero-00-setup" class="lesson" data-topic-id="00-nivel-cero-00-setup" data-lesson-path="00-nivel-cero/00-setup.md">
 <div class="lesson-path">00-nivel-cero/00-setup.md</div>
@@ -1482,6 +1521,70 @@ FIN</code></pre>
 <p>Si falla el emulador, crea uno más ligero. Algunos equipos sufren con emuladores pesados y eso no tiene que ver con tu capacidad, sino con recursos del sistema. Puedes usar una imagen de sistema más simple y repetir la ejecución.</p>
 <p>Vamos a cerrar con una comprobación de entorno listo. Debes poder abrir Android Studio, tener instalado SDK 36, confirmar JDK 17, sincronizar Gradle sin errores y ejecutar un proyecto de prueba. Cuando esas cinco condiciones se cumplen, tu entorno está preparado para continuar el curso sin bloqueos de base.</p>
 <p>Como evidencia de progreso de esta lección, guarda una captura del proyecto ejecutándose y un registro corto con la salida de <code>java -version</code>. Esa evidencia te servirá para detectar rápido cualquier cambio accidental en tu entorno más adelante.</p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="00-nivel-cero-00-setup-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Rule]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[Screen]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[RemoteDataSource]
+    I2[LocalDataSource]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ul>
+<p><!-- auto-gapfix:layered-snippet --></p>
+<h2 id="00-nivel-cero-00-setup-snippet-de-referencia-por-capas">Snippet de referencia por capas</h2>
+<pre><code class="language-kotlin">interface FeaturePort {
+    suspend fun fetch(): List&lt;String&gt;
+}
+
+class FeatureUseCase(
+    private val port: FeaturePort
+) {
+    suspend operator fun invoke(): List&lt;String&gt; = port.fetch()
+}
+
+class FeatureViewModel(
+    private val useCase: FeatureUseCase
+) : ViewModel() {
+
+    private val _items = MutableStateFlow&lt;List&lt;String&gt;&gt;(emptyList())
+    val items: StateFlow&lt;List&lt;String&gt;&gt; = _items
+
+    fun load() {
+        viewModelScope.launch {
+            _items.value = runCatching { useCase() }.getOrDefault(emptyList())
+        }
+    }
+}</code></pre>
 </section>
 <section id="00-nivel-cero-01-que-es-software" class="lesson" data-topic-id="00-nivel-cero-01-que-es-software" data-lesson-path="00-nivel-cero/01-que-es-software.md">
 <div class="lesson-path">00-nivel-cero/01-que-es-software.md</div>
@@ -1497,6 +1600,70 @@ FIN</code></pre>
 <p>Vamos a cerrar con un mini reto. Elige un objeto de casa que tenga botones, por ejemplo un microondas o una consola. Describe qué parte sería hardware y qué parte sería software. Después narra una secuencia de cuatro pasos de uso normal. No necesitas código todavía. Necesitas claridad de pensamiento. Ese es el verdadero objetivo de hoy.</p>
 <p>Si te sirve una referencia, en un microondas el hardware sería la puerta, el plato giratorio y los botones. El software sería la lógica que decide cuánto tiempo calienta, cuándo gira el plato y cuándo suena el pitido final. Cuando cierras la puerta y eliges dos minutos, no estás “convenciendo al metal”. Estás activando instrucciones. Ese es el puente exacto entre el mundo real y la programación.</p>
 <p>Como evidencia de progreso, guarda tu explicación escrita con tres partes. En la primera parte define software con tus palabras. En la segunda parte diferencia hardware y software en un objeto real. En la tercera parte redacta los cuatro pasos del mini reto. Si puedes completar esas tres partes sin copiar texto literal, has superado esta lección de forma sólida.</p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="00-nivel-cero-01-que-es-software-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Rule]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[Screen]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[RemoteDataSource]
+    I2[LocalDataSource]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ul>
+<p><!-- auto-gapfix:layered-snippet --></p>
+<h2 id="00-nivel-cero-01-que-es-software-snippet-de-referencia-por-capas">Snippet de referencia por capas</h2>
+<pre><code class="language-kotlin">interface FeaturePort {
+    suspend fun fetch(): List&lt;String&gt;
+}
+
+class FeatureUseCase(
+    private val port: FeaturePort
+) {
+    suspend operator fun invoke(): List&lt;String&gt; = port.fetch()
+}
+
+class FeatureViewModel(
+    private val useCase: FeatureUseCase
+) : ViewModel() {
+
+    private val _items = MutableStateFlow&lt;List&lt;String&gt;&gt;(emptyList())
+    val items: StateFlow&lt;List&lt;String&gt;&gt; = _items
+
+    fun load() {
+        viewModelScope.launch {
+            _items.value = runCatching { useCase() }.getOrDefault(emptyList())
+        }
+    }
+}</code></pre>
 </section>
 <section id="00-nivel-cero-02-logica-basica" class="lesson" data-topic-id="00-nivel-cero-02-logica-basica" data-lesson-path="00-nivel-cero/02-logica-basica.md">
 <div class="lesson-path">00-nivel-cero/02-logica-basica.md</div>
@@ -1535,6 +1702,45 @@ FIN</code></pre>
     esperar 5 minutos
 FIN</code></pre>
 <p>En esta solución, la decisión selecciona la hora correcta y la repetición mantiene la alarma activa hasta que la persona interviene. Esa combinación de secuencia, decisión y repetición es exactamente la base lógica que usarás en todo el curso Android.</p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="00-nivel-cero-02-logica-basica-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Rule]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[Screen]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[RemoteDataSource]
+    I2[LocalDataSource]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ul>
 </section>
 <section id="00-nivel-cero-03-primer-kotlin" class="lesson" data-topic-id="00-nivel-cero-03-primer-kotlin" data-lesson-path="00-nivel-cero/03-primer-kotlin.md">
 <div class="lesson-path">00-nivel-cero/03-primer-kotlin.md</div>
@@ -1576,6 +1782,45 @@ FIN</code></pre>
 }</code></pre>
 <p>La primera línea útil crea el saludo. La segunda crea una edad numérica. La tercera guarda un objetivo como texto. Después imprimimos cada dato. En la segunda impresión, Kotlin convierte el número a texto para mostrarlo junto al prefijo <code>Edad:</code>. El resultado esperado son tres líneas claras y legibles.</p>
 <p>Si has llegado hasta aquí y puedes explicar con tus palabras qué hacen <code>fun</code>, <code>val</code> y <code>println</code>, vas exactamente por el camino correcto. Lo importante hoy no es memorizar todo, sino entender el flujo básico: definir datos y mostrarlos con intención.</p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="00-nivel-cero-03-primer-kotlin-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Rule]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[Screen]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[RemoteDataSource]
+    I2[LocalDataSource]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ul>
 </section>
 <section id="00-nivel-cero-04-variables-y-tipos" class="lesson" data-topic-id="00-nivel-cero-04-variables-y-tipos" data-lesson-path="00-nivel-cero/04-variables-y-tipos.md">
 <div class="lesson-path">00-nivel-cero/04-variables-y-tipos.md</div>
@@ -1619,6 +1864,45 @@ nivel = nivel + 1</code></pre>
 <p>Ahora línea por línea. La función <code>main</code> marca el inicio. Luego definimos cuatro variables con tipos distintos para representar datos de un mismo perfil. Después usamos <code>println</code> para mostrar cada dato en pantalla con etiquetas legibles. Más abajo, actualizamos <code>nivel</code> sumando uno. La última impresión confirma que el cambio sí ocurrió.</p>
 <p>El resultado esperado en consola es que primero aparece el nivel inicial y, al final, aparece un nivel mayor en una unidad. Esa diferencia visible es la evidencia de que entendiste cuándo usar <code>var</code>.</p>
 <p>Si al terminar todavía dudas entre <code>val</code> y <code>var</code>, usa esta pregunta guía. “¿Este dato debe cambiar en el tiempo?” Si la respuesta es no, usa <code>val</code>. Si la respuesta es sí, usa <code>var</code>. Con esa regla simple ya puedes tomar buenas decisiones al empezar.</p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="00-nivel-cero-04-variables-y-tipos-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Rule]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[Screen]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[RemoteDataSource]
+    I2[LocalDataSource]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ul>
 </section>
 <section id="00-nivel-cero-05-condicionales-y-bucles" class="lesson" data-topic-id="00-nivel-cero-05-condicionales-y-bucles" data-lesson-path="00-nivel-cero/05-condicionales-y-bucles.md">
 <div class="lesson-path">00-nivel-cero/05-condicionales-y-bucles.md</div>
@@ -1659,6 +1943,45 @@ nivel = nivel + 1</code></pre>
 }</code></pre>
 <p>Línea por línea, primero creamos la lista <code>tareas</code>. Luego el bucle <code>for</code> recorre cada elemento de esa lista. Dentro del bucle, el <code>if</code> compara si la tarea actual es “proyecto”. Si lo es, imprime que requiere más tiempo. Si no lo es, imprime que es normal. El resultado final son tres líneas, una por tarea, con su clasificación.</p>
 <p>Tu mini reto de esta lección consiste en simular un sistema de notas. Vas a tener una variable <code>nota</code>. Si la nota es mayor o igual que 5, imprime “Aprobado”. Si no, imprime “Necesitas repasar”. Después crea un bucle que muestre del 1 al 3 los días de estudio planificados. Cuando lo resuelvas, compáralo con la solución esperada y revisa si entiendes por qué sale ese resultado.</p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="00-nivel-cero-05-condicionales-y-bucles-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Rule]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[Screen]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[RemoteDataSource]
+    I2[LocalDataSource]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ul>
 </section>
 <section id="00-nivel-cero-06-funciones" class="lesson" data-topic-id="00-nivel-cero-06-funciones" data-lesson-path="00-nivel-cero/06-funciones.md">
 <div class="lesson-path">00-nivel-cero/06-funciones.md</div>
@@ -1705,6 +2028,45 @@ fun main() {
     println("Doble: " + doble)
 }</code></pre>
 <p>La primera función organiza la impresión del perfil. La segunda devuelve un valor calculado. En <code>main</code> ves ambos usos: ejecutar una acción y recoger un resultado. Esa diferencia entre “hacer” y “devolver” es clave para avanzar en programación con buena base.</p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="00-nivel-cero-06-funciones-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Rule]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[Screen]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[RemoteDataSource]
+    I2[LocalDataSource]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ul>
 </section>
 <section id="00-nivel-cero-07-errores-frecuentes" class="lesson" data-topic-id="00-nivel-cero-07-errores-frecuentes" data-lesson-path="00-nivel-cero/07-errores-frecuentes.md">
 <div class="lesson-path">00-nivel-cero/07-errores-frecuentes.md</div>
@@ -1741,6 +2103,45 @@ fun main() {
 <p>Vamos a practicar con una duda típica. Muchas personas escriben <code>nomre</code> cuando querían escribir <code>nombre</code>. El compilador dirá que <code>nomre</code> no existe. En vez de asustarte, solo tienes que revisar consistencia de nombres. Programar también es ser ordenado con los detalles.</p>
 <p>El mini reto de hoy es intencionalmente distinto. Vas a recibir un código con tres errores y tu objetivo no es correr rápido, sino diagnosticar con calma. El primer error será de comillas. El segundo será de nombre de variable. El tercero será de lógica de cálculo. Tu tarea es corregir los tres y explicar por escrito por qué cada corrección era necesaria.</p>
 <p>Cuando termines, comprueba que puedes responder esta pregunta: “¿Cómo sé si un error es de compilación, de ejecución o de lógica?”. Si sabes responderla con un ejemplo de cada uno, has dado un salto muy importante como estudiante.</p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="00-nivel-cero-07-errores-frecuentes-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Rule]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[Screen]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[RemoteDataSource]
+    I2[LocalDataSource]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ul>
 </section>
 <section id="00-nivel-cero-08-android-studio-desde-cero" class="lesson" data-topic-id="00-nivel-cero-08-android-studio-desde-cero" data-lesson-path="00-nivel-cero/08-android-studio-desde-cero.md">
 <div class="lesson-path">00-nivel-cero/08-android-studio-desde-cero.md</div>
@@ -1755,6 +2156,70 @@ fun main() {
 <p>Un error típico de esta etapa es cambiar muchas cosas antes de volver a ejecutar. Eso complica saber qué causó el problema. Otra confusión frecuente es no diferenciar advertencia de error. Una advertencia sugiere mejora. Un error bloquea la ejecución. Distinguir eso te da control.</p>
 <p>Vamos al mini reto de esta lección. Tu objetivo es abrir Android Studio, crear o editar un archivo simple, ejecutar un ejemplo y guardar evidencia de que entendiste el flujo. Para completar el reto, debes escribir un texto corto explicando con tus palabras qué panel usaste para editar, qué botón usaste para ejecutar y dónde viste el resultado.</p>
 <p>Si haces ese reto bien, has conseguido algo más importante de lo que parece. Has dejado de ver Android Studio como “un programa enorme” y has empezado a usarlo como herramienta a tu favor. Ese cambio mental es clave para todo lo que viene en Junior.</p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="00-nivel-cero-08-android-studio-desde-cero-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Rule]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[Screen]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[RemoteDataSource]
+    I2[LocalDataSource]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ul>
+<p><!-- auto-gapfix:layered-snippet --></p>
+<h2 id="00-nivel-cero-08-android-studio-desde-cero-snippet-de-referencia-por-capas">Snippet de referencia por capas</h2>
+<pre><code class="language-kotlin">interface FeaturePort {
+    suspend fun fetch(): List&lt;String&gt;
+}
+
+class FeatureUseCase(
+    private val port: FeaturePort
+) {
+    suspend operator fun invoke(): List&lt;String&gt; = port.fetch()
+}
+
+class FeatureViewModel(
+    private val useCase: FeatureUseCase
+) : ViewModel() {
+
+    private val _items = MutableStateFlow&lt;List&lt;String&gt;&gt;(emptyList())
+    val items: StateFlow&lt;List&lt;String&gt;&gt; = _items
+
+    fun load() {
+        viewModelScope.launch {
+            _items.value = runCatching { useCase() }.getOrDefault(emptyList())
+        }
+    }
+}</code></pre>
 </section>
 <section id="00-nivel-cero-09-primera-app-compose" class="lesson" data-topic-id="00-nivel-cero-09-primera-app-compose" data-lesson-path="00-nivel-cero/09-primera-app-compose.md">
 <div class="lesson-path">00-nivel-cero/09-primera-app-compose.md</div>
@@ -1810,6 +2275,45 @@ fun PantallaBienvenida() {
 <p>Te adelanto dudas típicas de esta lección. La primera duda es por qué hay tantos import. La respuesta es que cada pieza visual vive en un paquete y Kotlin necesita saber de dónde viene. La segunda duda es por qué el botón no hace nada. La respuesta es que el comportamiento se añade poco a poco; hoy estamos aprendiendo estructura visual. La tercera duda es si hay que memorizar todo esto. No. Lo importante es entender el papel de cada bloque.</p>
 <p>Ahora vamos al mini reto. Cambia el texto del título por uno que te represente. Cambia la frase secundaria por tu objetivo en este curso. Cambia el texto del botón por “Empezar”. Ejecuta y comprueba que el cambio aparece en pantalla. Si aparece, acabas de completar tu primera personalización real de una interfaz Android.</p>
 <p>Cuando termines, guarda una captura de pantalla y escribe dos párrafos cortos. En el primero explica qué es un composable con tus palabras. En el segundo explica qué hace <code>setContent</code> y por qué es importante. Esa evidencia demuestra comprensión, no solo copia.</p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="00-nivel-cero-09-primera-app-compose-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Rule]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[Screen]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[RemoteDataSource]
+    I2[LocalDataSource]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ul>
 </section>
 <section id="00-nivel-cero-10-inputs-y-validacion" class="lesson" data-topic-id="00-nivel-cero-10-inputs-y-validacion" data-lesson-path="00-nivel-cero/10-inputs-y-validacion.md">
 <div class="lesson-path">00-nivel-cero/10-inputs-y-validacion.md</div>
@@ -1870,6 +2374,45 @@ fun PantallaNombre() {
 <p>El último <code>Text</code> pinta en pantalla el contenido de <code>mensaje</code>. Eso permite ver inmediatamente el resultado de la validación.</p>
 <p>Una duda típica en este punto es por qué no usar directamente el texto del campo sin validar. La respuesta es que una app real no debe asumir que el dato siempre llega bien. Validar evita errores y mejora la experiencia del usuario.</p>
 <p>Tu mini reto de hoy consiste en ampliar esta pantalla con una segunda validación. Si el nombre tiene menos de 3 caracteres, en vez de saludar, muestra “El nombre es demasiado corto”. Si tiene 3 o más, muestra el saludo normal. Cuando termines, prueba al menos tres casos y anota los resultados.</p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="00-nivel-cero-10-inputs-y-validacion-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Rule]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[Screen]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[RemoteDataSource]
+    I2[LocalDataSource]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ul>
 </section>
 <section id="00-nivel-cero-11-navegacion-simple" class="lesson" data-topic-id="00-nivel-cero-11-navegacion-simple" data-lesson-path="00-nivel-cero/11-navegacion-simple.md">
 <div class="lesson-path">00-nivel-cero/11-navegacion-simple.md</div>
@@ -1916,6 +2459,45 @@ fun PantallaDetalle() {
 <p>El resultado esperado es este flujo. La app abre en inicio. Al pulsar “Ir a detalle”, aparece la pantalla detalle. Si eso ocurre, tu navegación básica funciona correctamente.</p>
 <p>Una duda típica aquí es por qué usar rutas con texto como <code>"inicio"</code> y <code>"detalle"</code>. La razón es que, en este nivel, es la forma más simple de entender el concepto. Más adelante aprenderás rutas tipadas y navegación más robusta.</p>
 <p>Tu mini reto de hoy consiste en añadir una tercera pantalla llamada “resumen” y un botón en detalle para llegar a esa nueva pantalla. Cuando termines, anota en una frase qué hace <code>NavHost</code> y en otra frase qué hace <code>navController.navigate</code>.</p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="00-nivel-cero-11-navegacion-simple-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Rule]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[Screen]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[RemoteDataSource]
+    I2[LocalDataSource]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ul>
 </section>
 <section id="00-nivel-cero-12-proyecto-rutina-diaria" class="lesson" data-topic-id="00-nivel-cero-12-proyecto-rutina-diaria" data-lesson-path="00-nivel-cero/12-proyecto-rutina-diaria.md">
 <div class="lesson-path">00-nivel-cero/12-proyecto-rutina-diaria.md</div>
@@ -1930,6 +2512,70 @@ fun PantallaDetalle() {
 <p>Tu entrega final de este proyecto debe incluir evidencia técnica y evidencia de comprensión. La evidencia técnica será el código funcionando y capturas de las tres pantallas. La evidencia de comprensión será una explicación escrita donde cuentes qué hace cada pantalla, cómo validas el input y cómo se mueve la navegación.</p>
 <p>Para ayudarte a autoevaluarte, usa esta idea de cierre. Si puedes abrir tu app, escribir una rutina, ver que se valida correctamente y llegar a la pantalla resumen, entonces has superado el integrador funcional. Si además puedes explicar el porqué de cada parte, entonces has superado el integrador con comprensión.</p>
 <p>Cuando completes este proyecto, estarás listo para pasar de Nivel Cero a Junior, porque ya no solo entiendes conceptos por separado. Ya puedes construir un flujo básico completo con intención técnica y pedagógica.</p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="00-nivel-cero-12-proyecto-rutina-diaria-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Rule]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[Screen]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[RemoteDataSource]
+    I2[LocalDataSource]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ul>
+<p><!-- auto-gapfix:layered-snippet --></p>
+<h2 id="00-nivel-cero-12-proyecto-rutina-diaria-snippet-de-referencia-por-capas">Snippet de referencia por capas</h2>
+<pre><code class="language-kotlin">interface FeaturePort {
+    suspend fun fetch(): List&lt;String&gt;
+}
+
+class FeatureUseCase(
+    private val port: FeaturePort
+) {
+    suspend operator fun invoke(): List&lt;String&gt; = port.fetch()
+}
+
+class FeatureViewModel(
+    private val useCase: FeatureUseCase
+) : ViewModel() {
+
+    private val _items = MutableStateFlow&lt;List&lt;String&gt;&gt;(emptyList())
+    val items: StateFlow&lt;List&lt;String&gt;&gt; = _items
+
+    fun load() {
+        viewModelScope.launch {
+            _items.value = runCatching { useCase() }.getOrDefault(emptyList())
+        }
+    }
+}</code></pre>
 </section>
 <section id="00-nivel-cero-entregables-nivel-cero" class="lesson" data-topic-id="00-nivel-cero-entregables-nivel-cero" data-lesson-path="00-nivel-cero/entregables-nivel-cero.md">
 <div class="lesson-path">00-nivel-cero/entregables-nivel-cero.md</div>
@@ -1941,6 +2587,70 @@ fun PantallaDetalle() {
 <p>El cuarto entregable obligatorio es la autoevaluación de errores. Debes identificar al menos tres errores que hayas cometido durante Nivel Cero, explicar por qué ocurrieron y describir cómo los corregiste. Esta parte es muy importante porque demuestra que sabes aprender de tus fallos.</p>
 <p>Para considerar Nivel Cero como completado, el equipo docente debe poder verificar que tu app funciona, que tu lógica es coherente y que tu explicación demuestra comprensión real. Si falta alguna de estas piezas, no pasa nada, simplemente se corrige y se vuelve a intentar con guía.</p>
 <p>Cuando cumplas estos entregables, tendrás una base sólida para entrar a Junior con confianza y sin saltos bruscos de dificultad.</p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="00-nivel-cero-entregables-nivel-cero-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Rule]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[Screen]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[RemoteDataSource]
+    I2[LocalDataSource]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ul>
+<p><!-- auto-gapfix:layered-snippet --></p>
+<h2 id="00-nivel-cero-entregables-nivel-cero-snippet-de-referencia-por-capas">Snippet de referencia por capas</h2>
+<pre><code class="language-kotlin">interface FeaturePort {
+    suspend fun fetch(): List&lt;String&gt;
+}
+
+class FeatureUseCase(
+    private val port: FeaturePort
+) {
+    suspend operator fun invoke(): List&lt;String&gt; = port.fetch()
+}
+
+class FeatureViewModel(
+    private val useCase: FeatureUseCase
+) : ViewModel() {
+
+    private val _items = MutableStateFlow&lt;List&lt;String&gt;&gt;(emptyList())
+    val items: StateFlow&lt;List&lt;String&gt;&gt; = _items
+
+    fun load() {
+        viewModelScope.launch {
+            _items.value = runCatching { useCase() }.getOrDefault(emptyList())
+        }
+    }
+}</code></pre>
 </section>
 <section id="01-junior-00-introduccion" class="lesson" data-topic-id="01-junior-00-introduccion" data-lesson-path="01-junior/00-introduccion.md">
 <div class="lesson-path">01-junior/00-introduccion.md</div>
@@ -1968,6 +2678,70 @@ fun PantallaDetalle() {
 <p>Este nivel también marca el inicio de tu relación con calidad técnica. Calidad no significa perfección. Calidad significa que puedes confiar en el comportamiento del sistema y que otro compañero puede entender tu trabajo sin adivinar intenciones.</p>
 <p>Para entrar bien en Junior, tu mentalidad de arranque debe ser esta. Mantener la curiosidad de Nivel Cero, pero agregar disciplina de ingeniería. Seguir preguntando “¿qué hace esto?”, y además empezar a preguntar “¿dónde debería vivir este código?” y “¿cómo lo voy a probar?”</p>
 <p>En el siguiente módulo vamos a preparar el entorno Junior de forma profesional, con versiones, herramientas y decisiones explícitas. El objetivo no será solo ejecutar la app. El objetivo será que entiendas qué piezas sostienen el proyecto y por qué están elegidas así.</p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="01-junior-00-introduccion-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Rule]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[Screen]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[RemoteDataSource]
+    I2[LocalDataSource]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ul>
+<p><!-- auto-gapfix:layered-snippet --></p>
+<h2 id="01-junior-00-introduccion-snippet-de-referencia-por-capas">Snippet de referencia por capas</h2>
+<pre><code class="language-kotlin">interface FeaturePort {
+    suspend fun fetch(): List&lt;String&gt;
+}
+
+class FeatureUseCase(
+    private val port: FeaturePort
+) {
+    suspend operator fun invoke(): List&lt;String&gt; = port.fetch()
+}
+
+class FeatureViewModel(
+    private val useCase: FeatureUseCase
+) : ViewModel() {
+
+    private val _items = MutableStateFlow&lt;List&lt;String&gt;&gt;(emptyList())
+    val items: StateFlow&lt;List&lt;String&gt;&gt; = _items
+
+    fun load() {
+        viewModelScope.launch {
+            _items.value = runCatching { useCase() }.getOrDefault(emptyList())
+        }
+    }
+}</code></pre>
 </section>
 <section id="01-junior-00-setup-junior" class="lesson" data-topic-id="01-junior-00-setup-junior" data-lesson-path="01-junior/00-setup-junior.md">
 <div class="lesson-path">01-junior/00-setup-junior.md</div>
@@ -1989,6 +2763,70 @@ fun PantallaDetalle() {
 <p>Después ejecuta una compilación limpia del proyecto. Si compila sin errores, ya tienes una base profesional mínima. Si falla, no lo veas como derrota. Ve el mensaje, identifica archivo y línea, y corrige de forma incremental.</p>
 <p>Ahora vamos a dejar una checklist de validación final, pero explicada de forma humana. Debes poder confirmar que Gradle usa 9.1.0, que AGP está en 9.0.0, que Kotlin está en 2.3.10, que compileSdk y targetSdk están en 36, que Compose compila y que el proyecto ejecuta en emulador sin cierre inesperado al arrancar.</p>
 <p>Cuando cumplas esa validación, habrás terminado el setup Junior correctamente. En el siguiente módulo ya no hablaremos solo de “que funcione”. Empezaremos a hablar de “cómo diseñarlo para que escale”, introduciendo la arquitectura Android recomendada con capas UI y Data, dominio opcional, UDF y ViewModel por pantalla.</p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="01-junior-00-setup-junior-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Rule]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[Screen]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[RemoteDataSource]
+    I2[LocalDataSource]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ul>
+<p><!-- auto-gapfix:layered-snippet --></p>
+<h2 id="01-junior-00-setup-junior-snippet-de-referencia-por-capas">Snippet de referencia por capas</h2>
+<pre><code class="language-kotlin">interface FeaturePort {
+    suspend fun fetch(): List&lt;String&gt;
+}
+
+class FeatureUseCase(
+    private val port: FeaturePort
+) {
+    suspend operator fun invoke(): List&lt;String&gt; = port.fetch()
+}
+
+class FeatureViewModel(
+    private val useCase: FeatureUseCase
+) : ViewModel() {
+
+    private val _items = MutableStateFlow&lt;List&lt;String&gt;&gt;(emptyList())
+    val items: StateFlow&lt;List&lt;String&gt;&gt; = _items
+
+    fun load() {
+        viewModelScope.launch {
+            _items.value = runCatching { useCase() }.getOrDefault(emptyList())
+        }
+    }
+}</code></pre>
 </section>
 <section id="01-junior-01-arquitectura-android-recomendada" class="lesson" data-topic-id="01-junior-01-arquitectura-android-recomendada" data-lesson-path="01-junior/01-arquitectura-android-recomendada.md">
 <div class="lesson-path">01-junior/01-arquitectura-android-recomendada.md</div>
@@ -2096,6 +2934,45 @@ sealed interface CatalogEvent {
 <p>La cuarta es diseñar para test. Si tu ViewModel depende de una interfaz de repositorio, testear se vuelve directo.</p>
 <p>Cerramos con una mini práctica guiada para fijar todo. Crea una feature pequeña llamada <code>tasks</code>. Define <code>TasksUiState</code> con loading, lista y error. Define <code>TasksEvent</code> con iniciar y reintentar. Crea <code>TasksViewModel</code> con <code>onEvent</code>. Crea contrato <code>TasksRepository</code>. Haz implementación simple con lista estática. Conecta desde Compose mostrando loading, lista o error. Si puedes explicar verbalmente el flujo de evento a estado, vas perfecto.</p>
 <p>Cuando domines este módulo, tendrás la base correcta para entrar a integración real con Hilt, Room, DataStore y WorkManager sin crear deuda técnica innecesaria.</p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="01-junior-01-arquitectura-android-recomendada-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Rule]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[Screen]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[RemoteDataSource]
+    I2[LocalDataSource]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ul>
 </section>
 <section id="01-junior-02-feature-base-practica" class="lesson" data-topic-id="01-junior-02-feature-base-practica" data-lesson-path="01-junior/02-feature-base-practica.md">
 <div class="lesson-path">01-junior/02-feature-base-practica.md</div>
@@ -2227,6 +3104,45 @@ fun TasksScreen(
 <p>Si más adelante necesitas Domain, puedes añadir <code>domain/</code> sin romper lo anterior.</p>
 <p>Para cerrar, vamos con un mini reto. Añade un nuevo evento <code>OnRefreshPulled</code> y conecta ese evento a la misma carga. Después, modifica <code>TasksRepositoryImpl</code> para devolver lista vacía y comprueba cómo se ve tu UI. Finalmente, añade un texto de estado vacío cuando no haya tareas.</p>
 <p>Si completas esta práctica, ya tienes una base junior real: feature separada, estado consistente, eventos explícitos, ViewModel por pantalla y repositorio desacoplado.</p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="01-junior-02-feature-base-practica-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Rule]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[Screen]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[RemoteDataSource]
+    I2[LocalDataSource]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ul>
 </section>
 <section id="01-junior-03-navegacion-moderna-navigation-compose" class="lesson" data-topic-id="01-junior-03-navegacion-moderna-navigation-compose" data-lesson-path="01-junior/03-navegacion-moderna-navigation-compose.md">
 <div class="lesson-path">01-junior/03-navegacion-moderna-navigation-compose.md</div>
@@ -3998,6 +4914,70 @@ fun replaceTasks_replacesLocalStorage() = runTest {
 <p>Desde el refuerzo del curso, este cierre también debe dejar explícitamente la versión v1.0 de RuralGO FieldOps. Eso significa que tu entrega Junior ya no es un conjunto de prácticas separadas, sino un primer producto usable con alcance acotado y evidencia verificable.</p>
 <p>Para considerar v1.0 aceptada en Junior, además de los entregables anteriores, debes demostrar autenticación funcional de entrada, navegación entre lista y detalle de tareas, persistencia local mínima para continuidad de uso y una base de pruebas que cubra al menos los flujos críticos de UI y ViewModel.</p>
 <p>La evidencia mínima de v1.0 debe incluir un repositorio ejecutable, captura de ejecución navegando el flujo principal, reporte de pruebas pasando y una explicación breve de dos decisiones técnicas que tomaste para mantener el código evolutivo.</p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="01-junior-entregables-nivel-junior-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Rule]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[Screen]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[RemoteDataSource]
+    I2[LocalDataSource]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ul>
+<p><!-- auto-gapfix:layered-snippet --></p>
+<h2 id="01-junior-entregables-nivel-junior-snippet-de-referencia-por-capas">Snippet de referencia por capas</h2>
+<pre><code class="language-kotlin">interface FeaturePort {
+    suspend fun fetch(): List&lt;String&gt;
+}
+
+class FeatureUseCase(
+    private val port: FeaturePort
+) {
+    suspend operator fun invoke(): List&lt;String&gt; = port.fetch()
+}
+
+class FeatureViewModel(
+    private val useCase: FeatureUseCase
+) : ViewModel() {
+
+    private val _items = MutableStateFlow&lt;List&lt;String&gt;&gt;(emptyList())
+    val items: StateFlow&lt;List&lt;String&gt;&gt; = _items
+
+    fun load() {
+        viewModelScope.launch {
+            _items.value = runCatching { useCase() }.getOrDefault(emptyList())
+        }
+    }
+}</code></pre>
 </section>
 <section id="02-midlevel-00-introduccion" class="lesson" data-topic-id="02-midlevel-00-introduccion" data-lesson-path="02-midlevel/00-introduccion.md">
 <div class="lesson-path">02-midlevel/00-introduccion.md</div>
@@ -4026,6 +5006,70 @@ fun replaceTasks_replacesLocalStorage() = runTest {
 <p>Para trabajar bien este nivel, vamos a seguir un hilo claro. Primero fortaleceremos red con Retrofit/OkHttp de forma profesional inicial. Después conectaremos red y persistencia local con políticas concretas. Más adelante incorporaremos patrones de resiliencia y validación de calidad.</p>
 <p>Si en algún punto te parece más difícil, es normal. Midlevel no consiste en memorizar APIs nuevas. Consiste en mejorar tu criterio para sistemas reales.</p>
 <p>En el siguiente módulo empezamos por la base de red robusta, con configuración y decisiones explícitas para que no dependas de suerte cuando llegue la primera incidencia real.</p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="02-midlevel-00-introduccion-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Rule]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[Screen]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[RemoteDataSource]
+    I2[LocalDataSource]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ul>
+<p><!-- auto-gapfix:layered-snippet --></p>
+<h2 id="02-midlevel-00-introduccion-snippet-de-referencia-por-capas">Snippet de referencia por capas</h2>
+<pre><code class="language-kotlin">interface FeaturePort {
+    suspend fun fetch(): List&lt;String&gt;
+}
+
+class FeatureUseCase(
+    private val port: FeaturePort
+) {
+    suspend operator fun invoke(): List&lt;String&gt; = port.fetch()
+}
+
+class FeatureViewModel(
+    private val useCase: FeatureUseCase
+) : ViewModel() {
+
+    private val _items = MutableStateFlow&lt;List&lt;String&gt;&gt;(emptyList())
+    val items: StateFlow&lt;List&lt;String&gt;&gt; = _items
+
+    fun load() {
+        viewModelScope.launch {
+            _items.value = runCatching { useCase() }.getOrDefault(emptyList())
+        }
+    }
+}</code></pre>
 </section>
 <section id="02-midlevel-01-red-robusta-retrofit-okhttp" class="lesson" data-topic-id="02-midlevel-01-red-robusta-retrofit-okhttp" data-lesson-path="02-midlevel/01-red-robusta-retrofit-okhttp.md">
 <div class="lesson-path">02-midlevel/01-red-robusta-retrofit-okhttp.md</div>
@@ -5118,6 +6162,45 @@ object ObservabilityModule {
 <p>Después registra fin de escritura local con <code>syncState</code>.</p>
 <p>Luego provoca un fallo controlado en sincronización y valida en test que existe una entrada <code>ERROR</code> con <code>phase=syncPendingTasks</code>.</p>
 <p>Si puedes mostrar esos tres registros en orden con el mismo <code>operationId</code>, ya tienes diagnóstico trazable de extremo a extremo.</p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="02-midlevel-04-observabilidad-y-diagnostico-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Rule]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[Screen]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[RemoteDataSource]
+    I2[LocalDataSource]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ul>
 </section>
 <section id="02-midlevel-05-pruebas-de-integracion-offline-sync" class="lesson" data-topic-id="02-midlevel-05-pruebas-de-integracion-offline-sync" data-lesson-path="02-midlevel/05-pruebas-de-integracion-offline-sync.md">
 <div class="lesson-path">02-midlevel/05-pruebas-de-integracion-offline-sync.md</div>
@@ -5443,6 +6526,45 @@ fun syncPendingTasks_conDosPendientes_sincronizaAmbas() = runTest {
 <p>Con este módulo ya no estás “confiando” en que offline-first funciona. Ahora lo estás demostrando con pruebas de integración reales sobre persistencia real, reglas reales y orquestación real.</p>
 <p>Ese salto es clave para nivel midlevel. Te permite evolucionar la app con más velocidad y menos miedo, porque cuando toques repositorio o sync tendrás una red de seguridad automática.</p>
 <p>En el siguiente módulo continuaremos con endurecimiento de calidad en CI y ejecución automatizada de estos casos en pipeline para que cada pull request valide consistencia offline-sync antes de merge.</p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="02-midlevel-05-pruebas-de-integracion-offline-sync-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Rule]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[Screen]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[RemoteDataSource]
+    I2[LocalDataSource]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ul>
 </section>
 <section id="02-midlevel-06-quality-gates-ci-offline-sync" class="lesson" data-topic-id="02-midlevel-06-quality-gates-ci-offline-sync" data-lesson-path="02-midlevel/06-quality-gates-ci-offline-sync.md">
 <div class="lesson-path">02-midlevel/06-quality-gates-ci-offline-sync.md</div>
@@ -5562,6 +6684,45 @@ Si falla cualquiera de estos puntos, la PR debe corregirse antes de merge.</code
 <h2 id="02-midlevel-06-quality-gates-ci-offline-sync-cierre-del-m-dulo">Cierre del módulo</h2>
 <p>Has llegado a un punto donde el roadmap da un salto de madurez: ya no solo construyes funcionalidades, también construyes mecanismos para que la calidad se sostenga mientras el proyecto crece. Ese cambio de mentalidad es una marca clara de perfil midlevel sólido.</p>
 <p>En el siguiente tramo del roadmap vamos a conectar este gate con medición de rendimiento real en CI usando Macrobenchmark y Baseline Profiles, para que no solo protejas corrección funcional, sino también experiencia de usuario bajo carga y tiempos de arranque.</p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="02-midlevel-06-quality-gates-ci-offline-sync-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Rule]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[Screen]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[RemoteDataSource]
+    I2[LocalDataSource]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ul>
 </section>
 <section id="02-midlevel-07-performance-ci-macrobenchmark-baselineprofiles" class="lesson" data-topic-id="02-midlevel-07-performance-ci-macrobenchmark-baselineprofiles" data-lesson-path="02-midlevel/07-performance-ci-macrobenchmark-baselineprofiles.md">
 <div class="lesson-path">02-midlevel/07-performance-ci-macrobenchmark-baselineprofiles.md</div>
@@ -5712,6 +6873,45 @@ class BaselineProfileGenerator {
 <h2 id="02-midlevel-07-performance-ci-macrobenchmark-baselineprofiles-cierre-del-m-dulo">Cierre del módulo</h2>
 <p>Con este módulo diste un paso que muchos equipos tardan años en dar bien: pasar de “el rendimiento se siente raro” a “tenemos evidencia automatizada y repetible del rendimiento”.</p>
 <p>En el siguiente tramo vamos a entrar en observabilidad de producción más allá de logs locales, conectando métricas técnicas con señales de producto para cerrar el círculo entre desarrollo, operación y decisiones de roadmap.</p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="02-midlevel-07-performance-ci-macrobenchmark-baselineprofiles-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Rule]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[Screen]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[RemoteDataSource]
+    I2[LocalDataSource]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ul>
 </section>
 <section id="02-midlevel-08-observabilidad-produccion-metricas-alertas" class="lesson" data-topic-id="02-midlevel-08-observabilidad-produccion-metricas-alertas" data-lesson-path="02-midlevel/08-observabilidad-produccion-metricas-alertas.md">
 <div class="lesson-path">02-midlevel/08-observabilidad-produccion-metricas-alertas.md</div>
@@ -5866,6 +7066,45 @@ object TelemetryModule {
 <h2 id="02-midlevel-08-observabilidad-produccion-metricas-alertas-cierre-del-m-dulo">Cierre del módulo</h2>
 <p>Con este módulo ya no estás “esperando problemas”, estás diseñando cómo enterarte a tiempo y con contexto cuando aparezcan. Esa mentalidad es de equipo que opera producto real, no de equipo que solo entrega código.</p>
 <p>En el siguiente tramo del roadmap vamos a usar estas señales para guiar decisiones de arquitectura evolutiva y priorización técnica, conectando lo que medimos con cómo decidimos qué tocar primero en cada iteración.</p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="02-midlevel-08-observabilidad-produccion-metricas-alertas-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Rule]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[Screen]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[RemoteDataSource]
+    I2[LocalDataSource]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ul>
 </section>
 <section id="02-midlevel-09-decisiones-evolutivas-con-metricas" class="lesson" data-topic-id="02-midlevel-09-decisiones-evolutivas-con-metricas" data-lesson-path="02-midlevel/09-decisiones-evolutivas-con-metricas.md">
 <div class="lesson-path">02-midlevel/09-decisiones-evolutivas-con-metricas.md</div>
@@ -5929,6 +7168,45 @@ fun TechIssue.priorityScore(): Int {
 <h2 id="02-midlevel-09-decisiones-evolutivas-con-metricas-cierre-del-m-dulo">Cierre del módulo</h2>
 <p>Este módulo marca un cambio importante en la manera de trabajar. Ya no solo sabes construir y proteger calidad. Ahora también sabes elegir con criterio qué mejora técnica debe ir primero para mover realmente la aguja del producto.</p>
 <p>En el siguiente tramo vamos a llevar esta misma lógica a arquitectura entre features, para que las decisiones de dependencia y límites de módulo también se tomen con evidencia y no con intuición.</p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="02-midlevel-09-decisiones-evolutivas-con-metricas-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Rule]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[Screen]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[RemoteDataSource]
+    I2[LocalDataSource]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ul>
 </section>
 <section id="02-midlevel-10-gobernanza-dependencias-entre-features" class="lesson" data-topic-id="02-midlevel-10-gobernanza-dependencias-entre-features" data-lesson-path="02-midlevel/10-gobernanza-dependencias-entre-features.md">
 <div class="lesson-path">02-midlevel/10-gobernanza-dependencias-entre-features.md</div>
@@ -6017,6 +7295,45 @@ dependencies {
 <h2 id="02-midlevel-10-gobernanza-dependencias-entre-features-cierre-del-m-dulo">Cierre del módulo</h2>
 <p>Con este módulo acabas de blindar una de las fuentes más comunes de caos en proyectos Android que crecen rápido. Ahora no solo puedes construir bien, medir bien y priorizar bien. También puedes crecer sin perder estructura.</p>
 <p>En el siguiente tramo vamos a enlazar esta gobernanza con evolución de APIs internas y versionado de contratos para que las features puedan cambiar sin romper compatibilidad entre equipos.</p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="02-midlevel-10-gobernanza-dependencias-entre-features-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Rule]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[Screen]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[RemoteDataSource]
+    I2[LocalDataSource]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ul>
 </section>
 <section id="02-midlevel-11-versionado-contratos-internos" class="lesson" data-topic-id="02-midlevel-11-versionado-contratos-internos" data-lesson-path="02-midlevel/11-versionado-contratos-internos.md">
 <div class="lesson-path">02-midlevel/11-versionado-contratos-internos.md</div>
@@ -6095,6 +7412,45 @@ interface SessionContractV1 {
 <h2 id="02-midlevel-11-versionado-contratos-internos-cierre-del-m-dulo">Cierre del módulo</h2>
 <p>Con este módulo ya puedes evolucionar contratos internos sin romper relaciones entre features. Acabas de añadir una capa de estabilidad que normalmente se echa de menos justo cuando el producto empieza a crecer de verdad.</p>
 <p>En el siguiente tramo vamos a aplicar esto al plano de navegación y deep links, para que la evolución de rutas también tenga compatibilidad y no se convierta en una fuente silenciosa de regresiones.</p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="02-midlevel-11-versionado-contratos-internos-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Rule]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[Screen]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[RemoteDataSource]
+    I2[LocalDataSource]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ul>
 </section>
 <section id="02-midlevel-12-evolucion-navegacion-y-deeplinks-compatibles" class="lesson" data-topic-id="02-midlevel-12-evolucion-navegacion-y-deeplinks-compatibles" data-lesson-path="02-midlevel/12-evolucion-navegacion-y-deeplinks-compatibles.md">
 <div class="lesson-path">02-midlevel/12-evolucion-navegacion-y-deeplinks-compatibles.md</div>
@@ -6172,6 +7528,45 @@ interface SessionContractV1 {
 <h2 id="02-midlevel-12-evolucion-navegacion-y-deeplinks-compatibles-cierre-del-m-dulo">Cierre del módulo</h2>
 <p>Con este módulo cierras una parte clave de arquitectura evolutiva en Android: contratos entre features, dependencias gobernadas y navegación compatible en el tiempo. Ese conjunto ya te coloca en un nivel de diseño muy superior al típico “funciona en mi build”.</p>
 <p>El siguiente salto natural es pasar al bloque Senior para endurecer operaciones a escala: estrategia de releases, rollback seguro y gestión de incidentes con tiempos de respuesta reales.</p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="02-midlevel-12-evolucion-navegacion-y-deeplinks-compatibles-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Rule]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[Screen]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[RemoteDataSource]
+    I2[LocalDataSource]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ul>
 </section>
 <section id="02-midlevel-entregables-nivel-midlevel" class="lesson" data-topic-id="02-midlevel-entregables-nivel-midlevel" data-lesson-path="02-midlevel/entregables-nivel-midlevel.md">
 <div class="lesson-path">02-midlevel/entregables-nivel-midlevel.md</div>
@@ -6202,6 +7597,45 @@ class MidlevelGate {
     }
 }</code></pre>
 <p>Este criterio evita una salida “a medias”. Si una pieza técnica crítica falta, Midlevel no está realmente cerrado aunque la app parezca funcionar en una demo corta.</p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="02-midlevel-entregables-nivel-midlevel-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Rule]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[Screen]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[RemoteDataSource]
+    I2[LocalDataSource]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ul>
 </section>
 <section id="03-senior-00-introduccion" class="lesson" data-topic-id="03-senior-00-introduccion" data-lesson-path="03-senior/00-introduccion.md">
 <div class="lesson-path">03-senior/00-introduccion.md</div>
@@ -6242,6 +7676,70 @@ class MidlevelGate {
 <p>Este nivel no trata de “hacer más cosas”. Trata de hacer que lo que ya haces se sostenga cuando el contexto se vuelve complejo. Si en Junior y Midlevel aprendiste a construir bien, en Senior vas a aprender a sostener bien.</p>
 <p>Y esa diferencia, en Android real, vale oro.</p>
 <p>En la siguiente lección arrancamos por la pieza que más impacto tiene en estabilidad del producto: estrategia de release y rollback seguro, para que cada despliegue deje de ser una apuesta y pase a ser una decisión controlada.</p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="03-senior-00-introduccion-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Rule]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[Screen]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[RemoteDataSource]
+    I2[LocalDataSource]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ul>
+<p><!-- auto-gapfix:layered-snippet --></p>
+<h2 id="03-senior-00-introduccion-snippet-de-referencia-por-capas">Snippet de referencia por capas</h2>
+<pre><code class="language-kotlin">interface FeaturePort {
+    suspend fun fetch(): List&lt;String&gt;
+}
+
+class FeatureUseCase(
+    private val port: FeaturePort
+) {
+    suspend operator fun invoke(): List&lt;String&gt; = port.fetch()
+}
+
+class FeatureViewModel(
+    private val useCase: FeatureUseCase
+) : ViewModel() {
+
+    private val _items = MutableStateFlow&lt;List&lt;String&gt;&gt;(emptyList())
+    val items: StateFlow&lt;List&lt;String&gt;&gt; = _items
+
+    fun load() {
+        viewModelScope.launch {
+            _items.value = runCatching { useCase() }.getOrDefault(emptyList())
+        }
+    }
+}</code></pre>
 </section>
 <section id="03-senior-01-release-strategy-y-rollback-seguro" class="lesson" data-topic-id="03-senior-01-release-strategy-y-rollback-seguro" data-lesson-path="03-senior/01-release-strategy-y-rollback-seguro.md">
 <div class="lesson-path">03-senior/01-release-strategy-y-rollback-seguro.md</div>
@@ -6386,6 +7884,45 @@ jobs:
 <p>Una release sana no se define por valentía, se define por diseño. Diseñas para poder observar, decides con señales, y te dejas margen para corregir sin incendiar al equipo.</p>
 <p>Si te quedas con una sola idea de esta lección, que sea esta: publicar no es empujar código, es gestionar riesgo de producto.</p>
 <p>En la siguiente lección vamos a aterrizar ese riesgo en un marco de respuesta a incidentes. Ahí veremos cómo transformar un problema en producción en un flujo de diagnóstico y recuperación que tu equipo pueda ejecutar incluso en un mal día.</p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="03-senior-01-release-strategy-y-rollback-seguro-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Rule]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[Screen]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[RemoteDataSource]
+    I2[LocalDataSource]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ul>
 </section>
 <section id="03-senior-02-incident-response-y-runbooks-operativos" class="lesson" data-topic-id="03-senior-02-incident-response-y-runbooks-operativos" data-lesson-path="03-senior/02-incident-response-y-runbooks-operativos.md">
 <div class="lesson-path">03-senior/02-incident-response-y-runbooks-operativos.md</div>
@@ -6477,6 +8014,45 @@ Si no hay recuperación, activar rollback de versión en canal producción.</cod
 <p>La madurez no se demuestra cuando todo va bien. Se demuestra cuando algo va mal y aun así respondes con cabeza fría, impacto acotado y aprendizaje concreto.</p>
 <p>Eso es incident response bien hecho. No heroísmo. No pánico. Sistema.</p>
 <p>En la siguiente lección vamos a conectar esta práctica con un marco de SLOs y error budgets para que la prioridad técnica deje de depender de quién habla más fuerte y pase a depender de objetivos de fiabilidad compartidos por todo el equipo.</p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="03-senior-02-incident-response-y-runbooks-operativos-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Rule]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[Screen]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[RemoteDataSource]
+    I2[LocalDataSource]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ul>
 </section>
 <section id="03-senior-03-slos-error-budgets-priorizacion-fiabilidad" class="lesson" data-topic-id="03-senior-03-slos-error-budgets-priorizacion-fiabilidad" data-lesson-path="03-senior/03-slos-error-budgets-priorizacion-fiabilidad.md">
 <div class="lesson-path">03-senior/03-slos-error-budgets-priorizacion-fiabilidad.md</div>
@@ -6575,6 +8151,45 @@ Cuando el budget se recupera por encima de 40%:
 <p>SLO y error budget no son un lujo de grandes empresas. Son una forma simple de proteger al producto y al equipo de decisiones impulsivas bajo presión.</p>
 <p>Cuando incorporas este marco en Android, el roadmap deja de ser una pelea de opiniones y se convierte en una secuencia de apuestas controladas por evidencia.</p>
 <p>En la siguiente lección vamos a aterrizar esa evidencia en un tablero operativo de fiabilidad con métricas mínimas, alertas accionables y rituales de revisión que sí se pueden sostener sprint tras sprint.</p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="03-senior-03-slos-error-budgets-priorizacion-fiabilidad-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Rule]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[Screen]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[RemoteDataSource]
+    I2[LocalDataSource]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ul>
 </section>
 <section id="03-senior-04-tablero-operativo-fiabilidad-y-alertas-accionables" class="lesson" data-topic-id="03-senior-04-tablero-operativo-fiabilidad-y-alertas-accionables" data-lesson-path="03-senior/04-tablero-operativo-fiabilidad-y-alertas-accionables.md">
 <div class="lesson-path">03-senior/04-tablero-operativo-fiabilidad-y-alertas-accionables.md</div>
@@ -6677,6 +8292,45 @@ Runbook asociado: docs/runbooks/incident-login-freeze.md</code></pre>
 <p>Un tablero operativo no existe para impresionar en demos. Existe para ayudarte a proteger usuarios y tomar decisiones bajo incertidumbre con menos fricción.</p>
 <p>Si lo construyes con señales conectadas a objetivos, alertas con acción clara y revisión viva, se convierte en una pieza central de madurez senior en Android.</p>
 <p>En la siguiente lección vamos a cerrar este tramo conectando todo lo que llevas hasta ahora en un modelo de gobernanza técnica de sprint: cómo negociar capacidad entre fiabilidad y roadmap sin volver al caos de prioridades cambiantes.</p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="03-senior-04-tablero-operativo-fiabilidad-y-alertas-accionables-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Rule]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[Screen]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[RemoteDataSource]
+    I2[LocalDataSource]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ul>
 </section>
 <section id="03-senior-05-gobernanza-tecnica-de-sprint-fiabilidad-vs-roadmap" class="lesson" data-topic-id="03-senior-05-gobernanza-tecnica-de-sprint-fiabilidad-vs-roadmap" data-lesson-path="03-senior/05-gobernanza-tecnica-de-sprint-fiabilidad-vs-roadmap.md">
 <div class="lesson-path">03-senior/05-gobernanza-tecnica-de-sprint-fiabilidad-vs-roadmap.md</div>
@@ -6770,6 +8424,45 @@ class SprintCapacityEvaluator(
 <h2 id="03-senior-05-gobernanza-tecnica-de-sprint-fiabilidad-vs-roadmap-cierre-de-la-lecci-n">Cierre de la lección</h2>
 <p>La gobernanza técnica de sprint no está para ganar discusiones internas. Está para que el equipo tome decisiones repetibles bajo presión, con equilibrio entre velocidad y estabilidad.</p>
 <p>Cuando esta capa se instala de verdad, el sprint deja de depender del estado de ánimo de la semana y empieza a apoyarse en un marco claro. Ese es el salto que prepara el terreno para la simulación del siguiente módulo, donde vas a aplicar este sistema completo en un escenario con tensión real.</p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="03-senior-05-gobernanza-tecnica-de-sprint-fiabilidad-vs-roadmap-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Rule]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[Screen]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[RemoteDataSource]
+    I2[LocalDataSource]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ul>
 </section>
 <section id="03-senior-06-simulacion-sprint-bajo-presion-roadmap-y-fiabilidad" class="lesson" data-topic-id="03-senior-06-simulacion-sprint-bajo-presion-roadmap-y-fiabilidad" data-lesson-path="03-senior/06-simulacion-sprint-bajo-presion-roadmap-y-fiabilidad.md">
 <div class="lesson-path">03-senior/06-simulacion-sprint-bajo-presion-roadmap-y-fiabilidad.md</div>
@@ -6836,6 +8529,45 @@ Condición para reabrir cambios de alto riesgo en login
 <h2 id="03-senior-06-simulacion-sprint-bajo-presion-roadmap-y-fiabilidad-cierre-de-la-lecci-n">Cierre de la lección</h2>
 <p>Esta simulación deja un aprendizaje operativo muy concreto. En Android real no gana el equipo que “siempre entrega rápido” ni el que “siempre juega seguro”. Gana el que sabe mover el peso entre entrega y estabilidad según salud del sistema, con reglas claras y capacidad de ajuste.</p>
 <p>Ese criterio es el puente natural hacia Maestría, donde ahora vas a escalar estas mismas decisiones al nivel de varios dominios y varios equipos coordinándose sin perder autonomía.</p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="03-senior-06-simulacion-sprint-bajo-presion-roadmap-y-fiabilidad-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Rule]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[Screen]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[RemoteDataSource]
+    I2[LocalDataSource]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ul>
 </section>
 <section id="03-senior-07-cierre-del-bloque-senior-y-transicion-a-maestria" class="lesson" data-topic-id="03-senior-07-cierre-del-bloque-senior-y-transicion-a-maestria" data-lesson-path="03-senior/07-cierre-del-bloque-senior-y-transicion-a-maestria.md">
 <div class="lesson-path">03-senior/07-cierre-del-bloque-senior-y-transicion-a-maestria.md</div>
@@ -6878,6 +8610,45 @@ sin convertir cada planning en una guerra entre áreas.</code></pre>
 <h2 id="03-senior-07-cierre-del-bloque-senior-y-transicion-a-maestria-cierre-del-bloque">Cierre del bloque</h2>
 <p>Senior termina aquí como etapa didáctica, pero su sistema operativo queda activo para todo lo que viene. Release con criterio, incidentes con método, planificación con gobernanza y retroalimentación basada en evidencia.</p>
 <p>Con esa base sí tiene sentido abrir Maestría, donde vas a extender este mismo nivel de disciplina al terreno de contratos evolutivos, límites de contexto y coordinación de cambios transversales a escala.</p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="03-senior-07-cierre-del-bloque-senior-y-transicion-a-maestria-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Rule]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[Screen]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[RemoteDataSource]
+    I2[LocalDataSource]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ul>
 </section>
 <section id="04-maestria-00-introduccion" class="lesson" data-topic-id="04-maestria-00-introduccion" data-lesson-path="04-maestria/00-introduccion.md">
 <div class="lesson-path">04-maestria/00-introduccion.md</div>
@@ -6917,6 +8688,70 @@ sin convertir cada planning en una guerra entre áreas.</code></pre>
 <p>Entrar a Maestría no es subir un escalón académico. Es asumir responsabilidad de largo horizonte. Vas a pensar menos en “cómo resolver esta tarea” y más en “qué sistema de decisiones dejo para que el producto siga creciendo con salud técnica”.</p>
 <p>Esa es la diferencia entre construir software y construir capacidad de evolución.</p>
 <p>En la siguiente lección abrimos el bloque con contratos evolutivos entre dominios Android, porque ahí es donde suele empezar la fricción silenciosa que, si no se cuida, termina frenando a todo el equipo.</p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="04-maestria-00-introduccion-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Rule]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[Screen]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[RemoteDataSource]
+    I2[LocalDataSource]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ul>
+<p><!-- auto-gapfix:layered-snippet --></p>
+<h2 id="04-maestria-00-introduccion-snippet-de-referencia-por-capas">Snippet de referencia por capas</h2>
+<pre><code class="language-kotlin">interface FeaturePort {
+    suspend fun fetch(): List&lt;String&gt;
+}
+
+class FeatureUseCase(
+    private val port: FeaturePort
+) {
+    suspend operator fun invoke(): List&lt;String&gt; = port.fetch()
+}
+
+class FeatureViewModel(
+    private val useCase: FeatureUseCase
+) : ViewModel() {
+
+    private val _items = MutableStateFlow&lt;List&lt;String&gt;&gt;(emptyList())
+    val items: StateFlow&lt;List&lt;String&gt;&gt; = _items
+
+    fun load() {
+        viewModelScope.launch {
+            _items.value = runCatching { useCase() }.getOrDefault(emptyList())
+        }
+    }
+}</code></pre>
 </section>
 <section id="04-maestria-01-contratos-evolutivos-entre-dominios" class="lesson" data-topic-id="04-maestria-01-contratos-evolutivos-entre-dominios" data-lesson-path="04-maestria/01-contratos-evolutivos-entre-dominios.md">
 <div class="lesson-path">04-maestria/01-contratos-evolutivos-entre-dominios.md</div>
@@ -7030,6 +8865,45 @@ Regla de retirada
 <p>La evolución entre dominios no tiene por qué ser dolorosa si el contrato está diseñado como acuerdo de compatibilidad y no como exposición de internals.</p>
 <p>Cuando haces esto bien, cada dominio conserva autonomía sin convertir la integración en una fuente constante de regresiones.</p>
 <p>En la siguiente lección vamos a profundizar en límites de contexto y ownership técnico para que esa autonomía no se quede solo en contratos, sino que también se refleje en organización de código, decisiones y responsabilidad operativa.</p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="04-maestria-01-contratos-evolutivos-entre-dominios-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Rule]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[Screen]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[RemoteDataSource]
+    I2[LocalDataSource]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ul>
 </section>
 <section id="04-maestria-02-bounded-contexts-y-ownership-tecnico" class="lesson" data-topic-id="04-maestria-02-bounded-contexts-y-ownership-tecnico" data-lesson-path="04-maestria/02-bounded-contexts-y-ownership-tecnico.md">
 <div class="lesson-path">04-maestria/02-bounded-contexts-y-ownership-tecnico.md</div>
@@ -7183,6 +9057,45 @@ Si un consumidor interpreta mal un campo contractual, catalog y consumidor abren
 <h2 id="04-maestria-02-bounded-contexts-y-ownership-tecnico-conclusi-n-accionable-de-la-lecci-n">Conclusión accionable de la lección</h2>
 <p>Bounded contexts aportan valor cuando dejan de ser una idea de arquitectura y se convierten en una práctica diaria de decisión. Eso implica frontera técnica, contrato versionado, ownership explícito y gobernanza de excepciones.</p>
 <p>Si al terminar esta lección quieres validar aplicación real en tu proyecto, haz una prueba sencilla: toma una integración entre dos features y verifica si puedes identificar contrato, owner y regla de evolución sin preguntar en chat interno. Si no puedes, ya sabes exactamente dónde empezar a mejorar.</p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="04-maestria-02-bounded-contexts-y-ownership-tecnico-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Rule]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[Screen]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[RemoteDataSource]
+    I2[LocalDataSource]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ul>
 </section>
 <section id="04-maestria-03-mapa-de-dependencias-y-acoplamiento-circular" class="lesson" data-topic-id="04-maestria-03-mapa-de-dependencias-y-acoplamiento-circular" data-lesson-path="04-maestria/03-mapa-de-dependencias-y-acoplamiento-circular.md">
 <div class="lesson-path">04-maestria/03-mapa-de-dependencias-y-acoplamiento-circular.md</div>
@@ -7300,6 +9213,45 @@ temporary_exceptions:
 <h2 id="04-maestria-03-mapa-de-dependencias-y-acoplamiento-circular-conclusi-n-accionable-de-la-lecci-n">Conclusión accionable de la lección</h2>
 <p>Si quieres aplicar esta lección mañana en tu proyecto, toma una dependencia nueva propuesta en el sprint actual y sométela a este filtro simple: intención, frontera, alternativa por contrato y plan de retiro si requiere excepción temporal. Con ese ejercicio único ya empiezas a convertir arquitectura en sistema de decisión, no en decoración documental.</p>
 <p>Ese hábito es el que prepara el siguiente paso: coordinar migraciones transversales entre varios contextos sin perder control ni ritmo de entrega.</p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="04-maestria-03-mapa-de-dependencias-y-acoplamiento-circular-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Rule]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[Screen]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[RemoteDataSource]
+    I2[LocalDataSource]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ul>
 </section>
 <section id="04-maestria-04-migraciones-transversales-sin-bloqueo" class="lesson" data-topic-id="04-maestria-04-migraciones-transversales-sin-bloqueo" data-lesson-path="04-maestria/04-migraciones-transversales-sin-bloqueo.md">
 <div class="lesson-path">04-maestria/04-migraciones-transversales-sin-bloqueo.md</div>
@@ -7382,6 +9334,45 @@ interface MigrationTelemetry {
 <p>En Android, esta disciplina reduce una clase de incidentes muy típica: cambios que en local parecen correctos pero en producción rompen por consumidores rezagados. El problema no era el código “malo”; era un plan de migración incompleto.</p>
 <p>Si conectas esta lección con las anteriores, verás el hilo completo de Maestría. Primero delimitamos ownership y bounded contexts. Luego limpiamos el mapa de dependencias para evitar ciclos. Ahora aprendemos a cambiar piezas transversales sin bloquear la entrega. Todo forma parte de la misma competencia: evolucionar sistemas vivos sin perder control.</p>
 <p>En la siguiente lección vamos a bajar este enfoque a un caso operativo aún más exigente: cómo coordinar migraciones con ventanas de release, rollback preparado y comunicación técnica entre equipos para que la transición sea predecible incluso bajo presión.</p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="04-maestria-04-migraciones-transversales-sin-bloqueo-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Rule]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[Screen]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[RemoteDataSource]
+    I2[LocalDataSource]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ul>
 </section>
 <section id="04-maestria-05-coordinacion-release-rollback-y-comunicacion-tecnica" class="lesson" data-topic-id="04-maestria-05-coordinacion-release-rollback-y-comunicacion-tecnica" data-lesson-path="04-maestria/05-coordinacion-release-rollback-y-comunicacion-tecnica.md">
 <div class="lesson-path">04-maestria/05-coordinacion-release-rollback-y-comunicacion-tecnica.md</div>
@@ -7453,6 +9444,45 @@ sealed interface PurchaseProfileResult {
 <p>Cuando llega el momento de retirar la versión vieja, la operación también debería ser explícita. Retirar no es borrar archivos de un tirón. Es cerrar una fase con evidencia: adopción completa, estabilidad sostenida y ausencia de consumidores legacy. Solo entonces tiene sentido simplificar código y eliminar adaptadores.</p>
 <p>En Android, ese cierre se nota enseguida en la mantenibilidad. Bajan condicionales de transición, desaparecen flags ya inútiles y las rutas de depuración vuelven a ser cortas. El sistema respira mejor porque dejó de cargar dos formas de resolver el mismo problema.</p>
 <p>Con esta lección cerramos una parte central de Maestría: no solo diseñar migraciones, sino operarlas con calma incluso cuando hay presión real. En la siguiente, llevaremos esta misma lógica a un caso de escalado organizativo: cómo sostener consistencia técnica cuando varios equipos evolucionan contextos distintos en paralelo durante varios trimestres.</p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="04-maestria-05-coordinacion-release-rollback-y-comunicacion-tecnica-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Rule]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[Screen]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[RemoteDataSource]
+    I2[LocalDataSource]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ul>
 </section>
 <section id="04-maestria-06-evolucion-multi-equipo-y-gobernanza-trimestral" class="lesson" data-topic-id="04-maestria-06-evolucion-multi-equipo-y-gobernanza-trimestral" data-lesson-path="04-maestria/06-evolucion-multi-equipo-y-gobernanza-trimestral.md">
 <div class="lesson-path">04-maestria/06-evolucion-multi-equipo-y-gobernanza-trimestral.md</div>
@@ -7509,6 +9539,45 @@ class ConservativeMigrationGate : MigrationGate {
 <p>Para que esto no quede en documento, conviene conectar la gobernanza con los pipelines. Si una migración está fuera de ventana o incumple gate acordado, el sistema de calidad debería advertirlo temprano. No para bloquear por bloquear, sino para evitar que la inconsistencia se descubra cuando ya hay usuarios afectados.</p>
 <p>Cuando miras este enfoque en perspectiva, aparece una ventaja clara: el trimestre deja de ser una sucesión de incendios técnicos y se convierte en una secuencia de decisiones con criterio acumulativo. Cada equipo mantiene ritmo, pero el producto conserva coherencia.</p>
 <p>Con esta lección cerramos la parte de Maestría orientada a evolución organizativa. En la siguiente vamos a consolidar todo el recorrido del curso en una guía de operación final: cómo preparar una defensa técnica sólida del proyecto Android, conectando arquitectura, rendimiento, calidad y decisiones de negocio sin caer en discurso abstracto.</p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="04-maestria-06-evolucion-multi-equipo-y-gobernanza-trimestral-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Rule]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[Screen]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[RemoteDataSource]
+    I2[LocalDataSource]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ul>
 </section>
 <section id="04-maestria-07-defensa-tecnica-del-proyecto-android" class="lesson" data-topic-id="04-maestria-07-defensa-tecnica-del-proyecto-android" data-lesson-path="04-maestria/07-defensa-tecnica-del-proyecto-android.md">
 <div class="lesson-path">04-maestria/07-defensa-tecnica-del-proyecto-android.md</div>
@@ -7563,6 +9632,45 @@ class DefaultReliabilityEvaluator : ReliabilityEvaluator {
 <p>Si quieres llevar esta defensa a nivel semisenior sólido, cuida especialmente el cierre de tu relato. No termines con “todo funciona”. Termina con qué evidencia te permite afirmar que funciona de forma sostenible. En tu proyecto, esa evidencia está en tests de UI y de integración, en métricas de rendimiento con Macrobenchmark y Baseline Profiles, en reglas de calidad en CI y en decisiones de arquitectura trazables.</p>
 <p>Cuando presentas así, el mensaje final queda claro: no construiste una demo, construiste un sistema que puede evolucionar.</p>
 <p>Con esta lección cerramos la secuencia principal de Maestría. Lo que sigue es aplicar este mismo criterio en tu proyecto final, defendiendo decisiones de manera honesta, técnica y conectada con el problema real de producto que quieres resolver.</p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="04-maestria-07-defensa-tecnica-del-proyecto-android-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Rule]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[Screen]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[RemoteDataSource]
+    I2[LocalDataSource]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ul>
 </section>
 <section id="04-maestria-08-cierre-proyecto-final-y-publicacion-play-store" class="lesson" data-topic-id="04-maestria-08-cierre-proyecto-final-y-publicacion-play-store" data-lesson-path="04-maestria/08-cierre-proyecto-final-y-publicacion-play-store.md">
 <div class="lesson-path">04-maestria/08-cierre-proyecto-final-y-publicacion-play-store.md</div>
@@ -7619,6 +9727,45 @@ jobs:
 <p>En términos humanos, este cierre también es importante para ti como desarrollador. Defender una publicación no es recitar herramientas, es mostrar criterio bajo incertidumbre. Es poder explicar por qué tu app puede evolucionar sin romperse, cómo detectas problemas antes de que escalen y qué decisiones tomas cuando hay tensión entre velocidad y estabilidad.</p>
 <p>Ese es el verdadero salto de nivel.</p>
 <p>Con esta lección cerramos formalmente el recorrido de Maestría. A partir de aquí, tu proyecto final ya no se evalúa por “cantidad de tecnología usada”, sino por claridad de diseño, calidad operativa y capacidad de sostener evolución real en producción Android.</p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="04-maestria-08-cierre-proyecto-final-y-publicacion-play-store-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Rule]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[Screen]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[RemoteDataSource]
+    I2[LocalDataSource]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ul>
 </section>
 <section id="04-maestria-09-rubrica-final-y-entrevista-tecnica-android" class="lesson" data-topic-id="04-maestria-09-rubrica-final-y-entrevista-tecnica-android" data-lesson-path="04-maestria/09-rubrica-final-y-entrevista-tecnica-android.md">
 <div class="lesson-path">04-maestria/09-rubrica-final-y-entrevista-tecnica-android.md</div>
@@ -7668,6 +9815,45 @@ class IncidentDecisionUseCase {
 <p>También conviene entrenar respuestas sobre producto, no solo sobre ingeniería. Si te preguntan por qué priorizaste accesibilidad o rendimiento antes de una feature nueva, puedes explicar que una app con mala respuesta o sin soporte básico de accesibilidad destruye valor del producto aunque “tenga funcionalidades”. Eso conecta decisiones técnicas con experiencia de usuario y negocio.</p>
 <p>En la parte final de la entrevista, suele aparecer la pregunta abierta: ¿qué mejorarías en los próximos tres meses? Aquí es donde se ve si sabes priorizar. Una respuesta fuerte no intenta arreglar todo. Elige pocos frentes con alta palanca y los justifica con señales observables.</p>
 <p>Con esto cerramos tu preparación para defensa final del curso. Si llegaste hasta aquí y puedes sostener esta conversación con serenidad, ya no estás solo implementando Android. Estás diseñando y operando sistemas con criterio profesional.</p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="04-maestria-09-rubrica-final-y-entrevista-tecnica-android-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Rule]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[Screen]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[RemoteDataSource]
+    I2[LocalDataSource]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ul>
 </section>
 <section id="04-maestria-10-plan-de-90-dias-despues-del-curso" class="lesson" data-topic-id="04-maestria-10-plan-de-90-dias-despues-del-curso" data-lesson-path="04-maestria/10-plan-de-90-dias-despues-del-curso.md">
 <div class="lesson-path">04-maestria/10-plan-de-90-dias-despues-del-curso.md</div>
@@ -7700,6 +9886,45 @@ class DecisionRetrospective {
 <p>Durante estos 90 días también conviene cuidar un aspecto que suele ignorarse: la calidad de tus entregas pequeñas. No hace falta construir una app gigantesca para demostrar nivel. A veces una mejora bien cerrada en observabilidad, en accesibilidad o en estrategia de sincronización dice más de tu criterio que una funcionalidad grande sin control de calidad.</p>
 <p>Si conectas este plan con todo lo que trabajaste en el curso, verás que no necesitas empezar de cero. Ya tienes base en arquitectura Android, en persistencia offline‑first, en testing, en rendimiento, en operación y en defensa técnica. Ahora toca convertir esa base en hábito profesional.</p>
 <p>Con esta lección cerramos el recorrido formativo y abrimos el tramo de consolidación real. Lo que pase en los próximos 90 días no depende de aprender más rápido, sino de aplicar mejor, de forma sostenida, lo que ya sabes hacer.</p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="04-maestria-10-plan-de-90-dias-despues-del-curso-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Rule]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[Screen]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[RemoteDataSource]
+    I2[LocalDataSource]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ul>
 </section>
 <section id="04-maestria-11-epilogo-profesional-y-siguientes-retos" class="lesson" data-topic-id="04-maestria-11-epilogo-profesional-y-siguientes-retos" data-lesson-path="04-maestria/11-epilogo-profesional-y-siguientes-retos.md">
 <div class="lesson-path">04-maestria/11-epilogo-profesional-y-siguientes-retos.md</div>
@@ -7731,6 +9956,45 @@ class ReflectionFormatter {
 }</code></pre>
 <p>Este fragmento no pretende convertirse en una librería de producción. Sirve para recordarte algo esencial: el aprendizaje técnico real aparece cuando conviertes decisiones en conocimiento reutilizable.</p>
 <p>Con este epílogo cerramos el curso como recorrido formativo, pero abrimos tu etapa de práctica consciente. Si mantienes esta forma de trabajar, no solo vas a construir mejores apps Android. Vas a construir mejor criterio, y ese criterio es lo que más valor tiene cuando la tecnología cambia, porque te permite adaptarte sin perder dirección.</p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="04-maestria-11-epilogo-profesional-y-siguientes-retos-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Rule]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[Screen]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[RemoteDataSource]
+    I2[LocalDataSource]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ul>
 </section>
 <section id="04-maestria-12-casos-reales-y-antipatrones-de-equipos-android" class="lesson" data-topic-id="04-maestria-12-casos-reales-y-antipatrones-de-equipos-android" data-lesson-path="04-maestria/12-casos-reales-y-antipatrones-de-equipos-android.md">
 <div class="lesson-path">04-maestria/12-casos-reales-y-antipatrones-de-equipos-android.md</div>
@@ -7772,6 +10036,45 @@ class SignalDecisionEngine {
 <p>Por eso este módulo no busca asustarte, sino darte un radar. Detectar antipatrones temprano es una ventaja enorme. Te permite corregir cuando todavía el coste es bajo y antes de que el problema se vuelva cultural.</p>
 <p>La señal más sana al final de esta lección es simple: que puedas mirar tu proyecto o tu equipo y nombrar con claridad qué cosas están funcionando, qué riesgos están apareciendo y qué decisiones concretas toca tomar para sostener calidad sin perder entrega.</p>
 <p>Ese tipo de mirada, más que cualquier herramienta puntual, es lo que define un perfil técnico confiable a largo plazo.</p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="04-maestria-12-casos-reales-y-antipatrones-de-equipos-android-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Rule]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[Screen]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[RemoteDataSource]
+    I2[LocalDataSource]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ul>
 </section>
 <section id="04-maestria-13-operacion-largo-plazo-y-deuda-tecnica" class="lesson" data-topic-id="04-maestria-13-operacion-largo-plazo-y-deuda-tecnica" data-lesson-path="04-maestria/13-operacion-largo-plazo-y-deuda-tecnica.md">
 <div class="lesson-path">04-maestria/13-operacion-largo-plazo-y-deuda-tecnica.md</div>
@@ -7821,6 +10124,45 @@ class MaintenanceEvaluator {
 <p>Una conversación que aparece mucho en equipos Android es esta: “si paramos para pagar deuda, ¿no frenamos negocio?”. La respuesta más útil no es sí o no. Es entender que no pagar deuda crítica también frena negocio, solo que de forma diferida y más cara. El objetivo no es dejar de construir producto, sino equilibrar inversión para que el producto siga siendo construible.</p>
 <p>Cuando ese equilibrio está bien llevado, pasa algo interesante. El equipo no solo entrega más estable; también mejora su clima de trabajo. Menos incertidumbre, menos urgencias artificiales, menos retrabajo. Y eso, a largo plazo, tiene tanto impacto como cualquier optimización técnica.</p>
 <p>Con esta lección cerramos la parte de Maestría enfocada en sostenibilidad operacional. Si aplicas este enfoque, tu app no dependerá de momentos de brillantez puntual para mantenerse viva. Dependerá de un sistema de decisiones que funciona incluso cuando hay presión, cambios y crecimiento continuo.</p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="04-maestria-13-operacion-largo-plazo-y-deuda-tecnica-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Rule]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[Screen]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[RemoteDataSource]
+    I2[LocalDataSource]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ul>
 </section>
 <section id="04-maestria-14-primer-ano-en-equipo-android-real" class="lesson" data-topic-id="04-maestria-14-primer-ano-en-equipo-android-real" data-lesson-path="04-maestria/14-primer-ano-en-equipo-android-real.md">
 <div class="lesson-path">04-maestria/14-primer-ano-en-equipo-android-real.md</div>
@@ -7854,6 +10196,45 @@ class DeliveryDecisionWriter {
 <p>También te vas a encontrar con código legado que no diseñaste tú y que, a veces, parecerá incoherente. Aquí la respuesta profesional no es criticarlo sin más ni intentar reescribirlo entero. La respuesta es entender por qué llegó a ese estado y mejorar de forma incremental, dejando el sistema mejor de lo que estaba antes de tu cambio.</p>
 <p>Si mantienes este enfoque durante tu primer año, vas a notar un cambio profundo. Dejarás de medir tu progreso por cuántas tecnologías conoces y empezarás a medirlo por cuánta confianza generas en el equipo cuando entregas. Esa confianza, en Android y en cualquier stack, es una moneda muy valiosa.</p>
 <p>Esta lección cierra la ruta extendida del curso con una idea simple: crecer como ingeniero no es correr más, es decidir mejor de forma sostenida.</p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="04-maestria-14-primer-ano-en-equipo-android-real-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Rule]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[Screen]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[RemoteDataSource]
+    I2[LocalDataSource]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ul>
 </section>
 <section id="04-maestria-15-mapa-de-carrera-android-de-junior-a-senior" class="lesson" data-topic-id="04-maestria-15-mapa-de-carrera-android-de-junior-a-senior" data-lesson-path="04-maestria/15-mapa-de-carrera-android-de-junior-a-senior.md">
 <div class="lesson-path">04-maestria/15-mapa-de-carrera-android-de-junior-a-senior.md</div>
@@ -7882,6 +10263,45 @@ class CareerProgressEvaluator {
 <p>También es importante cuidar algo que casi nadie te dice al principio: tu reputación técnica se construye en los momentos incómodos. Cuando hay un bug difícil, cuando hay desacuerdo de arquitectura, cuando hay presión de release. En esos escenarios, la gente observa no solo si aciertas, sino cómo piensas y cómo colaboras.</p>
 <p>Si mantienes una práctica constante de decisiones explícitas, aprendizaje observable y comunicación clara, el crecimiento se vuelve acumulativo. No depende de “tener suerte” con un proyecto brillante. Depende de mostrar criterio de forma sostenida.</p>
 <p>Con esta lección cerramos de forma completa la ruta de Maestría. A partir de aquí, tu evolución profesional ya no necesita una guía lineal. Necesita práctica consciente, feedback honesto y decisiones cada vez más claras en sistemas reales.</p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="04-maestria-15-mapa-de-carrera-android-de-junior-a-senior-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Rule]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[Screen]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[RemoteDataSource]
+    I2[LocalDataSource]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ul>
 </section>
 <section id="04-maestria-16-cierre-definitivo-del-recorrido-android" class="lesson" data-topic-id="04-maestria-16-cierre-definitivo-del-recorrido-android" data-lesson-path="04-maestria/16-cierre-definitivo-del-recorrido-android.md">
 <div class="lesson-path">04-maestria/16-cierre-definitivo-del-recorrido-android.md</div>
@@ -7908,12 +10328,115 @@ class ReadinessNarrative {
 <p>Este código no busca calificarte como si esto fuera un examen. Lo que propone es una mirada equilibrada de crecimiento. Si solo mides habilidad de implementación y olvidas operación o comunicación, te faltará una parte clave del trabajo real. Cuando integras esas dimensiones, tu progreso se vuelve más estable y más transferible entre proyectos.</p>
 <p>A partir de aquí, la práctica diaria será tu mejor mentor. Cada bug que investigues, cada refactor que no rompa nada, cada decisión que puedas defender con datos y cada trade-off que expliques con honestidad va a consolidar lo que construiste en este curso.</p>
 <p>Con este cierre, el recorrido queda completo. Lo siguiente no es “otro módulo”, lo siguiente es tu etapa de aplicación real en producto, donde ya tienes criterio para decidir mejor y crear software Android que siga siendo mantenible cuando el contexto cambie.</p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="04-maestria-16-cierre-definitivo-del-recorrido-android-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Rule]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[Screen]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[RemoteDataSource]
+    I2[LocalDataSource]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ul>
 </section>
 <section id="05-proyecto-final-00-brief" class="lesson" data-topic-id="05-proyecto-final-00-brief" data-lesson-path="05-proyecto-final/00-brief.md">
 <div class="lesson-path">05-proyecto-final/00-brief.md</div>
 <h1 id="05-proyecto-final-00-brief-brief-del-proyecto-final">Brief del proyecto final</h1>
 <p>Este archivo existe para mantener compatibilidad con el plan de implementación y con las referencias pedagógicas que usan el nombre <code>00-brief.md</code>.</p>
 <p>El contenido oficial del proyecto final está en <a href="00-brief-ruralgo-fieldops.md"><code>00-brief-ruralgo-fieldops.md</code></a>. Ese documento define el alcance funcional, técnico y operativo de RuralGO FieldOps como producto vivo transversal del curso.</p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="05-proyecto-final-00-brief-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Rule]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[Screen]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[RemoteDataSource]
+    I2[LocalDataSource]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ul>
+<p><!-- auto-gapfix:layered-snippet --></p>
+<h2 id="05-proyecto-final-00-brief-snippet-de-referencia-por-capas">Snippet de referencia por capas</h2>
+<pre><code class="language-kotlin">interface FeaturePort {
+    suspend fun fetch(): List&lt;String&gt;
+}
+
+class FeatureUseCase(
+    private val port: FeaturePort
+) {
+    suspend operator fun invoke(): List&lt;String&gt; = port.fetch()
+}
+
+class FeatureViewModel(
+    private val useCase: FeatureUseCase
+) : ViewModel() {
+
+    private val _items = MutableStateFlow&lt;List&lt;String&gt;&gt;(emptyList())
+    val items: StateFlow&lt;List&lt;String&gt;&gt; = _items
+
+    fun load() {
+        viewModelScope.launch {
+            _items.value = runCatching { useCase() }.getOrDefault(emptyList())
+        }
+    }
+}</code></pre>
 </section>
 <section id="05-proyecto-final-00-brief-ruralgo-fieldops" class="lesson" data-topic-id="05-proyecto-final-00-brief-ruralgo-fieldops" data-lesson-path="05-proyecto-final/00-brief-ruralgo-fieldops.md">
 <div class="lesson-path">05-proyecto-final/00-brief-ruralgo-fieldops.md</div>
@@ -7952,6 +10475,45 @@ class SubmissionValidator {
     }
 }</code></pre>
 <p>Este bloque de código representa una idea simple pero decisiva: un proyecto profesional no se valida por intuición. Se valida por evidencias concretas de ejecución, calidad, rendimiento y capacidad de defender decisiones.</p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="05-proyecto-final-00-brief-ruralgo-fieldops-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Rule]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[Screen]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[RemoteDataSource]
+    I2[LocalDataSource]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ul>
 </section>
 <section id="05-proyecto-final-01-rubrica-empleabilidad" class="lesson" data-topic-id="05-proyecto-final-01-rubrica-empleabilidad" data-lesson-path="05-proyecto-final/01-rubrica-empleabilidad.md">
 <div class="lesson-path">05-proyecto-final/01-rubrica-empleabilidad.md</div>
@@ -7999,6 +10561,45 @@ class EmployabilityResultCalculator {
     }
 }</code></pre>
 <p>Ese código resume la intención pedagógica de este cierre. No basta con sumar puntos por piezas sueltas. Hay dimensiones que sostienen todo el sistema y, si faltan, no existe readiness profesional real.</p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="05-proyecto-final-01-rubrica-empleabilidad-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Rule]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[Screen]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[RemoteDataSource]
+    I2[LocalDataSource]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ul>
 </section>
 <section id="05-proyecto-final-02-evidencias-obligatorias" class="lesson" data-topic-id="05-proyecto-final-02-evidencias-obligatorias" data-lesson-path="05-proyecto-final/02-evidencias-obligatorias.md">
 <div class="lesson-path">05-proyecto-final/02-evidencias-obligatorias.md</div>
@@ -8030,6 +10631,45 @@ class EvidenceGate {
     }
 }</code></pre>
 <p>Este validador expresa el criterio de fondo: la preparación profesional no se aprueba por una buena demo aislada. Se aprueba cuando implementación, calidad, rendimiento, operación y release conviven en el mismo sistema y con evidencia verificable.</p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="05-proyecto-final-02-evidencias-obligatorias-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Rule]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[Screen]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[RemoteDataSource]
+    I2[LocalDataSource]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ul>
 </section>
 <section id="05-proyecto-final-03-operacion-senior" class="lesson" data-topic-id="05-proyecto-final-03-operacion-senior" data-lesson-path="05-proyecto-final/03-operacion-senior.md">
 <div class="lesson-path">05-proyecto-final/03-operacion-senior.md</div>
@@ -8069,6 +10709,45 @@ class SeniorOperationGate {
     }
 }</code></pre>
 <p>Este validador expresa la idea central del bloque Senior: no hay cierre real si la app no tiene una forma explícita de prevenir, detectar y recuperar bajo presión.</p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="05-proyecto-final-03-operacion-senior-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Rule]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[Screen]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[RemoteDataSource]
+    I2[LocalDataSource]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ul>
 </section>
 <section id="05-proyecto-final-04-gobernanza-maestria" class="lesson" data-topic-id="05-proyecto-final-04-gobernanza-maestria" data-lesson-path="05-proyecto-final/04-gobernanza-maestria.md">
 <div class="lesson-path">05-proyecto-final/04-gobernanza-maestria.md</div>
@@ -8111,6 +10790,45 @@ class MasteryGovernanceGate {
     }
 }</code></pre>
 <p>Este criterio evita una maestría superficial. La app puede estar estable, pero si no puede evolucionar con gobernanza clara, el costo futuro termina rompiendo la velocidad del equipo.</p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="05-proyecto-final-04-gobernanza-maestria-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Rule]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[Screen]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[RemoteDataSource]
+    I2[LocalDataSource]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ul>
 </section>
 <section id="anexos-glosario" class="lesson" data-topic-id="anexos-glosario" data-lesson-path="anexos/glosario.md">
 <div class="lesson-path">anexos/glosario.md</div>

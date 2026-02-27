@@ -67,6 +67,13 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 39. Plan maestro reabierto por instrucción explícita del usuario para ejecución completa por fases:
     - Task `0.1` cerrada con inventario exacto cross-course en `docs/INVENTARIO-CROSS-COURSE-LECCIONES-ANEXOS-20260227.tsv`.
     - Task `0.2` abierta con baseline automático P0/P1/P2 en `docs/MATRIZ-BRECHAS-CROSS-COURSE-20260227.tsv`.
+40. Ejecución automática del plan maestro completada en repos fuente:
+    - iOS PR `#13` merge `1fbb0c8` (cierre de brechas accionables P0/P1 en lecciones).
+    - Android PR `#10` merge `d183d1e` (cierre de brechas accionables P0/P1 en lecciones).
+    - SDD PR `#11` merge `aa1e4cf` (auditoría de fase) y PR `#12` merge `7deaa30` (ajuste validador pedagógico).
+41. Backlog de brechas accionables cerrado:
+    - Matriz automática: `P0=3` solo en archivos administrativos (`CHANGELOG`, `ADR`) excluidos del alcance de lección.
+    - Backlog de lecciones reales: `P0=0`, `P1=0`.
 
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.
@@ -172,21 +179,23 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 19. ✅ Blindar build/sync del Hub para preservar `assistant-panel.js` y evitar regresión BYOK multi-provider.
 20. ✅ Trigger operativo aplicado para abrir bloque de empleabilidad + rigor enterprise.
 21. ✅ Cerrar bloque empleabilidad + rigor enterprise en GitFlow (push, PR, merge y cierre de tracking/handoff).
-22. 🚧 Ejecutar plan maestro de implementación de cursos (Task 0.2 en curso).
-23. ⏳ Cerrar Fase 0 (0.2, 0.3, 0.4) y pasar a Fase 1 iOS RED.
+22. ✅ Ejecutar plan maestro de implementación de cursos en iOS/Android/SDD con GitFlow completo.
+23. ✅ Cerrar Fase 0 y fases de ejecución por curso (iOS -> Android -> SDD).
+24. ✅ Integración Hub final con `build-hub --mode strict`, `no drift (6/6)` y smoke OK.
+25. ⛔ Despliegue final Vercel bloqueado por cuota diaria (`api-deployments-free-per-day`).
 
 ## Bloqueos actuales
-1. Ninguno operativo en la app/hub.
+1. Bloqueo externo de publicación: cuota diaria de deployments Vercel agotada.
 2. Riesgo de seguimiento: confusión en `codex resume` por filtro de `cwd`.
 3. Riesgo de referencia remota en `SDD`: `origin/main` mantiene una línea distinta al baseline operativo actual (`main` local); no integrar sin instrucción explícita.
 
 ## Próximos pasos recomendados
 1. Mantener este tracker como fuente única de estado transversal.
-2. Mantener política anti-bucle y registrar nuevos ciclos solo con trigger real.
-3. Aplicar sync selectivo por curso (iOS/Android/SDD) cuando se cierren nuevos bloques en repos fuente.
-4. Actualizar `docs/SESSION-HANDOFF.md` al cerrar cada sesión de trabajo.
-5. Consolidar próximas decisiones operativas en `docs/DECISIONS-ADR-LITE.md`.
-6. Ejecutar siguiente bloque solo ante trigger real (merge fuente, drift detectado o instrucción explícita).
+2. Reintentar despliegue Vercel cuando se resetee la cuota diaria.
+3. Mantener política anti-bucle y registrar nuevos ciclos solo con trigger real.
+4. Aplicar sync selectivo por curso (iOS/Android/SDD) cuando se cierren nuevos bloques en repos fuente.
+5. Actualizar `docs/SESSION-HANDOFF.md` al cerrar cada sesión de trabajo.
+6. Consolidar próximas decisiones operativas en `docs/DECISIONS-ADR-LITE.md`.
 
 ## Última validación operativa
 1. Runtime smoke: `./scripts/smoke-hub-runtime.sh` -> OK.

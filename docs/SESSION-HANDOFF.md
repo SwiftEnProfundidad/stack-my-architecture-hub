@@ -48,6 +48,11 @@ Repos incluidos:
    - Android PR `#9` -> merge `483744f`.
    - SDD PR `#10` -> merge `6c2fa09`.
    - Hub PR `#33` -> merge `079bfbb`.
+   - Hub PR `#36` -> merge `c0b65a5` (inventario + matriz de brechas).
+   - iOS PR `#13` -> merge `1fbb0c8` (cierre de brechas accionables en lecciones).
+   - Android PR `#10` -> merge `d183d1e` (cierre de brechas accionables en lecciones).
+   - SDD PR `#11` -> merge `aa1e4cf` (auditoría plan maestro).
+   - SDD PR `#12` -> merge `7deaa30` (fix validador pedagógico en informe).
 4. Política operativa vigente:
    - no abrir una nueva task en `🚧` sin trigger real (merge fuente, drift detectado o instrucción explícita).
 5. Última evidencia técnica consolidada:
@@ -65,17 +70,16 @@ Repos incluidos:
      - `./scripts/build-hub.sh --mode strict` -> PASS.
      - `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
      - `./scripts/smoke-hub-runtime.sh` -> OK.
+     - intento `npx -y vercel deploy --prod --yes` -> BLOQUEADO por cuota diaria (`api-deployments-free-per-day`).
      - asserts BYOK en smoke:
        - `/ios/assets/assistant-panel.js` contiene `KEY_PROVIDER`.
        - `/android/assets/assistant-panel.js` contiene `KEY_PROVIDER`.
        - `/sdd/assets/assistant-panel.js` contiene `KEY_PROVIDER`.
 
 ## Trabajo en curso
-1. 🚧 Bloque activo: ejecución completa de `docs/PLAN-MAESTRO-IMPLEMENTACION-CURSOS-20260227.md`.
-2. Task cerrada en este bloque:
-   - `0.1` inventario exacto cross-course (`docs/INVENTARIO-CROSS-COURSE-LECCIONES-ANEXOS-20260227.tsv`).
-3. Task activa:
-   - `0.2` matriz de brechas por lección (baseline automático en `docs/MATRIZ-BRECHAS-CROSS-COURSE-20260227.tsv`, pendiente revisión manual).
+1. No hay task activa en construccion.
+2. Bloque cerrado: ejecución de `docs/PLAN-MAESTRO-IMPLEMENTACION-CURSOS-20260227.md` en repos fuente y Hub.
+3. Estado pendiente externo: despliegue final Vercel bloqueado por cuota diaria.
 
 ## Última comprobación de espera activa
 1. Fecha: 2026-02-27.
@@ -105,14 +109,15 @@ Repos incluidos:
 19. ✅ Blindar build/sync del Hub para preservar `assistant-panel.js` y evitar regresión BYOK multi-provider.
 20. ✅ Trigger real aplicado para abrir bloque de empleabilidad + rigor enterprise.
 21. ✅ Cierre GitFlow del bloque empleabilidad + rigor enterprise (4 repos + tracking final).
-22. 🚧 Ejecutar plan maestro de implementación de cursos (Task 0.2 en curso).
-23. ⏳ Cerrar Fase 0 y pasar a Fase 1 iOS RED.
+22. ✅ Ejecutar plan maestro de implementación de cursos (fases iOS -> Android -> SDD cerradas).
+23. ✅ Integración final Hub cerrada (`build-hub strict`, `no drift`, `smoke`).
+24. ⛔ Despliegue final Vercel bloqueado por cuota diaria (`api-deployments-free-per-day`).
 
 ## Siguiente paso concreto
 1. Mantener este paquete `docs/` como fuente de verdad transversal.
-2. Cerrar Task 0.2 con revisión manual de brechas (texto, visual, anexos) sobre baseline automático.
-3. Definir lotes atómicos (Task 0.3) y ejecutar Fase 1 iOS RED.
-4. Mantener commits atómicos y actualizar handoff al cerrar cada subfase.
+2. Reintentar despliegue final en Vercel cuando se resetee la cuota.
+3. Mantener commits atómicos al abrir próximo bloque operativo real.
+4. Actualizar handoff al cerrar cada bloque real.
 
 ## Riesgos abiertos
 1. `codex resume` filtra por `cwd` si no se usa `--all`.

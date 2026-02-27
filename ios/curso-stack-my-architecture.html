@@ -6,14 +6,14 @@
 <meta name="darkreader-lock">
 <meta name="course-id" content="stack-my-architecture-ios">
 <title>Stack: My Architecture iOS</title>
-<link rel="stylesheet" href="assets/study-ux.css?v=1772198396">
-<link rel="stylesheet" href="assets/course-switcher.css?v=1772198396">
-<link rel="stylesheet" href="assets/assistant-panel.css?v=1772198396">
-<script defer src="assets/study-ux.js?v=1772198396"></script>
-<script defer src="assets/course-switcher.js?v=1772198396"></script>
-<script defer src="assets/theme-controls.js?v=1772198396"></script>
-<script defer src="assets/assistant-panel.js?v=1772198396"></script>
-<script defer src="assets/assistant-bridge.js?v=1772198396"></script>
+<link rel="stylesheet" href="assets/study-ux.css?v=1772201907">
+<link rel="stylesheet" href="assets/course-switcher.css?v=1772201907">
+<link rel="stylesheet" href="assets/assistant-panel.css?v=1772201907">
+<script defer src="assets/study-ux.js?v=1772201907"></script>
+<script defer src="assets/course-switcher.js?v=1772201907"></script>
+<script defer src="assets/theme-controls.js?v=1772201907"></script>
+<script defer src="assets/assistant-panel.js?v=1772201907"></script>
+<script defer src="assets/assistant-bridge.js?v=1772201907"></script>
 
 <!-- Google Fonts - Inter -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1861,6 +1861,77 @@ blockquote p {
   <li>Aplica un cambio pequeno y verificable en el scaffold relacionado con esta leccion.</li>
 </ul>
 <p><strong>Siguiente:</strong> <a href="#00-core-mobile-01-marco-de-decisiones">Marco de decisiones arquitectónicas →</a></p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="00-core-mobile-00-introduccion-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Policy]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[View]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[API Client]
+    I2[Persistence Adapter]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ol>
+<p><!-- auto-gapfix:layered-snippet --></p>
+<h2 id="00-core-mobile-00-introduccion-snippet-de-referencia-por-capas">Snippet de referencia por capas</h2>
+<pre><code class="language-swift">protocol FeaturePort {
+    func fetch() async throws -&gt; [String]
+}
+
+final class FeatureUseCase {
+    private let port: FeaturePort
+
+    init(port: FeaturePort) {
+        self.port = port
+    }
+
+    func execute() async throws -&gt; [String] {
+        try await port.fetch()
+    }
+}
+
+@MainActor
+final class FeatureViewModel: ObservableObject {
+    @Published private(set) var items: [String] = []
+
+    private let useCase: FeatureUseCase
+
+    init(useCase: FeatureUseCase) {
+        self.useCase = useCase
+    }
+
+    func load() async {
+        items = (try? await useCase.execute()) ?? []
+    }
+}</code></pre>
 </section>
 <section id="00-core-mobile-01-marco-de-decisiones" class="lesson" data-topic-id="00-core-mobile-01-marco-de-decisiones" data-lesson-path="00-core-mobile/01-marco-de-decisiones.md">
 <div class="lesson-path">00-core-mobile/01-marco-de-decisiones.md</div>
@@ -2223,6 +2294,77 @@ blockquote p {
 <p>Regla central: evidence over opinion.</p>
 <hr>
 <p><strong>Anterior:</strong> <a href="#00-core-mobile-03-variabilidad-y-evolucion">Variabilidad y evolución sin caos ←</a> · <strong>Siguiente:</strong> <a href="#00-core-mobile-05-observabilidad-operacion">Observabilidad y operación →</a></p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="00-core-mobile-04-calidad-pr-ready-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Policy]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[View]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[API Client]
+    I2[Persistence Adapter]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ol>
+<p><!-- auto-gapfix:layered-snippet --></p>
+<h2 id="00-core-mobile-04-calidad-pr-ready-snippet-de-referencia-por-capas">Snippet de referencia por capas</h2>
+<pre><code class="language-swift">protocol FeaturePort {
+    func fetch() async throws -&gt; [String]
+}
+
+final class FeatureUseCase {
+    private let port: FeaturePort
+
+    init(port: FeaturePort) {
+        self.port = port
+    }
+
+    func execute() async throws -&gt; [String] {
+        try await port.fetch()
+    }
+}
+
+@MainActor
+final class FeatureViewModel: ObservableObject {
+    @Published private(set) var items: [String] = []
+
+    private let useCase: FeatureUseCase
+
+    init(useCase: FeatureUseCase) {
+        self.useCase = useCase
+    }
+
+    func load() async {
+        items = (try? await useCase.execute()) ?? []
+    }
+}</code></pre>
 </section>
 <section id="00-core-mobile-05-observabilidad-operacion" class="lesson" data-topic-id="00-core-mobile-05-observabilidad-operacion" data-lesson-path="00-core-mobile/05-observabilidad-operacion.md">
 <div class="lesson-path">00-core-mobile/05-observabilidad-operacion.md</div>
@@ -2287,6 +2429,77 @@ blockquote p {
   <li>&#9744; Puedo explicar el trade-off clave con mis palabras.</li>
 </ul>
 <p><strong>Anterior:</strong> <a href="#00-core-mobile-04-calidad-pr-ready">Calidad PR-ready ←</a> · <strong>Siguiente:</strong> <a href="#00-core-mobile-06-release-rollback-flags">Release, rollback y feature flags →</a></p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="00-core-mobile-05-observabilidad-operacion-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Policy]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[View]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[API Client]
+    I2[Persistence Adapter]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ol>
+<p><!-- auto-gapfix:layered-snippet --></p>
+<h2 id="00-core-mobile-05-observabilidad-operacion-snippet-de-referencia-por-capas">Snippet de referencia por capas</h2>
+<pre><code class="language-swift">protocol FeaturePort {
+    func fetch() async throws -&gt; [String]
+}
+
+final class FeatureUseCase {
+    private let port: FeaturePort
+
+    init(port: FeaturePort) {
+        self.port = port
+    }
+
+    func execute() async throws -&gt; [String] {
+        try await port.fetch()
+    }
+}
+
+@MainActor
+final class FeatureViewModel: ObservableObject {
+    @Published private(set) var items: [String] = []
+
+    private let useCase: FeatureUseCase
+
+    init(useCase: FeatureUseCase) {
+        self.useCase = useCase
+    }
+
+    func load() async {
+        items = (try? await useCase.execute()) ?? []
+    }
+}</code></pre>
 </section>
 <section id="00-core-mobile-06-release-rollback-flags" class="lesson" data-topic-id="00-core-mobile-06-release-rollback-flags" data-lesson-path="00-core-mobile/06-release-rollback-flags.md">
 <div class="lesson-path">00-core-mobile/06-release-rollback-flags.md</div>
@@ -2318,6 +2531,77 @@ blockquote p {
 </ul>
 <hr>
 <p><strong>Anterior:</strong> <a href="#00-core-mobile-05-observabilidad-operacion">Observabilidad y operación ←</a> · <strong>Siguiente:</strong> <a href="#00-core-mobile-07-apis-contratos-versionado">APIs, contratos y versionado →</a></p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="00-core-mobile-06-release-rollback-flags-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Policy]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[View]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[API Client]
+    I2[Persistence Adapter]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ol>
+<p><!-- auto-gapfix:layered-snippet --></p>
+<h2 id="00-core-mobile-06-release-rollback-flags-snippet-de-referencia-por-capas">Snippet de referencia por capas</h2>
+<pre><code class="language-swift">protocol FeaturePort {
+    func fetch() async throws -&gt; [String]
+}
+
+final class FeatureUseCase {
+    private let port: FeaturePort
+
+    init(port: FeaturePort) {
+        self.port = port
+    }
+
+    func execute() async throws -&gt; [String] {
+        try await port.fetch()
+    }
+}
+
+@MainActor
+final class FeatureViewModel: ObservableObject {
+    @Published private(set) var items: [String] = []
+
+    private let useCase: FeatureUseCase
+
+    init(useCase: FeatureUseCase) {
+        self.useCase = useCase
+    }
+
+    func load() async {
+        items = (try? await useCase.execute()) ?? []
+    }
+}</code></pre>
 </section>
 <section id="00-core-mobile-07-apis-contratos-versionado" class="lesson" data-topic-id="00-core-mobile-07-apis-contratos-versionado" data-lesson-path="00-core-mobile/07-apis-contratos-versionado.md">
 <div class="lesson-path">00-core-mobile/07-apis-contratos-versionado.md</div>
@@ -2397,6 +2681,77 @@ blockquote p {
 </ul>
 <hr>
 <p><strong>Anterior:</strong> <a href="#00-core-mobile-06-release-rollback-flags">Release, rollback y feature flags ←</a> · <strong>Siguiente:</strong> <a href="#00-core-mobile-08-seguridad-privacidad-threat-modeling">Seguridad, privacidad y threat modeling →</a></p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="00-core-mobile-07-apis-contratos-versionado-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Policy]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[View]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[API Client]
+    I2[Persistence Adapter]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ol>
+<p><!-- auto-gapfix:layered-snippet --></p>
+<h2 id="00-core-mobile-07-apis-contratos-versionado-snippet-de-referencia-por-capas">Snippet de referencia por capas</h2>
+<pre><code class="language-swift">protocol FeaturePort {
+    func fetch() async throws -&gt; [String]
+}
+
+final class FeatureUseCase {
+    private let port: FeaturePort
+
+    init(port: FeaturePort) {
+        self.port = port
+    }
+
+    func execute() async throws -&gt; [String] {
+        try await port.fetch()
+    }
+}
+
+@MainActor
+final class FeatureViewModel: ObservableObject {
+    @Published private(set) var items: [String] = []
+
+    private let useCase: FeatureUseCase
+
+    init(useCase: FeatureUseCase) {
+        self.useCase = useCase
+    }
+
+    func load() async {
+        items = (try? await useCase.execute()) ?? []
+    }
+}</code></pre>
 </section>
 <section id="00-core-mobile-08-seguridad-privacidad-threat-modeling" class="lesson" data-topic-id="00-core-mobile-08-seguridad-privacidad-threat-modeling" data-lesson-path="00-core-mobile/08-seguridad-privacidad-threat-modeling.md">
 <div class="lesson-path">00-core-mobile/08-seguridad-privacidad-threat-modeling.md</div>
@@ -2490,6 +2845,77 @@ blockquote p {
 <p>2026-06-30.</p>
 <hr>
 <p><strong>Anterior:</strong> <a href="#00-core-mobile-07-apis-contratos-versionado">APIs, contratos y versionado ←</a> · <strong>Siguiente:</strong> <a href="#00-core-mobile-09-dependency-governance-supply-chain">Dependency governance y supply chain →</a></p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="00-core-mobile-08-seguridad-privacidad-threat-modeling-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Policy]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[View]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[API Client]
+    I2[Persistence Adapter]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ol>
+<p><!-- auto-gapfix:layered-snippet --></p>
+<h2 id="00-core-mobile-08-seguridad-privacidad-threat-modeling-snippet-de-referencia-por-capas">Snippet de referencia por capas</h2>
+<pre><code class="language-swift">protocol FeaturePort {
+    func fetch() async throws -&gt; [String]
+}
+
+final class FeatureUseCase {
+    private let port: FeaturePort
+
+    init(port: FeaturePort) {
+        self.port = port
+    }
+
+    func execute() async throws -&gt; [String] {
+        try await port.fetch()
+    }
+}
+
+@MainActor
+final class FeatureViewModel: ObservableObject {
+    @Published private(set) var items: [String] = []
+
+    private let useCase: FeatureUseCase
+
+    init(useCase: FeatureUseCase) {
+        self.useCase = useCase
+    }
+
+    func load() async {
+        items = (try? await useCase.execute()) ?? []
+    }
+}</code></pre>
 </section>
 <section id="00-core-mobile-09-dependency-governance-supply-chain" class="lesson" data-topic-id="00-core-mobile-09-dependency-governance-supply-chain" data-lesson-path="00-core-mobile/09-dependency-governance-supply-chain.md">
 <div class="lesson-path">00-core-mobile/09-dependency-governance-supply-chain.md</div>
@@ -2535,6 +2961,77 @@ blockquote p {
   <li>Aplica un cambio pequeno y verificable en el scaffold relacionado con esta leccion.</li>
 </ul>
 <p><strong>Anterior:</strong> <a href="#00-core-mobile-08-seguridad-privacidad-threat-modeling">Seguridad, privacidad y threat modeling ←</a> · <strong>Siguiente:</strong> <a href="#00-core-mobile-10-plantillas">Plantillas operativas (con ejemplos reales) →</a></p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="00-core-mobile-09-dependency-governance-supply-chain-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Policy]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[View]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[API Client]
+    I2[Persistence Adapter]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ol>
+<p><!-- auto-gapfix:layered-snippet --></p>
+<h2 id="00-core-mobile-09-dependency-governance-supply-chain-snippet-de-referencia-por-capas">Snippet de referencia por capas</h2>
+<pre><code class="language-swift">protocol FeaturePort {
+    func fetch() async throws -&gt; [String]
+}
+
+final class FeatureUseCase {
+    private let port: FeaturePort
+
+    init(port: FeaturePort) {
+        self.port = port
+    }
+
+    func execute() async throws -&gt; [String] {
+        try await port.fetch()
+    }
+}
+
+@MainActor
+final class FeatureViewModel: ObservableObject {
+    @Published private(set) var items: [String] = []
+
+    private let useCase: FeatureUseCase
+
+    init(useCase: FeatureUseCase) {
+        self.useCase = useCase
+    }
+
+    func load() async {
+        items = (try? await useCase.execute()) ?? []
+    }
+}</code></pre>
 </section>
 <section id="00-core-mobile-10-plantillas" class="lesson" data-topic-id="00-core-mobile-10-plantillas" data-lesson-path="00-core-mobile/10-plantillas.md">
 <div class="lesson-path">00-core-mobile/10-plantillas.md</div>
@@ -2758,6 +3255,77 @@ blockquote p {
 <p><a href="#00-core-mobile-08-seguridad-privacidad-threat-modeling"><code>00-core-mobile/08-seguridad-privacidad-threat-modeling.md</code></a></p>
 <hr>
 <p><strong>Anterior:</strong> <a href="#00-core-mobile-09-dependency-governance-supply-chain">Dependency governance y supply chain ←</a> · <strong>Siguiente:</strong> <a href="#00-core-mobile-11-crosswalk-ios-android">Crosswalk iOS ↔ Android →</a></p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="00-core-mobile-10-plantillas-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Policy]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[View]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[API Client]
+    I2[Persistence Adapter]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ol>
+<p><!-- auto-gapfix:layered-snippet --></p>
+<h2 id="00-core-mobile-10-plantillas-snippet-de-referencia-por-capas">Snippet de referencia por capas</h2>
+<pre><code class="language-swift">protocol FeaturePort {
+    func fetch() async throws -&gt; [String]
+}
+
+final class FeatureUseCase {
+    private let port: FeaturePort
+
+    init(port: FeaturePort) {
+        self.port = port
+    }
+
+    func execute() async throws -&gt; [String] {
+        try await port.fetch()
+    }
+}
+
+@MainActor
+final class FeatureViewModel: ObservableObject {
+    @Published private(set) var items: [String] = []
+
+    private let useCase: FeatureUseCase
+
+    init(useCase: FeatureUseCase) {
+        self.useCase = useCase
+    }
+
+    func load() async {
+        items = (try? await useCase.execute()) ?? []
+    }
+}</code></pre>
 </section>
 <section id="00-core-mobile-11-crosswalk-ios-android" class="lesson" data-topic-id="00-core-mobile-11-crosswalk-ios-android" data-lesson-path="00-core-mobile/11-crosswalk-ios-android.md">
 <div class="lesson-path">00-core-mobile/11-crosswalk-ios-android.md</div>
@@ -2829,6 +3397,77 @@ blockquote p {
   <li>&#9744; Puedo explicar el trade-off clave con mis palabras.</li>
 </ul>
 <p><strong>Anterior:</strong> <a href="#00-core-mobile-10-plantillas">Plantillas operativas (con ejemplos reales) ←</a> · <strong>Siguiente:</strong> <a href="#00-core-mobile-12-mobile-architect-parity-ios-android">1) Purpose of This Document →</a></p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="00-core-mobile-11-crosswalk-ios-android-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Policy]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[View]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[API Client]
+    I2[Persistence Adapter]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ol>
+<p><!-- auto-gapfix:layered-snippet --></p>
+<h2 id="00-core-mobile-11-crosswalk-ios-android-snippet-de-referencia-por-capas">Snippet de referencia por capas</h2>
+<pre><code class="language-swift">protocol FeaturePort {
+    func fetch() async throws -&gt; [String]
+}
+
+final class FeatureUseCase {
+    private let port: FeaturePort
+
+    init(port: FeaturePort) {
+        self.port = port
+    }
+
+    func execute() async throws -&gt; [String] {
+        try await port.fetch()
+    }
+}
+
+@MainActor
+final class FeatureViewModel: ObservableObject {
+    @Published private(set) var items: [String] = []
+
+    private let useCase: FeatureUseCase
+
+    init(useCase: FeatureUseCase) {
+        self.useCase = useCase
+    }
+
+    func load() async {
+        items = (try? await useCase.execute()) ?? []
+    }
+}</code></pre>
 </section>
 <section id="00-core-mobile-12-mobile-architect-parity-ios-android" class="lesson" data-topic-id="00-core-mobile-12-mobile-architect-parity-ios-android" data-lesson-path="00-core-mobile/12-mobile-architect-parity-ios-android.md">
 <div class="lesson-path">00-core-mobile/12-mobile-architect-parity-ios-android.md</div>
@@ -2883,6 +3522,77 @@ blockquote p {
 <p>Bajo este marco, el valor del Mobile Architect no se mide por cantidad de código en dos plataformas, sino por calidad de decisiones, disciplina de evidencia y capacidad de sostener resultados técnicos bajo escrutinio.</p>
 <hr>
 <p><strong>Anterior:</strong> <a href="#00-core-mobile-11-crosswalk-ios-android">Crosswalk iOS ↔ Android ←</a> · <strong>Siguiente:</strong> <a href="#01-fundamentos-00-introduccion">Introducción al curso →</a></p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="00-core-mobile-12-mobile-architect-parity-ios-android-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Policy]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[View]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[API Client]
+    I2[Persistence Adapter]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ol>
+<p><!-- auto-gapfix:layered-snippet --></p>
+<h2 id="00-core-mobile-12-mobile-architect-parity-ios-android-snippet-de-referencia-por-capas">Snippet de referencia por capas</h2>
+<pre><code class="language-swift">protocol FeaturePort {
+    func fetch() async throws -&gt; [String]
+}
+
+final class FeatureUseCase {
+    private let port: FeaturePort
+
+    init(port: FeaturePort) {
+        self.port = port
+    }
+
+    func execute() async throws -&gt; [String] {
+        try await port.fetch()
+    }
+}
+
+@MainActor
+final class FeatureViewModel: ObservableObject {
+    @Published private(set) var items: [String] = []
+
+    private let useCase: FeatureUseCase
+
+    init(useCase: FeatureUseCase) {
+        self.useCase = useCase
+    }
+
+    func load() async {
+        items = (try? await useCase.execute()) ?? []
+    }
+}</code></pre>
 </section>
 <section id="01-fundamentos-00-introduccion" class="lesson" data-topic-id="01-fundamentos-00-introduccion" data-lesson-path="01-fundamentos/00-introduccion.md">
 <div class="lesson-path">01-fundamentos/00-introduccion.md</div>
@@ -3529,6 +4239,45 @@ sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer</code></pr
 <p>-</p>
 <hr>
 <p><strong>Anterior:</strong> <a href="#01-fundamentos-00-introduccion">Introducción al curso ←</a> · <strong>Siguiente:</strong> <a href="#01-fundamentos-01-principios-ingenieria">Principios de ingeniería →</a></p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="01-fundamentos-00-setup-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Policy]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[View]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[API Client]
+    I2[Persistence Adapter]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ol>
 </section>
 <section id="01-fundamentos-01-principios-ingenieria" class="lesson" data-topic-id="01-fundamentos-01-principios-ingenieria" data-lesson-path="01-fundamentos/01-principios-ingenieria.md">
 <div class="lesson-path">01-fundamentos/01-principios-ingenieria.md</div>
@@ -7825,6 +8574,45 @@ class LoginViewModel {
   <li>&#9744; Puedo explicar el trade-off clave con mis palabras.</li>
 </ul>
 <p><strong>Anterior:</strong> <a href="#01-fundamentos-05-feature-login-ADR-001-login">ADR-001: Diseño de la Feature Login ←</a> · <strong>Siguiente:</strong> <a href="#01-fundamentos-entregables-etapa-1">Entregables — Etapa 1: Junior →</a></p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="01-fundamentos-06-conectando-la-app-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Policy]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[View]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[API Client]
+    I2[Persistence Adapter]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ol>
 </section>
 <section id="01-fundamentos-entregables-etapa-1" class="lesson" data-topic-id="01-fundamentos-entregables-etapa-1" data-lesson-path="01-fundamentos/entregables-etapa-1.md">
 <div class="lesson-path">01-fundamentos/entregables-etapa-1.md</div>
@@ -7914,6 +8702,45 @@ class LoginViewModel {
 <p><strong>Esto ya es más de lo que sabías antes de empezar.</strong> Cada línea de código cuenta.</p>
 <hr>
 <p><strong>Anterior:</strong> <a href="#01-fundamentos-06-conectando-la-app">Conectando la App: Tu Primera App Funcional ←</a> · <strong>Siguiente:</strong> <a href="#02-integracion-00-introduccion">Etapa 2: Integración — Dos features que trabajan juntas s... →</a></p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="01-fundamentos-entregables-etapa-1-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Policy]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[View]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[API Client]
+    I2[Persistence Adapter]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ol>
 </section>
 <section id="02-integracion-00-introduccion" class="lesson" data-topic-id="02-integracion-00-introduccion" data-lesson-path="02-integracion/00-introduccion.md">
 <div class="lesson-path">02-integracion/00-introduccion.md</div>
@@ -23638,6 +24465,45 @@ anexos/adrs/ADR-EXCEPTION-*.md (si aplica)</code></pre>
 <h2 id="04-arquitecto-entregables-etapa-4-siguiente-etapa">Siguiente etapa</h2>
 <hr>
 <p><strong>Anterior:</strong> <a href="#04-arquitecto-06-quality-gates">Quality Gates ←</a> · <strong>Siguiente:</strong> <a href="#anexos-consolidacion-etapa-4-arquitecto">Consolidación: Etapa 4 - Arquitecto →</a></p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="04-arquitecto-entregables-etapa-4-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Policy]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[View]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[API Client]
+    I2[Persistence Adapter]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ol>
 </section>
 <section id="anexos-consolidacion-etapa-4-arquitecto" class="lesson" data-topic-id="anexos-consolidacion-etapa-4-arquitecto" data-lesson-path="anexos/consolidacion-etapa-4-arquitecto.md">
 <div class="lesson-path">anexos/consolidacion-etapa-4-arquitecto.md</div>
@@ -28890,6 +29756,45 @@ actor B {
 <hr>
 <hr>
 <p><strong>Anterior:</strong> <a href="#05-maestria-09-migracion-swift6">Migración a Swift 6 ←</a> · <strong>Siguiente:</strong> <a href="#05-maestria-11-entrevista-arquitecto">11. Cómo Hablar de Arquitectura en una Entrevista →</a></p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="05-maestria-10-debugging-xcode-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Policy]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[View]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[API Client]
+    I2[Persistence Adapter]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ol>
 </section>
 <section id="05-maestria-11-entrevista-arquitecto" class="lesson" data-topic-id="05-maestria-11-entrevista-arquitecto" data-lesson-path="05-maestria/11-entrevista-arquitecto.md">
 <div class="lesson-path">05-maestria/11-entrevista-arquitecto.md</div>
@@ -29003,6 +29908,77 @@ actor B {
 <p>Practica estas narrativas hasta que fluyan naturalmente, sin sonar memorizadas. La autenticidad es más convincente que la perfección.</p>
 <hr>
 <p><strong>Anterior:</strong> <a href="#05-maestria-10-debugging-xcode">Debugging en Xcode: Encuentra y arregla bugs como un prof... ←</a> · <strong>Siguiente:</strong> <a href="#05-maestria-12-arquitectura-adaptativa">12. Arquitectura Adaptativa: Más Allá del Patrón →</a></p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="05-maestria-11-entrevista-arquitecto-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Policy]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[View]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[API Client]
+    I2[Persistence Adapter]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ol>
+<p><!-- auto-gapfix:layered-snippet --></p>
+<h2 id="05-maestria-11-entrevista-arquitecto-snippet-de-referencia-por-capas">Snippet de referencia por capas</h2>
+<pre><code class="language-swift">protocol FeaturePort {
+    func fetch() async throws -&gt; [String]
+}
+
+final class FeatureUseCase {
+    private let port: FeaturePort
+
+    init(port: FeaturePort) {
+        self.port = port
+    }
+
+    func execute() async throws -&gt; [String] {
+        try await port.fetch()
+    }
+}
+
+@MainActor
+final class FeatureViewModel: ObservableObject {
+    @Published private(set) var items: [String] = []
+
+    private let useCase: FeatureUseCase
+
+    init(useCase: FeatureUseCase) {
+        self.useCase = useCase
+    }
+
+    func load() async {
+        items = (try? await useCase.execute()) ?? []
+    }
+}</code></pre>
 </section>
 <section id="05-maestria-12-arquitectura-adaptativa" class="lesson" data-topic-id="05-maestria-12-arquitectura-adaptativa" data-lesson-path="05-maestria/12-arquitectura-adaptativa.md">
 <div class="lesson-path">05-maestria/12-arquitectura-adaptativa.md</div>
@@ -29646,6 +30622,45 @@ HIPAA audit trail ────────────┘</code></pre>
 <p>> <em>"La arquitectura no es seguir recetas. Es entender qué estás cocinando, por qué, para quién, y bajo qué constraints. Las recetas son útiles, pero el chef adaptativo sabe cuándo improvisar."</em></p>
 <hr>
 <p><strong>Anterior:</strong> <a href="#05-maestria-11-entrevista-arquitecto">11. Cómo Hablar de Arquitectura en una Entrevista ←</a> · <strong>Siguiente:</strong> <a href="#05-maestria-entregables-etapa-5">Entregables Etapa 5 — Maestría →</a></p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="05-maestria-12-arquitectura-adaptativa-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Policy]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[View]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[API Client]
+    I2[Persistence Adapter]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ol>
 </section>
 <section id="05-maestria-entregables-etapa-5" class="lesson" data-topic-id="05-maestria-entregables-etapa-5" data-lesson-path="05-maestria/entregables-etapa-5.md">
 <div class="lesson-path">05-maestria/entregables-etapa-5.md</div>
@@ -30415,6 +31430,77 @@ HIPAA audit trail ────────────┘</code></pre>
 </table>
 <hr>
 <p><strong>Anterior:</strong> <a href="#05-maestria-entregables-etapa-5">Entregables Etapa 5 — Maestría ←</a> · <strong>Siguiente:</strong> <a href="#05-maestria-10-rubrica-final-02-evidencias-obligatorias-ios">Evidencias obligatorias iOS (cierre defendible) →</a></p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="05-maestria-10-rubrica-final-01-rubrica-empleabilidad-ios-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Policy]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[View]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[API Client]
+    I2[Persistence Adapter]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ol>
+<p><!-- auto-gapfix:layered-snippet --></p>
+<h2 id="05-maestria-10-rubrica-final-01-rubrica-empleabilidad-ios-snippet-de-referencia-por-capas">Snippet de referencia por capas</h2>
+<pre><code class="language-swift">protocol FeaturePort {
+    func fetch() async throws -&gt; [String]
+}
+
+final class FeatureUseCase {
+    private let port: FeaturePort
+
+    init(port: FeaturePort) {
+        self.port = port
+    }
+
+    func execute() async throws -&gt; [String] {
+        try await port.fetch()
+    }
+}
+
+@MainActor
+final class FeatureViewModel: ObservableObject {
+    @Published private(set) var items: [String] = []
+
+    private let useCase: FeatureUseCase
+
+    init(useCase: FeatureUseCase) {
+        self.useCase = useCase
+    }
+
+    func load() async {
+        items = (try? await useCase.execute()) ?? []
+    }
+}</code></pre>
 </section>
 <section id="05-maestria-10-rubrica-final-02-evidencias-obligatorias-ios" class="lesson" data-topic-id="05-maestria-10-rubrica-final-02-evidencias-obligatorias-ios" data-lesson-path="05-maestria/10-rubrica-final/02-evidencias-obligatorias-ios.md">
 <div class="lesson-path">05-maestria/10-rubrica-final/02-evidencias-obligatorias-ios.md</div>
@@ -30514,6 +31600,77 @@ HIPAA audit trail ────────────┘</code></pre>
   <li>Aplica un cambio pequeno y verificable en el scaffold relacionado con esta leccion.</li>
 </ul>
 <p><strong>Anterior:</strong> <a href="#05-maestria-10-rubrica-final-01-rubrica-empleabilidad-ios">Propósito y Alcance ←</a> · <strong>Siguiente:</strong> <a href="#05-maestria-10-rubrica-final-03-checklist-entrega-para-entrevista">Checklist de entrega para entrevista (1 página) →</a></p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="05-maestria-10-rubrica-final-02-evidencias-obligatorias-ios-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Policy]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[View]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[API Client]
+    I2[Persistence Adapter]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ol>
+<p><!-- auto-gapfix:layered-snippet --></p>
+<h2 id="05-maestria-10-rubrica-final-02-evidencias-obligatorias-ios-snippet-de-referencia-por-capas">Snippet de referencia por capas</h2>
+<pre><code class="language-swift">protocol FeaturePort {
+    func fetch() async throws -&gt; [String]
+}
+
+final class FeatureUseCase {
+    private let port: FeaturePort
+
+    init(port: FeaturePort) {
+        self.port = port
+    }
+
+    func execute() async throws -&gt; [String] {
+        try await port.fetch()
+    }
+}
+
+@MainActor
+final class FeatureViewModel: ObservableObject {
+    @Published private(set) var items: [String] = []
+
+    private let useCase: FeatureUseCase
+
+    init(useCase: FeatureUseCase) {
+        self.useCase = useCase
+    }
+
+    func load() async {
+        items = (try? await useCase.execute()) ?? []
+    }
+}</code></pre>
 </section>
 <section id="05-maestria-10-rubrica-final-03-checklist-entrega-para-entrevista" class="lesson" data-topic-id="05-maestria-10-rubrica-final-03-checklist-entrega-para-entrevista" data-lesson-path="05-maestria/10-rubrica-final/03-checklist-entrega-para-entrevista.md">
 <div class="lesson-path">05-maestria/10-rubrica-final/03-checklist-entrega-para-entrevista.md</div>
@@ -30557,6 +31714,77 @@ HIPAA audit trail ────────────┘</code></pre>
 <p>Se considera paquete defendible si un entrevistador puede seguir problema → decisión → evidencia → operación sin depender de promesas verbales.</p>
 <hr>
 <p><strong>Anterior:</strong> <a href="#05-maestria-10-rubrica-final-02-evidencias-obligatorias-ios">Evidencias obligatorias iOS (cierre defendible) ←</a> · <strong>Siguiente:</strong> <a href="#anexos-calentamiento-etapa-5-maestria">Calentamiento: Etapa 5 - Maestría →</a></p>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="05-maestria-10-rubrica-final-03-checklist-entrega-para-entrevista-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph CORE[Core / Domain]
+    C1[Entity]
+    C2[Policy]
+  end
+
+  subgraph APP[Application]
+    A1[UseCase]
+    A2[Port]
+  end
+
+  subgraph UI[Interface]
+    U1[ViewModel]
+    U2[View]
+  end
+
+  subgraph INFRA[Infrastructure]
+    I1[API Client]
+    I2[Persistence Adapter]
+  end
+
+  A1 --&gt; C1
+  A1 -.-&gt; A2
+  U1 -.o A1
+  A1 --o U1
+  A2 -.-&gt; I1
+  A2 -.-&gt; I2</pre>
+</div>
+<p>La lectura del diagrama sigue esta semantica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> contrato o abstraccion.</li>
+  <li><code>-.o</code> wiring o composicion.</li>
+  <li><code>--o</code> salida o propagacion de resultado.</li>
+</ol>
+<p><!-- auto-gapfix:layered-snippet --></p>
+<h2 id="05-maestria-10-rubrica-final-03-checklist-entrega-para-entrevista-snippet-de-referencia-por-capas">Snippet de referencia por capas</h2>
+<pre><code class="language-swift">protocol FeaturePort {
+    func fetch() async throws -&gt; [String]
+}
+
+final class FeatureUseCase {
+    private let port: FeaturePort
+
+    init(port: FeaturePort) {
+        self.port = port
+    }
+
+    func execute() async throws -&gt; [String] {
+        try await port.fetch()
+    }
+}
+
+@MainActor
+final class FeatureViewModel: ObservableObject {
+    @Published private(set) var items: [String] = []
+
+    private let useCase: FeatureUseCase
+
+    init(useCase: FeatureUseCase) {
+        self.useCase = useCase
+    }
+
+    func load() async {
+        items = (try? await useCase.execute()) ?? []
+    }
+}</code></pre>
 </section>
 <section id="anexos-calentamiento-etapa-5-maestria" class="lesson" data-topic-id="anexos-calentamiento-etapa-5-maestria" data-lesson-path="anexos/calentamiento-etapa-5-maestria.md">
 <div class="lesson-path">anexos/calentamiento-etapa-5-maestria.md</div>

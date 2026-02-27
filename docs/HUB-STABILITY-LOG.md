@@ -691,3 +691,34 @@ Se activo un bloque cross-course para elevar empleabilidad y rigor enterprise co
 
 ### Resultado
 Hub permanece estable tras el bloque de empleabilidad + rigor enterprise y mantiene rutas de cursos operativas sin regresion runtime.
+
+## Regresión post-ejecución completa del plan maestro (iOS -> Android -> SDD)
+### Fecha
+2026-02-27
+
+### Contexto
+Se ejecutó el plan maestro completo de corrección de brechas en lecciones con alcance sobre iOS, Android y SDD, seguido de integración final en Hub.
+
+### Evidencia versionada
+1. iOS PR `#13` -> merge `1fbb0c8`.
+2. Android PR `#10` -> merge `d183d1e`.
+3. SDD PR `#11` -> merge `aa1e4cf`.
+4. SDD PR `#12` -> merge `7deaa30`.
+5. Hub PR `#36` -> merge `c0b65a5` (fase 0 baseline inventario+matriz).
+
+### Verificación funcional
+1. `./scripts/build-hub.sh --mode strict` -> PASS.
+2. `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
+3. `./scripts/smoke-hub-runtime.sh` -> OK.
+4. Rutas runtime en verde:
+   - `/index.html`
+   - `/ios/index.html`
+   - `/android/index.html`
+   - `/sdd/index.html`
+
+### Incidencia externa
+Intento de despliegue final en Vercel bloqueado por cuota diaria:
+- `api-deployments-free-per-day` (retry sugerido al reset de cuota).
+
+### Resultado
+Hub queda estable y listo para publicación; único bloqueo activo es externo (cuota Vercel), sin regresión técnica en runtime local.
