@@ -387,3 +387,24 @@ Queda deprecado el uso de `-.o` en bloques pedagógicos auto-generados por riesg
 1. iOS/Android actualizan contenido y tooling para usar el nuevo estándar de 4 flechas.
 2. Los validadores de semántica Mermaid quedan alineados con el estándar robusto.
 3. El Hub recupera render consistente de diagramas sin regresión runtime.
+
+## ADR-LITE-022 — Render SVG del diagrama por capas para fidelidad visual estilo mock
+### Fecha
+2026-02-27
+
+### Decisión
+Para los diagramas de arquitectura por capas marcados como patrón `auto-gapfix`, el renderer de cursos deja de depender de Mermaid para layout y pasa a generar SVG inline con:
+1. módulos por capa (`Core/Domain`, `Application`, `Interface`, `Infrastructure`),
+2. nodos internos por módulo,
+3. flechas con semántica y color consistentes (`-->`, `-.->`, `==>`, `--o`),
+4. leyenda de flechas basada en iconos SVG (sin pseudo-elementos CSS).
+
+### Motivación
+1. La presentación Mermaid no garantizaba fidelidad visual al mock deseado.
+2. La leyenda con pseudo-elementos generaba desalineación de puntas y líneas.
+3. Se requiere consistencia visual estable en iOS, Android y SDD para la lectura pedagógica de arquitectura.
+
+### Impacto
+1. iOS/Android actualizan `scripts/build-html.py` para detectar patrón por capas y renderizar SVG.
+2. SDD adopta el mismo renderer y añade bloque por capas en `docs/final-defense/week16-architecture-narrative.md`.
+3. El Hub sincroniza bundles actualizados y mantiene validación en verde (`strict`, `no drift`, `smoke`).

@@ -55,6 +55,10 @@ Repos incluidos:
    - SDD PR `#12` -> merge `7deaa30` (fix validador pedagógico en informe).
    - iOS PR `#14` -> merge `e2a2e91` (reparación visual Mermaid post-cierre).
    - Android PR `#11` -> merge `03db5b8` (reparación visual Mermaid post-cierre).
+   - iOS PR `#15` -> merge `2208297` (diagrama por capas migrado a SVG estilo mock).
+   - Android PR `#12` -> merge `3896bad` (diagrama por capas migrado a SVG estilo mock).
+   - SDD PR `#13` -> merge `0338ba9` (week16 con diagrama por capas SVG estilo mock).
+   - Hub sync bundles -> commit `06ab4cc` (ios/android/sdd) en `chore/hub-sync-svg-architecture-20260227`.
 4. Política operativa vigente:
    - no abrir una nueva task en `🚧` sin trigger real (merge fuente, drift detectado o instrucción explícita).
 5. Última evidencia técnica consolidada:
@@ -73,6 +77,7 @@ Repos incluidos:
      - `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
      - `./scripts/smoke-hub-runtime.sh` -> OK.
      - corrección Mermaid post-cierre validada visualmente con Playwright (sin `Syntax error in text` en muestra iOS).
+     - arquitectura por capas SVG (estilo mock) sincronizada para iOS/Android/SDD con build strict en verde.
      - intento `npx -y vercel deploy --prod --yes` -> BLOQUEADO por cuota diaria (`api-deployments-free-per-day`).
      - asserts BYOK en smoke:
        - `/ios/assets/assistant-panel.js` contiene `KEY_PROVIDER`.
@@ -116,6 +121,7 @@ Repos incluidos:
 23. ✅ Integración final Hub cerrada (`build-hub strict`, `no drift`, `smoke`).
 24. ⛔ Despliegue final Vercel bloqueado por cuota diaria (`api-deployments-free-per-day`).
 25. ✅ Corrección visual Mermaid post-cierre integrada (fuentes iOS/Android + sync Hub).
+26. ✅ Arquitectura por capas estilo mock migrada a SVG en iOS/Android/SDD y publicada en Hub.
 
 ## Siguiente paso concreto
 1. Mantener este paquete `docs/` como fuente de verdad transversal.

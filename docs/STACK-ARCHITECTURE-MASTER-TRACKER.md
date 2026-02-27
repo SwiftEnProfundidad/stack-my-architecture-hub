@@ -78,6 +78,13 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
     - iOS PR `#14` merge `e2a2e91`.
     - Android PR `#11` merge `03db5b8`.
     - Scope: reemplazo de sintaxis problemática `-.o` por semántica robusta `-->`, `-.->`, `==>`, `--o`; ajuste de renderer + validador.
+43. Arquitectura por capas estilo mock migrada a SVG en cursos fuente:
+    - iOS PR `#15` merge `2208297`.
+    - Android PR `#12` merge `3896bad`.
+    - SDD PR `#13` merge `0338ba9` (incluye lección `week16-architecture-narrative` con patrón por capas).
+44. Sync selectivo de Hub publicado tras upgrade SVG de arquitectura:
+    - commit `06ab4cc` en branch `chore/hub-sync-svg-architecture-20260227`
+    - validación en verde: `build-hub --mode strict`, `check-selective-sync-drift -> no drift (6/6)`, `smoke-hub-runtime -> OK`.
 
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.
@@ -160,6 +167,11 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
     - Android PR `#9` (`feature/android-learning-gates-foundation-20260227` -> `develop`) merge `483744f`
     - SDD PR `#10` (`feature/sdd-learning-gates-foundation-20260227` -> `develop`) merge `6c2fa09`
     - Hub PR `#33` (`chore/hub-diagram-styleguide-foundation-20260227` -> `develop`) merge `079bfbb`
+35. Upgrade SVG de arquitectura estilo mock en repos fuente + sync Hub:
+    - iOS PR `#15` merge `2208297`
+    - Android PR `#12` merge `3896bad`
+    - SDD PR `#13` merge `0338ba9`
+    - Hub sync bundles commit `06ab4cc`
 
 ## Tablero operativo (solo 1 en construcción)
 1. ✅ Publicar sync selectivo cross-course iOS + Android + SDD en Hub (`c9cd8c3`).
@@ -188,6 +200,7 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 24. ✅ Integración Hub final con `build-hub --mode strict`, `no drift (6/6)` y smoke OK.
 25. ⛔ Despliegue final Vercel bloqueado por cuota diaria (`api-deployments-free-per-day`).
 26. ✅ Corrección visual Mermaid post-cierre integrada y validada en Hub (`build-hub strict`, `no drift`, `smoke`).
+27. ✅ Migración del diagrama por capas a SVG estilo mock (iOS/Android/SDD) + sync Hub validado.
 
 ## Bloqueos actuales
 1. Bloqueo externo de publicación: cuota diaria de deployments Vercel agotada.
