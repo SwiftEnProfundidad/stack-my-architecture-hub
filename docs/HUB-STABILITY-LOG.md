@@ -561,6 +561,54 @@ Se ejecutó cierre completo en repos fuente para agregar buscador live en navega
 ### Resultado
 Hub mantiene estabilidad operativa tras incorporar el buscador lateral en los 3 cursos y sincronizar publicación selectiva.
 
+## Regresión post-fix visual de sidebar sticky (indice + buscador) + sync selectivo
+### Fecha
+2026-02-27
+
+### Contexto
+Se reportó degradación visual en sidebar de cursos:
+1. el bloque de búsqueda se ocultaba al hacer scroll del menú,
+2. el título `INDICE` quedaba demasiado pegado arriba con clipping parcial.
+Se aplicó ajuste UX en repos fuente para fijar el bloque superior y aumentar separación vertical.
+
+### Evidencia versionada
+1. iOS:
+   - PR: `SwiftEnProfundidad/stack-my-architecture-ios#11`
+   - Merge commit: `0427c63`
+2. Android:
+   - PR: `SwiftEnProfundidad/stack-my-architecture-android#8`
+   - Merge commit: `1cf8fa4`
+3. SDD:
+   - PR: `SwiftEnProfundidad/stack-my-architecture#9`
+   - Merge commit: `bd2b6a3`
+4. Hub:
+   - Sync selectivo cross-course (`ios`, `android`, `sdd`) commit `ae04a43`
+   - branch: `fix/hub-sidebar-sticky-search-20260227`
+
+### Verificación funcional
+1. Repos fuente:
+   - iOS: `python3 scripts/build-html.py` -> PASS.
+   - Android: `python3 scripts/check-links.py && python3 scripts/build-html.py` -> PASS.
+   - SDD:
+     - `python3 scripts/validate-course-structure.py` -> PASS.
+     - `python3 scripts/validate-openspec.py` -> PASS.
+     - `python3 scripts/check-links.py` -> PASS.
+     - `python3 scripts/validate-pedagogy.py` -> PASS.
+     - `python3 scripts/validate-markdown-snippets.py` -> PASS.
+     - `python3 scripts/build-html.py` -> PASS.
+     - `swift test --package-path project/HelpdeskSDD` -> PASS.
+2. Hub:
+   - `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
+   - `./scripts/smoke-hub-runtime.sh` -> OK.
+3. Rutas verificadas dentro de smoke:
+   - `/index.html` -> OK
+   - `/ios/index.html` -> OK
+   - `/android/index.html` -> OK
+   - `/sdd/index.html` -> OK
+
+### Resultado
+Hub mantiene estabilidad operativa tras el fix visual del bloque sticky de navegación en los tres cursos.
+
 ## Nota operativa
 Si reaparece síntoma similar:
 1. Revisar `.runtime/hub.port` y `.runtime/hub.pid` del hub.

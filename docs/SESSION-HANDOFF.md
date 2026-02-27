@@ -24,22 +24,22 @@ Repos incluidos:
 3. Tag: `hub-stable-20260224`
 
 ## Último bloque operativo cerrado
-1. Buscador lateral de lecciones cerrado en orden iOS -> Android -> SDD + sync selectivo cross-course en Hub.
+1. Ajuste visual del buscador lateral cerrado en orden iOS -> Android -> SDD + sync selectivo cross-course en Hub.
 2. Acción aplicada:
-   - iOS: integración de buscador en sidebar generado (`input`, contador y filtro por título/path/sección).
-   - Android: integración equivalente de buscador en sidebar con comportamiento alineado.
-   - SDD: integración equivalente + validación completa de checklist de `AGENTS.md`.
+   - iOS: bloque `INDICE + buscador` encapsulado en `sidebar-top` sticky con separación superior adicional.
+   - Android: mismo ajuste visual/estructural para mantener consistencia de navegación.
+   - SDD: mismo ajuste visual/estructural + checklist completo `AGENTS.md` en verde.
    - ciclo RED-GREEN-REFACTOR aplicado:
-     - RED: detección de ausencia de búsqueda en navegación lateral de cursos.
-     - GREEN: implementación de UI + filtro live en los 3 generadores `scripts/build-html.py`.
-     - REFACTOR: homogeneización de UX (escape limpia búsqueda, `aria-live`, estilo consistente).
+     - RED: detección de clipping del título `INDICE` y pérdida de buscador al hacer scroll en menú.
+     - GREEN: implementación de `sidebar-top` sticky + padding superior + separador visual bajo buscador.
+     - REFACTOR: homogeneización del patrón CSS/HTML en los 3 `scripts/build-html.py`.
    - sync selectivo cross-course en Hub (`ios`, `android`, `sdd`) + verificación `no drift (6/6)`.
    - validación runtime en Hub por smoke test (rutas en verde).
 3. Evidencia versionada:
-   - iOS PR `#10` (`feature/ios-sidebar-search-20260227` -> `develop`) merge `e5cbf6a`.
-   - Android PR `#7` (`feature/android-sidebar-search-20260227` -> `develop`) merge `269ed6f`.
-   - SDD PR `#8` (`feature/sdd-sidebar-search-20260227` -> `develop`) merge `76f70dc`.
-   - Hub sync selectivo `ios/android/sdd` commit `f057c62` en `chore/hub-sync-sidebar-search-20260227`.
+   - iOS PR `#11` (`fix/ios-sidebar-sticky-search-20260227` -> `develop`) merge `0427c63`.
+   - Android PR `#8` (`fix/android-sidebar-sticky-search-20260227` -> `develop`) merge `1cf8fa4`.
+   - SDD PR `#9` (`fix/sdd-sidebar-sticky-search-20260227` -> `develop`) merge `bd2b6a3`.
+   - Hub sync selectivo `ios/android/sdd` commit `ae04a43` en `fix/hub-sidebar-sticky-search-20260227`.
 4. Política operativa vigente:
    - no abrir una nueva task en `🚧` sin trigger real (merge fuente, drift detectado o instrucción explícita).
 5. Última evidencia técnica consolidada:
@@ -87,7 +87,8 @@ Repos incluidos:
 15. ✅ Refuerzo pedagógico cross-course de semántica Mermaid (Android + SDD) + sync Hub.
 16. ✅ Cobertura total Mermaid en iOS -> Android -> SDD + sync Hub y plan versionado.
 17. ✅ Buscador lateral de lecciones en iOS/Android/SDD + sync selectivo Hub.
-18. ⏳ Próximo bloque operativo pendiente de trigger real.
+18. ✅ Fijar bloque `INDICE + buscador` al scroll y corregir separación superior para evitar clipping visual.
+19. ⏳ Próximo bloque operativo pendiente de trigger real.
 
 ## Siguiente paso concreto
 1. Mantener este paquete `docs/` como fuente de verdad transversal.
