@@ -58,6 +58,11 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 35. Buscador lateral de lecciones integrado en iOS/Android/SDD y publicado en Hub con sync selectivo estable.
 36. Ajuste UX del buscador lateral: bloque `INDICE + buscador` fijo al scroll y con separación superior corregida en iOS/Android/SDD.
 37. Guardrail de publicación aplicado en Hub: `build-hub.sh` preserva `assets/assistant-panel.js` de `ios/android/sdd` durante sync para no romper BYOK multi-provider.
+38. Bloque empleabilidad + rigor enterprise activado con plan versionado:
+    - Fase 1 cerrada en iOS/Android/SDD (matriz + rubrica + scorecard).
+    - Fase 2 cerrada con validadores nuevos de learning gates y semantica Mermaid (4 flechas).
+    - Fase 3 cerrada en Hub con guia y template de diagramas por capas/modulos/features.
+    - Fase 4 abierta para cierre GitFlow (commits atomicos + push + PR + merge + tracking final).
 
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.
@@ -156,7 +161,8 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 17. ✅ Incorporar buscador de lecciones en sidebar para iOS/Android/SDD y publicar sync selectivo en Hub.
 18. ✅ Fijar bloque `INDICE + buscador` al scroll de sidebar y corregir separación superior para evitar clipping visual.
 19. ✅ Blindar build/sync del Hub para preservar `assistant-panel.js` y evitar regresión BYOK multi-provider.
-20. ⏳ Próximo bloque operativo pendiente de trigger real (merge fuente, drift detectado o instrucción explícita).
+20. ✅ Trigger operativo aplicado para abrir bloque de empleabilidad + rigor enterprise.
+21. 🚧 Cerrar bloque empleabilidad + rigor enterprise en GitFlow (push, PR, merge y cierre de tracking/handoff).
 
 ## Bloqueos actuales
 1. Ninguno operativo en la app/hub.

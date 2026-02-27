@@ -645,3 +645,43 @@ Si reaparece síntoma similar:
 1. Revisar `.runtime/hub.port` y `.runtime/hub.pid` del hub.
 2. Validar `/health` + `/index.html` en el puerto activo.
 3. Reiniciar Hub con launcher actual.
+
+## Regresión post-baseline empleabilidad + rigor enterprise
+### Fecha
+2026-02-27
+
+### Contexto
+Se activo un bloque cross-course para elevar empleabilidad y rigor enterprise con artefactos nuevos en iOS, Android y SDD, mas validadores automaticos y guia de diagramas en Hub.
+
+### Incidencia detectada en RED
+1. `./scripts/build-hub.sh --mode strict` fallo inicialmente por gate pedagogico en SDD.
+2. Causa: los nuevos documentos en `00-informe/` no incluian bloque Mermaid ni artefacto no-Mermaid, requeridos por `scripts/validate-pedagogy.py`.
+3. Correccion aplicada: se anadieron diagrama Mermaid y snippet versionable en los 3 archivos de `00-informe/` del bloque.
+
+### Verificación funcional final
+1. iOS:
+   - `python3 scripts/validate-learning-gates.py` -> PASS.
+   - `python3 scripts/validate-diagram-semantics.py` -> PASS.
+   - `python3 scripts/build-html.py` -> PASS.
+2. Android:
+   - `python3 scripts/validate-learning-gates.py` -> PASS.
+   - `python3 scripts/validate-diagram-semantics.py` -> PASS.
+   - `python3 scripts/check-links.py` -> PASS.
+   - `python3 scripts/build-html.py` -> PASS.
+3. SDD:
+   - `python3 scripts/validate-learning-gates.py` -> PASS.
+   - `python3 scripts/validate-diagram-semantics.py` -> PASS.
+   - `python3 scripts/validate-course-structure.py` -> PASS.
+   - `python3 scripts/validate-openspec.py` -> PASS.
+   - `python3 scripts/check-links.py` -> PASS.
+   - `python3 scripts/validate-pedagogy.py` -> PASS.
+   - `python3 scripts/validate-markdown-snippets.py` -> PASS.
+   - `python3 scripts/build-html.py` -> PASS.
+   - `swift test --package-path project/HelpdeskSDD` -> PASS.
+4. Hub:
+   - `./scripts/build-hub.sh --mode strict` -> PASS.
+   - `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
+   - `./scripts/smoke-hub-runtime.sh` -> OK.
+
+### Resultado
+Hub permanece estable tras el bloque de empleabilidad + rigor enterprise y mantiene rutas de cursos operativas sin regresion runtime.
