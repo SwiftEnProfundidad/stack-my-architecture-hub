@@ -55,6 +55,7 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
     - Android: `10/10` lecciones con Mermaid en 4 flechas.
     - SDD: `157/157` lecciones con Mermaid (excluyendo `00-informe`) en 4 flechas.
 34. Plan operativo versionado para este bloque en `docs/PLAN-COBERTURA-TOTAL-FLECHAS-20260227.md`.
+35. Buscador lateral de lecciones integrado en iOS/Android/SDD y publicado en Hub con sync selectivo estable.
 
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.
@@ -118,6 +119,11 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
     - Android PR `#6` (`feature/android-arrow-semantics-full-coverage-20260227` -> `develop`) merge `a83b6ba`
     - SDD PR `#7` (`feature/sdd-arrow-semantics-full-coverage-20260227` -> `develop`) merge `b5c23fa`
     - Hub sync selectivo full coverage (`ios`, `android`, `sdd`) merge `dae0e49` (PR `#28`).
+31. Buscador lateral de lecciones cross-course + publicación Hub:
+    - iOS PR `#10` (`feature/ios-sidebar-search-20260227` -> `develop`) merge `e5cbf6a`
+    - Android PR `#7` (`feature/android-sidebar-search-20260227` -> `develop`) merge `269ed6f`
+    - SDD PR `#8` (`feature/sdd-sidebar-search-20260227` -> `develop`) merge `76f70dc`
+    - Hub sync selectivo (`ios`, `android`, `sdd`) commit `f057c62` en `chore/hub-sync-sidebar-search-20260227`
 
 ## Tablero operativo (solo 1 en construcción)
 1. ✅ Publicar sync selectivo cross-course iOS + Android + SDD en Hub (`c9cd8c3`).
@@ -136,7 +142,8 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 14. ✅ Reforzar semántica de flechas Mermaid en lecciones iOS con aplicación explícita en arquitectura real de la app ejemplo.
 15. ✅ Extender aplicación explícita de las 4 flechas Mermaid a Android + SDD y publicar sync selectivo cross-course en Hub.
 16. ✅ Cerrar cobertura total de semántica Mermaid en iOS -> Android -> SDD y publicar sync Hub (plan versionado).
-17. ⏳ Próximo bloque operativo pendiente de trigger real (merge fuente, drift detectado o instrucción explícita).
+17. ✅ Incorporar buscador de lecciones en sidebar para iOS/Android/SDD y publicar sync selectivo en Hub.
+18. ⏳ Próximo bloque operativo pendiente de trigger real (merge fuente, drift detectado o instrucción explícita).
 
 ## Bloqueos actuales
 1. Ninguno operativo en la app/hub.
@@ -253,6 +260,27 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
       - `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
       - `./scripts/smoke-hub-runtime.sh` -> OK.
       - plan de ejecucion: `docs/PLAN-COBERTURA-TOTAL-FLECHAS-20260227.md`.
+16. Validación técnica del bloque de buscador lateral cross-course:
+    - iOS:
+      - `python3 scripts/build-html.py` -> PASS.
+      - PR `#10` merge `e5cbf6a`.
+    - Android:
+      - `python3 scripts/check-links.py && python3 scripts/build-html.py` -> PASS.
+      - PR `#7` merge `269ed6f`.
+    - SDD:
+      - `python3 scripts/validate-course-structure.py` -> PASS.
+      - `python3 scripts/validate-openspec.py` -> PASS.
+      - `python3 scripts/check-links.py` -> PASS.
+      - `python3 scripts/validate-pedagogy.py` -> PASS.
+      - `python3 scripts/validate-markdown-snippets.py` -> PASS.
+      - `python3 scripts/build-html.py` -> PASS.
+      - `swift test --package-path project/HelpdeskSDD` -> PASS.
+      - PR `#8` merge `76f70dc`.
+    - Hub:
+      - `./scripts/build-hub.sh --mode strict` -> PASS.
+      - `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
+      - `./scripts/smoke-hub-runtime.sh` -> OK.
+      - sync selectivo versionado: `f057c62` (`chore(hub): sync course bundles with sidebar search`).
 
 ## Referencias de estabilidad del Hub
 1. Commit: `1940c7d`

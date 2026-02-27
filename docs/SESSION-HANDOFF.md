@@ -24,34 +24,35 @@ Repos incluidos:
 3. Tag: `hub-stable-20260224`
 
 ## Último bloque operativo cerrado
-1. Cobertura total de semántica Mermaid cerrada en orden iOS -> Android -> SDD + sync selectivo full coverage en Hub.
+1. Buscador lateral de lecciones cerrado en orden iOS -> Android -> SDD + sync selectivo cross-course en Hub.
 2. Acción aplicada:
-   - iOS: normalización completa en lecciones con Mermaid pendientes hasta dejar `58/58` con `-->`, `-.->`, `-.o`, `--o`.
-   - Android: normalización completa en lecciones con Mermaid pendientes hasta dejar `10/10` con 4 flechas.
-   - SDD: normalización completa por semanas (excluyendo `00-informe`) hasta dejar `157/157` con 4 flechas.
+   - iOS: integración de buscador en sidebar generado (`input`, contador y filtro por título/path/sección).
+   - Android: integración equivalente de buscador en sidebar con comportamiento alineado.
+   - SDD: integración equivalente + validación completa de checklist de `AGENTS.md`.
    - ciclo RED-GREEN-REFACTOR aplicado:
-     - RED: medición de cobertura por repo y detección de brechas.
-     - GREEN: inserción de bloque semántico en lecciones pendientes.
-     - REFACTOR: homogeneización de redacción y commits atómicos por etapa/semana.
+     - RED: detección de ausencia de búsqueda en navegación lateral de cursos.
+     - GREEN: implementación de UI + filtro live en los 3 generadores `scripts/build-html.py`.
+     - REFACTOR: homogeneización de UX (escape limpia búsqueda, `aria-live`, estilo consistente).
    - sync selectivo cross-course en Hub (`ios`, `android`, `sdd`) + verificación `no drift (6/6)`.
    - validación runtime en Hub por smoke test (rutas en verde).
-   - plan de ejecución versionado:
-     - `docs/PLAN-COBERTURA-TOTAL-FLECHAS-20260227.md`
 3. Evidencia versionada:
-   - iOS PR `#9` (`feature/ios-arrow-semantics-full-coverage-20260227` -> `develop`) merge `062ac6d`.
-   - Android PR `#6` (`feature/android-arrow-semantics-full-coverage-20260227` -> `develop`) merge `a83b6ba`.
-   - SDD PR `#7` (`feature/sdd-arrow-semantics-full-coverage-20260227` -> `develop`) merge `b5c23fa`.
-   - Hub sync full coverage merge `dae0e49` (PR `#28`).
+   - iOS PR `#10` (`feature/ios-sidebar-search-20260227` -> `develop`) merge `e5cbf6a`.
+   - Android PR `#7` (`feature/android-sidebar-search-20260227` -> `develop`) merge `269ed6f`.
+   - SDD PR `#8` (`feature/sdd-sidebar-search-20260227` -> `develop`) merge `76f70dc`.
+   - Hub sync selectivo `ios/android/sdd` commit `f057c62` en `chore/hub-sync-sidebar-search-20260227`.
 4. Política operativa vigente:
    - no abrir una nueva task en `🚧` sin trigger real (merge fuente, drift detectado o instrucción explícita).
 5. Última evidencia técnica consolidada:
-   - Cobertura lecciones (no anexos) con 4 flechas Mermaid:
-     - iOS: `58/58`
-     - Android: `10/10`
-     - SDD: `157/157` (excluyendo `00-informe`)
    - iOS: `python3 scripts/build-html.py` -> PASS.
    - Android: `python3 scripts/check-links.py && python3 scripts/build-html.py` -> PASS.
-   - SDD: `python3 scripts/check-links.py && python3 scripts/validate-markdown-snippets.py && python3 scripts/build-html.py` -> PASS.
+   - SDD:
+     - `python3 scripts/validate-course-structure.py` -> PASS.
+     - `python3 scripts/validate-openspec.py` -> PASS.
+     - `python3 scripts/check-links.py` -> PASS.
+     - `python3 scripts/validate-pedagogy.py` -> PASS.
+     - `python3 scripts/validate-markdown-snippets.py` -> PASS.
+     - `python3 scripts/build-html.py` -> PASS.
+     - `swift test --package-path project/HelpdeskSDD` -> PASS.
    - Hub: `./scripts/build-hub.sh --mode strict` -> PASS.
    - Hub: `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
    - Hub: `./scripts/smoke-hub-runtime.sh` -> OK.
@@ -85,7 +86,8 @@ Repos incluidos:
 14. ✅ Refuerzo pedagógico iOS: aplicación explícita de las 4 flechas Mermaid en lecciones de arquitectura de la app ejemplo.
 15. ✅ Refuerzo pedagógico cross-course de semántica Mermaid (Android + SDD) + sync Hub.
 16. ✅ Cobertura total Mermaid en iOS -> Android -> SDD + sync Hub y plan versionado.
-17. ⏳ Próximo bloque operativo pendiente de trigger real.
+17. ✅ Buscador lateral de lecciones en iOS/Android/SDD + sync selectivo Hub.
+18. ⏳ Próximo bloque operativo pendiente de trigger real.
 
 ## Siguiente paso concreto
 1. Mantener este paquete `docs/` como fuente de verdad transversal.
