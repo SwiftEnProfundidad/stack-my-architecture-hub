@@ -6,14 +6,14 @@
 <meta name="darkreader-lock">
 <meta name="course-id" content="stack-my-architecture-ios">
 <title>Stack: My Architecture iOS</title>
-<link rel="stylesheet" href="assets/study-ux.css?v=1772150456">
-<link rel="stylesheet" href="assets/course-switcher.css?v=1772150456">
-<link rel="stylesheet" href="assets/assistant-panel.css?v=1772150456">
-<script defer src="assets/study-ux.js?v=1772150456"></script>
-<script defer src="assets/course-switcher.js?v=1772150456"></script>
-<script defer src="assets/theme-controls.js?v=1772150456"></script>
-<script defer src="assets/assistant-panel.js?v=1772150456"></script>
-<script defer src="assets/assistant-bridge.js?v=1772150456"></script>
+<link rel="stylesheet" href="assets/study-ux.css?v=1772186709">
+<link rel="stylesheet" href="assets/course-switcher.css?v=1772186709">
+<link rel="stylesheet" href="assets/assistant-panel.css?v=1772186709">
+<script defer src="assets/study-ux.js?v=1772186709"></script>
+<script defer src="assets/course-switcher.js?v=1772186709"></script>
+<script defer src="assets/theme-controls.js?v=1772186709"></script>
+<script defer src="assets/assistant-panel.js?v=1772186709"></script>
+<script defer src="assets/assistant-bridge.js?v=1772186709"></script>
 
 <!-- Google Fonts - Inter -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1866,6 +1866,41 @@ blockquote p {
   <li>Aplica un cambio pequeno y verificable en el scaffold relacionado con esta leccion.</li>
 </ul>
 <p><strong>Anterior:</strong> <a href="#00-core-mobile-00-introduccion">Core Mobile Architecture ←</a> · <strong>Siguiente:</strong> <a href="#00-core-mobile-02-invariantes-y-contratos">Invariantes y contratos →</a></p>
+<p><!-- semantica-flechas:auto --></p>
+<h2 id="00-core-mobile-01-marco-de-decisiones-semantica-de-flechas-aplicada-a-esta-arquitectura">Semantica de flechas aplicada a esta arquitectura</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+    subgraph APP[&quot;App / Composition module&quot;]
+        CR[&quot;CompositionRoot&quot;]
+        COORD[&quot;AppCoordinator&quot;]
+    end
+
+    subgraph FEATURE[&quot;Feature module&quot;]
+        VM[&quot;FeatureViewModel&quot;]
+        UC[&quot;UseCase&quot;]
+        PORT[&quot;Repository protocol&quot;]
+    end
+
+    subgraph INFRA[&quot;Infrastructure module&quot;]
+        ADAPTER[&quot;RemoteRepository adapter&quot;]
+        STORE[&quot;LocalStore&quot;]
+    end
+
+    CR -.-&gt; COORD
+    CR -.-&gt; ADAPTER
+    VM --&gt; UC
+    UC -.o PORT
+    ADAPTER --o PORT
+    ADAPTER --&gt; STORE</pre>
+</div>
+<p>Lectura semantica minima de este diagrama:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+</ol>
 </section>
 <section id="00-core-mobile-02-invariantes-y-contratos" class="lesson" data-topic-id="00-core-mobile-02-invariantes-y-contratos" data-lesson-path="00-core-mobile/02-invariantes-y-contratos.md">
 <div class="lesson-path">00-core-mobile/02-invariantes-y-contratos.md</div>
@@ -1923,6 +1958,41 @@ blockquote p {
   <li>&#9744; Puedo explicar el trade-off clave con mis palabras.</li>
 </ul>
 <p><strong>Anterior:</strong> <a href="#00-core-mobile-01-marco-de-decisiones">Marco de decisiones arquitectónicas ←</a> · <strong>Siguiente:</strong> <a href="#00-core-mobile-03-variabilidad-y-evolucion">Variabilidad y evolución sin caos →</a></p>
+<p><!-- semantica-flechas:auto --></p>
+<h2 id="00-core-mobile-02-invariantes-y-contratos-semantica-de-flechas-aplicada-a-esta-arquitectura">Semantica de flechas aplicada a esta arquitectura</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+    subgraph APP[&quot;App / Composition module&quot;]
+        CR[&quot;CompositionRoot&quot;]
+        COORD[&quot;AppCoordinator&quot;]
+    end
+
+    subgraph FEATURE[&quot;Feature module&quot;]
+        VM[&quot;FeatureViewModel&quot;]
+        UC[&quot;UseCase&quot;]
+        PORT[&quot;Repository protocol&quot;]
+    end
+
+    subgraph INFRA[&quot;Infrastructure module&quot;]
+        ADAPTER[&quot;RemoteRepository adapter&quot;]
+        STORE[&quot;LocalStore&quot;]
+    end
+
+    CR -.-&gt; COORD
+    CR -.-&gt; ADAPTER
+    VM --&gt; UC
+    UC -.o PORT
+    ADAPTER --o PORT
+    ADAPTER --&gt; STORE</pre>
+</div>
+<p>Lectura semantica minima de este diagrama:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+</ol>
 </section>
 <section id="00-core-mobile-03-variabilidad-y-evolucion" class="lesson" data-topic-id="00-core-mobile-03-variabilidad-y-evolucion" data-lesson-path="00-core-mobile/03-variabilidad-y-evolucion.md">
 <div class="lesson-path">00-core-mobile/03-variabilidad-y-evolucion.md</div>
@@ -1989,6 +2059,41 @@ blockquote p {
   <li>Aplica un cambio pequeno y verificable en el scaffold relacionado con esta leccion.</li>
 </ul>
 <p><strong>Anterior:</strong> <a href="#00-core-mobile-02-invariantes-y-contratos">Invariantes y contratos ←</a> · <strong>Siguiente:</strong> <a href="#00-core-mobile-04-calidad-pr-ready">Calidad PR-ready →</a></p>
+<p><!-- semantica-flechas:auto --></p>
+<h2 id="00-core-mobile-03-variabilidad-y-evolucion-semantica-de-flechas-aplicada-a-esta-arquitectura">Semantica de flechas aplicada a esta arquitectura</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+    subgraph APP[&quot;App / Composition module&quot;]
+        CR[&quot;CompositionRoot&quot;]
+        COORD[&quot;AppCoordinator&quot;]
+    end
+
+    subgraph FEATURE[&quot;Feature module&quot;]
+        VM[&quot;FeatureViewModel&quot;]
+        UC[&quot;UseCase&quot;]
+        PORT[&quot;Repository protocol&quot;]
+    end
+
+    subgraph INFRA[&quot;Infrastructure module&quot;]
+        ADAPTER[&quot;RemoteRepository adapter&quot;]
+        STORE[&quot;LocalStore&quot;]
+    end
+
+    CR -.-&gt; COORD
+    CR -.-&gt; ADAPTER
+    VM --&gt; UC
+    UC -.o PORT
+    ADAPTER --o PORT
+    ADAPTER --&gt; STORE</pre>
+</div>
+<p>Lectura semantica minima de este diagrama:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+</ol>
 </section>
 <section id="00-core-mobile-04-calidad-pr-ready" class="lesson" data-topic-id="00-core-mobile-04-calidad-pr-ready" data-lesson-path="00-core-mobile/04-calidad-pr-ready.md">
 <div class="lesson-path">00-core-mobile/04-calidad-pr-ready.md</div>
@@ -2982,6 +3087,41 @@ blockquote p {
   <li>Revisa y completa los entregables oficiales aqui: <a href="#01-fundamentos-entregables-etapa-1">entregables-etapa-1.md</a>.</li>
 </ul>
 <p><strong>Anterior:</strong> <a href="#00-core-mobile-12-mobile-architect-parity-ios-android">1) Purpose of This Document ←</a> · <strong>Siguiente:</strong> <a href="#01-fundamentos-00-setup">Setup: Preparación del entorno →</a></p>
+<p><!-- semantica-flechas:auto --></p>
+<h2 id="01-fundamentos-00-introduccion-semantica-de-flechas-aplicada-a-esta-arquitectura">Semantica de flechas aplicada a esta arquitectura</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+    subgraph APP[&quot;App / Composition module&quot;]
+        CR[&quot;CompositionRoot&quot;]
+        COORD[&quot;AppCoordinator&quot;]
+    end
+
+    subgraph FEATURE[&quot;Feature module&quot;]
+        VM[&quot;FeatureViewModel&quot;]
+        UC[&quot;UseCase&quot;]
+        PORT[&quot;Repository protocol&quot;]
+    end
+
+    subgraph INFRA[&quot;Infrastructure module&quot;]
+        ADAPTER[&quot;RemoteRepository adapter&quot;]
+        STORE[&quot;LocalStore&quot;]
+    end
+
+    CR -.-&gt; COORD
+    CR -.-&gt; ADAPTER
+    VM --&gt; UC
+    UC -.o PORT
+    ADAPTER --o PORT
+    ADAPTER --&gt; STORE</pre>
+</div>
+<p>Lectura semantica minima de este diagrama:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+</ol>
 </section>
 <section id="01-fundamentos-00-setup" class="lesson" data-topic-id="01-fundamentos-00-setup" data-lesson-path="01-fundamentos/00-setup.md">
 <div class="lesson-path">01-fundamentos/00-setup.md</div>
@@ -3479,6 +3619,41 @@ sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer</code></pr
   <li>&#9744; Puedo explicar el trade-off clave con mis palabras.</li>
 </ul>
 <p><strong>Anterior:</strong> <a href="#01-fundamentos-00-setup">Setup: Preparación del entorno ←</a> · <strong>Siguiente:</strong> <a href="#01-fundamentos-02-metodologia-bdd-tdd">Metodología BDD: especificación y descubrimiento →</a></p>
+<p><!-- semantica-flechas:auto --></p>
+<h2 id="01-fundamentos-01-principios-ingenieria-semantica-de-flechas-aplicada-a-esta-arquitectura">Semantica de flechas aplicada a esta arquitectura</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+    subgraph APP[&quot;App / Composition module&quot;]
+        CR[&quot;CompositionRoot&quot;]
+        COORD[&quot;AppCoordinator&quot;]
+    end
+
+    subgraph FEATURE[&quot;Feature module&quot;]
+        VM[&quot;FeatureViewModel&quot;]
+        UC[&quot;UseCase&quot;]
+        PORT[&quot;Repository protocol&quot;]
+    end
+
+    subgraph INFRA[&quot;Infrastructure module&quot;]
+        ADAPTER[&quot;RemoteRepository adapter&quot;]
+        STORE[&quot;LocalStore&quot;]
+    end
+
+    CR -.-&gt; COORD
+    CR -.-&gt; ADAPTER
+    VM --&gt; UC
+    UC -.o PORT
+    ADAPTER --o PORT
+    ADAPTER --&gt; STORE</pre>
+</div>
+<p>Lectura semantica minima de este diagrama:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+</ol>
 </section>
 <section id="01-fundamentos-02-metodologia-bdd-tdd" class="lesson" data-topic-id="01-fundamentos-02-metodologia-bdd-tdd" data-lesson-path="01-fundamentos/02-metodologia-bdd-tdd.md">
 <div class="lesson-path">01-fundamentos/02-metodologia-bdd-tdd.md</div>
@@ -3650,6 +3825,41 @@ Then rechaza el email                         } catch {
   <li>&#9744; Puedo explicar el trade-off clave con mis palabras.</li>
 </ul>
 <p><strong>Anterior:</strong> <a href="#01-fundamentos-01-principios-ingenieria">Principios de ingeniería ←</a> · <strong>Siguiente:</strong> <a href="#01-fundamentos-02-metodologia-tdd-practica">Metodología TDD: práctica Red-Green-Refactor →</a></p>
+<p><!-- semantica-flechas:auto --></p>
+<h2 id="01-fundamentos-02-metodologia-bdd-tdd-semantica-de-flechas-aplicada-a-esta-arquitectura">Semantica de flechas aplicada a esta arquitectura</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+    subgraph APP[&quot;App / Composition module&quot;]
+        CR[&quot;CompositionRoot&quot;]
+        COORD[&quot;AppCoordinator&quot;]
+    end
+
+    subgraph FEATURE[&quot;Feature module&quot;]
+        VM[&quot;FeatureViewModel&quot;]
+        UC[&quot;UseCase&quot;]
+        PORT[&quot;Repository protocol&quot;]
+    end
+
+    subgraph INFRA[&quot;Infrastructure module&quot;]
+        ADAPTER[&quot;RemoteRepository adapter&quot;]
+        STORE[&quot;LocalStore&quot;]
+    end
+
+    CR -.-&gt; COORD
+    CR -.-&gt; ADAPTER
+    VM --&gt; UC
+    UC -.o PORT
+    ADAPTER --o PORT
+    ADAPTER --&gt; STORE</pre>
+</div>
+<p>Lectura semantica minima de este diagrama:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+</ol>
 </section>
 <section id="01-fundamentos-02-metodologia-tdd-practica" class="lesson" data-topic-id="01-fundamentos-02-metodologia-tdd-practica" data-lesson-path="01-fundamentos/02-metodologia-tdd-practica.md">
 <div class="lesson-path">01-fundamentos/02-metodologia-tdd-practica.md</div>
@@ -3989,6 +4199,41 @@ struct InMemoryProductStore: ProductStore {
   <li>&#9744; Puedo explicar el trade-off clave con mis palabras.</li>
 </ul>
 <p><strong>Anterior:</strong> <a href="#01-fundamentos-02-metodologia-bdd-tdd">Metodología BDD: especificación y descubrimiento ←</a> · <strong>Siguiente:</strong> <a href="#01-fundamentos-03-stack-tecnologico">Stack tecnológico →</a></p>
+<p><!-- semantica-flechas:auto --></p>
+<h2 id="01-fundamentos-02-metodologia-tdd-practica-semantica-de-flechas-aplicada-a-esta-arquitectura">Semantica de flechas aplicada a esta arquitectura</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+    subgraph APP[&quot;App / Composition module&quot;]
+        CR[&quot;CompositionRoot&quot;]
+        COORD[&quot;AppCoordinator&quot;]
+    end
+
+    subgraph FEATURE[&quot;Feature module&quot;]
+        VM[&quot;FeatureViewModel&quot;]
+        UC[&quot;UseCase&quot;]
+        PORT[&quot;Repository protocol&quot;]
+    end
+
+    subgraph INFRA[&quot;Infrastructure module&quot;]
+        ADAPTER[&quot;RemoteRepository adapter&quot;]
+        STORE[&quot;LocalStore&quot;]
+    end
+
+    CR -.-&gt; COORD
+    CR -.-&gt; ADAPTER
+    VM --&gt; UC
+    UC -.o PORT
+    ADAPTER --o PORT
+    ADAPTER --&gt; STORE</pre>
+</div>
+<p>Lectura semantica minima de este diagrama:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+</ol>
 </section>
 <section id="01-fundamentos-03-stack-tecnologico" class="lesson" data-topic-id="01-fundamentos-03-stack-tecnologico" data-lesson-path="01-fundamentos/03-stack-tecnologico.md">
 <div class="lesson-path">01-fundamentos/03-stack-tecnologico.md</div>
@@ -4193,6 +4438,41 @@ struct InMemoryProductStore: ProductStore {
   <li>&#9744; Puedo explicar el trade-off clave con mis palabras.</li>
 </ul>
 <p><strong>Anterior:</strong> <a href="#01-fundamentos-02-metodologia-tdd-practica">Metodología TDD: práctica Red-Green-Refactor ←</a> · <strong>Siguiente:</strong> <a href="#01-fundamentos-04-estructura-feature-first">Estructura Feature-First: paso a paso en Xcode →</a></p>
+<p><!-- semantica-flechas:auto --></p>
+<h2 id="01-fundamentos-03-stack-tecnologico-semantica-de-flechas-aplicada-a-esta-arquitectura">Semantica de flechas aplicada a esta arquitectura</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+    subgraph APP[&quot;App / Composition module&quot;]
+        CR[&quot;CompositionRoot&quot;]
+        COORD[&quot;AppCoordinator&quot;]
+    end
+
+    subgraph FEATURE[&quot;Feature module&quot;]
+        VM[&quot;FeatureViewModel&quot;]
+        UC[&quot;UseCase&quot;]
+        PORT[&quot;Repository protocol&quot;]
+    end
+
+    subgraph INFRA[&quot;Infrastructure module&quot;]
+        ADAPTER[&quot;RemoteRepository adapter&quot;]
+        STORE[&quot;LocalStore&quot;]
+    end
+
+    CR -.-&gt; COORD
+    CR -.-&gt; ADAPTER
+    VM --&gt; UC
+    UC -.o PORT
+    ADAPTER --o PORT
+    ADAPTER --&gt; STORE</pre>
+</div>
+<p>Lectura semantica minima de este diagrama:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+</ol>
 </section>
 <section id="01-fundamentos-04-estructura-feature-first" class="lesson" data-topic-id="01-fundamentos-04-estructura-feature-first" data-lesson-path="01-fundamentos/04-estructura-feature-first.md">
 <div class="lesson-path">01-fundamentos/04-estructura-feature-first.md</div>
@@ -4344,6 +4624,41 @@ struct InMemoryProductStore: ProductStore {
   <li>&#9744; Puedo explicar el trade-off clave con mis palabras.</li>
 </ul>
 <p><strong>Anterior:</strong> <a href="#01-fundamentos-03-stack-tecnologico">Stack tecnológico ←</a> · <strong>Siguiente:</strong> <a href="#01-fundamentos-05-feature-login-00-especificacion-bdd">Feature Login: Especificación BDD →</a></p>
+<p><!-- semantica-flechas:auto --></p>
+<h2 id="01-fundamentos-04-estructura-feature-first-semantica-de-flechas-aplicada-a-esta-arquitectura">Semantica de flechas aplicada a esta arquitectura</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+    subgraph APP[&quot;App / Composition module&quot;]
+        CR[&quot;CompositionRoot&quot;]
+        COORD[&quot;AppCoordinator&quot;]
+    end
+
+    subgraph FEATURE[&quot;Feature module&quot;]
+        VM[&quot;FeatureViewModel&quot;]
+        UC[&quot;UseCase&quot;]
+        PORT[&quot;Repository protocol&quot;]
+    end
+
+    subgraph INFRA[&quot;Infrastructure module&quot;]
+        ADAPTER[&quot;RemoteRepository adapter&quot;]
+        STORE[&quot;LocalStore&quot;]
+    end
+
+    CR -.-&gt; COORD
+    CR -.-&gt; ADAPTER
+    VM --&gt; UC
+    UC -.o PORT
+    ADAPTER --o PORT
+    ADAPTER --&gt; STORE</pre>
+</div>
+<p>Lectura semantica minima de este diagrama:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+</ol>
 </section>
 <section id="01-fundamentos-05-feature-login-00-especificacion-bdd" class="lesson" data-topic-id="01-fundamentos-05-feature-login-00-especificacion-bdd" data-lesson-path="01-fundamentos/05-feature-login/00-especificacion-bdd.md">
 <div class="lesson-path">01-fundamentos/05-feature-login/00-especificacion-bdd.md</div>
@@ -4581,6 +4896,41 @@ Scenario: Login exitoso con credenciales válidas
 <hr>
 <hr>
 <p><strong>Anterior:</strong> <a href="#01-fundamentos-04-estructura-feature-first">Estructura Feature-First: paso a paso en Xcode ←</a> · <strong>Siguiente:</strong> <a href="#01-fundamentos-05-feature-login-01-domain">Feature Login: Capa Domain →</a></p>
+<p><!-- semantica-flechas:auto --></p>
+<h2 id="01-fundamentos-05-feature-login-00-especificacion-bdd-semantica-de-flechas-aplicada-a-esta-arquitectura">Semantica de flechas aplicada a esta arquitectura</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+    subgraph APP[&quot;App / Composition module&quot;]
+        CR[&quot;CompositionRoot&quot;]
+        COORD[&quot;AppCoordinator&quot;]
+    end
+
+    subgraph FEATURE[&quot;Feature module&quot;]
+        VM[&quot;FeatureViewModel&quot;]
+        UC[&quot;UseCase&quot;]
+        PORT[&quot;Repository protocol&quot;]
+    end
+
+    subgraph INFRA[&quot;Infrastructure module&quot;]
+        ADAPTER[&quot;RemoteRepository adapter&quot;]
+        STORE[&quot;LocalStore&quot;]
+    end
+
+    CR -.-&gt; COORD
+    CR -.-&gt; ADAPTER
+    VM --&gt; UC
+    UC -.o PORT
+    ADAPTER --o PORT
+    ADAPTER --&gt; STORE</pre>
+</div>
+<p>Lectura semantica minima de este diagrama:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+</ol>
 </section>
 <section id="01-fundamentos-05-feature-login-01-domain" class="lesson" data-topic-id="01-fundamentos-05-feature-login-01-domain" data-lesson-path="01-fundamentos/05-feature-login/01-domain.md">
 <div class="lesson-path">01-fundamentos/05-feature-login/01-domain.md</div>
@@ -4991,6 +5341,41 @@ struct Session: Equatable, Sendable {
   <li>Aplica un cambio pequeno y verificable en el scaffold relacionado con esta leccion.</li>
 </ul>
 <p><strong>Anterior:</strong> <a href="#01-fundamentos-05-feature-login-00-especificacion-bdd">Feature Login: Especificación BDD ←</a> · <strong>Siguiente:</strong> <a href="#01-fundamentos-05-feature-login-02-application">Feature Login: Capa Application →</a></p>
+<p><!-- semantica-flechas:auto --></p>
+<h2 id="01-fundamentos-05-feature-login-01-domain-semantica-de-flechas-aplicada-a-esta-arquitectura">Semantica de flechas aplicada a esta arquitectura</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+    subgraph APP[&quot;App / Composition module&quot;]
+        CR[&quot;CompositionRoot&quot;]
+        COORD[&quot;AppCoordinator&quot;]
+    end
+
+    subgraph FEATURE[&quot;Feature module&quot;]
+        VM[&quot;FeatureViewModel&quot;]
+        UC[&quot;UseCase&quot;]
+        PORT[&quot;Repository protocol&quot;]
+    end
+
+    subgraph INFRA[&quot;Infrastructure module&quot;]
+        ADAPTER[&quot;RemoteRepository adapter&quot;]
+        STORE[&quot;LocalStore&quot;]
+    end
+
+    CR -.-&gt; COORD
+    CR -.-&gt; ADAPTER
+    VM --&gt; UC
+    UC -.o PORT
+    ADAPTER --o PORT
+    ADAPTER --&gt; STORE</pre>
+</div>
+<p>Lectura semantica minima de este diagrama:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+</ol>
 </section>
 <section id="01-fundamentos-05-feature-login-02-application" class="lesson" data-topic-id="01-fundamentos-05-feature-login-02-application" data-lesson-path="01-fundamentos/05-feature-login/02-application.md">
 <div class="lesson-path">01-fundamentos/05-feature-login/02-application.md</div>
@@ -5592,6 +5977,41 @@ final class LoginUseCaseTests: XCTestCase {
   <li>&#9744; Puedo explicar el trade-off clave con mis palabras.</li>
 </ul>
 <p><strong>Anterior:</strong> <a href="#01-fundamentos-05-feature-login-01-domain">Feature Login: Capa Domain ←</a> · <strong>Siguiente:</strong> <a href="#01-fundamentos-05-feature-login-03-infrastructure">Feature Login: Capa Infrastructure →</a></p>
+<p><!-- semantica-flechas:auto --></p>
+<h2 id="01-fundamentos-05-feature-login-02-application-semantica-de-flechas-aplicada-a-esta-arquitectura">Semantica de flechas aplicada a esta arquitectura</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+    subgraph APP[&quot;App / Composition module&quot;]
+        CR[&quot;CompositionRoot&quot;]
+        COORD[&quot;AppCoordinator&quot;]
+    end
+
+    subgraph FEATURE[&quot;Feature module&quot;]
+        VM[&quot;FeatureViewModel&quot;]
+        UC[&quot;UseCase&quot;]
+        PORT[&quot;Repository protocol&quot;]
+    end
+
+    subgraph INFRA[&quot;Infrastructure module&quot;]
+        ADAPTER[&quot;RemoteRepository adapter&quot;]
+        STORE[&quot;LocalStore&quot;]
+    end
+
+    CR -.-&gt; COORD
+    CR -.-&gt; ADAPTER
+    VM --&gt; UC
+    UC -.o PORT
+    ADAPTER --o PORT
+    ADAPTER --&gt; STORE</pre>
+</div>
+<p>Lectura semantica minima de este diagrama:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+</ol>
 </section>
 <section id="01-fundamentos-05-feature-login-03-infrastructure" class="lesson" data-topic-id="01-fundamentos-05-feature-login-03-infrastructure" data-lesson-path="01-fundamentos/05-feature-login/03-infrastructure.md">
 <div class="lesson-path">01-fundamentos/05-feature-login/03-infrastructure.md</div>
@@ -6020,6 +6440,41 @@ return Session(token: authResponse.access_token!, email: credentials.email.value
   <li>&#9744; Puedo explicar el trade-off clave con mis palabras.</li>
 </ul>
 <p><strong>Anterior:</strong> <a href="#01-fundamentos-05-feature-login-02-application">Feature Login: Capa Application ←</a> · <strong>Siguiente:</strong> <a href="#01-fundamentos-05-feature-login-04-interface-swiftui">Feature Login: Capa Interface (SwiftUI) →</a></p>
+<p><!-- semantica-flechas:auto --></p>
+<h2 id="01-fundamentos-05-feature-login-03-infrastructure-semantica-de-flechas-aplicada-a-esta-arquitectura">Semantica de flechas aplicada a esta arquitectura</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+    subgraph APP[&quot;App / Composition module&quot;]
+        CR[&quot;CompositionRoot&quot;]
+        COORD[&quot;AppCoordinator&quot;]
+    end
+
+    subgraph FEATURE[&quot;Feature module&quot;]
+        VM[&quot;FeatureViewModel&quot;]
+        UC[&quot;UseCase&quot;]
+        PORT[&quot;Repository protocol&quot;]
+    end
+
+    subgraph INFRA[&quot;Infrastructure module&quot;]
+        ADAPTER[&quot;RemoteRepository adapter&quot;]
+        STORE[&quot;LocalStore&quot;]
+    end
+
+    CR -.-&gt; COORD
+    CR -.-&gt; ADAPTER
+    VM --&gt; UC
+    UC -.o PORT
+    ADAPTER --o PORT
+    ADAPTER --&gt; STORE</pre>
+</div>
+<p>Lectura semantica minima de este diagrama:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+</ol>
 </section>
 <section id="01-fundamentos-05-feature-login-04-interface-swiftui" class="lesson" data-topic-id="01-fundamentos-05-feature-login-04-interface-swiftui" data-lesson-path="01-fundamentos/05-feature-login/04-interface-swiftui.md">
 <div class="lesson-path">01-fundamentos/05-feature-login/04-interface-swiftui.md</div>
@@ -6568,6 +7023,41 @@ struct StackMyArchitectureApp: App {
   <li>&#9744; Puedo explicar el trade-off clave con mis palabras.</li>
 </ul>
 <p><strong>Anterior:</strong> <a href="#01-fundamentos-05-feature-login-03-infrastructure">Feature Login: Capa Infrastructure ←</a> · <strong>Siguiente:</strong> <a href="#01-fundamentos-05-feature-login-05-tdd-ciclo-completo">Feature Login: Retrospectiva del ciclo TDD completo →</a></p>
+<p><!-- semantica-flechas:auto --></p>
+<h2 id="01-fundamentos-05-feature-login-04-interface-swiftui-semantica-de-flechas-aplicada-a-esta-arquitectura">Semantica de flechas aplicada a esta arquitectura</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+    subgraph APP[&quot;App / Composition module&quot;]
+        CR[&quot;CompositionRoot&quot;]
+        COORD[&quot;AppCoordinator&quot;]
+    end
+
+    subgraph FEATURE[&quot;Feature module&quot;]
+        VM[&quot;FeatureViewModel&quot;]
+        UC[&quot;UseCase&quot;]
+        PORT[&quot;Repository protocol&quot;]
+    end
+
+    subgraph INFRA[&quot;Infrastructure module&quot;]
+        ADAPTER[&quot;RemoteRepository adapter&quot;]
+        STORE[&quot;LocalStore&quot;]
+    end
+
+    CR -.-&gt; COORD
+    CR -.-&gt; ADAPTER
+    VM --&gt; UC
+    UC -.o PORT
+    ADAPTER --o PORT
+    ADAPTER --&gt; STORE</pre>
+</div>
+<p>Lectura semantica minima de este diagrama:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+</ol>
 </section>
 <section id="01-fundamentos-05-feature-login-05-tdd-ciclo-completo" class="lesson" data-topic-id="01-fundamentos-05-feature-login-05-tdd-ciclo-completo" data-lesson-path="01-fundamentos/05-feature-login/05-tdd-ciclo-completo.md">
 <div class="lesson-path">01-fundamentos/05-feature-login/05-tdd-ciclo-completo.md</div>
@@ -6829,6 +7319,41 @@ client.receivedRequests.first?.httpBody   // → el JSON del body</code></pre>
   <li>&#9744; Puedo explicar el trade-off clave con mis palabras.</li>
 </ul>
 <p><strong>Anterior:</strong> <a href="#01-fundamentos-05-feature-login-04-interface-swiftui">Feature Login: Capa Interface (SwiftUI) ←</a> · <strong>Siguiente:</strong> <a href="#01-fundamentos-05-feature-login-ADR-001-login">ADR-001: Diseño de la Feature Login →</a></p>
+<p><!-- semantica-flechas:auto --></p>
+<h2 id="01-fundamentos-05-feature-login-05-tdd-ciclo-completo-semantica-de-flechas-aplicada-a-esta-arquitectura">Semantica de flechas aplicada a esta arquitectura</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+    subgraph APP[&quot;App / Composition module&quot;]
+        CR[&quot;CompositionRoot&quot;]
+        COORD[&quot;AppCoordinator&quot;]
+    end
+
+    subgraph FEATURE[&quot;Feature module&quot;]
+        VM[&quot;FeatureViewModel&quot;]
+        UC[&quot;UseCase&quot;]
+        PORT[&quot;Repository protocol&quot;]
+    end
+
+    subgraph INFRA[&quot;Infrastructure module&quot;]
+        ADAPTER[&quot;RemoteRepository adapter&quot;]
+        STORE[&quot;LocalStore&quot;]
+    end
+
+    CR -.-&gt; COORD
+    CR -.-&gt; ADAPTER
+    VM --&gt; UC
+    UC -.o PORT
+    ADAPTER --o PORT
+    ADAPTER --&gt; STORE</pre>
+</div>
+<p>Lectura semantica minima de este diagrama:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+</ol>
 </section>
 <section id="01-fundamentos-05-feature-login-ADR-001-login" class="lesson" data-topic-id="01-fundamentos-05-feature-login-ADR-001-login" data-lesson-path="01-fundamentos/05-feature-login/ADR-001-login.md">
 <div class="lesson-path">01-fundamentos/05-feature-login/ADR-001-login.md</div>
@@ -7666,6 +8191,41 @@ class LoginViewModel {
   <li>Revisa y completa los entregables oficiales aqui: <a href="#02-integracion-entregables-etapa-2">entregables-etapa-2.md</a>.</li>
 </ul>
 <p><strong>Anterior:</strong> <a href="#01-fundamentos-entregables-etapa-1">Entregables — Etapa 1: Junior ←</a> · <strong>Siguiente:</strong> <a href="#02-integracion-01-feature-catalog-00-especificacion-bdd">Feature Catalog: Especificación BDD →</a></p>
+<p><!-- semantica-flechas:auto --></p>
+<h2 id="02-integracion-00-introduccion-semantica-de-flechas-aplicada-a-esta-arquitectura">Semantica de flechas aplicada a esta arquitectura</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+    subgraph APP[&quot;App / Composition module&quot;]
+        CR[&quot;CompositionRoot&quot;]
+        COORD[&quot;AppCoordinator&quot;]
+    end
+
+    subgraph FEATURE[&quot;Feature module&quot;]
+        VM[&quot;FeatureViewModel&quot;]
+        UC[&quot;UseCase&quot;]
+        PORT[&quot;Repository protocol&quot;]
+    end
+
+    subgraph INFRA[&quot;Infrastructure module&quot;]
+        ADAPTER[&quot;RemoteRepository adapter&quot;]
+        STORE[&quot;LocalStore&quot;]
+    end
+
+    CR -.-&gt; COORD
+    CR -.-&gt; ADAPTER
+    VM --&gt; UC
+    UC -.o PORT
+    ADAPTER --o PORT
+    ADAPTER --&gt; STORE</pre>
+</div>
+<p>Lectura semantica minima de este diagrama:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+</ol>
 </section>
 <section id="02-integracion-01-feature-catalog-00-especificacion-bdd" class="lesson" data-topic-id="02-integracion-01-feature-catalog-00-especificacion-bdd" data-lesson-path="02-integracion/01-feature-catalog/00-especificacion-bdd.md">
 <div class="lesson-path">02-integracion/01-feature-catalog/00-especificacion-bdd.md</div>
@@ -8040,6 +8600,41 @@ Scenario: Carga exitosa con productos disponibles
 <p>Con esta especificación cerrada, ya se puede implementar con TDD sin improvisar comportamiento.</p>
 <hr>
 <p><strong>Anterior:</strong> <a href="#02-integracion-00-introduccion">Etapa 2: Integración — Dos features que trabajan juntas s... ←</a> · <strong>Siguiente:</strong> <a href="#02-integracion-01-feature-catalog-01-domain">Feature Catalog: Capa Domain →</a></p>
+<p><!-- semantica-flechas:auto --></p>
+<h2 id="02-integracion-01-feature-catalog-00-especificacion-bdd-semantica-de-flechas-aplicada-a-esta-arquitectura">Semantica de flechas aplicada a esta arquitectura</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+    subgraph APP[&quot;App / Composition module&quot;]
+        CR[&quot;CompositionRoot&quot;]
+        COORD[&quot;AppCoordinator&quot;]
+    end
+
+    subgraph FEATURE[&quot;Feature module&quot;]
+        VM[&quot;FeatureViewModel&quot;]
+        UC[&quot;UseCase&quot;]
+        PORT[&quot;Repository protocol&quot;]
+    end
+
+    subgraph INFRA[&quot;Infrastructure module&quot;]
+        ADAPTER[&quot;RemoteRepository adapter&quot;]
+        STORE[&quot;LocalStore&quot;]
+    end
+
+    CR -.-&gt; COORD
+    CR -.-&gt; ADAPTER
+    VM --&gt; UC
+    UC -.o PORT
+    ADAPTER --o PORT
+    ADAPTER --&gt; STORE</pre>
+</div>
+<p>Lectura semantica minima de este diagrama:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+</ol>
 </section>
 <section id="02-integracion-01-feature-catalog-01-domain" class="lesson" data-topic-id="02-integracion-01-feature-catalog-01-domain" data-lesson-path="02-integracion/01-feature-catalog/01-domain.md">
 <div class="lesson-path">02-integracion/01-feature-catalog/01-domain.md</div>
@@ -8348,6 +8943,41 @@ final class ProductDomainTests: XCTestCase {
 <p>Si puedes cambiar proveedor de datos o presentación sin renombrar conceptos de negocio (<code>Product</code>, <code>Price</code>, <code>CatalogError</code>), el dominio está bien aislado.</p>
 <hr>
 <p><strong>Anterior:</strong> <a href="#02-integracion-01-feature-catalog-00-especificacion-bdd">Feature Catalog: Especificación BDD ←</a> · <strong>Siguiente:</strong> <a href="#02-integracion-01-feature-catalog-02-application">Feature Catalog: Capa Application →</a></p>
+<p><!-- semantica-flechas:auto --></p>
+<h2 id="02-integracion-01-feature-catalog-01-domain-semantica-de-flechas-aplicada-a-esta-arquitectura">Semantica de flechas aplicada a esta arquitectura</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+    subgraph APP[&quot;App / Composition module&quot;]
+        CR[&quot;CompositionRoot&quot;]
+        COORD[&quot;AppCoordinator&quot;]
+    end
+
+    subgraph FEATURE[&quot;Feature module&quot;]
+        VM[&quot;FeatureViewModel&quot;]
+        UC[&quot;UseCase&quot;]
+        PORT[&quot;Repository protocol&quot;]
+    end
+
+    subgraph INFRA[&quot;Infrastructure module&quot;]
+        ADAPTER[&quot;RemoteRepository adapter&quot;]
+        STORE[&quot;LocalStore&quot;]
+    end
+
+    CR -.-&gt; COORD
+    CR -.-&gt; ADAPTER
+    VM --&gt; UC
+    UC -.o PORT
+    ADAPTER --o PORT
+    ADAPTER --&gt; STORE</pre>
+</div>
+<p>Lectura semantica minima de este diagrama:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+</ol>
 </section>
 <section id="02-integracion-01-feature-catalog-02-application" class="lesson" data-topic-id="02-integracion-01-feature-catalog-02-application" data-lesson-path="02-integracion/01-feature-catalog/02-application.md">
 <div class="lesson-path">02-integracion/01-feature-catalog/02-application.md</div>
@@ -8781,6 +9411,41 @@ actor ProductRepositorySpy: ProductRepository {
 <p>Una capa Application buena no se juzga por cuántas líneas tiene, sino por cuánto protege la arquitectura cuando cambian requisitos. En <code>Catalog</code>, este diseño te permite crecer sin deuda lateral: puedes evolucionar infraestructura y UI sin romper el corazón semántico del flujo.</p>
 <hr>
 <p><strong>Anterior:</strong> <a href="#02-integracion-01-feature-catalog-01-domain">Feature Catalog: Capa Domain ←</a> · <strong>Siguiente:</strong> <a href="#02-integracion-01-feature-catalog-03-infrastructure">Feature Catalog: Capa Infrastructure →</a></p>
+<p><!-- semantica-flechas:auto --></p>
+<h2 id="02-integracion-01-feature-catalog-02-application-semantica-de-flechas-aplicada-a-esta-arquitectura">Semantica de flechas aplicada a esta arquitectura</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+    subgraph APP[&quot;App / Composition module&quot;]
+        CR[&quot;CompositionRoot&quot;]
+        COORD[&quot;AppCoordinator&quot;]
+    end
+
+    subgraph FEATURE[&quot;Feature module&quot;]
+        VM[&quot;FeatureViewModel&quot;]
+        UC[&quot;UseCase&quot;]
+        PORT[&quot;Repository protocol&quot;]
+    end
+
+    subgraph INFRA[&quot;Infrastructure module&quot;]
+        ADAPTER[&quot;RemoteRepository adapter&quot;]
+        STORE[&quot;LocalStore&quot;]
+    end
+
+    CR -.-&gt; COORD
+    CR -.-&gt; ADAPTER
+    VM --&gt; UC
+    UC -.o PORT
+    ADAPTER --o PORT
+    ADAPTER --&gt; STORE</pre>
+</div>
+<p>Lectura semantica minima de este diagrama:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+</ol>
 </section>
 <section id="02-integracion-01-feature-catalog-03-infrastructure" class="lesson" data-topic-id="02-integracion-01-feature-catalog-03-infrastructure" data-lesson-path="02-integracion/01-feature-catalog/03-infrastructure.md">
 <div class="lesson-path">02-integracion/01-feature-catalog/03-infrastructure.md</div>
@@ -9194,6 +9859,41 @@ final class RemoteProductRepositoryTests: XCTestCase {
 <p>Si Application es el director de orquesta, Infrastructure es el técnico de sonido: nadie le aplaude cuando todo va bien, pero si falla, el concierto se cae. Esta capa bien diseñada te da algo muy enterprise: cambiar proveedores externos sin romper reglas de negocio.</p>
 <hr>
 <p><strong>Anterior:</strong> <a href="#02-integracion-01-feature-catalog-02-application">Feature Catalog: Capa Application ←</a> · <strong>Siguiente:</strong> <a href="#02-integracion-01-feature-catalog-04-interface-swiftui">Feature Catalog: Capa Interface (SwiftUI) →</a></p>
+<p><!-- semantica-flechas:auto --></p>
+<h2 id="02-integracion-01-feature-catalog-03-infrastructure-semantica-de-flechas-aplicada-a-esta-arquitectura">Semantica de flechas aplicada a esta arquitectura</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+    subgraph APP[&quot;App / Composition module&quot;]
+        CR[&quot;CompositionRoot&quot;]
+        COORD[&quot;AppCoordinator&quot;]
+    end
+
+    subgraph FEATURE[&quot;Feature module&quot;]
+        VM[&quot;FeatureViewModel&quot;]
+        UC[&quot;UseCase&quot;]
+        PORT[&quot;Repository protocol&quot;]
+    end
+
+    subgraph INFRA[&quot;Infrastructure module&quot;]
+        ADAPTER[&quot;RemoteRepository adapter&quot;]
+        STORE[&quot;LocalStore&quot;]
+    end
+
+    CR -.-&gt; COORD
+    CR -.-&gt; ADAPTER
+    VM --&gt; UC
+    UC -.o PORT
+    ADAPTER --o PORT
+    ADAPTER --&gt; STORE</pre>
+</div>
+<p>Lectura semantica minima de este diagrama:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+</ol>
 </section>
 <section id="02-integracion-01-feature-catalog-04-interface-swiftui" class="lesson" data-topic-id="02-integracion-01-feature-catalog-04-interface-swiftui" data-lesson-path="02-integracion/01-feature-catalog/04-interface-swiftui.md">
 <div class="lesson-path">02-integracion/01-feature-catalog/04-interface-swiftui.md</div>
@@ -9671,6 +10371,41 @@ final class CatalogViewModelTests: XCTestCase {
   <li>&#9744; Puedo explicar el trade-off clave con mis palabras.</li>
 </ul>
 <p><strong>Anterior:</strong> <a href="#02-integracion-01-feature-catalog-03-infrastructure">Feature Catalog: Capa Infrastructure ←</a> · <strong>Siguiente:</strong> <a href="#02-integracion-01-feature-catalog-ADR-002-catalog">ADR-002: Diseño de la Feature Catalog →</a></p>
+<p><!-- semantica-flechas:auto --></p>
+<h2 id="02-integracion-01-feature-catalog-04-interface-swiftui-semantica-de-flechas-aplicada-a-esta-arquitectura">Semantica de flechas aplicada a esta arquitectura</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+    subgraph APP[&quot;App / Composition module&quot;]
+        CR[&quot;CompositionRoot&quot;]
+        COORD[&quot;AppCoordinator&quot;]
+    end
+
+    subgraph FEATURE[&quot;Feature module&quot;]
+        VM[&quot;FeatureViewModel&quot;]
+        UC[&quot;UseCase&quot;]
+        PORT[&quot;Repository protocol&quot;]
+    end
+
+    subgraph INFRA[&quot;Infrastructure module&quot;]
+        ADAPTER[&quot;RemoteRepository adapter&quot;]
+        STORE[&quot;LocalStore&quot;]
+    end
+
+    CR -.-&gt; COORD
+    CR -.-&gt; ADAPTER
+    VM --&gt; UC
+    UC -.o PORT
+    ADAPTER --o PORT
+    ADAPTER --&gt; STORE</pre>
+</div>
+<p>Lectura semantica minima de este diagrama:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+</ol>
 </section>
 <section id="02-integracion-02-navegacion-eventos" class="lesson" data-topic-id="02-integracion-02-navegacion-eventos" data-lesson-path="02-integracion/02-navegacion-eventos.md">
 <div class="lesson-path">02-integracion/02-navegacion-eventos.md</div>
@@ -10001,6 +10736,41 @@ final class AppCoordinatorTests: XCTestCase {
   <li>&#9744; Puedo explicar el trade-off clave con mis palabras.</li>
 </ul>
 <p><strong>Anterior:</strong> <a href="#02-integracion-01-feature-catalog-ADR-002-catalog">ADR-002: Diseño de la Feature Catalog ←</a> · <strong>Siguiente:</strong> <a href="#02-integracion-03-contratos-features">Contratos entre features →</a></p>
+<p><!-- semantica-flechas:auto --></p>
+<h2 id="02-integracion-02-navegacion-eventos-semantica-de-flechas-aplicada-a-esta-arquitectura">Semantica de flechas aplicada a esta arquitectura</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+    subgraph APP[&quot;App / Composition module&quot;]
+        CR[&quot;CompositionRoot&quot;]
+        COORD[&quot;AppCoordinator&quot;]
+    end
+
+    subgraph FEATURE[&quot;Feature module&quot;]
+        VM[&quot;FeatureViewModel&quot;]
+        UC[&quot;UseCase&quot;]
+        PORT[&quot;Repository protocol&quot;]
+    end
+
+    subgraph INFRA[&quot;Infrastructure module&quot;]
+        ADAPTER[&quot;RemoteRepository adapter&quot;]
+        STORE[&quot;LocalStore&quot;]
+    end
+
+    CR -.-&gt; COORD
+    CR -.-&gt; ADAPTER
+    VM --&gt; UC
+    UC -.o PORT
+    ADAPTER --o PORT
+    ADAPTER --&gt; STORE</pre>
+</div>
+<p>Lectura semantica minima de este diagrama:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+</ol>
 </section>
 <section id="02-integracion-03-contratos-features" class="lesson" data-topic-id="02-integracion-03-contratos-features" data-lesson-path="02-integracion/03-contratos-features.md">
 <div class="lesson-path">02-integracion/03-contratos-features.md</div>
@@ -10371,6 +11141,41 @@ struct Session: Equatable, Hashable, Sendable {
 <p>Además, un buen contrato sirve como herramienta de onboarding: un junior puede entender cómo conectar una feature sin leer implementaciones internas de otras. Ese efecto acumulativo reduce dependencia de “personas clave” y fortalece la continuidad del equipo.</p>
 <hr>
 <p><strong>Anterior:</strong> <a href="#02-integracion-02-navegacion-eventos">Navegación por eventos: el AppCoordinator ←</a> · <strong>Siguiente:</strong> <a href="#02-integracion-04-infra-real-network">Infraestructura real: URLSessionHTTPClient →</a></p>
+<p><!-- semantica-flechas:auto --></p>
+<h2 id="02-integracion-03-contratos-features-semantica-de-flechas-aplicada-a-esta-arquitectura">Semantica de flechas aplicada a esta arquitectura</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+    subgraph APP[&quot;App / Composition module&quot;]
+        CR[&quot;CompositionRoot&quot;]
+        COORD[&quot;AppCoordinator&quot;]
+    end
+
+    subgraph FEATURE[&quot;Feature module&quot;]
+        VM[&quot;FeatureViewModel&quot;]
+        UC[&quot;UseCase&quot;]
+        PORT[&quot;Repository protocol&quot;]
+    end
+
+    subgraph INFRA[&quot;Infrastructure module&quot;]
+        ADAPTER[&quot;RemoteRepository adapter&quot;]
+        STORE[&quot;LocalStore&quot;]
+    end
+
+    CR -.-&gt; COORD
+    CR -.-&gt; ADAPTER
+    VM --&gt; UC
+    UC -.o PORT
+    ADAPTER --o PORT
+    ADAPTER --&gt; STORE</pre>
+</div>
+<p>Lectura semantica minima de este diagrama:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+</ol>
 </section>
 <section id="02-integracion-04-infra-real-network" class="lesson" data-topic-id="02-integracion-04-infra-real-network" data-lesson-path="02-integracion/04-infra-real-network.md">
 <div class="lesson-path">02-integracion/04-infra-real-network.md</div>
@@ -10785,6 +11590,41 @@ final class URLSessionHTTPClientTests: XCTestCase {
 <p>Si un cambio de proveedor HTTP obliga a tocar UseCases o Domain, no cambiaste infraestructura: rompiste la arquitectura. Ese test mental te protege en cada refactor.</p>
 <hr>
 <p><strong>Anterior:</strong> <a href="#02-integracion-03-contratos-features">Contratos entre features ←</a> · <strong>Siguiente:</strong> <a href="#02-integracion-05-integration-tests">Integration Tests →</a></p>
+<p><!-- semantica-flechas:auto --></p>
+<h2 id="02-integracion-04-infra-real-network-semantica-de-flechas-aplicada-a-esta-arquitectura">Semantica de flechas aplicada a esta arquitectura</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+    subgraph APP[&quot;App / Composition module&quot;]
+        CR[&quot;CompositionRoot&quot;]
+        COORD[&quot;AppCoordinator&quot;]
+    end
+
+    subgraph FEATURE[&quot;Feature module&quot;]
+        VM[&quot;FeatureViewModel&quot;]
+        UC[&quot;UseCase&quot;]
+        PORT[&quot;Repository protocol&quot;]
+    end
+
+    subgraph INFRA[&quot;Infrastructure module&quot;]
+        ADAPTER[&quot;RemoteRepository adapter&quot;]
+        STORE[&quot;LocalStore&quot;]
+    end
+
+    CR -.-&gt; COORD
+    CR -.-&gt; ADAPTER
+    VM --&gt; UC
+    UC -.o PORT
+    ADAPTER --o PORT
+    ADAPTER --&gt; STORE</pre>
+</div>
+<p>Lectura semantica minima de este diagrama:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+</ol>
 </section>
 <section id="02-integracion-05-integration-tests" class="lesson" data-topic-id="02-integracion-05-integration-tests" data-lesson-path="02-integracion/05-integration-tests.md">
 <div class="lesson-path">02-integracion/05-integration-tests.md</div>
@@ -11074,6 +11914,41 @@ final class CatalogIntegrationTests: XCTestCase {
 <p>Un equipo junior suele confiar demasiado en unit tests y un equipo cansado suele abusar de E2E. Un equipo senior domina el punto medio: integration tests que protegen ensamblaje real con coste controlado. Esa es la habilidad que te prepara para enterprise diario.</p>
 <hr>
 <p><strong>Anterior:</strong> <a href="#02-integracion-04-infra-real-network">Infraestructura real: URLSessionHTTPClient ←</a> · <strong>Siguiente:</strong> <a href="#02-integracion-06-composition-root">Composition Root: donde se ensambla todo →</a></p>
+<p><!-- semantica-flechas:auto --></p>
+<h2 id="02-integracion-05-integration-tests-semantica-de-flechas-aplicada-a-esta-arquitectura">Semantica de flechas aplicada a esta arquitectura</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+    subgraph APP[&quot;App / Composition module&quot;]
+        CR[&quot;CompositionRoot&quot;]
+        COORD[&quot;AppCoordinator&quot;]
+    end
+
+    subgraph FEATURE[&quot;Feature module&quot;]
+        VM[&quot;FeatureViewModel&quot;]
+        UC[&quot;UseCase&quot;]
+        PORT[&quot;Repository protocol&quot;]
+    end
+
+    subgraph INFRA[&quot;Infrastructure module&quot;]
+        ADAPTER[&quot;RemoteRepository adapter&quot;]
+        STORE[&quot;LocalStore&quot;]
+    end
+
+    CR -.-&gt; COORD
+    CR -.-&gt; ADAPTER
+    VM --&gt; UC
+    UC -.o PORT
+    ADAPTER --o PORT
+    ADAPTER --&gt; STORE</pre>
+</div>
+<p>Lectura semantica minima de este diagrama:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+</ol>
 </section>
 <section id="02-integracion-06-composition-root" class="lesson" data-topic-id="02-integracion-06-composition-root" data-lesson-path="02-integracion/06-composition-root.md">
 <div class="lesson-path">02-integracion/06-composition-root.md</div>
@@ -11350,6 +12225,41 @@ let viewModel = LoginViewModel(loginUseCase: useCase, onLoginSucceeded: { _ in }
 <p>Un buen Composition Root no se nota. Un mal Composition Root (o su ausencia) se nota en cada PR, en cada test roto, y en cada refactor que se convierte en pesadilla.</p>
 <hr>
 <p><strong>Anterior:</strong> <a href="#02-integracion-05-integration-tests">Integration Tests ←</a> · <strong>Siguiente:</strong> <a href="#02-integracion-07-swiftui-enterprise">SwiftUI Enterprise: Patrones Imprescindibles →</a></p>
+<p><!-- semantica-flechas:auto --></p>
+<h2 id="02-integracion-06-composition-root-semantica-de-flechas-aplicada-a-esta-arquitectura">Semantica de flechas aplicada a esta arquitectura</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+    subgraph APP[&quot;App / Composition module&quot;]
+        CR[&quot;CompositionRoot&quot;]
+        COORD[&quot;AppCoordinator&quot;]
+    end
+
+    subgraph FEATURE[&quot;Feature module&quot;]
+        VM[&quot;FeatureViewModel&quot;]
+        UC[&quot;UseCase&quot;]
+        PORT[&quot;Repository protocol&quot;]
+    end
+
+    subgraph INFRA[&quot;Infrastructure module&quot;]
+        ADAPTER[&quot;RemoteRepository adapter&quot;]
+        STORE[&quot;LocalStore&quot;]
+    end
+
+    CR -.-&gt; COORD
+    CR -.-&gt; ADAPTER
+    VM --&gt; UC
+    UC -.o PORT
+    ADAPTER --o PORT
+    ADAPTER --&gt; STORE</pre>
+</div>
+<p>Lectura semantica minima de este diagrama:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+</ol>
 </section>
 <section id="02-integracion-07-swiftui-enterprise" class="lesson" data-topic-id="02-integracion-07-swiftui-enterprise" data-lesson-path="02-integracion/07-swiftui-enterprise.md">
 <div class="lesson-path">02-integracion/07-swiftui-enterprise.md</div>
@@ -12622,6 +13532,41 @@ if #available(iOS 26, *) {
 <p>La siguiente lección complementa esta: si SwiftUI define como se ve la app, Swift Concurrency define como se comporta bajo carga, cancelación y concurrencia real.</p>
 <hr>
 <p><strong>Anterior:</strong> <a href="#02-integracion-06-composition-root">Composition Root: donde se ensambla todo ←</a> · <strong>Siguiente:</strong> <a href="#02-integracion-08-swift-concurrency-enterprise">Swift Concurrency Enterprise: Patrones Imprescindibles →</a></p>
+<p><!-- semantica-flechas:auto --></p>
+<h2 id="02-integracion-07-swiftui-enterprise-semantica-de-flechas-aplicada-a-esta-arquitectura">Semantica de flechas aplicada a esta arquitectura</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+    subgraph APP[&quot;App / Composition module&quot;]
+        CR[&quot;CompositionRoot&quot;]
+        COORD[&quot;AppCoordinator&quot;]
+    end
+
+    subgraph FEATURE[&quot;Feature module&quot;]
+        VM[&quot;FeatureViewModel&quot;]
+        UC[&quot;UseCase&quot;]
+        PORT[&quot;Repository protocol&quot;]
+    end
+
+    subgraph INFRA[&quot;Infrastructure module&quot;]
+        ADAPTER[&quot;RemoteRepository adapter&quot;]
+        STORE[&quot;LocalStore&quot;]
+    end
+
+    CR -.-&gt; COORD
+    CR -.-&gt; ADAPTER
+    VM --&gt; UC
+    UC -.o PORT
+    ADAPTER --o PORT
+    ADAPTER --&gt; STORE</pre>
+</div>
+<p>Lectura semantica minima de este diagrama:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+</ol>
 </section>
 <section id="02-integracion-08-swift-concurrency-enterprise" class="lesson" data-topic-id="02-integracion-08-swift-concurrency-enterprise" data-lesson-path="02-integracion/08-swift-concurrency-enterprise.md">
 <div class="lesson-path">02-integracion/08-swift-concurrency-enterprise.md</div>
@@ -13490,6 +14435,41 @@ func test_load_cancels_previous_load() async {
 <p>La Etapa 5 (Maestria) profundiza en estos conceptos con isolation domains, actors como componentes arquitectonicos y testing concurrente avanzado. Lo que has aprendido aquí es la base operativa; lo que viene es el criterio de diseño.</p>
 <hr>
 <p><strong>Anterior:</strong> <a href="#02-integracion-07-swiftui-enterprise">SwiftUI Enterprise: Patrones Imprescindibles ←</a> · <strong>Siguiente:</strong> <a href="#02-integracion-09-app-final-etapa-2">App Final Etapa 2: Login + Catalog Funcionando Juntos →</a></p>
+<p><!-- semantica-flechas:auto --></p>
+<h2 id="02-integracion-08-swift-concurrency-enterprise-semantica-de-flechas-aplicada-a-esta-arquitectura">Semantica de flechas aplicada a esta arquitectura</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+    subgraph APP[&quot;App / Composition module&quot;]
+        CR[&quot;CompositionRoot&quot;]
+        COORD[&quot;AppCoordinator&quot;]
+    end
+
+    subgraph FEATURE[&quot;Feature module&quot;]
+        VM[&quot;FeatureViewModel&quot;]
+        UC[&quot;UseCase&quot;]
+        PORT[&quot;Repository protocol&quot;]
+    end
+
+    subgraph INFRA[&quot;Infrastructure module&quot;]
+        ADAPTER[&quot;RemoteRepository adapter&quot;]
+        STORE[&quot;LocalStore&quot;]
+    end
+
+    CR -.-&gt; COORD
+    CR -.-&gt; ADAPTER
+    VM --&gt; UC
+    UC -.o PORT
+    ADAPTER --o PORT
+    ADAPTER --&gt; STORE</pre>
+</div>
+<p>Lectura semantica minima de este diagrama:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+</ol>
 </section>
 <section id="02-integracion-09-app-final-etapa-2" class="lesson" data-topic-id="02-integracion-09-app-final-etapa-2" data-lesson-path="02-integracion/09-app-final-etapa-2.md">
 <div class="lesson-path">02-integracion/09-app-final-etapa-2.md</div>
@@ -14298,6 +15278,41 @@ class LoginViewModel {
   <li>&#9744; Puedo explicar el trade-off clave con mis palabras.</li>
 </ul>
 <p><strong>Anterior:</strong> <a href="#02-integracion-01-feature-catalog-04-interface-swiftui">Feature Catalog: Capa Interface (SwiftUI) ←</a> · <strong>Siguiente:</strong> <a href="#02-integracion-02-navegacion-eventos">Navegación por eventos: el AppCoordinator →</a></p>
+<p><!-- semantica-flechas:auto --></p>
+<h2 id="02-integracion-01-feature-catalog-ADR-002-catalog-semantica-de-flechas-aplicada-a-esta-arquitectura">Semantica de flechas aplicada a esta arquitectura</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+    subgraph APP[&quot;App / Composition module&quot;]
+        CR[&quot;CompositionRoot&quot;]
+        COORD[&quot;AppCoordinator&quot;]
+    end
+
+    subgraph FEATURE[&quot;Feature module&quot;]
+        VM[&quot;FeatureViewModel&quot;]
+        UC[&quot;UseCase&quot;]
+        PORT[&quot;Repository protocol&quot;]
+    end
+
+    subgraph INFRA[&quot;Infrastructure module&quot;]
+        ADAPTER[&quot;RemoteRepository adapter&quot;]
+        STORE[&quot;LocalStore&quot;]
+    end
+
+    CR -.-&gt; COORD
+    CR -.-&gt; ADAPTER
+    VM --&gt; UC
+    UC -.o PORT
+    ADAPTER --o PORT
+    ADAPTER --&gt; STORE</pre>
+</div>
+<p>Lectura semantica minima de este diagrama:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+</ol>
 </section>
 <section id="02-integracion-entregables-etapa-2" class="lesson" data-topic-id="02-integracion-entregables-etapa-2" data-lesson-path="02-integracion/entregables-etapa-2.md">
 <div class="lesson-path">02-integracion/entregables-etapa-2.md</div>
@@ -14652,6 +15667,41 @@ class LoginViewModel {
   <li>Aplica un cambio pequeno y verificable en el scaffold relacionado con esta leccion.</li>
 </ul>
 <p><strong>Anterior:</strong> <a href="#02-integracion-09-app-final-etapa-2">App Final Etapa 2: Login + Catalog Funcionando Juntos ←</a> · <strong>Siguiente:</strong> <a href="#anexos-consolidacion-etapa-2-integracion">Consolidación: Etapa 2 - Integración →</a></p>
+<p><!-- semantica-flechas:auto --></p>
+<h2 id="02-integracion-entregables-etapa-2-semantica-de-flechas-aplicada-a-esta-arquitectura">Semantica de flechas aplicada a esta arquitectura</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+    subgraph APP[&quot;App / Composition module&quot;]
+        CR[&quot;CompositionRoot&quot;]
+        COORD[&quot;AppCoordinator&quot;]
+    end
+
+    subgraph FEATURE[&quot;Feature module&quot;]
+        VM[&quot;FeatureViewModel&quot;]
+        UC[&quot;UseCase&quot;]
+        PORT[&quot;Repository protocol&quot;]
+    end
+
+    subgraph INFRA[&quot;Infrastructure module&quot;]
+        ADAPTER[&quot;RemoteRepository adapter&quot;]
+        STORE[&quot;LocalStore&quot;]
+    end
+
+    CR -.-&gt; COORD
+    CR -.-&gt; ADAPTER
+    VM --&gt; UC
+    UC -.o PORT
+    ADAPTER --o PORT
+    ADAPTER --&gt; STORE</pre>
+</div>
+<p>Lectura semantica minima de este diagrama:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+</ol>
 </section>
 <section id="anexos-consolidacion-etapa-2-integracion" class="lesson" data-topic-id="anexos-consolidacion-etapa-2-integracion" data-lesson-path="anexos/consolidacion-etapa-2-integracion.md">
 <div class="lesson-path">anexos/consolidacion-etapa-2-integracion.md</div>
@@ -15161,6 +16211,41 @@ protocol FavoritesRepository {
   <li>Revisa y completa los entregables oficiales aqui: <a href="#03-evolucion-entregables-etapa-3">entregables-etapa-3.md</a>.</li>
 </ul>
 <p><strong>Anterior:</strong> <a href="#anexos-consolidacion-etapa-2-integracion">Consolidación: Etapa 2 - Integración ←</a> · <strong>Siguiente:</strong> <a href="#03-evolucion-01-caching-offline">Caching y offline →</a></p>
+<p><!-- semantica-flechas:auto --></p>
+<h2 id="03-evolucion-00-introduccion-semantica-de-flechas-aplicada-a-esta-arquitectura">Semantica de flechas aplicada a esta arquitectura</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+    subgraph APP[&quot;App / Composition module&quot;]
+        CR[&quot;CompositionRoot&quot;]
+        COORD[&quot;AppCoordinator&quot;]
+    end
+
+    subgraph FEATURE[&quot;Feature module&quot;]
+        VM[&quot;FeatureViewModel&quot;]
+        UC[&quot;UseCase&quot;]
+        PORT[&quot;Repository protocol&quot;]
+    end
+
+    subgraph INFRA[&quot;Infrastructure module&quot;]
+        ADAPTER[&quot;RemoteRepository adapter&quot;]
+        STORE[&quot;LocalStore&quot;]
+    end
+
+    CR -.-&gt; COORD
+    CR -.-&gt; ADAPTER
+    VM --&gt; UC
+    UC -.o PORT
+    ADAPTER --o PORT
+    ADAPTER --&gt; STORE</pre>
+</div>
+<p>Lectura semantica minima de este diagrama:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+</ol>
 </section>
 <section id="03-evolucion-01-caching-offline" class="lesson" data-topic-id="03-evolucion-01-caching-offline" data-lesson-path="03-evolucion/01-caching-offline.md">
 <div class="lesson-path">03-evolucion/01-caching-offline.md</div>
@@ -15696,6 +16781,41 @@ func test_loadProducts_ignoresExpiredCache() async throws {
 <p>La clave es que <code>CachedProductRepository</code> depende de protocolos (<code>ProductRemote</code>, <code>ProductStore</code>), no de implementaciones concretas. Esto permite testear la política de cache sin red real ni SwiftData.</p>
 <hr>
 <p><strong>Anterior:</strong> <a href="#03-evolucion-00-introduccion">Etapa 3: Evolución — Resiliencia y calidad de producción ←</a> · <strong>Siguiente:</strong> <a href="#03-evolucion-02-consistencia">Consistencia e invalidación →</a></p>
+<p><!-- semantica-flechas:auto --></p>
+<h2 id="03-evolucion-01-caching-offline-semantica-de-flechas-aplicada-a-esta-arquitectura">Semantica de flechas aplicada a esta arquitectura</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+    subgraph APP[&quot;App / Composition module&quot;]
+        CR[&quot;CompositionRoot&quot;]
+        COORD[&quot;AppCoordinator&quot;]
+    end
+
+    subgraph FEATURE[&quot;Feature module&quot;]
+        VM[&quot;FeatureViewModel&quot;]
+        UC[&quot;UseCase&quot;]
+        PORT[&quot;Repository protocol&quot;]
+    end
+
+    subgraph INFRA[&quot;Infrastructure module&quot;]
+        ADAPTER[&quot;RemoteRepository adapter&quot;]
+        STORE[&quot;LocalStore&quot;]
+    end
+
+    CR -.-&gt; COORD
+    CR -.-&gt; ADAPTER
+    VM --&gt; UC
+    UC -.o PORT
+    ADAPTER --o PORT
+    ADAPTER --&gt; STORE</pre>
+</div>
+<p>Lectura semantica minima de este diagrama:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+</ol>
 </section>
 <section id="03-evolucion-02-consistencia" class="lesson" data-topic-id="03-evolucion-02-consistencia" data-lesson-path="03-evolucion/02-consistencia.md">
 <div class="lesson-path">03-evolucion/02-consistencia.md</div>
@@ -16144,6 +17264,41 @@ final class CachedProductRepositoryConsistencyTests: XCTestCase {
 <p>La razón de separar invalidación en su propio protocolo es que permite componer distintas estrategias (por TTL, por evento, por push notification) sin modificar el repositorio de cache.</p>
 <hr>
 <p><strong>Anterior:</strong> <a href="#03-evolucion-01-caching-offline">Caching y offline ←</a> · <strong>Siguiente:</strong> <a href="#03-evolucion-03-observabilidad">Observabilidad →</a></p>
+<p><!-- semantica-flechas:auto --></p>
+<h2 id="03-evolucion-02-consistencia-semantica-de-flechas-aplicada-a-esta-arquitectura">Semantica de flechas aplicada a esta arquitectura</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+    subgraph APP[&quot;App / Composition module&quot;]
+        CR[&quot;CompositionRoot&quot;]
+        COORD[&quot;AppCoordinator&quot;]
+    end
+
+    subgraph FEATURE[&quot;Feature module&quot;]
+        VM[&quot;FeatureViewModel&quot;]
+        UC[&quot;UseCase&quot;]
+        PORT[&quot;Repository protocol&quot;]
+    end
+
+    subgraph INFRA[&quot;Infrastructure module&quot;]
+        ADAPTER[&quot;RemoteRepository adapter&quot;]
+        STORE[&quot;LocalStore&quot;]
+    end
+
+    CR -.-&gt; COORD
+    CR -.-&gt; ADAPTER
+    VM --&gt; UC
+    UC -.o PORT
+    ADAPTER --o PORT
+    ADAPTER --&gt; STORE</pre>
+</div>
+<p>Lectura semantica minima de este diagrama:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+</ol>
 </section>
 <section id="03-evolucion-03-observabilidad" class="lesson" data-topic-id="03-evolucion-03-observabilidad" data-lesson-path="03-evolucion/03-observabilidad.md">
 <div class="lesson-path">03-evolucion/03-observabilidad.md</div>
@@ -16616,6 +17771,41 @@ func test_loggingDecorator_emitsEventsInOrder() async throws {
 <p>El patrón decorador permite componer logging, métricas y tracing sin tocar el repositorio original. En <code>AppComposition</code>, se envuelve el repositorio real con tantos decoradores como se necesiten.</p>
 <hr>
 <p><strong>Anterior:</strong> <a href="#03-evolucion-02-consistencia">Consistencia e invalidación ←</a> · <strong>Siguiente:</strong> <a href="#03-evolucion-04-tests-avanzados">Tests avanzados →</a></p>
+<p><!-- semantica-flechas:auto --></p>
+<h2 id="03-evolucion-03-observabilidad-semantica-de-flechas-aplicada-a-esta-arquitectura">Semantica de flechas aplicada a esta arquitectura</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+    subgraph APP[&quot;App / Composition module&quot;]
+        CR[&quot;CompositionRoot&quot;]
+        COORD[&quot;AppCoordinator&quot;]
+    end
+
+    subgraph FEATURE[&quot;Feature module&quot;]
+        VM[&quot;FeatureViewModel&quot;]
+        UC[&quot;UseCase&quot;]
+        PORT[&quot;Repository protocol&quot;]
+    end
+
+    subgraph INFRA[&quot;Infrastructure module&quot;]
+        ADAPTER[&quot;RemoteRepository adapter&quot;]
+        STORE[&quot;LocalStore&quot;]
+    end
+
+    CR -.-&gt; COORD
+    CR -.-&gt; ADAPTER
+    VM --&gt; UC
+    UC -.o PORT
+    ADAPTER --o PORT
+    ADAPTER --&gt; STORE</pre>
+</div>
+<p>Lectura semantica minima de este diagrama:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+</ol>
 </section>
 <section id="03-evolucion-04-tests-avanzados" class="lesson" data-topic-id="03-evolucion-04-tests-avanzados" data-lesson-path="03-evolucion/04-tests-avanzados.md">
 <div class="lesson-path">03-evolucion/04-tests-avanzados.md</div>
@@ -17033,6 +18223,41 @@ struct FixedClock: Clock {
 <p>La cancelación es un caso funcional, no una excepción ignorable. Si el caso de uso no la respeta, el usuario puede ver datos de una operación que ya descartó.</p>
 <hr>
 <p><strong>Anterior:</strong> <a href="#03-evolucion-03-observabilidad">Observabilidad ←</a> · <strong>Siguiente:</strong> <a href="#03-evolucion-05-trade-offs">Trade-offs y riesgos →</a></p>
+<p><!-- semantica-flechas:auto --></p>
+<h2 id="03-evolucion-04-tests-avanzados-semantica-de-flechas-aplicada-a-esta-arquitectura">Semantica de flechas aplicada a esta arquitectura</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+    subgraph APP[&quot;App / Composition module&quot;]
+        CR[&quot;CompositionRoot&quot;]
+        COORD[&quot;AppCoordinator&quot;]
+    end
+
+    subgraph FEATURE[&quot;Feature module&quot;]
+        VM[&quot;FeatureViewModel&quot;]
+        UC[&quot;UseCase&quot;]
+        PORT[&quot;Repository protocol&quot;]
+    end
+
+    subgraph INFRA[&quot;Infrastructure module&quot;]
+        ADAPTER[&quot;RemoteRepository adapter&quot;]
+        STORE[&quot;LocalStore&quot;]
+    end
+
+    CR -.-&gt; COORD
+    CR -.-&gt; ADAPTER
+    VM --&gt; UC
+    UC -.o PORT
+    ADAPTER --o PORT
+    ADAPTER --&gt; STORE</pre>
+</div>
+<p>Lectura semantica minima de este diagrama:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+</ol>
 </section>
 <section id="03-evolucion-05-trade-offs" class="lesson" data-topic-id="03-evolucion-05-trade-offs" data-lesson-path="03-evolucion/05-trade-offs.md">
 <div class="lesson-path">03-evolucion/05-trade-offs.md</div>
@@ -17439,6 +18664,41 @@ struct FixedClock: Clock {
 <p>La decisión de network-first prioriza frescura de datos sobre velocidad percibida. El coste es que la primera carga siempre paga latencia de red. La alternativa (cache-first) habría dado velocidad inmediata pero con riesgo de mostrar datos obsoletos sin que el usuario lo sepa. El trigger de revisión ("P95 > 2s") convierte una opinión ("es lento") en un dato accionable. Si se alcanza ese umbral, se evalúa cambiar a stale-while-revalidate o cache-first con indicador de frescura.</p>
 <hr>
 <p><strong>Anterior:</strong> <a href="#03-evolucion-04-tests-avanzados">Tests avanzados ←</a> · <strong>Siguiente:</strong> <a href="#03-evolucion-06-swiftdata-store">SwiftData como ProductStore →</a></p>
+<p><!-- semantica-flechas:auto --></p>
+<h2 id="03-evolucion-05-trade-offs-semantica-de-flechas-aplicada-a-esta-arquitectura">Semantica de flechas aplicada a esta arquitectura</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+    subgraph APP[&quot;App / Composition module&quot;]
+        CR[&quot;CompositionRoot&quot;]
+        COORD[&quot;AppCoordinator&quot;]
+    end
+
+    subgraph FEATURE[&quot;Feature module&quot;]
+        VM[&quot;FeatureViewModel&quot;]
+        UC[&quot;UseCase&quot;]
+        PORT[&quot;Repository protocol&quot;]
+    end
+
+    subgraph INFRA[&quot;Infrastructure module&quot;]
+        ADAPTER[&quot;RemoteRepository adapter&quot;]
+        STORE[&quot;LocalStore&quot;]
+    end
+
+    CR -.-&gt; COORD
+    CR -.-&gt; ADAPTER
+    VM --&gt; UC
+    UC -.o PORT
+    ADAPTER --o PORT
+    ADAPTER --&gt; STORE</pre>
+</div>
+<p>Lectura semantica minima de este diagrama:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+</ol>
 </section>
 <section id="03-evolucion-06-swiftdata-store" class="lesson" data-topic-id="03-evolucion-06-swiftdata-store" data-lesson-path="03-evolucion/06-swiftdata-store.md">
 <div class="lesson-path">03-evolucion/06-swiftdata-store.md</div>
@@ -17905,6 +19165,41 @@ final class SwiftDataProductStoreTests: XCTestCase {
 <p>El test verifica que SwiftData no corrompe <code>Decimal</code> al persistir (un error común si se usa <code>Double</code> internamente). Si el mapper <code>ProductEntity → Product</code> pierde precisión, este test lo detecta.</p>
 <hr>
 <p><strong>Anterior:</strong> <a href="#03-evolucion-05-trade-offs">Trade-offs y riesgos ←</a> · <strong>Siguiente:</strong> <a href="#03-evolucion-07-backend-firebase">Backend Firebase: integración enterprise →</a></p>
+<p><!-- semantica-flechas:auto --></p>
+<h2 id="03-evolucion-06-swiftdata-store-semantica-de-flechas-aplicada-a-esta-arquitectura">Semantica de flechas aplicada a esta arquitectura</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+    subgraph APP[&quot;App / Composition module&quot;]
+        CR[&quot;CompositionRoot&quot;]
+        COORD[&quot;AppCoordinator&quot;]
+    end
+
+    subgraph FEATURE[&quot;Feature module&quot;]
+        VM[&quot;FeatureViewModel&quot;]
+        UC[&quot;UseCase&quot;]
+        PORT[&quot;Repository protocol&quot;]
+    end
+
+    subgraph INFRA[&quot;Infrastructure module&quot;]
+        ADAPTER[&quot;RemoteRepository adapter&quot;]
+        STORE[&quot;LocalStore&quot;]
+    end
+
+    CR -.-&gt; COORD
+    CR -.-&gt; ADAPTER
+    VM --&gt; UC
+    UC -.o PORT
+    ADAPTER --o PORT
+    ADAPTER --&gt; STORE</pre>
+</div>
+<p>Lectura semantica minima de este diagrama:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+</ol>
 </section>
 <section id="03-evolucion-07-backend-firebase" class="lesson" data-topic-id="03-evolucion-07-backend-firebase" data-lesson-path="03-evolucion/07-backend-firebase.md">
 <div class="lesson-path">03-evolucion/07-backend-firebase.md</div>
@@ -18412,6 +19707,41 @@ func test_composition_worksWithStubRepository() async throws {
 <p>La clave no es testear Firebase en sí, sino verificar que la arquitectura permite sustituirlo. Si este test compila y pasa, Firebase está correctamente encapsulado detrás de un protocolo.</p>
 <hr>
 <p><strong>Anterior:</strong> <a href="#03-evolucion-06-swiftdata-store">SwiftData como ProductStore ←</a> · <strong>Siguiente:</strong> <a href="#03-evolucion-entregables-etapa-3">Entregables — Etapa 3: Evolución →</a></p>
+<p><!-- semantica-flechas:auto --></p>
+<h2 id="03-evolucion-07-backend-firebase-semantica-de-flechas-aplicada-a-esta-arquitectura">Semantica de flechas aplicada a esta arquitectura</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+    subgraph APP[&quot;App / Composition module&quot;]
+        CR[&quot;CompositionRoot&quot;]
+        COORD[&quot;AppCoordinator&quot;]
+    end
+
+    subgraph FEATURE[&quot;Feature module&quot;]
+        VM[&quot;FeatureViewModel&quot;]
+        UC[&quot;UseCase&quot;]
+        PORT[&quot;Repository protocol&quot;]
+    end
+
+    subgraph INFRA[&quot;Infrastructure module&quot;]
+        ADAPTER[&quot;RemoteRepository adapter&quot;]
+        STORE[&quot;LocalStore&quot;]
+    end
+
+    CR -.-&gt; COORD
+    CR -.-&gt; ADAPTER
+    VM --&gt; UC
+    UC -.o PORT
+    ADAPTER --o PORT
+    ADAPTER --&gt; STORE</pre>
+</div>
+<p>Lectura semantica minima de este diagrama:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+</ol>
 </section>
 <section id="03-evolucion-entregables-etapa-3" class="lesson" data-topic-id="03-evolucion-entregables-etapa-3" data-lesson-path="03-evolucion/entregables-etapa-3.md">
 <div class="lesson-path">03-evolucion/entregables-etapa-3.md</div>
@@ -18703,6 +20033,41 @@ func test_composition_worksWithStubRepository() async throws {
   <li>Aplica un cambio pequeno y verificable en el scaffold relacionado con esta leccion.</li>
 </ul>
 <p><strong>Anterior:</strong> <a href="#03-evolucion-07-backend-firebase">Backend Firebase: integracion enterprise ←</a> · <strong>Siguiente:</strong> <a href="#anexos-calentamiento-etapa-3-evolucion">Calentamiento: Etapa 3 - Evolución →</a></p>
+<p><!-- semantica-flechas:auto --></p>
+<h2 id="03-evolucion-entregables-etapa-3-semantica-de-flechas-aplicada-a-esta-arquitectura">Semantica de flechas aplicada a esta arquitectura</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+    subgraph APP[&quot;App / Composition module&quot;]
+        CR[&quot;CompositionRoot&quot;]
+        COORD[&quot;AppCoordinator&quot;]
+    end
+
+    subgraph FEATURE[&quot;Feature module&quot;]
+        VM[&quot;FeatureViewModel&quot;]
+        UC[&quot;UseCase&quot;]
+        PORT[&quot;Repository protocol&quot;]
+    end
+
+    subgraph INFRA[&quot;Infrastructure module&quot;]
+        ADAPTER[&quot;RemoteRepository adapter&quot;]
+        STORE[&quot;LocalStore&quot;]
+    end
+
+    CR -.-&gt; COORD
+    CR -.-&gt; ADAPTER
+    VM --&gt; UC
+    UC -.o PORT
+    ADAPTER --o PORT
+    ADAPTER --&gt; STORE</pre>
+</div>
+<p>Lectura semantica minima de este diagrama:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+</ol>
 </section>
 <section id="anexos-calentamiento-etapa-3-evolucion" class="lesson" data-topic-id="anexos-calentamiento-etapa-3-evolucion" data-lesson-path="anexos/calentamiento-etapa-3-evolucion.md">
 <div class="lesson-path">anexos/calentamiento-etapa-3-evolucion.md</div>
@@ -19178,6 +20543,41 @@ func test_composition_worksWithStubRepository() async throws {
 <p>Al cerrar Arquitecto, el siguiente salto es optimización fina de concurrencia, rendimiento y operaciones avanzadas. El objetivo de esta etapa no es competir con Etapa 5, sino dejar una plataforma lo bastante sólida para que esas optimizaciones sean seguras y acumulativas.</p>
 <hr>
 <p><strong>Anterior:</strong> <a href="#anexos-calentamiento-etapa-3-evolucion">Calentamiento: Etapa 3 - Evolución ←</a> · <strong>Siguiente:</strong> <a href="#04-arquitecto-01-bounded-contexts">Bounded Contexts →</a></p>
+<p><!-- semantica-flechas:auto --></p>
+<h2 id="04-arquitecto-00-introduccion-semantica-de-flechas-aplicada-a-esta-arquitectura">Semantica de flechas aplicada a esta arquitectura</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+    subgraph APP[&quot;App / Composition module&quot;]
+        CR[&quot;CompositionRoot&quot;]
+        COORD[&quot;AppCoordinator&quot;]
+    end
+
+    subgraph FEATURE[&quot;Feature module&quot;]
+        VM[&quot;FeatureViewModel&quot;]
+        UC[&quot;UseCase&quot;]
+        PORT[&quot;Repository protocol&quot;]
+    end
+
+    subgraph INFRA[&quot;Infrastructure module&quot;]
+        ADAPTER[&quot;RemoteRepository adapter&quot;]
+        STORE[&quot;LocalStore&quot;]
+    end
+
+    CR -.-&gt; COORD
+    CR -.-&gt; ADAPTER
+    VM --&gt; UC
+    UC -.o PORT
+    ADAPTER --o PORT
+    ADAPTER --&gt; STORE</pre>
+</div>
+<p>Lectura semantica minima de este diagrama:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+</ol>
 </section>
 <section id="04-arquitecto-01-bounded-contexts" class="lesson" data-topic-id="04-arquitecto-01-bounded-contexts" data-lesson-path="04-arquitecto/01-bounded-contexts.md">
 <div class="lesson-path">04-arquitecto/01-bounded-contexts.md</div>
@@ -19606,6 +21006,41 @@ final class CatalogToOrderItemMapperTests: XCTestCase {
 <p>Los dos contextos comparten <code>CoreDomain</code> (tipos base compartidos) pero no se conocen entre sí. La comunicación entre ellos pasa por <code>AppContracts</code> y <code>AppComposition</code>, nunca por import directo. Esto garantiza que un cambio en Login no rompe Catalog y viceversa.</p>
 <hr>
 <p><strong>Anterior:</strong> <a href="#04-arquitecto-00-introduccion">Etapa 4: Arquitecto — Plataforma y gobernanza ←</a> · <strong>Siguiente:</strong> <a href="#04-arquitecto-02-reglas-dependencia-ci">Reglas de dependencia y CI →</a></p>
+<p><!-- semantica-flechas:auto --></p>
+<h2 id="04-arquitecto-01-bounded-contexts-semantica-de-flechas-aplicada-a-esta-arquitectura">Semantica de flechas aplicada a esta arquitectura</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+    subgraph APP[&quot;App / Composition module&quot;]
+        CR[&quot;CompositionRoot&quot;]
+        COORD[&quot;AppCoordinator&quot;]
+    end
+
+    subgraph FEATURE[&quot;Feature module&quot;]
+        VM[&quot;FeatureViewModel&quot;]
+        UC[&quot;UseCase&quot;]
+        PORT[&quot;Repository protocol&quot;]
+    end
+
+    subgraph INFRA[&quot;Infrastructure module&quot;]
+        ADAPTER[&quot;RemoteRepository adapter&quot;]
+        STORE[&quot;LocalStore&quot;]
+    end
+
+    CR -.-&gt; COORD
+    CR -.-&gt; ADAPTER
+    VM --&gt; UC
+    UC -.o PORT
+    ADAPTER --o PORT
+    ADAPTER --&gt; STORE</pre>
+</div>
+<p>Lectura semantica minima de este diagrama:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+</ol>
 </section>
 <section id="04-arquitecto-02-reglas-dependencia-ci" class="lesson" data-topic-id="04-arquitecto-02-reglas-dependencia-ci" data-lesson-path="04-arquitecto/02-reglas-dependencia-ci.md">
 <div class="lesson-path">04-arquitecto/02-reglas-dependencia-ci.md</div>
@@ -19982,6 +21417,41 @@ echo "Feature cross-imports OK"</code></pre>
 <p>El script <code>check-dependencies.sh</code> recorre los archivos <code>.swift</code> de cada target y verifica que no contengan imports de módulos prohibidos según la dirección de dependencia definida en <code>Package.swift</code>. Cuando encuentras un import prohibido, el script reporta archivo y línea. La corrección es siempre eliminar el import y mover la dependencia a la capa correcta (Infrastructure o Composition Root). Este ejercicio demuestra que las reglas de arquitectura son ejecutables, no opiniones.</p>
 <hr>
 <p><strong>Anterior:</strong> <a href="#04-arquitecto-01-bounded-contexts">Bounded Contexts ←</a> · <strong>Siguiente:</strong> <a href="#04-arquitecto-03-navegacion-deeplinks">Navegación y deep links como plataforma →</a></p>
+<p><!-- semantica-flechas:auto --></p>
+<h2 id="04-arquitecto-02-reglas-dependencia-ci-semantica-de-flechas-aplicada-a-esta-arquitectura">Semantica de flechas aplicada a esta arquitectura</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+    subgraph APP[&quot;App / Composition module&quot;]
+        CR[&quot;CompositionRoot&quot;]
+        COORD[&quot;AppCoordinator&quot;]
+    end
+
+    subgraph FEATURE[&quot;Feature module&quot;]
+        VM[&quot;FeatureViewModel&quot;]
+        UC[&quot;UseCase&quot;]
+        PORT[&quot;Repository protocol&quot;]
+    end
+
+    subgraph INFRA[&quot;Infrastructure module&quot;]
+        ADAPTER[&quot;RemoteRepository adapter&quot;]
+        STORE[&quot;LocalStore&quot;]
+    end
+
+    CR -.-&gt; COORD
+    CR -.-&gt; ADAPTER
+    VM --&gt; UC
+    UC -.o PORT
+    ADAPTER --o PORT
+    ADAPTER --&gt; STORE</pre>
+</div>
+<p>Lectura semantica minima de este diagrama:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+</ol>
 </section>
 <section id="04-arquitecto-03-navegacion-deeplinks" class="lesson" data-topic-id="04-arquitecto-03-navegacion-deeplinks" data-lesson-path="04-arquitecto/03-navegacion-deeplinks.md">
 <div class="lesson-path">04-arquitecto/03-navegacion-deeplinks.md</div>
@@ -20468,6 +21938,41 @@ final class AppCoordinatorNavigationTests: XCTestCase {
 <p>El patrón es: <code>LoginViewModel</code> recibe un closure <code>onLoginSuccess: (Session) -&gt; Void</code>. El <code>AppComposition</code> conecta ese closure con la presentación de Catalog. El test verifica que al invocar el closure, se activa la navegación esperada. Esto permite que Login y Catalog evolucionen independientemente: si mañana Catalog cambia su pantalla inicial, Login no se entera.</p>
 <hr>
 <p><strong>Anterior:</strong> <a href="#04-arquitecto-02-reglas-dependencia-ci">Reglas de dependencia y CI ←</a> · <strong>Siguiente:</strong> <a href="#04-arquitecto-04-versionado-spm">Versionado y SPM →</a></p>
+<p><!-- semantica-flechas:auto --></p>
+<h2 id="04-arquitecto-03-navegacion-deeplinks-semantica-de-flechas-aplicada-a-esta-arquitectura">Semantica de flechas aplicada a esta arquitectura</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+    subgraph APP[&quot;App / Composition module&quot;]
+        CR[&quot;CompositionRoot&quot;]
+        COORD[&quot;AppCoordinator&quot;]
+    end
+
+    subgraph FEATURE[&quot;Feature module&quot;]
+        VM[&quot;FeatureViewModel&quot;]
+        UC[&quot;UseCase&quot;]
+        PORT[&quot;Repository protocol&quot;]
+    end
+
+    subgraph INFRA[&quot;Infrastructure module&quot;]
+        ADAPTER[&quot;RemoteRepository adapter&quot;]
+        STORE[&quot;LocalStore&quot;]
+    end
+
+    CR -.-&gt; COORD
+    CR -.-&gt; ADAPTER
+    VM --&gt; UC
+    UC -.o PORT
+    ADAPTER --o PORT
+    ADAPTER --&gt; STORE</pre>
+</div>
+<p>Lectura semantica minima de este diagrama:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+</ol>
 </section>
 <section id="04-arquitecto-04-versionado-spm" class="lesson" data-topic-id="04-arquitecto-04-versionado-spm" data-lesson-path="04-arquitecto/04-versionado-spm.md">
 <div class="lesson-path">04-arquitecto/04-versionado-spm.md</div>
@@ -20891,6 +22396,41 @@ public let accessToken: String</code></pre>
 <p>El grafo muestra que las dependencias fluyen de Domain hacia afuera (Data, UI) y convergen en <code>AppComposition</code>. Ninguna flecha va de Data/UI hacia Domain de otra feature. Esta estructura es la que <code>check-dependencies.sh</code> protege automáticamente.</p>
 <hr>
 <p><strong>Anterior:</strong> <a href="#04-arquitecto-03-navegacion-deeplinks">Navegación y deep links como plataforma ←</a> · <strong>Siguiente:</strong> <a href="#04-arquitecto-05-guia-arquitectura">Guía de arquitectura del repositorio →</a></p>
+<p><!-- semantica-flechas:auto --></p>
+<h2 id="04-arquitecto-04-versionado-spm-semantica-de-flechas-aplicada-a-esta-arquitectura">Semantica de flechas aplicada a esta arquitectura</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+    subgraph APP[&quot;App / Composition module&quot;]
+        CR[&quot;CompositionRoot&quot;]
+        COORD[&quot;AppCoordinator&quot;]
+    end
+
+    subgraph FEATURE[&quot;Feature module&quot;]
+        VM[&quot;FeatureViewModel&quot;]
+        UC[&quot;UseCase&quot;]
+        PORT[&quot;Repository protocol&quot;]
+    end
+
+    subgraph INFRA[&quot;Infrastructure module&quot;]
+        ADAPTER[&quot;RemoteRepository adapter&quot;]
+        STORE[&quot;LocalStore&quot;]
+    end
+
+    CR -.-&gt; COORD
+    CR -.-&gt; ADAPTER
+    VM --&gt; UC
+    UC -.o PORT
+    ADAPTER --o PORT
+    ADAPTER --&gt; STORE</pre>
+</div>
+<p>Lectura semantica minima de este diagrama:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+</ol>
 </section>
 <section id="04-arquitecto-05-guia-arquitectura" class="lesson" data-topic-id="04-arquitecto-05-guia-arquitectura" data-lesson-path="04-arquitecto/05-guia-arquitectura.md">
 <div class="lesson-path">04-arquitecto/05-guia-arquitectura.md</div>
@@ -21780,6 +23320,41 @@ jobs:
 <p>Un gate que podría añadirse es verificación de strict concurrency (<code>-strict-concurrency=complete</code>), que protege contra data races. Otro candidato es tamaño de binario, que protege contra dependencias pesadas inadvertidas.</p>
 <hr>
 <p><strong>Anterior:</strong> <a href="#04-arquitecto-05-guia-arquitectura">Guía de arquitectura del repositorio ←</a> · <strong>Siguiente:</strong> <a href="#04-arquitecto-entregables-etapa-4">Entregables — Etapa 4: Arquitecto →</a></p>
+<p><!-- semantica-flechas:auto --></p>
+<h2 id="04-arquitecto-06-quality-gates-semantica-de-flechas-aplicada-a-esta-arquitectura">Semantica de flechas aplicada a esta arquitectura</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+    subgraph APP[&quot;App / Composition module&quot;]
+        CR[&quot;CompositionRoot&quot;]
+        COORD[&quot;AppCoordinator&quot;]
+    end
+
+    subgraph FEATURE[&quot;Feature module&quot;]
+        VM[&quot;FeatureViewModel&quot;]
+        UC[&quot;UseCase&quot;]
+        PORT[&quot;Repository protocol&quot;]
+    end
+
+    subgraph INFRA[&quot;Infrastructure module&quot;]
+        ADAPTER[&quot;RemoteRepository adapter&quot;]
+        STORE[&quot;LocalStore&quot;]
+    end
+
+    CR -.-&gt; COORD
+    CR -.-&gt; ADAPTER
+    VM --&gt; UC
+    UC -.o PORT
+    ADAPTER --o PORT
+    ADAPTER --&gt; STORE</pre>
+</div>
+<p>Lectura semantica minima de este diagrama:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+</ol>
 </section>
 <section id="04-arquitecto-entregables-etapa-4" class="lesson" data-topic-id="04-arquitecto-entregables-etapa-4" data-lesson-path="04-arquitecto/entregables-etapa-4.md">
 <div class="lesson-path">04-arquitecto/entregables-etapa-4.md</div>
@@ -22467,6 +24042,41 @@ Sync Engine --&gt; Collaboration</code></pre>
 <p>> <strong>Al terminar todas las lecciones de esta etapa</strong>, consulta la <a href="#05-maestria-10-rubrica-final-01-rubrica-empleabilidad-ios">Rúbrica de empleabilidad iOS</a> y el <a href="#05-maestria-10-rubrica-final-03-checklist-entrega-para-entrevista">Checklist de entrega para entrevista</a> para evaluar tu nivel y preparar tu portafolio.</p>
 <hr>
 <p><strong>Anterior:</strong> <a href="#anexos-consolidacion-etapa-4-arquitecto">Consolidación: Etapa 4 - Arquitecto ←</a> · <strong>Siguiente:</strong> <a href="#05-maestria-01-isolation-domains">Isolation domains y Sendable →</a></p>
+<p><!-- semantica-flechas:auto --></p>
+<h2 id="05-maestria-00-introduccion-semantica-de-flechas-aplicada-a-esta-arquitectura">Semantica de flechas aplicada a esta arquitectura</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+    subgraph APP[&quot;App / Composition module&quot;]
+        CR[&quot;CompositionRoot&quot;]
+        COORD[&quot;AppCoordinator&quot;]
+    end
+
+    subgraph FEATURE[&quot;Feature module&quot;]
+        VM[&quot;FeatureViewModel&quot;]
+        UC[&quot;UseCase&quot;]
+        PORT[&quot;Repository protocol&quot;]
+    end
+
+    subgraph INFRA[&quot;Infrastructure module&quot;]
+        ADAPTER[&quot;RemoteRepository adapter&quot;]
+        STORE[&quot;LocalStore&quot;]
+    end
+
+    CR -.-&gt; COORD
+    CR -.-&gt; ADAPTER
+    VM --&gt; UC
+    UC -.o PORT
+    ADAPTER --o PORT
+    ADAPTER --&gt; STORE</pre>
+</div>
+<p>Lectura semantica minima de este diagrama:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+</ol>
 </section>
 <section id="05-maestria-01-isolation-domains" class="lesson" data-topic-id="05-maestria-01-isolation-domains" data-lesson-path="05-maestria/01-isolation-domains.md">
 <div class="lesson-path">05-maestria/01-isolation-domains.md</div>
@@ -23106,6 +24716,41 @@ func loadData(viewModel: ViewModel) async {
   <li>Aplica un cambio pequeno y verificable en el scaffold relacionado con esta leccion.</li>
 </ul>
 <p><strong>Anterior:</strong> <a href="#05-maestria-00-introduccion">Etapa 5 — Maestría: Concurrency, SwiftUI moderno y patron... ←</a> · <strong>Siguiente:</strong> <a href="#05-maestria-02-actors-en-arquitectura">Actors en arquitectura →</a></p>
+<p><!-- semantica-flechas:auto --></p>
+<h2 id="05-maestria-01-isolation-domains-semantica-de-flechas-aplicada-a-esta-arquitectura">Semantica de flechas aplicada a esta arquitectura</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+    subgraph APP[&quot;App / Composition module&quot;]
+        CR[&quot;CompositionRoot&quot;]
+        COORD[&quot;AppCoordinator&quot;]
+    end
+
+    subgraph FEATURE[&quot;Feature module&quot;]
+        VM[&quot;FeatureViewModel&quot;]
+        UC[&quot;UseCase&quot;]
+        PORT[&quot;Repository protocol&quot;]
+    end
+
+    subgraph INFRA[&quot;Infrastructure module&quot;]
+        ADAPTER[&quot;RemoteRepository adapter&quot;]
+        STORE[&quot;LocalStore&quot;]
+    end
+
+    CR -.-&gt; COORD
+    CR -.-&gt; ADAPTER
+    VM --&gt; UC
+    UC -.o PORT
+    ADAPTER --o PORT
+    ADAPTER --&gt; STORE</pre>
+</div>
+<p>Lectura semantica minima de este diagrama:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+</ol>
 </section>
 <section id="05-maestria-02-actors-en-arquitectura" class="lesson" data-topic-id="05-maestria-02-actors-en-arquitectura" data-lesson-path="05-maestria/02-actors-en-arquitectura.md">
 <div class="lesson-path">05-maestria/02-actors-en-arquitectura.md</div>
@@ -23600,6 +25245,41 @@ try await store.save(products, timestamp: Date()) // Con await: actor-isolated</
   <li>&#9744; Puedo explicar el trade-off clave con mis palabras.</li>
 </ul>
 <p><strong>Anterior:</strong> <a href="#05-maestria-01-isolation-domains">Isolation domains y Sendable ←</a> · <strong>Siguiente:</strong> <a href="#05-maestria-03-structured-concurrency">Structured concurrency →</a></p>
+<p><!-- semantica-flechas:auto --></p>
+<h2 id="05-maestria-02-actors-en-arquitectura-semantica-de-flechas-aplicada-a-esta-arquitectura">Semantica de flechas aplicada a esta arquitectura</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+    subgraph APP[&quot;App / Composition module&quot;]
+        CR[&quot;CompositionRoot&quot;]
+        COORD[&quot;AppCoordinator&quot;]
+    end
+
+    subgraph FEATURE[&quot;Feature module&quot;]
+        VM[&quot;FeatureViewModel&quot;]
+        UC[&quot;UseCase&quot;]
+        PORT[&quot;Repository protocol&quot;]
+    end
+
+    subgraph INFRA[&quot;Infrastructure module&quot;]
+        ADAPTER[&quot;RemoteRepository adapter&quot;]
+        STORE[&quot;LocalStore&quot;]
+    end
+
+    CR -.-&gt; COORD
+    CR -.-&gt; ADAPTER
+    VM --&gt; UC
+    UC -.o PORT
+    ADAPTER --o PORT
+    ADAPTER --&gt; STORE</pre>
+</div>
+<p>Lectura semantica minima de este diagrama:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+</ol>
 </section>
 <section id="05-maestria-03-structured-concurrency" class="lesson" data-topic-id="05-maestria-03-structured-concurrency" data-lesson-path="05-maestria/03-structured-concurrency.md">
 <div class="lesson-path">05-maestria/03-structured-concurrency.md</div>
@@ -24080,6 +25760,41 @@ await withTaskGroup(of: Product.self) { group in
   <li>&#9744; Puedo explicar el trade-off clave con mis palabras.</li>
 </ul>
 <p><strong>Anterior:</strong> <a href="#05-maestria-02-actors-en-arquitectura">Actors en arquitectura ←</a> · <strong>Siguiente:</strong> <a href="#05-maestria-04-testing-concurrente">Testing concurrente →</a></p>
+<p><!-- semantica-flechas:auto --></p>
+<h2 id="05-maestria-03-structured-concurrency-semantica-de-flechas-aplicada-a-esta-arquitectura">Semantica de flechas aplicada a esta arquitectura</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+    subgraph APP[&quot;App / Composition module&quot;]
+        CR[&quot;CompositionRoot&quot;]
+        COORD[&quot;AppCoordinator&quot;]
+    end
+
+    subgraph FEATURE[&quot;Feature module&quot;]
+        VM[&quot;FeatureViewModel&quot;]
+        UC[&quot;UseCase&quot;]
+        PORT[&quot;Repository protocol&quot;]
+    end
+
+    subgraph INFRA[&quot;Infrastructure module&quot;]
+        ADAPTER[&quot;RemoteRepository adapter&quot;]
+        STORE[&quot;LocalStore&quot;]
+    end
+
+    CR -.-&gt; COORD
+    CR -.-&gt; ADAPTER
+    VM --&gt; UC
+    UC -.o PORT
+    ADAPTER --o PORT
+    ADAPTER --&gt; STORE</pre>
+</div>
+<p>Lectura semantica minima de este diagrama:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+</ol>
 </section>
 <section id="05-maestria-04-testing-concurrente" class="lesson" data-topic-id="05-maestria-04-testing-concurrente" data-lesson-path="05-maestria/04-testing-concurrente.md">
 <div class="lesson-path">05-maestria/04-testing-concurrente.md</div>
@@ -24489,6 +26204,41 @@ private func makeSUT(
 <hr>
 <hr>
 <p><strong>Anterior:</strong> <a href="#05-maestria-03-structured-concurrency">Structured concurrency ←</a> · <strong>Siguiente:</strong> <a href="#05-maestria-05-swiftui-state-moderno">SwiftUI state moderno →</a></p>
+<p><!-- semantica-flechas:auto --></p>
+<h2 id="05-maestria-04-testing-concurrente-semantica-de-flechas-aplicada-a-esta-arquitectura">Semantica de flechas aplicada a esta arquitectura</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+    subgraph APP[&quot;App / Composition module&quot;]
+        CR[&quot;CompositionRoot&quot;]
+        COORD[&quot;AppCoordinator&quot;]
+    end
+
+    subgraph FEATURE[&quot;Feature module&quot;]
+        VM[&quot;FeatureViewModel&quot;]
+        UC[&quot;UseCase&quot;]
+        PORT[&quot;Repository protocol&quot;]
+    end
+
+    subgraph INFRA[&quot;Infrastructure module&quot;]
+        ADAPTER[&quot;RemoteRepository adapter&quot;]
+        STORE[&quot;LocalStore&quot;]
+    end
+
+    CR -.-&gt; COORD
+    CR -.-&gt; ADAPTER
+    VM --&gt; UC
+    UC -.o PORT
+    ADAPTER --o PORT
+    ADAPTER --&gt; STORE</pre>
+</div>
+<p>Lectura semantica minima de este diagrama:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+</ol>
 </section>
 <section id="05-maestria-05-swiftui-state-moderno" class="lesson" data-topic-id="05-maestria-05-swiftui-state-moderno" data-lesson-path="05-maestria/05-swiftui-state-moderno.md">
 <div class="lesson-path">05-maestria/05-swiftui-state-moderno.md</div>
@@ -24985,6 +26735,41 @@ struct ProductRow: View {
   <li>&#9744; Puedo explicar el trade-off clave con mis palabras.</li>
 </ul>
 <p><strong>Anterior:</strong> <a href="#05-maestria-04-testing-concurrente">Testing concurrente ←</a> · <strong>Siguiente:</strong> <a href="#05-maestria-06-swiftui-performance">SwiftUI performance →</a></p>
+<p><!-- semantica-flechas:auto --></p>
+<h2 id="05-maestria-05-swiftui-state-moderno-semantica-de-flechas-aplicada-a-esta-arquitectura">Semantica de flechas aplicada a esta arquitectura</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+    subgraph APP[&quot;App / Composition module&quot;]
+        CR[&quot;CompositionRoot&quot;]
+        COORD[&quot;AppCoordinator&quot;]
+    end
+
+    subgraph FEATURE[&quot;Feature module&quot;]
+        VM[&quot;FeatureViewModel&quot;]
+        UC[&quot;UseCase&quot;]
+        PORT[&quot;Repository protocol&quot;]
+    end
+
+    subgraph INFRA[&quot;Infrastructure module&quot;]
+        ADAPTER[&quot;RemoteRepository adapter&quot;]
+        STORE[&quot;LocalStore&quot;]
+    end
+
+    CR -.-&gt; COORD
+    CR -.-&gt; ADAPTER
+    VM --&gt; UC
+    UC -.o PORT
+    ADAPTER --o PORT
+    ADAPTER --&gt; STORE</pre>
+</div>
+<p>Lectura semantica minima de este diagrama:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+</ol>
 </section>
 <section id="05-maestria-06-swiftui-performance" class="lesson" data-topic-id="05-maestria-06-swiftui-performance" data-lesson-path="05-maestria/06-swiftui-performance.md">
 <div class="lesson-path">05-maestria/06-swiftui-performance.md</div>
@@ -25385,6 +27170,41 @@ ExpensiveChartView(data: chartData, title: "Sales")
   <li>Aplica un cambio pequeno y verificable en el scaffold relacionado con esta leccion.</li>
 </ul>
 <p><strong>Anterior:</strong> <a href="#05-maestria-05-swiftui-state-moderno">SwiftUI state moderno ←</a> · <strong>Siguiente:</strong> <a href="#05-maestria-07-composicion-avanzada">Composición avanzada →</a></p>
+<p><!-- semantica-flechas:auto --></p>
+<h2 id="05-maestria-06-swiftui-performance-semantica-de-flechas-aplicada-a-esta-arquitectura">Semantica de flechas aplicada a esta arquitectura</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+    subgraph APP[&quot;App / Composition module&quot;]
+        CR[&quot;CompositionRoot&quot;]
+        COORD[&quot;AppCoordinator&quot;]
+    end
+
+    subgraph FEATURE[&quot;Feature module&quot;]
+        VM[&quot;FeatureViewModel&quot;]
+        UC[&quot;UseCase&quot;]
+        PORT[&quot;Repository protocol&quot;]
+    end
+
+    subgraph INFRA[&quot;Infrastructure module&quot;]
+        ADAPTER[&quot;RemoteRepository adapter&quot;]
+        STORE[&quot;LocalStore&quot;]
+    end
+
+    CR -.-&gt; COORD
+    CR -.-&gt; ADAPTER
+    VM --&gt; UC
+    UC -.o PORT
+    ADAPTER --o PORT
+    ADAPTER --&gt; STORE</pre>
+</div>
+<p>Lectura semantica minima de este diagrama:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+</ol>
 </section>
 <section id="05-maestria-07-composicion-avanzada" class="lesson" data-topic-id="05-maestria-07-composicion-avanzada" data-lesson-path="05-maestria/07-composicion-avanzada.md">
 <div class="lesson-path">05-maestria/07-composicion-avanzada.md</div>
@@ -25795,6 +27615,41 @@ final class CompositionRootTests: XCTestCase {
   <li>&#9744; Puedo explicar el trade-off clave con mis palabras.</li>
 </ul>
 <p><strong>Anterior:</strong> <a href="#05-maestria-06-swiftui-performance">SwiftUI performance ←</a> · <strong>Siguiente:</strong> <a href="#05-maestria-08-memory-leaks-y-diagnostico">Memory leaks y diagnóstico →</a></p>
+<p><!-- semantica-flechas:auto --></p>
+<h2 id="05-maestria-07-composicion-avanzada-semantica-de-flechas-aplicada-a-esta-arquitectura">Semantica de flechas aplicada a esta arquitectura</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+    subgraph APP[&quot;App / Composition module&quot;]
+        CR[&quot;CompositionRoot&quot;]
+        COORD[&quot;AppCoordinator&quot;]
+    end
+
+    subgraph FEATURE[&quot;Feature module&quot;]
+        VM[&quot;FeatureViewModel&quot;]
+        UC[&quot;UseCase&quot;]
+        PORT[&quot;Repository protocol&quot;]
+    end
+
+    subgraph INFRA[&quot;Infrastructure module&quot;]
+        ADAPTER[&quot;RemoteRepository adapter&quot;]
+        STORE[&quot;LocalStore&quot;]
+    end
+
+    CR -.-&gt; COORD
+    CR -.-&gt; ADAPTER
+    VM --&gt; UC
+    UC -.o PORT
+    ADAPTER --o PORT
+    ADAPTER --&gt; STORE</pre>
+</div>
+<p>Lectura semantica minima de este diagrama:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+</ol>
 </section>
 <section id="05-maestria-08-memory-leaks-y-diagnostico" class="lesson" data-topic-id="05-maestria-08-memory-leaks-y-diagnostico" data-lesson-path="05-maestria/08-memory-leaks-y-diagnostico.md">
 <div class="lesson-path">05-maestria/08-memory-leaks-y-diagnostico.md</div>
@@ -26202,6 +28057,41 @@ jobs:
 <hr>
 <hr>
 <p><strong>Anterior:</strong> <a href="#05-maestria-07-composicion-avanzada">Composición avanzada ←</a> · <strong>Siguiente:</strong> <a href="#05-maestria-09-migracion-swift6">Migración a Swift 6 →</a></p>
+<p><!-- semantica-flechas:auto --></p>
+<h2 id="05-maestria-08-memory-leaks-y-diagnostico-semantica-de-flechas-aplicada-a-esta-arquitectura">Semantica de flechas aplicada a esta arquitectura</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+    subgraph APP[&quot;App / Composition module&quot;]
+        CR[&quot;CompositionRoot&quot;]
+        COORD[&quot;AppCoordinator&quot;]
+    end
+
+    subgraph FEATURE[&quot;Feature module&quot;]
+        VM[&quot;FeatureViewModel&quot;]
+        UC[&quot;UseCase&quot;]
+        PORT[&quot;Repository protocol&quot;]
+    end
+
+    subgraph INFRA[&quot;Infrastructure module&quot;]
+        ADAPTER[&quot;RemoteRepository adapter&quot;]
+        STORE[&quot;LocalStore&quot;]
+    end
+
+    CR -.-&gt; COORD
+    CR -.-&gt; ADAPTER
+    VM --&gt; UC
+    UC -.o PORT
+    ADAPTER --o PORT
+    ADAPTER --&gt; STORE</pre>
+</div>
+<p>Lectura semantica minima de este diagrama:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+</ol>
 </section>
 <section id="05-maestria-09-migracion-swift6" class="lesson" data-topic-id="05-maestria-09-migracion-swift6" data-lesson-path="05-maestria/09-migracion-swift6.md">
 <div class="lesson-path">05-maestria/09-migracion-swift6.md</div>
@@ -26544,6 +28434,41 @@ final class HTTPClientStub: HTTPClient, @unchecked Sendable {
   <li>Aplica un cambio pequeno y verificable en el scaffold relacionado con esta leccion.</li>
 </ul>
 <p><strong>Anterior:</strong> <a href="#05-maestria-08-memory-leaks-y-diagnostico">Memory leaks y diagnóstico ←</a> · <strong>Siguiente:</strong> <a href="#05-maestria-10-debugging-xcode">Debugging en Xcode: Encuentra y arregla bugs como un prof... →</a></p>
+<p><!-- semantica-flechas:auto --></p>
+<h2 id="05-maestria-09-migracion-swift6-semantica-de-flechas-aplicada-a-esta-arquitectura">Semantica de flechas aplicada a esta arquitectura</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+    subgraph APP[&quot;App / Composition module&quot;]
+        CR[&quot;CompositionRoot&quot;]
+        COORD[&quot;AppCoordinator&quot;]
+    end
+
+    subgraph FEATURE[&quot;Feature module&quot;]
+        VM[&quot;FeatureViewModel&quot;]
+        UC[&quot;UseCase&quot;]
+        PORT[&quot;Repository protocol&quot;]
+    end
+
+    subgraph INFRA[&quot;Infrastructure module&quot;]
+        ADAPTER[&quot;RemoteRepository adapter&quot;]
+        STORE[&quot;LocalStore&quot;]
+    end
+
+    CR -.-&gt; COORD
+    CR -.-&gt; ADAPTER
+    VM --&gt; UC
+    UC -.o PORT
+    ADAPTER --o PORT
+    ADAPTER --&gt; STORE</pre>
+</div>
+<p>Lectura semantica minima de este diagrama:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+</ol>
 </section>
 <section id="05-maestria-10-debugging-xcode" class="lesson" data-topic-id="05-maestria-10-debugging-xcode" data-lesson-path="05-maestria/10-debugging-xcode.md">
 <div class="lesson-path">05-maestria/10-debugging-xcode.md</div>
@@ -28061,6 +29986,41 @@ HIPAA audit trail ────────────┘</code></pre>
 <p><strong>¡Felicidades por completar el curso!</strong> 🎉</p>
 <hr>
 <p><strong>Anterior:</strong> <a href="#05-maestria-12-arquitectura-adaptativa">12. Arquitectura Adaptativa: Más Allá del Patrón ←</a> · <strong>Siguiente:</strong> <a href="#05-maestria-10-rubrica-final-01-rubrica-empleabilidad-ios">Propósito y Alcance →</a></p>
+<p><!-- semantica-flechas:auto --></p>
+<h2 id="05-maestria-entregables-etapa-5-semantica-de-flechas-aplicada-a-esta-arquitectura">Semantica de flechas aplicada a esta arquitectura</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+    subgraph APP[&quot;App / Composition module&quot;]
+        CR[&quot;CompositionRoot&quot;]
+        COORD[&quot;AppCoordinator&quot;]
+    end
+
+    subgraph FEATURE[&quot;Feature module&quot;]
+        VM[&quot;FeatureViewModel&quot;]
+        UC[&quot;UseCase&quot;]
+        PORT[&quot;Repository protocol&quot;]
+    end
+
+    subgraph INFRA[&quot;Infrastructure module&quot;]
+        ADAPTER[&quot;RemoteRepository adapter&quot;]
+        STORE[&quot;LocalStore&quot;]
+    end
+
+    CR -.-&gt; COORD
+    CR -.-&gt; ADAPTER
+    VM --&gt; UC
+    UC -.o PORT
+    ADAPTER --o PORT
+    ADAPTER --&gt; STORE</pre>
+</div>
+<p>Lectura semantica minima de este diagrama:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa en runtime.</li>
+  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+</ol>
 </section>
 <section id="05-maestria-10-rubrica-final-01-rubrica-empleabilidad-ios" class="lesson" data-topic-id="05-maestria-10-rubrica-final-01-rubrica-empleabilidad-ios" data-lesson-path="05-maestria/10-rubrica-final/01-rubrica-empleabilidad-ios.md">
 <div class="lesson-path">05-maestria/10-rubrica-final/01-rubrica-empleabilidad-ios.md</div>

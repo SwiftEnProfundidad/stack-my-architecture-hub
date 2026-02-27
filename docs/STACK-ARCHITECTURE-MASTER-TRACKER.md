@@ -50,6 +50,11 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 30. Leyenda Mermaid de flechas alineada visualmente en iOS/Android/SDD (puntas centradas con su línea) y publicada en Hub sin regresión runtime.
 31. Lecciones núcleo de iOS ahora aplican y explican explícitamente las 4 flechas Mermaid sobre el diagrama real de módulos/features de la app ejemplo.
 32. Refuerzo pedagógico de semántica de flechas Mermaid extendido a Android y SDD; los 3 cursos (iOS/Android/SDD) aplican explícitamente las 4 flechas en lecciones núcleo y están publicados en Hub.
+33. Cobertura total del bloque de flechas Mermaid completada en orden iOS -> Android -> SDD:
+    - iOS: `58/58` lecciones con Mermaid en 4 flechas.
+    - Android: `10/10` lecciones con Mermaid en 4 flechas.
+    - SDD: `157/157` lecciones con Mermaid (excluyendo `00-informe`) en 4 flechas.
+34. Plan operativo versionado para este bloque en `docs/PLAN-COBERTURA-TOTAL-FLECHAS-20260227.md`.
 
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.
@@ -108,6 +113,11 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
     - Android PR `#5` (`feature/android-arrow-semantics-lessons-20260227` -> `develop`) merge `3cbddcf`
     - SDD PR `#6` (`feature/sdd-arrow-semantics-lessons-20260227` -> `develop`) merge `fe8a8a6`
     - Hub sync selectivo cross-course (`ios`, `android`, `sdd`) merge `7f9520c`
+30. Cobertura total de semántica Mermaid en repos fuente + publicación Hub:
+    - iOS PR `#9` (`feature/ios-arrow-semantics-full-coverage-20260227` -> `develop`) merge `062ac6d`
+    - Android PR `#6` (`feature/android-arrow-semantics-full-coverage-20260227` -> `develop`) merge `a83b6ba`
+    - SDD PR `#7` (`feature/sdd-arrow-semantics-full-coverage-20260227` -> `develop`) merge `b5c23fa`
+    - Hub sync selectivo full coverage (`ios`, `android`, `sdd`) en esta rama de publicación (`chore/hub-sync-full-arrow-semantics-20260227`).
 
 ## Tablero operativo (solo 1 en construcción)
 1. ✅ Publicar sync selectivo cross-course iOS + Android + SDD en Hub (`c9cd8c3`).
@@ -125,7 +135,8 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 13. ✅ Corregir alineación visual de la leyenda de flechas Mermaid (puntas centradas y consistentes en iOS/Android/SDD).
 14. ✅ Reforzar semántica de flechas Mermaid en lecciones iOS con aplicación explícita en arquitectura real de la app ejemplo.
 15. ✅ Extender aplicación explícita de las 4 flechas Mermaid a Android + SDD y publicar sync selectivo cross-course en Hub.
-16. ⏳ Próximo bloque operativo pendiente de trigger real (merge fuente, drift detectado o instrucción explícita).
+16. ✅ Cerrar cobertura total de semántica Mermaid en iOS -> Android -> SDD y publicar sync Hub (plan versionado).
+17. ⏳ Próximo bloque operativo pendiente de trigger real (merge fuente, drift detectado o instrucción explícita).
 
 ## Bloqueos actuales
 1. Ninguno operativo en la app/hub.
@@ -224,6 +235,24 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
     - Merges de origen:
       - Android PR `#5` -> `3cbddcf`
       - SDD PR `#6` -> `fe8a8a6`
+15. Validación técnica del bloque de cobertura total Mermaid (iOS -> Android -> SDD):
+    - iOS:
+      - `python3 scripts/build-html.py` -> PASS.
+      - cobertura lecciones con Mermaid: `58/58` en 4 flechas.
+      - PR `#9` -> merge `062ac6d`.
+    - Android:
+      - `python3 scripts/check-links.py && python3 scripts/build-html.py` -> PASS.
+      - cobertura lecciones con Mermaid: `10/10` en 4 flechas.
+      - PR `#6` -> merge `a83b6ba`.
+    - SDD:
+      - `python3 scripts/check-links.py && python3 scripts/validate-markdown-snippets.py && python3 scripts/build-html.py` -> PASS.
+      - cobertura lecciones con Mermaid (excluyendo `00-informe`): `157/157` en 4 flechas.
+      - PR `#7` -> merge `b5c23fa`.
+    - Hub:
+      - `./scripts/build-hub.sh --mode strict` -> PASS.
+      - `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
+      - `./scripts/smoke-hub-runtime.sh` -> OK.
+      - plan de ejecucion: `docs/PLAN-COBERTURA-TOTAL-FLECHAS-20260227.md`.
 
 ## Referencias de estabilidad del Hub
 1. Commit: `1940c7d`

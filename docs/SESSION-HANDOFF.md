@@ -24,33 +24,34 @@ Repos incluidos:
 3. Tag: `hub-stable-20260224`
 
 ## Último bloque operativo cerrado
-1. Refuerzo pedagógico de flechas Mermaid completado en los 3 cursos (iOS, Android y SDD) + sync selectivo cross-course en Hub.
+1. Cobertura total de semántica Mermaid cerrada en orden iOS -> Android -> SDD + sync selectivo full coverage en Hub.
 2. Acción aplicada:
-   - Android: dos lecciones núcleo actualizadas con aplicación explícita de `-->`, `-.->`, `-.o`, `--o`:
-     - `01-junior/04-hilt-integracion-inicial.md`
-     - `02-midlevel/02-offline-first-sincronizacion.md`
-   - SDD: dos lecciones week11 actualizadas con la misma semántica explícita:
-     - `12-semana-11/05-codigo-root-shell-navigation.md`
-     - `12-semana-11/06-refactor-wiring-entre-features.md`
+   - iOS: normalización completa en lecciones con Mermaid pendientes hasta dejar `58/58` con `-->`, `-.->`, `-.o`, `--o`.
+   - Android: normalización completa en lecciones con Mermaid pendientes hasta dejar `10/10` con 4 flechas.
+   - SDD: normalización completa por semanas (excluyendo `00-informe`) hasta dejar `157/157` con 4 flechas.
    - ciclo RED-GREEN-REFACTOR aplicado:
-     - RED: detección de brecha de aplicación explícita en Android/SDD.
-     - GREEN: Mermaid y explicación semántica conexión por conexión en ambas tracks.
-     - REFACTOR: lenguaje unificado de lectura arquitectónica entre cursos.
+     - RED: medición de cobertura por repo y detección de brechas.
+     - GREEN: inserción de bloque semántico en lecciones pendientes.
+     - REFACTOR: homogeneización de redacción y commits atómicos por etapa/semana.
    - sync selectivo cross-course en Hub (`ios`, `android`, `sdd`) + verificación `no drift (6/6)`.
    - validación runtime en Hub por smoke test (rutas en verde).
+   - plan de ejecución versionado:
+     - `docs/PLAN-COBERTURA-TOTAL-FLECHAS-20260227.md`
 3. Evidencia versionada:
-   - Android PR `#5` (`feature/android-arrow-semantics-lessons-20260227` -> `develop`) merge `3cbddcf`.
-   - SDD PR `#6` (`feature/sdd-arrow-semantics-lessons-20260227` -> `develop`) merge `fe8a8a6`.
-   - Hub sync cross-course merge `7f9520c`.
+   - iOS PR `#9` (`feature/ios-arrow-semantics-full-coverage-20260227` -> `develop`) merge `062ac6d`.
+   - Android PR `#6` (`feature/android-arrow-semantics-full-coverage-20260227` -> `develop`) merge `a83b6ba`.
+   - SDD PR `#7` (`feature/sdd-arrow-semantics-full-coverage-20260227` -> `develop`) merge `b5c23fa`.
+   - Hub sync full coverage en esta rama de publicación (`chore/hub-sync-full-arrow-semantics-20260227`).
 4. Política operativa vigente:
    - no abrir una nueva task en `🚧` sin trigger real (merge fuente, drift detectado o instrucción explícita).
 5. Última evidencia técnica consolidada:
+   - Cobertura lecciones (no anexos) con 4 flechas Mermaid:
+     - iOS: `58/58`
+     - Android: `10/10`
+     - SDD: `157/157` (excluyendo `00-informe`)
+   - iOS: `python3 scripts/build-html.py` -> PASS.
    - Android: `python3 scripts/check-links.py && python3 scripts/build-html.py` -> PASS.
    - SDD: `python3 scripts/check-links.py && python3 scripts/validate-markdown-snippets.py && python3 scripts/build-html.py` -> PASS.
-   - Cobertura lecciones (no anexos) con 4 flechas Mermaid:
-     - iOS: `2/2`
-     - Android: `2/2`
-     - SDD: `2/2`
    - Hub: `./scripts/build-hub.sh --mode strict` -> PASS.
    - Hub: `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
    - Hub: `./scripts/smoke-hub-runtime.sh` -> OK.
@@ -65,7 +66,7 @@ Repos incluidos:
 1. Fecha: 2026-02-27.
 2. `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
 3. `./scripts/smoke-hub-runtime.sh` -> OK.
-4. Resultado operativo: sin regresión runtime tras refuerzo semántico de flechas en iOS/Android/SDD.
+4. Resultado operativo: sin regresión runtime tras cobertura total de flechas Mermaid en iOS/Android/SDD.
 
 ## Tablero operativo (la unica en construccion vive en Master Tracker)
 1. ✅ Publicación selectiva cross-course iOS + Android + SDD en Hub (`c9cd8c3`).
@@ -83,7 +84,8 @@ Repos incluidos:
 13. ✅ Corrección visual de leyenda Mermaid (flechas) en iOS/Android/SDD + sync selectivo estable en Hub.
 14. ✅ Refuerzo pedagógico iOS: aplicación explícita de las 4 flechas Mermaid en lecciones de arquitectura de la app ejemplo.
 15. ✅ Refuerzo pedagógico cross-course de semántica Mermaid (Android + SDD) + sync Hub.
-16. ⏳ Próximo bloque operativo pendiente de trigger real.
+16. ✅ Cobertura total Mermaid en iOS -> Android -> SDD + sync Hub y plan versionado.
+17. ⏳ Próximo bloque operativo pendiente de trigger real.
 
 ## Siguiente paso concreto
 1. Mantener este paquete `docs/` como fuente de verdad transversal.
