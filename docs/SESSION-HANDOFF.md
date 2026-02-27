@@ -62,10 +62,12 @@ Repos incluidos:
        - `/sdd/assets/assistant-panel.js` contiene `KEY_PROVIDER`.
 
 ## Trabajo en curso
-1. No hay task activa en construcción.
-2. Mantener política anti-bucle: abrir nuevo bloque solo con trigger real.
-3. Mantener commits atómicos cuando se active nuevo bloque.
-4. Monitorear drift selectivo con `./scripts/check-selective-sync-drift.sh`.
+1. 🚧 Bloque activo: `PLAN-EMPLEABILIDAD-RIGOR-ENTERPRISE-20260227.md` (Fase 4 en curso).
+2. Fases cerradas del bloque activo:
+   - Fase 1: matriz/rubrica/scorecard en iOS/Android/SDD.
+   - Fase 2: validadores `validate-learning-gates.py` y `validate-diagram-semantics.py` en iOS/Android/SDD.
+   - Fase 3: guia + template de diagramas en Hub.
+3. Pendiente de cierre: commits atomicos + push + PR + merge en 4 repos y cierre de tracking.
 
 ## Última comprobación de espera activa
 1. Fecha: 2026-02-27.
@@ -93,13 +95,14 @@ Repos incluidos:
 17. ✅ Buscador lateral de lecciones en iOS/Android/SDD + sync selectivo Hub.
 18. ✅ Fijar bloque `INDICE + buscador` al scroll y corregir separación superior para evitar clipping visual.
 19. ✅ Blindar build/sync del Hub para preservar `assistant-panel.js` y evitar regresión BYOK multi-provider.
-20. ⏳ Próximo bloque operativo pendiente de trigger real.
+20. ✅ Trigger real aplicado para abrir bloque de empleabilidad + rigor enterprise.
+21. 🚧 Cierre GitFlow del bloque empleabilidad + rigor enterprise (4 repos + tracking final).
 
 ## Siguiente paso concreto
 1. Mantener este paquete `docs/` como fuente de verdad transversal.
-2. Abrir nuevo bloque solo ante trigger real (merge fuente, drift detectado o instrucción explícita).
-3. Si hay cambios en iOS/Android/SDD, ejecutar sync selectivo y validar smoke+rutas.
-4. Actualizar handoff al cerrar cada bloque real.
+2. Cerrar el bloque activo en GitFlow: commits atomicos, push, PR y merge.
+3. Revalidar Hub (`build-hub --strict`, drift, smoke) tras merges.
+4. Actualizar handoff al cerrar el bloque real.
 
 ## Riesgos abiertos
 1. `codex resume` filtra por `cwd` si no se usa `--all`.
