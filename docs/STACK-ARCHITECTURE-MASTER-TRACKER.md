@@ -64,6 +64,9 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
     - SDD PR `#10` merge `6c2fa09`.
     - Hub PR `#33` merge `079bfbb`.
     - Plan operativo activo: `docs/PLAN-MAESTRO-IMPLEMENTACION-CURSOS-20260227.md`.
+39. Plan maestro reabierto por instrucción explícita del usuario para ejecución completa por fases:
+    - Task `0.1` cerrada con inventario exacto cross-course en `docs/INVENTARIO-CROSS-COURSE-LECCIONES-ANEXOS-20260227.tsv`.
+    - Task `0.2` abierta con baseline automático P0/P1/P2 en `docs/MATRIZ-BRECHAS-CROSS-COURSE-20260227.tsv`.
 
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.
@@ -169,7 +172,8 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 19. ✅ Blindar build/sync del Hub para preservar `assistant-panel.js` y evitar regresión BYOK multi-provider.
 20. ✅ Trigger operativo aplicado para abrir bloque de empleabilidad + rigor enterprise.
 21. ✅ Cerrar bloque empleabilidad + rigor enterprise en GitFlow (push, PR, merge y cierre de tracking/handoff).
-22. ⏳ Próximo bloque operativo pendiente de trigger real (merge fuente, drift detectado o instrucción explícita).
+22. 🚧 Ejecutar plan maestro de implementación de cursos (Task 0.2 en curso).
+23. ⏳ Cerrar Fase 0 (0.2, 0.3, 0.4) y pasar a Fase 1 iOS RED.
 
 ## Bloqueos actuales
 1. Ninguno operativo en la app/hub.

@@ -43,8 +43,8 @@ Cerrar todas las brechas pedagogicas y tecnicas en iOS, Android y SDD para que e
 ## Fase 0 - Arranque y baseline
 | ID | Estado | Task | Entregable | Repo |
 | --- | --- | --- | --- | --- |
-| 0.1 | 🚧 | Inventario exacto de lecciones por curso con Mermaid/snippets/anexos | Lista `curso -> seccion -> leccion -> archivo` | iOS/Android/SDD |
-| 0.2 | ⏳ | Matriz de brechas por leccion (texto, mermaid, snippet, visual, anexos) | Backlog tecnico-pedagogico P0/P1/P2 | iOS/Android/SDD |
+| 0.1 | ✅ | Inventario exacto de lecciones por curso con Mermaid/snippets/anexos | Lista `curso -> seccion -> leccion -> archivo` | iOS/Android/SDD |
+| 0.2 | 🚧 | Matriz de brechas por leccion (texto, mermaid, snippet, visual, anexos) | Backlog tecnico-pedagogico P0/P1/P2 | iOS/Android/SDD |
 | 0.3 | ⏳ | Definir lotes atomicos por impacto y riesgo | Plan de ejecucion por lotes | Hub |
 | 0.4 | ⏳ | Registrar baseline en tracker/handoff | Estado inicial trazable | Hub |
 
