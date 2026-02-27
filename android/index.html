@@ -6,14 +6,14 @@
 <meta name="darkreader-lock">
 <meta name="course-id" content="stack-my-architecture-android">
 <title>Stack: My Architecture Android</title>
-<link rel="stylesheet" href="assets/study-ux.css?v=1772191683">
-<link rel="stylesheet" href="assets/course-switcher.css?v=1772191683">
-<link rel="stylesheet" href="assets/assistant-panel.css?v=1772191683">
-<script defer src="assets/study-ux.js?v=1772191683"></script>
-<script defer src="assets/course-switcher.js?v=1772191683"></script>
-<script defer src="assets/theme-controls.js?v=1772191683"></script>
-<script defer src="assets/assistant-panel.js?v=1772191683"></script>
-<script defer src="assets/assistant-bridge.js?v=1772191683"></script>
+<link rel="stylesheet" href="assets/study-ux.css?v=1772192682">
+<link rel="stylesheet" href="assets/course-switcher.css?v=1772192682">
+<link rel="stylesheet" href="assets/assistant-panel.css?v=1772192682">
+<script defer src="assets/study-ux.js?v=1772192682"></script>
+<script defer src="assets/course-switcher.js?v=1772192682"></script>
+<script defer src="assets/theme-controls.js?v=1772192682"></script>
+<script defer src="assets/assistant-panel.js?v=1772192682"></script>
+<script defer src="assets/assistant-bridge.js?v=1772192682"></script>
 
 <!-- Google Fonts - Inter -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -293,7 +293,7 @@ body {
     overflow-y: auto;
     background: var(--sidebar-bg);
     border-right: 1px solid var(--border);
-    padding: var(--space-lg) var(--space-md);
+    padding: calc(var(--space-lg) + 8px) var(--space-md) var(--space-lg);
     font-size: 0.875rem;
     z-index: 100;
     scrollbar-width: thin;
@@ -308,18 +308,29 @@ body {
     border-radius: 3px;
 }
 
+#sidebar .sidebar-top {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    background: var(--sidebar-bg);
+    padding-top: var(--space-xs);
+}
+
 #sidebar h2 {
     font-size: 1rem;
     font-weight: 700;
-    margin-bottom: var(--space-md);
+    margin-bottom: var(--space-sm);
     color: var(--accent);
     letter-spacing: -0.02em;
     text-transform: uppercase;
     font-size: 0.75rem;
+    line-height: 1.25;
 }
 
 #sidebar .sidebar-search-wrap {
-    margin-bottom: var(--space-md);
+    margin-bottom: var(--space-sm);
+    padding-bottom: var(--space-sm);
+    border-bottom: 1px solid color-mix(in srgb, var(--border) 80%, transparent);
 }
 
 #sidebar #sidebar-search {
@@ -1070,10 +1081,12 @@ blockquote p {
 </div>
 
 <nav id="sidebar">
+<div class="sidebar-top">
 <h2>Indice</h2>
 <div class="sidebar-search-wrap">
   <input id="sidebar-search" type="search" placeholder="Buscar leccion..." aria-label="Buscar leccion en el curso" autocomplete="off">
   <div id="sidebar-search-count" aria-live="polite"></div>
+</div>
 </div>
 <ul>
 <li class="nav-section"><strong>Informe fundacional</strong>
