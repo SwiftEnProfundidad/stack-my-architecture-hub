@@ -302,3 +302,20 @@ Fijar como estándar que el bloque superior de navegación lateral (`INDICE` + b
 1. Los 3 generadores `scripts/build-html.py` incorporan `sidebar-top` sticky.
 2. La navegación mantiene visible el buscador durante todo el recorrido de lecciones.
 3. Hub publica el ajuste sin regresión runtime (`no drift 6/6`, smoke OK).
+
+## ADR-LITE-018 — Preservación obligatoria de assistant panel en sync del Hub
+### Fecha
+2026-02-27
+
+### Decisión
+Blindar `scripts/build-hub.sh` para preservar `assets/assistant-panel.js` existente en `ios/android/sdd` durante la copia AS-IS de `dist`.
+
+### Motivación
+1. Evitar pérdida accidental de capacidades BYOK multi-provider por sobrescritura desde bundles fuente.
+2. Mantener estable la UX del asistente IA en cursos publicados.
+3. Reducir regresiones silenciosas en despliegues al añadir validación explícita en smoke runtime.
+
+### Impacto
+1. `build-hub.sh` guarda/restaura `assistant-panel.js` por curso durante sync.
+2. `smoke-hub-runtime.sh` falla si no detecta `KEY_PROVIDER` en los assistant panels publicados.
+3. El flujo de build/sync queda protegido sin frenar sincronización de HTML de cursos.

@@ -609,6 +609,37 @@ Se aplicó ajuste UX en repos fuente para fijar el bloque superior y aumentar se
 ### Resultado
 Hub mantiene estabilidad operativa tras el fix visual del bloque sticky de navegación en los tres cursos.
 
+## Regresión post-guardrail de assistant panel + resync selectivo
+### Fecha
+2026-02-27
+
+### Contexto
+Se detectó una regresión operativa recurrente: `build-hub.sh` copiaba `dist` de cursos en modo AS-IS y sobrescribía `assets/assistant-panel.js` en Hub, degradando BYOK multi-provider.
+
+### Evidencia versionada
+1. Hub guardrail:
+   - branch: `fix/hub-preserve-assistant-panel-sync-20260227`
+   - commit: `7178c28` (`fix(hub): preserve assistant panel during course sync`)
+2. Hub resync post-guardrail:
+   - commit: `89a2e7f` (`chore(hub): resync course bundles after guardrail update`)
+
+### Verificación funcional
+1. `./scripts/build-hub.sh --mode strict` -> PASS.
+2. `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
+3. `./scripts/smoke-hub-runtime.sh` -> OK.
+4. Asserts BYOK añadidos y verificados en smoke:
+   - `/ios/assets/assistant-panel.js` contiene `KEY_PROVIDER`.
+   - `/android/assets/assistant-panel.js` contiene `KEY_PROVIDER`.
+   - `/sdd/assets/assistant-panel.js` contiene `KEY_PROVIDER`.
+5. Rutas verificadas dentro de smoke:
+   - `/index.html` -> OK
+   - `/ios/index.html` -> OK
+   - `/android/index.html` -> OK
+   - `/sdd/index.html` -> OK
+
+### Resultado
+Hub mantiene estabilidad operativa y queda blindado frente a sobrescritura accidental de `assistant-panel.js` en próximos build/sync.
+
 ## Nota operativa
 Si reaparece síntoma similar:
 1. Revisar `.runtime/hub.port` y `.runtime/hub.pid` del hub.

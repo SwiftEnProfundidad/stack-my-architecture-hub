@@ -57,6 +57,7 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 34. Plan operativo versionado para este bloque en `docs/PLAN-COBERTURA-TOTAL-FLECHAS-20260227.md`.
 35. Buscador lateral de lecciones integrado en iOS/Android/SDD y publicado en Hub con sync selectivo estable.
 36. Ajuste UX del buscador lateral: bloque `INDICE + buscador` fijo al scroll y con separación superior corregida en iOS/Android/SDD.
+37. Guardrail de publicación aplicado en Hub: `build-hub.sh` preserva `assets/assistant-panel.js` de `ios/android/sdd` durante sync para no romper BYOK multi-provider.
 
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.
@@ -130,6 +131,10 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
     - Android PR `#8` (`fix/android-sidebar-sticky-search-20260227` -> `develop`) merge `1cf8fa4`
     - SDD PR `#9` (`fix/sdd-sidebar-sticky-search-20260227` -> `develop`) merge `bd2b6a3`
     - Hub sync selectivo (`ios`, `android`, `sdd`) commit `ae04a43` en `fix/hub-sidebar-sticky-search-20260227`
+33. Guardrail anti-sobrescritura de assistant panel + resync:
+    - Hub fix guardrail: `fix/hub-preserve-assistant-panel-sync-20260227` commit `7178c28`
+    - Hub resync post-guardrail (`ios`, `android`, `sdd`) commit `89a2e7f`
+    - Smoke runtime reforzado con assert BYOK (`KEY_PROVIDER`) en `ios/android/sdd/assets/assistant-panel.js`
 
 ## Tablero operativo (solo 1 en construcción)
 1. ✅ Publicar sync selectivo cross-course iOS + Android + SDD en Hub (`c9cd8c3`).
@@ -150,7 +155,8 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 16. ✅ Cerrar cobertura total de semántica Mermaid en iOS -> Android -> SDD y publicar sync Hub (plan versionado).
 17. ✅ Incorporar buscador de lecciones en sidebar para iOS/Android/SDD y publicar sync selectivo en Hub.
 18. ✅ Fijar bloque `INDICE + buscador` al scroll de sidebar y corregir separación superior para evitar clipping visual.
-19. ⏳ Próximo bloque operativo pendiente de trigger real (merge fuente, drift detectado o instrucción explícita).
+19. ✅ Blindar build/sync del Hub para preservar `assistant-panel.js` y evitar regresión BYOK multi-provider.
+20. ⏳ Próximo bloque operativo pendiente de trigger real (merge fuente, drift detectado o instrucción explícita).
 
 ## Bloqueos actuales
 1. Ninguno operativo en la app/hub.
@@ -308,6 +314,18 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
       - `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
       - `./scripts/smoke-hub-runtime.sh` -> OK.
       - sync selectivo versionado: `ae04a43` (`fix(hub): sync sticky sidebar search layout across courses`).
+18. Validación técnica del bloque guardrail anti-sobrescritura BYOK:
+    - Hub:
+      - `./scripts/build-hub.sh --mode strict` -> PASS.
+      - `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
+      - `./scripts/smoke-hub-runtime.sh` -> OK.
+      - smoke reforzado con asserts de `KEY_PROVIDER` en:
+        - `/ios/assets/assistant-panel.js`
+        - `/android/assets/assistant-panel.js`
+        - `/sdd/assets/assistant-panel.js`
+    - Versionado:
+      - `7178c28` (`fix(hub): preserve assistant panel during course sync`)
+      - `89a2e7f` (`chore(hub): resync course bundles after guardrail update`)
 
 ## Referencias de estabilidad del Hub
 1. Commit: `1940c7d`
