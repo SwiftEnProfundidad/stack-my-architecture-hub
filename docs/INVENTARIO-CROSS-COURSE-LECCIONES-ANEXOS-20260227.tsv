@@ -1,20 +1,20 @@
 course	category	section	lesson	file	has_mermaid	has_non_mermaid_snippet
-iOS	leccion	00-core-mobile	Core Mobile Architecture	00-core-mobile/00-introduccion.md	no	no
+iOS	leccion	00-core-mobile	Core Mobile Architecture	00-core-mobile/00-introduccion.md	yes	yes
 iOS	leccion	00-core-mobile	Marco de decisiones arquitectónicas	00-core-mobile/01-marco-de-decisiones.md	yes	yes
 iOS	leccion	00-core-mobile	Invariantes y contratos	00-core-mobile/02-invariantes-y-contratos.md	yes	yes
 iOS	leccion	00-core-mobile	Variabilidad y evolución sin caos	00-core-mobile/03-variabilidad-y-evolucion.md	yes	yes
-iOS	leccion	00-core-mobile	Calidad PR-ready	00-core-mobile/04-calidad-pr-ready.md	no	no
-iOS	leccion	00-core-mobile	Observabilidad y operación	00-core-mobile/05-observabilidad-operacion.md	no	no
-iOS	leccion	00-core-mobile	Release, rollback y feature flags	00-core-mobile/06-release-rollback-flags.md	no	no
-iOS	leccion	00-core-mobile	APIs, contratos y versionado	00-core-mobile/07-apis-contratos-versionado.md	no	no
-iOS	leccion	00-core-mobile	Seguridad, privacidad y threat modeling	00-core-mobile/08-seguridad-privacidad-threat-modeling.md	no	no
-iOS	leccion	00-core-mobile	Dependency governance y supply chain	00-core-mobile/09-dependency-governance-supply-chain.md	no	no
-iOS	leccion	00-core-mobile	Plantillas operativas (con ejemplos reales)	00-core-mobile/10-plantillas.md	no	no
-iOS	leccion	00-core-mobile	Crosswalk iOS ↔ Android	00-core-mobile/11-crosswalk-ios-android.md	no	no
-iOS	leccion	00-core-mobile	1) Purpose of This Document	00-core-mobile/12-mobile-architect-parity-ios-android.md	no	no
+iOS	leccion	00-core-mobile	Calidad PR-ready	00-core-mobile/04-calidad-pr-ready.md	yes	yes
+iOS	leccion	00-core-mobile	Observabilidad y operación	00-core-mobile/05-observabilidad-operacion.md	yes	yes
+iOS	leccion	00-core-mobile	Release, rollback y feature flags	00-core-mobile/06-release-rollback-flags.md	yes	yes
+iOS	leccion	00-core-mobile	APIs, contratos y versionado	00-core-mobile/07-apis-contratos-versionado.md	yes	yes
+iOS	leccion	00-core-mobile	Seguridad, privacidad y threat modeling	00-core-mobile/08-seguridad-privacidad-threat-modeling.md	yes	yes
+iOS	leccion	00-core-mobile	Dependency governance y supply chain	00-core-mobile/09-dependency-governance-supply-chain.md	yes	yes
+iOS	leccion	00-core-mobile	Plantillas operativas (con ejemplos reales)	00-core-mobile/10-plantillas.md	yes	yes
+iOS	leccion	00-core-mobile	Crosswalk iOS ↔ Android	00-core-mobile/11-crosswalk-ios-android.md	yes	yes
+iOS	leccion	00-core-mobile	1) Purpose of This Document	00-core-mobile/12-mobile-architect-parity-ios-android.md	yes	yes
 iOS	leccion	00-core-mobile	Changelog	00-core-mobile/CHANGELOG.md	no	no
 iOS	leccion	01-fundamentos	Introducción al curso	01-fundamentos/00-introduccion.md	yes	yes
-iOS	leccion	01-fundamentos	Setup: Preparación del entorno	01-fundamentos/00-setup.md	no	yes
+iOS	leccion	01-fundamentos	Setup: Preparación del entorno	01-fundamentos/00-setup.md	yes	yes
 iOS	leccion	01-fundamentos	Principios de ingeniería	01-fundamentos/01-principios-ingenieria.md	yes	yes
 iOS	leccion	01-fundamentos	Metodología BDD: especificación y descubrimiento	01-fundamentos/02-metodologia-bdd-tdd.md	yes	yes
 iOS	leccion	01-fundamentos	Metodología TDD: práctica Red-Green-Refactor	01-fundamentos/02-metodologia-tdd-practica.md	yes	yes
@@ -27,8 +27,8 @@ iOS	leccion	01-fundamentos	Feature Login: Capa Infrastructure	01-fundamentos/05-
 iOS	leccion	01-fundamentos	Feature Login: Capa Interface (SwiftUI)	01-fundamentos/05-feature-login/04-interface-swiftui.md	yes	yes
 iOS	leccion	01-fundamentos	Feature Login: Retrospectiva del ciclo TDD completo	01-fundamentos/05-feature-login/05-tdd-ciclo-completo.md	yes	yes
 iOS	leccion	01-fundamentos	ADR-001: Diseño de la Feature Login	01-fundamentos/05-feature-login/ADR-001-login.md	no	no
-iOS	leccion	01-fundamentos	Conectando la App: Tu Primera App Funcional	01-fundamentos/06-conectando-la-app.md	no	yes
-iOS	leccion	01-fundamentos	Entregables — Etapa 1: Junior	01-fundamentos/entregables-etapa-1.md	no	yes
+iOS	leccion	01-fundamentos	Conectando la App: Tu Primera App Funcional	01-fundamentos/06-conectando-la-app.md	yes	yes
+iOS	leccion	01-fundamentos	Entregables — Etapa 1: Junior	01-fundamentos/entregables-etapa-1.md	yes	yes
 iOS	leccion	02-integracion	Etapa 2: Integración — Dos features que trabajan juntas sin acoplarse	02-integracion/00-introduccion.md	yes	yes
 iOS	leccion	02-integracion	Feature Catalog: Especificación BDD	02-integracion/01-feature-catalog/00-especificacion-bdd.md	yes	yes
 iOS	leccion	02-integracion	Feature Catalog: Capa Domain	02-integracion/01-feature-catalog/01-domain.md	yes	yes
@@ -61,7 +61,7 @@ iOS	leccion	04-arquitecto	Navegación y deep links como plataforma	04-arquitecto
 iOS	leccion	04-arquitecto	Versionado y SPM	04-arquitecto/04-versionado-spm.md	yes	yes
 iOS	leccion	04-arquitecto	Guía de arquitectura del repositorio	04-arquitecto/05-guia-arquitectura.md	yes	yes
 iOS	leccion	04-arquitecto	Quality Gates	04-arquitecto/06-quality-gates.md	yes	yes
-iOS	leccion	04-arquitecto	Entregables — Etapa 4: Arquitecto	04-arquitecto/entregables-etapa-4.md	no	yes
+iOS	leccion	04-arquitecto	Entregables — Etapa 4: Arquitecto	04-arquitecto/entregables-etapa-4.md	yes	yes
 iOS	leccion	05-maestria	Etapa 5 — Maestría: Concurrency, SwiftUI moderno y patrones de composición	05-maestria/00-introduccion.md	yes	yes
 iOS	leccion	05-maestria	Isolation domains y Sendable	05-maestria/01-isolation-domains.md	yes	yes
 iOS	leccion	05-maestria	Actors en arquitectura	05-maestria/02-actors-en-arquitectura.md	yes	yes
@@ -72,12 +72,12 @@ iOS	leccion	05-maestria	SwiftUI performance	05-maestria/06-swiftui-performance.m
 iOS	leccion	05-maestria	Composición avanzada	05-maestria/07-composicion-avanzada.md	yes	yes
 iOS	leccion	05-maestria	Memory leaks y diagnóstico	05-maestria/08-memory-leaks-y-diagnostico.md	yes	yes
 iOS	leccion	05-maestria	Migración a Swift 6	05-maestria/09-migracion-swift6.md	yes	yes
-iOS	leccion	05-maestria	Debugging en Xcode: Encuentra y arregla bugs como un profesional	05-maestria/10-debugging-xcode.md	no	yes
-iOS	leccion	05-maestria	Propósito y Alcance	05-maestria/10-rubrica-final/01-rubrica-empleabilidad-ios.md	no	no
-iOS	leccion	05-maestria	Evidencias obligatorias iOS (cierre defendible)	05-maestria/10-rubrica-final/02-evidencias-obligatorias-ios.md	no	no
-iOS	leccion	05-maestria	Checklist de entrega para entrevista (1 página)	05-maestria/10-rubrica-final/03-checklist-entrega-para-entrevista.md	no	no
-iOS	leccion	05-maestria	11. Cómo Hablar de Arquitectura en una Entrevista	05-maestria/11-entrevista-arquitecto.md	no	no
-iOS	leccion	05-maestria	12. Arquitectura Adaptativa: Más Allá del Patrón	05-maestria/12-arquitectura-adaptativa.md	no	yes
+iOS	leccion	05-maestria	Debugging en Xcode: Encuentra y arregla bugs como un profesional	05-maestria/10-debugging-xcode.md	yes	yes
+iOS	leccion	05-maestria	Propósito y Alcance	05-maestria/10-rubrica-final/01-rubrica-empleabilidad-ios.md	yes	yes
+iOS	leccion	05-maestria	Evidencias obligatorias iOS (cierre defendible)	05-maestria/10-rubrica-final/02-evidencias-obligatorias-ios.md	yes	yes
+iOS	leccion	05-maestria	Checklist de entrega para entrevista (1 página)	05-maestria/10-rubrica-final/03-checklist-entrega-para-entrevista.md	yes	yes
+iOS	leccion	05-maestria	11. Cómo Hablar de Arquitectura en una Entrevista	05-maestria/11-entrevista-arquitecto.md	yes	yes
+iOS	leccion	05-maestria	12. Arquitectura Adaptativa: Más Allá del Patrón	05-maestria/12-arquitectura-adaptativa.md	yes	yes
 iOS	leccion	05-maestria	Entregables Etapa 5 — Maestría	05-maestria/entregables-etapa-5.md	yes	yes
 iOS	anexo	anexos	Anexos del Curso iOS	anexos/README.md	no	no
 iOS	anexo	anexos	ADR-003: Composition Root único para ensamblaje	anexos/adrs/ADR-003-composition-root-unico.md	no	yes
@@ -117,39 +117,39 @@ iOS	anexo	anexos	Proyecto Final: Demuestra lo que has aprendido	anexos/proyecto-
 iOS	anexo	anexos	Quizzes de Autoevaluación	anexos/quizzes-autoevaluacion.md	no	yes
 iOS	anexo	anexos	Tips del Simulador: Testing como Profesional	anexos/simulator-tips.md	no	yes
 iOS	anexo	anexos	Xcode Cheat Sheet: Atajos Esenciales para Productividad	anexos/xcode-cheat-sheet.md	no	yes
-Android	leccion	00-core-mobile	Core Mobile Architecture	00-core-mobile/00-introduccion.md	no	no
-Android	leccion	00-core-mobile	Marco de decisiones arquitectónicas	00-core-mobile/01-marco-de-decisiones.md	no	no
-Android	leccion	00-core-mobile	Invariantes y contratos	00-core-mobile/02-invariantes-y-contratos.md	no	no
-Android	leccion	00-core-mobile	Variabilidad y evolución sin caos	00-core-mobile/03-variabilidad-y-evolucion.md	no	no
-Android	leccion	00-core-mobile	Calidad PR-ready	00-core-mobile/04-calidad-pr-ready.md	no	no
-Android	leccion	00-core-mobile	Observabilidad y operación	00-core-mobile/05-observabilidad-operacion.md	no	no
-Android	leccion	00-core-mobile	Release, rollback y feature flags	00-core-mobile/06-release-rollback-flags.md	no	no
-Android	leccion	00-core-mobile	APIs, contratos y versionado	00-core-mobile/07-apis-contratos-versionado.md	no	no
-Android	leccion	00-core-mobile	Seguridad, privacidad y threat modeling	00-core-mobile/08-seguridad-privacidad-threat-modeling.md	no	no
-Android	leccion	00-core-mobile	Dependency governance y supply chain	00-core-mobile/09-dependency-governance-supply-chain.md	no	no
-Android	leccion	00-core-mobile	Plantillas operativas (copy/paste)	00-core-mobile/10-plantillas.md	no	no
-Android	leccion	00-core-mobile	Crosswalk iOS ↔ Android	00-core-mobile/11-crosswalk-ios-android.md	no	no
-Android	leccion	00-core-mobile	1) Purpose of This Document	00-core-mobile/12-mobile-architect-parity-ios-android.md	no	no
+Android	leccion	00-core-mobile	Core Mobile Architecture	00-core-mobile/00-introduccion.md	yes	yes
+Android	leccion	00-core-mobile	Marco de decisiones arquitectónicas	00-core-mobile/01-marco-de-decisiones.md	yes	yes
+Android	leccion	00-core-mobile	Invariantes y contratos	00-core-mobile/02-invariantes-y-contratos.md	yes	yes
+Android	leccion	00-core-mobile	Variabilidad y evolución sin caos	00-core-mobile/03-variabilidad-y-evolucion.md	yes	yes
+Android	leccion	00-core-mobile	Calidad PR-ready	00-core-mobile/04-calidad-pr-ready.md	yes	yes
+Android	leccion	00-core-mobile	Observabilidad y operación	00-core-mobile/05-observabilidad-operacion.md	yes	yes
+Android	leccion	00-core-mobile	Release, rollback y feature flags	00-core-mobile/06-release-rollback-flags.md	yes	yes
+Android	leccion	00-core-mobile	APIs, contratos y versionado	00-core-mobile/07-apis-contratos-versionado.md	yes	yes
+Android	leccion	00-core-mobile	Seguridad, privacidad y threat modeling	00-core-mobile/08-seguridad-privacidad-threat-modeling.md	yes	yes
+Android	leccion	00-core-mobile	Dependency governance y supply chain	00-core-mobile/09-dependency-governance-supply-chain.md	yes	yes
+Android	leccion	00-core-mobile	Plantillas operativas (copy/paste)	00-core-mobile/10-plantillas.md	yes	yes
+Android	leccion	00-core-mobile	Crosswalk iOS ↔ Android	00-core-mobile/11-crosswalk-ios-android.md	yes	yes
+Android	leccion	00-core-mobile	1) Purpose of This Document	00-core-mobile/12-mobile-architect-parity-ios-android.md	yes	yes
 Android	leccion	00-core-mobile	Changelog	00-core-mobile/CHANGELOG.md	no	no
-Android	leccion	00-nivel-cero	Nivel Cero · Introducción	00-nivel-cero/00-introduccion.md	no	yes
-Android	leccion	00-nivel-cero	Nivel Cero · Setup	00-nivel-cero/00-setup.md	no	no
-Android	leccion	00-nivel-cero	Nivel Cero · 01 · Qué es software	00-nivel-cero/01-que-es-software.md	no	no
-Android	leccion	00-nivel-cero	Nivel Cero · 02 · Lógica básica	00-nivel-cero/02-logica-basica.md	no	yes
-Android	leccion	00-nivel-cero	Nivel Cero · 03 · Primer Kotlin	00-nivel-cero/03-primer-kotlin.md	no	yes
-Android	leccion	00-nivel-cero	Nivel Cero · 04 · Variables y tipos	00-nivel-cero/04-variables-y-tipos.md	no	yes
-Android	leccion	00-nivel-cero	Nivel Cero · 05 · Condicionales y bucles	00-nivel-cero/05-condicionales-y-bucles.md	no	yes
-Android	leccion	00-nivel-cero	Nivel Cero · 06 · Funciones	00-nivel-cero/06-funciones.md	no	yes
-Android	leccion	00-nivel-cero	Nivel Cero · 07 · Errores frecuentes	00-nivel-cero/07-errores-frecuentes.md	no	yes
-Android	leccion	00-nivel-cero	Nivel Cero · 08 · Android Studio desde cero	00-nivel-cero/08-android-studio-desde-cero.md	no	no
-Android	leccion	00-nivel-cero	Nivel Cero · 09 · Primera app con Compose	00-nivel-cero/09-primera-app-compose.md	no	yes
-Android	leccion	00-nivel-cero	Nivel Cero · 10 · Inputs y validación	00-nivel-cero/10-inputs-y-validacion.md	no	yes
-Android	leccion	00-nivel-cero	Nivel Cero · 11 · Navegación simple	00-nivel-cero/11-navegacion-simple.md	no	yes
-Android	leccion	00-nivel-cero	Nivel Cero · 12 · Proyecto integrador: Rutina Diaria	00-nivel-cero/12-proyecto-rutina-diaria.md	no	no
-Android	leccion	00-nivel-cero	Entregables de Nivel Cero	00-nivel-cero/entregables-nivel-cero.md	no	no
-Android	leccion	01-junior	Nivel Junior · 00 · De Nivel Cero a desarrollo Android real	01-junior/00-introduccion.md	no	no
-Android	leccion	01-junior	Nivel Junior · 00-setup · Entorno profesional Android paso a paso	01-junior/00-setup-junior.md	no	no
-Android	leccion	01-junior	Nivel Junior · 01 · Arquitectura Android recomendada sin complicarte la vida	01-junior/01-arquitectura-android-recomendada.md	no	yes
-Android	leccion	01-junior	Nivel Junior · 02 · Primera feature profesional: estado, eventos, ViewModel y repositorio	01-junior/02-feature-base-practica.md	no	yes
+Android	leccion	00-nivel-cero	Nivel Cero · Introducción	00-nivel-cero/00-introduccion.md	yes	yes
+Android	leccion	00-nivel-cero	Nivel Cero · Setup	00-nivel-cero/00-setup.md	yes	yes
+Android	leccion	00-nivel-cero	Nivel Cero · 01 · Qué es software	00-nivel-cero/01-que-es-software.md	yes	yes
+Android	leccion	00-nivel-cero	Nivel Cero · 02 · Lógica básica	00-nivel-cero/02-logica-basica.md	yes	yes
+Android	leccion	00-nivel-cero	Nivel Cero · 03 · Primer Kotlin	00-nivel-cero/03-primer-kotlin.md	yes	yes
+Android	leccion	00-nivel-cero	Nivel Cero · 04 · Variables y tipos	00-nivel-cero/04-variables-y-tipos.md	yes	yes
+Android	leccion	00-nivel-cero	Nivel Cero · 05 · Condicionales y bucles	00-nivel-cero/05-condicionales-y-bucles.md	yes	yes
+Android	leccion	00-nivel-cero	Nivel Cero · 06 · Funciones	00-nivel-cero/06-funciones.md	yes	yes
+Android	leccion	00-nivel-cero	Nivel Cero · 07 · Errores frecuentes	00-nivel-cero/07-errores-frecuentes.md	yes	yes
+Android	leccion	00-nivel-cero	Nivel Cero · 08 · Android Studio desde cero	00-nivel-cero/08-android-studio-desde-cero.md	yes	yes
+Android	leccion	00-nivel-cero	Nivel Cero · 09 · Primera app con Compose	00-nivel-cero/09-primera-app-compose.md	yes	yes
+Android	leccion	00-nivel-cero	Nivel Cero · 10 · Inputs y validación	00-nivel-cero/10-inputs-y-validacion.md	yes	yes
+Android	leccion	00-nivel-cero	Nivel Cero · 11 · Navegación simple	00-nivel-cero/11-navegacion-simple.md	yes	yes
+Android	leccion	00-nivel-cero	Nivel Cero · 12 · Proyecto integrador: Rutina Diaria	00-nivel-cero/12-proyecto-rutina-diaria.md	yes	yes
+Android	leccion	00-nivel-cero	Entregables de Nivel Cero	00-nivel-cero/entregables-nivel-cero.md	yes	yes
+Android	leccion	01-junior	Nivel Junior · 00 · De Nivel Cero a desarrollo Android real	01-junior/00-introduccion.md	yes	yes
+Android	leccion	01-junior	Nivel Junior · 00-setup · Entorno profesional Android paso a paso	01-junior/00-setup-junior.md	yes	yes
+Android	leccion	01-junior	Nivel Junior · 01 · Arquitectura Android recomendada sin complicarte la vida	01-junior/01-arquitectura-android-recomendada.md	yes	yes
+Android	leccion	01-junior	Nivel Junior · 02 · Primera feature profesional: estado, eventos, ViewModel y repositorio	01-junior/02-feature-base-practica.md	yes	yes
 Android	leccion	01-junior	Nivel Junior · 03 · Navegación moderna con Navigation Compose (explicada sin saltos)	01-junior/03-navegacion-moderna-navigation-compose.md	yes	yes
 Android	leccion	01-junior	Nivel Junior · 04 · Hilt desde cero, sin magia y con contexto real	01-junior/04-hilt-integracion-inicial.md	yes	yes
 Android	leccion	01-junior	Nivel Junior · 05 · Room offline-first explicado desde la base	01-junior/05-room-offline-first.md	yes	yes
@@ -157,52 +157,52 @@ Android	leccion	01-junior	Nivel Junior · 06 · DataStore explicado de verdad: p
 Android	leccion	01-junior	Nivel Junior · 07 · WorkManager explicado sin lagunas: tareas persistentes en segundo plano	01-junior/07-workmanager-tareas-persistentes.md	yes	yes
 Android	leccion	01-junior	Nivel Junior · 08 · Compose UI Testing sin atajos: prueba lo que ve el usuario	01-junior/08-compose-ui-testing.md	yes	yes
 Android	leccion	01-junior	Nivel Junior · 09 · Pruebas unitarias de ViewModel y repositorio explicadas paso a paso	01-junior/09-pruebas-unitarias-viewmodel-repositorio.md	yes	yes
-Android	leccion	01-junior	Entregables de Nivel Junior	01-junior/entregables-nivel-junior.md	no	no
-Android	leccion	02-midlevel	Nivel Midlevel · 00 · Qué cambia desde Junior y por qué	02-midlevel/00-introduccion.md	no	no
+Android	leccion	01-junior	Entregables de Nivel Junior	01-junior/entregables-nivel-junior.md	yes	yes
+Android	leccion	02-midlevel	Nivel Midlevel · 00 · Qué cambia desde Junior y por qué	02-midlevel/00-introduccion.md	yes	yes
 Android	leccion	02-midlevel	Nivel Midlevel · 01 · Capa de red robusta con Retrofit y OkHttp, guiada paso a paso	02-midlevel/01-red-robusta-retrofit-okhttp.md	yes	yes
 Android	leccion	02-midlevel	Nivel Midlevel · 02 · Offline-first y sincronización local/remoto, paso a paso	02-midlevel/02-offline-first-sincronizacion.md	yes	yes
 Android	leccion	02-midlevel	Nivel Midlevel · 03 · Consistencia y resolución de conflictos sin perder datos	02-midlevel/03-consistencia-y-resolucion-de-conflictos.md	yes	yes
-Android	leccion	02-midlevel	Nivel Midlevel · 04 · Observabilidad y diagnóstico en Android, sin adivinar errores	02-midlevel/04-observabilidad-y-diagnostico.md	no	yes
-Android	leccion	02-midlevel	Nivel Midlevel · 05 · Pruebas de integración para offline-first y sincronización real	02-midlevel/05-pruebas-de-integracion-offline-sync.md	no	yes
-Android	leccion	02-midlevel	Nivel Midlevel · 06 · Quality Gates en CI para proteger offline-sync en cada PR	02-midlevel/06-quality-gates-ci-offline-sync.md	no	yes
-Android	leccion	02-midlevel	Nivel Midlevel · 07 · Rendimiento en CI con Macrobenchmark y Baseline Profiles	02-midlevel/07-performance-ci-macrobenchmark-baselineprofiles.md	no	yes
-Android	leccion	02-midlevel	Nivel Midlevel · 08 · Observabilidad en producción: métricas y alertas que te avisan antes del usuario	02-midlevel/08-observabilidad-produccion-metricas-alertas.md	no	yes
-Android	leccion	02-midlevel	Nivel Midlevel · 09 · Decidir qué tocar primero usando métricas reales	02-midlevel/09-decisiones-evolutivas-con-metricas.md	no	yes
-Android	leccion	02-midlevel	Nivel Midlevel · 10 · Gobernanza de dependencias entre features sin romper la arquitectura	02-midlevel/10-gobernanza-dependencias-entre-features.md	no	yes
-Android	leccion	02-midlevel	Nivel Midlevel · 11 · Versionado de contratos internos sin romper a otros equipos	02-midlevel/11-versionado-contratos-internos.md	no	yes
-Android	leccion	02-midlevel	Nivel Midlevel · 12 · Evolución de navegación y deep links sin romper rutas existentes	02-midlevel/12-evolucion-navegacion-y-deeplinks-compatibles.md	no	yes
-Android	leccion	02-midlevel	Entregables de Nivel Midlevel	02-midlevel/entregables-nivel-midlevel.md	no	yes
-Android	leccion	03-senior	Nivel Senior · 00 · Introducción: de construir features a operar producto real	03-senior/00-introduccion.md	no	no
-Android	leccion	03-senior	Nivel Senior · 01 · Release strategy y rollback seguro en Android	03-senior/01-release-strategy-y-rollback-seguro.md	no	yes
-Android	leccion	03-senior	Nivel Senior · 02 · Incident response y runbooks operativos en Android	03-senior/02-incident-response-y-runbooks-operativos.md	no	yes
-Android	leccion	03-senior	Nivel Senior · 03 · SLOs, error budgets y priorización real de fiabilidad en Android	03-senior/03-slos-error-budgets-priorizacion-fiabilidad.md	no	yes
-Android	leccion	03-senior	Nivel Senior · 04 · Tablero operativo de fiabilidad y alertas que sí ayudan	03-senior/04-tablero-operativo-fiabilidad-y-alertas-accionables.md	no	yes
-Android	leccion	03-senior	Nivel Senior · 05 · Gobernanza técnica de sprint: decidir con evidencia cuando roadmap y fiabilidad chocan	03-senior/05-gobernanza-tecnica-de-sprint-fiabilidad-vs-roadmap.md	no	yes
-Android	leccion	03-senior	Nivel Senior · 06 · Simulación completa de sprint bajo presión: cómo decidir sin improvisar	03-senior/06-simulacion-sprint-bajo-presion-roadmap-y-fiabilidad.md	no	yes
-Android	leccion	03-senior	Nivel Senior · 07 · Cierre de Senior: consolidar capacidades antes de escalar a Maestría	03-senior/07-cierre-del-bloque-senior-y-transicion-a-maestria.md	no	yes
-Android	leccion	04-maestria	Nivel Maestría · 00 · Introducción: escalar sin perder claridad	04-maestria/00-introduccion.md	no	no
-Android	leccion	04-maestria	Nivel Maestría · 01 · Contratos evolutivos entre dominios Android	04-maestria/01-contratos-evolutivos-entre-dominios.md	no	yes
-Android	leccion	04-maestria	Nivel Maestría · 02 · Bounded Contexts y ownership técnico en Android real	04-maestria/02-bounded-contexts-y-ownership-tecnico.md	no	yes
-Android	leccion	04-maestria	Nivel Maestría · 03 · Mapa de dependencias y acoplamiento circular en Android	04-maestria/03-mapa-de-dependencias-y-acoplamiento-circular.md	no	yes
-Android	leccion	04-maestria	Nivel Maestría · 04 · Migraciones transversales sin bloqueo en Android	04-maestria/04-migraciones-transversales-sin-bloqueo.md	no	yes
-Android	leccion	04-maestria	Nivel Maestría · 05 · Coordinación de release, rollback y comunicación técnica en migraciones Android	04-maestria/05-coordinacion-release-rollback-y-comunicacion-tecnica.md	no	yes
-Android	leccion	04-maestria	Nivel Maestría · 06 · Evolución multi‑equipo y gobernanza trimestral en Android	04-maestria/06-evolucion-multi-equipo-y-gobernanza-trimestral.md	no	yes
-Android	leccion	04-maestria	Nivel Maestría · 07 · Defensa técnica del proyecto Android	04-maestria/07-defensa-tecnica-del-proyecto-android.md	no	yes
-Android	leccion	04-maestria	Nivel Maestría · 08 · Cierre del proyecto final y publicación en Play Store	04-maestria/08-cierre-proyecto-final-y-publicacion-play-store.md	no	yes
-Android	leccion	04-maestria	Nivel Maestría · 09 · Rúbrica final y entrevista técnica Android	04-maestria/09-rubrica-final-y-entrevista-tecnica-android.md	no	yes
-Android	leccion	04-maestria	Nivel Maestría · 10 · Plan de 90 días después del curso	04-maestria/10-plan-de-90-dias-despues-del-curso.md	no	yes
-Android	leccion	04-maestria	Nivel Maestría · 11 · Epílogo profesional y siguientes retos	04-maestria/11-epilogo-profesional-y-siguientes-retos.md	no	yes
-Android	leccion	04-maestria	Nivel Maestría · 12 · Casos reales y antipatrones de equipos Android	04-maestria/12-casos-reales-y-antipatrones-de-equipos-android.md	no	yes
-Android	leccion	04-maestria	Nivel Maestría · 13 · Operación a largo plazo y deuda técnica en Android	04-maestria/13-operacion-largo-plazo-y-deuda-tecnica.md	no	yes
-Android	leccion	04-maestria	Nivel Maestría · 14 · Tu primer año en un equipo Android real	04-maestria/14-primer-ano-en-equipo-android-real.md	no	yes
-Android	leccion	04-maestria	Nivel Maestría · 15 · Mapa de carrera Android: de junior a senior con criterio	04-maestria/15-mapa-de-carrera-android-de-junior-a-senior.md	no	yes
-Android	leccion	04-maestria	Nivel Maestría · 16 · Cierre definitivo del recorrido Android	04-maestria/16-cierre-definitivo-del-recorrido-android.md	no	yes
-Android	leccion	05-proyecto-final	Proyecto final integrador · RuralGO FieldOps	05-proyecto-final/00-brief-ruralgo-fieldops.md	no	yes
-Android	leccion	05-proyecto-final	Brief del proyecto final	05-proyecto-final/00-brief.md	no	no
-Android	leccion	05-proyecto-final	Rúbrica de empleabilidad técnica · Proyecto final	05-proyecto-final/01-rubrica-empleabilidad.md	no	yes
-Android	leccion	05-proyecto-final	Evidencias obligatorias de aprendizaje y calidad	05-proyecto-final/02-evidencias-obligatorias.md	no	yes
-Android	leccion	05-proyecto-final	Operación Senior del proyecto final	05-proyecto-final/03-operacion-senior.md	no	yes
-Android	leccion	05-proyecto-final	Gobernanza Maestría del proyecto final	05-proyecto-final/04-gobernanza-maestria.md	no	yes
+Android	leccion	02-midlevel	Nivel Midlevel · 04 · Observabilidad y diagnóstico en Android, sin adivinar errores	02-midlevel/04-observabilidad-y-diagnostico.md	yes	yes
+Android	leccion	02-midlevel	Nivel Midlevel · 05 · Pruebas de integración para offline-first y sincronización real	02-midlevel/05-pruebas-de-integracion-offline-sync.md	yes	yes
+Android	leccion	02-midlevel	Nivel Midlevel · 06 · Quality Gates en CI para proteger offline-sync en cada PR	02-midlevel/06-quality-gates-ci-offline-sync.md	yes	yes
+Android	leccion	02-midlevel	Nivel Midlevel · 07 · Rendimiento en CI con Macrobenchmark y Baseline Profiles	02-midlevel/07-performance-ci-macrobenchmark-baselineprofiles.md	yes	yes
+Android	leccion	02-midlevel	Nivel Midlevel · 08 · Observabilidad en producción: métricas y alertas que te avisan antes del usuario	02-midlevel/08-observabilidad-produccion-metricas-alertas.md	yes	yes
+Android	leccion	02-midlevel	Nivel Midlevel · 09 · Decidir qué tocar primero usando métricas reales	02-midlevel/09-decisiones-evolutivas-con-metricas.md	yes	yes
+Android	leccion	02-midlevel	Nivel Midlevel · 10 · Gobernanza de dependencias entre features sin romper la arquitectura	02-midlevel/10-gobernanza-dependencias-entre-features.md	yes	yes
+Android	leccion	02-midlevel	Nivel Midlevel · 11 · Versionado de contratos internos sin romper a otros equipos	02-midlevel/11-versionado-contratos-internos.md	yes	yes
+Android	leccion	02-midlevel	Nivel Midlevel · 12 · Evolución de navegación y deep links sin romper rutas existentes	02-midlevel/12-evolucion-navegacion-y-deeplinks-compatibles.md	yes	yes
+Android	leccion	02-midlevel	Entregables de Nivel Midlevel	02-midlevel/entregables-nivel-midlevel.md	yes	yes
+Android	leccion	03-senior	Nivel Senior · 00 · Introducción: de construir features a operar producto real	03-senior/00-introduccion.md	yes	yes
+Android	leccion	03-senior	Nivel Senior · 01 · Release strategy y rollback seguro en Android	03-senior/01-release-strategy-y-rollback-seguro.md	yes	yes
+Android	leccion	03-senior	Nivel Senior · 02 · Incident response y runbooks operativos en Android	03-senior/02-incident-response-y-runbooks-operativos.md	yes	yes
+Android	leccion	03-senior	Nivel Senior · 03 · SLOs, error budgets y priorización real de fiabilidad en Android	03-senior/03-slos-error-budgets-priorizacion-fiabilidad.md	yes	yes
+Android	leccion	03-senior	Nivel Senior · 04 · Tablero operativo de fiabilidad y alertas que sí ayudan	03-senior/04-tablero-operativo-fiabilidad-y-alertas-accionables.md	yes	yes
+Android	leccion	03-senior	Nivel Senior · 05 · Gobernanza técnica de sprint: decidir con evidencia cuando roadmap y fiabilidad chocan	03-senior/05-gobernanza-tecnica-de-sprint-fiabilidad-vs-roadmap.md	yes	yes
+Android	leccion	03-senior	Nivel Senior · 06 · Simulación completa de sprint bajo presión: cómo decidir sin improvisar	03-senior/06-simulacion-sprint-bajo-presion-roadmap-y-fiabilidad.md	yes	yes
+Android	leccion	03-senior	Nivel Senior · 07 · Cierre de Senior: consolidar capacidades antes de escalar a Maestría	03-senior/07-cierre-del-bloque-senior-y-transicion-a-maestria.md	yes	yes
+Android	leccion	04-maestria	Nivel Maestría · 00 · Introducción: escalar sin perder claridad	04-maestria/00-introduccion.md	yes	yes
+Android	leccion	04-maestria	Nivel Maestría · 01 · Contratos evolutivos entre dominios Android	04-maestria/01-contratos-evolutivos-entre-dominios.md	yes	yes
+Android	leccion	04-maestria	Nivel Maestría · 02 · Bounded Contexts y ownership técnico en Android real	04-maestria/02-bounded-contexts-y-ownership-tecnico.md	yes	yes
+Android	leccion	04-maestria	Nivel Maestría · 03 · Mapa de dependencias y acoplamiento circular en Android	04-maestria/03-mapa-de-dependencias-y-acoplamiento-circular.md	yes	yes
+Android	leccion	04-maestria	Nivel Maestría · 04 · Migraciones transversales sin bloqueo en Android	04-maestria/04-migraciones-transversales-sin-bloqueo.md	yes	yes
+Android	leccion	04-maestria	Nivel Maestría · 05 · Coordinación de release, rollback y comunicación técnica en migraciones Android	04-maestria/05-coordinacion-release-rollback-y-comunicacion-tecnica.md	yes	yes
+Android	leccion	04-maestria	Nivel Maestría · 06 · Evolución multi‑equipo y gobernanza trimestral en Android	04-maestria/06-evolucion-multi-equipo-y-gobernanza-trimestral.md	yes	yes
+Android	leccion	04-maestria	Nivel Maestría · 07 · Defensa técnica del proyecto Android	04-maestria/07-defensa-tecnica-del-proyecto-android.md	yes	yes
+Android	leccion	04-maestria	Nivel Maestría · 08 · Cierre del proyecto final y publicación en Play Store	04-maestria/08-cierre-proyecto-final-y-publicacion-play-store.md	yes	yes
+Android	leccion	04-maestria	Nivel Maestría · 09 · Rúbrica final y entrevista técnica Android	04-maestria/09-rubrica-final-y-entrevista-tecnica-android.md	yes	yes
+Android	leccion	04-maestria	Nivel Maestría · 10 · Plan de 90 días después del curso	04-maestria/10-plan-de-90-dias-despues-del-curso.md	yes	yes
+Android	leccion	04-maestria	Nivel Maestría · 11 · Epílogo profesional y siguientes retos	04-maestria/11-epilogo-profesional-y-siguientes-retos.md	yes	yes
+Android	leccion	04-maestria	Nivel Maestría · 12 · Casos reales y antipatrones de equipos Android	04-maestria/12-casos-reales-y-antipatrones-de-equipos-android.md	yes	yes
+Android	leccion	04-maestria	Nivel Maestría · 13 · Operación a largo plazo y deuda técnica en Android	04-maestria/13-operacion-largo-plazo-y-deuda-tecnica.md	yes	yes
+Android	leccion	04-maestria	Nivel Maestría · 14 · Tu primer año en un equipo Android real	04-maestria/14-primer-ano-en-equipo-android-real.md	yes	yes
+Android	leccion	04-maestria	Nivel Maestría · 15 · Mapa de carrera Android: de junior a senior con criterio	04-maestria/15-mapa-de-carrera-android-de-junior-a-senior.md	yes	yes
+Android	leccion	04-maestria	Nivel Maestría · 16 · Cierre definitivo del recorrido Android	04-maestria/16-cierre-definitivo-del-recorrido-android.md	yes	yes
+Android	leccion	05-proyecto-final	Proyecto final integrador · RuralGO FieldOps	05-proyecto-final/00-brief-ruralgo-fieldops.md	yes	yes
+Android	leccion	05-proyecto-final	Brief del proyecto final	05-proyecto-final/00-brief.md	yes	yes
+Android	leccion	05-proyecto-final	Rúbrica de empleabilidad técnica · Proyecto final	05-proyecto-final/01-rubrica-empleabilidad.md	yes	yes
+Android	leccion	05-proyecto-final	Evidencias obligatorias de aprendizaje y calidad	05-proyecto-final/02-evidencias-obligatorias.md	yes	yes
+Android	leccion	05-proyecto-final	Operación Senior del proyecto final	05-proyecto-final/03-operacion-senior.md	yes	yes
+Android	leccion	05-proyecto-final	Gobernanza Maestría del proyecto final	05-proyecto-final/04-gobernanza-maestria.md	yes	yes
 Android	anexo	anexos	Anexos del Curso Android	anexos/README.md	no	no
 Android	anexo	anexos	Glosario base	anexos/glosario.md	no	no
 Android	anexo	anexos	Guía rápida: leyenda de flechas Mermaid	anexos/guia-leyenda-flechas-mermaid.md	yes	yes

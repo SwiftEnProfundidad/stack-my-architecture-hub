@@ -9,8 +9,8 @@ Task asociada: 0.1 del plan maestro
 - iOS: 118 (lecciones: 80, anexos: 38)
 - Android: 92 (lecciones: 86, anexos: 6)
 - SDD: 186 (lecciones: 157, anexos: 29)
-- Lecciones sin Mermaid: 98
-- Lecciones sin snippet no-Mermaid: 42
+- Lecciones sin Mermaid: 3
+- Lecciones sin snippet no-Mermaid: 3
 
 ## Archivo de detalle exacto
 - docs/INVENTARIO-CROSS-COURSE-LECCIONES-ANEXOS-20260227.tsv
