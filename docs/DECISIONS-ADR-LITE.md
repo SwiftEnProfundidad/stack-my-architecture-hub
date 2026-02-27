@@ -225,3 +225,24 @@ Exigir que las lecciones núcleo de arquitectura iOS apliquen y expliquen explí
    - `04-arquitecto/05-guia-arquitectura.md`
 2. El alumno puede mapear cada conexión del diagrama a una semántica arquitectónica concreta.
 3. Publicación en Hub sin regresión runtime (`no drift 6/6` + smoke OK).
+
+## ADR-LITE-014 — Refuerzo cross-course obligatorio de semántica Mermaid (iOS + Android + SDD)
+### Fecha
+2026-02-27
+
+### Decisión
+Extender el estándar de semántica explícita de 4 flechas Mermaid (`-->`, `-.->`, `-.o`, `--o`) a Android y SDD, además de iOS, en lecciones núcleo de arquitectura de app ejemplo.
+
+### Motivación
+1. Evitar asimetrías pedagógicas entre tracks (iOS avanzado vs Android/SDD incompleto).
+2. Garantizar que cualquier alumno pueda interpretar runtime, wiring, contrato y propagación en cualquier curso.
+3. Reducir ambigüedad de acoplamientos en revisiones técnicas y seguimiento de lecciones.
+
+### Impacto
+1. Android actualiza:
+   - `01-junior/04-hilt-integracion-inicial.md`
+   - `02-midlevel/02-offline-first-sincronizacion.md`
+2. SDD actualiza:
+   - `12-semana-11/05-codigo-root-shell-navigation.md`
+   - `12-semana-11/06-refactor-wiring-entre-features.md`
+3. Hub publica sync selectivo cross-course sin regresión runtime (`no drift 6/6` + smoke OK).

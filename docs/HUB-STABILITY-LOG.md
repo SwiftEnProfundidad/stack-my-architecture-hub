@@ -430,6 +430,45 @@ Se detectó brecha didáctica: las lecciones de arquitectura iOS no aplicaban de
 ### Resultado
 Hub mantiene estabilidad operativa tras publicar el refuerzo pedagógico de flechas en iOS.
 
+## Regresión post-refuerzo pedagógico cross-course (Android + SDD) + sync selectivo
+### Fecha
+2026-02-27
+
+### Contexto
+Tras cerrar el refuerzo iOS, se detectó brecha equivalente en Android y SDD: faltaba aplicar y explicar explícitamente las 4 flechas Mermaid (`-->`, `-.->`, `-.o`, `--o`) en lecciones núcleo de arquitectura/wiring de la app ejemplo.
+
+### Evidencia versionada
+1. Android:
+   - PR: `SwiftEnProfundidad/stack-my-architecture-android#5`
+   - Merge commit: `3cbddcf`
+2. SDD:
+   - PR: `SwiftEnProfundidad/stack-my-architecture#6`
+   - Merge commit: `fe8a8a6`
+3. Hub:
+   - Sync selectivo cross-course (`ios`, `android`, `sdd`) merge `7f9520c`
+
+### Verificación funcional
+1. Android:
+   - `python3 scripts/check-links.py && python3 scripts/build-html.py` -> PASS.
+2. SDD:
+   - `python3 scripts/check-links.py && python3 scripts/validate-markdown-snippets.py && python3 scripts/build-html.py` -> PASS.
+3. Cobertura lecciones (sin anexos) con las 4 flechas Mermaid:
+   - iOS: `2/2`
+   - Android: `2/2`
+   - SDD: `2/2`
+4. Hub:
+   - `./scripts/build-hub.sh --mode strict` -> PASS.
+   - `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
+   - `./scripts/smoke-hub-runtime.sh` -> OK.
+5. Rutas verificadas dentro de smoke:
+   - `/index.html` -> OK
+   - `/ios/index.html` -> OK
+   - `/android/index.html` -> OK
+   - `/sdd/index.html` -> OK
+
+### Resultado
+Hub mantiene estabilidad operativa tras extender el refuerzo semántico de flechas a los tres cursos.
+
 ## Nota operativa
 Si reaparece síntoma similar:
 1. Revisar `.runtime/hub.port` y `.runtime/hub.pid` del hub.
