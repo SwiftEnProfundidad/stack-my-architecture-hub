@@ -722,3 +722,33 @@ Intento de despliegue final en Vercel bloqueado por cuota diaria:
 
 ### Resultado
 Hub queda estable y listo para publicación; único bloqueo activo es externo (cuota Vercel), sin regresión técnica en runtime local.
+
+## Regresión visual Mermaid post-cierre del plan maestro
+### Fecha
+2026-02-27
+
+### Contexto
+Se detectó degradación visual y de parseo en algunos diagramas Mermaid auto-insertados (`Syntax error in text`) por uso de sintaxis `-.o`.
+
+### Evidencia versionada
+1. iOS PR `#14` -> merge `e2a2e91`.
+2. Android PR `#11` -> merge `03db5b8`.
+
+### Corrección aplicada
+1. Bloques Mermaid auto-gapfix actualizados con semántica válida y estable:
+   - `-->` dependencia directa
+   - `-.->` wiring/configuración
+   - `==>` contrato/abstracción
+   - `--o` salida/propagación
+2. Ajuste de tooling:
+   - `scripts/build-html.py` (leyenda y normalización Mermaid)
+   - `scripts/validate-diagram-semantics.py` (cobertura de flechas alineada al estándar)
+
+### Verificación funcional
+1. Hub: `./scripts/build-hub.sh --mode strict` -> PASS.
+2. Hub: `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
+3. Hub: `./scripts/smoke-hub-runtime.sh` -> OK.
+4. Visual: captura Playwright en iOS con diagrama renderizado sin error de sintaxis.
+
+### Resultado
+Se elimina la regresión visual/parse Mermaid y el Hub mantiene estabilidad operativa.
