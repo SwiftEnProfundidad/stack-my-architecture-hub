@@ -514,6 +514,53 @@ Se ejecutó un bloque completo para pasar de cobertura puntual a cobertura total
 ### Resultado
 Hub mantiene estabilidad operativa tras publicar la cobertura total Mermaid en los 3 cursos.
 
+## Regresión post-buscador lateral cross-course (iOS -> Android -> SDD) + sync selectivo
+### Fecha
+2026-02-27
+
+### Contexto
+Se identificó brecha de navegación en cursos largos: la sidebar no permitía búsqueda rápida por lección.
+Se ejecutó cierre completo en repos fuente para agregar buscador live en navegación lateral y publicar los bundles resultantes en Hub.
+
+### Evidencia versionada
+1. iOS:
+   - PR: `SwiftEnProfundidad/stack-my-architecture-ios#10`
+   - Merge commit: `e5cbf6a`
+2. Android:
+   - PR: `SwiftEnProfundidad/stack-my-architecture-android#7`
+   - Merge commit: `269ed6f`
+3. SDD:
+   - PR: `SwiftEnProfundidad/stack-my-architecture#8`
+   - Merge commit: `76f70dc`
+4. Hub:
+   - Sync selectivo cross-course (`ios`, `android`, `sdd`) commit `f057c62`
+   - branch: `chore/hub-sync-sidebar-search-20260227`
+
+### Verificación funcional
+1. Validación de repos fuente:
+   - iOS: `python3 scripts/build-html.py` -> PASS.
+   - Android: `python3 scripts/check-links.py && python3 scripts/build-html.py` -> PASS.
+   - SDD:
+     - `python3 scripts/validate-course-structure.py` -> PASS.
+     - `python3 scripts/validate-openspec.py` -> PASS.
+     - `python3 scripts/check-links.py` -> PASS.
+     - `python3 scripts/validate-pedagogy.py` -> PASS.
+     - `python3 scripts/validate-markdown-snippets.py` -> PASS.
+     - `python3 scripts/build-html.py` -> PASS.
+     - `swift test --package-path project/HelpdeskSDD` -> PASS.
+2. Hub:
+   - `./scripts/build-hub.sh --mode strict` -> PASS.
+   - `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
+   - `./scripts/smoke-hub-runtime.sh` -> OK.
+3. Rutas verificadas dentro de smoke:
+   - `/index.html` -> OK
+   - `/ios/index.html` -> OK
+   - `/android/index.html` -> OK
+   - `/sdd/index.html` -> OK
+
+### Resultado
+Hub mantiene estabilidad operativa tras incorporar el buscador lateral en los 3 cursos y sincronizar publicación selectiva.
+
 ## Nota operativa
 Si reaparece síntoma similar:
 1. Revisar `.runtime/hub.port` y `.runtime/hub.pid` del hub.

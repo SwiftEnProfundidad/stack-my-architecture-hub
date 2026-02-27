@@ -265,3 +265,23 @@ Evolucionar de cobertura puntual a cobertura total en lecciones con Mermaid, eje
 3. SDD queda en `157/157` lecciones con Mermaid y 4 flechas (excluyendo `00-informe`).
 4. Hub publica sync full coverage con `no drift (6/6)` y smoke runtime en verde.
 5. Plan operativo de ejecución documentado en `docs/PLAN-COBERTURA-TOTAL-FLECHAS-20260227.md`.
+
+## ADR-LITE-016 — Buscador lateral obligatorio en cursos publicados
+### Fecha
+2026-02-27
+
+### Decisión
+Estandarizar un buscador de lecciones en la sidebar de iOS, Android y SDD desde los generadores `scripts/build-html.py`, con:
+1. `input` de búsqueda en navegación lateral,
+2. filtro live por título, `path` de lección y sección,
+3. contador de resultados y limpieza rápida con `Escape`.
+
+### Motivación
+1. Reducir fricción de navegación en cursos con alto número de lecciones.
+2. Mejorar descubribilidad de contenido sin abandonar el contexto de lectura.
+3. Mantener una UX consistente entre los tres cursos dentro del Hub.
+
+### Impacto
+1. iOS, Android y SDD publican el mismo patrón de búsqueda lateral en sus bundles.
+2. El Hub hereda la mejora vía sync selectivo sin romper runtime ni BYOK.
+3. La validación operativa se mantiene en verde (`build-hub --mode strict`, `no drift`, `smoke runtime`).
