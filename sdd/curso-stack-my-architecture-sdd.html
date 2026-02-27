@@ -6,14 +6,14 @@
 <meta name="darkreader-lock">
 <meta name="course-id" content="stack-my-architecture-sdd">
 <title>Stack: IA + Spec-Driven Development</title>
-<link rel="stylesheet" href="assets/study-ux.css?v=1772145957">
-<link rel="stylesheet" href="assets/course-switcher.css?v=1772145957">
-<link rel="stylesheet" href="assets/assistant-panel.css?v=1772145957">
-<script defer src="assets/study-ux.js?v=1772145957"></script>
-<script defer src="assets/course-switcher.js?v=1772145957"></script>
-<script defer src="assets/theme-controls.js?v=1772145957"></script>
-<script defer src="assets/assistant-panel.js?v=1772145957"></script>
-<script defer src="assets/assistant-bridge.js?v=1772145957"></script>
+<link rel="stylesheet" href="assets/study-ux.css?v=1772150463">
+<link rel="stylesheet" href="assets/course-switcher.css?v=1772150463">
+<link rel="stylesheet" href="assets/assistant-panel.css?v=1772150463">
+<script defer src="assets/study-ux.js?v=1772150463"></script>
+<script defer src="assets/course-switcher.js?v=1772150463"></script>
+<script defer src="assets/theme-controls.js?v=1772150463"></script>
+<script defer src="assets/assistant-panel.js?v=1772150463"></script>
+<script defer src="assets/assistant-bridge.js?v=1772150463"></script>
 
 <!-- Google Fonts - Inter -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15047,6 +15047,48 @@ Resultado: misma semántica, rutas tipadas. Suite sigue en verde.</code></pre>
     D --&gt; E[HelpdeskRootView]</pre>
 </div>
 <p>Este flujo mantiene separada la intención de la mutación de estado global.</p>
+<h2 id="12-semana-11-05-codigo-root-shell-navigation-sem-ntica-de-flechas-aplicada-a-integraci-n-ticketing-cat-logo">Semántica de flechas aplicada a integración ticketing + catálogo</h2>
+<p>Aquí se aplica la lectura arquitectónica completa de flechas sobre el wiring real:</p>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+    subgraph ROOT[&quot;Root shell module&quot;]
+        BUILDER[&quot;HelpdeskAppRootBuilder&quot;]
+        COORD[&quot;HelpdeskRootCoordinator&quot;]
+        STATE[&quot;selectedTab&quot;]
+        ROOTVIEW[&quot;HelpdeskRootView&quot;]
+    end
+
+    subgraph TICKETING[&quot;Ticketing feature&quot;]
+        TVM[&quot;TicketListViewModel&quot;]
+        INTENT[&quot;openKnowledgeCatalog()&quot;]
+    end
+
+    subgraph CATALOG[&quot;Knowledge feature&quot;]
+        KVM[&quot;KnowledgeCatalogViewModel&quot;]
+    end
+
+    ROUTING[&quot;HelpdeskNavigationRouting\n(protocol)&quot;]
+
+    BUILDER -.-&gt; COORD
+    BUILDER -.-&gt; TVM
+    BUILDER -.-&gt; KVM
+
+    TVM --&gt; INTENT
+    INTENT -.o ROUTING
+    COORD --o ROUTING
+
+    COORD --&gt; STATE
+    STATE --&gt; ROOTVIEW</pre>
+</div>
+<p>Lectura semántica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia/flujo directo en runtime (<code>TicketListViewModel --&gt; openKnowledgeCatalog()</code>, <code>HelpdeskRootCoordinator --&gt; selectedTab</code>).</li>
+  <li><code>-.-&gt;</code> wiring/configuración desde composition root (<code>HelpdeskAppRootBuilder</code> ensambla coordinador y view models).</li>
+  <li><code>-.o</code> contrato/abstracción (la intención de feature se expresa contra <code>HelpdeskNavigationRouting</code>).</li>
+  <li><code>--o</code> salida/propagación (el coordinador concreto satisface ese contrato y materializa la navegación global).</li>
+</ol>
+<p>Si una feature conoce directamente <code>selectedTab</code>, se rompió el boundary de integración.</p>
 <h2 id="12-semana-11-05-codigo-root-shell-navigation-implementaci-n-base">Implementación base</h2>
 <pre><code class="language-swift">@MainActor
 public protocol HelpdeskNavigationRouting: AnyObject {
@@ -15174,6 +15216,49 @@ class AppRouter {
     D --&gt; E</pre>
 </div>
 <p>Este diagrama muestra un mapa de conexiones que cualquier persona del equipo puede leer rápido.</p>
+<h2 id="12-semana-11-06-refactor-wiring-entre-features-sem-ntica-de-flechas-para-leer-acoplamientos-en-el-wiring">Semántica de flechas para leer acoplamientos en el wiring</h2>
+<p>Este segundo diagrama deja explícito qué conexiones son wiring, cuáles son runtime y cuáles son contrato:</p>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><i class="sma-arrow direct-closed"></i>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-closed"></i>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow dashed-open"></i>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><i class="sma-arrow solid-open"></i>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+    subgraph ROOT[&quot;Root builder module&quot;]
+        RB[&quot;HelpdeskAppRootBuilder&quot;]
+        RC[&quot;HelpdeskRootCoordinator&quot;]
+        RV[&quot;HelpdeskRootView&quot;]
+    end
+
+    subgraph TICKETING[&quot;Ticketing feature&quot;]
+        TVM[&quot;TicketListViewModel&quot;]
+    end
+
+    subgraph CATALOG[&quot;Knowledge feature&quot;]
+        KVM[&quot;KnowledgeCatalogViewModel&quot;]
+    end
+
+    ROUTING[&quot;HelpdeskNavigationRouting\n(protocol)&quot;]
+
+    RB -.-&gt; RC
+    RB -.-&gt; TVM
+    RB -.-&gt; KVM
+
+    TVM --&gt; RC
+    KVM --&gt; RC
+    TVM -.o ROUTING
+    RC --o ROUTING
+
+    RC --&gt; RV</pre>
+</div>
+<p>Lectura semántica conexión por conexión:</p>
+<ol>
+  <li><code>--&gt;</code> flujo directo de ejecución entre componentes ya construidos.</li>
+  <li><code>-.-&gt;</code> ensamblado/configuración en composition root (no ejecución de casos de uso).</li>
+  <li><code>-.o</code> dependencia hacia contrato desde feature.</li>
+  <li><code>--o</code> implementación concreta que satisface y propaga ese contrato.</li>
+</ol>
+<p>Regla de sanity-check:</p>
+<ul>
+  <li>si <code>HelpdeskAppRootBuilder</code> aparece con <code>--&gt;</code> contra lógica de feature, se está mezclando wiring con runtime.</li>
+</ul>
 <h2 id="12-semana-11-06-refactor-wiring-entre-features-implementaci-n-representativa">Implementación representativa</h2>
 <pre><code class="language-swift">public func makeRootView() -&gt; HelpdeskRootView {
     let coordinator = makeRootCoordinator()
