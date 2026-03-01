@@ -1,6 +1,6 @@
 # SESSION HANDOFF
 
-Fecha de corte: 2026-02-27
+Fecha de corte: 2026-03-01
 
 ## Leyenda
 - ✅ Hecho
@@ -83,15 +83,30 @@ Repos incluidos:
        - ruteo ortogonal de flechas (runtime/wiring/contrato/salida) sin puntas descentradas.
        - labels y cajas recalibrados para evitar clipping.
      - intento `npx -y vercel deploy --prod --yes` -> BLOQUEADO por cuota diaria (`api-deployments-free-per-day`).
-     - asserts BYOK en smoke:
-       - `/ios/assets/assistant-panel.js` contiene `KEY_PROVIDER`.
-       - `/android/assets/assistant-panel.js` contiene `KEY_PROVIDER`.
-       - `/sdd/assets/assistant-panel.js` contiene `KEY_PROVIDER`.
+     - asserts runtime en smoke:
+       - `/ios/assets/assistant-panel.js` contiene `KEY_PROVIDER` o `KEY_DAILY_BUDGET`.
+       - `/android/assets/assistant-panel.js` contiene `KEY_PROVIDER` o `KEY_DAILY_BUDGET`.
+       - `/sdd/assets/assistant-panel.js` contiene `KEY_PROVIDER` o `KEY_DAILY_BUDGET`.
+
+## Último bloque operativo ejecutado
+1. Fase 1 de performance móvil aplicada en iOS/Android/SDD + sync Hub.
+2. Cambios ejecutados:
+   - lazy render Mermaid por viewport con warmup.
+   - lazy highlight de snippets por viewport con warmup.
+   - imágenes Markdown en `loading=lazy` + `decoding=async`.
+   - `content-visibility` en secciones de lección para defer de render.
+   - ajuste de smoke runtime del Hub para validar marker BYOK o marker legacy.
+3. Evidencia técnica:
+   - `python3 scripts/build-html.py` en iOS/Android/SDD -> PASS.
+   - `./scripts/build-hub.sh --mode strict` en Hub -> PASS.
+   - Playwright local: render inicial diferido confirmado (`mermaidRendered=3` en carga inicial iOS, incremento al navegar/scroll).
+4. Plan formal de continuidad:
+   - `docs/PLAN-PERFORMANCE-MOBILE-FIRST-20260301.md`
 
 ## Trabajo en curso
-1. No hay task activa en construccion.
-2. Bloque cerrado: ejecución de `docs/PLAN-MAESTRO-IMPLEMENTACION-CURSOS-20260227.md` en repos fuente y Hub.
-3. Estado pendiente externo: despliegue final Vercel bloqueado por cuota diaria.
+1. 🚧 Fase 2 mobile-first UX (Hub landing + ajuste fino de breakpoints en cursos).
+2. ⏳ Fase 3 validación final + despliegue Vercel del bloque.
+3. ✅ Fase 1 performance móvil cerrada.
 
 ## Última comprobación de espera activa
 1. Fecha: 2026-02-27.
@@ -126,10 +141,13 @@ Repos incluidos:
 24. ⛔ Despliegue final Vercel bloqueado por cuota diaria (`api-deployments-free-per-day`).
 25. ✅ Corrección visual Mermaid post-cierre integrada (fuentes iOS/Android + sync Hub).
 26. ✅ Arquitectura por capas estilo mock migrada a SVG en iOS/Android/SDD y publicada en Hub.
+27. ✅ Fase 1 performance móvil aplicada cross-course + sync Hub en verde.
+28. 🚧 Fase 2 mobile-first UX (Hub + cursos).
+29. ⏳ Fase 3 validación final + despliegue Vercel.
 
 ## Siguiente paso concreto
 1. Mantener este paquete `docs/` como fuente de verdad transversal.
-2. Reintentar despliegue final en Vercel cuando se resetee la cuota.
+2. Ejecutar Fase 2 del plan mobile-first y cerrar con validación visual móvil.
 3. Mantener commits atómicos al abrir próximo bloque operativo real.
 4. Actualizar handoff al cerrar cada bloque real.
 

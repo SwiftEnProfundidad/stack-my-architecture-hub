@@ -174,6 +174,7 @@ copy_course_output_preserving_assistant_panel() {
   local src="$1"
   local dst="$2"
   local label="$3"
+  local rel_dst="${dst#"$HUB_ROOT"/}"
   local assistant_rel="assets/assistant-panel.js"
   local dst_assistant="$dst/$assistant_rel"
   local backup_file="$RUNTIME_DIR/.preserve-${label}-assistant-panel.js"
@@ -190,6 +191,10 @@ copy_course_output_preserving_assistant_panel() {
     mkdir -p "$dst/assets"
     cp "$backup_file" "$dst_assistant"
     rm -f "$backup_file"
+  fi
+
+  if git -C "$HUB_ROOT" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    git -C "$HUB_ROOT" clean -f -- "$rel_dst/assets" >/dev/null 2>&1 || true
   fi
 }
 
