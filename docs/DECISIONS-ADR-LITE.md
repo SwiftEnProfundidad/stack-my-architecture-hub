@@ -259,6 +259,25 @@ Extender el estándar de semántica explícita de 4 flechas Mermaid (`-->`, `-.-
 2. Garantizar que cualquier alumno pueda interpretar runtime, wiring, contrato y propagación en cualquier curso.
 3. Reducir ambigüedad de acoplamientos en revisiones técnicas y seguimiento de lecciones.
 
+## ADR-LITE-015 — Carga diferida del panel IA y sync fuente-first en Hub
+### Fecha
+2026-03-01
+
+### Decisión
+1. Cargar `assistant-panel.js` bajo demanda desde `assistant-bridge.js` (al abrir asistente o consultar selección), en lugar de carga eager al boot.
+2. Publicar en HTML la ruta versionada `window.__SMA_ASSISTANT_PANEL_SRC` para el loader.
+3. En Hub, preservar `assistant-panel.js` solo bajo bandera explícita (`PRESERVE_ASSISTANT_PANEL=1`) y por defecto sincronizar desde fuentes.
+
+### Motivación
+1. Reducir coste de parse/ejecución inicial en móvil y evitar ruido de red (`/health`) al cold start.
+2. Asegurar que los cambios reales en paneles fuente lleguen a Hub sin bloqueos por guardrails permanentes.
+3. Mantener capacidad de rollback manual si se necesita preservar panel legacy temporalmente.
+
+### Impacto
+1. iOS/Android/SDD cargan más rápido en primer paint al diferir JS no crítico.
+2. El asistente sigue operativo en click, sin regresión funcional en consulta.
+3. `build-hub --mode strict` y smoke runtime permanecen en verde con sync fuente-first.
+
 ### Impacto
 1. Android actualiza:
    - `01-junior/04-hilt-integracion-inicial.md`

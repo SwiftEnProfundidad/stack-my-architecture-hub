@@ -25,3 +25,9 @@ Reducir tiempo de carga percibido en iPhone y consolidar base responsive/mobile-
 1. ✅ Smoke funcional final en rutas públicas (`/`, `/ios/`, `/android/`, `/sdd/`).
 2. ✅ Medición comparativa de carga percibida móvil (antes/después) y registro en handoff.
 3. ✅ Deploy Vercel del bloque completo.
+
+## Fase 4 — Hardening runtime móvil (2026-03-01 tarde)
+1. ✅ Carga diferida de `assistant-panel.js` en iOS/Android/SDD (solo bajo interacción del usuario).
+2. ✅ Eliminación de llamadas `/health` en arranque en frío de los 3 cursos (validado con Playwright).
+3. ✅ Sync Hub + `build-hub --mode strict` en verde con `assistant-panel.js` actualizado desde fuentes.
+4. 🚧 Pase responsive móvil final (iPhone) para compactar controles y reducir ruido visual en viewport estrecho.

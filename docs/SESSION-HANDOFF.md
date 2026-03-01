@@ -89,24 +89,26 @@ Repos incluidos:
        - `/sdd/assets/assistant-panel.js` contiene `KEY_PROVIDER` o `KEY_DAILY_BUDGET`.
 
 ## Último bloque operativo ejecutado
-1. Fase 1 de performance móvil aplicada en iOS/Android/SDD + sync Hub.
+1. Fase 4 de hardening runtime móvil aplicada en iOS/Android/SDD + sync Hub.
 2. Cambios ejecutados:
-   - lazy render Mermaid por viewport con warmup.
-   - lazy highlight de snippets por viewport con warmup.
-   - imágenes Markdown en `loading=lazy` + `decoding=async`.
-   - `content-visibility` en secciones de lección para defer de render.
-   - ajuste de smoke runtime del Hub para validar marker BYOK o marker legacy.
+   - `assistant-panel.js` diferido bajo interacción (lazy-load desde `assistant-bridge.js`).
+   - eliminación de llamadas `/health` en arranque en frío.
+   - sincronización de `assistant-panel.js` fuente->Hub sin preservación forzada.
+   - ajuste de `build-hub.sh` para preservar panel solo en modo explícito (`PRESERVE_ASSISTANT_PANEL=1`).
 3. Evidencia técnica:
    - `python3 scripts/build-html.py` en iOS/Android/SDD -> PASS.
    - `./scripts/build-hub.sh --mode strict` en Hub -> PASS.
-   - Playwright local: render inicial diferido confirmado (`mermaidRendered=3` en carga inicial iOS, incremento al navegar/scroll).
+   - Playwright local:
+     - carga inicial en `ios/android/sdd` sin requests `/health`.
+     - apertura de asistente en `ios/android/sdd` sin requests `/health` automáticos.
 4. Plan formal de continuidad:
    - `docs/PLAN-PERFORMANCE-MOBILE-FIRST-20260301.md`
 
 ## Trabajo en curso
-1. 🚧 Fase 2 mobile-first UX (Hub landing + ajuste fino de breakpoints en cursos).
-2. ⏳ Fase 3 validación final + despliegue Vercel del bloque.
-3. ✅ Fase 1 performance móvil cerrada.
+1. ✅ Fase 1 performance móvil cerrada.
+2. ✅ Fase 2 mobile-first UX cerrada.
+3. ✅ Fase 3 validación final + publicación cerrada.
+4. 🚧 Fase 4.4: pase responsive móvil final (iPhone viewport estrecho) en cursos + Hub.
 
 ## Última comprobación de espera activa
 1. Fecha: 2026-02-27.
