@@ -1039,3 +1039,44 @@ Se optimizó la entrega de diagramas pesados de iOS usados en `ETAPA 0`:
 
 ### Resultado
 Menor peso de descarga de diagramas críticos en iOS móvil sin regresión funcional en apertura de cursos ni en runtime del Hub.
+
+## Publicación Fase 8 en Vercel
+### Fecha
+2026-03-01
+
+### Evidencia de despliegue
+1. Deployment: `https://architecture-stack-gflts3pkz-merlosalbarracins-projects.vercel.app`
+2. Alias productivo: `https://architecture-stack.vercel.app`
+
+### Verificación de rutas públicas
+1. `https://architecture-stack.vercel.app/` -> `200`
+2. `https://architecture-stack.vercel.app/ios/` -> `200`
+3. `https://architecture-stack.vercel.app/android/` -> `200`
+4. `https://architecture-stack.vercel.app/sdd/` -> `200`
+
+### Resultado
+Bloque Fase 8 publicado en productivo sin regresión de arranque ni navegación entre cursos.
+
+## Fix UX móvil — Dropdown de cursos visible sobre topbar
+### Fecha
+2026-03-01
+
+### Contexto
+En móvil, el menú desplegable de cursos quedaba recortado y obligaba a scroll dentro de la topbar.
+Se corrigió en iOS/Android/SDD:
+1. `global-topbar` deja de recortar overlays.
+2. `#course-switcher` vuelve a contexto `position: relative` con `z-index` superior.
+3. `#course-switcher-menu` se renderiza por encima del resto de controles.
+
+### Evidencia versionada
+1. iOS PR `#26` -> merge `5b23493`.
+2. Android PR `#22` -> merge `e161716`.
+3. SDD PR `#23` -> merge `c713e71`.
+
+### Verificación funcional
+1. Hub: `./scripts/build-hub.sh --mode strict` -> PASS.
+2. Hub: `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
+3. Hub: `./scripts/smoke-hub-runtime.sh` -> OK.
+
+### Resultado
+El selector de cursos vuelve a desplegar completo y legible en móvil, sin clipping en topbar.

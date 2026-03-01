@@ -586,3 +586,23 @@ Adicionalmente, limpiar `dist/assets` en cada build iOS para evitar artefactos o
 1. Menor payload efectivo para diagramas de arquitectura en dispositivos con soporte `webp`.
 2. Mismo resultado visual y semántico para estudiantes.
 3. Sin regresión en validación Hub (`strict`, `no drift`, `smoke`).
+
+## ADR-LITE-030 — Dropdown de cursos como overlay no recortable en topbar móvil
+### Fecha
+2026-03-01
+
+### Decisión
+En iOS/Android/SDD, el selector de cursos se mantiene como overlay real por encima de la topbar:
+1. `global-topbar` no recorta overlays,
+2. `#course-switcher` mantiene `position: relative` y `z-index` alto,
+3. `#course-switcher-menu` usa un `z-index` superior al resto de controles.
+
+### Motivación
+1. En móvil el dropdown quedaba oculto/recortado y forzaba scroll no deseado.
+2. Se degradaba navegación rápida entre cursos.
+3. Era necesario restaurar la UX original de menú desplegable visible por superposición.
+
+### Impacto
+1. Menú de cursos visible y utilizable en móvil.
+2. Sin cambios funcionales en navegación ni en controles de estudio.
+3. Validación técnica en verde tras sync Hub (`strict`, `no drift`, `smoke`).

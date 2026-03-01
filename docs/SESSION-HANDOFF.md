@@ -86,7 +86,10 @@ Repos incluidos:
      - optimización de payload de diagramas iOS para móvil:
        - `picture` con `webp` + fallback `png` para `core/login/catalog` en `ETAPA 0`.
        - limpieza de `dist/assets` por build para evitar residuos de assets obsoletos.
-     - intento `npx -y vercel deploy --prod --yes` -> BLOQUEADO por cuota diaria (`api-deployments-free-per-day`).
+     - despliegue Vercel productivo completado:
+       - deployment: `https://architecture-stack-gflts3pkz-merlosalbarracins-projects.vercel.app`
+       - alias: `https://architecture-stack.vercel.app`
+       - rutas en `200`: `/`, `/ios/`, `/android/`, `/sdd/`.
      - asserts runtime en smoke:
        - `/ios/assets/assistant-panel.js` contiene `KEY_PROVIDER` o `KEY_DAILY_BUDGET`.
        - `/android/assets/assistant-panel.js` contiene `KEY_PROVIDER` o `KEY_DAILY_BUDGET`.
@@ -106,6 +109,7 @@ Repos incluidos:
    - diferir `study-ux-index-actions` a fase `idle` para reducir coste del primer render en móvil.
    - indexación de enlaces por `topicId` y decoración de badges global diferida a `idle`, con actualización inmediata del tópico afectado.
    - optimización de imágenes de arquitectura iOS para móvil (`webp` + fallback `png`) con limpieza determinista de `dist/assets`.
+   - restauración del menú desplegable de cursos en topbar móvil (iOS/Android/SDD) para evitar clipping por `overflow` y mantener overlay visible sin scroll adicional.
 3. Evidencia técnica:
    - `python3 scripts/build-html.py` en iOS/Android/SDD -> PASS.
    - `python3 -m py_compile scripts/build-html.py` en iOS/Android/SDD -> PASS.
@@ -132,6 +136,7 @@ Repos incluidos:
 6. ✅ Fase 6: diferir panel de acciones/estadísticas del índice a `idle` (sin cambio funcional).
 7. ✅ Fase 7: optimización de badges del índice (idle global + update inmediato por tópico).
 8. ✅ Fase 8: optimización de diagramas iOS para móvil (`webp` + fallback `png`) y sync Hub.
+9. ✅ Fix UX móvil: dropdown de cursos vuelve a mostrarse por encima de la topbar sin recorte.
 
 ## Última comprobación de espera activa
 1. Fecha: 2026-02-27.

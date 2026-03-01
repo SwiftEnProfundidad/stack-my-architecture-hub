@@ -129,6 +129,14 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
       - variantes `webp` para diagramas de arquitectura `core/login/catalog`,
       - renderer `picture` (`webp` + fallback `png`) en `scripts/build-html.py`,
       - limpieza determinista de `dist/assets` por build para evitar residuos.
+56. Corrección UX móvil del selector de cursos (2026-03-01):
+    - iOS PR `#26` -> merge `5b23493`.
+    - Android PR `#22` -> merge `e161716`.
+    - SDD PR `#23` -> merge `c713e71`.
+    - alcance:
+      - `global-topbar` no recorta overlays,
+      - `#course-switcher` recupera contexto relativo + `z-index` superior,
+      - menú desplegable visible por encima de controles en móvil.
 
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.
@@ -266,6 +274,7 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 36. ✅ Ejecutar Fase 6 de diferido a `idle` del panel de acciones/estadísticas en iOS/Android/SDD + sync Hub.
 37. ✅ Ejecutar Fase 7 de optimización de badges del índice (idle global + update inmediato por tópico) en iOS/Android/SDD + sync Hub.
 38. ✅ Ejecutar Fase 8 de optimización de imágenes de arquitectura iOS (webp + fallback png) y sync Hub en verde.
+39. ✅ Restaurar UX del dropdown de cursos en móvil (overlay visible sin clipping) en iOS/Android/SDD + sync Hub.
 
 ## Bloqueos actuales
 1. Riesgo de seguimiento: confusión en `codex resume` por filtro de `cwd`.
