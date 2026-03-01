@@ -78,6 +78,10 @@ Repos incluidos:
      - `./scripts/smoke-hub-runtime.sh` -> OK.
      - corrección Mermaid post-cierre validada visualmente con Playwright (sin `Syntax error in text` en muestra iOS).
      - arquitectura por capas SVG (estilo mock) sincronizada para iOS/Android/SDD con build strict en verde.
+     - refinamiento visual determinista del SVG iOS (Lección 1: Core Mobile Architecture) validado con Playwright:
+       - `Composition / App Shell` separado bajo `Application`.
+       - ruteo ortogonal de flechas (runtime/wiring/contrato/salida) sin puntas descentradas.
+       - labels y cajas recalibrados para evitar clipping.
      - intento `npx -y vercel deploy --prod --yes` -> BLOQUEADO por cuota diaria (`api-deployments-free-per-day`).
      - asserts BYOK en smoke:
        - `/ios/assets/assistant-panel.js` contiene `KEY_PROVIDER`.
