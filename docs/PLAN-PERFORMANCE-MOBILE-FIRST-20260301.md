@@ -23,5 +23,5 @@ Reducir tiempo de carga percibido en iPhone y consolidar base responsive/mobile-
 
 ## Fase 3 — Validación final + publicación
 1. ✅ Smoke funcional final en rutas públicas (`/`, `/ios/`, `/android/`, `/sdd/`).
-2. 🚧 Medición comparativa de carga percibida móvil (antes/después) y registro en handoff.
-3. ⏳ Deploy Vercel del bloque completo.
+2. ✅ Medición comparativa de carga percibida móvil (antes/después) y registro en handoff.
+3. ✅ Deploy Vercel del bloque completo.

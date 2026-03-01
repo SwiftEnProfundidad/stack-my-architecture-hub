@@ -833,3 +833,31 @@ Se cerró el bloque mobile-first en iOS/Android/SDD para iPhone pequeño:
 
 ### Resultado
 Hub mantiene estabilidad operativa tras cerrar Fase 2 y conserva apertura correcta de cursos en móvil.
+
+## Cierre Fase 3 (validación final + deploy Vercel)
+### Fecha
+2026-03-01
+
+### Contexto
+Se cerró el bloque final del plan mobile/performance con deploy único a Vercel tras validar smoke local y métricas de carga percibida.
+
+### Evidencia de validación
+1. Smoke final local: `./scripts/build-hub.sh --mode strict` -> PASS.
+2. Drift final: `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
+3. Métrica móvil Playwright (`390x844`):
+   - iOS: `domReadyMs=576`, `mermaid 3/228`, `hljs 16/659`.
+   - Android: `domReadyMs=399`, `mermaid 3/26`, `hljs 16/222`.
+   - SDD: `domReadyMs=434`, `mermaid 3/357`, `hljs 16/743`.
+   - Topbar estable en los 3 cursos: `height=78px`, `padding-top=74px`.
+
+### Evidencia de publicación
+1. Deploy producción: `https://architecture-stack-7vplljuwi-merlosalbarracins-projects.vercel.app`
+2. Alias activo: `https://architecture-stack.vercel.app`
+3. Verificación HTTP de rutas públicas en producción:
+   - `/` -> `200`
+   - `/ios/index.html` -> `200`
+   - `/android/index.html` -> `200`
+   - `/sdd/index.html` -> `200`
+
+### Resultado
+Plan de fases mobile-first/performance cerrado end-to-end sin regresión de apertura de cursos.
