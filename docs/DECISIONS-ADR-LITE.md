@@ -219,6 +219,27 @@ Exigir que las lecciones núcleo de arquitectura iOS apliquen y expliquen explí
 2. Mejorar comprensión de acoplamientos reales (runtime, wiring, contrato, propagación).
 3. Reducir ambigüedad en revisiones técnicas y en seguimiento del alumno.
 
+## ADR-LITE-014 — Render diferido de Mermaid y snippets para carga móvil
+### Fecha
+2026-03-01
+
+### Decisión
+Aplicar render diferido por viewport en los 3 cursos (`ios/android/sdd`) para Mermaid y snippets, con warmup inicial limitado.
+
+### Motivación
+1. El coste de render de cientos de diagramas/snippets bloqueaba carga inicial en iPhone.
+2. Se necesitaba mejorar tiempo de primera interacción sin recortar contenido.
+3. El modelo de lección larga requiere priorizar contenido visible y diferir el resto.
+
+### Impacto
+1. Mermaid:
+   - Se renderiza subset inicial y el resto al entrar en viewport.
+2. Snippets:
+   - Highlight.js deja de ejecutarse en masa al arranque y pasa a ejecutarse por viewport.
+3. Markdown imágenes:
+   - Se emiten con `loading=lazy` y `decoding=async`.
+4. Se mantiene compatibilidad funcional en Hub (`build-hub --mode strict` en verde).
+
 ### Impacto
 1. Lecciones actualizadas:
    - `02-integracion/09-app-final-etapa-2.md`

@@ -1,6 +1,6 @@
 # STACK ARCHITECTURE MASTER TRACKER
 
-Fecha de actualización: 2026-02-27
+Fecha de actualización: 2026-03-01
 
 ## Leyenda
 - ✅ Hecho
@@ -178,6 +178,14 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
     - Hub sync bundles commit `06ab4cc`
 36. Pulido visual post-upgrade del SVG iOS (Lección 1):
     - layout manual determinista + ruteo limpio de flechas + verificación visual Playwright.
+37. Fase 1 de performance móvil aplicada cross-course (iOS/Android/SDD) + sync Hub:
+    - lazy Mermaid por viewport + warmup inicial.
+    - lazy highlight de snippets por viewport + warmup inicial.
+    - imágenes Markdown con `loading=\"lazy\"` y `decoding=\"async\"`.
+    - `content-visibility` en bloques de lección.
+    - build Hub strict en verde tras ajuste de smoke runtime para aceptar marker legacy o BYOK (`KEY_PROVIDER | KEY_DAILY_BUDGET`).
+38. Plan operativo por fases versionado:
+    - `docs/PLAN-PERFORMANCE-MOBILE-FIRST-20260301.md`
 
 ## Tablero operativo (solo 1 en construcción)
 1. ✅ Publicar sync selectivo cross-course iOS + Android + SDD en Hub (`c9cd8c3`).
@@ -208,6 +216,9 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 26. ✅ Corrección visual Mermaid post-cierre integrada y validada en Hub (`build-hub strict`, `no drift`, `smoke`).
 27. ✅ Migración del diagrama por capas a SVG estilo mock (iOS/Android/SDD) + sync Hub validado.
 28. ✅ Pulido visual determinista del diagrama SVG iOS en Lección 1 (respiración de módulos, ruteo limpio y labels sin clipping).
+29. ✅ Ejecutar Fase 1 de rendimiento móvil en iOS/Android/SDD y publicar sync en Hub sin regresión de rutas.
+30. 🚧 Ejecutar Fase 2 mobile-first UX (Hub landing + ajuste fino de breakpoints de cursos).
+31. ⏳ Ejecutar Fase 3 (validación final + despliegue Vercel del bloque completo).
 
 ## Bloqueos actuales
 1. Bloqueo externo de publicación: cuota diaria de deployments Vercel agotada.

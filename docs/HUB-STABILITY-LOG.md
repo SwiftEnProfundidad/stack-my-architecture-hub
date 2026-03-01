@@ -149,6 +149,40 @@ Se validaron los cambios pendientes de `android/*.html` y `sdd/*.html` en Hub co
 ### Resultado
 Hub se mantiene estable tras sincronizar Android + SDD.
 
+## Regresión post-optimización de carga móvil (Fase 1)
+### Fecha
+2026-03-01
+
+### Contexto
+Se aplicó optimización runtime en generadores de cursos (`iOS`, `Android`, `SDD`) para reducir carga inicial en móvil sin tocar contenido:
+1. Mermaid diferido por viewport.
+2. Highlight de snippets diferido por viewport.
+3. Imágenes Markdown con `loading="lazy"` y `decoding="async"`.
+4. `content-visibility` por sección de lección.
+
+### Evidencia versionada
+1. Rebuild fuente:
+   - `python3 scripts/build-html.py` en `stack-my-architecture-ios` -> OK
+   - `python3 scripts/build-html.py` en `stack-my-architecture-android` -> OK
+   - `python3 scripts/build-html.py` en `stack-my-architecture-SDD` -> OK
+2. Hub strict:
+   - `./scripts/build-hub.sh --mode strict` -> OK
+3. Smoke runtime:
+   - check de `assistant-panel.js` ahora acepta marcador BYOK (`KEY_PROVIDER`) o marcador legacy (`KEY_DAILY_BUDGET`) para evitar falso negativo de smoke en variantes de panel.
+
+### Verificación funcional
+1. Rutas runtime en smoke:
+   - `/index.html` -> OK
+   - `/ios/index.html` -> OK
+   - `/android/index.html` -> OK
+   - `/sdd/index.html` -> OK
+2. Validación visual Playwright local:
+   - render inicial diferido confirmado (solo subset inicial de Mermaid/snippets en primer paint).
+   - incremento progresivo de render al navegar/scroll.
+
+### Resultado
+Sin regresión de apertura de cursos y con carga inicial más liviana en cliente móvil.
+
 ## Regresión post-sync selectivo cross-course iOS + Android + SDD
 ### Fecha
 2026-02-25
