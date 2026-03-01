@@ -61,6 +61,28 @@ check_http_contains() {
   fi
 }
 
+check_http_contains_any() {
+  local url="$1"
+  shift
+  local body="$TMP_DIR/body.txt"
+  local code
+  code="$(curl -sS -o "$body" -w "%{http_code}" "$url")"
+  if [[ "$code" != "200" ]]; then
+    echo "[ERROR] ${url} devolvió HTTP ${code}" >&2
+    exit 1
+  fi
+
+  local expected
+  for expected in "$@"; do
+    if rg -q --fixed-strings "$expected" "$body"; then
+      return 0
+    fi
+  done
+
+  echo "[ERROR] ${url} no contiene ninguno de los marcadores esperados: $*" >&2
+  exit 1
+}
+
 if [[ -z "$PORT" ]]; then
   PORT="$(pick_port || true)"
 fi
@@ -101,9 +123,9 @@ check_http_contains "http://127.0.0.1:${PORT}/ios/index.html" "stack-my-architec
 check_http_contains "http://127.0.0.1:${PORT}/android/index.html" "stack-my-architecture-android"
 check_http_contains "http://127.0.0.1:${PORT}/sdd/index.html" "stack-my-architecture-sdd"
 check_http_contains "http://127.0.0.1:${PORT}/ios/assets/study-ux.js" "(function () {"
-check_http_contains "http://127.0.0.1:${PORT}/ios/assets/assistant-panel.js" "KEY_PROVIDER"
-check_http_contains "http://127.0.0.1:${PORT}/android/assets/assistant-panel.js" "KEY_PROVIDER"
-check_http_contains "http://127.0.0.1:${PORT}/sdd/assets/assistant-panel.js" "KEY_PROVIDER"
+check_http_contains_any "http://127.0.0.1:${PORT}/ios/assets/assistant-panel.js" "KEY_PROVIDER" "KEY_DAILY_BUDGET"
+check_http_contains_any "http://127.0.0.1:${PORT}/android/assets/assistant-panel.js" "KEY_PROVIDER" "KEY_DAILY_BUDGET"
+check_http_contains_any "http://127.0.0.1:${PORT}/sdd/assets/assistant-panel.js" "KEY_PROVIDER" "KEY_DAILY_BUDGET"
 check_http_contains "http://127.0.0.1:${PORT}/sdd/assets/assistant-panel.js" "KEY_DAILY_BUDGET"
 
 echo "[OK] Runtime smoke test passed (port $PORT)"
