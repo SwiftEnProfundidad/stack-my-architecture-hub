@@ -469,3 +469,20 @@ Estandarizar en iOS/Android/SDD:
 1. UX móvil consistente en iOS/Android/SDD (sidebar funcional + topbar compacta).
 2. Menos fricción de lectura en pantallas pequeñas.
 3. Hub sincronizado sin regresión (`build-hub strict`, `no drift 6/6`, smoke runtime OK).
+
+## ADR-LITE-024 — Carga no bloqueante de Mermaid/Highlight fuera del path crítico
+### Fecha
+2026-03-01
+
+### Decisión
+Mover la carga de `mermaid.min.js` y `highlight.min.js` (incluyendo lenguaje) desde scripts `defer` en `<head>` a carga dinámica bajo demanda en runtime para iOS/Android/SDD.
+
+### Motivación
+1. Reducir impacto de red externa lenta en arranque móvil, especialmente en iPhone.
+2. Evitar que dependencias CDN retrasen el ciclo de hidratación inicial.
+3. Mantener render progresivo de diagramas/snippets sin perder funcionalidad.
+
+### Impacto
+1. `renderMermaid()` e `initCodeHighlighting()` pasan a flujo asíncrono con loaders idempotentes.
+2. El arranque inicial queda desacoplado de disponibilidad inmediata de CDNs.
+3. Validación operativa en verde tras sync Hub (`strict`, `no drift`, `smoke`).
