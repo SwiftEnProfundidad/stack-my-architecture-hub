@@ -85,6 +85,10 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 44. Sync selectivo de Hub publicado tras upgrade SVG de arquitectura:
     - commit `06ab4cc` en branch `chore/hub-sync-svg-architecture-20260227`
     - validación en verde: `build-hub --mode strict`, `check-selective-sync-drift -> no drift (6/6)`, `smoke-hub-runtime -> OK`.
+45. Refinamiento visual determinista del SVG de arquitectura iOS (Lección 1 Core Mobile):
+    - `Composition / App Shell` reposicionado bajo `Application` con respiración modular.
+    - ruteo ortogonal de 4 tipos de flechas sin quiebres ni puntas desalineadas.
+    - tipografía y tamaños de nodos recalibrados para evitar clipping de labels.
 
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.
@@ -172,6 +176,8 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
     - Android PR `#12` merge `3896bad`
     - SDD PR `#13` merge `0338ba9`
     - Hub sync bundles commit `06ab4cc`
+36. Pulido visual post-upgrade del SVG iOS (Lección 1):
+    - layout manual determinista + ruteo limpio de flechas + verificación visual Playwright.
 
 ## Tablero operativo (solo 1 en construcción)
 1. ✅ Publicar sync selectivo cross-course iOS + Android + SDD en Hub (`c9cd8c3`).
@@ -201,6 +207,7 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 25. ⛔ Despliegue final Vercel bloqueado por cuota diaria (`api-deployments-free-per-day`).
 26. ✅ Corrección visual Mermaid post-cierre integrada y validada en Hub (`build-hub strict`, `no drift`, `smoke`).
 27. ✅ Migración del diagrama por capas a SVG estilo mock (iOS/Android/SDD) + sync Hub validado.
+28. ✅ Pulido visual determinista del diagrama SVG iOS en Lección 1 (respiración de módulos, ruteo limpio y labels sin clipping).
 
 ## Bloqueos actuales
 1. Bloqueo externo de publicación: cuota diaria de deployments Vercel agotada.
