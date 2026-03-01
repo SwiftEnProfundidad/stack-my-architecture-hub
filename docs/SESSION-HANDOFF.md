@@ -143,11 +143,11 @@ Repos incluidos:
 26. ✅ Arquitectura por capas estilo mock migrada a SVG en iOS/Android/SDD y publicada en Hub.
 27. ✅ Fase 1 performance móvil aplicada cross-course + sync Hub en verde.
 28. ✅ Fase 2 mobile-first UX (Hub + cursos).
-29. 🚧 Fase 3 validación final + despliegue Vercel.
+29. ✅ Fase 3 validación final + despliegue Vercel.
 
 ## Siguiente paso concreto
 1. Mantener este paquete `docs/` como fuente de verdad transversal.
-2. Cerrar Fase 3 con medición comparativa final y despliegue Vercel.
+2. Abrir próximo bloque operativo solo ante trigger real (nueva mejora o incidencia).
 3. Mantener commits atómicos al abrir próximo bloque operativo real.
 4. Actualizar handoff al cerrar cada bloque real.
 

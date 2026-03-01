@@ -218,16 +218,15 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 28. ✅ Pulido visual determinista del diagrama SVG iOS en Lección 1 (respiración de módulos, ruteo limpio y labels sin clipping).
 29. ✅ Ejecutar Fase 1 de rendimiento móvil en iOS/Android/SDD y publicar sync en Hub sin regresión de rutas.
 30. ✅ Ejecutar Fase 2 mobile-first UX (Hub landing + ajuste fino de breakpoints de cursos).
-31. 🚧 Ejecutar Fase 3 (validación final + despliegue Vercel del bloque completo).
+31. ✅ Ejecutar Fase 3 (validación final + despliegue Vercel del bloque completo).
 
 ## Bloqueos actuales
-1. Bloqueo externo de publicación: cuota diaria de deployments Vercel agotada.
-2. Riesgo de seguimiento: confusión en `codex resume` por filtro de `cwd`.
-3. Riesgo de referencia remota en `SDD`: `origin/main` mantiene una línea distinta al baseline operativo actual (`main` local); no integrar sin instrucción explícita.
+1. Riesgo de seguimiento: confusión en `codex resume` por filtro de `cwd`.
+2. Riesgo de referencia remota en `SDD`: `origin/main` mantiene una línea distinta al baseline operativo actual (`main` local); no integrar sin instrucción explícita.
 
 ## Próximos pasos recomendados
 1. Mantener este tracker como fuente única de estado transversal.
-2. Reintentar despliegue Vercel cuando se resetee la cuota diaria.
+2. Mantener un único despliegue final por bloque para evitar consumo innecesario de cuota Vercel.
 3. Mantener política anti-bucle y registrar nuevos ciclos solo con trigger real.
 4. Aplicar sync selectivo por curso (iOS/Android/SDD) cuando se cierren nuevos bloques en repos fuente.
 5. Actualizar `docs/SESSION-HANDOFF.md` al cerrar cada sesión de trabajo.
@@ -262,6 +261,10 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
    - Sidebar off-canvas abre/cierra en iOS/Android/SDD (`transform -> 0` al abrir).
    - Topbar compacto estable en móvil (`height=78px`, `padding-top=74px`).
    - Sin líneas legacy `Siguiente: ...` detectadas en render (`hasLegacyNextText=false`).
+8. Despliegue productivo Vercel:
+   - Alias activo: `https://architecture-stack.vercel.app`
+   - Preview/producción: `https://architecture-stack-7vplljuwi-merlosalbarracins-projects.vercel.app`
+   - Verificación de rutas públicas (`/`, `/ios/index.html`, `/android/index.html`, `/sdd/index.html`) -> `200`.
    - Ajuste local operativo: `main` en SDD con upstream `origin/main` y `.git/info/exclude` saneado (`.vercel/`, `dist/`, `project/`).
 7. Validación técnica del bloque de auditoría profunda:
    - iOS: `./scripts/run-qa-audit-bundle.sh` -> PASS
