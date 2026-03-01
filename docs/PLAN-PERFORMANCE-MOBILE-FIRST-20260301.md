@@ -37,3 +37,8 @@ Reducir tiempo de carga percibido en iPhone y consolidar base responsive/mobile-
 1. ✅ Evitar reconstrucción global de navegación de lección en cada cambio de tema (`study-ux.js` en iOS/Android/SDD).
 2. ✅ Renderizar/actualizar controles de navegación solo para la lección activa.
 3. ✅ Rebuild + sync Hub + validación final (`strict`, `no drift`, `smoke`) en verde.
+
+## Fase 6 — Diferir panel de acciones/estadísticas a idle (2026-03-01 noche)
+1. ✅ Diferir inicialización de `study-ux-index-actions` a `requestIdleCallback` (fallback `setTimeout`) en iOS/Android/SDD.
+2. ✅ Mantener funcionalidad y accesibilidad de acciones de progreso/export/import/reset sin cambios de comportamiento.
+3. ✅ Rebuild + sync Hub + validación final (`strict`, `no drift`, `smoke`) en verde.

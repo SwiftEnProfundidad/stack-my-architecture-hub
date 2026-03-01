@@ -113,6 +113,11 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
     - Android PR `#19` -> merge `54f1e4b`.
     - SDD PR `#20` -> merge `3bb22d4`.
     - alcance: `study-ux.js` ya no reconstruye navegación para todas las lecciones en cada cambio; actualiza solo la lección activa.
+53. Diferido del panel de acciones/estadísticas a `idle` (2026-03-01):
+    - iOS PR `#23` -> merge `17083a7`.
+    - Android PR `#20` -> merge `78df99f`.
+    - SDD PR `#21` -> merge `7972e52`.
+    - alcance: `study-ux-index-actions` deja el path crítico de arranque y se inicializa en `requestIdleCallback` con fallback temporal.
 
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.
@@ -247,6 +252,7 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 33. ✅ Desacoplar Mermaid/Highlight del path crítico de arranque con carga dinámica runtime en iOS/Android/SDD.
 34. ✅ Ejecutar Fase 3 (validación final + despliegue Vercel del bloque completo).
 35. ✅ Ejecutar Fase 5 de micro-optimización de render de navegación (solo lección activa) en iOS/Android/SDD + sync Hub.
+36. ✅ Ejecutar Fase 6 de diferido a `idle` del panel de acciones/estadísticas en iOS/Android/SDD + sync Hub.
 
 ## Bloqueos actuales
 1. Riesgo de seguimiento: confusión en `codex resume` por filtro de `cwd`.
