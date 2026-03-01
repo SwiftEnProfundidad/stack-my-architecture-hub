@@ -564,3 +564,25 @@ Optimizar `study-ux.js` en iOS/Android/SDD:
 1. Menor trabajo en arranque y en toggles de estado.
 2. Feedback visual inmediato conservado para el tópico activo.
 3. Validación técnica en verde tras sync Hub (`strict`, `no drift`, `smoke`).
+
+## ADR-LITE-029 — Imágenes de arquitectura iOS en formato `picture` con `webp` + fallback `png`
+### Fecha
+2026-03-01
+
+### Decisión
+Para diagramas de arquitectura iOS de alto impacto en carga móvil:
+1. generar y publicar variantes `webp`,
+2. renderizar imágenes con `<picture>` y `source[type=\"image/webp\"]` + `img` fallback `png`,
+3. mantener `loading=\"lazy\"` y `decoding=\"async\"`.
+
+Adicionalmente, limpiar `dist/assets` en cada build iOS para evitar artefactos obsoletos en publicaciones sucesivas.
+
+### Motivación
+1. Reducir tiempo de carga percibido en iPhone sin alterar el contenido pedagógico.
+2. Mantener compatibilidad completa de navegador mediante fallback `png`.
+3. Evitar arrastre de assets antiguos en `dist` que generan ruido de sincronización.
+
+### Impacto
+1. Menor payload efectivo para diagramas de arquitectura en dispositivos con soporte `webp`.
+2. Mismo resultado visual y semántico para estudiantes.
+3. Sin regresión en validación Hub (`strict`, `no drift`, `smoke`).

@@ -194,9 +194,6 @@ copy_course_output_preserving_assistant_panel() {
     rm -f "$backup_file"
   fi
 
-  if git -C "$HUB_ROOT" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-    git -C "$HUB_ROOT" clean -f -- "$rel_dst/assets" >/dev/null 2>&1 || true
-  fi
 }
 
 say "[4/8] Copying iOS output folder AS-IS to hub/ios ..."

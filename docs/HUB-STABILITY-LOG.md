@@ -1013,3 +1013,29 @@ Se optimizó la decoración de badges (`✓` completado, `🔁` repaso) en `stud
 
 ### Resultado
 Menor trabajo de recorrido de enlaces en arranque y en toggles, manteniendo feedback visual inmediato para el usuario.
+
+## Cierre Fase 8 (optimización de imágenes de arquitectura iOS para móvil)
+### Fecha
+2026-03-01
+
+### Contexto
+Se optimizó la entrega de diagramas pesados de iOS usados en `ETAPA 0`:
+1. Nuevas variantes `webp` para:
+   - `architecture-ios-core-mobile`
+   - `architecture-ios-login-detail-v3`
+   - `architecture-ios-catalog-detail-v4`
+2. Render en builder con `<picture>` (source `webp` + fallback `png`) para reducir bytes en iPhone manteniendo compatibilidad.
+3. Limpieza de `dist/assets` en cada build para eliminar residuos obsoletos y evitar drift por arrastre.
+
+### Evidencia versionada
+1. iOS PR `#25` -> merge `9c51915`.
+
+### Verificación funcional
+1. iOS: `python3 -m py_compile scripts/build-html.py` -> PASS.
+2. iOS: `python3 scripts/build-html.py` -> PASS.
+3. Hub: `./scripts/build-hub.sh --mode strict` -> PASS.
+4. Hub: `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
+5. Hub: `./scripts/smoke-hub-runtime.sh` -> OK.
+
+### Resultado
+Menor peso de descarga de diagramas críticos en iOS móvil sin regresión funcional en apertura de cursos ni en runtime del Hub.

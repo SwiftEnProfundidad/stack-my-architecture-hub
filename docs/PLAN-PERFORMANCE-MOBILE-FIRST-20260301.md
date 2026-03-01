@@ -47,3 +47,9 @@ Reducir tiempo de carga percibido en iPhone y consolidar base responsive/mobile-
 1. ✅ Indexar enlaces del índice por `topicId` para evitar recorridos completos innecesarios.
 2. ✅ Diferir decoración global de badges (completado/repaso) a `idle`, manteniendo actualización inmediata del tema interactuado.
 3. ✅ Rebuild + sync Hub + validación final (`strict`, `no drift`, `smoke`) en verde.
+
+## Fase 8 — Optimización de imágenes de arquitectura iOS para móvil (2026-03-01 noche)
+1. ✅ Generar variantes `webp` de los diagramas iOS de mayor uso en `Core Mobile`.
+2. ✅ Emitir `<picture>` (`webp` + fallback `png`) desde `scripts/build-html.py` para mantener compatibilidad y reducir bytes descargados en Safari iPhone.
+3. ✅ Limpiar `dist/assets` en cada build para evitar arrastre de assets obsoletos y mantener sync determinista hacia Hub.
+4. ✅ Rebuild + sync Hub + validación final (`strict`, `no drift`, `smoke`) en verde.

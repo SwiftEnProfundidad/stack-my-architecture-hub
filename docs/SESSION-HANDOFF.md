@@ -83,6 +83,9 @@ Repos incluidos:
        - `Composition / App Shell` separado bajo `Application`.
        - ruteo ortogonal de flechas (runtime/wiring/contrato/salida) sin puntas descentradas.
        - labels y cajas recalibrados para evitar clipping.
+     - optimización de payload de diagramas iOS para móvil:
+       - `picture` con `webp` + fallback `png` para `core/login/catalog` en `ETAPA 0`.
+       - limpieza de `dist/assets` por build para evitar residuos de assets obsoletos.
      - intento `npx -y vercel deploy --prod --yes` -> BLOQUEADO por cuota diaria (`api-deployments-free-per-day`).
      - asserts runtime en smoke:
        - `/ios/assets/assistant-panel.js` contiene `KEY_PROVIDER` o `KEY_DAILY_BUDGET`.
@@ -102,6 +105,7 @@ Repos incluidos:
    - micro-optimización de navegación de lección: `study-ux.js` deja de reconstruir nav para todas las lecciones y actualiza solo la lección activa.
    - diferir `study-ux-index-actions` a fase `idle` para reducir coste del primer render en móvil.
    - indexación de enlaces por `topicId` y decoración de badges global diferida a `idle`, con actualización inmediata del tópico afectado.
+   - optimización de imágenes de arquitectura iOS para móvil (`webp` + fallback `png`) con limpieza determinista de `dist/assets`.
 3. Evidencia técnica:
    - `python3 scripts/build-html.py` en iOS/Android/SDD -> PASS.
    - `python3 -m py_compile scripts/build-html.py` en iOS/Android/SDD -> PASS.
@@ -127,6 +131,7 @@ Repos incluidos:
 5. ✅ Fase 5: micro-optimización del render de navegación de lección (solo tema activo).
 6. ✅ Fase 6: diferir panel de acciones/estadísticas del índice a `idle` (sin cambio funcional).
 7. ✅ Fase 7: optimización de badges del índice (idle global + update inmediato por tópico).
+8. ✅ Fase 8: optimización de diagramas iOS para móvil (`webp` + fallback `png`) y sync Hub.
 
 ## Última comprobación de espera activa
 1. Fecha: 2026-02-27.
@@ -165,6 +170,7 @@ Repos incluidos:
 28. ✅ Fase 2 mobile-first UX (Hub + cursos).
 29. ✅ Fase 3 validación final + despliegue Vercel.
 30. ✅ Desacoplar carga de Mermaid/Highlight del path crítico del arranque en iOS/Android/SDD.
+31. ✅ Fase 8 de optimización de imágenes de arquitectura iOS para móvil (`webp` + fallback `png`).
 
 ## Siguiente paso concreto
 1. Mantener este paquete `docs/` como fuente de verdad transversal.

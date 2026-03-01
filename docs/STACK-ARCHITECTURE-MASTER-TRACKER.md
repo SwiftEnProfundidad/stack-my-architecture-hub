@@ -123,6 +123,12 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
     - Android PR `#21` -> merge `5164038`.
     - SDD PR `#22` -> merge `0cf3d0d`.
     - alcance: decoración global de badges pasa a `idle`; toggles de completado/repaso actualizan solo el tópico interactuado en tiempo real.
+55. Optimización de payload de diagramas iOS para móvil (2026-03-01):
+    - iOS PR `#25` -> merge `9c51915`.
+    - alcance:
+      - variantes `webp` para diagramas de arquitectura `core/login/catalog`,
+      - renderer `picture` (`webp` + fallback `png`) en `scripts/build-html.py`,
+      - limpieza determinista de `dist/assets` por build para evitar residuos.
 
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.
@@ -259,6 +265,7 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 35. ✅ Ejecutar Fase 5 de micro-optimización de render de navegación (solo lección activa) en iOS/Android/SDD + sync Hub.
 36. ✅ Ejecutar Fase 6 de diferido a `idle` del panel de acciones/estadísticas en iOS/Android/SDD + sync Hub.
 37. ✅ Ejecutar Fase 7 de optimización de badges del índice (idle global + update inmediato por tópico) en iOS/Android/SDD + sync Hub.
+38. ✅ Ejecutar Fase 8 de optimización de imágenes de arquitectura iOS (webp + fallback png) y sync Hub en verde.
 
 ## Bloqueos actuales
 1. Riesgo de seguimiento: confusión en `codex resume` por filtro de `cwd`.
