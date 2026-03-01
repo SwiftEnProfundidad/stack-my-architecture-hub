@@ -183,6 +183,32 @@ Se aplicó optimización runtime en generadores de cursos (`iOS`, `Android`, `SD
 ### Resultado
 Sin regresión de apertura de cursos y con carga inicial más liviana en cliente móvil.
 
+## Regresión post-hardening del asistente IA en runtime móvil (Fase 4)
+### Fecha
+2026-03-01
+
+### Contexto
+Se detectó que los cursos publicados en Hub seguían haciendo comprobaciones `/health` del asistente IA en arranque en frío. Se aplicó hardening para diferir la carga de `assistant-panel.js` hasta interacción del usuario.
+
+### Cambios aplicados
+1. `assistant-bridge.js` en iOS/Android/SDD:
+   - carga dinámica de `assistant-panel.js` solo al abrir asistente o consultar selección.
+2. `scripts/build-html.py` en iOS/Android/SDD:
+   - publicación de `window.__SMA_ASSISTANT_PANEL_SRC`.
+   - eliminación de carga eager de `assistant-panel.js` en `<head>`.
+3. `scripts/build-hub.sh`:
+   - preservación de `assistant-panel.js` pasa a modo explícito (`PRESERVE_ASSISTANT_PANEL=1`) para permitir sync real desde repos fuente.
+
+### Evidencia técnica
+1. `python3 scripts/build-html.py` en iOS/Android/SDD -> OK.
+2. `./scripts/build-hub.sh --mode strict` -> OK.
+3. Playwright local (`ios/android/sdd`):
+   - en carga inicial: sin requests `/health`.
+   - al abrir asistente: carga `assistant-panel.js` on-demand, sin ping `/health` automático.
+
+### Resultado
+Carga inicial más ligera y eliminación de ruido de red del asistente IA al arranque, sin regresión en apertura de cursos ni en runtime del Hub.
+
 ## Regresión post-sync selectivo cross-course iOS + Android + SDD
 ### Fecha
 2026-02-25

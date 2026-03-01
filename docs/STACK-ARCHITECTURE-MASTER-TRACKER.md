@@ -89,6 +89,17 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
     - `Composition / App Shell` reposicionado bajo `Application` con respiración modular.
     - ruteo ortogonal de 4 tipos de flechas sin quiebres ni puntas desalineadas.
     - tipografía y tamaños de nodos recalibrados para evitar clipping de labels.
+46. Hardening runtime móvil completado para asistente IA:
+    - `assistant-panel.js` pasa a carga diferida bajo interacción en iOS/Android/SDD.
+    - se elimina tráfico `/health` durante cold start en los 3 cursos.
+47. Sincronización Hub actualizada con paneles fuente:
+    - `build-hub.sh` preserva `assistant-panel.js` solo si `PRESERVE_ASSISTANT_PANEL=1`.
+    - `build-hub --mode strict` y smoke runtime en verde con assets actualizados.
+48. Verificación Playwright local completada (2026-03-01):
+    - `ios/android/sdd` cargan sin requests `/health` al abrir página.
+    - apertura manual del asistente no dispara `/health` automático.
+49. Bloque operativo activo:
+    - plan de continuidad en `docs/PLAN-PERFORMANCE-MOBILE-FIRST-20260301.md` con fase 4.4 en curso.
 
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.
@@ -218,6 +229,8 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 28. ✅ Pulido visual determinista del diagrama SVG iOS en Lección 1 (respiración de módulos, ruteo limpio y labels sin clipping).
 29. ✅ Ejecutar Fase 1 de rendimiento móvil en iOS/Android/SDD y publicar sync en Hub sin regresión de rutas.
 30. ✅ Ejecutar Fase 2 mobile-first UX (Hub landing + ajuste fino de breakpoints de cursos).
+31. ✅ Endurecer runtime móvil del asistente IA (lazy-load + cold start sin `/health`) en iOS/Android/SDD + sync Hub.
+32. 🚧 Ejecutar pase responsive móvil final (iPhone viewport estrecho) y compactar UX en cursos + Hub.
 31. ✅ Ejecutar Fase 3 (validación final + despliegue Vercel del bloque completo).
 
 ## Bloqueos actuales
