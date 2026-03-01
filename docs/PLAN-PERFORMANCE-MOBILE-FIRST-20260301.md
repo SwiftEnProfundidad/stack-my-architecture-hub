@@ -53,3 +53,8 @@ Reducir tiempo de carga percibido en iPhone y consolidar base responsive/mobile-
 2. ✅ Emitir `<picture>` (`webp` + fallback `png`) desde `scripts/build-html.py` para mantener compatibilidad y reducir bytes descargados en Safari iPhone.
 3. ✅ Limpiar `dist/assets` en cada build para evitar arrastre de assets obsoletos y mantener sync determinista hacia Hub.
 4. ✅ Rebuild + sync Hub + validación final (`strict`, `no drift`, `smoke`) en verde.
+
+## Fase 9 — Corrección UX del dropdown de cursos en móvil (2026-03-01 noche)
+1. ✅ Restaurar visibilidad completa del menú desplegable de cursos sobre la topbar (`z-index` + contexto relativo en `#course-switcher`).
+2. ✅ Eliminar clipping del overlay por `overflow` en `global-topbar` para iOS/Android/SDD.
+3. ✅ Rebuild + sync Hub + validación final (`strict`, `no drift`, `smoke`) en verde.
