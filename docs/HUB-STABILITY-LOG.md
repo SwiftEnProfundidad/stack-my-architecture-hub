@@ -965,3 +965,27 @@ Se redujo coste de render en cambio de tema en iOS/Android/SDD:
 
 ### Resultado
 Se mantiene comportamiento funcional de navegación de lecciones con menor trabajo de DOM por transición de tema.
+
+## Cierre Fase 6 (diferido de panel de índice a idle)
+### Fecha
+2026-03-01
+
+### Contexto
+Se retiró del path crítico de arranque la inicialización de `study-ux-index-actions`:
+1. Inicialización en `requestIdleCallback` con `timeout`.
+2. Fallback en `setTimeout` para navegadores sin `requestIdleCallback`.
+3. Sin cambios funcionales en acciones de progreso/estadísticas/export/import/reset.
+
+### Evidencia versionada
+1. iOS PR `#23` -> merge `17083a7`.
+2. Android PR `#20` -> merge `78df99f`.
+3. SDD PR `#21` -> merge `7972e52`.
+
+### Verificación funcional
+1. iOS/Android/SDD: `py_compile` + `build-html` -> PASS.
+2. Hub: `./scripts/build-hub.sh --mode strict` -> PASS.
+3. Hub: `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
+4. Hub: `./scripts/smoke-hub-runtime.sh` -> OK.
+
+### Resultado
+Arranque más liviano en móvil al diferir panel secundario sin degradar la UX funcional del curso.

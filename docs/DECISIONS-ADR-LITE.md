@@ -525,3 +525,22 @@ Cambiar `study-ux.js` en iOS/Android/SDD para que la navegación interna de lecc
 1. Menor trabajo por transición de lección en runtime.
 2. Misma UX final (botones anterior/completar/siguiente) con menor coste.
 3. Validación técnica en verde tras sync Hub (`strict`, `no drift`, `smoke`).
+
+## ADR-LITE-027 — Diferir panel secundario del índice a fase idle
+### Fecha
+2026-03-01
+
+### Decisión
+Inicializar `study-ux-index-actions` en fase `idle` (no en path crítico inicial) para iOS/Android/SDD:
+1. usar `requestIdleCallback(..., { timeout: 700 })` cuando esté disponible,
+2. usar `setTimeout(180)` como fallback compatible.
+
+### Motivación
+1. El panel de acciones/estadísticas no es crítico para primer paint de lectura.
+2. En iPhone con cursos largos, cualquier trabajo DOM extra al inicio penaliza percepción de carga.
+3. Se busca mantener UX intacta mejorando TTI percibido.
+
+### Impacto
+1. Menor coste en arranque inicial.
+2. Mismo comportamiento funcional una vez inicializado el panel.
+3. Validación en verde tras sync Hub (`strict`, `no drift`, `smoke`).
