@@ -506,3 +506,22 @@ Aplicar modo compacto de controles de estudio para viewport `<=480px` en iOS/And
 1. Menor fricción visual en viewport pequeño.
 2. Consistencia UX entre iOS/Android/SDD y Hub sincronizado.
 3. Sin regresión funcional ni de accesibilidad tras validación `strict + drift + smoke + Playwright`.
+
+## ADR-LITE-026 — Render incremental de navegación por lección para reducir coste en transición
+### Fecha
+2026-03-01
+
+### Decisión
+Cambiar `study-ux.js` en iOS/Android/SDD para que la navegación interna de lección:
+1. no se reconstruya globalmente para todas las lecciones en cada `renderTopic`,
+2. se genere/actualice únicamente para la lección activa.
+
+### Motivación
+1. En cursos largos (muchas lecciones), la reconstrucción global añade trabajo de DOM innecesario por cada cambio de tema.
+2. El usuario reporta latencia percibida alta en iPhone al abrir y navegar.
+3. El comportamiento funcional no requiere actualizar navegación de secciones ocultas.
+
+### Impacto
+1. Menor trabajo por transición de lección en runtime.
+2. Misma UX final (botones anterior/completar/siguiente) con menor coste.
+3. Validación técnica en verde tras sync Hub (`strict`, `no drift`, `smoke`).

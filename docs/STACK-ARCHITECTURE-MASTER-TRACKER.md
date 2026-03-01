@@ -108,6 +108,11 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
     - Android PR `#18` -> merge `5adb228`.
     - SDD PR `#19` -> merge `1c7bff3`.
     - alcance: labels cortos y accesibles en topbar para `<=480px`, con ajuste de spacing/padding en iPhone.
+52. Micro-optimización de render de navegación de lección (2026-03-01):
+    - iOS PR `#22` -> merge `53f1f38`.
+    - Android PR `#19` -> merge `54f1e4b`.
+    - SDD PR `#20` -> merge `3bb22d4`.
+    - alcance: `study-ux.js` ya no reconstruye navegación para todas las lecciones en cada cambio; actualiza solo la lección activa.
 
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.
@@ -231,7 +236,7 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 22. ✅ Ejecutar plan maestro de implementación de cursos en iOS/Android/SDD con GitFlow completo.
 23. ✅ Cerrar Fase 0 y fases de ejecución por curso (iOS -> Android -> SDD).
 24. ✅ Integración Hub final con `build-hub --mode strict`, `no drift (6/6)` y smoke OK.
-25. ⛔ Despliegue final Vercel bloqueado por cuota diaria (`api-deployments-free-per-day`).
+25. ✅ Despliegue final Vercel completado con alias productivo activo (`https://architecture-stack.vercel.app`).
 26. ✅ Corrección visual Mermaid post-cierre integrada y validada en Hub (`build-hub strict`, `no drift`, `smoke`).
 27. ✅ Migración del diagrama por capas a SVG estilo mock (iOS/Android/SDD) + sync Hub validado.
 28. ✅ Pulido visual determinista del diagrama SVG iOS en Lección 1 (respiración de módulos, ruteo limpio y labels sin clipping).
@@ -241,6 +246,7 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 32. ✅ Ejecutar pase responsive móvil final (iPhone viewport estrecho) y compactar UX en cursos + Hub.
 33. ✅ Desacoplar Mermaid/Highlight del path crítico de arranque con carga dinámica runtime en iOS/Android/SDD.
 34. ✅ Ejecutar Fase 3 (validación final + despliegue Vercel del bloque completo).
+35. ✅ Ejecutar Fase 5 de micro-optimización de render de navegación (solo lección activa) en iOS/Android/SDD + sync Hub.
 
 ## Bloqueos actuales
 1. Riesgo de seguimiento: confusión en `codex resume` por filtro de `cwd`.
