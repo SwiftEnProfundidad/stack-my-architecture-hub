@@ -145,6 +145,15 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
     - `assets/study-ux.js` en iOS/Android/SDD sincroniza `completed`, `review`, `lastTopic`, `stats`, `zen`, `fontSize`.
     - fallback seguro a `localStorage` si cloud no está configurado.
     - reset/import hacen push forzado para evitar regresión por pull remoto.
+59. Cierre GitFlow + publicación productiva del bloque cloud progress sync:
+    - iOS PR `#28` merge a `develop`.
+    - Android PR `#24` merge a `develop`.
+    - SDD PR `#25` merge a `develop`.
+    - Hub PR `#56` merge a `develop`.
+    - despliegue Vercel en producción:
+      - `https://architecture-stack.vercel.app`
+      - `https://architecture-stack-787gl8cx3-merlosalbarracins-projects.vercel.app`
+    - rutas verificadas en `200`: `/`, `/ios/`, `/android/`, `/sdd/`.
 
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.

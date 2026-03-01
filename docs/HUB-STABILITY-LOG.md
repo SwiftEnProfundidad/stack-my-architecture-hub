@@ -1110,3 +1110,18 @@ Se implementó persistencia cloud de progreso para evitar dependencia exclusiva 
 
 ### Resultado
 Sin regresión de arranque ni de rutas de cursos. Queda habilitada persistencia cloud cuando el backend está configurado; en entornos sin backend configurado se mantiene fallback seguro en `localStorage`.
+
+### Publicación de cierre
+1. PRs mergeadas a `develop`:
+   - iOS `#28`
+   - Android `#24`
+   - SDD `#25`
+   - Hub `#56`
+2. Deploy productivo:
+   - `https://architecture-stack-787gl8cx3-merlosalbarracins-projects.vercel.app`
+   - alias: `https://architecture-stack.vercel.app`
+3. Rutas verificadas en `200`:
+   - `/`
+   - `/ios/`
+   - `/android/`
+   - `/sdd/`
