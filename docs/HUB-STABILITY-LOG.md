@@ -1080,3 +1080,33 @@ Se corrigió en iOS/Android/SDD:
 
 ### Resultado
 El selector de cursos vuelve a desplegar completo y legible en móvil, sin clipping en topbar.
+
+## Regresión post-bloque cloud progress sync (opción 2)
+### Fecha
+2026-03-01
+
+### Contexto
+Se implementó persistencia cloud de progreso para evitar dependencia exclusiva de `localStorage` por origen Vercel.
+
+### Cambios aplicados
+1. Hub:
+   - nuevo endpoint `api/progress-sync.js`.
+   - nuevas rutas publicadas por rewrite: `/progress/config`, `/progress/state`.
+   - test de contrato: `scripts/tests/test-progress-sync.js`.
+2. Cursos (`ios/android/sdd`):
+   - `assets/study-ux.js` con sync híbrido (`localStorage` inmediato + push/pull cloud en background).
+   - campos sincronizados: `completed`, `review`, `lastTopic`, `stats`, `zen`, `fontSize`.
+   - reset/import con push forzado para evitar rollback de estado por pull remoto.
+
+### Evidencia técnica
+1. Hub tests:
+   - `node --test scripts/tests/test-assistant-bridge-byok.js scripts/tests/test-progress-sync.js` -> PASS.
+2. Rebuild cursos fuente:
+   - `python3 scripts/build-html.py` en iOS/Android/SDD -> PASS.
+3. Validación Hub:
+   - `./scripts/build-hub.sh --mode strict` -> PASS.
+   - `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
+   - `./scripts/smoke-hub-runtime.sh` -> OK.
+
+### Resultado
+Sin regresión de arranque ni de rutas de cursos. Queda habilitada persistencia cloud cuando el backend está configurado; en entornos sin backend configurado se mantiene fallback seguro en `localStorage`.
