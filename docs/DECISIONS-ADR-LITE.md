@@ -606,3 +606,24 @@ En iOS/Android/SDD, el selector de cursos se mantiene como overlay real por enci
 1. Menú de cursos visible y utilizable en móvil.
 2. Sin cambios funcionales en navegación ni en controles de estudio.
 3. Validación técnica en verde tras sync Hub (`strict`, `no drift`, `smoke`).
+
+## ADR-LITE-031 — Persistencia cloud de progreso con fallback local
+### Fecha
+2026-03-01
+
+### Decisión
+Agregar un backend de sincronización de progreso en Hub (`/progress/config`, `/progress/state`) y mantener modelo híbrido en cliente:
+1. escritura local inmediata en `localStorage`;
+2. sincronización cloud asíncrona en segundo plano;
+3. fallback automático a local-only cuando backend no está configurado.
+
+### Motivación
+1. Evitar pérdida de progreso por dependencia exclusiva de origen/navegador.
+2. Mantener UX rápida sin bloquear interacción por red.
+3. Permitir despliegues Vercel sin regresión funcional aunque falten variables de backend.
+
+### Impacto
+1. Hub incorpora `api/progress-sync.js` con validación de payload y upsert por (`course_id`, `profile_key`) sobre Supabase REST.
+2. iOS/Android/SDD sincronizan `completed`, `review`, `lastTopic`, `stats`, `zen` y `fontSize`.
+3. Operaciones de import/reset fuerzan push cloud para evitar recuperación de estado obsoleto.
+4. Se añade test de contrato `scripts/tests/test-progress-sync.js`.

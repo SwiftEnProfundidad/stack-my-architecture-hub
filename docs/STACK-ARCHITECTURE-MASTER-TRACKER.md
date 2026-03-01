@@ -137,6 +137,14 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
       - `global-topbar` no recorta overlays,
       - `#course-switcher` recupera contexto relativo + `z-index` superior,
       - menú desplegable visible por encima de controles en móvil.
+57. Persistencia cloud de progreso implementada (opción backend):
+    - nuevo endpoint serverless Hub `api/progress-sync.js` con rutas `/progress/config` y `/progress/state`.
+    - storage persistente vía Supabase REST con `upsert` por (`course_id`, `profile_key`).
+    - TDD cerrado en Hub: `scripts/tests/test-progress-sync.js` en verde.
+58. Sync híbrido local+cloud aplicado en los 3 cursos:
+    - `assets/study-ux.js` en iOS/Android/SDD sincroniza `completed`, `review`, `lastTopic`, `stats`, `zen`, `fontSize`.
+    - fallback seguro a `localStorage` si cloud no está configurado.
+    - reset/import hacen push forzado para evitar regresión por pull remoto.
 
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.
