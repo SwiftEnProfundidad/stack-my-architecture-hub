@@ -209,6 +209,33 @@ Se detectó que los cursos publicados en Hub seguían haciendo comprobaciones `/
 ### Resultado
 Carga inicial más ligera y eliminación de ruido de red del asistente IA al arranque, sin regresión en apertura de cursos ni en runtime del Hub.
 
+## Regresión post-desacople CDN de renderizadores (Mermaid/Highlight)
+### Fecha
+2026-03-01
+
+### Contexto
+Se detectó lentitud perceptible en móvil cuando la red tardaba en resolver CDNs externos. Se movió la carga de renderizadores de diagramas/snippets desde `<head>` a runtime loader no bloqueante en los 3 cursos fuente.
+
+### Cambios aplicados
+1. `scripts/build-html.py` en iOS/Android/SDD:
+   - se eliminan `<script defer ...>` de Mermaid/Highlight en `<head>`.
+   - se publican `window.__SMA_MERMAID_SRC` y `window.__SMA_HLJS_*` para carga dinámica.
+   - `renderMermaid()` e `initCodeHighlighting()` pasan a `async` con `ensure*Loaded()` y fallback seguro sin romper UX.
+2. Hub:
+   - sync actualizado de bundles `ios/android/sdd`.
+
+### Evidencia técnica
+1. Repos fuente:
+   - `python3 -m py_compile scripts/build-html.py` (iOS/Android/SDD) -> PASS.
+   - `python3 scripts/build-html.py` (iOS/Android/SDD) -> PASS.
+2. Hub:
+   - `./scripts/build-hub.sh --mode strict` -> PASS.
+   - `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
+   - `./scripts/smoke-hub-runtime.sh` -> OK.
+
+### Resultado
+Se reduce el bloqueo del arranque por dependencias CDN lentas, manteniendo render progresivo de Mermaid/snippets y estabilidad total de rutas/publicación.
+
 ## Regresión post-sync selectivo cross-course iOS + Android + SDD
 ### Fecha
 2026-02-25

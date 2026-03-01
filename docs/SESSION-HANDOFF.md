@@ -76,6 +76,7 @@ Repos incluidos:
      - `./scripts/build-hub.sh --mode strict` -> PASS.
      - `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
      - `./scripts/smoke-hub-runtime.sh` -> OK.
+     - carga de Mermaid/Highlight desacoplada del `<head>` en iOS/Android/SDD (runtime loader bajo demanda, no bloqueante para arranque inicial).
      - corrección Mermaid post-cierre validada visualmente con Playwright (sin `Syntax error in text` en muestra iOS).
      - arquitectura por capas SVG (estilo mock) sincronizada para iOS/Android/SDD con build strict en verde.
      - refinamiento visual determinista del SVG iOS (Lección 1: Core Mobile Architecture) validado con Playwright:
@@ -95,9 +96,13 @@ Repos incluidos:
    - eliminación de llamadas `/health` en arranque en frío.
    - sincronización de `assistant-panel.js` fuente->Hub sin preservación forzada.
    - ajuste de `build-hub.sh` para preservar panel solo en modo explícito (`PRESERVE_ASSISTANT_PANEL=1`).
+   - renderizadores CDN de Mermaid/Highlight movidos a carga dinámica en runtime (iOS/Android/SDD), evitando bloqueo de `DOMContentLoaded` por red externa lenta.
 3. Evidencia técnica:
    - `python3 scripts/build-html.py` en iOS/Android/SDD -> PASS.
+   - `python3 -m py_compile scripts/build-html.py` en iOS/Android/SDD -> PASS.
    - `./scripts/build-hub.sh --mode strict` en Hub -> PASS.
+   - `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
+   - `./scripts/smoke-hub-runtime.sh` -> OK.
    - Playwright local:
      - carga inicial en `ios/android/sdd` sin requests `/health`.
      - apertura de asistente en `ios/android/sdd` sin requests `/health` automáticos.
@@ -146,6 +151,7 @@ Repos incluidos:
 27. ✅ Fase 1 performance móvil aplicada cross-course + sync Hub en verde.
 28. ✅ Fase 2 mobile-first UX (Hub + cursos).
 29. ✅ Fase 3 validación final + despliegue Vercel.
+30. ✅ Desacoplar carga de Mermaid/Highlight del path crítico del arranque en iOS/Android/SDD.
 
 ## Siguiente paso concreto
 1. Mantener este paquete `docs/` como fuente de verdad transversal.

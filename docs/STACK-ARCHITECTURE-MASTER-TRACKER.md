@@ -100,6 +100,9 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
     - apertura manual del asistente no dispara `/health` automático.
 49. Bloque operativo activo:
     - plan de continuidad en `docs/PLAN-PERFORMANCE-MOBILE-FIRST-20260301.md` con fase 4.4 en curso.
+50. Optimización de arranque móvil aplicada en repos fuente (2026-03-01):
+    - `mermaid.min.js` y `highlight.min.js` dejan de cargarse en `<head>` y pasan a runtime loader no bloqueante en iOS/Android/SDD.
+    - validación end-to-end en verde: `py_compile` + `build-html` (3 cursos) + `build-hub --mode strict` + `no drift (6/6)` + smoke runtime OK.
 
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.
@@ -231,7 +234,8 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 30. ✅ Ejecutar Fase 2 mobile-first UX (Hub landing + ajuste fino de breakpoints de cursos).
 31. ✅ Endurecer runtime móvil del asistente IA (lazy-load + cold start sin `/health`) en iOS/Android/SDD + sync Hub.
 32. 🚧 Ejecutar pase responsive móvil final (iPhone viewport estrecho) y compactar UX en cursos + Hub.
-31. ✅ Ejecutar Fase 3 (validación final + despliegue Vercel del bloque completo).
+33. ✅ Desacoplar Mermaid/Highlight del path crítico de arranque con carga dinámica runtime en iOS/Android/SDD.
+34. ✅ Ejecutar Fase 3 (validación final + despliegue Vercel del bloque completo).
 
 ## Bloqueos actuales
 1. Riesgo de seguimiento: confusión en `codex resume` por filtro de `cwd`.
