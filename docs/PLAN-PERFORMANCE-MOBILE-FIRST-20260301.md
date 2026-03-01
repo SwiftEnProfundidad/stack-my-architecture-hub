@@ -31,4 +31,4 @@ Reducir tiempo de carga percibido en iPhone y consolidar base responsive/mobile-
 2. ✅ Eliminación de llamadas `/health` en arranque en frío de los 3 cursos (validado con Playwright).
 3. ✅ Sync Hub + `build-hub --mode strict` en verde con `assistant-panel.js` actualizado desde fuentes.
 4. ✅ Carga no bloqueante de Mermaid + Highlight en iOS/Android/SDD (scripts CDN bajo demanda desde runtime, fuera del path crítico de arranque).
-5. 🚧 Pase responsive móvil final (iPhone) para compactar controles y reducir ruido visual en viewport estrecho.
+5. ✅ Pase responsive móvil final (iPhone) para compactar controles y reducir ruido visual en viewport estrecho (`<=480px` con etiquetas cortas y accesibles).

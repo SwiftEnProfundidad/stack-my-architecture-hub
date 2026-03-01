@@ -914,3 +914,30 @@ Se cerró el bloque final del plan mobile/performance con deploy único a Vercel
 
 ### Resultado
 Plan de fases mobile-first/performance cerrado end-to-end sin regresión de apertura de cursos.
+
+## Cierre Fase 4.5 (responsive iPhone compacto)
+### Fecha
+2026-03-01
+
+### Contexto
+Se aplicó el pase final de compactación visual para iPhone estrecho (`<=480px`) en iOS/Android/SDD:
+1. Etiquetas cortas en topbar de estudio (`✅ Hecho`, `🔁 Repaso`, `🧘 Zen`).
+2. Conservación de accesibilidad con `aria-label`/`title` completos.
+3. Ajuste de spacing/padding en topbar para reducir ruido visual sin pérdida funcional.
+
+### Evidencia versionada
+1. iOS PR `#21` -> merge `2a5766f`.
+2. Android PR `#18` -> merge `5adb228`.
+3. SDD PR `#19` -> merge `1c7bff3`.
+
+### Verificación funcional
+1. Hub: `./scripts/build-hub.sh --mode strict` -> PASS.
+2. Hub: `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
+3. Hub: `./scripts/smoke-hub-runtime.sh` -> OK.
+4. Playwright local (`390x844`) en `ios/android/sdd`:
+   - topbar compacta estable,
+   - labels cortos visibles,
+   - navegación y controles operativos.
+
+### Resultado
+Fase 4.5 cerrada sin regresión de apertura de cursos ni degradación de accesibilidad en móvil.
