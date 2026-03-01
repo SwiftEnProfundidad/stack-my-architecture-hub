@@ -429,3 +429,24 @@ Para los diagramas de arquitectura por capas marcados como patrón `auto-gapfix`
 1. iOS/Android actualizan `scripts/build-html.py` para detectar patrón por capas y renderizar SVG.
 2. SDD adopta el mismo renderer y añade bloque por capas en `docs/final-defense/week16-architecture-narrative.md`.
 3. El Hub sincroniza bundles actualizados y mantiene validación en verde (`strict`, `no drift`, `smoke`).
+
+## ADR-LITE-023 — Navegación móvil off-canvas y de-duplicación de navegación legacy
+### Fecha
+2026-03-01
+
+### Decisión
+Estandarizar en iOS/Android/SDD:
+1. Sidebar móvil como panel off-canvas (no `display:none/block` con ancho `0`) usando `body.sidebar-open`.
+2. Backdrop táctil para cierre de sidebar y cierre adicional por `Esc` y click de enlace.
+3. Topbar global compacta en móvil con scroll horizontal para controles.
+4. Eliminación en render de líneas legacy `Siguiente: ...` para evitar doble navegación frente a botones UX.
+
+### Motivación
+1. El patrón previo podía dejar sidebar móvil invisible al togglear (`width: 0` por media query).
+2. La altura de topbar en iPhone pequeño era excesiva y generaba solape visual.
+3. Las líneas `Siguiente: ...` duplicaban navegación y confundían el flujo pedagógico.
+
+### Impacto
+1. UX móvil consistente en iOS/Android/SDD (sidebar funcional + topbar compacta).
+2. Menos fricción de lectura en pantallas pequeñas.
+3. Hub sincronizado sin regresión (`build-hub strict`, `no drift 6/6`, smoke runtime OK).

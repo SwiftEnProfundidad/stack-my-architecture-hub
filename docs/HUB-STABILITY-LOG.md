@@ -812,3 +812,24 @@ Se migró el render del diagrama de arquitectura por capas a SVG inline en repos
 
 ### Resultado
 Hub mantiene estabilidad operativa tras el upgrade SVG de arquitectura y conserva apertura correcta de cursos.
+
+## Cierre Fase 2 mobile-first UX (cursos) + sync estable Hub
+### Fecha
+2026-03-01
+
+### Contexto
+Se cerró el bloque mobile-first en iOS/Android/SDD para iPhone pequeño:
+1. Sidebar móvil off-canvas real con backdrop y cierre por `Esc`/tap.
+2. Topbar global compacta en móvil (controles en scroll horizontal, sin solape).
+3. Limpieza de líneas legacy `Siguiente: ...` para evitar duplicidad con botones de navegación UX.
+
+### Verificación funcional
+1. Hub: `./scripts/build-hub.sh --mode strict` -> PASS.
+2. Hub: `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
+3. Validación Playwright (`390x844`) en iOS/Android/SDD:
+   - sidebar abre/cierra (`transform -> 0` al abrir),
+   - topbar estable (`height=78px`, `padding-top=74px`),
+   - sin líneas legacy `Siguiente:` en párrafos renderizados.
+
+### Resultado
+Hub mantiene estabilidad operativa tras cerrar Fase 2 y conserva apertura correcta de cursos en móvil.
