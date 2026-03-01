@@ -193,6 +193,37 @@ curl "http://127.0.0.1:${PORT}/config"
 curl "http://127.0.0.1:${PORT}/metrics"
 ```
 
+## Persistencia cloud de progreso (opción 2)
+
+El Hub publica dos endpoints serverless para sync de progreso de estudio:
+
+```bash
+GET  /progress/config
+GET  /progress/state?courseId=...&profileKey=...
+POST /progress/state
+```
+
+Si el backend no está configurado, la UX sigue funcionando con `localStorage` sin romper navegación.
+
+### Variables de entorno requeridas (Vercel)
+
+```bash
+SUPABASE_URL=https://<project>.supabase.co
+SUPABASE_SERVICE_ROLE_KEY=<service_role_key>
+PROGRESS_SYNC_TABLE=course_progress
+PROGRESS_SYNC_MAX_BYTES=65536
+```
+
+### Tabla recomendada en Supabase
+
+Ejecuta:
+
+```bash
+docs/PROGRESS-SYNC-SUPABASE.sql
+```
+
+Esto crea la tabla `course_progress` con PK compuesta (`course_id`, `profile_key`) y bloquea acceso público (`anon/authenticated`) para que solo el backend serverless con service-role escriba/lea.
+
 ## Publicación del hub con gate SDD
 
 Para regenerar y copiar los tres cursos al hub:
