@@ -217,8 +217,8 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 27. ✅ Migración del diagrama por capas a SVG estilo mock (iOS/Android/SDD) + sync Hub validado.
 28. ✅ Pulido visual determinista del diagrama SVG iOS en Lección 1 (respiración de módulos, ruteo limpio y labels sin clipping).
 29. ✅ Ejecutar Fase 1 de rendimiento móvil en iOS/Android/SDD y publicar sync en Hub sin regresión de rutas.
-30. 🚧 Ejecutar Fase 2 mobile-first UX (Hub landing + ajuste fino de breakpoints de cursos).
-31. ⏳ Ejecutar Fase 3 (validación final + despliegue Vercel del bloque completo).
+30. ✅ Ejecutar Fase 2 mobile-first UX (Hub landing + ajuste fino de breakpoints de cursos).
+31. 🚧 Ejecutar Fase 3 (validación final + despliegue Vercel del bloque completo).
 
 ## Bloqueos actuales
 1. Bloqueo externo de publicación: cuota diaria de deployments Vercel agotada.
@@ -258,6 +258,10 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 6. Cierre de higiene SDD:
    - PR: `SwiftEnProfundidad/stack-my-architecture#2` (`chore/sdd-ignore-local-artifacts-20260226` -> `develop`)
    - Commit merge: `7981f59`
+7. Validación móvil cross-course (viewport `390x844`, Playwright):
+   - Sidebar off-canvas abre/cierra en iOS/Android/SDD (`transform -> 0` al abrir).
+   - Topbar compacto estable en móvil (`height=78px`, `padding-top=74px`).
+   - Sin líneas legacy `Siguiente: ...` detectadas en render (`hasLegacyNextText=false`).
    - Ajuste local operativo: `main` en SDD con upstream `origin/main` y `.git/info/exclude` saneado (`.vercel/`, `dist/`, `project/`).
 7. Validación técnica del bloque de auditoría profunda:
    - iOS: `./scripts/run-qa-audit-bundle.sh` -> PASS

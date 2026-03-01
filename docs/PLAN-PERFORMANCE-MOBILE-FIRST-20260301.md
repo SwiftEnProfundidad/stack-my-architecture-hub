@@ -18,10 +18,10 @@ Reducir tiempo de carga percibido en iPhone y consolidar base responsive/mobile-
 
 ## Fase 2 — Ajuste UX mobile-first (Hub + cursos)
 1. ✅ Ajustar layout mobile-first del Hub landing (tipografía, spacing y botones táctiles).
-2. 🚧 Revisar breakpoints de sidebar y controles sticky en cursos para iPhone pequeño.
-3. ⏳ Validar legibilidad y navegación en 3 temas visuales en viewport móvil.
+2. ✅ Revisar breakpoints de sidebar y controles sticky en cursos para iPhone pequeño.
+3. ✅ Validar legibilidad y navegación en 3 temas visuales en viewport móvil.
 
 ## Fase 3 — Validación final + publicación
-1. ⏳ Smoke funcional final en rutas públicas (`/`, `/ios/`, `/android/`, `/sdd/`).
-2. ⏳ Medición comparativa de carga percibida móvil (antes/después) y registro en handoff.
+1. ✅ Smoke funcional final en rutas públicas (`/`, `/ios/`, `/android/`, `/sdd/`).
+2. 🚧 Medición comparativa de carga percibida móvil (antes/después) y registro en handoff.
 3. ⏳ Deploy Vercel del bloque completo.
