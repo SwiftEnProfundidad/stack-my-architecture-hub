@@ -941,3 +941,27 @@ Se aplicó el pase final de compactación visual para iPhone estrecho (`<=480px`
 
 ### Resultado
 Fase 4.5 cerrada sin regresión de apertura de cursos ni degradación de accesibilidad en móvil.
+
+## Cierre Fase 5 (micro-optimización render navegación de lección)
+### Fecha
+2026-03-01
+
+### Contexto
+Se redujo coste de render en cambio de tema en iOS/Android/SDD:
+1. Antes: `study-ux.js` reconstruía los controles de navegación para todas las lecciones en cada `renderTopic`.
+2. Ahora: solo se renderizan/actualizan los controles de la lección activa.
+
+### Evidencia versionada
+1. iOS PR `#22` -> merge `53f1f38`.
+2. Android PR `#19` -> merge `54f1e4b`.
+3. SDD PR `#20` -> merge `3bb22d4`.
+
+### Verificación funcional
+1. iOS/Android/SDD: `python3 -m py_compile scripts/build-html.py` -> PASS.
+2. iOS/Android/SDD: `python3 scripts/build-html.py` -> PASS.
+3. Hub: `./scripts/build-hub.sh --mode strict` -> PASS.
+4. Hub: `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
+5. Hub: `./scripts/smoke-hub-runtime.sh` -> OK.
+
+### Resultado
+Se mantiene comportamiento funcional de navegación de lecciones con menor trabajo de DOM por transición de tema.

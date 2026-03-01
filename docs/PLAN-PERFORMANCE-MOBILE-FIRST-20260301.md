@@ -32,3 +32,8 @@ Reducir tiempo de carga percibido en iPhone y consolidar base responsive/mobile-
 3. ✅ Sync Hub + `build-hub --mode strict` en verde con `assistant-panel.js` actualizado desde fuentes.
 4. ✅ Carga no bloqueante de Mermaid + Highlight en iOS/Android/SDD (scripts CDN bajo demanda desde runtime, fuera del path crítico de arranque).
 5. ✅ Pase responsive móvil final (iPhone) para compactar controles y reducir ruido visual en viewport estrecho (`<=480px` con etiquetas cortas y accesibles).
+
+## Fase 5 — Micro-optimización del render de navegación (2026-03-01 noche)
+1. ✅ Evitar reconstrucción global de navegación de lección en cada cambio de tema (`study-ux.js` en iOS/Android/SDD).
+2. ✅ Renderizar/actualizar controles de navegación solo para la lección activa.
+3. ✅ Rebuild + sync Hub + validación final (`strict`, `no drift`, `smoke`) en verde.
