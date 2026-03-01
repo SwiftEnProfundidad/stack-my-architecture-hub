@@ -544,3 +544,23 @@ Inicializar `study-ux-index-actions` en fase `idle` (no en path crítico inicial
 1. Menor coste en arranque inicial.
 2. Mismo comportamiento funcional una vez inicializado el panel.
 3. Validación en verde tras sync Hub (`strict`, `no drift`, `smoke`).
+
+## ADR-LITE-028 — Decoración de badges por tópico con recorrido global diferido
+### Fecha
+2026-03-01
+
+### Decisión
+Optimizar `study-ux.js` en iOS/Android/SDD:
+1. indexar enlaces de navegación por `topicId`,
+2. mover decoración global de badges a fase `idle`,
+3. mantener actualización inmediata para el tópico que cambia estado.
+
+### Motivación
+1. El recorrido completo de todos los enlaces para cada toggle es costoso en cursos largos.
+2. La interfaz requiere feedback inmediato en el tópico actual, pero no rehacer todo el índice en caliente.
+3. Se busca reducir coste de DOM sin alterar comportamiento pedagógico.
+
+### Impacto
+1. Menor trabajo en arranque y en toggles de estado.
+2. Feedback visual inmediato conservado para el tópico activo.
+3. Validación técnica en verde tras sync Hub (`strict`, `no drift`, `smoke`).

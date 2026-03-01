@@ -101,6 +101,7 @@ Repos incluidos:
    - ajuste de espaciado/padding en topbar móvil para reducir ruido visual sin romper navegación.
    - micro-optimización de navegación de lección: `study-ux.js` deja de reconstruir nav para todas las lecciones y actualiza solo la lección activa.
    - diferir `study-ux-index-actions` a fase `idle` para reducir coste del primer render en móvil.
+   - indexación de enlaces por `topicId` y decoración de badges global diferida a `idle`, con actualización inmediata del tópico afectado.
 3. Evidencia técnica:
    - `python3 scripts/build-html.py` en iOS/Android/SDD -> PASS.
    - `python3 -m py_compile scripts/build-html.py` en iOS/Android/SDD -> PASS.
@@ -125,6 +126,7 @@ Repos incluidos:
 4. ✅ Fase 4.5: pase responsive móvil final (iPhone viewport estrecho) en cursos + Hub.
 5. ✅ Fase 5: micro-optimización del render de navegación de lección (solo tema activo).
 6. ✅ Fase 6: diferir panel de acciones/estadísticas del índice a `idle` (sin cambio funcional).
+7. ✅ Fase 7: optimización de badges del índice (idle global + update inmediato por tópico).
 
 ## Última comprobación de espera activa
 1. Fecha: 2026-02-27.

@@ -989,3 +989,27 @@ Se retiró del path crítico de arranque la inicialización de `study-ux-index-a
 
 ### Resultado
 Arranque más liviano en móvil al diferir panel secundario sin degradar la UX funcional del curso.
+
+## Cierre Fase 7 (badges del índice: idle global + update inmediato por tópico)
+### Fecha
+2026-03-01
+
+### Contexto
+Se optimizó la decoración de badges (`✓` completado, `🔁` repaso) en `study-ux.js`:
+1. enlaces del índice indexados por `topicId`,
+2. decoración global diferida a `idle`,
+3. interacción de toggle actualiza solo el tópico afectado.
+
+### Evidencia versionada
+1. iOS PR `#24` -> merge `b8fbe02`.
+2. Android PR `#21` -> merge `5164038`.
+3. SDD PR `#22` -> merge `0cf3d0d`.
+
+### Verificación funcional
+1. iOS/Android/SDD: `py_compile` + `build-html` -> PASS.
+2. Hub: `./scripts/build-hub.sh --mode strict` -> PASS.
+3. Hub: `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
+4. Hub: `./scripts/smoke-hub-runtime.sh` -> OK.
+
+### Resultado
+Menor trabajo de recorrido de enlaces en arranque y en toggles, manteniendo feedback visual inmediato para el usuario.
