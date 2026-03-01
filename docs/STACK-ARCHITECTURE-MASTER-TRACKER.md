@@ -118,6 +118,11 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
     - Android PR `#20` -> merge `78df99f`.
     - SDD PR `#21` -> merge `7972e52`.
     - alcance: `study-ux-index-actions` deja el path crítico de arranque y se inicializa en `requestIdleCallback` con fallback temporal.
+54. Optimización de badges de índice con indexación por tópico + diferido global (2026-03-01):
+    - iOS PR `#24` -> merge `b8fbe02`.
+    - Android PR `#21` -> merge `5164038`.
+    - SDD PR `#22` -> merge `0cf3d0d`.
+    - alcance: decoración global de badges pasa a `idle`; toggles de completado/repaso actualizan solo el tópico interactuado en tiempo real.
 
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.
@@ -253,6 +258,7 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 34. ✅ Ejecutar Fase 3 (validación final + despliegue Vercel del bloque completo).
 35. ✅ Ejecutar Fase 5 de micro-optimización de render de navegación (solo lección activa) en iOS/Android/SDD + sync Hub.
 36. ✅ Ejecutar Fase 6 de diferido a `idle` del panel de acciones/estadísticas en iOS/Android/SDD + sync Hub.
+37. ✅ Ejecutar Fase 7 de optimización de badges del índice (idle global + update inmediato por tópico) en iOS/Android/SDD + sync Hub.
 
 ## Bloqueos actuales
 1. Riesgo de seguimiento: confusión en `codex resume` por filtro de `cwd`.
