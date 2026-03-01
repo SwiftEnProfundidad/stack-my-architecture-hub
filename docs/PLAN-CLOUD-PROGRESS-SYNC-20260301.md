@@ -30,5 +30,5 @@ Persistir progreso y repaso de cursos en backend para que no dependa solo de `lo
 ## Fase 3 — Integración y publicación
 1. ✅ Rebuild de cursos fuente (`build-html` iOS/Android/SDD).
 2. ✅ Validación Hub (`build-hub --mode strict`, drift `no drift (6/6)`, smoke runtime OK).
-3. 🚧 Cierre GitFlow completo + despliegue Vercel.
-4. ⏳ Documentar configuración operativa (SQL + variables de entorno).
+3. ✅ Cierre GitFlow completo + despliegue Vercel.
+4. ✅ Documentar configuración operativa (SQL + variables de entorno).

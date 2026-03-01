@@ -137,9 +137,11 @@ Repos incluidos:
 7. ✅ Fase 7: optimización de badges del índice (idle global + update inmediato por tópico).
 8. ✅ Fase 8: optimización de diagramas iOS para móvil (`webp` + fallback `png`) y sync Hub.
 9. ✅ Fix UX móvil: dropdown de cursos vuelve a mostrarse por encima de la topbar sin recorte.
-10. 🚧 Bloque cloud progress sync (opción 2):
+10. ✅ Bloque cloud progress sync (opción 2) cerrado:
    - backend Hub + sync híbrido iOS/Android/SDD en verde técnico;
-   - pendiente cierre operativo GitFlow completo + despliegue Vercel.
+   - cierre GitFlow completo y despliegue Vercel en producción:
+     - `https://architecture-stack.vercel.app`
+     - `https://architecture-stack-787gl8cx3-merlosalbarracins-projects.vercel.app`
 
 ## Última comprobación de espera activa
 1. Fecha: 2026-02-27.
