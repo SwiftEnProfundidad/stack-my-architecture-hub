@@ -6,17 +6,17 @@
 <meta name="darkreader-lock">
 <meta name="course-id" content="stack-my-architecture-ios">
 <title>Stack: My Architecture iOS</title>
-<link rel="stylesheet" href="assets/study-ux.css?v=1772396980">
-<link rel="stylesheet" href="assets/course-switcher.css?v=1772396980">
-<link rel="stylesheet" href="assets/assistant-panel.css?v=1772396980">
-<script>window.__SMA_ASSISTANT_PANEL_SRC = "assets/assistant-panel.js?v=1772396980";</script>
+<link rel="stylesheet" href="assets/study-ux.css?v=1772401847">
+<link rel="stylesheet" href="assets/course-switcher.css?v=1772401847">
+<link rel="stylesheet" href="assets/assistant-panel.css?v=1772401847">
+<script>window.__SMA_ASSISTANT_PANEL_SRC = "assets/assistant-panel.js?v=1772401847";</script>
 <script>window.__SMA_MERMAID_SRC = "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js";</script>
 <script>window.__SMA_HLJS_CORE_SRC = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js";</script>
 <script>window.__SMA_HLJS_SWIFT_SRC = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/swift.min.js";</script>
-<script defer src="assets/study-ux.js?v=1772396980"></script>
-<script defer src="assets/course-switcher.js?v=1772396980"></script>
-<script defer src="assets/theme-controls.js?v=1772396980"></script>
-<script defer src="assets/assistant-bridge.js?v=1772396980"></script>
+<script defer src="assets/study-ux.js?v=1772401847"></script>
+<script defer src="assets/course-switcher.js?v=1772401847"></script>
+<script defer src="assets/theme-controls.js?v=1772401847"></script>
+<script defer src="assets/assistant-bridge.js?v=1772401847"></script>
 
 <!-- Google Fonts - Inter -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -746,6 +746,17 @@ p code, li code, td code {
 .sma-legend-arrow.dashed-closed { color: var(--mermaid-legend-dashed-closed); }
 .sma-legend-arrow.contract-open { color: var(--mermaid-legend-contract); }
 .sma-legend-arrow.solid-open { color: var(--mermaid-legend-solid-open); }
+
+.sma-semantic-arrow-item .sma-semantic-arrow-icon {
+    width: 42px;
+    height: 12px;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.sma-semantic-arrow-item > span {
+    vertical-align: middle;
+}
 
 .sma-architecture-block {
     margin-top: var(--space-md);
@@ -2089,16 +2100,18 @@ blockquote p {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-&gt; PORT
+    UC ==&gt; PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
 <p>Lectura semantica minima de este diagrama:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
-  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+  
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring y configuracion de ensamblado.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>dependencia contra contrato/abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida/propagacion desde implementacion concreta.</span></li>
+
 </ol>
 </section>
 <section id="00-core-mobile-02-invariantes-y-contratos" class="lesson" data-topic-id="00-core-mobile-02-invariantes-y-contratos" data-lesson-path="00-core-mobile/02-invariantes-y-contratos.md">
@@ -2180,16 +2193,18 @@ blockquote p {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-&gt; PORT
+    UC ==&gt; PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
 <p>Lectura semantica minima de este diagrama:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
-  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+  
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring y configuracion de ensamblado.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>dependencia contra contrato/abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida/propagacion desde implementacion concreta.</span></li>
+
 </ol>
 </section>
 <section id="00-core-mobile-03-variabilidad-y-evolucion" class="lesson" data-topic-id="00-core-mobile-03-variabilidad-y-evolucion" data-lesson-path="00-core-mobile/03-variabilidad-y-evolucion.md">
@@ -2280,16 +2295,18 @@ blockquote p {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-&gt; PORT
+    UC ==&gt; PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
 <p>Lectura semantica minima de este diagrama:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
-  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+  
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring y configuracion de ensamblado.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>dependencia contra contrato/abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida/propagacion desde implementacion concreta.</span></li>
+
 </ol>
 </section>
 <section id="00-core-mobile-04-calidad-pr-ready" class="lesson" data-topic-id="00-core-mobile-04-calidad-pr-ready" data-lesson-path="00-core-mobile/04-calidad-pr-ready.md">
@@ -2427,10 +2444,10 @@ blockquote p {
 </div>
 <p>La lectura del diagrama sigue esta semantica:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>==&gt;</code> contrato o abstraccion.</li>
-  <li><code>--o</code> salida o propagacion de resultado.</li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring o configuracion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>contrato o abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida o propagacion de resultado.</span></li>
 </ol>
 </section>
 <section id="00-core-mobile-05-observabilidad-operacion" class="lesson" data-topic-id="00-core-mobile-05-observabilidad-operacion" data-lesson-path="00-core-mobile/05-observabilidad-operacion.md">
@@ -2552,10 +2569,10 @@ blockquote p {
 </div>
 <p>La lectura del diagrama sigue esta semantica:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>==&gt;</code> contrato o abstraccion.</li>
-  <li><code>--o</code> salida o propagacion de resultado.</li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring o configuracion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>contrato o abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida o propagacion de resultado.</span></li>
 </ol>
 </section>
 <section id="00-core-mobile-06-release-rollback-flags" class="lesson" data-topic-id="00-core-mobile-06-release-rollback-flags" data-lesson-path="00-core-mobile/06-release-rollback-flags.md">
@@ -2644,10 +2661,10 @@ blockquote p {
 </div>
 <p>La lectura del diagrama sigue esta semantica:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>==&gt;</code> contrato o abstraccion.</li>
-  <li><code>--o</code> salida o propagacion de resultado.</li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring o configuracion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>contrato o abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida o propagacion de resultado.</span></li>
 </ol>
 </section>
 <section id="00-core-mobile-07-apis-contratos-versionado" class="lesson" data-topic-id="00-core-mobile-07-apis-contratos-versionado" data-lesson-path="00-core-mobile/07-apis-contratos-versionado.md">
@@ -2784,10 +2801,10 @@ blockquote p {
 </div>
 <p>La lectura del diagrama sigue esta semantica:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>==&gt;</code> contrato o abstraccion.</li>
-  <li><code>--o</code> salida o propagacion de resultado.</li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring o configuracion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>contrato o abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida o propagacion de resultado.</span></li>
 </ol>
 </section>
 <section id="00-core-mobile-08-seguridad-privacidad-threat-modeling" class="lesson" data-topic-id="00-core-mobile-08-seguridad-privacidad-threat-modeling" data-lesson-path="00-core-mobile/08-seguridad-privacidad-threat-modeling.md">
@@ -2938,10 +2955,10 @@ blockquote p {
 </div>
 <p>La lectura del diagrama sigue esta semantica:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>==&gt;</code> contrato o abstraccion.</li>
-  <li><code>--o</code> salida o propagacion de resultado.</li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring o configuracion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>contrato o abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida o propagacion de resultado.</span></li>
 </ol>
 </section>
 <section id="00-core-mobile-09-dependency-governance-supply-chain" class="lesson" data-topic-id="00-core-mobile-09-dependency-governance-supply-chain" data-lesson-path="00-core-mobile/09-dependency-governance-supply-chain.md">
@@ -3044,10 +3061,10 @@ blockquote p {
 </div>
 <p>La lectura del diagrama sigue esta semantica:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>==&gt;</code> contrato o abstraccion.</li>
-  <li><code>--o</code> salida o propagacion de resultado.</li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring o configuracion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>contrato o abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida o propagacion de resultado.</span></li>
 </ol>
 </section>
 <section id="00-core-mobile-10-plantillas" class="lesson" data-topic-id="00-core-mobile-10-plantillas" data-lesson-path="00-core-mobile/10-plantillas.md">
@@ -3328,10 +3345,10 @@ blockquote p {
 </div>
 <p>La lectura del diagrama sigue esta semantica:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>==&gt;</code> contrato o abstraccion.</li>
-  <li><code>--o</code> salida o propagacion de resultado.</li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring o configuracion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>contrato o abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida o propagacion de resultado.</span></li>
 </ol>
 </section>
 <section id="00-core-mobile-11-crosswalk-ios-android" class="lesson" data-topic-id="00-core-mobile-11-crosswalk-ios-android" data-lesson-path="00-core-mobile/11-crosswalk-ios-android.md">
@@ -3460,10 +3477,10 @@ blockquote p {
 </div>
 <p>La lectura del diagrama sigue esta semantica:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>==&gt;</code> contrato o abstraccion.</li>
-  <li><code>--o</code> salida o propagacion de resultado.</li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring o configuracion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>contrato o abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida o propagacion de resultado.</span></li>
 </ol>
 </section>
 <section id="00-core-mobile-12-mobile-architect-parity-ios-android" class="lesson" data-topic-id="00-core-mobile-12-mobile-architect-parity-ios-android" data-lesson-path="00-core-mobile/12-mobile-architect-parity-ios-android.md">
@@ -3575,10 +3592,10 @@ blockquote p {
 </div>
 <p>La lectura del diagrama sigue esta semantica:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>==&gt;</code> contrato o abstraccion.</li>
-  <li><code>--o</code> salida o propagacion de resultado.</li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring o configuracion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>contrato o abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida o propagacion de resultado.</span></li>
 </ol>
 </section>
 <section id="01-fundamentos-00-introduccion" class="lesson" data-topic-id="01-fundamentos-00-introduccion" data-lesson-path="01-fundamentos/00-introduccion.md">
@@ -3856,16 +3873,18 @@ blockquote p {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-&gt; PORT
+    UC ==&gt; PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
 <p>Lectura semantica minima de este diagrama:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
-  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+  
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring y configuracion de ensamblado.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>dependencia contra contrato/abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida/propagacion desde implementacion concreta.</span></li>
+
 </ol>
 </section>
 <section id="01-fundamentos-00-setup" class="lesson" data-topic-id="01-fundamentos-00-setup" data-lesson-path="01-fundamentos/00-setup.md">
@@ -4281,10 +4300,10 @@ sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer</code></pr
 </div>
 <p>La lectura del diagrama sigue esta semantica:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>==&gt;</code> contrato o abstraccion.</li>
-  <li><code>--o</code> salida o propagacion de resultado.</li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring o configuracion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>contrato o abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida o propagacion de resultado.</span></li>
 </ol>
 </section>
 <section id="01-fundamentos-01-principios-ingenieria" class="lesson" data-topic-id="01-fundamentos-01-principios-ingenieria" data-lesson-path="01-fundamentos/01-principios-ingenieria.md">
@@ -4448,16 +4467,18 @@ sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer</code></pr
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-&gt; PORT
+    UC ==&gt; PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
 <p>Lectura semantica minima de este diagrama:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
-  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+  
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring y configuracion de ensamblado.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>dependencia contra contrato/abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida/propagacion desde implementacion concreta.</span></li>
+
 </ol>
 </section>
 <section id="01-fundamentos-02-metodologia-bdd-tdd" class="lesson" data-topic-id="01-fundamentos-02-metodologia-bdd-tdd" data-lesson-path="01-fundamentos/02-metodologia-bdd-tdd.md">
@@ -4653,16 +4674,18 @@ Then rechaza el email                         } catch {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-&gt; PORT
+    UC ==&gt; PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
 <p>Lectura semantica minima de este diagrama:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
-  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+  
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring y configuracion de ensamblado.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>dependencia contra contrato/abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida/propagacion desde implementacion concreta.</span></li>
+
 </ol>
 </section>
 <section id="01-fundamentos-02-metodologia-tdd-practica" class="lesson" data-topic-id="01-fundamentos-02-metodologia-tdd-practica" data-lesson-path="01-fundamentos/02-metodologia-tdd-practica.md">
@@ -5026,16 +5049,18 @@ struct InMemoryProductStore: ProductStore {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-&gt; PORT
+    UC ==&gt; PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
 <p>Lectura semantica minima de este diagrama:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
-  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+  
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring y configuracion de ensamblado.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>dependencia contra contrato/abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida/propagacion desde implementacion concreta.</span></li>
+
 </ol>
 </section>
 <section id="01-fundamentos-03-stack-tecnologico" class="lesson" data-topic-id="01-fundamentos-03-stack-tecnologico" data-lesson-path="01-fundamentos/03-stack-tecnologico.md">
@@ -5264,16 +5289,18 @@ struct InMemoryProductStore: ProductStore {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-&gt; PORT
+    UC ==&gt; PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
 <p>Lectura semantica minima de este diagrama:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
-  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+  
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring y configuracion de ensamblado.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>dependencia contra contrato/abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida/propagacion desde implementacion concreta.</span></li>
+
 </ol>
 </section>
 <section id="01-fundamentos-04-estructura-feature-first" class="lesson" data-topic-id="01-fundamentos-04-estructura-feature-first" data-lesson-path="01-fundamentos/04-estructura-feature-first.md">
@@ -5449,16 +5476,18 @@ struct InMemoryProductStore: ProductStore {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-&gt; PORT
+    UC ==&gt; PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
 <p>Lectura semantica minima de este diagrama:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
-  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+  
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring y configuracion de ensamblado.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>dependencia contra contrato/abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida/propagacion desde implementacion concreta.</span></li>
+
 </ol>
 </section>
 <section id="01-fundamentos-05-feature-login-00-especificacion-bdd" class="lesson" data-topic-id="01-fundamentos-05-feature-login-00-especificacion-bdd" data-lesson-path="01-fundamentos/05-feature-login/00-especificacion-bdd.md">
@@ -5720,16 +5749,18 @@ Scenario: Login exitoso con credenciales válidas
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-&gt; PORT
+    UC ==&gt; PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
 <p>Lectura semantica minima de este diagrama:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
-  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+  
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring y configuracion de ensamblado.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>dependencia contra contrato/abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida/propagacion desde implementacion concreta.</span></li>
+
 </ol>
 </section>
 <section id="01-fundamentos-05-feature-login-01-domain" class="lesson" data-topic-id="01-fundamentos-05-feature-login-01-domain" data-lesson-path="01-fundamentos/05-feature-login/01-domain.md">
@@ -6164,16 +6195,18 @@ struct Session: Equatable, Sendable {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-&gt; PORT
+    UC ==&gt; PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
 <p>Lectura semantica minima de este diagrama:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
-  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+  
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring y configuracion de ensamblado.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>dependencia contra contrato/abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida/propagacion desde implementacion concreta.</span></li>
+
 </ol>
 </section>
 <section id="01-fundamentos-05-feature-login-02-application" class="lesson" data-topic-id="01-fundamentos-05-feature-login-02-application" data-lesson-path="01-fundamentos/05-feature-login/02-application.md">
@@ -6799,16 +6832,18 @@ final class LoginUseCaseTests: XCTestCase {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-&gt; PORT
+    UC ==&gt; PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
 <p>Lectura semantica minima de este diagrama:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
-  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+  
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring y configuracion de ensamblado.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>dependencia contra contrato/abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida/propagacion desde implementacion concreta.</span></li>
+
 </ol>
 </section>
 <section id="01-fundamentos-05-feature-login-03-infrastructure" class="lesson" data-topic-id="01-fundamentos-05-feature-login-03-infrastructure" data-lesson-path="01-fundamentos/05-feature-login/03-infrastructure.md">
@@ -7261,16 +7296,18 @@ return Session(token: authResponse.access_token!, email: credentials.email.value
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-&gt; PORT
+    UC ==&gt; PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
 <p>Lectura semantica minima de este diagrama:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
-  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+  
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring y configuracion de ensamblado.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>dependencia contra contrato/abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida/propagacion desde implementacion concreta.</span></li>
+
 </ol>
 </section>
 <section id="01-fundamentos-05-feature-login-04-interface-swiftui" class="lesson" data-topic-id="01-fundamentos-05-feature-login-04-interface-swiftui" data-lesson-path="01-fundamentos/05-feature-login/04-interface-swiftui.md">
@@ -7843,16 +7880,18 @@ struct StackMyArchitectureApp: App {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-&gt; PORT
+    UC ==&gt; PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
 <p>Lectura semantica minima de este diagrama:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
-  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+  
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring y configuracion de ensamblado.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>dependencia contra contrato/abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida/propagacion desde implementacion concreta.</span></li>
+
 </ol>
 </section>
 <section id="01-fundamentos-05-feature-login-05-tdd-ciclo-completo" class="lesson" data-topic-id="01-fundamentos-05-feature-login-05-tdd-ciclo-completo" data-lesson-path="01-fundamentos/05-feature-login/05-tdd-ciclo-completo.md">
@@ -8138,16 +8177,18 @@ client.receivedRequests.first?.httpBody   // → el JSON del body</code></pre>
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-&gt; PORT
+    UC ==&gt; PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
 <p>Lectura semantica minima de este diagrama:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
-  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+  
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring y configuracion de ensamblado.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>dependencia contra contrato/abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida/propagacion desde implementacion concreta.</span></li>
+
 </ol>
 </section>
 <section id="01-fundamentos-05-feature-login-ADR-001-login" class="lesson" data-topic-id="01-fundamentos-05-feature-login-ADR-001-login" data-lesson-path="01-fundamentos/05-feature-login/ADR-001-login.md">
@@ -8379,8 +8420,8 @@ struct CompositionRoot {
 <ol>
   <li>Verifica que los protocolos y structs tengan visibilidad <code>internal</code> o <code>public</code>:</li>
 </ol>
-<pre><code class="language-swift">   // En AuthGateway.swift
-   protocol AuthGateway { ... }  // internal por defecto, accesible dentro del target</code></pre>
+<pre><code class="language-swift">// En AuthGateway.swift
+protocol AuthGateway { ... }  // internal por defecto, accesible dentro del target</code></pre>
 <hr>
 <h2 id="01-fundamentos-06-conectando-la-app-paso-4-ajustar-el-loginview-para-navegaci-n-placeholder">Paso 4: Ajustar el LoginView para navegación (placeholder)</h2>
 <p>El <code>LoginViewModel</code> que construimos en la lección anterior espera un closure <code>onLoginSucceeded</code>. Asegúrate de que tu <code>LoginViewModel</code> tenga este init:</p>
@@ -8626,10 +8667,10 @@ class LoginViewModel {
 </div>
 <p>La lectura del diagrama sigue esta semantica:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>==&gt;</code> contrato o abstraccion.</li>
-  <li><code>--o</code> salida o propagacion de resultado.</li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring o configuracion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>contrato o abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida o propagacion de resultado.</span></li>
 </ol>
 </section>
 <section id="01-fundamentos-entregables-etapa-1" class="lesson" data-topic-id="01-fundamentos-entregables-etapa-1" data-lesson-path="01-fundamentos/entregables-etapa-1.md">
@@ -8776,10 +8817,10 @@ class LoginViewModel {
 </div>
 <p>La lectura del diagrama sigue esta semantica:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>==&gt;</code> contrato o abstraccion.</li>
-  <li><code>--o</code> salida o propagacion de resultado.</li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring o configuracion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>contrato o abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida o propagacion de resultado.</span></li>
 </ol>
 </section>
 <section id="02-integracion-00-introduccion" class="lesson" data-topic-id="02-integracion-00-introduccion" data-lesson-path="02-integracion/00-introduccion.md">
@@ -9130,16 +9171,18 @@ class LoginViewModel {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-&gt; PORT
+    UC ==&gt; PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
 <p>Lectura semantica minima de este diagrama:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
-  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+  
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring y configuracion de ensamblado.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>dependencia contra contrato/abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida/propagacion desde implementacion concreta.</span></li>
+
 </ol>
 </section>
 <section id="02-integracion-01-feature-catalog-00-especificacion-bdd" class="lesson" data-topic-id="02-integracion-01-feature-catalog-00-especificacion-bdd" data-lesson-path="02-integracion/01-feature-catalog/00-especificacion-bdd.md">
@@ -9538,16 +9581,18 @@ Scenario: Carga exitosa con productos disponibles
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-&gt; PORT
+    UC ==&gt; PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
 <p>Lectura semantica minima de este diagrama:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
-  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+  
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring y configuracion de ensamblado.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>dependencia contra contrato/abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida/propagacion desde implementacion concreta.</span></li>
+
 </ol>
 </section>
 <section id="02-integracion-01-feature-catalog-01-domain" class="lesson" data-topic-id="02-integracion-01-feature-catalog-01-domain" data-lesson-path="02-integracion/01-feature-catalog/01-domain.md">
@@ -9880,16 +9925,18 @@ final class ProductDomainTests: XCTestCase {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-&gt; PORT
+    UC ==&gt; PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
 <p>Lectura semantica minima de este diagrama:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
-  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+  
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring y configuracion de ensamblado.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>dependencia contra contrato/abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida/propagacion desde implementacion concreta.</span></li>
+
 </ol>
 </section>
 <section id="02-integracion-01-feature-catalog-02-application" class="lesson" data-topic-id="02-integracion-01-feature-catalog-02-application" data-lesson-path="02-integracion/01-feature-catalog/02-application.md">
@@ -10347,16 +10394,18 @@ actor ProductRepositorySpy: ProductRepository {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-&gt; PORT
+    UC ==&gt; PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
 <p>Lectura semantica minima de este diagrama:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
-  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+  
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring y configuracion de ensamblado.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>dependencia contra contrato/abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida/propagacion desde implementacion concreta.</span></li>
+
 </ol>
 </section>
 <section id="02-integracion-01-feature-catalog-03-infrastructure" class="lesson" data-topic-id="02-integracion-01-feature-catalog-03-infrastructure" data-lesson-path="02-integracion/01-feature-catalog/03-infrastructure.md">
@@ -10794,16 +10843,18 @@ final class RemoteProductRepositoryTests: XCTestCase {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-&gt; PORT
+    UC ==&gt; PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
 <p>Lectura semantica minima de este diagrama:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
-  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+  
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring y configuracion de ensamblado.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>dependencia contra contrato/abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida/propagacion desde implementacion concreta.</span></li>
+
 </ol>
 </section>
 <section id="02-integracion-01-feature-catalog-04-interface-swiftui" class="lesson" data-topic-id="02-integracion-01-feature-catalog-04-interface-swiftui" data-lesson-path="02-integracion/01-feature-catalog/04-interface-swiftui.md">
@@ -11305,16 +11356,18 @@ final class CatalogViewModelTests: XCTestCase {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-&gt; PORT
+    UC ==&gt; PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
 <p>Lectura semantica minima de este diagrama:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
-  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+  
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring y configuracion de ensamblado.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>dependencia contra contrato/abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida/propagacion desde implementacion concreta.</span></li>
+
 </ol>
 </section>
 <section id="02-integracion-02-navegacion-eventos" class="lesson" data-topic-id="02-integracion-02-navegacion-eventos" data-lesson-path="02-integracion/02-navegacion-eventos.md">
@@ -11669,16 +11722,18 @@ final class AppCoordinatorTests: XCTestCase {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-&gt; PORT
+    UC ==&gt; PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
 <p>Lectura semantica minima de este diagrama:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
-  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+  
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring y configuracion de ensamblado.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>dependencia contra contrato/abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida/propagacion desde implementacion concreta.</span></li>
+
 </ol>
 </section>
 <section id="02-integracion-03-contratos-features" class="lesson" data-topic-id="02-integracion-03-contratos-features" data-lesson-path="02-integracion/03-contratos-features.md">
@@ -12073,16 +12128,18 @@ struct Session: Equatable, Hashable, Sendable {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-&gt; PORT
+    UC ==&gt; PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
 <p>Lectura semantica minima de este diagrama:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
-  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+  
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring y configuracion de ensamblado.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>dependencia contra contrato/abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida/propagacion desde implementacion concreta.</span></li>
+
 </ol>
 </section>
 <section id="02-integracion-04-infra-real-network" class="lesson" data-topic-id="02-integracion-04-infra-real-network" data-lesson-path="02-integracion/04-infra-real-network.md">
@@ -12521,16 +12578,18 @@ final class URLSessionHTTPClientTests: XCTestCase {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-&gt; PORT
+    UC ==&gt; PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
 <p>Lectura semantica minima de este diagrama:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
-  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+  
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring y configuracion de ensamblado.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>dependencia contra contrato/abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida/propagacion desde implementacion concreta.</span></li>
+
 </ol>
 </section>
 <section id="02-integracion-05-integration-tests" class="lesson" data-topic-id="02-integracion-05-integration-tests" data-lesson-path="02-integracion/05-integration-tests.md">
@@ -12844,16 +12903,18 @@ final class CatalogIntegrationTests: XCTestCase {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-&gt; PORT
+    UC ==&gt; PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
 <p>Lectura semantica minima de este diagrama:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
-  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+  
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring y configuracion de ensamblado.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>dependencia contra contrato/abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida/propagacion desde implementacion concreta.</span></li>
+
 </ol>
 </section>
 <section id="02-integracion-06-composition-root" class="lesson" data-topic-id="02-integracion-06-composition-root" data-lesson-path="02-integracion/06-composition-root.md">
@@ -13154,16 +13215,18 @@ let viewModel = LoginViewModel(loginUseCase: useCase, onLoginSucceeded: { _ in }
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-&gt; PORT
+    UC ==&gt; PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
 <p>Lectura semantica minima de este diagrama:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
-  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+  
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring y configuracion de ensamblado.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>dependencia contra contrato/abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida/propagacion desde implementacion concreta.</span></li>
+
 </ol>
 </section>
 <section id="02-integracion-07-swiftui-enterprise" class="lesson" data-topic-id="02-integracion-07-swiftui-enterprise" data-lesson-path="02-integracion/07-swiftui-enterprise.md">
@@ -14460,16 +14523,18 @@ if #available(iOS 26, *) {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-&gt; PORT
+    UC ==&gt; PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
 <p>Lectura semantica minima de este diagrama:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
-  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+  
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring y configuracion de ensamblado.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>dependencia contra contrato/abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida/propagacion desde implementacion concreta.</span></li>
+
 </ol>
 </section>
 <section id="02-integracion-08-swift-concurrency-enterprise" class="lesson" data-topic-id="02-integracion-08-swift-concurrency-enterprise" data-lesson-path="02-integracion/08-swift-concurrency-enterprise.md">
@@ -15362,16 +15427,18 @@ func test_load_cancels_previous_load() async {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-&gt; PORT
+    UC ==&gt; PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
 <p>Lectura semantica minima de este diagrama:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
-  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+  
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring y configuracion de ensamblado.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>dependencia contra contrato/abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida/propagacion desde implementacion concreta.</span></li>
+
 </ol>
 </section>
 <section id="02-integracion-09-app-final-etapa-2" class="lesson" data-topic-id="02-integracion-09-app-final-etapa-2" data-lesson-path="02-integracion/09-app-final-etapa-2.md">
@@ -15446,8 +15513,8 @@ func test_load_cancels_previous_load() async {
     LVM --&gt; COORD
     CVM --&gt; COORD
 
-    LUC -.-&gt; LGW
-    CUC -.-&gt; CREPO
+    LUC ==&gt; LGW
+    CUC ==&gt; CREPO
 
     LREMOTE --o LGW
     CREMOTE --o CREPO
@@ -15455,19 +15522,19 @@ func test_load_cancels_previous_load() async {
 </div>
 <p>Lectura semántica (la clave didáctica):</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime:</li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime:</span></li>
 </ol>
 <p>   <code>LoginViewModel --&gt; LoginUseCase</code>, <code>CatalogViewModel --&gt; LoadProductsUseCase</code>, <code>RemoteProductRepository --&gt; LocalProductStore</code>.</p>
 <ol>
-  <li><code>-.-&gt;</code> wiring/configuración:</li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring/configuración:</span></li>
 </ol>
 <p>   <code>CompositionRoot</code> no “ejecuta negocio”; <strong>construye e inyecta</strong> <code>AppCoordinator</code> y adapters.</p>
 <ol>
-  <li><code>-.o</code> contrato/abstracción:</li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>contrato/abstracción:</span></li>
 </ol>
 <p>   los use cases apuntan a puertos (<code>AuthGateway</code>, <code>ProductRepository</code>) y no a implementaciones concretas.</p>
 <ol>
-  <li><code>--o</code> salida/propagación:</li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida/propagación:</span></li>
 </ol>
 <p>   los adapters concretos satisfacen y propagan el contrato hacia el core (<code>RemoteAuthGateway --o AuthGateway</code>, <code>RemoteProductRepository --o ProductRepository</code>).</p>
 <p>Si en un diagrama de arquitectura de la app ves estas flechas mezcladas sin criterio, casi siempre hay acoplamiento oculto.</p>
@@ -16203,16 +16270,18 @@ class LoginViewModel {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-&gt; PORT
+    UC ==&gt; PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
 <p>Lectura semantica minima de este diagrama:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
-  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+  
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring y configuracion de ensamblado.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>dependencia contra contrato/abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida/propagacion desde implementacion concreta.</span></li>
+
 </ol>
 </section>
 <section id="02-integracion-entregables-etapa-2" class="lesson" data-topic-id="02-integracion-entregables-etapa-2" data-lesson-path="02-integracion/entregables-etapa-2.md">
@@ -16591,16 +16660,18 @@ class LoginViewModel {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-&gt; PORT
+    UC ==&gt; PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
 <p>Lectura semantica minima de este diagrama:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
-  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+  
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring y configuracion de ensamblado.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>dependencia contra contrato/abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida/propagacion desde implementacion concreta.</span></li>
+
 </ol>
 </section>
 <section id="anexos-consolidacion-etapa-2-integracion" class="lesson" data-topic-id="anexos-consolidacion-etapa-2-integracion" data-lesson-path="anexos/consolidacion-etapa-2-integracion.md">
@@ -17133,16 +17204,18 @@ protocol FavoritesRepository {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-&gt; PORT
+    UC ==&gt; PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
 <p>Lectura semantica minima de este diagrama:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
-  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+  
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring y configuracion de ensamblado.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>dependencia contra contrato/abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida/propagacion desde implementacion concreta.</span></li>
+
 </ol>
 </section>
 <section id="03-evolucion-01-caching-offline" class="lesson" data-topic-id="03-evolucion-01-caching-offline" data-lesson-path="03-evolucion/01-caching-offline.md">
@@ -17702,16 +17775,18 @@ func test_loadProducts_ignoresExpiredCache() async throws {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-&gt; PORT
+    UC ==&gt; PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
 <p>Lectura semantica minima de este diagrama:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
-  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+  
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring y configuracion de ensamblado.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>dependencia contra contrato/abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida/propagacion desde implementacion concreta.</span></li>
+
 </ol>
 </section>
 <section id="03-evolucion-02-consistencia" class="lesson" data-topic-id="03-evolucion-02-consistencia" data-lesson-path="03-evolucion/02-consistencia.md">
@@ -18184,16 +18259,18 @@ final class CachedProductRepositoryConsistencyTests: XCTestCase {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-&gt; PORT
+    UC ==&gt; PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
 <p>Lectura semantica minima de este diagrama:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
-  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+  
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring y configuracion de ensamblado.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>dependencia contra contrato/abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida/propagacion desde implementacion concreta.</span></li>
+
 </ol>
 </section>
 <section id="03-evolucion-03-observabilidad" class="lesson" data-topic-id="03-evolucion-03-observabilidad" data-lesson-path="03-evolucion/03-observabilidad.md">
@@ -18690,16 +18767,18 @@ func test_loggingDecorator_emitsEventsInOrder() async throws {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-&gt; PORT
+    UC ==&gt; PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
 <p>Lectura semantica minima de este diagrama:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
-  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+  
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring y configuracion de ensamblado.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>dependencia contra contrato/abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida/propagacion desde implementacion concreta.</span></li>
+
 </ol>
 </section>
 <section id="03-evolucion-04-tests-avanzados" class="lesson" data-topic-id="03-evolucion-04-tests-avanzados" data-lesson-path="03-evolucion/04-tests-avanzados.md">
@@ -19141,16 +19220,18 @@ struct FixedClock: Clock {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-&gt; PORT
+    UC ==&gt; PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
 <p>Lectura semantica minima de este diagrama:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
-  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+  
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring y configuracion de ensamblado.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>dependencia contra contrato/abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida/propagacion desde implementacion concreta.</span></li>
+
 </ol>
 </section>
 <section id="03-evolucion-05-trade-offs" class="lesson" data-topic-id="03-evolucion-05-trade-offs" data-lesson-path="03-evolucion/05-trade-offs.md">
@@ -19581,16 +19662,18 @@ struct FixedClock: Clock {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-&gt; PORT
+    UC ==&gt; PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
 <p>Lectura semantica minima de este diagrama:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
-  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+  
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring y configuracion de ensamblado.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>dependencia contra contrato/abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida/propagacion desde implementacion concreta.</span></li>
+
 </ol>
 </section>
 <section id="03-evolucion-06-swiftdata-store" class="lesson" data-topic-id="03-evolucion-06-swiftdata-store" data-lesson-path="03-evolucion/06-swiftdata-store.md">
@@ -20081,16 +20164,18 @@ final class SwiftDataProductStoreTests: XCTestCase {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-&gt; PORT
+    UC ==&gt; PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
 <p>Lectura semantica minima de este diagrama:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
-  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+  
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring y configuracion de ensamblado.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>dependencia contra contrato/abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida/propagacion desde implementacion concreta.</span></li>
+
 </ol>
 </section>
 <section id="03-evolucion-07-backend-firebase" class="lesson" data-topic-id="03-evolucion-07-backend-firebase" data-lesson-path="03-evolucion/07-backend-firebase.md">
@@ -20622,16 +20707,18 @@ func test_composition_worksWithStubRepository() async throws {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-&gt; PORT
+    UC ==&gt; PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
 <p>Lectura semantica minima de este diagrama:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
-  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+  
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring y configuracion de ensamblado.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>dependencia contra contrato/abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida/propagacion desde implementacion concreta.</span></li>
+
 </ol>
 </section>
 <section id="03-evolucion-entregables-etapa-3" class="lesson" data-topic-id="03-evolucion-entregables-etapa-3" data-lesson-path="03-evolucion/entregables-etapa-3.md">
@@ -20947,16 +21034,18 @@ func test_composition_worksWithStubRepository() async throws {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-&gt; PORT
+    UC ==&gt; PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
 <p>Lectura semantica minima de este diagrama:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
-  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+  
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring y configuracion de ensamblado.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>dependencia contra contrato/abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida/propagacion desde implementacion concreta.</span></li>
+
 </ol>
 </section>
 <section id="anexos-calentamiento-etapa-3-evolucion" class="lesson" data-topic-id="anexos-calentamiento-etapa-3-evolucion" data-lesson-path="anexos/calentamiento-etapa-3-evolucion.md">
@@ -21455,16 +21544,18 @@ func test_composition_worksWithStubRepository() async throws {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-&gt; PORT
+    UC ==&gt; PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
 <p>Lectura semantica minima de este diagrama:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
-  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+  
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring y configuracion de ensamblado.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>dependencia contra contrato/abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida/propagacion desde implementacion concreta.</span></li>
+
 </ol>
 </section>
 <section id="04-arquitecto-01-bounded-contexts" class="lesson" data-topic-id="04-arquitecto-01-bounded-contexts" data-lesson-path="04-arquitecto/01-bounded-contexts.md">
@@ -21917,16 +22008,18 @@ final class CatalogToOrderItemMapperTests: XCTestCase {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-&gt; PORT
+    UC ==&gt; PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
 <p>Lectura semantica minima de este diagrama:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
-  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+  
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring y configuracion de ensamblado.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>dependencia contra contrato/abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida/propagacion desde implementacion concreta.</span></li>
+
 </ol>
 </section>
 <section id="04-arquitecto-02-reglas-dependencia-ci" class="lesson" data-topic-id="04-arquitecto-02-reglas-dependencia-ci" data-lesson-path="04-arquitecto/02-reglas-dependencia-ci.md">
@@ -22327,16 +22420,18 @@ echo "Feature cross-imports OK"</code></pre>
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-&gt; PORT
+    UC ==&gt; PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
 <p>Lectura semantica minima de este diagrama:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
-  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+  
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring y configuracion de ensamblado.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>dependencia contra contrato/abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida/propagacion desde implementacion concreta.</span></li>
+
 </ol>
 </section>
 <section id="04-arquitecto-03-navegacion-deeplinks" class="lesson" data-topic-id="04-arquitecto-03-navegacion-deeplinks" data-lesson-path="04-arquitecto/03-navegacion-deeplinks.md">
@@ -22847,16 +22942,18 @@ final class AppCoordinatorNavigationTests: XCTestCase {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-&gt; PORT
+    UC ==&gt; PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
 <p>Lectura semantica minima de este diagrama:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
-  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+  
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring y configuracion de ensamblado.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>dependencia contra contrato/abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida/propagacion desde implementacion concreta.</span></li>
+
 </ol>
 </section>
 <section id="04-arquitecto-04-versionado-spm" class="lesson" data-topic-id="04-arquitecto-04-versionado-spm" data-lesson-path="04-arquitecto/04-versionado-spm.md">
@@ -23304,16 +23401,18 @@ public let accessToken: String</code></pre>
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-&gt; PORT
+    UC ==&gt; PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
 <p>Lectura semantica minima de este diagrama:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
-  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+  
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring y configuracion de ensamblado.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>dependencia contra contrato/abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida/propagacion desde implementacion concreta.</span></li>
+
 </ol>
 </section>
 <section id="04-arquitecto-05-guia-arquitectura" class="lesson" data-topic-id="04-arquitecto-05-guia-arquitectura" data-lesson-path="04-arquitecto/05-guia-arquitectura.md">
@@ -23408,21 +23507,21 @@ public let accessToken: String</code></pre>
 
     LUI --&gt; LAPP
     LAPP --&gt; LDOM
-    LAPP -.-&gt; LPORT
+    LAPP ==&gt; LPORT
     LINF --o LPORT
 
     CUI --&gt; CAPP
     CAPP --&gt; CDOM
-    CAPP -.-&gt; CPORT
+    CAPP ==&gt; CPORT
     CINF --o CPORT
     CINF --&gt; CSTORE</pre>
 </div>
 <p>Cómo leerlo en revisión técnica:</p>
 <ol>
-  <li><code>--&gt;</code> indica dependencia de ejecución real (flujo operativo).</li>
-  <li><code>-.-&gt;</code> indica solo ensamblaje/configuración (sin ejecutar negocio).</li>
-  <li><code>-.o</code> indica que el core depende de un contrato, no de una implementación.</li>
-  <li><code>--o</code> indica salida/propagación desde una implementación concreta que satisface ese contrato.</li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>indica dependencia de ejecución real (flujo operativo).</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>indica solo ensamblaje/configuración (sin ejecutar negocio).</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>indica que el core depende de un contrato, no de una implementación.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>indica salida/propagación desde una implementación concreta que satisface ese contrato.</span></li>
 </ol>
 <p>Regla práctica de arquitectura:</p>
 <ul>
@@ -24226,16 +24325,18 @@ jobs:
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-&gt; PORT
+    UC ==&gt; PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
 <p>Lectura semantica minima de este diagrama:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
-  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+  
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring y configuracion de ensamblado.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>dependencia contra contrato/abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida/propagacion desde implementacion concreta.</span></li>
+
 </ol>
 </section>
 <section id="04-arquitecto-entregables-etapa-4" class="lesson" data-topic-id="04-arquitecto-entregables-etapa-4" data-lesson-path="04-arquitecto/entregables-etapa-4.md">
@@ -24527,10 +24628,10 @@ anexos/adrs/ADR-EXCEPTION-*.md (si aplica)</code></pre>
 </div>
 <p>La lectura del diagrama sigue esta semantica:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>==&gt;</code> contrato o abstraccion.</li>
-  <li><code>--o</code> salida o propagacion de resultado.</li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring o configuracion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>contrato o abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida o propagacion de resultado.</span></li>
 </ol>
 </section>
 <section id="anexos-consolidacion-etapa-4-arquitecto" class="lesson" data-topic-id="anexos-consolidacion-etapa-4-arquitecto" data-lesson-path="anexos/consolidacion-etapa-4-arquitecto.md">
@@ -25007,16 +25108,18 @@ Sync Engine --&gt; Collaboration</code></pre>
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-&gt; PORT
+    UC ==&gt; PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
 <p>Lectura semantica minima de este diagrama:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
-  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+  
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring y configuracion de ensamblado.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>dependencia contra contrato/abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida/propagacion desde implementacion concreta.</span></li>
+
 </ol>
 </section>
 <section id="05-maestria-01-isolation-domains" class="lesson" data-topic-id="05-maestria-01-isolation-domains" data-lesson-path="05-maestria/01-isolation-domains.md">
@@ -25680,16 +25783,18 @@ func loadData(viewModel: ViewModel) async {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-&gt; PORT
+    UC ==&gt; PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
 <p>Lectura semantica minima de este diagrama:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
-  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+  
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring y configuracion de ensamblado.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>dependencia contra contrato/abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida/propagacion desde implementacion concreta.</span></li>
+
 </ol>
 </section>
 <section id="05-maestria-02-actors-en-arquitectura" class="lesson" data-topic-id="05-maestria-02-actors-en-arquitectura" data-lesson-path="05-maestria/02-actors-en-arquitectura.md">
@@ -26208,16 +26313,18 @@ try await store.save(products, timestamp: Date()) // Con await: actor-isolated</
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-&gt; PORT
+    UC ==&gt; PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
 <p>Lectura semantica minima de este diagrama:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
-  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+  
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring y configuracion de ensamblado.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>dependencia contra contrato/abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida/propagacion desde implementacion concreta.</span></li>
+
 </ol>
 </section>
 <section id="05-maestria-03-structured-concurrency" class="lesson" data-topic-id="05-maestria-03-structured-concurrency" data-lesson-path="05-maestria/03-structured-concurrency.md">
@@ -26722,16 +26829,18 @@ await withTaskGroup(of: Product.self) { group in
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-&gt; PORT
+    UC ==&gt; PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
 <p>Lectura semantica minima de este diagrama:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
-  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+  
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring y configuracion de ensamblado.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>dependencia contra contrato/abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida/propagacion desde implementacion concreta.</span></li>
+
 </ol>
 </section>
 <section id="05-maestria-04-testing-concurrente" class="lesson" data-topic-id="05-maestria-04-testing-concurrente" data-lesson-path="05-maestria/04-testing-concurrente.md">
@@ -27165,16 +27274,18 @@ private func makeSUT(
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-&gt; PORT
+    UC ==&gt; PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
 <p>Lectura semantica minima de este diagrama:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
-  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+  
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring y configuracion de ensamblado.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>dependencia contra contrato/abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida/propagacion desde implementacion concreta.</span></li>
+
 </ol>
 </section>
 <section id="05-maestria-05-swiftui-state-moderno" class="lesson" data-topic-id="05-maestria-05-swiftui-state-moderno" data-lesson-path="05-maestria/05-swiftui-state-moderno.md">
@@ -27695,16 +27806,18 @@ struct ProductRow: View {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-&gt; PORT
+    UC ==&gt; PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
 <p>Lectura semantica minima de este diagrama:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
-  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+  
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring y configuracion de ensamblado.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>dependencia contra contrato/abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida/propagacion desde implementacion concreta.</span></li>
+
 </ol>
 </section>
 <section id="05-maestria-06-swiftui-performance" class="lesson" data-topic-id="05-maestria-06-swiftui-performance" data-lesson-path="05-maestria/06-swiftui-performance.md">
@@ -28129,16 +28242,18 @@ ExpensiveChartView(data: chartData, title: "Sales")
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-&gt; PORT
+    UC ==&gt; PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
 <p>Lectura semantica minima de este diagrama:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
-  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+  
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring y configuracion de ensamblado.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>dependencia contra contrato/abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida/propagacion desde implementacion concreta.</span></li>
+
 </ol>
 </section>
 <section id="05-maestria-07-composicion-avanzada" class="lesson" data-topic-id="05-maestria-07-composicion-avanzada" data-lesson-path="05-maestria/07-composicion-avanzada.md">
@@ -28573,16 +28688,18 @@ final class CompositionRootTests: XCTestCase {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-&gt; PORT
+    UC ==&gt; PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
 <p>Lectura semantica minima de este diagrama:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
-  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+  
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring y configuracion de ensamblado.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>dependencia contra contrato/abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida/propagacion desde implementacion concreta.</span></li>
+
 </ol>
 </section>
 <section id="05-maestria-08-memory-leaks-y-diagnostico" class="lesson" data-topic-id="05-maestria-08-memory-leaks-y-diagnostico" data-lesson-path="05-maestria/08-memory-leaks-y-diagnostico.md">
@@ -29014,16 +29131,18 @@ jobs:
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-&gt; PORT
+    UC ==&gt; PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
 <p>Lectura semantica minima de este diagrama:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
-  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+  
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring y configuracion de ensamblado.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>dependencia contra contrato/abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida/propagacion desde implementacion concreta.</span></li>
+
 </ol>
 </section>
 <section id="05-maestria-09-migracion-swift6" class="lesson" data-topic-id="05-maestria-09-migracion-swift6" data-lesson-path="05-maestria/09-migracion-swift6.md">
@@ -29390,16 +29509,18 @@ final class HTTPClientStub: HTTPClient, @unchecked Sendable {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-&gt; PORT
+    UC ==&gt; PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
 <p>Lectura semantica minima de este diagrama:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
-  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+  
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring y configuracion de ensamblado.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>dependencia contra contrato/abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida/propagacion desde implementacion concreta.</span></li>
+
 </ol>
 </section>
 <section id="05-maestria-10-debugging-xcode" class="lesson" data-topic-id="05-maestria-10-debugging-xcode" data-lesson-path="05-maestria/10-debugging-xcode.md">
@@ -29829,10 +29950,10 @@ actor B {
 </div>
 <p>La lectura del diagrama sigue esta semantica:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>==&gt;</code> contrato o abstraccion.</li>
-  <li><code>--o</code> salida o propagacion de resultado.</li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring o configuracion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>contrato o abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida o propagacion de resultado.</span></li>
 </ol>
 </section>
 <section id="05-maestria-11-entrevista-arquitecto" class="lesson" data-topic-id="05-maestria-11-entrevista-arquitecto" data-lesson-path="05-maestria/11-entrevista-arquitecto.md">
@@ -30003,10 +30124,10 @@ actor B {
 </div>
 <p>La lectura del diagrama sigue esta semantica:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>==&gt;</code> contrato o abstraccion.</li>
-  <li><code>--o</code> salida o propagacion de resultado.</li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring o configuracion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>contrato o abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida o propagacion de resultado.</span></li>
 </ol>
 </section>
 <section id="05-maestria-12-arquitectura-adaptativa" class="lesson" data-topic-id="05-maestria-12-arquitectura-adaptativa" data-lesson-path="05-maestria/12-arquitectura-adaptativa.md">
@@ -30707,10 +30828,10 @@ HIPAA audit trail ────────────┘</code></pre>
 </div>
 <p>La lectura del diagrama sigue esta semantica:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>==&gt;</code> contrato o abstraccion.</li>
-  <li><code>--o</code> salida o propagacion de resultado.</li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring o configuracion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>contrato o abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida o propagacion de resultado.</span></li>
 </ol>
 </section>
 <section id="05-maestria-entregables-etapa-5" class="lesson" data-topic-id="05-maestria-entregables-etapa-5" data-lesson-path="05-maestria/entregables-etapa-5.md">
@@ -31124,16 +31245,18 @@ HIPAA audit trail ────────────┘</code></pre>
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-&gt; PORT
+    UC ==&gt; PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
 <p>Lectura semantica minima de este diagrama:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
-  <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
+  
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring y configuracion de ensamblado.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>dependencia contra contrato/abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida/propagacion desde implementacion concreta.</span></li>
+
 </ol>
 </section>
 <section id="05-maestria-10-rubrica-final-01-rubrica-empleabilidad-ios" class="lesson" data-topic-id="05-maestria-10-rubrica-final-01-rubrica-empleabilidad-ios" data-lesson-path="05-maestria/10-rubrica-final/01-rubrica-empleabilidad-ios.md">
@@ -31536,10 +31659,10 @@ HIPAA audit trail ────────────┘</code></pre>
 </div>
 <p>La lectura del diagrama sigue esta semantica:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>==&gt;</code> contrato o abstraccion.</li>
-  <li><code>--o</code> salida o propagacion de resultado.</li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring o configuracion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>contrato o abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida o propagacion de resultado.</span></li>
 </ol>
 </section>
 <section id="05-maestria-10-rubrica-final-02-evidencias-obligatorias-ios" class="lesson" data-topic-id="05-maestria-10-rubrica-final-02-evidencias-obligatorias-ios" data-lesson-path="05-maestria/10-rubrica-final/02-evidencias-obligatorias-ios.md">
@@ -31696,10 +31819,10 @@ HIPAA audit trail ────────────┘</code></pre>
 </div>
 <p>La lectura del diagrama sigue esta semantica:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>==&gt;</code> contrato o abstraccion.</li>
-  <li><code>--o</code> salida o propagacion de resultado.</li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring o configuracion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>contrato o abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida o propagacion de resultado.</span></li>
 </ol>
 </section>
 <section id="05-maestria-10-rubrica-final-03-checklist-entrega-para-entrevista" class="lesson" data-topic-id="05-maestria-10-rubrica-final-03-checklist-entrega-para-entrevista" data-lesson-path="05-maestria/10-rubrica-final/03-checklist-entrega-para-entrevista.md">
@@ -31800,10 +31923,10 @@ HIPAA audit trail ────────────┘</code></pre>
 </div>
 <p>La lectura del diagrama sigue esta semantica:</p>
 <ol>
-  <li><code>--&gt;</code> dependencia directa en runtime.</li>
-  <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>==&gt;</code> contrato o abstraccion.</li>
-  <li><code>--o</code> salida o propagacion de resultado.</li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span>wiring o configuracion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>contrato o abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>salida o propagacion de resultado.</span></li>
 </ol>
 </section>
 <section id="anexos-calentamiento-etapa-5-maestria" class="lesson" data-topic-id="anexos-calentamiento-etapa-5-maestria" data-lesson-path="anexos/calentamiento-etapa-5-maestria.md">
