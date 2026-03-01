@@ -179,8 +179,9 @@ copy_course_output_preserving_assistant_panel() {
   local dst_assistant="$dst/$assistant_rel"
   local backup_file="$RUNTIME_DIR/.preserve-${label}-assistant-panel.js"
   local had_backup=0
+  local preserve_panel="${PRESERVE_ASSISTANT_PANEL:-0}"
 
-  if [[ -f "$dst_assistant" ]]; then
+  if [[ "$preserve_panel" == "1" && -f "$dst_assistant" ]]; then
     cp "$dst_assistant" "$backup_file"
     had_backup=1
   fi
