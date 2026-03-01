@@ -97,6 +97,8 @@ Repos incluidos:
    - sincronización de `assistant-panel.js` fuente->Hub sin preservación forzada.
    - ajuste de `build-hub.sh` para preservar panel solo en modo explícito (`PRESERVE_ASSISTANT_PANEL=1`).
    - renderizadores CDN de Mermaid/Highlight movidos a carga dinámica en runtime (iOS/Android/SDD), evitando bloqueo de `DOMContentLoaded` por red externa lenta.
+   - modo compacto de controles de estudio en iPhone estrecho (`<=480px`) con etiquetas cortas (`✅ Hecho`, `🔁 Repaso`, `🧘 Zen`) manteniendo `aria-label` completo.
+   - ajuste de espaciado/padding en topbar móvil para reducir ruido visual sin romper navegación.
 3. Evidencia técnica:
    - `python3 scripts/build-html.py` en iOS/Android/SDD -> PASS.
    - `python3 -m py_compile scripts/build-html.py` en iOS/Android/SDD -> PASS.
@@ -106,6 +108,7 @@ Repos incluidos:
    - Playwright local:
      - carga inicial en `ios/android/sdd` sin requests `/health`.
      - apertura de asistente en `ios/android/sdd` sin requests `/health` automáticos.
+     - validación viewport `390x844` en `ios/android/sdd` con topbar compacta estable y controles legibles.
 4. Plan formal de continuidad:
    - `docs/PLAN-PERFORMANCE-MOBILE-FIRST-20260301.md`
 
@@ -113,7 +116,7 @@ Repos incluidos:
 1. ✅ Fase 1 performance móvil cerrada.
 2. ✅ Fase 2 mobile-first UX cerrada.
 3. ✅ Fase 3 validación final + publicación cerrada.
-4. 🚧 Fase 4.4: pase responsive móvil final (iPhone viewport estrecho) en cursos + Hub.
+4. ✅ Fase 4.5: pase responsive móvil final (iPhone viewport estrecho) en cursos + Hub.
 
 ## Última comprobación de espera activa
 1. Fecha: 2026-02-27.

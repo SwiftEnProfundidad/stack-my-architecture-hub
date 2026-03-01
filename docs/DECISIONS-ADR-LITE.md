@@ -486,3 +486,23 @@ Mover la carga de `mermaid.min.js` y `highlight.min.js` (incluyendo lenguaje) de
 1. `renderMermaid()` e `initCodeHighlighting()` pasan a flujo asíncrono con loaders idempotentes.
 2. El arranque inicial queda desacoplado de disponibilidad inmediata de CDNs.
 3. Validación operativa en verde tras sync Hub (`strict`, `no drift`, `smoke`).
+
+## ADR-LITE-025 — Compact mode de topbar en iPhone estrecho sin pérdida de accesibilidad
+### Fecha
+2026-03-01
+
+### Decisión
+Aplicar modo compacto de controles de estudio para viewport `<=480px` en iOS/Android/SDD:
+1. Etiquetas visibles cortas (`✅ Hecho`, `🔁 Repaso`, `🧘 Zen`).
+2. Etiquetas completas conservadas en `aria-label` y `title`.
+3. Ajuste de spacing/padding en topbar móvil para reducir densidad visual.
+
+### Motivación
+1. El topbar móvil en iPhone estrecho mostraba demasiado ruido visual con labels largas.
+2. Se necesitaba mantener legibilidad sin recortar funcionalidad de estudio.
+3. Debía preservarse accesibilidad para lectores de pantalla y tooltip contextual.
+
+### Impacto
+1. Menor fricción visual en viewport pequeño.
+2. Consistencia UX entre iOS/Android/SDD y Hub sincronizado.
+3. Sin regresión funcional ni de accesibilidad tras validación `strict + drift + smoke + Playwright`.
