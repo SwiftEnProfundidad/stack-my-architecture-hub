@@ -934,3 +934,20 @@ En viewport móvil estrecho (`<=480px`) los controles superiores de estudio debe
 ### Impacto
 1. El cierre post-deploy queda más rápido y objetivo.
 2. Menor riesgo de olvidar verificación de alguna ruta pública crítica.
+
+## ADR-LITE-048 — Añadir smoke funcional público reproducible para `5.4`
+### Fecha
+2026-03-02
+
+### Decisión
+1. Añadir `scripts/smoke-public-functional.sh` para validar flujo público mínimo de Hub/Auth/Cursos.
+2. Registrar baseline pre-deploy (`2026-03-02 23:41 CET`) para confirmar estabilidad del chequeo.
+3. Ejecutar este smoke inmediatamente después del deploy final de `5.3`.
+
+### Motivación
+1. Complementar el smoke de rutas (`200`) con evidencia funcional básica de navegación.
+2. Reducir validaciones manuales repetitivas en cierre de fase.
+
+### Impacto
+1. `P2` de `5.4` queda casi operativo al 100% (solo falta correrlo post-deploy final).
+2. Menor riesgo de regresión silenciosa en auth/nav pública tras publicación.
