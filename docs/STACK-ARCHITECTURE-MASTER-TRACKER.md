@@ -293,6 +293,11 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
     - validación:
       - estado actual `EN ESPERA` con `EXIT_CODE=2`, log del último job y job automático activo (`15:50 CET`).
 
+80. Test de regresión del readiness de cierre (2026-03-03):
+    - test script: `scripts/tests/test-closeout-readiness.sh`.
+    - inyección de `at/atq` por entorno (`SMA_ATQ_CMD`, `SMA_AT_CAT_CMD`) para simular cola sin afectar jobs reales.
+    - resultado: `[PASS]` en 4 escenarios clave (`1`, `3`, `2`, `0`).
+
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.
 2. Regeneración de launchers/apps de escritorio del Hub.
