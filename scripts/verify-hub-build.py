@@ -50,6 +50,22 @@ SOURCE_REPOS = {
 }
 
 
+def resolve_repo_root(candidate: Path, nested_name: str) -> Path:
+    if (candidate / "scripts" / "build-html.py").exists():
+        return candidate
+    nested = candidate / nested_name
+    if (nested / "scripts" / "build-html.py").exists():
+        return nested
+    return candidate
+
+
+SOURCE_REPOS = {
+    "ios": resolve_repo_root(SOURCE_REPOS["ios"], "stack-my-architecture-ios"),
+    "android": resolve_repo_root(SOURCE_REPOS["android"], "stack-my-architecture-android"),
+    "sdd": resolve_repo_root(SOURCE_REPOS["sdd"], "stack-my-architecture-SDD"),
+}
+
+
 def read_text(rel_path: str) -> str:
     return (HUB_ROOT / rel_path).read_text(encoding="utf-8")
 

@@ -1,6 +1,6 @@
 # STACK ARCHITECTURE MASTER TRACKER
 
-Fecha de actualización: 2026-03-01
+Fecha de actualización: 2026-03-02
 
 ## Leyenda
 - ✅ Hecho
@@ -154,6 +154,15 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
       - `https://architecture-stack.vercel.app`
       - `https://architecture-stack-787gl8cx3-merlosalbarracins-projects.vercel.app`
     - rutas verificadas en `200`: `/`, `/ios/`, `/android/`, `/sdd/`.
+60. Hotfix de estabilidad cross-device y rutas anidadas (2026-03-02):
+    - `build-hub.sh` resuelve raíces de cursos en estructuras flat/nested.
+    - `verify-hub-build.py` y `check-selective-sync-drift.sh` validan contra la raíz real de cada curso (incluyendo SDD anidado).
+    - `study-ux.js` y `course-switcher.js` unificados en iOS/Android/SDD para preservar `progressProfile` y endpoint cloud entre cursos/dispositivos.
+    - evidencia:
+      - `python3 scripts/build-html.py` en iOS/Android/SDD -> PASS
+      - `./scripts/build-hub.sh --mode fast` -> PASS
+      - `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`
+      - `./scripts/smoke-hub-runtime.sh` -> OK
 
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.

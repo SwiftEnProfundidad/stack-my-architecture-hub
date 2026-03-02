@@ -1125,3 +1125,38 @@ Sin regresión de arranque ni de rutas de cursos. Queda habilitada persistencia 
    - `/ios/`
    - `/android/`
    - `/sdd/`
+
+## Hotfix continuidad local/Vercel + rutas anidadas
+### Fecha
+2026-03-02
+
+### Incidencia
+1. El Hub fallaba al construir en workspace con SDD anidado:
+   - `python3 ... stack-my-architecture-SDD/scripts/build-html.py: No such file`.
+2. El progreso/repaso no sincronizaba de forma fiable entre local, Vercel y cambio de curso/dispositivo.
+3. El checker de drift del Hub reportaba falso positivo para SDD por resolver `dist` en ruta incorrecta.
+
+### Cambios aplicados
+1. Hub:
+   - `scripts/build-hub.sh`: resolución robusta de roots flat/nested para iOS/Android/SDD.
+   - `scripts/verify-hub-build.py`: verificación de hashes contra root real (incluyendo SDD anidado).
+   - `scripts/check-selective-sync-drift.sh`: drift check alineado con roots flat/nested.
+2. Cursos (`ios/android/sdd`):
+   - `assets/study-ux.js`:
+     - endpoint cloud configurable (`progressBase`/`progressEndpoint`) con fallback remoto en contexto local,
+     - soporte de `progressProfile` compartido por URL/global,
+     - acción UI `🔗 Copiar enlace de sincronización`.
+   - `assets/course-switcher.js`:
+     - preserva `progressProfile/progressBase/progressEndpoint` al navegar entre cursos.
+
+### Verificación funcional
+1. `python3 scripts/build-html.py` en iOS/Android/SDD -> PASS.
+2. `./scripts/build-hub.sh --mode fast` -> PASS.
+3. `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
+4. `./scripts/smoke-hub-runtime.sh` -> OK.
+5. API cloud:
+   - `GET /progress/config` -> `enabled=true`.
+   - `POST/GET /progress/state` -> persistencia confirmada.
+
+### Resultado
+Hub vuelve a arrancar correctamente en entorno local con repos anidados y la sincronización de progreso queda operativa entre local/Vercel cuando se comparte `progressProfile` (enlace de sincronización).

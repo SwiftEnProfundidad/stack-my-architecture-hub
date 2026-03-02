@@ -1,6 +1,6 @@
 # SESSION HANDOFF
 
-Fecha de corte: 2026-03-01
+Fecha de corte: 2026-03-02
 
 ## Leyenda
 - ✅ Hecho
@@ -142,6 +142,17 @@ Repos incluidos:
    - cierre GitFlow completo y despliegue Vercel en producción:
      - `https://architecture-stack.vercel.app`
      - `https://architecture-stack-787gl8cx3-merlosalbarracins-projects.vercel.app`
+11. ✅ Hotfix de continuidad multi-dispositivo y arranque Hub (2026-03-02):
+   - `build-hub.sh`, `verify-hub-build.py` y `check-selective-sync-drift.sh` soportan rutas flat/nested para iOS/Android/SDD.
+   - `study-ux.js` y `course-switcher.js` alineados en iOS/Android/SDD para:
+     - resolver `/progress/*` contra endpoint remoto en contexto local,
+     - conservar `progressProfile/progressBase/progressEndpoint` al cambiar de curso,
+     - exponer acción `🔗 Copiar enlace de sincronización` para compartir progreso entre dispositivos.
+   - validación en verde:
+     - `python3 scripts/build-html.py` en iOS/Android/SDD -> PASS
+     - `./scripts/build-hub.sh --mode fast` -> PASS
+     - `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`
+     - `./scripts/smoke-hub-runtime.sh` -> OK
 
 ## Última comprobación de espera activa
 1. Fecha: 2026-02-27.
