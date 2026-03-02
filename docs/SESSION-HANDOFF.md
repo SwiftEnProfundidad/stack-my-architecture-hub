@@ -160,7 +160,8 @@ Repos incluidos:
    - `1.2` iOS `ETAPA 1: JUNIOR` cerrada en caliente (fences Mermaid, markers auto y convención de flechas alineados).
    - `1.3` iOS `ETAPA 2: MIDLEVEL` cerrada en caliente (fences Mermaid, markers auto y convención de flechas alineados).
    - `1.4` iOS `ETAPA 3: SENIOR` cerrada en caliente (fences Mermaid, markers auto y convención de flechas alineados).
-   - tarea en construccion actual: `1.5` (iOS `ETAPA 4: ARQUITECTO`).
+   - `1.5` iOS `ETAPA 4: ARQUITECTO` cerrada en caliente (fences Mermaid, markers auto y convención de flechas alineados).
+   - tarea en construccion actual: `1.6` (iOS `ETAPA 5: MAESTRIA + ANEXOS`).
 
 ## Última comprobación de espera activa
 1. Fecha: 2026-02-27.
@@ -202,7 +203,7 @@ Repos incluidos:
 31. ✅ Fase 8 de optimización de imágenes de arquitectura iOS para móvil (`webp` + fallback `png`).
 
 ## Siguiente paso concreto
-1. Cerrar `1.5` del plan activo (iOS ETAPA 4) leccion por leccion con registro en la matriz TSV.
+1. Cerrar `1.6` del plan activo (iOS ETAPA 5 + anexos) leccion por leccion con registro en la matriz TSV.
 2. Completar `0.3` (limpieza de planes historicos cerrados) para dejar `docs/` sin duplicados activos.
 3. Mantener commits atomicos y GitFlow estricto por bloque.
 4. Actualizar handoff al cerrar cada ola real de auditoria.

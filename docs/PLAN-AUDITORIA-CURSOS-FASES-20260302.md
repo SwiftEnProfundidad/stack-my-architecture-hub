@@ -69,8 +69,8 @@ Notas:
 | 1.2 | ✅ | Auditar + corregir ETAPA 1 | `01-fundamentos` |
 | 1.3 | ✅ | Auditar + corregir ETAPA 2 | `02-integracion` |
 | 1.4 | ✅ | Auditar + corregir ETAPA 3 | `03-evolucion` |
-| 1.5 | 🚧 | Auditar + corregir ETAPA 4 | `04-arquitecto` |
-| 1.6 | ⏳ | Auditar + corregir ETAPA 5 + anexos | `05-maestria`, `anexos` |
+| 1.5 | ✅ | Auditar + corregir ETAPA 4 | `04-arquitecto` |
+| 1.6 | 🚧 | Auditar + corregir ETAPA 5 + anexos | `05-maestria`, `anexos` |
 | 1.7 | ⏳ | Materializar ETAPA 6 Proyecto Final iOS | alcance, rubrica, entregables, narrativa+tecnico, criterios de evaluacion |
 
 ## Fase 2 - Android
