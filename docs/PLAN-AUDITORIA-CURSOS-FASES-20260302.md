@@ -84,8 +84,8 @@ Notas:
 ## Fase 3 - SDD
 | ID | Estado | Task | Alcance |
 | --- | --- | --- | --- |
-| 3.1 | 🚧 | Auditar + corregir bloque base | `00-preparacion`, `01-roadmap`, semanas 01-08 |
-| 3.2 | ⏳ | Auditar + corregir bloque avanzado | semanas 09-16, `anexos` |
+| 3.1 | ✅ | Auditar + corregir bloque base | `00-preparacion`, `01-roadmap`, semanas 01-08 |
+| 3.2 | 🚧 | Auditar + corregir bloque avanzado | semanas 09-16, `anexos` |
 | 3.3 | ⏳ | Aplicar perfil publico monetizable | excluir internos de `docs/`, `openspec/`, `00-informe` en build publico |
 | 3.4 | ⏳ | Materializar Proyecto Final SDD obligatorio | brief, alcance, entregables, rubrica y defensa final |
 

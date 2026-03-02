@@ -221,6 +221,13 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
     - validación técnica en verde (`check-links`, `validate-diagram-semantics`, `build-html`).
     - siguiente task activa: SDD `3.1` (bloque base).
 
+71. SDD bloque base (3.1) cerrado en ciclo gradual (2026-03-02):
+    - cierre de fences Mermaid en `00-preparacion`, `01-roadmap`, `02-semana-01` ... `09-semana-08` para evitar render ambiguo.
+    - matriz de auditoría ampliada para cubrir 85/85 lecciones del alcance (incluye `00-preparacion/07-11`).
+    - validación AGENTS en verde:
+      - `validate-course-structure`, `validate-openspec`, `check-links`, `validate-pedagogy`, `validate-markdown-snippets`, `validate-diagram-semantics`, `build-html`, `swift test`.
+    - siguiente task activa: SDD `3.2` (semanas 09-16 y anexos).
+
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.
 2. Regeneración de launchers/apps de escritorio del Hub.
