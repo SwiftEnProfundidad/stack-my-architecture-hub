@@ -235,6 +235,15 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
       - `validate-course-structure`, `validate-openspec`, `check-links`, `validate-pedagogy`, `validate-markdown-snippets`, `validate-diagram-semantics`, `build-html`, `swift test`.
     - siguiente task activa: SDD `3.3` (perfil público monetizable).
 
+73. Perfil público monetizable SDD (3.3) cerrado en ciclo gradual (2026-03-02):
+    - `scripts/build-html.py` soporta `SMA_BUILD_PROFILE=public` para excluir `00-informe`, `docs` y `openspec`.
+    - `scripts/build-hub.sh` publica SDD en perfil `public` por defecto (`SMA_SDD_BUILD_PROFILE`, override a `full` disponible).
+    - validación de perfiles cerrada:
+      - `full` mantiene lecciones internas en `data-lesson-path`.
+      - `public` elimina lecciones internas sin romper navegación de roadmap/semanas/anexos.
+      - `build-hub --mode fast`, `check-selective-sync-drift`, `smoke-hub-runtime` en verde.
+    - siguiente task activa: SDD `3.4` (Proyecto Final obligatorio).
+
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.
 2. Regeneración de launchers/apps de escritorio del Hub.
