@@ -214,7 +214,9 @@ Repos incluidos:
      - baseline actual (pre-deploy): `2026-03-02 23:43 CET`, runner completo en verde.
    - runner end-to-end de cierre:
      - script: `scripts/deploy-and-verify-closeout.sh [fast|strict] [base_url]`
-     - última ejecución: `2026-03-02 23:49 CET` (build OK, deploy bloqueado por cuota).
+     - guard de cuota activo vía `.runtime/vercel-deploy-cooldown.env`.
+     - última ejecución con intento real: `2026-03-02 23:49 CET` (build OK, deploy bloqueado por cuota).
+     - última ejecución validada: `2026-03-02 23:53 CET` (bloqueo preventivo por guard, sin consumir intento).
 
 ## Última comprobación de espera activa
 1. Fecha: 2026-02-27.

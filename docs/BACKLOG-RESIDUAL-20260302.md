@@ -66,8 +66,13 @@ Documento operativo de cierre para la fase `5.4` del plan activo:
 6. `P2` `⏳` Runner end-to-end de cierre.
    - Script:
      - `scripts/deploy-and-verify-closeout.sh [fast|strict] [base_url]`
+   - Guard de cuota integrado:
+     - usa `.runtime/vercel-deploy-cooldown.env`
+     - bloquea intentos antes de `not_before_epoch` (salida controlada `EXIT_CODE=2`)
+     - permite forzar con `SMA_DEPLOY_FORCE=1`
    - Última ejecución:
      - `2026-03-02 23:49 CET` -> build OK, deploy bloqueado por cuota (`api-deployments-free-per-day`).
+     - `2026-03-02 23:53 CET` -> guard activo (sin consumir intento), ventana vigente `2026-03-03 15:49:00 CET`.
    - Criterio de cierre:
      - deploy productivo + `post-deploy-checks` en una sola ejecución verde.
 
