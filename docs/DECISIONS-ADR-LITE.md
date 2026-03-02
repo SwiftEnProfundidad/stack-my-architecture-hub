@@ -866,3 +866,20 @@ En viewport móvil estrecho (`<=480px`) los controles superiores de estudio debe
 ### Impacto
 1. Trazabilidad honesta de estado operativo (deploy pendiente por cuota, no por regresión técnica).
 2. Continuidad del plan sin congelar la ejecución del backlog.
+
+## ADR-LITE-044 — Cierre 0.3/0.4 y apertura 5.4 para cierre final con backlog residual
+### Fecha
+2026-03-02
+
+### Decisión
+1. Cerrar `0.3` tras completar archivo de planes históricos en `docs/archive/plans-closed/`.
+2. Cerrar `0.4` tras sincronizar las cuatro fuentes de verdad de tracking.
+3. Abrir `5.4` como única tarea en construcción para cierre final, manteniendo `5.3` como bloqueo externo.
+
+### Motivación
+1. Mantener el contrato de una sola tarea `🚧` sin detener la ejecución por bloqueo de proveedor.
+2. Dejar trazabilidad completa y ordenada antes del despliegue final pendiente.
+
+### Impacto
+1. `docs/` queda depurado y con un único plan activo en raíz.
+2. El backlog residual queda priorizado y listo para cerrar el ciclo cuando Vercel habilite nuevo despliegue.

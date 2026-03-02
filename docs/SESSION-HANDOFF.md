@@ -194,7 +194,11 @@ Repos incluidos:
    - `5.3` deploy final intentado y bloqueado por cuota Vercel:
      - comando: `bash scripts/publish-architecture-stack.sh fast`
      - error: `api-deployments-free-per-day` (retry en ~17h desde intento).
-   - tarea en construccion actual: `0.3` (limpieza de planes historicos cerrados en `docs/`).
+   - `0.3` limpieza documental cerrada:
+     - planes históricos movidos a `docs/archive/plans-closed/`.
+     - `docs/` raíz queda con un único plan activo: `PLAN-AUDITORIA-CURSOS-FASES-20260302.md`.
+   - `0.4` sincronización de fuentes de verdad cerrada (`MASTER-TRACKER`, `SESSION-HANDOFF`, `HUB-STABILITY-LOG`, `ADR-LITE`).
+   - tarea en construccion actual: `5.4` (cierre final con backlog residual priorizado).
 
 ## Última comprobación de espera activa
 1. Fecha: 2026-02-27.
@@ -236,7 +240,7 @@ Repos incluidos:
 31. ✅ Fase 8 de optimización de imágenes de arquitectura iOS para móvil (`webp` + fallback `png`).
 
 ## Siguiente paso concreto
-1. Completar `0.3` del plan activo: limpieza documental de planes historicos cerrados en `docs/` y referencias.
+1. Completar `5.4`: cierre documental final sin tareas `🚧` fuera del propio cierre y backlog residual priorizado.
 2. Retomar `5.3` cuando reinicie cuota Vercel para ejecutar despliegue final.
 3. Mantener commits atomicos y GitFlow estricto por bloque.
 4. Actualizar handoff al cerrar cada ola real de auditoria.

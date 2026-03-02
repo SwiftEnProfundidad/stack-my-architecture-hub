@@ -189,7 +189,7 @@ Se activa un plan único de auditoría gradual con tracking transversal para evi
 ### Evidencia versionada
 1. Plan activo: `docs/PLAN-AUDITORIA-CURSOS-FASES-20260302.md`
 2. Matriz operativa: `docs/AUDITORIA-CURSOS-MATRIZ-20260302.tsv`
-3. Bloque en construcción: Hub `0.3` (limpieza documental de planes históricos cerrados).
+3. Bloque en construcción: Hub `5.4` (cierre final + backlog residual priorizado).
 
 ### Estado de estabilidad
 1. Sin impacto en rutas públicas del Hub en esta actualización documental.
@@ -309,6 +309,42 @@ Fase `5.2` cerrada en verde; bloque activo movido a `5.3` (deploy final en Verce
 
 ### Pivot operativo
 1. Mientras se libera cuota, el bloque activo pasa a `0.3` para limpiar planes históricos cerrados en `docs/`.
+
+## Cierre Fase 0.3 — limpieza documental de planes históricos
+### Fecha
+2026-03-02
+
+### Cambios aplicados
+1. Planes cerrados movidos de `docs/` raíz a `docs/archive/plans-closed/`.
+2. `docs/` raíz queda con un único plan activo (`PLAN-AUDITORIA-CURSOS-FASES-20260302.md`).
+3. Referencias internas actualizadas para apuntar al archivo histórico.
+
+### Resultado
+Fase `0.3` cerrada en verde sin regresiones de runtime ni de tracking.
+
+## Cierre Fase 0.4 — sincronización de fuentes de verdad
+### Fecha
+2026-03-02
+
+### Cambios aplicados
+1. Fuentes de verdad alineadas al estado real:
+   - `STACK-ARCHITECTURE-MASTER-TRACKER.md`
+   - `SESSION-HANDOFF.md`
+   - `HUB-STABILITY-LOG.md`
+   - `DECISIONS-ADR-LITE.md`
+2. Se refleja explícitamente el bloqueo externo de `5.3` y la transición operativa.
+
+### Resultado
+Fase `0.4` cerrada en verde; bloque activo movido a `5.4`.
+
+## Apertura Fase 5.4 — cierre final y backlog residual priorizado
+### Fecha
+2026-03-02
+
+### Backlog residual priorizado
+1. `P1` Retomar `5.3` al reset de cuota Vercel y ejecutar deploy productivo final.
+2. `P2` Ejecutar smoke post-deploy en rutas públicas (`/`, `/ios/`, `/android/`, `/sdd/`) y registrar evidencia final.
+3. `P3` Cerrar plan con estado final estable y handoff de continuidad sin tareas `🚧` adicionales.
 
 ## Regresión post-hardening del asistente IA en runtime móvil (Fase 4)
 ### Fecha
