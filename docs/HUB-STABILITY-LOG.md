@@ -1575,13 +1575,15 @@ El cierre final de `5.4` sigue condicionado por la cuota diaria de despliegue (`
 Aunque el runner de espera está disponible, se programa un disparo operativo explícito para asegurar ejecución en primera ventana útil sin interacción manual.
 
 ### Cambios aplicados
-1. Job `at` creado para `15:50 CET` (después de `not-before 15:49 CET`).
-2. Script del job:
-   - `.runtime/closeout-at-job.sh`.
+1. Scripts versionados añadidos:
+   - `scripts/closeout-at-job.sh`.
+   - `scripts/schedule-closeout-at.sh [hora]`.
+2. Job `at` reprogramado para `15:50 CET` (después de `not-before 15:49 CET`), eliminando job previo.
 3. Acción del job:
-   - ejecutar `./scripts/deploy-and-verify-closeout.sh fast`.
+   - ejecutar `scripts/closeout-at-job.sh` (que delega en `closeout-wait-and-run.sh fast` y guarda `auto-closeout-status.env`).
 4. Evidencia:
-   - `atq` muestra `job 1 at Tue Mar 3 15:50:00 2026`.
+   - `atq` muestra job activo en `Tue Mar 3 15:50:00 2026`.
+   - `at -c <job_id_activo>` referencia `scripts/closeout-at-job.sh`.
 
 ### Estado
 Pendiente de ejecución del job y verificación del log resultante en `.runtime/auto-closeout-*.log`.
