@@ -187,6 +187,25 @@ Cerrar el backlog de trazabilidad scaffold pendiente en iOS (Etapa 5) y publicar
 2. Auditoría `AUDITORIA-TRAZABILIDAD-SCAFFOLD` queda en `Hallazgos: total=0 (P1=0, P2=0)`.
 3. Hub mantiene `no drift (6/6)` y smoke runtime OK tras sync selectivo de `ios`.
 
+## ADR-LITE-036 — Plan único activo de auditoría gradual de cursos
+### Fecha
+2026-03-02
+
+### Decisión
+Consolidar el seguimiento en un único plan operativo activo y una única matriz de auditoría transversal:
+1. `docs/PLAN-AUDITORIA-CURSOS-FASES-20260302.md`
+2. `docs/AUDITORIA-CURSOS-MATRIZ-20260302.tsv`
+
+### Motivación
+1. Evitar dispersión entre múltiples planes parcialmente solapados.
+2. Garantizar una sola tarea en construcción con trazabilidad por lección.
+3. Permitir ejecución gradual en caliente por orden iOS -> Android -> SDD sin perder continuidad.
+
+### Impacto
+1. Los planes anteriores quedan como histórico de evidencia y no como plan activo.
+2. El estado operativo se actualiza desde el nuevo plan y se replica en `MASTER-TRACKER` y `SESSION-HANDOFF`.
+3. Se habilita limpieza posterior de planes históricos cerrados para mantener `docs/` limpio.
+
 ## ADR-LITE-012 — Geometría centrada de flechas en leyenda Mermaid
 ### Fecha
 2026-02-26

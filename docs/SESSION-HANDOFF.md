@@ -153,6 +153,10 @@ Repos incluidos:
      - `./scripts/build-hub.sh --mode fast` -> PASS
      - `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`
      - `./scripts/smoke-hub-runtime.sh` -> OK
+12. 🚧 Nuevo ciclo activo de auditoria gradual por leccion:
+   - plan activo unico: `docs/PLAN-AUDITORIA-CURSOS-FASES-20260302.md`
+   - matriz operativa: `docs/AUDITORIA-CURSOS-MATRIZ-20260302.tsv`
+   - tarea en construccion: `1.1` (iOS `ETAPA 0: CORE MOBILE` en caliente).
 
 ## Última comprobación de espera activa
 1. Fecha: 2026-02-27.
@@ -194,10 +198,10 @@ Repos incluidos:
 31. ✅ Fase 8 de optimización de imágenes de arquitectura iOS para móvil (`webp` + fallback `png`).
 
 ## Siguiente paso concreto
-1. Mantener este paquete `docs/` como fuente de verdad transversal.
-2. Abrir próximo bloque operativo solo ante trigger real (nueva mejora o incidencia).
-3. Mantener commits atómicos al abrir próximo bloque operativo real.
-4. Actualizar handoff al cerrar cada bloque real.
+1. Cerrar `1.1` del plan activo (iOS ETAPA 0) leccion por leccion con registro en la matriz TSV.
+2. Completar `0.3` (limpieza de planes historicos cerrados) para dejar `docs/` sin duplicados activos.
+3. Mantener commits atomicos y GitFlow estricto por bloque.
+4. Actualizar handoff al cerrar cada ola real de auditoria.
 
 ## Riesgos abiertos
 1. `codex resume` filtra por `cwd` si no se usa `--all`.

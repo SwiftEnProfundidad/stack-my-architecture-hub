@@ -301,18 +301,21 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 37. ✅ Ejecutar Fase 7 de optimización de badges del índice (idle global + update inmediato por tópico) en iOS/Android/SDD + sync Hub.
 38. ✅ Ejecutar Fase 8 de optimización de imágenes de arquitectura iOS (webp + fallback png) y sync Hub en verde.
 39. ✅ Restaurar UX del dropdown de cursos en móvil (overlay visible sin clipping) en iOS/Android/SDD + sync Hub.
+40. 🚧 Ejecutar auditoría gradual en caliente por lección con plan único activo:
+    - bloque actual: iOS `ETAPA 0: CORE MOBILE`.
+    - plan activo: `docs/PLAN-AUDITORIA-CURSOS-FASES-20260302.md`.
+    - matriz operativa: `docs/AUDITORIA-CURSOS-MATRIZ-20260302.tsv`.
 
 ## Bloqueos actuales
 1. Riesgo de seguimiento: confusión en `codex resume` por filtro de `cwd`.
 2. Riesgo de referencia remota en `SDD`: `origin/main` mantiene una línea distinta al baseline operativo actual (`main` local); no integrar sin instrucción explícita.
 
 ## Próximos pasos recomendados
-1. Mantener este tracker como fuente única de estado transversal.
-2. Mantener un único despliegue final por bloque para evitar consumo innecesario de cuota Vercel.
-3. Mantener política anti-bucle y registrar nuevos ciclos solo con trigger real.
-4. Aplicar sync selectivo por curso (iOS/Android/SDD) cuando se cierren nuevos bloques en repos fuente.
-5. Actualizar `docs/SESSION-HANDOFF.md` al cerrar cada sesión de trabajo.
-6. Consolidar próximas decisiones operativas en `docs/DECISIONS-ADR-LITE.md`.
+1. Completar `1.1` del plan activo sobre iOS ETAPA 0 y registrar cada fix en la matriz TSV.
+2. Cerrar limpieza documental de planes históricos (`0.3`) sin perder trazabilidad operativa.
+3. Actualizar `docs/SESSION-HANDOFF.md` al cierre de cada ola de auditoría.
+4. Mantener un único despliegue final por bloque para evitar consumo innecesario de cuota Vercel.
+5. Consolidar decisiones operativas del nuevo ciclo en `docs/DECISIONS-ADR-LITE.md`.
 
 ## Última validación operativa
 1. Runtime smoke: `./scripts/smoke-hub-runtime.sh` -> OK.

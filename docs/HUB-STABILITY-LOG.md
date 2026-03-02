@@ -178,6 +178,22 @@ Se aplicó optimización runtime en generadores de cursos (`iOS`, `Android`, `SD
    - `/sdd/index.html` -> OK
 2. Validación visual Playwright local:
    - render inicial diferido confirmado (solo subset inicial de Mermaid/snippets en primer paint).
+
+## Arranque auditoría gradual por fases (iOS -> Android -> SDD)
+### Fecha
+2026-03-02
+
+### Contexto
+Se activa un plan único de auditoría gradual con tracking transversal para evitar duplicidad de planes y ejecutar correcciones en caliente por lección.
+
+### Evidencia versionada
+1. Plan activo: `docs/PLAN-AUDITORIA-CURSOS-FASES-20260302.md`
+2. Matriz operativa: `docs/AUDITORIA-CURSOS-MATRIZ-20260302.tsv`
+3. Bloque en construcción: iOS `ETAPA 0: CORE MOBILE`.
+
+### Estado de estabilidad
+1. Sin impacto en rutas públicas del Hub en esta actualización documental.
+2. Se mantiene la política de despliegue controlado (sin deploy automático durante ola de auditoría).
    - incremento progresivo de render al navegar/scroll.
 
 ### Resultado
