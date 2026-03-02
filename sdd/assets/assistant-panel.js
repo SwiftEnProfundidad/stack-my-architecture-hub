@@ -488,6 +488,8 @@
         renderMessages();
         renderPendingAttachments();
         setStatus('Listo. Selecciona texto o escribe una consulta.');
+        fetchBridgeConfig();
+        refreshMetrics();
     }
 
     function escapeHtml(value) {
