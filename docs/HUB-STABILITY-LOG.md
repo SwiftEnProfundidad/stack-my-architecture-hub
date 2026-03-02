@@ -1330,3 +1330,27 @@ Durante la confirmacion de cuenta por email, algunos enlaces llegaban con callba
 1. `node --test scripts/tests/test-auth-sync.js` -> PASS (10/10).
 2. `./scripts/smoke-hub-runtime.sh` -> OK.
 3. Revisado flujo de callback para que no dependa de servidor local al confirmar cuenta.
+
+## Hotfix monetizacion — acceso cursos requiere sesion
+### Fecha
+2026-03-02
+
+### Contexto
+Se detecto bypass funcional: tras cerrar sesion era posible volver a abrir cursos desde el Hub y tambien por URL directa, dejando contenido accesible sin login.
+
+### Cambios aplicados
+1. Home Hub (`index.html`):
+   - botones de acceso a cursos marcados como protegidos por sesion.
+   - redireccion automatica a `/auth/login.html?next=...` cuando no hay sesion valida.
+2. Auth flow (`auth/index.html`, `auth/login.html`, `auth/register.html`, `auth/recover.html`):
+   - propagacion de `next` entre pantallas para mantener retorno al destino protegido.
+   - login y callback de confirmacion recuperan `next` y redirigen al curso solicitado.
+3. Gate en cursos (`ios/android/sdd/assets/course-switcher.js`):
+   - validacion de `user + session` al cargar curso.
+   - bloqueo de entrada por URL directa sin sesion y redireccion a login con `next`.
+   - limpieza de credenciales locales caducadas/incompletas antes de redirigir.
+
+### Verificacion
+1. `./scripts/build-hub.sh --mode strict` -> OK.
+2. `./scripts/smoke-hub-runtime.sh` -> OK.
+3. Flujo validado: logout efectivo implica bloqueo de cursos hasta nuevo login.
