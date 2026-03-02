@@ -1011,3 +1011,23 @@ En viewport móvil estrecho (`<=480px`) los controles superiores de estudio debe
 ### Impacto
 1. Se elimina ruido operativo de reintentos fuera de tiempo.
 2. El próximo intento útil queda alineado con la ventana estimada de Vercel.
+
+## ADR-LITE-052 — Comando de estado de cierre para visibilidad inmediata de ventana de deploy
+### Fecha
+2026-03-02
+
+### Decisión
+1. Añadir `scripts/closeout-status.sh` para mostrar:
+   - estado de cooldown,
+   - `not-before`,
+   - tiempo restante aproximado,
+   - comando recomendado de reintento.
+2. Hacer que devuelva `EXIT_CODE=2` cuando el cooldown siga activo.
+
+### Motivación
+1. Evitar inspecciones manuales de `.runtime` antes de cada intento.
+2. Mejorar claridad operativa durante la fase `5.4`.
+
+### Impacto
+1. El estado de cierre se consulta con un único comando.
+2. Menor probabilidad de ejecutar deploy en ventana no válida.

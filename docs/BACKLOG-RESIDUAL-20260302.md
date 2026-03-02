@@ -76,6 +76,14 @@ Documento operativo de cierre para la fase `5.4` del plan activo:
    - Criterio de cierre:
      - deploy productivo + `post-deploy-checks` en una sola ejecución verde.
 
+7. `P3` `⏳` Estado operativo de cierre con comando único.
+   - Script:
+     - `scripts/closeout-status.sh`
+   - Resultado actual:
+     - `2026-03-02 23:56 CET` -> cooldown activo, not-before `2026-03-03 15:49:00 CET`.
+   - Criterio de cierre:
+     - reportar estado `listo para reintento de deploy` en ventana válida.
+
 4. `P3` `⏳` Cerrar `5.4` y congelar handoff final.
    - Alcance:
      - `PLAN`, `SESSION-HANDOFF`, `MASTER-TRACKER`, `HUB-STABILITY-LOG`, `ADR-LITE`.
