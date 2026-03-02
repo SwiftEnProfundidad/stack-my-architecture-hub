@@ -102,6 +102,8 @@ Documento operativo de cierre para la fase `5.4` del plan activo:
    - Job:
      - `scripts/closeout-at-job.sh` (versionado) -> ejecuta `closeout-wait-and-run.sh fast`.
      - reprogramación controlada con `scripts/schedule-closeout-at.sh [hora]`.
+     - autoreintento: si `closeout-wait-and-run.sh` devuelve cooldown (`exit != 0`) y existe `vercel-deploy-cooldown.env`, reprograma automáticamente siguiente intento (`not_before + 60s` por defecto).
+     - estado persistente: `.runtime/auto-closeout-status.env` + flag `.runtime/closeout-complete.flag` en éxito.
    - Log esperado:
      - `.runtime/auto-closeout-YYYYMMDDTHHMMSS.log`.
    - Evidencia:

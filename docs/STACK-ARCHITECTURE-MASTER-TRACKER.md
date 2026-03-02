@@ -267,6 +267,14 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
     - comando objetivo del job: `closeout-wait-and-run.sh fast`.
     - evidencia operativa: `atq` retorna job activo en `Tue Mar 3 15:50:00 2026`.
 
+77. Hardening de job automático de cierre (2026-03-03):
+    - `scripts/closeout-at-job.sh` añade:
+      - persistencia de estado (`.runtime/auto-closeout-status.env`),
+      - bandera de éxito (`.runtime/closeout-complete.flag`),
+      - autoreprogramación cuando persiste cooldown (`not_before + offset`).
+    - validación segura ejecutada:
+      - `SMA_CLOSEOUT_MAX_WAIT_SECONDS=60 SMA_CLOSEOUT_AUTO_RESCHEDULE=0 ./scripts/closeout-at-job.sh` -> `EXIT_CODE=2` sin intento de deploy.
+
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.
 2. Regeneración de launchers/apps de escritorio del Hub.

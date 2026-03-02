@@ -1587,3 +1587,23 @@ Aunque el runner de espera está disponible, se programa un disparo operativo ex
 
 ### Estado
 Pendiente de ejecución del job y verificación del log resultante en `.runtime/auto-closeout-*.log`.
+
+## Hardening adicional del job automático de cierre
+### Fecha
+2026-03-03
+
+### Contexto
+Se refuerza el job programado para manejar automáticamente nuevos cooldowns sin intervención manual.
+
+### Cambios aplicados
+1. `scripts/closeout-at-job.sh` ahora:
+   - guarda estado de ejecución en `.runtime/auto-closeout-status.env`,
+   - crea `.runtime/closeout-complete.flag` cuando el cierre termina con `exit 0`,
+   - elimina flag en fallo y, si hay cooldown, reprogama con `schedule-closeout-at.sh` al siguiente `not_before + offset`.
+2. `schedule-closeout-at.sh` sigue actuando como punto único para reprogramación idempotente.
+
+### Verificación
+1. `bash -n scripts/closeout-at-job.sh scripts/schedule-closeout-at.sh` -> OK.
+2. Ejecución segura:
+   - `SMA_CLOSEOUT_MAX_WAIT_SECONDS=60 SMA_CLOSEOUT_AUTO_RESCHEDULE=0 ./scripts/closeout-at-job.sh`
+   - resultado: `EXIT_CODE=2`, estado persistido, sin intento de deploy.
