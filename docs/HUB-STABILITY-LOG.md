@@ -1205,3 +1205,22 @@ El enlace de sincronización podía copiarse sin forzar subida cloud previa, dej
 
 ### Resultado
 El enlace compartido refleja estado cloud actualizado en el momento de copiar, reduciendo desalineación entre Mac/iPhone.
+
+## Hotfix `progressProfile` visible y persistente en URL
+### Fecha
+2026-03-02
+
+### Incidencia
+En escenarios cross-device (desktop -> iPhone), abrir el curso sin query explícita podía iniciar perfil nuevo (`0/x`) aunque en desktop ya existiera perfil cloud válido.
+
+### Cambio aplicado
+1. `assets/study-ux.js` (iOS/Android/SDD): tras resolver perfil, se normaliza la URL actual a `?progressProfile=<perfil>` usando `history.replaceState`.
+2. Se mantiene semántica previa de migración legacy (`updatedAt`) solo cuando la URL original no traía perfil.
+
+### Verificación
+1. `./scripts/build-hub.sh --fast` -> PASS.
+2. `./scripts/smoke-hub-runtime.sh` -> OK.
+3. Playwright: abrir `/ios/index.html` sin query termina en `/ios/index.html?progressProfile=...` y mantiene progreso.
+
+### Resultado
+Se reduce la probabilidad de abrir cursos en iPhone/incógnito con perfil incorrecto por pérdida del parámetro en enlaces compartidos.

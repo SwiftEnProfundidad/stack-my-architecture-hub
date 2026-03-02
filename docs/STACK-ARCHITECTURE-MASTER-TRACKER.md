@@ -500,3 +500,12 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 2. Cambio: `copySyncLink()` fuerza push cloud antes de copiar URL.
 3. Validación: Playwright confirma `POST /progress/state` `200` al copiar enlace.
 4. Estado: ✅ Hecho.
+
+## Actualizacion 2026-03-02 (3) — Persistencia visible de `progressProfile` en URL
+1. Alcance: iOS/Android/SDD + sync Hub.
+2. Cambio: `study-ux.js` añade `progressProfile` activo a la URL en bootstrap (sin recarga) para evitar pérdida del perfil al compartir/abrir en otros dispositivos.
+3. Validación:
+   - `./scripts/build-hub.sh --fast` -> PASS.
+   - `./scripts/smoke-hub-runtime.sh` -> OK.
+   - Playwright local: abrir `/ios/index.html` sin query termina en `?progressProfile=...` y mantiene progreso.
+4. Estado: ✅ Hecho.

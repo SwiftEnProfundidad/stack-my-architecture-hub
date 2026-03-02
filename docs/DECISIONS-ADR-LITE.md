@@ -685,3 +685,19 @@ Reducir falsos casos de "link correcto pero estado viejo" cuando el navegador or
 ### Impacto
 1. El enlace compartido representa estado cloud actualizado al momento de copiar.
 2. Mejora consistencia percibida entre desktop y móvil.
+
+## ADR-LITE-034 — `progressProfile` canónico en URL activa
+### Fecha
+2026-03-02
+
+### Decisión
+Normalizar la URL de curso para que siempre incluya `progressProfile` activo en bootstrap, usando `history.replaceState` (sin navegación adicional).
+
+### Motivación
+1. Evitar pérdida accidental de perfil al compartir URL desde barra o abrir en contexto limpio (iPhone/incógnito).
+2. Hacer explícito el perfil activo para trazabilidad y soporte operativo.
+3. Reducir casos de desalineación visible (`desktop con progreso`, `móvil en 0/x`).
+
+### Impacto
+1. Menor ambigüedad en enlaces de sincronización entre dispositivos.
+2. No altera contenido/lecciones, solo normalización de URL y continuidad de perfil.

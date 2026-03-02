@@ -232,3 +232,11 @@ Para ver el mismo progreso en otro dispositivo/navegador limpio, abrir el curso 
 1. ✅ `copySyncLink()` en iOS/Android/SDD fuerza `pushNow({ force: true })` antes de copiar enlace.
 2. ✅ Validado en Playwright: se observa `POST /progress/state` `200` al pulsar `🔗 Copiar enlace de sincronización`.
 3. ✅ Objetivo: evitar que iPhone abra perfil con estado remoto viejo cuando desktop tenía progreso solo local.
+
+## Hotfix incremental 2026-03-02 (2) — `progressProfile` persistente en URL
+1. ✅ `study-ux.js` en iOS/Android/SDD fuerza `?progressProfile=...` en la URL activa tras resolver perfil.
+2. ✅ Objetivo: evitar que compartir/abrir enlace desde barra sin query pierda el perfil en iPhone/incógnito.
+3. ✅ Validación:
+   - `./scripts/build-hub.sh --fast` -> PASS.
+   - `./scripts/smoke-hub-runtime.sh` -> OK.
+   - Playwright local: URL sin query se normaliza a URL con `progressProfile` sin recarga.
