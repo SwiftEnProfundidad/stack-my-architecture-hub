@@ -217,6 +217,9 @@ Repos incluidos:
      - guard de cuota activo vía `.runtime/vercel-deploy-cooldown.env`.
      - última ejecución con intento real: `2026-03-02 23:49 CET` (build OK, deploy bloqueado por cuota).
      - última ejecución validada: `2026-03-02 23:53 CET` (bloqueo preventivo por guard, sin consumir intento).
+   - estado operativo rápido:
+     - script: `scripts/closeout-status.sh`
+     - estado actual: `2026-03-02 23:56 CET` -> cooldown activo, not-before `2026-03-03 15:49:00 CET`.
 
 ## Última comprobación de espera activa
 1. Fecha: 2026-02-27.

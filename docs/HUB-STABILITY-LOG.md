@@ -369,6 +369,9 @@ Fase `0.4` cerrada en verde; bloque activo movido a `5.4`.
    - guard de cuota integrado:
      - archivo de estado: `.runtime/vercel-deploy-cooldown.env`
      - validación: `2026-03-02 23:53 CET` (bloqueo preventivo en `2026-03-03 15:49:00 CET`, sin consumir intento).
+7. Estado operativo rápido:
+   - `scripts/closeout-status.sh`
+   - validación: `2026-03-02 23:56 CET` (cooldown activo, ventana not-before visible en consola).
 
 ## Regresión post-hardening del asistente IA en runtime móvil (Fase 4)
 ### Fecha
