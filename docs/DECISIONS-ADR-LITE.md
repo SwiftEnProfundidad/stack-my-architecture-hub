@@ -701,3 +701,23 @@ Normalizar la URL de curso para que siempre incluya `progressProfile` activo en 
 ### Impacto
 1. Menor ambigüedad en enlaces de sincronización entre dispositivos.
 2. No altera contenido/lecciones, solo normalización de URL y continuidad de perfil.
+
+## ADR-LITE-035 — Autenticacion de plataforma y perfil de progreso derivado de identidad
+### Fecha
+2026-03-02
+
+### Decisión
+1. Introducir capa de autenticacion propia en Hub (`api/auth-sync.js`) sobre Supabase Auth REST para registro/login/refresh/me/logout.
+2. Introducir pantallas de acceso (`/auth/index.html`, `/auth/register.html`, `/auth/login.html`) con cliente compartido `assets/auth-client.js`.
+3. En sincronizacion de progreso (`api/progress-sync.js`), cuando exista `Authorization: Bearer`, resolver `profileKey` desde `user.id` validado en Auth y no desde query/payload.
+4. Mantener fallback local sin auth para entornos de desarrollo sin variables cloud.
+
+### Motivación
+1. Resolver inconsistencia de progreso entre dispositivos/navegadores que no comparten `localStorage`.
+2. Evitar que el enlace de sincronizacion sea la unica estrategia de continuidad.
+3. Preparar base de plataforma monetizable con usuarios reales y progreso por cuenta.
+
+### Impacto
+1. El Hub soporta identidad de usuario real y progreso scoped por cuenta.
+2. iOS/Android/SDD pueden usar bearer token automaticamente cuando hay sesion.
+3. La operacion local conserva modo degradado estable sin bloquear estudio offline.
