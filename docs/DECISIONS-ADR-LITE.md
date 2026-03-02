@@ -1106,3 +1106,20 @@ En viewport móvil estrecho (`<=480px`) los controles superiores de estudio debe
 ### Impacto
 1. Menor riesgo de quedar bloqueados entre intentos por cambios dinámicos de cuota.
 2. Mayor trazabilidad operacional del cierre automático.
+
+## ADR-LITE-057 — Corregir formato de hora en autoreprogramación de `at`
+### Fecha
+2026-03-03
+
+### Decisión
+1. Extender `scripts/schedule-closeout-at.sh` con `--epoch <unix>`.
+2. Programar con `at -t` para evitar ambigüedad del parser de fecha.
+3. Hacer que `scripts/closeout-at-job.sh` reprograme usando `--epoch`.
+
+### Motivación
+1. El formato textual anterior provocó `at: garbled time` y dejó cola vacía.
+2. Se necesita reintento automático determinista en cierre `5.4`.
+
+### Impacto
+1. La cola `at` se mantiene estable tras cada autoreintento.
+2. Se elimina un fallo operativo que podía perder la ventana de despliegue.
