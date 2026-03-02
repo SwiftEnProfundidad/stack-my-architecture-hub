@@ -1185,3 +1185,23 @@ En escenarios multi-dispositivo (local/Vercel y cambio de perfil por URL), el pu
 
 ### Resultado
 Sincronización cloud más robusta entre contextos/entornos cuando se usa perfil compartido por URL, evitando colisiones de timestamp entre perfiles.
+
+## Hotfix sync-link — push cloud forzado antes de copiar enlace
+### Fecha
+2026-03-02
+
+### Incidencia
+El enlace de sincronización podía copiarse sin forzar subida cloud previa, dejando perfiles remotos desactualizados (caso típico: desktop con progreso local y iPhone en 0).
+
+### Cambio aplicado
+1. `assets/study-ux.js` (iOS/Android/SDD): `copySyncLink()` ahora ejecuta `cloudSync.pushNow({ force: true })` antes de copiar URL.
+2. Feedback UX explícito:
+   - éxito cloud: "Enlace de sincronización copiado y progreso sincronizado."
+   - fallback cloud no confirmado: mensaje de aviso.
+
+### Verificación
+1. Playwright local (`/ios/index.html?progressProfile=...`): click en `🔗 Copiar enlace de sincronización` -> `POST /progress/state` `200`.
+2. Build Hub `--fast` -> PASS.
+
+### Resultado
+El enlace compartido refleja estado cloud actualizado en el momento de copiar, reduciendo desalineación entre Mac/iPhone.
