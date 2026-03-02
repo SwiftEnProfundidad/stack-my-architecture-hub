@@ -1,0 +1,54 @@
+# BACKLOG RESIDUAL PRIORIZADO (2026-03-02)
+
+## Leyenda
+- `P1` Critico
+- `P2` Alto
+- `P3` Medio
+- `P4` Bajo
+- `⛔` Bloqueado externo
+- `⏳` Pendiente
+- `✅` Cerrado
+
+## Contexto
+Documento operativo de cierre para la fase `5.4` del plan activo:
+- Plan fuente: `docs/PLAN-AUDITORIA-CURSOS-FASES-20260302.md`
+- Estado actual del plan:
+  - `5.3` -> `⛔` (cuota Vercel)
+  - `5.4` -> `🚧` (cierre final + backlog residual)
+
+## Items priorizados
+1. `P1` `⛔` Ejecutar despliegue productivo final en Vercel (`5.3`).
+   - Bloqueo: `api-deployments-free-per-day`.
+   - Comando validado:
+     - `bash scripts/publish-architecture-stack.sh fast`
+   - Criterio de cierre:
+     - deploy productivo completado sin error de cuota.
+
+2. `P1` `⏳` Verificar rutas públicas post-deploy.
+   - Rutas:
+     - `https://architecture-stack.vercel.app/`
+     - `https://architecture-stack.vercel.app/ios/`
+     - `https://architecture-stack.vercel.app/android/`
+     - `https://architecture-stack.vercel.app/sdd/`
+   - Criterio de cierre:
+     - HTTP `200` en las 4 rutas.
+
+3. `P2` `⏳` Ejecutar smoke funcional mínimo post-deploy.
+   - Alcance:
+     - apertura de cada curso desde el Hub.
+     - navegación de una lección por curso.
+     - validación de estado login/logout en runtime.
+   - Criterio de cierre:
+     - sin regresiones de arranque ni navegación.
+
+4. `P3` `⏳` Cerrar `5.4` y congelar handoff final.
+   - Alcance:
+     - `PLAN`, `SESSION-HANDOFF`, `MASTER-TRACKER`, `HUB-STABILITY-LOG`, `ADR-LITE`.
+   - Criterio de cierre:
+     - sin tareas `🚧` abiertas.
+     - backlog residual en `✅` o `⛔` documentado con fecha.
+
+## Notas de operación
+1. No ejecutar nuevos despliegues de prueba antes de reset de cuota.
+2. Mantener commits atómicos y GitFlow end-to-end por cada cierre de item.
+3. Si reaparece el bloqueo de cuota, registrar timestamp exacto y ventana de retry.

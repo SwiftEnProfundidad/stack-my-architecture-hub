@@ -102,4 +102,4 @@ Notas:
 | 5.1 | ✅ | Validaciones tecnicas por repo + Hub strict/drift/smoke | QA en verde |
 | 5.2 | ✅ | Commits atomicos + push + PR + merge por bloque | historial limpio |
 | 5.3 | ⛔ | Deploy Vercel final con aprobacion explicita | bloqueado por cuota Vercel (`api-deployments-free-per-day`) |
-| 5.4 | 🚧 | Cierre: 0 tareas `🚧` y backlog residual priorizado | tracking final |
+| 5.4 | 🚧 | Cierre: 0 tareas `🚧` y backlog residual priorizado | `docs/BACKLOG-RESIDUAL-20260302.md` + tracking final |
