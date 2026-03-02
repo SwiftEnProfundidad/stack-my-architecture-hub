@@ -155,6 +155,17 @@ Documento operativo de cierre para la fase `5.4` del plan activo:
    - Evidencia:
      - `2026-03-03 00:48 CET` -> `./scripts/tests/test-closeout-at-job.sh` -> `[PASS]`.
 
+14. `P3` `✅` Tests de regresión para `closeout-wait-and-run`.
+   - Test:
+     - `scripts/tests/test-closeout-wait-and-run.sh`
+   - Cobertura:
+     - sin cooldown -> ejecuta deploy inmediato,
+     - cooldown largo con `MAX_WAIT` bajo -> `EXIT_CODE=2`,
+     - `SMA_DEPLOY_FORCE=1` -> bypass de cooldown,
+     - cooldown corto -> espera y ejecuta deploy.
+   - Evidencia:
+     - `2026-03-03 00:53 CET` -> `./scripts/tests/test-closeout-wait-and-run.sh` -> `[PASS]`.
+
 4. `P3` `⏳` Cerrar `5.4` y congelar handoff final.
    - Alcance:
      - `PLAN`, `SESSION-HANDOFF`, `MASTER-TRACKER`, `HUB-STABILITY-LOG`, `ADR-LITE`.

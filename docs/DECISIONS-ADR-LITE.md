@@ -1217,3 +1217,25 @@ En viewport móvil estrecho (`<=480px`) los controles superiores de estudio debe
 ### Impacto
 1. Mayor fiabilidad del cierre desatendido de `5.3/5.4`.
 2. Mayor confianza en la trazabilidad de runtime (`status`, `complete_flag`, `next_retry_epoch`).
+
+## ADR-LITE-063 — Añadir test de regresión para `closeout-wait-and-run`
+### Fecha
+2026-03-03
+
+### Decisión
+1. Extender `scripts/closeout-wait-and-run.sh` con overrides para pruebas:
+   - `SMA_CLOSEOUT_COOLDOWN_FILE`
+   - `SMA_CLOSEOUT_DEPLOY_RUNNER_CMD`
+2. Crear `scripts/tests/test-closeout-wait-and-run.sh` con cobertura de:
+   - arranque sin cooldown,
+   - guard de `MAX_WAIT`,
+   - bypass por `SMA_DEPLOY_FORCE=1`,
+   - espera corta y ejecución al abrir ventana.
+
+### Motivación
+1. Validar el comportamiento de espera/entrada a ventana sin consumir cuota real.
+2. Blindar la transición crítica previa al deploy final.
+
+### Impacto
+1. Menor riesgo de fallo operativo en la apertura de ventana de cuota.
+2. Aumento de confianza en el cierre automático de `5.3/5.4`.

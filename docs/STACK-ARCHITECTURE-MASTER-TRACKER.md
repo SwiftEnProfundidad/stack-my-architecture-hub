@@ -308,8 +308,15 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
     - `scripts/closeout-at-job.sh` soporta overrides de runtime/comandos para test aislado:
       - `SMA_CLOSEOUT_RUNTIME_DIR`,
       - `SMA_CLOSEOUT_WAIT_RUNNER_CMD`,
-      - `SMA_CLOSEOUT_SCHEDULER_CMD`.
+    - `SMA_CLOSEOUT_SCHEDULER_CMD`.
     - resultado: `[PASS]` en escenarios de éxito, fallo con autoreprogramación y fallo sin autoreprogramación.
+
+83. Test de regresión de `closeout-wait-and-run` (2026-03-03):
+    - test script: `scripts/tests/test-closeout-wait-and-run.sh`.
+    - `scripts/closeout-wait-and-run.sh` soporta overrides para test aislado:
+      - `SMA_CLOSEOUT_COOLDOWN_FILE`,
+      - `SMA_CLOSEOUT_DEPLOY_RUNNER_CMD`.
+    - resultado: `[PASS]` en escenarios de cooldown largo/corto, force deploy y arranque sin cooldown.
 
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.
