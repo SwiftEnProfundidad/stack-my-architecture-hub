@@ -351,6 +351,11 @@ Fase `0.4` cerrada en verde; bloque activo movido a `5.4`.
 3. `P2` Ejecutar smoke post-deploy en rutas públicas (`/`, `/ios/`, `/android/`, `/sdd/`) y registrar evidencia final.
 4. `P3` Cerrar plan con estado final estable y handoff de continuidad sin tareas `🚧` adicionales.
 
+### Avance operativo sobre P2 (preparación)
+1. Script nuevo: `scripts/smoke-public-routes.sh [base_url]`.
+2. Baseline ejecutado en producción actual (pre-deploy):
+   - `2026-03-02 23:39 CET` -> `200` en `/`, `/ios/`, `/android/`, `/sdd/`.
+
 ## Regresión post-hardening del asistente IA en runtime móvil (Fase 4)
 ### Fecha
 2026-03-01
