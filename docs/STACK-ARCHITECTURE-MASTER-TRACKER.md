@@ -186,6 +186,12 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
     - convención de flechas mantenida con baseline de 4 semánticas.
     - siguiente task activa: iOS `ETAPA 5: MAESTRIA + ANEXOS` (`1.6`).
 
+65. Auditoría iOS ETAPA 5 + anexos cerrada en ciclo gradual (2026-03-02):
+    - limpieza de markers automáticos en `05-maestria` y `anexos`.
+    - corrección de cierres Mermaid en bloque (` ```text` -> ` ``` `).
+    - convención de flechas mantenida con baseline de 4 semánticas.
+    - siguiente task activa: iOS `ETAPA 6: PROYECTO FINAL` (`1.7`).
+
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.
 2. Regeneración de launchers/apps de escritorio del Hub.
