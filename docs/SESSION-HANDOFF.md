@@ -199,6 +199,7 @@ Repos incluidos:
      - `docs/` raíz queda con un único plan activo: `PLAN-AUDITORIA-CURSOS-FASES-20260302.md`.
    - `0.4` sincronización de fuentes de verdad cerrada (`MASTER-TRACKER`, `SESSION-HANDOFF`, `HUB-STABILITY-LOG`, `ADR-LITE`).
    - tarea en construccion actual: `5.4` (cierre final con backlog residual priorizado).
+   - artefacto operativo creado: `docs/BACKLOG-RESIDUAL-20260302.md`.
 
 ## Última comprobación de espera activa
 1. Fecha: 2026-02-27.

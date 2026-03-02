@@ -883,3 +883,20 @@ En viewport móvil estrecho (`<=480px`) los controles superiores de estudio debe
 ### Impacto
 1. `docs/` queda depurado y con un único plan activo en raíz.
 2. El backlog residual queda priorizado y listo para cerrar el ciclo cuando Vercel habilite nuevo despliegue.
+
+## ADR-LITE-045 — Materialización del backlog residual de cierre en artefacto dedicado
+### Fecha
+2026-03-02
+
+### Decisión
+1. Crear `docs/BACKLOG-RESIDUAL-20260302.md` como artefacto fuente para `5.4`.
+2. Enlazar este backlog desde `PLAN`, `SESSION-HANDOFF` y `HUB-STABILITY-LOG`.
+3. Mantener prioridad operativa en el item `P1` (reintento de deploy `5.3` tras reset de cuota).
+
+### Motivación
+1. Evitar que el cierre dependa de notas dispersas en varios documentos.
+2. Facilitar ejecución rápida en la próxima ventana válida de despliegue.
+
+### Impacto
+1. Backlog residual centralizado y accionable.
+2. Cierre `5.4` más predecible al quedar checklist y criterios de aceptación explicitados.

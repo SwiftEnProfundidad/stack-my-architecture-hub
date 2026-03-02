@@ -342,9 +342,10 @@ Fase `0.4` cerrada en verde; bloque activo movido a `5.4`.
 2026-03-02
 
 ### Backlog residual priorizado
-1. `P1` Retomar `5.3` al reset de cuota Vercel y ejecutar deploy productivo final.
-2. `P2` Ejecutar smoke post-deploy en rutas públicas (`/`, `/ios/`, `/android/`, `/sdd/`) y registrar evidencia final.
-3. `P3` Cerrar plan con estado final estable y handoff de continuidad sin tareas `🚧` adicionales.
+1. Backlog detallado y versionado en `docs/BACKLOG-RESIDUAL-20260302.md`.
+2. `P1` Retomar `5.3` al reset de cuota Vercel y ejecutar deploy productivo final.
+3. `P2` Ejecutar smoke post-deploy en rutas públicas (`/`, `/ios/`, `/android/`, `/sdd/`) y registrar evidencia final.
+4. `P3` Cerrar plan con estado final estable y handoff de continuidad sin tareas `🚧` adicionales.
 
 ## Regresión post-hardening del asistente IA en runtime móvil (Fase 4)
 ### Fecha
