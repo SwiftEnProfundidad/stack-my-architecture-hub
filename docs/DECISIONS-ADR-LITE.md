@@ -951,3 +951,22 @@ En viewport móvil estrecho (`<=480px`) los controles superiores de estudio debe
 ### Impacto
 1. `P2` de `5.4` queda casi operativo al 100% (solo falta correrlo post-deploy final).
 2. Menor riesgo de regresión silenciosa en auth/nav pública tras publicación.
+
+## ADR-LITE-049 — Runner único de verificación post-deploy para acelerar cierre de 5.4
+### Fecha
+2026-03-02
+
+### Decisión
+1. Añadir `scripts/post-deploy-checks.sh` para ejecutar en secuencia:
+   - `scripts/smoke-public-routes.sh`
+   - `scripts/smoke-public-functional.sh`
+2. Tomar baseline pre-deploy (`2026-03-02 23:43 CET`) para validar estabilidad del runner.
+3. Usar este comando como paso estándar de cierre tras completar `5.3`.
+
+### Motivación
+1. Reducir tiempos y errores humanos durante validación final.
+2. Tener un único comando reproducible para evidencia de aceptación post-deploy.
+
+### Impacto
+1. `5.4` queda técnicamente preparada para cierre rápido cuando Vercel permita desplegar.
+2. La verificación post-deploy pasa de checklist manual a ejecución automatizada.

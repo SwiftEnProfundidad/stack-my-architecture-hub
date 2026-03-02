@@ -208,6 +208,9 @@ Repos incluidos:
    - automatización de smoke funcional preparada:
      - script: `scripts/smoke-public-functional.sh [base_url]`
      - baseline actual (pre-deploy): `2026-03-02 23:41 CET`, smoke funcional en verde para Hub/Auth/iOS/Android/SDD.
+   - runner unificado de verificación post-deploy:
+     - script: `scripts/post-deploy-checks.sh [base_url]`
+     - baseline actual (pre-deploy): `2026-03-02 23:43 CET`, runner completo en verde.
 
 ## Última comprobación de espera activa
 1. Fecha: 2026-02-27.

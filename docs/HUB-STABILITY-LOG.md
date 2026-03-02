@@ -358,6 +358,9 @@ Fase `0.4` cerrada en verde; bloque activo movido a `5.4`.
 3. Script funcional complementario: `scripts/smoke-public-functional.sh [base_url]`.
 4. Baseline funcional ejecutado:
    - `2026-03-02 23:41 CET` -> validación en verde de Hub/Auth/iOS/Android/SDD (estructura y navegación pública mínima).
+5. Runner unificado post-deploy:
+   - `scripts/post-deploy-checks.sh [base_url]`
+   - baseline: `2026-03-02 23:43 CET` en verde (rutas + funcional).
 
 ## Regresión post-hardening del asistente IA en runtime móvil (Fase 4)
 ### Fecha
