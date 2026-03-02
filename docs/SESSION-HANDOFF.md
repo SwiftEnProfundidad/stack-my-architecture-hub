@@ -232,6 +232,7 @@ Repos incluidos:
      - fix aplicado: autoreprogramación ahora usa `--epoch` (evita error `at: garbled time` y mantiene job activo en cola).
    - comando operativo de readiness:
      - `scripts/closeout-readiness.sh [--verbose]` para saber si 5.3/5.4 están listos de cierre sin inspección manual.
+     - guard adicional: verifica cola `at`; si no hay job automático activo con cooldown vigente devuelve `EXIT_CODE=3`.
 
 ## Última comprobación de espera activa
 1. Fecha: 2026-02-27.

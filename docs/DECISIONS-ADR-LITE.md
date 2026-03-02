@@ -1143,3 +1143,19 @@ En viewport móvil estrecho (`<=480px`) los controles superiores de estudio debe
 ### Impacto
 1. Decisión de cierre más rápida y objetiva.
 2. Menor riesgo de cerrar tracking con estado incompleto.
+
+## ADR-LITE-059 — Guard de cola `at` en readiness para evitar espera ciega
+### Fecha
+2026-03-03
+
+### Decisión
+1. Extender `scripts/closeout-readiness.sh` para validar que existe job `at` activo de closeout.
+2. Añadir salida específica `EXIT_CODE=3` cuando hay cooldown pero no job en cola.
+
+### Motivación
+1. Evitar estado falso de “en espera” cuando la orquestación automática está caída.
+2. Forzar acción correctiva explícita (`schedule-closeout-at.sh`) antes de perder ventana.
+
+### Impacto
+1. Mayor confiabilidad operativa en la fase final de cierre.
+2. Menor riesgo de no ejecutar deploy al abrir la cuota.

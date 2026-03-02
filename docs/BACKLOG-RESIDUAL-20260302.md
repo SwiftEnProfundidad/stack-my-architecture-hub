@@ -118,9 +118,10 @@ Documento operativo de cierre para la fase `5.4` del plan activo:
    - Comportamiento:
      - `EXIT_CODE=0`: cierre listo (flag de éxito presente).
      - `EXIT_CODE=2`: en espera por cooldown con ventana restante.
-     - `EXIT_CODE=1`: requiere revisión manual.
+     - `EXIT_CODE=3`: cooldown activo pero sin job `at` de closeout en cola (acción requerida).
+      - `EXIT_CODE=1`: requiere revisión manual.
    - Evidencia:
-     - `2026-03-03 00:31 CET` -> estado `EN ESPERA` + `EXIT_CODE=2` + último log del job.
+     - `2026-03-03 00:33 CET` -> estado `EN ESPERA` + `EXIT_CODE=2` + job automático activo (`15:50 CET`) visible.
 
 4. `P3` `⏳` Cerrar `5.4` y congelar handoff final.
    - Alcance:

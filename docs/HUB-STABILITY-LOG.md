@@ -1641,8 +1641,11 @@ Se necesita una verificación rápida de “listo/no listo” para cerrar `5.3/5
 2. Estados y salida:
    - `0`: listo (flag de cierre completo + último exit code en `0`).
    - `2`: espera de cooldown activa.
+   - `3`: espera de cooldown activa sin job `at` de closeout.
    - `1`: revisión manual requerida.
+3. Guard operacional:
+   - valida presencia de job `at` que ejecute `scripts/closeout-at-job.sh`.
 
 ### Verificación
-1. `./scripts/closeout-readiness.sh` -> `EN ESPERA`, `EXIT_CODE=2`.
+1. `./scripts/closeout-readiness.sh` -> `EN ESPERA`, `EXIT_CODE=2`, job automático activo visible.
 2. `./scripts/closeout-readiness.sh --verbose` -> muestra tail del último log automático.
