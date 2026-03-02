@@ -187,7 +187,11 @@ Repos incluidos:
      - Android: `check-links`, `validate-diagram-semantics`, `build-html` en verde.
      - SDD: estructura/OpenSpec/links/pedagogía/snippets/build/`swift test` en verde.
      - iOS: enlaces de arquitectura corregidos en `00-core-mobile/00-introduccion.md` y baseline de guardrails recalibrado al corpus auditado actual; `run-qa-audit-bundle.sh` en verde.
-   - tarea en construccion actual: `5.2` (commits atomicos + push + PR + merge por bloque).
+   - `5.2` GitFlow de cierre completado:
+     - iOS PR `#38` mergeada (`fix(ios-qa): links intro + baseline guardrails`).
+     - Hub PR `#80` mergeada (`sync bundles + tracking 5.1->5.2`).
+     - `develop` limpio en los 4 repos.
+   - tarea en construccion actual: `5.3` (deploy Vercel final con aprobacion explicita).
 
 ## Última comprobación de espera activa
 1. Fecha: 2026-02-27.
@@ -229,7 +233,7 @@ Repos incluidos:
 31. ✅ Fase 8 de optimización de imágenes de arquitectura iOS para móvil (`webp` + fallback `png`).
 
 ## Siguiente paso concreto
-1. Ejecutar `5.2` del plan activo: cerrar ciclo GitFlow de los bloques abiertos con commits atomicos, push, PR y merge.
+1. Ejecutar `5.3` del plan activo: despliegue final en Vercel con aprobacion explicita del usuario.
 2. Completar `0.3` (limpieza de planes historicos cerrados) para dejar `docs/` sin duplicados activos.
 3. Mantener commits atomicos y GitFlow estricto por bloque.
 4. Actualizar handoff al cerrar cada ola real de auditoria.

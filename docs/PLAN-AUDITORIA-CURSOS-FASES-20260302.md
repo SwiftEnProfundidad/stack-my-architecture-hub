@@ -100,6 +100,6 @@ Notas:
 | ID | Estado | Task | Entregable |
 | --- | --- | --- | --- |
 | 5.1 | ✅ | Validaciones tecnicas por repo + Hub strict/drift/smoke | QA en verde |
-| 5.2 | 🚧 | Commits atomicos + push + PR + merge por bloque | historial limpio |
-| 5.3 | ⏳ | Deploy Vercel final con aprobacion explicita | produccion estable |
+| 5.2 | ✅ | Commits atomicos + push + PR + merge por bloque | historial limpio |
+| 5.3 | 🚧 | Deploy Vercel final con aprobacion explicita | produccion estable |
 | 5.4 | ⏳ | Cierre: 0 tareas `🚧` y backlog residual priorizado | tracking final |
