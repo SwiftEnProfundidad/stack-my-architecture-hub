@@ -671,3 +671,17 @@ Ajustar `study-ux.js` en iOS/Android/SDD para que:
 1. Pull cloud más estable en escenarios multi-dispositivo/local-Vercel.
 2. Menor probabilidad de estado desalineado al alternar perfiles.
 3. No cambia el modelo de datos de progreso (solo semántica de resolución de perfil/timestamp).
+
+## ADR-LITE-033 — `copySyncLink` con push cloud forzado previo
+### Fecha
+2026-03-02
+
+### Decisión
+En iOS/Android/SDD, el botón `🔗 Copiar enlace de sincronización` debe ejecutar `cloudSync.pushNow({ force: true })` antes de construir/copiar la URL de sincronización.
+
+### Motivación
+Reducir falsos casos de "link correcto pero estado viejo" cuando el navegador origen tenía progreso local reciente aún no subido a cloud.
+
+### Impacto
+1. El enlace compartido representa estado cloud actualizado al momento de copiar.
+2. Mejora consistencia percibida entre desktop y móvil.

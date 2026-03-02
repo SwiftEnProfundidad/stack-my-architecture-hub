@@ -494,3 +494,9 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
    - `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
    - `./scripts/smoke-hub-runtime.sh` -> OK.
 4. Estado del bloque: ✅ Hecho.
+
+## Actualizacion 2026-03-02 (2) — Sync-link con push cloud previo
+1. Alcance: iOS/Android/SDD + sync Hub.
+2. Cambio: `copySyncLink()` fuerza push cloud antes de copiar URL.
+3. Validación: Playwright confirma `POST /progress/state` `200` al copiar enlace.
+4. Estado: ✅ Hecho.
