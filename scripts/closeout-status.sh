@@ -4,7 +4,7 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 HUB_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
-COOLDOWN_FILE="$HUB_ROOT/.runtime/vercel-deploy-cooldown.env"
+COOLDOWN_FILE="${SMA_CLOSEOUT_COOLDOWN_FILE:-$HUB_ROOT/.runtime/vercel-deploy-cooldown.env}"
 
 echo "[CLOSEOUT-STATUS] Hub: $HUB_ROOT"
 

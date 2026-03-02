@@ -1239,3 +1239,35 @@ En viewport móvil estrecho (`<=480px`) los controles superiores de estudio debe
 ### Impacto
 1. Menor riesgo de fallo operativo en la apertura de ventana de cuota.
 2. Aumento de confianza en el cierre automático de `5.3/5.4`.
+
+## ADR-LITE-064 — Añadir test de regresión para `deploy-and-verify-closeout`
+### Fecha
+2026-03-03
+
+### Decisión
+1. Extender `scripts/deploy-and-verify-closeout.sh` con overrides de ruta/comandos para pruebas aisladas.
+2. Crear `scripts/tests/test-deploy-and-verify-closeout.sh` con cobertura de guard, force, éxito, quota y fallo genérico.
+
+### Motivación
+1. Validar la orquestación final sin consumir despliegues reales.
+2. Evitar regresiones en el punto de mayor riesgo operativo del cierre.
+
+### Impacto
+1. Mayor fiabilidad en la ejecución automática de `5.3`.
+2. Detección temprana de roturas en manejo de cooldown y errores de publish.
+
+## ADR-LITE-065 — Añadir test de regresión para `closeout-status`
+### Fecha
+2026-03-03
+
+### Decisión
+1. Extender `scripts/closeout-status.sh` con override de cooldown file.
+2. Crear `scripts/tests/test-closeout-status.sh` para validar estados base (`no registrado`, `activo`, `expirado`).
+
+### Motivación
+1. Garantizar que el comando operativo principal de visibilidad no deriva con cambios futuros.
+2. Mantener señal fiable para decidir cierre documental de `5.4`.
+
+### Impacto
+1. Mayor confianza operativa antes de ventana de despliegue.
+2. Menor riesgo de decisiones de cierre basadas en estado incorrecto.
