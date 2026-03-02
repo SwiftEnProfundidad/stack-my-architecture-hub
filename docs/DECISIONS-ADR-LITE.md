@@ -1068,3 +1068,20 @@ En viewport móvil estrecho (`<=480px`) los controles superiores de estudio debe
 ### Impacto
 1. Se reduce riesgo operativo de perder la ventana de despliegue por timing.
 2. Se gana trazabilidad explícita de ejecución automática (`atq` + log en `.runtime/auto-closeout-*.log`).
+
+## ADR-LITE-055 — Versionar scheduler y job de `at` para cierre reproducible
+### Fecha
+2026-03-03
+
+### Decisión
+1. Añadir `scripts/closeout-at-job.sh` al repositorio.
+2. Añadir `scripts/schedule-closeout-at.sh` para programar/reprogramar job y limpiar jobs previos de closeout.
+3. Hacer que el job ejecute `closeout-wait-and-run.sh fast` en vez de llamar directo a `deploy-and-verify-closeout.sh`.
+
+### Motivación
+1. Evitar dependencia de scripts efímeros en `.runtime`.
+2. Permitir reintento robusto si el proveedor devuelve nuevo cooldown al momento de ejecución.
+
+### Impacto
+1. Operación de cierre más trazable y reproducible en GitFlow.
+2. Menor probabilidad de fallo operativo por carrera de ventana/cuota.

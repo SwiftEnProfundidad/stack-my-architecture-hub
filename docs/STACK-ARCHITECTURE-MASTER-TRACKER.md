@@ -262,9 +262,10 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 
 76. Programación automática del reintento de cierre final (2026-03-03):
     - job `at` registrado para `15:50 CET` (después de `not-before 15:49 CET`).
-    - script ejecutado por job: `.runtime/closeout-at-job.sh`.
-    - comando objetivo: `./scripts/deploy-and-verify-closeout.sh fast`.
-    - evidencia operativa: `atq` retorna `job 1 at Tue Mar 3 15:50:00 2026`.
+    - script ejecutado por job: `scripts/closeout-at-job.sh` (versionado).
+    - scheduler: `scripts/schedule-closeout-at.sh [hora]`.
+    - comando objetivo del job: `closeout-wait-and-run.sh fast`.
+    - evidencia operativa: `atq` retorna job activo en `Tue Mar 3 15:50:00 2026`.
 
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.
