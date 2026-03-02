@@ -192,6 +192,12 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
     - convención de flechas mantenida con baseline de 4 semánticas.
     - siguiente task activa: iOS `ETAPA 6: PROYECTO FINAL` (`1.7`).
 
+66. ETAPA 6 iOS Proyecto Final materializada (2026-03-02):
+    - nueva sección `06-proyecto-final` integrada al build y navegación del curso.
+    - lecciones añadidas: brief técnico del reto + rúbrica/entrega/defensa.
+    - validación técnica en verde (`validate-diagram-semantics`, `build-html`).
+    - siguiente task activa: Android `2.1` (bloque inicial).
+
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.
 2. Regeneración de launchers/apps de escritorio del Hub.

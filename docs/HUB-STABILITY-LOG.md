@@ -189,7 +189,7 @@ Se activa un plan único de auditoría gradual con tracking transversal para evi
 ### Evidencia versionada
 1. Plan activo: `docs/PLAN-AUDITORIA-CURSOS-FASES-20260302.md`
 2. Matriz operativa: `docs/AUDITORIA-CURSOS-MATRIZ-20260302.tsv`
-3. Bloque en construcción: iOS `ETAPA 6: PROYECTO FINAL` (ETAPA 5+anexos cerrada).
+3. Bloque en construcción: Android `2.1` (iOS ETAPA 6 cerrada).
 
 ### Estado de estabilidad
 1. Sin impacto en rutas públicas del Hub en esta actualización documental.

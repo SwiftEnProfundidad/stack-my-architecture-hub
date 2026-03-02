@@ -458,3 +458,5 @@ SDD	anexos	24	Consolidación bloque 1: semanas 1 a 4	anexos/consolidacion-bloque
 SDD	anexos	25	Consolidación bloque 2: semanas 5 a 9	anexos/consolidacion-bloque-2-semanas-5-9.md	pendiente	NA			public_default	
 SDD	anexos	26	Adaptación del método SDD + IA a otros stacks	anexos/adaptacion-multi-stack.md	pendiente	NA			public_default	
 SDD	anexos	27	Autoevaluación de progreso del curso	anexos/quizzes-autoevaluacion.md	pendiente	NA			public_default	
+iOS	06-proyecto-final	1	ETAPA 6: Proyecto Final iOS — Delivery Enterprise End-to-End	06-proyecto-final/00-proyecto-final-ios.md	fixed_wave8	P0_closed	proyecto_final_faltante,alineacion_convencion_fases,alcance_y_rubrica	nueva_etapa6+brief_proyecto_final+narrativa_tecnica+criterios_entrega	public_default	Proyecto Final iOS materializado en sección propia ETAPA 6.
+iOS	06-proyecto-final	2	ETAPA 6: Rúbrica y Entrega — Proyecto Final iOS	06-proyecto-final/01-rubrica-y-entrega.md	fixed_wave8	P0_closed	proyecto_final_faltante,alineacion_convencion_fases,alcance_y_rubrica	nueva_etapa6+brief_proyecto_final+narrativa_tecnica+criterios_entrega	public_default	Proyecto Final iOS materializado en sección propia ETAPA 6.
