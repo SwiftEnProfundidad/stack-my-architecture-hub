@@ -6,17 +6,17 @@
 <meta name="darkreader-lock">
 <meta name="course-id" content="stack-my-architecture-sdd">
 <title>Stack: IA + Spec-Driven Development</title>
-<link rel="stylesheet" href="assets/study-ux.css?v=1772487460">
-<link rel="stylesheet" href="assets/course-switcher.css?v=1772487460">
-<link rel="stylesheet" href="assets/assistant-panel.css?v=1772487460">
-<script>window.__SMA_ASSISTANT_PANEL_SRC = "assets/assistant-panel.js?v=1772487460";</script>
+<link rel="stylesheet" href="assets/study-ux.css?v=1772487712">
+<link rel="stylesheet" href="assets/course-switcher.css?v=1772487712">
+<link rel="stylesheet" href="assets/assistant-panel.css?v=1772487712">
+<script>window.__SMA_ASSISTANT_PANEL_SRC = "assets/assistant-panel.js?v=1772487712";</script>
 <script>window.__SMA_MERMAID_SRC = "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js";</script>
 <script>window.__SMA_HLJS_CORE_SRC = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js";</script>
 <script>window.__SMA_HLJS_SWIFT_SRC = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/swift.min.js";</script>
-<script defer src="assets/study-ux.js?v=1772487460"></script>
-<script defer src="assets/course-switcher.js?v=1772487460"></script>
-<script defer src="assets/theme-controls.js?v=1772487460"></script>
-<script defer src="assets/assistant-bridge.js?v=1772487460"></script>
+<script defer src="assets/study-ux.js?v=1772487712"></script>
+<script defer src="assets/course-switcher.js?v=1772487712"></script>
+<script defer src="assets/theme-controls.js?v=1772487712"></script>
+<script defer src="assets/assistant-bridge.js?v=1772487712"></script>
 
 <!-- Google Fonts - Inter -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1507,6 +1507,12 @@ blockquote p {
   <li><a class="doc-nav-link" data-lesson-path="17-semana-16/06-refactor-defensa-reproducible.md" href="#17-semana-16-06-refactor-defensa-reproducible">Semana 16 · Lección 6: refactor de la defensa para que sea ejecutable por cualquier persona del equipo</a></li>
   <li><a class="doc-nav-link" data-lesson-path="17-semana-16/07-checkpoint-evaluacion.md" href="#17-semana-16-07-checkpoint-evaluacion">Semana 16 · Lección 7: checkpoint final del máster para validar el ciclo completo SDD + IA</a></li>
   <li><a class="doc-nav-link" data-lesson-path="17-semana-16/08-bitacora-commits.md" href="#17-semana-16-08-bitacora-commits">Semana 16 · Lección 8: bitácora final para cerrar el curso con trazabilidad completa de 0 a 100</a></li>
+</ul></li>
+<li class="nav-section"><strong>Proyecto Final SDD</strong>
+<ul>
+  <li><a class="doc-nav-link" data-lesson-path="18-proyecto-final/00-brief-helpdesk-sdd-enterprise.md" href="#18-proyecto-final-00-brief-helpdesk-sdd-enterprise">Proyecto Final SDD · Brief integrador enterprise (Helpdesk Evolution)</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="18-proyecto-final/01-entregables-y-evidencia-obligatoria.md" href="#18-proyecto-final-01-entregables-y-evidencia-obligatoria">Proyecto Final SDD · Entregables y evidencia obligatoria</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="18-proyecto-final/02-rubrica-y-defensa-final.md" href="#18-proyecto-final-02-rubrica-y-defensa-final">Proyecto Final SDD · Rúbrica y defensa final</a></li>
 </ul></li>
 <li class="nav-section"><strong>Anexos</strong>
 <ul>
@@ -21906,6 +21912,264 @@ Atomicidad demostrada:
   <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
+</section>
+<section id="18-proyecto-final-00-brief-helpdesk-sdd-enterprise" class="lesson" data-topic-id="18-proyecto-final-00-brief-helpdesk-sdd-enterprise" data-lesson-path="18-proyecto-final/00-brief-helpdesk-sdd-enterprise.md">
+<div class="lesson-path">18-proyecto-final/00-brief-helpdesk-sdd-enterprise.md</div>
+<h1 id="18-proyecto-final-00-brief-helpdesk-sdd-enterprise-proyecto-final-sdd-brief-integrador-enterprise-helpdesk-evolution">Proyecto Final SDD · Brief integrador enterprise (Helpdesk Evolution)</h1>
+<h2 id="18-proyecto-final-00-brief-helpdesk-sdd-enterprise-problema-y-contexto">Problema y contexto</h2>
+<p>Hasta Semana 16 has demostrado técnicas por bloques. El Proyecto Final valida que puedes operar el ciclo completo en entorno real: intake, especificación, escenarios, pruebas, implementación, gobernanza, release readiness, hardening y defensa técnica.</p>
+<p>No se evalúa solo "si funciona". Se evalúa si puedes justificar decisiones, gestionar riesgo y entregar evidencia verificable por terceros.</p>
+<h2 id="18-proyecto-final-00-brief-helpdesk-sdd-enterprise-alcance-obligatorio-del-reto">Alcance obligatorio del reto</h2>
+<p>Debes extender <code>HelpdeskSDD</code> con una capacidad transversal llamada <code>Escalation Dossier</code>:</p>
+<ol>
+  <li>Registrar escalaciones críticas con política de severidad.</li>
+  <li>Exponer trazabilidad de escalación desde requirement hasta evidencia de release.</li>
+  <li>Integrar validación automática en quality gates para bloquear salida si faltan evidencias.</li>
+  <li>Presentar defensa final con trade-offs explícitos.</li>
+</ol>
+<p>Fuera de alcance en esta entrega:</p>
+<ol>
+  <li>Reescritura completa de módulos existentes.</li>
+  <li>Integraciones externas no requeridas por el brief.</li>
+  <li>Optimizaciones prematuras sin evidencia de cuello de botella.</li>
+</ol>
+<h2 id="18-proyecto-final-00-brief-helpdesk-sdd-enterprise-arquitectura-objetivo-del-proyecto-final">Arquitectura objetivo del Proyecto Final</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><svg class="sma-legend-arrow direct-closed" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><svg class="sma-legend-arrow dashed-closed" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><svg class="sma-legend-arrow contract-open" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><svg class="sma-legend-arrow solid-open" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+    subgraph UI[Interface]
+      VIEW[Final Defense View]
+      VM[Defense ViewModel]
+    end
+
+    subgraph APP[Application]
+      UC[BuildEscalationDossierUseCase]
+      PORT[EscalationDossierPort]
+      BOOT[Composition Root]
+    end
+
+    subgraph CORE[Core / Domain]
+      ENT[EscalationDossier Entity]
+      POLICY[Release Gate Policy]
+    end
+
+    subgraph INFRA[Infrastructure]
+      ADAPTER[Evidence Repository]
+      PIPE[Quality Gate CLI]
+    end
+
+    VIEW --&gt; VM
+    VM --&gt; UC
+    UC --&gt; ENT
+    UC -.-&gt; PORT
+    BOOT -.-&gt; PORT
+    BOOT -.-&gt; ADAPTER
+    BOOT -.-&gt; PIPE
+    ADAPTER --o PORT
+    PIPE --o PORT</pre>
+</div>
+<p>Lectura semántica:</p>
+<ol>
+  <li><code>--&gt;</code> dependencia directa de runtime.</li>
+  <li><code>-.-&gt;</code> wiring/configuración en composition root.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstracción.</li>
+  <li><code>--o</code> salida/propagación de implementación concreta.</li>
+</ol>
+<h2 id="18-proyecto-final-00-brief-helpdesk-sdd-enterprise-snippet-m-nimo-de-arranque">Snippet mínimo de arranque</h2>
+<pre><code class="language-bash"># Rama dedicada para el proyecto final
+ git checkout -b feature/sdd-final-project-escalation-dossier
+
+# Baseline de seguridad antes de tocar código
+ python3 scripts/validate-course-structure.py
+ python3 scripts/check-links.py
+ swift test --package-path project/HelpdeskSDD</code></pre>
+<h2 id="18-proyecto-final-00-brief-helpdesk-sdd-enterprise-pr-ctica-guiada">Práctica guiada</h2>
+<ol>
+  <li>Escribe un <code>problem statement</code> de 10 líneas para <code>Escalation Dossier</code>.</li>
+  <li>Redacta 3 requirements <code>SHALL</code> y 1 <code>out_of_scope</code> en OpenSpec.</li>
+  <li>Define 3 escenarios BDD medibles (uno feliz, uno de error, uno de límite).</li>
+  <li>Declara qué evidencia mínima requerirá tu quality gate para aprobar release.</li>
+</ol>
+<h2 id="18-proyecto-final-00-brief-helpdesk-sdd-enterprise-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<ol>
+  <li>¿Qué diferencia hay entre "feature implementada" y "entrega defendible"?</li>
+  <li>¿Qué artefactos deben existir para afirmar trazabilidad completa?</li>
+  <li>¿Qué riesgo introduces si omites el <code>out_of_scope</code>?</li>
+</ol>
+<h2 id="18-proyecto-final-00-brief-helpdesk-sdd-enterprise-siguiente-lecci-n">Siguiente lección</h2>
+<p>Continúa en <a href="#18-proyecto-final-01-entregables-y-evidencia-obligatoria"><code>01-entregables-y-evidencia-obligatoria.md</code></a>.</p>
+</section>
+<section id="18-proyecto-final-01-entregables-y-evidencia-obligatoria" class="lesson" data-topic-id="18-proyecto-final-01-entregables-y-evidencia-obligatoria" data-lesson-path="18-proyecto-final/01-entregables-y-evidencia-obligatoria.md">
+<div class="lesson-path">18-proyecto-final/01-entregables-y-evidencia-obligatoria.md</div>
+<h1 id="18-proyecto-final-01-entregables-y-evidencia-obligatoria-proyecto-final-sdd-entregables-y-evidencia-obligatoria">Proyecto Final SDD · Entregables y evidencia obligatoria</h1>
+<h2 id="18-proyecto-final-01-entregables-y-evidencia-obligatoria-problema-y-contexto">Problema y contexto</h2>
+<p>Muchos proyectos "terminan" con demo funcional pero sin evidencia reproducible. En entorno enterprise, eso no es cierre: es deuda operativa.</p>
+<p>Esta lección define el paquete mínimo para aprobar el Proyecto Final SDD.</p>
+<h2 id="18-proyecto-final-01-entregables-y-evidencia-obligatoria-entregables-obligatorios">Entregables obligatorios</h2>
+<ol>
+  <li><code>OpenSpec</code> del cambio final (proposal, spec delta, design, tasks).</li>
+  <li>Escenarios BDD ejecutables y trazables.</li>
+  <li>Tests TDD en verde para reglas críticas.</li>
+  <li>Implementación productiva mínima en <code>HelpdeskSDD</code>.</li>
+  <li>Evidencia de quality gates, release readiness y hardening.</li>
+  <li>Dossier de defensa final con decisiones y riesgos.</li>
+</ol>
+<h2 id="18-proyecto-final-01-entregables-y-evidencia-obligatoria-diagrama-de-flujo-de-evidencia">Diagrama de flujo de evidencia</h2>
+<div class="sma-mermaid-block">
+<pre class="mermaid">flowchart LR
+    REQ[Requirements]
+    BDD[BDD Scenarios]
+    TDD[TDD Tests]
+    CODE[Production Code]
+    GATE[Quality Gates]
+    DOSSIER[Defense Dossier]
+    REVIEW[Final Review Board]
+
+    REQ --&gt; BDD
+    BDD --&gt; TDD
+    TDD --&gt; CODE
+    CODE -.-&gt; GATE
+    GATE -.-&gt; DOSSIER
+    DOSSIER --o REVIEW</pre>
+</div>
+<p>Lectura semántica:</p>
+<ol>
+  <li><code>--&gt;</code> flujo directo de entrega.</li>
+  <li><code>-.-&gt;</code> ensamblado de evidencia para revisión.</li>
+  <li><code>-.o</code> contrato de calidad exigible.</li>
+  <li><code>--o</code> salida formal hacia defensa final.</li>
+</ol>
+<h2 id="18-proyecto-final-01-entregables-y-evidencia-obligatoria-formato-recomendado-del-paquete">Formato recomendado del paquete</h2>
+<pre><code class="language-text">final-project/
+  01-openspec/
+  02-bdd/
+  03-tdd/
+  04-production/
+  05-quality-gates/
+  06-release-readiness/
+  07-hardening/
+  08-defense-dossier/
+  EVIDENCE-INDEX.md</code></pre>
+<h2 id="18-proyecto-final-01-entregables-y-evidencia-obligatoria-snippet-de-verificaci-n-local">Snippet de verificación local</h2>
+<pre><code class="language-bash">python3 scripts/validate-openspec.py
+python3 scripts/validate-pedagogy.py
+python3 scripts/validate-markdown-snippets.py
+python3 scripts/build-html.py
+swift test --package-path project/HelpdeskSDD</code></pre>
+<h2 id="18-proyecto-final-01-entregables-y-evidencia-obligatoria-pr-ctica-guiada">Práctica guiada</h2>
+<ol>
+  <li>Construye <code>EVIDENCE-INDEX.md</code> con enlaces reales a cada entregable.</li>
+  <li>Marca para cada evidencia: fecha, comando, resultado, riesgo cubierto.</li>
+  <li>Identifica una evidencia débil y mejora su verificabilidad.</li>
+</ol>
+<h2 id="18-proyecto-final-01-entregables-y-evidencia-obligatoria-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<ol>
+  <li>¿Qué evidencia concreta demuestra que un gate está realmente aplicado?</li>
+  <li>¿Por qué un screenshot sin contexto no cuenta como evidencia enterprise?</li>
+  <li>¿Qué pasa si el build está verde pero el dossier no existe?</li>
+</ol>
+<h2 id="18-proyecto-final-01-entregables-y-evidencia-obligatoria-siguiente-lecci-n">Siguiente lección</h2>
+<p>Continúa en <a href="#18-proyecto-final-02-rubrica-y-defensa-final"><code>02-rubrica-y-defensa-final.md</code></a>.</p>
+</section>
+<section id="18-proyecto-final-02-rubrica-y-defensa-final" class="lesson" data-topic-id="18-proyecto-final-02-rubrica-y-defensa-final" data-lesson-path="18-proyecto-final/02-rubrica-y-defensa-final.md">
+<div class="lesson-path">18-proyecto-final/02-rubrica-y-defensa-final.md</div>
+<h1 id="18-proyecto-final-02-rubrica-y-defensa-final-proyecto-final-sdd-r-brica-y-defensa-final">Proyecto Final SDD · Rúbrica y defensa final</h1>
+<h2 id="18-proyecto-final-02-rubrica-y-defensa-final-problema-y-contexto">Problema y contexto</h2>
+<p>Una evaluación útil debe discriminar competencia real, no solo esfuerzo. Esta rúbrica define criterios de empleabilidad y readiness arquitectónica para cierre del curso SDD.</p>
+<h2 id="18-proyecto-final-02-rubrica-y-defensa-final-r-brica-ponderada">Rúbrica ponderada</h2>
+<table>
+<thead>
+<tr>
+  <th>Dimensión</th>
+  <th>Peso</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>Claridad de problema y alcance</td>
+  <td>10</td>
+</tr>
+<tr>
+  <td>Trazabilidad OpenSpec -> BDD -> TDD -> Código</td>
+  <td>20</td>
+</tr>
+<tr>
+  <td>Calidad técnica y mantenibilidad</td>
+  <td>20</td>
+</tr>
+<tr>
+  <td>Operación y quality gates</td>
+  <td>15</td>
+</tr>
+<tr>
+  <td>Release readiness y hardening</td>
+  <td>15</td>
+</tr>
+<tr>
+  <td>Evidencia y defensa técnica</td>
+  <td>20</td>
+</tr>
+</tbody>
+</table>
+<p>Umbrales:</p>
+<ol>
+  <li><code>&gt;= 70</code>: aprobado empleable.</li>
+  <li><code>&gt;= 85</code>: señal architect-ready.</li>
+  <li>Cualquier bloqueador crítico implica <code>No apto</code> aunque la media sea alta.</li>
+</ol>
+<h2 id="18-proyecto-final-02-rubrica-y-defensa-final-bloqueadores-cr-ticos">Bloqueadores críticos</h2>
+<ol>
+  <li>Falta de trazabilidad verificable.</li>
+  <li>Tests críticos inexistentes o inestables.</li>
+  <li>Gates definidos pero no ejecutados.</li>
+  <li>Riesgo de release sin plan de rollback.</li>
+  <li>Defensa sin evidencia reproducible.</li>
+</ol>
+<h2 id="18-proyecto-final-02-rubrica-y-defensa-final-flujo-de-defensa-final">Flujo de defensa final</h2>
+<div class="sma-mermaid-block">
+<pre class="mermaid">flowchart LR
+    TEAM[Student Team]
+    PITCH[10m Technical Pitch]
+    DEMO[Guided Demo]
+    QA[Cross-exam Q&amp;A]
+    VERDICT[Readiness Verdict]
+
+    TEAM --&gt; PITCH
+    PITCH --&gt; DEMO
+    DEMO -.-&gt; QA
+    QA -.-&gt; VERDICT
+    VERDICT --o TEAM</pre>
+</div>
+<p>Lectura semántica:</p>
+<ol>
+  <li><code>--&gt;</code> secuencia directa de defensa.</li>
+  <li><code>-.-&gt;</code> ensamblado de evaluación colegiada.</li>
+  <li><code>-.o</code> contrato de preguntas sobre evidencia.</li>
+  <li><code>--o</code> salida formal de veredicto y feedback.</li>
+</ol>
+<h2 id="18-proyecto-final-02-rubrica-y-defensa-final-snippet-de-checklist-final">Snippet de checklist final</h2>
+<pre><code class="language-bash"># Gate final de cierre
+python3 scripts/validate-course-structure.py
+python3 scripts/validate-openspec.py
+python3 scripts/check-links.py
+python3 scripts/validate-pedagogy.py
+python3 scripts/validate-markdown-snippets.py
+python3 scripts/build-html.py
+swift test --package-path project/HelpdeskSDD</code></pre>
+<h2 id="18-proyecto-final-02-rubrica-y-defensa-final-pr-ctica-guiada">Práctica guiada</h2>
+<ol>
+  <li>Simula una defensa de 10 minutos con cronómetro.</li>
+  <li>Responde tres preguntas difíciles: trade-off, riesgo principal, rollback.</li>
+  <li>Ajusta el dossier para que una tercera persona pueda validar todo sin tu ayuda.</li>
+</ol>
+<h2 id="18-proyecto-final-02-rubrica-y-defensa-final-verificaci-n-de-comprensi-n">Verificación de comprensión</h2>
+<ol>
+  <li>¿Cuál es la diferencia entre aprobar por puntuación y aprobar sin bloqueadores?</li>
+  <li>¿Qué artefacto usarías para defender un trade-off polémico?</li>
+  <li>¿Qué señal te dice que tu defensa depende de narrativa y no de evidencia?</li>
+</ol>
+<h2 id="18-proyecto-final-02-rubrica-y-defensa-final-cierre-del-curso">Cierre del curso</h2>
+<p>Con esta lección queda formalizado el Proyecto Final SDD obligatorio y su criterio de defensa.</p>
 </section>
 <section id="anexos-diagramas-atlas-sdd" class="lesson" data-topic-id="anexos-diagramas-atlas-sdd" data-lesson-path="anexos/diagramas/atlas-sdd.md">
 <div class="lesson-path">anexos/diagramas/atlas-sdd.md</div>

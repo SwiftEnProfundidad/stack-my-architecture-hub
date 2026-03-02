@@ -244,6 +244,15 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
       - `build-hub --mode fast`, `check-selective-sync-drift`, `smoke-hub-runtime` en verde.
     - siguiente task activa: SDD `3.4` (Proyecto Final obligatorio).
 
+74. Proyecto Final SDD obligatorio (3.4) cerrado en ciclo gradual (2026-03-02):
+    - nueva sección pública `18-proyecto-final` con:
+      - brief integrador enterprise,
+      - entregables/evidencia obligatoria,
+      - rúbrica ponderada + defensa final.
+    - integración en `scripts/build-html.py` (full/public) y publicación en Hub SDD en perfil monetizable.
+    - validación AGENTS en verde + `build-hub --mode fast`, `check-selective-sync-drift`, `smoke-hub-runtime` en verde.
+    - siguiente task activa: Hub `4.1` (UX/UI responsive de navegación y controles).
+
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.
 2. Regeneración de launchers/apps de escritorio del Hub.

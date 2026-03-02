@@ -87,12 +87,12 @@ Notas:
 | 3.1 | ✅ | Auditar + corregir bloque base | `00-preparacion`, `01-roadmap`, semanas 01-08 |
 | 3.2 | ✅ | Auditar + corregir bloque avanzado | semanas 09-16, `anexos` |
 | 3.3 | ✅ | Aplicar perfil publico monetizable | excluir internos de `docs/`, `openspec/`, `00-informe` en build publico |
-| 3.4 | 🚧 | Materializar Proyecto Final SDD obligatorio | brief, alcance, entregables, rubrica y defensa final |
+| 3.4 | ✅ | Materializar Proyecto Final SDD obligatorio | brief, alcance, entregables, rubrica y defensa final |
 
 ## Fase 4 - Hub UX/UI + monetizacion
 | ID | Estado | Task | Alcance |
 | --- | --- | --- | --- |
-| 4.1 | ⏳ | Auditar y corregir botones/navbars/menus responsive | Hub + cursos incrustados |
+| 4.1 | 🚧 | Auditar y corregir botones/navbars/menus responsive | Hub + cursos incrustados |
 | 4.2 | ⏳ | Endurecer flujo auth/logout/acceso a cursos | evitar acceso sin sesion tras logout |
 | 4.3 | ⏳ | Validar 3 temas visuales + mobile/desktop + iPhone | evidencia Playwright |
 
