@@ -303,6 +303,14 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
     - `scripts/schedule-closeout-at.sh` soporta inyección de comandos (`SMA_ATQ_CMD`, `SMA_AT_CMD`, `SMA_ATRM_CMD`) para pruebas aisladas.
     - resultado: `[PASS]` en casos de hora textual, `--epoch`, limpieza selectiva de job closeout y validación de epoch inválido.
 
+82. Test de regresión de `closeout-at-job` (2026-03-03):
+    - test script: `scripts/tests/test-closeout-at-job.sh`.
+    - `scripts/closeout-at-job.sh` soporta overrides de runtime/comandos para test aislado:
+      - `SMA_CLOSEOUT_RUNTIME_DIR`,
+      - `SMA_CLOSEOUT_WAIT_RUNNER_CMD`,
+      - `SMA_CLOSEOUT_SCHEDULER_CMD`.
+    - resultado: `[PASS]` en escenarios de éxito, fallo con autoreprogramación y fallo sin autoreprogramación.
+
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.
 2. Regeneración de launchers/apps de escritorio del Hub.
