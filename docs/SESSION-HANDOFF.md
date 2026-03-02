@@ -156,7 +156,8 @@ Repos incluidos:
 12. 🚧 Nuevo ciclo activo de auditoria gradual por leccion:
    - plan activo unico: `docs/PLAN-AUDITORIA-CURSOS-FASES-20260302.md`
    - matriz operativa: `docs/AUDITORIA-CURSOS-MATRIZ-20260302.tsv`
-   - tarea en construccion: `1.1` (iOS `ETAPA 0: CORE MOBILE` en caliente).
+   - `1.1` iOS `ETAPA 0: CORE MOBILE` cerrada en caliente (normalizacion de flechas, narrativa y jerarquia de encabezados).
+   - tarea en construccion actual: `1.2` (iOS `ETAPA 1: JUNIOR`).
 
 ## Última comprobación de espera activa
 1. Fecha: 2026-02-27.

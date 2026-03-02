@@ -302,7 +302,8 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 38. ✅ Ejecutar Fase 8 de optimización de imágenes de arquitectura iOS (webp + fallback png) y sync Hub en verde.
 39. ✅ Restaurar UX del dropdown de cursos en móvil (overlay visible sin clipping) en iOS/Android/SDD + sync Hub.
 40. 🚧 Ejecutar auditoría gradual en caliente por lección con plan único activo:
-    - bloque actual: iOS `ETAPA 0: CORE MOBILE`.
+    - `1.1` iOS `ETAPA 0: CORE MOBILE` cerrado.
+    - bloque actual: iOS `ETAPA 1: JUNIOR`.
     - plan activo: `docs/PLAN-AUDITORIA-CURSOS-FASES-20260302.md`.
     - matriz operativa: `docs/AUDITORIA-CURSOS-MATRIZ-20260302.tsv`.
 
