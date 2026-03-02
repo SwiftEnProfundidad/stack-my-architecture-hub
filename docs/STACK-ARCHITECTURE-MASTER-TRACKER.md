@@ -251,7 +251,7 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
       - rúbrica ponderada + defensa final.
     - integración en `scripts/build-html.py` (full/public) y publicación en Hub SDD en perfil monetizable.
     - validación AGENTS en verde + `build-hub --mode fast`, `check-selective-sync-drift`, `smoke-hub-runtime` en verde.
-    - siguiente task activa: Hub `4.1` (UX/UI responsive de navegación y controles).
+    - siguiente task activa: Hub `4.3` (validación visual de temas/viewport tras cierre de `4.2`).
 
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.
@@ -391,8 +391,9 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 38. ✅ Ejecutar Fase 8 de optimización de imágenes de arquitectura iOS (webp + fallback png) y sync Hub en verde.
 39. ✅ Restaurar UX del dropdown de cursos en móvil (overlay visible sin clipping) en iOS/Android/SDD + sync Hub.
 40. 🚧 Ejecutar auditoría gradual en caliente por lección con plan único activo:
-    - `1.1` iOS `ETAPA 0: CORE MOBILE` cerrado.
-    - bloque actual: iOS `ETAPA 1: JUNIOR`.
+    - `4.1` Hub UX/UI responsive cerrado en caliente (iOS/Android/SDD sin overflow del control IA en móvil).
+    - `4.2` auth/logout/acceso cerrado en caliente (logout con limpieza total de identidad/perfil + `next` saneado).
+    - bloque actual: Hub `4.3` (validación visual en 3 temas + mobile/desktop + iPhone).
     - plan activo: `docs/PLAN-AUDITORIA-CURSOS-FASES-20260302.md`.
     - matriz operativa: `docs/AUDITORIA-CURSOS-MATRIZ-20260302.tsv`.
 
@@ -401,7 +402,7 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 2. Riesgo de referencia remota en `SDD`: `origin/main` mantiene una línea distinta al baseline operativo actual (`main` local); no integrar sin instrucción explícita.
 
 ## Próximos pasos recomendados
-1. Completar `1.1` del plan activo sobre iOS ETAPA 0 y registrar cada fix en la matriz TSV.
+1. Completar `4.3` del plan activo sobre validación visual cross-theme/cross-device y registrar evidencia en tracking.
 2. Cerrar limpieza documental de planes históricos (`0.3`) sin perder trazabilidad operativa.
 3. Actualizar `docs/SESSION-HANDOFF.md` al cierre de cada ola de auditoría.
 4. Mantener un único despliegue final por bloque para evitar consumo innecesario de cuota Vercel.

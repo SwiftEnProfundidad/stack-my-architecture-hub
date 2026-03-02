@@ -765,3 +765,37 @@ Unificar la nomenclatura de fases en cursos iOS y Android y exigir `Proyecto Fin
 1. Labels y tracking se adaptan primero, sin renombrar carpetas físicas para evitar regresiones.
 2. Cada curso debe incluir un proyecto final con alcance, entregables y rúbrica de evaluación.
 3. El plan activo y la matriz de auditoría usan esta convención como baseline.
+
+## ADR-LITE-038 — Controles de estudio móviles en dos filas sin overflow
+### Fecha
+2026-03-02
+
+### Decisión
+En viewport móvil estrecho (`<=480px`) los controles superiores de estudio deben:
+1. Envolver en dos filas (`flex-wrap`) sin scroll horizontal.
+2. Priorizar `#study-progress` en primera fila.
+3. Mantener botón `💬 Asistente IA` visible dentro del viewport en iOS/Android/SDD.
+
+### Motivación
+1. Evitar clipping/overflow en navegación de curso y mejorar legibilidad en iPhone.
+2. Cerrar regresión visual recurrente detectada en `4.1`.
+
+### Impacto
+1. UX móvil consistente y sin desbordes en los tres cursos.
+2. Cierre operativo de `4.1` y apertura del bloque `4.2` (auth/logout/acceso) como única tarea en construcción.
+
+## ADR-LITE-039 — Logout con limpieza de perfil cloud y `next` saneado
+### Fecha
+2026-03-02
+
+### Decisión
+1. En logout se elimina también `sma:cloud:profile:v1` además de la sesión/usuario.
+2. Los redireccionamientos a login desde cursos deben usar `next` sin parámetros de sincronización (`progressProfile`, `progressBase`, `progressEndpoint`).
+
+### Motivación
+1. Evitar arrastre de identidad/perfil entre sesiones cerradas.
+2. Evitar URLs de login con trazas de perfil previo tras logout o acceso sin sesión.
+
+### Impacto
+1. Flujo auth/logout/acceso más robusto para monetización y multi-dispositivo.
+2. Cierre operativo de `4.2` y transición a `4.3` (validación visual cross-theme/cross-device).

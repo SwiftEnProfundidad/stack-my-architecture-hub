@@ -92,9 +92,9 @@ Notas:
 ## Fase 4 - Hub UX/UI + monetizacion
 | ID | Estado | Task | Alcance |
 | --- | --- | --- | --- |
-| 4.1 | 🚧 | Auditar y corregir botones/navbars/menus responsive | Hub + cursos incrustados |
-| 4.2 | ⏳ | Endurecer flujo auth/logout/acceso a cursos | evitar acceso sin sesion tras logout |
-| 4.3 | ⏳ | Validar 3 temas visuales + mobile/desktop + iPhone | evidencia Playwright |
+| 4.1 | ✅ | Auditar y corregir botones/navbars/menus responsive | Hub + cursos incrustados |
+| 4.2 | ✅ | Endurecer flujo auth/logout/acceso a cursos | evitar acceso sin sesion tras logout |
+| 4.3 | 🚧 | Validar 3 temas visuales + mobile/desktop + iPhone | evidencia Playwright |
 
 ## Fase 5 - QA, GitFlow, cierre
 | ID | Estado | Task | Entregable |

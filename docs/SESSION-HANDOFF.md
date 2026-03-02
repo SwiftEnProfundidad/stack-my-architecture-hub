@@ -171,7 +171,15 @@ Repos incluidos:
    - `3.2` SDD bloque avanzado cerrado en caliente (semanas 09-16 con cierre consistente de fences Mermaid, anexos auditados sin regresión).
    - `3.3` perfil público monetizable SDD cerrado (build profile público excluye `00-informe`, `docs`, `openspec` sin romper perfil local full).
    - `3.4` Proyecto Final SDD obligatorio cerrado con sección pública dedicada (`18-proyecto-final`) y rúbrica de defensa.
-   - tarea en construccion actual: `4.1` (auditoría Hub UX/UI responsive en menús/navbars/botones).
+   - `4.1` Hub UX/UI responsive cerrado en caliente con fix cross-course de controles móviles:
+     - `#study-ux-controls` y `#theme-controls` ahora envuelven (`flex-wrap`) sin overflow horizontal.
+     - `#study-progress` pasa a primera fila en `<=480px` para evitar clipping del botón `💬 Asistente IA`.
+     - verificado en iOS/Android/SDD (`390x844`) con Playwright: sin desbordes de viewport.
+   - `4.2` auth/logout/acceso cerrado en caliente:
+     - logout limpia `sma:auth:user:v1`, `sma:auth:session:v1` y `sma:cloud:profile:v1`.
+     - accesos directos sin sesión redirigen a login con `next` saneado (sin `progressProfile/progressBase/progressEndpoint`).
+     - verificado en runtime: acceso bloqueado sin sesión y reentrada al curso exige login.
+   - tarea en construccion actual: `4.3` (validación 3 temas visuales + mobile/desktop + iPhone con Playwright).
 
 ## Última comprobación de espera activa
 1. Fecha: 2026-02-27.
@@ -213,7 +221,7 @@ Repos incluidos:
 31. ✅ Fase 8 de optimización de imágenes de arquitectura iOS para móvil (`webp` + fallback `png`).
 
 ## Siguiente paso concreto
-1. Cerrar `4.1` del plan activo (Hub UX/UI responsive) sin regresiones en navegación de cursos.
+1. Ejecutar `4.3` del plan activo (temas visuales + mobile/desktop + iPhone) con evidencia Playwright.
 2. Completar `0.3` (limpieza de planes historicos cerrados) para dejar `docs/` sin duplicados activos.
 3. Mantener commits atomicos y GitFlow estricto por bloque.
 4. Actualizar handoff al cerrar cada ola real de auditoria.
