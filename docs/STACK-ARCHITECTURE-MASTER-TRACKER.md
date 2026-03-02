@@ -288,9 +288,10 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
     - contrato de salida:
       - `0`: listo para cerrar tracking.
       - `2`: en espera por cooldown.
+      - `3`: cooldown activo sin job `at` de closeout en cola.
       - `1`: revisión manual requerida.
     - validación:
-      - estado actual `EN ESPERA` con `EXIT_CODE=2` y log del último job.
+      - estado actual `EN ESPERA` con `EXIT_CODE=2`, log del último job y job automático activo (`15:50 CET`).
 
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.
