@@ -157,7 +157,8 @@ Repos incluidos:
    - plan activo unico: `docs/PLAN-AUDITORIA-CURSOS-FASES-20260302.md`
    - matriz operativa: `docs/AUDITORIA-CURSOS-MATRIZ-20260302.tsv`
    - `1.1` iOS `ETAPA 0: CORE MOBILE` cerrada en caliente (normalizacion de flechas, narrativa y jerarquia de encabezados).
-   - tarea en construccion actual: `1.2` (iOS `ETAPA 1: JUNIOR`).
+   - `1.2` iOS `ETAPA 1: JUNIOR` cerrada en caliente (fences Mermaid, markers auto y convención de flechas alineados).
+   - tarea en construccion actual: `1.3` (iOS `ETAPA 2: MIDLEVEL`).
 
 ## Última comprobación de espera activa
 1. Fecha: 2026-02-27.
@@ -199,7 +200,7 @@ Repos incluidos:
 31. ✅ Fase 8 de optimización de imágenes de arquitectura iOS para móvil (`webp` + fallback `png`).
 
 ## Siguiente paso concreto
-1. Cerrar `1.1` del plan activo (iOS ETAPA 0) leccion por leccion con registro en la matriz TSV.
+1. Cerrar `1.3` del plan activo (iOS ETAPA 2) leccion por leccion con registro en la matriz TSV.
 2. Completar `0.3` (limpieza de planes historicos cerrados) para dejar `docs/` sin duplicados activos.
 3. Mantener commits atomicos y GitFlow estricto por bloque.
 4. Actualizar handoff al cerrar cada ola real de auditoria.

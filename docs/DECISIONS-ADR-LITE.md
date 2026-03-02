@@ -740,3 +740,28 @@ Normalizar la URL de curso para que siempre incluya `progressProfile` activo en 
 1. El Hub soporta identidad de usuario real y progreso scoped por cuenta.
 2. iOS/Android/SDD pueden usar bearer token automaticamente cuando hay sesion.
 3. La operacion local conserva modo degradado estable sin bloquear estudio offline.
+
+
+## ADR-LITE-037 — Convención unificada de fases y Proyecto Final obligatorio
+### Fecha
+2026-03-02
+
+### Decisión
+Unificar la nomenclatura de fases en cursos iOS y Android y exigir `Proyecto Final` obligatorio en iOS, Android y SDD:
+1. ETAPA 0: CORE MOBILE
+2. ETAPA 1: JUNIOR
+3. ETAPA 2: MIDLEVEL
+4. ETAPA 3: SENIOR
+5. ETAPA 4: ARQUITECTO
+6. ETAPA 5: MAESTRIA
+7. ETAPA 6: PROYECTO FINAL
+
+### Motivación
+1. Evitar inconsistencias entre cursos al navegar por fases equivalentes.
+2. Garantizar cierre formativo evaluable en todos los tracks.
+3. Alinear progresión pedagógica con objetivo de empleabilidad y defensa técnica.
+
+### Impacto
+1. Labels y tracking se adaptan primero, sin renombrar carpetas físicas para evitar regresiones.
+2. Cada curso debe incluir un proyecto final con alcance, entregables y rúbrica de evaluación.
+3. El plan activo y la matriz de auditoría usan esta convención como baseline.
