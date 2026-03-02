@@ -366,6 +366,9 @@ Fase `0.4` cerrada en verde; bloque activo movido a `5.4`.
 6. Runner end-to-end de cierre:
    - `scripts/deploy-and-verify-closeout.sh [fast|strict] [base_url]`
    - última ejecución: `2026-03-02 23:49 CET` (build OK, deploy bloqueado por cuota).
+   - guard de cuota integrado:
+     - archivo de estado: `.runtime/vercel-deploy-cooldown.env`
+     - validación: `2026-03-02 23:53 CET` (bloqueo preventivo en `2026-03-03 15:49:00 CET`, sin consumir intento).
 
 ## Regresión post-hardening del asistente IA en runtime móvil (Fase 4)
 ### Fecha

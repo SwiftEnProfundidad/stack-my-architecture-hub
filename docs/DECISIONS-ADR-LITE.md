@@ -990,3 +990,24 @@ En viewport móvil estrecho (`<=480px`) los controles superiores de estudio debe
 ### Impacto
 1. `5.4` queda lista para cierre inmediato en la próxima ventana válida.
 2. Se reduce fricción operativa en el último tramo del plan.
+
+## ADR-LITE-051 — Guard de cuota en runner de cierre para evitar intentos prematuros
+### Fecha
+2026-03-02
+
+### Decisión
+1. Integrar guard de cuota en `scripts/deploy-and-verify-closeout.sh`.
+2. Persistir estado de cooldown en `.runtime/vercel-deploy-cooldown.env`:
+   - `not_before_epoch`
+   - `not_before_local`
+   - `reason`
+   - `last_error_seen_at`
+3. Bloquear intentos antes de ventana con salida controlada (`EXIT_CODE=2`) y opción de override (`SMA_DEPLOY_FORCE=1`).
+
+### Motivación
+1. Evitar consumo inútil de cuota en ventanas no válidas.
+2. Mantener un flujo automático pero seguro durante el cierre de `5.4`.
+
+### Impacto
+1. Se elimina ruido operativo de reintentos fuera de tiempo.
+2. El próximo intento útil queda alineado con la ventana estimada de Vercel.
