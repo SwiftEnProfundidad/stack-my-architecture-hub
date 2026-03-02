@@ -179,7 +179,15 @@ Repos incluidos:
      - logout limpia `sma:auth:user:v1`, `sma:auth:session:v1` y `sma:cloud:profile:v1`.
      - accesos directos sin sesión redirigen a login con `next` saneado (sin `progressProfile/progressBase/progressEndpoint`).
      - verificado en runtime: acceso bloqueado sin sesión y reentrada al curso exige login.
-   - tarea en construccion actual: `4.3` (validación 3 temas visuales + mobile/desktop + iPhone con Playwright).
+   - `4.3` validación visual cerrada en caliente:
+     - Playwright en iOS/Android/SDD y viewports `desktop + iPhone`.
+     - 3 estilos (`Enterprise/Bold/Paper`) ciclan correctamente en los 3 cursos.
+     - sin overflow horizontal en body/controles y con toggle de índice visible en iPhone.
+   - `5.1` QA técnico cross-repo cerrado en caliente:
+     - Android: `check-links`, `validate-diagram-semantics`, `build-html` en verde.
+     - SDD: estructura/OpenSpec/links/pedagogía/snippets/build/`swift test` en verde.
+     - iOS: enlaces de arquitectura corregidos en `00-core-mobile/00-introduccion.md` y baseline de guardrails recalibrado al corpus auditado actual; `run-qa-audit-bundle.sh` en verde.
+   - tarea en construccion actual: `5.2` (commits atomicos + push + PR + merge por bloque).
 
 ## Última comprobación de espera activa
 1. Fecha: 2026-02-27.
@@ -221,7 +229,7 @@ Repos incluidos:
 31. ✅ Fase 8 de optimización de imágenes de arquitectura iOS para móvil (`webp` + fallback `png`).
 
 ## Siguiente paso concreto
-1. Ejecutar `4.3` del plan activo (temas visuales + mobile/desktop + iPhone) con evidencia Playwright.
+1. Ejecutar `5.2` del plan activo: cerrar ciclo GitFlow de los bloques abiertos con commits atomicos, push, PR y merge.
 2. Completar `0.3` (limpieza de planes historicos cerrados) para dejar `docs/` sin duplicados activos.
 3. Mantener commits atomicos y GitFlow estricto por bloque.
 4. Actualizar handoff al cerrar cada ola real de auditoria.
