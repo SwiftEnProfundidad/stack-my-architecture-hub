@@ -164,7 +164,7 @@ Cerrar todas las brechas pedagogicas y tecnicas en iOS, Android y SDD para que e
    - `docs/INVENTARIO-CROSS-COURSE-LECCIONES-ANEXOS-20260227.tsv`
    - `docs/MATRIZ-BRECHAS-CROSS-COURSE-20260227.tsv`
    - `docs/REVISION-MANUAL-BRECHAS-20260227.md`
-   - `docs/PLAN-LOTES-ATOMICOS-20260227.md`
+   - `docs/archive/plans-closed/PLAN-LOTES-ATOMICOS-20260227.md`
 2. GitFlow por repo:
    - iOS PR `#13` -> merge `1fbb0c8`
    - iOS PR `#14` -> merge `e2a2e91`
