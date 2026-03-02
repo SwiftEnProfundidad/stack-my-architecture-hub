@@ -194,6 +194,8 @@ Repos incluidos:
    - `5.3` deploy final intentado y bloqueado por cuota Vercel:
      - comando: `bash scripts/publish-architecture-stack.sh fast`
      - error: `api-deployments-free-per-day` (retry en ~17h desde intento).
+     - reintento adicional: `2026-03-02 23:37 CET` con mismo bloqueo.
+     - próxima ventana estimada: `2026-03-03 16:37 CET` o posterior.
    - `0.3` limpieza documental cerrada:
      - planes históricos movidos a `docs/archive/plans-closed/`.
      - `docs/` raíz queda con un único plan activo: `PLAN-AUDITORIA-CURSOS-FASES-20260302.md`.

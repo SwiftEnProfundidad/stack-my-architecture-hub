@@ -21,6 +21,11 @@ Documento operativo de cierre para la fase `5.4` del plan activo:
    - Bloqueo: `api-deployments-free-per-day`.
    - Comando validado:
      - `bash scripts/publish-architecture-stack.sh fast`
+   - Intentos registrados:
+     - `2026-03-02 23:24 CET` -> bloqueado (`try again in 17 hours`).
+     - `2026-03-02 23:37 CET` -> bloqueado (`try again in 17 hours`).
+   - Próxima ventana estimada de reintento:
+     - `2026-03-03 16:37 CET` o posterior.
    - Criterio de cierre:
      - deploy productivo completado sin error de cuota.
 

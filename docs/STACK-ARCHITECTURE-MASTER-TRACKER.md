@@ -396,7 +396,10 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
     - `4.3` validación visual cerrada en caliente (3 estilos + desktop/iPhone en iOS/Android/SDD sin overflow horizontal).
     - `5.1` validaciones técnicas cross-repo cerradas en caliente (Android/SDD en verde; iOS con enlaces corregidos + baseline guardrails recalibrado + bundle QA en verde).
     - `5.2` GitFlow de cierre completado (iOS PR #38 + Hub PR #80 mergeadas).
-    - `5.3` deploy final intentado y bloqueado por cuota Vercel (`api-deployments-free-per-day`, retry ~17h).
+    - `5.3` deploy final reintentado y bloqueado por cuota Vercel (`api-deployments-free-per-day`):
+      - intento 1: `2026-03-02 23:24 CET`
+      - intento 2: `2026-03-02 23:37 CET`
+      - próxima ventana estimada: `2026-03-03 16:37 CET` o posterior.
     - `0.3` limpieza documental cerrada (planes cerrados archivados bajo `docs/archive/plans-closed/`).
     - `0.4` sincronización de tracking cerrada (fuentes de verdad alineadas al plan activo).
     - bloque actual: Hub `5.4` (cierre final + backlog residual priorizado).
