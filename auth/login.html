@@ -80,6 +80,56 @@
           escapeHtml(user.id || '') + '</code>';
       }
 
+      function clearAuthHash() {
+        if (!window.location.hash) return;
+        history.replaceState(history.state, '', window.location.pathname + window.location.search);
+      }
+
+      async function consumeAuthHash() {
+        if (!window.location.hash || window.location.hash.length < 2) return;
+        var params = new URLSearchParams(window.location.hash.slice(1));
+        var errorMessage = params.get('error_description') || params.get('error') || '';
+        if (errorMessage) {
+          clearAuthHash();
+          setMessage(errorMessage, 'error');
+          return;
+        }
+
+        var accessToken = String(params.get('access_token') || '').trim();
+        var refreshToken = String(params.get('refresh_token') || '').trim();
+        if (!accessToken || !refreshToken) return;
+
+        var tokenType = String(params.get('token_type') || 'bearer').trim();
+        var expiresIn = Number(params.get('expires_in') || 0);
+        var session = {
+          accessToken: accessToken,
+          refreshToken: refreshToken,
+          tokenType: tokenType
+        };
+        if (Number.isFinite(expiresIn) && expiresIn > 0) {
+          session.expiresIn = expiresIn;
+          session.expiresAt = new Date(Date.now() + expiresIn * 1000).toISOString();
+        }
+
+        localStorage.setItem(window.SMAAuth.keys.session, JSON.stringify(session));
+        clearAuthHash();
+
+        try {
+          await window.SMAAuth.me();
+          var flowType = String(params.get('type') || '').trim().toLowerCase();
+          if (flowType === 'recovery') {
+            setMessage('Enlace de recuperación validado. Inicia sesión para continuar.', 'ok');
+            return;
+          }
+          setMessage('Email confirmado correctamente. Redirigiendo al hub...', 'ok');
+          setTimeout(function () {
+            window.location.href = '../index.html';
+          }, 700);
+        } catch (_error) {
+          setMessage('No se pudo completar la sesión del enlace. Inicia sesión manualmente.', 'error');
+        }
+      }
+
       form.addEventListener('submit', async function (event) {
         event.preventDefault();
         setMessage('', '');
@@ -109,6 +159,7 @@
 
       window.addEventListener('sma:auth-changed', renderState);
       renderState();
+      consumeAuthHash();
     })();
   </script>
 </body>
