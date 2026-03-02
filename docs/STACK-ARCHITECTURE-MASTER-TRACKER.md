@@ -209,6 +209,18 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
     - validación técnica en verde (`check-links`, `validate-diagram-semantics`, `build-html`).
     - siguiente task activa: Android `2.3` (bloque avanzado).
 
+69. Android bloque avanzado (2.3) cerrado en ciclo gradual (2026-03-02):
+    - normalización de convención de flechas en `03-senior`, `04-maestria`, `05-proyecto-final` y `anexos`.
+    - validación técnica en verde (`check-links`, `validate-diagram-semantics`, `build-html`).
+    - siguiente task activa: Android `2.4` (endurecimiento Proyecto Final).
+
+70. Android Proyecto Final endurecido (2.4) cerrado en ciclo gradual (2026-03-02):
+    - `05-proyecto-final/00-brief.md` reforzado con criterios de cierre enterprise y referencias obligatorias.
+    - `05-proyecto-final/01-rubrica-empleabilidad.md` reforzada con pesos, umbrales y bloqueadores críticos.
+    - `05-proyecto-final/02-evidencias-obligatorias.md` reforzada con mínimos cuantificables y criterio de rechazo.
+    - validación técnica en verde (`check-links`, `validate-diagram-semantics`, `build-html`).
+    - siguiente task activa: SDD `3.1` (bloque base).
+
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.
 2. Regeneración de launchers/apps de escritorio del Hub.
