@@ -1,6 +1,6 @@
 # SESSION HANDOFF
 
-Fecha de corte: 2026-03-02
+Fecha de corte: 2026-03-03
 
 ## Leyenda
 - ✅ Hecho
@@ -220,6 +220,9 @@ Repos incluidos:
    - estado operativo rápido:
      - script: `scripts/closeout-status.sh`
      - estado actual: `2026-03-02 23:56 CET` -> cooldown activo, not-before `2026-03-03 15:49:00 CET`.
+   - runner de espera automática para cierre desatendido:
+     - script: `scripts/closeout-wait-and-run.sh [fast|strict] [base_url]`
+     - validación segura: `2026-03-03 00:01 CET` con `SMA_CLOSEOUT_MAX_WAIT_SECONDS=60` (salida controlada sin intento de deploy).
 
 ## Última comprobación de espera activa
 1. Fecha: 2026-02-27.

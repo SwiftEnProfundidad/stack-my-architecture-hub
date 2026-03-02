@@ -1,6 +1,6 @@
 # STACK ARCHITECTURE MASTER TRACKER
 
-Fecha de actualización: 2026-03-02
+Fecha de actualización: 2026-03-03
 
 ## Leyenda
 - ✅ Hecho
@@ -252,6 +252,13 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
     - integración en `scripts/build-html.py` (full/public) y publicación en Hub SDD en perfil monetizable.
     - validación AGENTS en verde + `build-hub --mode fast`, `check-selective-sync-drift`, `smoke-hub-runtime` en verde.
     - siguiente task activa: Hub `5.1` (QA técnico cross-repo tras cierre de `4.3`).
+
+75. Cierre asistido por ventana de cuota reforzado en Hub (2026-03-03):
+    - nuevo runner `scripts/closeout-wait-and-run.sh` para ejecutar deploy final cuando abra la ventana de cooldown.
+    - soporta control de espera (`SMA_CLOSEOUT_MAX_WAIT_SECONDS`) y polling (`SMA_CLOSEOUT_POLL_SECONDS`) sin consumir cuota fuera de ventana.
+    - validación segura en verde:
+      - `bash -n scripts/closeout-wait-and-run.sh`
+      - `SMA_CLOSEOUT_MAX_WAIT_SECONDS=60 ./scripts/closeout-wait-and-run.sh fast` -> salida controlada por cooldown activo (sin intento).
 
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.
