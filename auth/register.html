@@ -60,12 +60,40 @@
         msg.className = text ? 'msg ' + (type || 'ok') : '';
       }
 
+      function normalizeBase(input) {
+        var value = String(input || '').trim();
+        if (!value) return '';
+        try {
+          var parsed = new URL(value);
+          if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') return '';
+          return parsed.origin;
+        } catch (_error) {
+          return '';
+        }
+      }
+
+      function isLocalHost(hostname) {
+        var host = String(hostname || '').trim().toLowerCase();
+        return host === 'localhost' || host === '127.0.0.1' || host === '::1';
+      }
+
+      function resolveAuthBase() {
+        var params = new URLSearchParams(window.location.search);
+        var fromQuery = normalizeBase(params.get('authBase') || params.get('redirectBase') || '');
+        if (fromQuery) return fromQuery;
+
+        var fromWindow = normalizeBase(String(window.__SMA_AUTH_REDIRECT_BASE || ''));
+        if (fromWindow) return fromWindow;
+
+        var fromStorage = normalizeBase(localStorage.getItem('sma:auth:redirect-base:v1') || '');
+        if (fromStorage) return fromStorage;
+
+        if (isLocalHost(window.location.hostname)) return 'https://architecture-stack.vercel.app';
+        return normalizeBase(window.location.origin) || 'https://architecture-stack.vercel.app';
+      }
+
       function resolveRedirect() {
-        var current = new URL(window.location.href);
-        current.pathname = '/auth/login.html';
-        current.search = '';
-        current.hash = '';
-        return current.toString();
+        return resolveAuthBase() + '/auth/login.html';
       }
 
       form.addEventListener('submit', async function (event) {
