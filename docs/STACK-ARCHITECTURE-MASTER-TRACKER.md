@@ -397,7 +397,9 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
     - `5.1` validaciones técnicas cross-repo cerradas en caliente (Android/SDD en verde; iOS con enlaces corregidos + baseline guardrails recalibrado + bundle QA en verde).
     - `5.2` GitFlow de cierre completado (iOS PR #38 + Hub PR #80 mergeadas).
     - `5.3` deploy final intentado y bloqueado por cuota Vercel (`api-deployments-free-per-day`, retry ~17h).
-    - bloque actual: Hub `0.3` (limpieza documental de planes históricos cerrados en `docs/`).
+    - `0.3` limpieza documental cerrada (planes cerrados archivados bajo `docs/archive/plans-closed/`).
+    - `0.4` sincronización de tracking cerrada (fuentes de verdad alineadas al plan activo).
+    - bloque actual: Hub `5.4` (cierre final + backlog residual priorizado).
     - plan activo: `docs/PLAN-AUDITORIA-CURSOS-FASES-20260302.md`.
     - matriz operativa: `docs/AUDITORIA-CURSOS-MATRIZ-20260302.tsv`.
 
@@ -406,7 +408,7 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 2. Riesgo de referencia remota en `SDD`: `origin/main` mantiene una línea distinta al baseline operativo actual (`main` local); no integrar sin instrucción explícita.
 
 ## Próximos pasos recomendados
-1. Completar `0.3` del plan activo cerrando limpieza documental y referencias de planes históricos.
+1. Completar `5.4` cerrando el plan con backlog residual priorizado y sin tareas `🚧` adicionales.
 2. Retomar `5.3` en cuanto reinicie cuota Vercel para ejecutar despliegue final.
 3. Actualizar `docs/SESSION-HANDOFF.md` al cierre de cada ola de auditoría.
 4. Mantener un único despliegue final por bloque para evitar consumo innecesario de cuota Vercel.
