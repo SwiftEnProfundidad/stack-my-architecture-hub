@@ -1566,3 +1566,22 @@ El cierre final de `5.4` sigue condicionado por la cuota diaria de despliegue (`
 ### Verificacion
 1. `bash -n scripts/closeout-wait-and-run.sh` -> OK.
 2. `SMA_CLOSEOUT_MAX_WAIT_SECONDS=60 ./scripts/closeout-wait-and-run.sh fast` -> salida controlada por cooldown activo, sin intento de deploy.
+
+## Orquestación cierre `5.4` — job programado en ventana de cuota
+### Fecha
+2026-03-03
+
+### Contexto
+Aunque el runner de espera está disponible, se programa un disparo operativo explícito para asegurar ejecución en primera ventana útil sin interacción manual.
+
+### Cambios aplicados
+1. Job `at` creado para `15:50 CET` (después de `not-before 15:49 CET`).
+2. Script del job:
+   - `.runtime/closeout-at-job.sh`.
+3. Acción del job:
+   - ejecutar `./scripts/deploy-and-verify-closeout.sh fast`.
+4. Evidencia:
+   - `atq` muestra `job 1 at Tue Mar 3 15:50:00 2026`.
+
+### Estado
+Pendiente de ejecución del job y verificación del log resultante en `.runtime/auto-closeout-*.log`.

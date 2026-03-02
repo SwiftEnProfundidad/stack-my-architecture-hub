@@ -96,6 +96,18 @@ Documento operativo de cierre para la fase `5.4` del plan activo:
    - Criterio de cierre:
      - automatización lista para ejecución desatendida durante `5.4`.
 
+9. `P3` `✅` Orquestación programada de reintento en ventana.
+   - Programación:
+     - `at 15:50` del `2026-03-03` (job `#1`), posterior al `not-before` (`15:49 CET`).
+   - Job:
+     - `.runtime/closeout-at-job.sh` -> ejecuta `./scripts/deploy-and-verify-closeout.sh fast`.
+   - Log esperado:
+     - `.runtime/auto-closeout-YYYYMMDDTHHMMSS.log`.
+   - Evidencia:
+     - `atq` muestra `job 1 at Tue Mar 3 15:50:00 2026`.
+   - Criterio de cierre:
+     - garantizar intento automático en primera ventana útil sin intervención manual.
+
 4. `P3` `⏳` Cerrar `5.4` y congelar handoff final.
    - Alcance:
      - `PLAN`, `SESSION-HANDOFF`, `MASTER-TRACKER`, `HUB-STABILITY-LOG`, `ADR-LITE`.
