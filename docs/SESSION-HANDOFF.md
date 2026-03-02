@@ -252,7 +252,7 @@ Para ver el mismo progreso en otro dispositivo/navegador limpio, abrir el curso 
    - `build-hub --mode strict`,
    - `check-selective-sync-drift` (`no drift 6/6`),
    - `smoke-hub-runtime`.
-5. 🚧 Tarea unica en construccion: cierre GitFlow completo (push + PR + merge en repos afectados) y deploy Vercel.
+5. ✅ Cierre GitFlow completo (push + PR + merge en repos afectados) y deploy Vercel ejecutados.
 
 ### Nota de continuidad
-Si se necesita validar login real en local, exportar antes `SUPABASE_URL` y `SUPABASE_ANON_KEY`. En Vercel basta con las variables de entorno del proyecto.
+La validación automática de login end-to-end queda parcialmente bloqueada si no se dispone de buzón para confirmar email (signup productivo exige confirmación). El backend/auth routes y la publicación están en verde.
