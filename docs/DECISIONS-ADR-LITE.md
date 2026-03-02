@@ -1123,3 +1123,23 @@ En viewport móvil estrecho (`<=480px`) los controles superiores de estudio debe
 ### Impacto
 1. La cola `at` se mantiene estable tras cada autoreintento.
 2. Se elimina un fallo operativo que podía perder la ventana de despliegue.
+
+## ADR-LITE-058 — Añadir comando de readiness para cierre 5.3/5.4
+### Fecha
+2026-03-03
+
+### Decisión
+1. Añadir `scripts/closeout-readiness.sh [--verbose]`.
+2. Exponer contrato de salida por código:
+   - `0`: listo para cierre de tracking.
+   - `2`: en espera por cooldown.
+   - `1`: revisión manual.
+3. Leer estado de `.runtime/auto-closeout-status.env`, cooldown activo y flag de éxito.
+
+### Motivación
+1. Reducir fricción al decidir si ya podemos cerrar `5.3` y `5.4`.
+2. Evitar interpretación manual de logs/archivos runtime durante el cierre.
+
+### Impacto
+1. Decisión de cierre más rápida y objetiva.
+2. Menor riesgo de cerrar tracking con estado incompleto.

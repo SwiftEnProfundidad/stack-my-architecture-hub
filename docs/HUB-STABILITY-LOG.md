@@ -1628,3 +1628,21 @@ La autoreprogramación de `closeout-at-job.sh` dejó la cola sin jobs por error 
 2. `atq` permanece con job activo en `15:50 CET`.
 3. Log de ejecución incluye:
    - `Scheduled closeout job at epoch: ...`
+
+## Utilidad operativa — closeout readiness
+### Fecha
+2026-03-03
+
+### Contexto
+Se necesita una verificación rápida de “listo/no listo” para cerrar `5.3/5.4` sin revisar archivos runtime manualmente.
+
+### Cambios aplicados
+1. Script nuevo: `scripts/closeout-readiness.sh [--verbose]`.
+2. Estados y salida:
+   - `0`: listo (flag de cierre completo + último exit code en `0`).
+   - `2`: espera de cooldown activa.
+   - `1`: revisión manual requerida.
+
+### Verificación
+1. `./scripts/closeout-readiness.sh` -> `EN ESPERA`, `EXIT_CODE=2`.
+2. `./scripts/closeout-readiness.sh --verbose` -> muestra tail del último log automático.

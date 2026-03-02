@@ -112,6 +112,16 @@ Documento operativo de cierre para la fase `5.4` del plan activo:
    - Criterio de cierre:
      - garantizar intento automático en primera ventana útil sin intervención manual.
 
+10. `P3` `✅` Comando único de preparación de cierre (`ready/no-ready`).
+   - Script:
+     - `scripts/closeout-readiness.sh [--verbose]`
+   - Comportamiento:
+     - `EXIT_CODE=0`: cierre listo (flag de éxito presente).
+     - `EXIT_CODE=2`: en espera por cooldown con ventana restante.
+     - `EXIT_CODE=1`: requiere revisión manual.
+   - Evidencia:
+     - `2026-03-03 00:31 CET` -> estado `EN ESPERA` + `EXIT_CODE=2` + último log del job.
+
 4. `P3` `⏳` Cerrar `5.4` y congelar handoff final.
    - Alcance:
      - `PLAN`, `SESSION-HANDOFF`, `MASTER-TRACKER`, `HUB-STABILITY-LOG`, `ADR-LITE`.
