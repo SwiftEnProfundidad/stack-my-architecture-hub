@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Registro · Stack My Architecture</title>
+  <link rel="stylesheet" href="./auth.css" />
+</head>
+
+<body>
+  <main class="wrap">
+    <section class="panel">
+      <div class="top">
+        <img class="logo" src="../assets/brand/pumuki-logo-neon.png" alt="PUMUKI" loading="lazy" decoding="async" />
+        <div>
+          <h1>Crear cuenta</h1>
+          <p class="lead">Registro con email y contraseña. Confirmación de email soportada por Supabase Auth.</p>
+        </div>
+      </div>
+
+      <form id="register-form" class="stack">
+        <div>
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" autocomplete="email" required />
+        </div>
+        <div>
+          <label for="password">Contraseña</label>
+          <input id="password" name="password" type="password" autocomplete="new-password" minlength="8" required />
+        </div>
+        <div>
+          <label for="password2">Repite contraseña</label>
+          <input id="password2" name="password2" type="password" autocomplete="new-password" minlength="8" required />
+        </div>
+        <div class="row">
+          <button class="btn btn-primary" type="submit">Crear cuenta</button>
+          <a class="btn" href="./login.html">Ya tengo cuenta</a>
+          <a class="btn" href="./index.html">Volver</a>
+        </div>
+      </form>
+
+      <div id="msg"></div>
+    </section>
+  </main>
+
+  <script src="../assets/auth-client.js"></script>
+  <script>
+    (function () {
+      var form = document.getElementById('register-form');
+      var msg = document.getElementById('msg');
+
+      function setMessage(text, type) {
+        msg.textContent = text || '';
+        msg.className = text ? 'msg ' + (type || 'ok') : '';
+      }
+
+      function resolveRedirect() {
+        var current = new URL(window.location.href);
+        current.pathname = '/auth/login.html';
+        current.search = '';
+        current.hash = '';
+        return current.toString();
+      }
+
+      form.addEventListener('submit', async function (event) {
+        event.preventDefault();
+        setMessage('', '');
+        var email = form.email.value.trim();
+        var password = form.password.value;
+        var password2 = form.password2.value;
+
+        if (!email || !password) {
+          setMessage('Completa email y contraseña.', 'error');
+          return;
+        }
+        if (password !== password2) {
+          setMessage('Las contraseñas no coinciden.', 'error');
+          return;
+        }
+
+        try {
+          var result = await window.SMAAuth.signup({
+            email: email,
+            password: password,
+            emailRedirectTo: resolveRedirect()
+          });
+
+          if (result.requiresEmailConfirmation) {
+            setMessage('Cuenta creada. Revisa tu email para confirmar antes de iniciar sesión.', 'ok');
+            return;
+          }
+
+          setMessage('Registro completado y sesión iniciada. Redirigiendo al hub...', 'ok');
+          setTimeout(function () {
+            window.location.href = '../index.html';
+          }, 600);
+        } catch (error) {
+          setMessage(error && error.message ? error.message : 'No se pudo completar el registro.', 'error');
+        }
+      });
+    })();
+  </script>
+</body>
+
+</html>

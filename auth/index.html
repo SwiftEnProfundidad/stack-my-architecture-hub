@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Acceso · Stack My Architecture</title>
+  <link rel="stylesheet" href="./auth.css" />
+</head>
+
+<body>
+  <main class="wrap">
+    <section class="panel">
+      <div class="top">
+        <img class="logo" src="../assets/brand/pumuki-logo-neon.png" alt="PUMUKI" loading="lazy" decoding="async" />
+        <div>
+          <h1>Acceso de cuenta</h1>
+          <p class="lead">Regístrate o inicia sesión para persistir progreso por usuario entre dispositivos.</p>
+        </div>
+      </div>
+
+      <div class="row">
+        <a class="btn btn-primary" href="./register.html">Crear cuenta</a>
+        <a class="btn" href="./login.html">Iniciar sesión</a>
+        <a class="btn" href="../index.html">Volver al hub</a>
+      </div>
+
+      <div id="session-state" class="state-box"></div>
+      <div id="msg"></div>
+    </section>
+  </main>
+
+  <script src="../assets/auth-client.js"></script>
+  <script>
+    (function () {
+      var state = document.getElementById('session-state');
+      var msg = document.getElementById('msg');
+
+      function setMessage(text, type) {
+        if (!text) {
+          msg.textContent = '';
+          msg.className = '';
+          return;
+        }
+        msg.textContent = text;
+        msg.className = 'msg ' + (type || 'ok');
+      }
+
+      function renderState() {
+        var user = window.SMAAuth.getUser();
+        var session = window.SMAAuth.getSession();
+        if (!user || !session) {
+          state.innerHTML = '<strong>Estado:</strong> sin sesión activa.';
+          return;
+        }
+        state.innerHTML = '<strong>Sesión activa</strong><br><span class="muted">Usuario:</span> <code>' +
+          escapeHtml(user.email || user.id) + '</code><br><span class="muted">ID:</span> <code>' +
+          escapeHtml(user.id || '') + '</code>';
+      }
+
+      function escapeHtml(value) {
+        return String(value || '')
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;');
+      }
+
+      window.addEventListener('sma:auth-changed', renderState);
+      renderState();
+
+      window.SMAAuth.config()
+        .then(function (cfg) {
+          if (!cfg.enabled) {
+            setMessage('Autenticación cloud no disponible en este entorno.', 'error');
+            return;
+          }
+          setMessage('Autenticación lista. Puedes continuar con registro o login.', 'ok');
+        })
+        .catch(function (error) {
+          setMessage(error && error.message ? error.message : 'No se pudo cargar configuración auth.', 'error');
+        });
+    })();
+  </script>
+</body>
+
+</html>
