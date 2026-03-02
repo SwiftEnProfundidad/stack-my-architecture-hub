@@ -1159,3 +1159,21 @@ En viewport móvil estrecho (`<=480px`) los controles superiores de estudio debe
 ### Impacto
 1. Mayor confiabilidad operativa en la fase final de cierre.
 2. Menor riesgo de no ejecutar deploy al abrir la cuota.
+
+## ADR-LITE-060 — Añadir test de regresión para `closeout-readiness`
+### Fecha
+2026-03-03
+
+### Decisión
+1. Crear `scripts/tests/test-closeout-readiness.sh`.
+2. Permitir inyección de `at/atq` en `closeout-readiness.sh` vía:
+   - `SMA_ATQ_CMD`
+   - `SMA_AT_CAT_CMD`
+
+### Motivación
+1. Validar estados críticos del cierre automático sin manipular cola real de `at`.
+2. Evitar regresiones en la lógica de salida (`1/3/2/0`) durante la espera de cuota.
+
+### Impacto
+1. Mayor seguridad operativa del bloque `5.4`.
+2. Cambios futuros en readiness podrán verificarse de forma repetible.

@@ -233,6 +233,7 @@ Repos incluidos:
    - comando operativo de readiness:
      - `scripts/closeout-readiness.sh [--verbose]` para saber si 5.3/5.4 están listos de cierre sin inspección manual.
      - guard adicional: verifica cola `at`; si no hay job automático activo con cooldown vigente devuelve `EXIT_CODE=3`.
+     - cobertura de regresión: `scripts/tests/test-closeout-readiness.sh` valida los 4 estados (`1/3/2/0`) sin tocar la cola real de `at`.
 
 ## Última comprobación de espera activa
 1. Fecha: 2026-02-27.

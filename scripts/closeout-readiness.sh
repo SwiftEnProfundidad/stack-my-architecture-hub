@@ -11,6 +11,8 @@ COOLDOWN_FILE="$RUNTIME_DIR/vercel-deploy-cooldown.env"
 COMPLETE_FLAG="$RUNTIME_DIR/closeout-complete.flag"
 
 verbose="${1:-}"
+ATQ_CMD="${SMA_ATQ_CMD:-atq}"
+AT_CAT_CMD="${SMA_AT_CAT_CMD:-at}"
 
 print_log_tail() {
   local path="$1"
@@ -22,13 +24,13 @@ print_log_tail() {
 
 find_active_closeout_job() {
   local jobs line job_id job_body
-  jobs="$(atq 2>/dev/null || true)"
+  jobs="$("$ATQ_CMD" 2>/dev/null || true)"
   [[ -z "$jobs" ]] && return 1
 
   while IFS= read -r line; do
     [[ -z "$line" ]] && continue
     job_id="$(printf '%s\n' "$line" | awk '{print $1}')"
-    job_body="$(at -c "$job_id" 2>/dev/null || true)"
+    job_body="$("$AT_CAT_CMD" -c "$job_id" 2>/dev/null || true)"
     if printf '%s\n' "$job_body" | rg -q "scripts/closeout-at-job\\.sh|closeout-at-job\\.sh"; then
       printf '%s\n' "$line"
       return 0

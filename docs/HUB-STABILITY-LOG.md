@@ -1649,3 +1649,22 @@ Se necesita una verificación rápida de “listo/no listo” para cerrar `5.3/5
 ### Verificación
 1. `./scripts/closeout-readiness.sh` -> `EN ESPERA`, `EXIT_CODE=2`, job automático activo visible.
 2. `./scripts/closeout-readiness.sh --verbose` -> muestra tail del último log automático.
+
+## QA de automatización — tests de closeout readiness
+### Fecha
+2026-03-03
+
+### Contexto
+Se añade cobertura para evitar regresiones en el comando de readiness justo antes del cierre final.
+
+### Cambios aplicados
+1. `scripts/closeout-readiness.sh` soporta inyección de comandos:
+   - `SMA_ATQ_CMD`
+   - `SMA_AT_CAT_CMD`
+2. Nuevo test:
+   - `scripts/tests/test-closeout-readiness.sh`.
+
+### Verificación
+1. `./scripts/tests/test-closeout-readiness.sh` -> `[PASS] closeout-readiness tests`.
+2. Cola real preservada:
+   - `atq` mantiene job activo en `15:50 CET`.
