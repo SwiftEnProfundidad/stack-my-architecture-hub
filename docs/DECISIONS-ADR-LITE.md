@@ -187,6 +187,25 @@ Cerrar el backlog de trazabilidad scaffold pendiente en iOS (Etapa 5) y publicar
 2. Auditoría `AUDITORIA-TRAZABILIDAD-SCAFFOLD` queda en `Hallazgos: total=0 (P1=0, P2=0)`.
 3. Hub mantiene `no drift (6/6)` y smoke runtime OK tras sync selectivo de `ios`.
 
+## ADR-LITE-036 — Plan único activo de auditoría gradual de cursos
+### Fecha
+2026-03-02
+
+### Decisión
+Consolidar el seguimiento en un único plan operativo activo y una única matriz de auditoría transversal:
+1. `docs/PLAN-AUDITORIA-CURSOS-FASES-20260302.md`
+2. `docs/AUDITORIA-CURSOS-MATRIZ-20260302.tsv`
+
+### Motivación
+1. Evitar dispersión entre múltiples planes parcialmente solapados.
+2. Garantizar una sola tarea en construcción con trazabilidad por lección.
+3. Permitir ejecución gradual en caliente por orden iOS -> Android -> SDD sin perder continuidad.
+
+### Impacto
+1. Los planes anteriores quedan como histórico de evidencia y no como plan activo.
+2. El estado operativo se actualiza desde el nuevo plan y se replica en `MASTER-TRACKER` y `SESSION-HANDOFF`.
+3. Se habilita limpieza posterior de planes históricos cerrados para mantener `docs/` limpio.
+
 ## ADR-LITE-012 — Geometría centrada de flechas en leyenda Mermaid
 ### Fecha
 2026-02-26
@@ -721,3 +740,62 @@ Normalizar la URL de curso para que siempre incluya `progressProfile` activo en 
 1. El Hub soporta identidad de usuario real y progreso scoped por cuenta.
 2. iOS/Android/SDD pueden usar bearer token automaticamente cuando hay sesion.
 3. La operacion local conserva modo degradado estable sin bloquear estudio offline.
+
+
+## ADR-LITE-037 — Convención unificada de fases y Proyecto Final obligatorio
+### Fecha
+2026-03-02
+
+### Decisión
+Unificar la nomenclatura de fases en cursos iOS y Android y exigir `Proyecto Final` obligatorio en iOS, Android y SDD:
+1. ETAPA 0: CORE MOBILE
+2. ETAPA 1: JUNIOR
+3. ETAPA 2: MIDLEVEL
+4. ETAPA 3: SENIOR
+5. ETAPA 4: ARQUITECTO
+6. ETAPA 5: MAESTRIA
+7. ETAPA 6: PROYECTO FINAL
+
+### Motivación
+1. Evitar inconsistencias entre cursos al navegar por fases equivalentes.
+2. Garantizar cierre formativo evaluable en todos los tracks.
+3. Alinear progresión pedagógica con objetivo de empleabilidad y defensa técnica.
+
+### Impacto
+1. Labels y tracking se adaptan primero, sin renombrar carpetas físicas para evitar regresiones.
+2. Cada curso debe incluir un proyecto final con alcance, entregables y rúbrica de evaluación.
+3. El plan activo y la matriz de auditoría usan esta convención como baseline.
+
+## ADR-LITE-038 — Controles de estudio móviles en dos filas sin overflow
+### Fecha
+2026-03-02
+
+### Decisión
+En viewport móvil estrecho (`<=480px`) los controles superiores de estudio deben:
+1. Envolver en dos filas (`flex-wrap`) sin scroll horizontal.
+2. Priorizar `#study-progress` en primera fila.
+3. Mantener botón `💬 Asistente IA` visible dentro del viewport en iOS/Android/SDD.
+
+### Motivación
+1. Evitar clipping/overflow en navegación de curso y mejorar legibilidad en iPhone.
+2. Cerrar regresión visual recurrente detectada en `4.1`.
+
+### Impacto
+1. UX móvil consistente y sin desbordes en los tres cursos.
+2. Cierre operativo de `4.1` y apertura del bloque `4.2` (auth/logout/acceso) como única tarea en construcción.
+
+## ADR-LITE-039 — Logout con limpieza de perfil cloud y `next` saneado
+### Fecha
+2026-03-02
+
+### Decisión
+1. En logout se elimina también `sma:cloud:profile:v1` además de la sesión/usuario.
+2. Los redireccionamientos a login desde cursos deben usar `next` sin parámetros de sincronización (`progressProfile`, `progressBase`, `progressEndpoint`).
+
+### Motivación
+1. Evitar arrastre de identidad/perfil entre sesiones cerradas.
+2. Evitar URLs de login con trazas de perfil previo tras logout o acceso sin sesión.
+
+### Impacto
+1. Flujo auth/logout/acceso más robusto para monetización y multi-dispositivo.
+2. Cierre operativo de `4.2` y transición a `4.3` (validación visual cross-theme/cross-device).

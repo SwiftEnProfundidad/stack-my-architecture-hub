@@ -163,6 +163,95 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
       - `./scripts/build-hub.sh --mode fast` -> PASS
       - `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`
       - `./scripts/smoke-hub-runtime.sh` -> OK
+61. Auditoría iOS ETAPA 1 cerrada en ciclo gradual (2026-03-02):
+    - limpieza de markers automáticos en `01-fundamentos`.
+    - corrección de cierres Mermaid (` ```text` -> ` ``` ` al cierre de bloque Mermaid).
+    - convención de flechas unificada (`==>` -> `-.o`) en ETAPA 1.
+
+62. Auditoría iOS ETAPA 2 cerrada en ciclo gradual (2026-03-02):
+    - limpieza de markers automáticos en `02-integracion`.
+    - corrección de cierres Mermaid en bloque (` ```text` -> ` ``` `).
+    - convención de flechas mantenida con baseline de 4 semánticas.
+    - siguiente task activa: iOS `ETAPA 3: SENIOR` (`1.4`).
+
+63. Auditoría iOS ETAPA 3 cerrada en ciclo gradual (2026-03-02):
+    - limpieza de markers automáticos en `03-evolucion`.
+    - corrección de cierres Mermaid en bloque (` ```text` -> ` ``` `).
+    - convención de flechas mantenida con baseline de 4 semánticas.
+    - siguiente task activa: iOS `ETAPA 4: ARQUITECTO` (`1.5`).
+
+64. Auditoría iOS ETAPA 4 cerrada en ciclo gradual (2026-03-02):
+    - limpieza de markers automáticos en `04-arquitecto`.
+    - corrección de cierres Mermaid en bloque (` ```text` -> ` ``` `).
+    - convención de flechas mantenida con baseline de 4 semánticas.
+    - siguiente task activa: iOS `ETAPA 5: MAESTRIA + ANEXOS` (`1.6`).
+
+65. Auditoría iOS ETAPA 5 + anexos cerrada en ciclo gradual (2026-03-02):
+    - limpieza de markers automáticos en `05-maestria` y `anexos`.
+    - corrección de cierres Mermaid en bloque (` ```text` -> ` ``` `).
+    - convención de flechas mantenida con baseline de 4 semánticas.
+    - siguiente task activa: iOS `ETAPA 6: PROYECTO FINAL` (`1.7`).
+
+66. ETAPA 6 iOS Proyecto Final materializada (2026-03-02):
+    - nueva sección `06-proyecto-final` integrada al build y navegación del curso.
+    - lecciones añadidas: brief técnico del reto + rúbrica/entrega/defensa.
+    - validación técnica en verde (`validate-diagram-semantics`, `build-html`).
+    - siguiente task activa: Android `2.1` (bloque inicial).
+
+67. Android bloque inicial (2.1) cerrado en ciclo gradual (2026-03-02):
+    - normalización de convención de flechas en `00-nivel-cero` y `00-core-mobile`.
+    - validación técnica en verde (`check-links`, `validate-diagram-semantics`, `build-html`).
+    - siguiente task activa: Android `2.2` (bloque intermedio).
+
+68. Android bloque intermedio (2.2) cerrado en ciclo gradual (2026-03-02):
+    - normalización de convención de flechas en `01-junior` y `02-midlevel`.
+    - corrección de cierres Mermaid y limpieza de markers auto en lecciones afectadas.
+    - validación técnica en verde (`check-links`, `validate-diagram-semantics`, `build-html`).
+    - siguiente task activa: Android `2.3` (bloque avanzado).
+
+69. Android bloque avanzado (2.3) cerrado en ciclo gradual (2026-03-02):
+    - normalización de convención de flechas en `03-senior`, `04-maestria`, `05-proyecto-final` y `anexos`.
+    - validación técnica en verde (`check-links`, `validate-diagram-semantics`, `build-html`).
+    - siguiente task activa: Android `2.4` (endurecimiento Proyecto Final).
+
+70. Android Proyecto Final endurecido (2.4) cerrado en ciclo gradual (2026-03-02):
+    - `05-proyecto-final/00-brief.md` reforzado con criterios de cierre enterprise y referencias obligatorias.
+    - `05-proyecto-final/01-rubrica-empleabilidad.md` reforzada con pesos, umbrales y bloqueadores críticos.
+    - `05-proyecto-final/02-evidencias-obligatorias.md` reforzada con mínimos cuantificables y criterio de rechazo.
+    - validación técnica en verde (`check-links`, `validate-diagram-semantics`, `build-html`).
+    - siguiente task activa: SDD `3.1` (bloque base).
+
+71. SDD bloque base (3.1) cerrado en ciclo gradual (2026-03-02):
+    - cierre de fences Mermaid en `00-preparacion`, `01-roadmap`, `02-semana-01` ... `09-semana-08` para evitar render ambiguo.
+    - matriz de auditoría ampliada para cubrir 85/85 lecciones del alcance (incluye `00-preparacion/07-11`).
+    - validación AGENTS en verde:
+      - `validate-course-structure`, `validate-openspec`, `check-links`, `validate-pedagogy`, `validate-markdown-snippets`, `validate-diagram-semantics`, `build-html`, `swift test`.
+    - siguiente task activa: SDD `3.2` (semanas 09-16 y anexos).
+
+72. SDD bloque avanzado (3.2) cerrado en ciclo gradual (2026-03-02):
+    - cierre consistente de transición Mermaid->texto en semanas `10` a `17` para evitar ambigüedad de render.
+    - anexos auditados sin hallazgos críticos ni cambios obligatorios en esta ola.
+    - validación AGENTS en verde:
+      - `validate-course-structure`, `validate-openspec`, `check-links`, `validate-pedagogy`, `validate-markdown-snippets`, `validate-diagram-semantics`, `build-html`, `swift test`.
+    - siguiente task activa: SDD `3.3` (perfil público monetizable).
+
+73. Perfil público monetizable SDD (3.3) cerrado en ciclo gradual (2026-03-02):
+    - `scripts/build-html.py` soporta `SMA_BUILD_PROFILE=public` para excluir `00-informe`, `docs` y `openspec`.
+    - `scripts/build-hub.sh` publica SDD en perfil `public` por defecto (`SMA_SDD_BUILD_PROFILE`, override a `full` disponible).
+    - validación de perfiles cerrada:
+      - `full` mantiene lecciones internas en `data-lesson-path`.
+      - `public` elimina lecciones internas sin romper navegación de roadmap/semanas/anexos.
+      - `build-hub --mode fast`, `check-selective-sync-drift`, `smoke-hub-runtime` en verde.
+    - siguiente task activa: SDD `3.4` (Proyecto Final obligatorio).
+
+74. Proyecto Final SDD obligatorio (3.4) cerrado en ciclo gradual (2026-03-02):
+    - nueva sección pública `18-proyecto-final` con:
+      - brief integrador enterprise,
+      - entregables/evidencia obligatoria,
+      - rúbrica ponderada + defensa final.
+    - integración en `scripts/build-html.py` (full/public) y publicación en Hub SDD en perfil monetizable.
+    - validación AGENTS en verde + `build-hub --mode fast`, `check-selective-sync-drift`, `smoke-hub-runtime` en verde.
+    - siguiente task activa: Hub `4.3` (validación visual de temas/viewport tras cierre de `4.2`).
 
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.
@@ -301,18 +390,23 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 37. ✅ Ejecutar Fase 7 de optimización de badges del índice (idle global + update inmediato por tópico) en iOS/Android/SDD + sync Hub.
 38. ✅ Ejecutar Fase 8 de optimización de imágenes de arquitectura iOS (webp + fallback png) y sync Hub en verde.
 39. ✅ Restaurar UX del dropdown de cursos en móvil (overlay visible sin clipping) en iOS/Android/SDD + sync Hub.
+40. 🚧 Ejecutar auditoría gradual en caliente por lección con plan único activo:
+    - `4.1` Hub UX/UI responsive cerrado en caliente (iOS/Android/SDD sin overflow del control IA en móvil).
+    - `4.2` auth/logout/acceso cerrado en caliente (logout con limpieza total de identidad/perfil + `next` saneado).
+    - bloque actual: Hub `4.3` (validación visual en 3 temas + mobile/desktop + iPhone).
+    - plan activo: `docs/PLAN-AUDITORIA-CURSOS-FASES-20260302.md`.
+    - matriz operativa: `docs/AUDITORIA-CURSOS-MATRIZ-20260302.tsv`.
 
 ## Bloqueos actuales
 1. Riesgo de seguimiento: confusión en `codex resume` por filtro de `cwd`.
 2. Riesgo de referencia remota en `SDD`: `origin/main` mantiene una línea distinta al baseline operativo actual (`main` local); no integrar sin instrucción explícita.
 
 ## Próximos pasos recomendados
-1. Mantener este tracker como fuente única de estado transversal.
-2. Mantener un único despliegue final por bloque para evitar consumo innecesario de cuota Vercel.
-3. Mantener política anti-bucle y registrar nuevos ciclos solo con trigger real.
-4. Aplicar sync selectivo por curso (iOS/Android/SDD) cuando se cierren nuevos bloques en repos fuente.
-5. Actualizar `docs/SESSION-HANDOFF.md` al cerrar cada sesión de trabajo.
-6. Consolidar próximas decisiones operativas en `docs/DECISIONS-ADR-LITE.md`.
+1. Completar `4.3` del plan activo sobre validación visual cross-theme/cross-device y registrar evidencia en tracking.
+2. Cerrar limpieza documental de planes históricos (`0.3`) sin perder trazabilidad operativa.
+3. Actualizar `docs/SESSION-HANDOFF.md` al cierre de cada ola de auditoría.
+4. Mantener un único despliegue final por bloque para evitar consumo innecesario de cuota Vercel.
+5. Consolidar decisiones operativas del nuevo ciclo en `docs/DECISIONS-ADR-LITE.md`.
 
 ## Última validación operativa
 1. Runtime smoke: `./scripts/smoke-hub-runtime.sh` -> OK.

@@ -46,6 +46,7 @@ SDD_OUTPUT="$SDD_ROOT/dist"
 MODE="strict"
 SDD_AUDIT_RAN=0
 RUNTIME_SMOKE_RAN=0
+SDD_BUILD_PROFILE="${SMA_SDD_BUILD_PROFILE:-public}"
 
 usage() {
   cat <<'EOF'
@@ -135,6 +136,11 @@ if [[ "$MODE" != "strict" && "$MODE" != "fast" ]]; then
   exit 1
 fi
 
+if [[ "$SDD_BUILD_PROFILE" != "full" && "$SDD_BUILD_PROFILE" != "public" ]]; then
+  echo "[ERROR] Unsupported SMA_SDD_BUILD_PROFILE: $SDD_BUILD_PROFILE (allowed: full, public)"
+  exit 1
+fi
+
 if [[ "${SKIP_SDD_AUDIT:-0}" == "1" && "$MODE" == "strict" ]]; then
   say "WARNING: SKIP_SDD_AUDIT=1 detected, forcing mode=fast for backward compatibility."
   MODE="fast"
@@ -172,8 +178,8 @@ say "[2/8] Building Android HTML output..."
 python3 "$ANDROID_ROOT/scripts/build-html.py"
 
 if [[ "$MODE" == "fast" ]]; then
-  say "[3/8] Fast mode: skipping strict SDD gate and building SDD HTML only..."
-  python3 "$SDD_ROOT/scripts/build-html.py"
+  say "[3/8] Fast mode: skipping strict SDD gate and building SDD HTML only (profile=$SDD_BUILD_PROFILE)..."
+  SMA_BUILD_PROFILE="$SDD_BUILD_PROFILE" python3 "$SDD_ROOT/scripts/build-html.py"
 else
   if [[ ! -x "$SDD_AUDIT_SCRIPT" ]]; then
     echo "[ERROR] Missing or non-executable SDD audit script: $SDD_AUDIT_SCRIPT"
@@ -182,6 +188,8 @@ else
   say "[3/8] Running strict SDD full audit gate..."
   "$SDD_AUDIT_SCRIPT"
   SDD_AUDIT_RAN=1
+  say "[3/8] Rebuilding SDD HTML with profile=$SDD_BUILD_PROFILE for Hub publication..."
+  SMA_BUILD_PROFILE="$SDD_BUILD_PROFILE" python3 "$SDD_ROOT/scripts/build-html.py"
 fi
 
 copy_dir() {

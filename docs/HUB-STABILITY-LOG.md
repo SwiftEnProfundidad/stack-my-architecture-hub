@@ -178,10 +178,72 @@ Se aplicó optimización runtime en generadores de cursos (`iOS`, `Android`, `SD
    - `/sdd/index.html` -> OK
 2. Validación visual Playwright local:
    - render inicial diferido confirmado (solo subset inicial de Mermaid/snippets en primer paint).
+
+## Arranque auditoría gradual por fases (iOS -> Android -> SDD)
+### Fecha
+2026-03-02
+
+### Contexto
+Se activa un plan único de auditoría gradual con tracking transversal para evitar duplicidad de planes y ejecutar correcciones en caliente por lección.
+
+### Evidencia versionada
+1. Plan activo: `docs/PLAN-AUDITORIA-CURSOS-FASES-20260302.md`
+2. Matriz operativa: `docs/AUDITORIA-CURSOS-MATRIZ-20260302.tsv`
+3. Bloque en construcción: Hub `4.3` (validación visual temas/viewport tras cierre de 4.2).
+
+### Estado de estabilidad
+1. Sin impacto en rutas públicas del Hub en esta actualización documental.
+2. Se mantiene la política de despliegue controlado (sin deploy automático durante ola de auditoría).
    - incremento progresivo de render al navegar/scroll.
 
 ### Resultado
 Sin regresión de apertura de cursos y con carga inicial más liviana en cliente móvil.
+
+## Cierre Fase 4.1 — UX/UI responsive de controles de estudio
+### Fecha
+2026-03-02
+
+### Cambios aplicados
+1. `study-ux.css` en iOS/Android/SDD:
+   - `#study-ux-controls` ahora usa `flex-wrap: wrap` y `overflow-x: visible` en `<=480px`.
+   - `#study-progress` pasa a fila completa (`flex: 1 1 100%`, `order: -1`) para liberar espacio horizontal.
+   - `#theme-controls` también envuelve (`flex-wrap`) sin overflow lateral.
+2. Sync en Hub de bundles iOS/Android/SDD tras rebuild.
+
+### Evidencia técnica
+1. `python3 scripts/build-html.py` en iOS/Android/SDD -> PASS.
+2. `./scripts/build-hub.sh --mode fast` -> PASS.
+3. `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
+4. `./scripts/smoke-hub-runtime.sh` -> OK.
+5. Playwright `390x844` en iOS/Android/SDD:
+   - botón `💬 Asistente IA` dentro de viewport (`overflowsViewport=false`).
+   - contenedor de controles sin overflow horizontal (`scrollWidth == clientWidth`).
+
+### Resultado
+Fase `4.1` cerrada sin regresiones de rutas ni de apertura de cursos; siguiente bloque activo `4.2` (auth/logout/acceso).
+
+## Cierre Fase 4.2 — hardening auth/logout/acceso a cursos
+### Fecha
+2026-03-02
+
+### Cambios aplicados
+1. `assets/course-switcher.js` (iOS/Android/SDD):
+   - logout limpia identidad y perfil cloud (`sma:auth:user:v1`, `sma:auth:session:v1`, `sma:cloud:profile:v1`).
+   - redirección a login usa `next` saneado sin `progressProfile/progressBase/progressEndpoint`.
+2. `assets/auth-client.js`:
+   - `clearAuth()` también elimina `sma:cloud:profile:v1`.
+
+### Evidencia técnica
+1. `./scripts/build-hub.sh --mode fast` -> PASS.
+2. `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
+3. `./scripts/smoke-hub-runtime.sh` -> OK.
+4. Playwright runtime:
+   - acceso sin sesión a `/ios/index.html` -> redirección obligatoria a `/auth/login.html?...`.
+   - tras logout desde curso -> redirección a login y bloqueo de reentrada sin login.
+   - keys auth/cloud profile ausentes tras logout (`null`).
+
+### Resultado
+Fase `4.2` cerrada sin regresiones de rutas públicas ni de apertura autenticada; siguiente bloque activo `4.3`.
 
 ## Regresión post-hardening del asistente IA en runtime móvil (Fase 4)
 ### Fecha

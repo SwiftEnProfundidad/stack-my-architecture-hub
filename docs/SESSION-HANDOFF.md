@@ -153,6 +153,33 @@ Repos incluidos:
      - `./scripts/build-hub.sh --mode fast` -> PASS
      - `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`
      - `./scripts/smoke-hub-runtime.sh` -> OK
+12. 🚧 Nuevo ciclo activo de auditoria gradual por leccion:
+   - plan activo unico: `docs/PLAN-AUDITORIA-CURSOS-FASES-20260302.md`
+   - matriz operativa: `docs/AUDITORIA-CURSOS-MATRIZ-20260302.tsv`
+   - `1.1` iOS `ETAPA 0: CORE MOBILE` cerrada en caliente (normalizacion de flechas, narrativa y jerarquia de encabezados).
+   - `1.2` iOS `ETAPA 1: JUNIOR` cerrada en caliente (fences Mermaid, markers auto y convención de flechas alineados).
+   - `1.3` iOS `ETAPA 2: MIDLEVEL` cerrada en caliente (fences Mermaid, markers auto y convención de flechas alineados).
+   - `1.4` iOS `ETAPA 3: SENIOR` cerrada en caliente (fences Mermaid, markers auto y convención de flechas alineados).
+   - `1.5` iOS `ETAPA 4: ARQUITECTO` cerrada en caliente (fences Mermaid, markers auto y convención de flechas alineados).
+   - `1.6` iOS `ETAPA 5: MAESTRIA + ANEXOS` cerrada en caliente (fences Mermaid, markers auto y convención de flechas alineados).
+   - `1.7` iOS `ETAPA 6: PROYECTO FINAL` cerrada con sección propia (`06-proyecto-final`) y rúbrica de entrega defendible.
+   - `2.1` Android bloque inicial cerrado en caliente (`00-nivel-cero`, `00-core-mobile`) con convención de flechas alineada.
+   - `2.2` Android bloque intermedio cerrado en caliente (`01-junior`, `02-midlevel`) con convención de flechas y fences Mermaid alineados.
+   - `2.3` Android bloque avanzado cerrado en caliente (`03-senior`, `04-maestria`, `05-proyecto-final`, `anexos`) con convención de flechas alineada.
+   - `2.4` Android Proyecto Final endurecido en caliente (brief/rúbrica/evidencias con criterio enterprise defendible).
+   - `3.1` SDD bloque base cerrado en caliente (`00-preparacion`, `01-roadmap`, semanas 01-08) con cierre consistente de fences Mermaid.
+   - `3.2` SDD bloque avanzado cerrado en caliente (semanas 09-16 con cierre consistente de fences Mermaid, anexos auditados sin regresión).
+   - `3.3` perfil público monetizable SDD cerrado (build profile público excluye `00-informe`, `docs`, `openspec` sin romper perfil local full).
+   - `3.4` Proyecto Final SDD obligatorio cerrado con sección pública dedicada (`18-proyecto-final`) y rúbrica de defensa.
+   - `4.1` Hub UX/UI responsive cerrado en caliente con fix cross-course de controles móviles:
+     - `#study-ux-controls` y `#theme-controls` ahora envuelven (`flex-wrap`) sin overflow horizontal.
+     - `#study-progress` pasa a primera fila en `<=480px` para evitar clipping del botón `💬 Asistente IA`.
+     - verificado en iOS/Android/SDD (`390x844`) con Playwright: sin desbordes de viewport.
+   - `4.2` auth/logout/acceso cerrado en caliente:
+     - logout limpia `sma:auth:user:v1`, `sma:auth:session:v1` y `sma:cloud:profile:v1`.
+     - accesos directos sin sesión redirigen a login con `next` saneado (sin `progressProfile/progressBase/progressEndpoint`).
+     - verificado en runtime: acceso bloqueado sin sesión y reentrada al curso exige login.
+   - tarea en construccion actual: `4.3` (validación 3 temas visuales + mobile/desktop + iPhone con Playwright).
 
 ## Última comprobación de espera activa
 1. Fecha: 2026-02-27.
@@ -194,10 +221,10 @@ Repos incluidos:
 31. ✅ Fase 8 de optimización de imágenes de arquitectura iOS para móvil (`webp` + fallback `png`).
 
 ## Siguiente paso concreto
-1. Mantener este paquete `docs/` como fuente de verdad transversal.
-2. Abrir próximo bloque operativo solo ante trigger real (nueva mejora o incidencia).
-3. Mantener commits atómicos al abrir próximo bloque operativo real.
-4. Actualizar handoff al cerrar cada bloque real.
+1. Ejecutar `4.3` del plan activo (temas visuales + mobile/desktop + iPhone) con evidencia Playwright.
+2. Completar `0.3` (limpieza de planes historicos cerrados) para dejar `docs/` sin duplicados activos.
+3. Mantener commits atomicos y GitFlow estricto por bloque.
+4. Actualizar handoff al cerrar cada ola real de auditoria.
 
 ## Riesgos abiertos
 1. `codex resume` filtra por `cwd` si no se usa `--all`.
