@@ -900,3 +900,20 @@ En viewport móvil estrecho (`<=480px`) los controles superiores de estudio debe
 ### Impacto
 1. Backlog residual centralizado y accionable.
 2. Cierre `5.4` más predecible al quedar checklist y criterios de aceptación explicitados.
+
+## ADR-LITE-046 — Reintento de 5.3, bloqueo persistente y ventana concreta de retry
+### Fecha
+2026-03-02
+
+### Decisión
+1. Registrar explícitamente un segundo intento de deploy productivo de `5.3`.
+2. Mantener `5.3` en `⛔` tras repetir el mismo error de cuota (`api-deployments-free-per-day`).
+3. Fijar próxima ventana estimada de reintento a partir de `2026-03-03 16:37 CET`.
+
+### Motivación
+1. Evitar ambigüedad sobre si el bloqueo ya fue revalidado o solo asumido.
+2. Dar una marca temporal concreta para reanudación operativa.
+
+### Impacto
+1. Backlog `5.4` queda sincronizado con evidencia temporal verificable.
+2. Se reduce retrabajo y ruido de intentos fuera de ventana útil.

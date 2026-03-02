@@ -305,7 +305,11 @@ Fase `5.2` cerrada en verde; bloque activo movido a `5.3` (deploy final en Verce
 2. Resultado: bloqueo de proveedor por cuota diaria:
    - `api-deployments-free-per-day`
    - mensaje de retry: `try again in 17 hours`.
-3. Fase `5.3` pasa a `⛔` hasta reset de cuota.
+3. Reintento validado:
+   - `2026-03-02 23:37 CET` -> mismo bloqueo (`api-deployments-free-per-day`, retry `17 hours`).
+4. Próxima ventana estimada:
+   - `2026-03-03 16:37 CET` o posterior.
+5. Fase `5.3` pasa a `⛔` hasta reset de cuota.
 
 ### Pivot operativo
 1. Mientras se libera cuota, el bloque activo pasa a `0.3` para limpiar planes históricos cerrados en `docs/`.
