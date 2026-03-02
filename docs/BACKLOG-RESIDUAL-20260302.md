@@ -35,6 +35,10 @@ Documento operativo de cierre para la fase `5.4` del plan activo:
      - `https://architecture-stack.vercel.app/ios/`
      - `https://architecture-stack.vercel.app/android/`
      - `https://architecture-stack.vercel.app/sdd/`
+   - Automatización disponible:
+     - `scripts/smoke-public-routes.sh [base_url]`
+   - Evidencia pre-deploy (baseline):
+     - `2026-03-02 23:39 CET` -> `200` en las 4 rutas con `./scripts/smoke-public-routes.sh`
    - Criterio de cierre:
      - HTTP `200` en las 4 rutas.
 

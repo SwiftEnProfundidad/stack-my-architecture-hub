@@ -917,3 +917,20 @@ En viewport móvil estrecho (`<=480px`) los controles superiores de estudio debe
 ### Impacto
 1. Backlog `5.4` queda sincronizado con evidencia temporal verificable.
 2. Se reduce retrabajo y ruido de intentos fuera de ventana útil.
+
+## ADR-LITE-047 — Automatizar smoke público para cierre rápido post-deploy
+### Fecha
+2026-03-02
+
+### Decisión
+1. Añadir `scripts/smoke-public-routes.sh` para validar rutas públicas del Hub contra una base URL.
+2. Usar el script como paso estándar de `P2` en `5.4`, justo después de completar `5.3`.
+3. Ejecutar baseline pre-deploy para verificar que el chequeo es estable antes del despliegue final.
+
+### Motivación
+1. Reducir tiempo de validación manual cuando se abra la ventana de cuota.
+2. Estandarizar evidencia de rutas públicas con comando único y reproducible.
+
+### Impacto
+1. El cierre post-deploy queda más rápido y objetivo.
+2. Menor riesgo de olvidar verificación de alguna ruta pública crítica.
