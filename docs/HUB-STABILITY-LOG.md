@@ -1307,3 +1307,26 @@ Necesidad operativa del bloque auth por:
 3. Despliegue productivo aplicado:
    - `https://architecture-stack.vercel.app`
    - `https://architecture-stack-4zketscuo-merlosalbarracins-projects.vercel.app`
+
+## Hotfix auth confirm — callback `localhost` rechazado
+### Fecha
+2026-03-02
+
+### Contexto
+Durante la confirmacion de cuenta por email, algunos enlaces llegaban con callback a `localhost:3000` cuando el alta se iniciaba en entorno local. Al abrir el enlace fuera de ese runtime, el navegador devolvia `ERR_CONNECTION_REFUSED`.
+
+### Cambios aplicados
+1. `auth/register.html`:
+   - `resolveRedirect()` ahora usa base canónica cuando detecta host local.
+   - fallback estable a `https://architecture-stack.vercel.app/auth/login.html`.
+2. `auth/recover.html`:
+   - mismo hardening de `resolveRedirect()` para no emitir callbacks de recuperacion a `localhost`.
+3. `auth/login.html`:
+   - consumo de callback hash de Supabase (`access_token`, `refresh_token`, `expires_in`, `type`).
+   - persistencia de sesion y resolucion de usuario con `SMAAuth.me()`.
+   - limpieza del hash en URL para evitar reprocesados.
+
+### Verificacion
+1. `node --test scripts/tests/test-auth-sync.js` -> PASS (10/10).
+2. `./scripts/smoke-hub-runtime.sh` -> OK.
+3. Revisado flujo de callback para que no dependa de servidor local al confirmar cuenta.

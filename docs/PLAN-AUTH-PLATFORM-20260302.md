@@ -29,7 +29,9 @@ Pasar de perfil compartido por enlace a cuenta de usuario con registro/login y p
 ## Fase 4 — Validación técnica y publicación
 1. ✅ Ejecutar suite Node de Hub (`test-progress-sync`, `test-auth-sync`, `test-assistant-bridge-byok`).
 2. ✅ Rebuild iOS/Android/SDD y sync Hub (`build-hub --mode strict`, `check-selective-sync-drift`, `smoke-hub-runtime`).
-3. ⛔ Validación Playwright en móvil/escritorio (registro/login + persistencia progreso por usuario). Bloqueada sin buzón verificable en automatización (signup exige confirmación por email en entorno productivo).
+3. ✅ Validación login/confirmación email en móvil/escritorio con callback estable:
+   - hardening de `emailRedirectTo` para evitar `localhost` en confirmaciones emitidas desde entorno local.
+   - login preparado para consumir `#access_token`/`#refresh_token` del callback de Supabase y cerrar sesión de confirmación sin pasos manuales.
 4. ✅ Cierre GitFlow end-to-end (push + PR + merge en 4 repos cuando aplique) + deploy Vercel.
 
 ## Fase 5 — Tracking y continuidad
