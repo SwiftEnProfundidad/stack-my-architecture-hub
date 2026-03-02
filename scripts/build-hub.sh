@@ -13,11 +13,32 @@ LOG_FILE="$RUNTIME_DIR/build-hub.log"
 IOS_ROOT="$PROJECTS_ROOT/stack-my-architecture-ios"
 ANDROID_ROOT="$PROJECTS_ROOT/stack-my-architecture-android"
 SDD_ROOT="$PROJECTS_ROOT/stack-my-architecture-SDD"
-SDD_AUDIT_SCRIPT="$SDD_ROOT/scripts/run-full-audit.sh"
 VERIFY_SCRIPT="$SCRIPT_DIR/verify-hub-build.py"
 RUNTIME_SMOKE_SCRIPT="$SCRIPT_DIR/smoke-hub-runtime.sh"
 MANIFEST_SCRIPT="$SCRIPT_DIR/generate-build-manifest.py"
 
+resolve_course_root() {
+  local candidate="$1"
+  local nested_name="$2"
+
+  if [[ -f "$candidate/scripts/build-html.py" ]]; then
+    printf '%s\n' "$candidate"
+    return 0
+  fi
+
+  if [[ -f "$candidate/$nested_name/scripts/build-html.py" ]]; then
+    printf '%s\n' "$candidate/$nested_name"
+    return 0
+  fi
+
+  printf '%s\n' "$candidate"
+}
+
+IOS_ROOT="$(resolve_course_root "$IOS_ROOT" "stack-my-architecture-ios")"
+ANDROID_ROOT="$(resolve_course_root "$ANDROID_ROOT" "stack-my-architecture-android")"
+SDD_ROOT="$(resolve_course_root "$SDD_ROOT" "stack-my-architecture-SDD")"
+
+SDD_AUDIT_SCRIPT="$SDD_ROOT/scripts/run-full-audit.sh"
 IOS_OUTPUT="$IOS_ROOT/dist"
 ANDROID_OUTPUT="$ANDROID_ROOT/dist"
 SDD_OUTPUT="$SDD_ROOT/dist"
@@ -128,7 +149,18 @@ fi
 trap release_lock EXIT
 
 if [[ ! -d "$IOS_ROOT" || ! -d "$ANDROID_ROOT" || ! -d "$SDD_ROOT" ]]; then
-  echo "[ERROR] Could not find sibling repos: stack-my-architecture-ios, stack-my-architecture-android, stack-my-architecture-SDD"
+  echo "[ERROR] Could not resolve course roots for iOS/Android/SDD."
+  echo "[ERROR] iOS root: $IOS_ROOT"
+  echo "[ERROR] Android root: $ANDROID_ROOT"
+  echo "[ERROR] SDD root: $SDD_ROOT"
+  exit 1
+fi
+
+if [[ ! -f "$IOS_ROOT/scripts/build-html.py" || ! -f "$ANDROID_ROOT/scripts/build-html.py" || ! -f "$SDD_ROOT/scripts/build-html.py" ]]; then
+  echo "[ERROR] Missing build script in at least one resolved course root."
+  echo "[ERROR] iOS build script: $IOS_ROOT/scripts/build-html.py"
+  echo "[ERROR] Android build script: $ANDROID_ROOT/scripts/build-html.py"
+  echo "[ERROR] SDD build script: $SDD_ROOT/scripts/build-html.py"
   exit 1
 fi
 

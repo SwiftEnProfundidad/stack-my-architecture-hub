@@ -219,6 +219,30 @@ Exigir que las lecciones núcleo de arquitectura iOS apliquen y expliquen explí
 2. Mejorar comprensión de acoplamientos reales (runtime, wiring, contrato, propagación).
 3. Reducir ambigüedad en revisiones técnicas y en seguimiento del alumno.
 
+## ADR-LITE-014 — Resolución flat/nested y perfil explícito de sync cloud
+### Fecha
+2026-03-02
+
+### Decisión
+1. Estandarizar resolución de roots de cursos (flat/nested) en scripts de Hub:
+   - `build-hub.sh`
+   - `verify-hub-build.py`
+   - `check-selective-sync-drift.sh`
+2. Estandarizar sincronización cloud por perfil explícito compartible:
+   - `progressProfile` transportado por URL/cambio de curso.
+   - `progressBase/progressEndpoint` transportado por URL cuando aplique.
+   - CTA `Copiar enlace de sincronización` en UX de estudio.
+
+### Motivación
+1. Evitar fallos de build/verificación cuando un repo está anidado dentro de su carpeta contenedora.
+2. Eliminar falsos positivos de drift en publicación selectiva.
+3. Permitir continuidad real de progreso/repaso entre dispositivos sin depender del mismo `localStorage` de origen.
+
+### Impacto
+1. Arranque del Hub robusto ante variantes de estructura de workspace.
+2. Verificación de integridad coherente con los artefactos realmente publicados.
+3. Flujo de sincronización cloud explícito y reproducible para local + Vercel + multi-dispositivo.
+
 ## ADR-LITE-014 — Render diferido de Mermaid y snippets para carga móvil
 ### Fecha
 2026-03-01
