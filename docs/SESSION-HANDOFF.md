@@ -205,6 +205,9 @@ Repos incluidos:
    - automatización de smoke público preparada:
      - script: `scripts/smoke-public-routes.sh [base_url]`
      - baseline actual (pre-deploy): `2026-03-02 23:39 CET`, `200` en `/`, `/ios/`, `/android/`, `/sdd/`.
+   - automatización de smoke funcional preparada:
+     - script: `scripts/smoke-public-functional.sh [base_url]`
+     - baseline actual (pre-deploy): `2026-03-02 23:41 CET`, smoke funcional en verde para Hub/Auth/iOS/Android/SDD.
 
 ## Última comprobación de espera activa
 1. Fecha: 2026-02-27.

@@ -47,6 +47,10 @@ Documento operativo de cierre para la fase `5.4` del plan activo:
      - apertura de cada curso desde el Hub.
      - navegación de una lección por curso.
      - validación de estado login/logout en runtime.
+   - Automatización disponible:
+     - `scripts/smoke-public-functional.sh [base_url]`
+   - Evidencia pre-deploy (baseline):
+     - `2026-03-02 23:41 CET` -> smoke funcional público en verde para Hub/Auth/iOS/Android/SDD.
    - Criterio de cierre:
      - sin regresiones de arranque ni navegación.
 
