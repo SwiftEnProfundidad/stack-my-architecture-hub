@@ -1708,3 +1708,24 @@ Se añade cobertura de regresión para validar la lógica de ejecución principa
 1. `./scripts/tests/test-closeout-at-job.sh` -> `[PASS] closeout-at-job tests`.
 2. Cola real preservada:
    - `atq` mantiene job activo en `15:50 CET`.
+
+## QA de automatización — tests de `closeout-wait-and-run`
+### Fecha
+2026-03-03
+
+### Contexto
+Se añade cobertura de regresión para el runner de espera que gobierna la entrada a ventana de cuota.
+
+### Cambios aplicados
+1. `scripts/closeout-wait-and-run.sh` habilita overrides:
+   - `SMA_CLOSEOUT_COOLDOWN_FILE`,
+   - `SMA_CLOSEOUT_DEPLOY_RUNNER_CMD`.
+2. Nuevo test:
+   - `scripts/tests/test-closeout-wait-and-run.sh`.
+
+### Verificación
+1. `./scripts/tests/test-closeout-wait-and-run.sh` -> `[PASS] closeout-wait-and-run tests`.
+2. Validación cruzada:
+   - `test-closeout-at-job`, `test-closeout-readiness`, `test-schedule-closeout-at` en verde.
+3. Cola real preservada:
+   - `atq` mantiene job activo en `15:50 CET`.

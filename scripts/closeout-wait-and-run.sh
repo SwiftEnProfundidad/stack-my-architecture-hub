@@ -4,8 +4,8 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 HUB_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
-COOLDOWN_FILE="$HUB_ROOT/.runtime/vercel-deploy-cooldown.env"
-DEPLOY_RUNNER="$SCRIPT_DIR/deploy-and-verify-closeout.sh"
+COOLDOWN_FILE="${SMA_CLOSEOUT_COOLDOWN_FILE:-$HUB_ROOT/.runtime/vercel-deploy-cooldown.env}"
+DEPLOY_RUNNER="${SMA_CLOSEOUT_DEPLOY_RUNNER_CMD:-$SCRIPT_DIR/deploy-and-verify-closeout.sh}"
 
 MODE="${1:-fast}"
 BASE_URL="${2:-https://architecture-stack.vercel.app}"
