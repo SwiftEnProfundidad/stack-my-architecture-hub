@@ -4,8 +4,8 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 HUB_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
-RUNTIME_DIR="$HUB_ROOT/.runtime"
-COOLDOWN_FILE="$RUNTIME_DIR/vercel-deploy-cooldown.env"
+RUNTIME_DIR="${SMA_CLOSEOUT_RUNTIME_DIR:-$HUB_ROOT/.runtime}"
+COOLDOWN_FILE="${SMA_CLOSEOUT_COOLDOWN_FILE:-$RUNTIME_DIR/vercel-deploy-cooldown.env}"
 
 MODE="${1:-fast}"
 BASE_URL="${2:-https://architecture-stack.vercel.app}"
@@ -16,8 +16,8 @@ if [[ "$MODE" != "fast" && "$MODE" != "strict" ]]; then
   exit 1
 fi
 
-PUBLISH_SCRIPT="$SCRIPT_DIR/publish-architecture-stack.sh"
-POST_DEPLOY_CHECKS="$SCRIPT_DIR/post-deploy-checks.sh"
+PUBLISH_SCRIPT="${SMA_CLOSEOUT_PUBLISH_SCRIPT:-$SCRIPT_DIR/publish-architecture-stack.sh}"
+POST_DEPLOY_CHECKS="${SMA_CLOSEOUT_POSTCHECKS_SCRIPT:-$SCRIPT_DIR/post-deploy-checks.sh}"
 
 if [[ ! -x "$PUBLISH_SCRIPT" ]]; then
   echo "[ERROR] Script no ejecutable o inexistente: $PUBLISH_SCRIPT"

@@ -166,6 +166,28 @@ Documento operativo de cierre para la fase `5.4` del plan activo:
    - Evidencia:
      - `2026-03-03 00:53 CET` -> `./scripts/tests/test-closeout-wait-and-run.sh` -> `[PASS]`.
 
+15. `P3` `✅` Tests de regresión para `deploy-and-verify-closeout`.
+   - Test:
+     - `scripts/tests/test-deploy-and-verify-closeout.sh`
+   - Cobertura:
+     - guard de cooldown activo (`EXIT_CODE=2`),
+     - bypass con `SMA_DEPLOY_FORCE=1`,
+     - flujo exitoso (deploy + post-checks),
+     - error de cuota (`EXIT_CODE=3` + escritura de cooldown),
+     - error genérico de publish (propagación de exit code).
+   - Evidencia:
+     - `2026-03-03 00:56 CET` -> `./scripts/tests/test-deploy-and-verify-closeout.sh` -> `[PASS]`.
+
+16. `P3` `✅` Tests de regresión para `closeout-status`.
+   - Test:
+     - `scripts/tests/test-closeout-status.sh`
+   - Cobertura:
+     - sin cooldown (`EXIT_CODE=0`),
+     - cooldown activo (`EXIT_CODE=2`),
+     - cooldown expirado (`EXIT_CODE=0`).
+   - Evidencia:
+     - `2026-03-03 00:56 CET` -> `./scripts/tests/test-closeout-status.sh` -> `[PASS]`.
+
 4. `P3` `⏳` Cerrar `5.4` y congelar handoff final.
    - Alcance:
      - `PLAN`, `SESSION-HANDOFF`, `MASTER-TRACKER`, `HUB-STABILITY-LOG`, `ADR-LITE`.

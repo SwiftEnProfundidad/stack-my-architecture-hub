@@ -1729,3 +1729,27 @@ Se añade cobertura de regresión para el runner de espera que gobierna la entra
    - `test-closeout-at-job`, `test-closeout-readiness`, `test-schedule-closeout-at` en verde.
 3. Cola real preservada:
    - `atq` mantiene job activo en `15:50 CET`.
+
+## QA de automatización — tests de `deploy-and-verify-closeout` y `closeout-status`
+### Fecha
+2026-03-03
+
+### Contexto
+Se completa la cobertura de regresión en los scripts de orquestación final de cierre.
+
+### Cambios aplicados
+1. `scripts/deploy-and-verify-closeout.sh` habilita overrides:
+   - `SMA_CLOSEOUT_RUNTIME_DIR`,
+   - `SMA_CLOSEOUT_COOLDOWN_FILE`,
+   - `SMA_CLOSEOUT_PUBLISH_SCRIPT`,
+   - `SMA_CLOSEOUT_POSTCHECKS_SCRIPT`.
+2. `scripts/closeout-status.sh` habilita override:
+   - `SMA_CLOSEOUT_COOLDOWN_FILE`.
+3. Nuevos tests:
+   - `scripts/tests/test-deploy-and-verify-closeout.sh`
+   - `scripts/tests/test-closeout-status.sh`
+
+### Verificación
+1. `./scripts/tests/test-deploy-and-verify-closeout.sh` -> `[PASS]`.
+2. `./scripts/tests/test-closeout-status.sh` -> `[PASS]`.
+3. Batería completa de closeout scripts en verde + `atq` estable.

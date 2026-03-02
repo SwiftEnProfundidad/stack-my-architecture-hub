@@ -315,8 +315,22 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
     - test script: `scripts/tests/test-closeout-wait-and-run.sh`.
     - `scripts/closeout-wait-and-run.sh` soporta overrides para test aislado:
       - `SMA_CLOSEOUT_COOLDOWN_FILE`,
-      - `SMA_CLOSEOUT_DEPLOY_RUNNER_CMD`.
+    - `SMA_CLOSEOUT_DEPLOY_RUNNER_CMD`.
     - resultado: `[PASS]` en escenarios de cooldown largo/corto, force deploy y arranque sin cooldown.
+
+84. Test de regresión de `deploy-and-verify-closeout` (2026-03-03):
+    - test script: `scripts/tests/test-deploy-and-verify-closeout.sh`.
+    - `scripts/deploy-and-verify-closeout.sh` soporta overrides para test:
+      - `SMA_CLOSEOUT_RUNTIME_DIR`,
+      - `SMA_CLOSEOUT_COOLDOWN_FILE`,
+      - `SMA_CLOSEOUT_PUBLISH_SCRIPT`,
+      - `SMA_CLOSEOUT_POSTCHECKS_SCRIPT`.
+    - resultado: `[PASS]` en guard cooldown, force, success, quota error y generic fail.
+
+85. Test de regresión de `closeout-status` (2026-03-03):
+    - test script: `scripts/tests/test-closeout-status.sh`.
+    - `scripts/closeout-status.sh` soporta override `SMA_CLOSEOUT_COOLDOWN_FILE`.
+    - resultado: `[PASS]` en estados sin cooldown, cooldown activo y cooldown expirado.
 
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.
