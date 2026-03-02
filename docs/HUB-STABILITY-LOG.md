@@ -1160,3 +1160,28 @@ Sin regresión de arranque ni de rutas de cursos. Queda habilitada persistencia 
 
 ### Resultado
 Hub vuelve a arrancar correctamente en entorno local con repos anidados y la sincronización de progreso queda operativa entre local/Vercel cuando se comparte `progressProfile` (enlace de sincronización).
+
+## Hotfix sync cloud — `updatedAt` por perfil + prioridad de `progressProfile`
+### Fecha
+2026-03-02
+
+### Incidencia
+En escenarios multi-dispositivo (local/Vercel y cambio de perfil por URL), el pull cloud podía quedar bloqueado por un `updatedAt` compartido por curso y no por perfil, además de no forzar siempre el perfil recibido en query string.
+
+### Cambios aplicados
+1. iOS/Android/SDD `assets/study-ux.js`:
+   - `updatedAt` cloud versionado por perfil: `sma:<courseId>:cloud:updated-at:v2:<profileKey>`.
+   - `progressProfile` de URL pasa a tener prioridad sobre perfil guardado en storage.
+   - migración segura del `updatedAt` legacy cuando no llega `progressProfile` por query.
+2. Sync Hub:
+   - rebuild completo (`build-hub --fast`) para propagar bundles actualizados.
+
+### Verificación técnica
+1. `./scripts/build-hub.sh --fast` -> PASS.
+2. `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
+3. `./scripts/smoke-hub-runtime.sh` -> OK.
+4. Validación manual Playwright (perfil compartido):
+   - con `progressProfile` común, progreso replicado tras limpiar `localStorage`.
+
+### Resultado
+Sincronización cloud más robusta entre contextos/entornos cuando se usa perfil compartido por URL, evitando colisiones de timestamp entre perfiles.
