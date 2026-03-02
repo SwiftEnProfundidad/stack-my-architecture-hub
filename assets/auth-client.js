@@ -1,6 +1,7 @@
 (function () {
   const STORAGE_SESSION = 'sma:auth:session:v1';
   const STORAGE_USER = 'sma:auth:user:v1';
+  const STORAGE_CLOUD_PROFILE = 'sma:cloud:profile:v1';
 
   function readJson(key) {
     try {
@@ -20,6 +21,7 @@
   function clearAuth() {
     localStorage.removeItem(STORAGE_SESSION);
     localStorage.removeItem(STORAGE_USER);
+    localStorage.removeItem(STORAGE_CLOUD_PROFILE);
     dispatchChange();
   }
 
