@@ -228,6 +228,13 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
       - `validate-course-structure`, `validate-openspec`, `check-links`, `validate-pedagogy`, `validate-markdown-snippets`, `validate-diagram-semantics`, `build-html`, `swift test`.
     - siguiente task activa: SDD `3.2` (semanas 09-16 y anexos).
 
+72. SDD bloque avanzado (3.2) cerrado en ciclo gradual (2026-03-02):
+    - cierre consistente de transición Mermaid->texto en semanas `10` a `17` para evitar ambigüedad de render.
+    - anexos auditados sin hallazgos críticos ni cambios obligatorios en esta ola.
+    - validación AGENTS en verde:
+      - `validate-course-structure`, `validate-openspec`, `check-links`, `validate-pedagogy`, `validate-markdown-snippets`, `validate-diagram-semantics`, `build-html`, `swift test`.
+    - siguiente task activa: SDD `3.3` (perfil público monetizable).
+
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.
 2. Regeneración de launchers/apps de escritorio del Hub.

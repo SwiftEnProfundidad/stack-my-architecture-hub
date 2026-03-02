@@ -168,7 +168,8 @@ Repos incluidos:
    - `2.3` Android bloque avanzado cerrado en caliente (`03-senior`, `04-maestria`, `05-proyecto-final`, `anexos`) con convención de flechas alineada.
    - `2.4` Android Proyecto Final endurecido en caliente (brief/rúbrica/evidencias con criterio enterprise defendible).
    - `3.1` SDD bloque base cerrado en caliente (`00-preparacion`, `01-roadmap`, semanas 01-08) con cierre consistente de fences Mermaid.
-   - tarea en construccion actual: `3.2` (SDD bloque avanzado: semanas 09-16 y `anexos`).
+   - `3.2` SDD bloque avanzado cerrado en caliente (semanas 09-16 con cierre consistente de fences Mermaid, anexos auditados sin regresión).
+   - tarea en construccion actual: `3.3` (perfil público monetizable para SDD).
 
 ## Última comprobación de espera activa
 1. Fecha: 2026-02-27.
@@ -210,7 +211,7 @@ Repos incluidos:
 31. ✅ Fase 8 de optimización de imágenes de arquitectura iOS para móvil (`webp` + fallback `png`).
 
 ## Siguiente paso concreto
-1. Cerrar `3.2` del plan activo (SDD bloque avanzado) lección por lección con registro en matriz TSV.
+1. Cerrar `3.3` del plan activo (perfil público monetizable SDD) sin romper build ni navegación.
 2. Completar `0.3` (limpieza de planes historicos cerrados) para dejar `docs/` sin duplicados activos.
 3. Mantener commits atomicos y GitFlow estricto por bloque.
 4. Actualizar handoff al cerrar cada ola real de auditoria.
