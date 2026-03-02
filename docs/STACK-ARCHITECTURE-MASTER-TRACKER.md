@@ -399,7 +399,8 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
     - `5.3` deploy final reintentado y bloqueado por cuota Vercel (`api-deployments-free-per-day`):
       - intento 1: `2026-03-02 23:24 CET`
       - intento 2: `2026-03-02 23:37 CET`
-      - próxima ventana estimada: `2026-03-03 16:37 CET` o posterior.
+      - intento 3: `2026-03-02 23:49 CET` (`retry in 16 hours`)
+      - próxima ventana estimada: `2026-03-03 15:49 CET` o posterior.
     - `0.3` limpieza documental cerrada (planes cerrados archivados bajo `docs/archive/plans-closed/`).
     - `0.4` sincronización de tracking cerrada (fuentes de verdad alineadas al plan activo).
     - bloque actual: Hub `5.4` (cierre final + backlog residual priorizado).
