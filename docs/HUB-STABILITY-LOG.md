@@ -189,7 +189,7 @@ Se activa un plan único de auditoría gradual con tracking transversal para evi
 ### Evidencia versionada
 1. Plan activo: `docs/PLAN-AUDITORIA-CURSOS-FASES-20260302.md`
 2. Matriz operativa: `docs/AUDITORIA-CURSOS-MATRIZ-20260302.tsv`
-3. Bloque en construcción: Hub `5.3` (deploy Vercel final con aprobación explícita).
+3. Bloque en construcción: Hub `0.3` (limpieza documental de planes históricos cerrados).
 
 ### Estado de estabilidad
 1. Sin impacto en rutas públicas del Hub en esta actualización documental.
@@ -299,6 +299,16 @@ Fase `5.2` cerrada en verde; bloque activo movido a `5.3` (deploy final en Verce
 1. Repos `hub`, `ios`, `android`, `SDD` limpios en `develop`.
 2. QA técnico cross-repo ya cerrado en verde.
 3. Pendiente aprobación explícita del usuario para ejecutar despliegue final y consumir cuota.
+
+### Intento de ejecución y bloqueo externo
+1. Comando ejecutado: `bash scripts/publish-architecture-stack.sh fast`.
+2. Resultado: bloqueo de proveedor por cuota diaria:
+   - `api-deployments-free-per-day`
+   - mensaje de retry: `try again in 17 hours`.
+3. Fase `5.3` pasa a `⛔` hasta reset de cuota.
+
+### Pivot operativo
+1. Mientras se libera cuota, el bloque activo pasa a `0.3` para limpiar planes históricos cerrados en `docs/`.
 
 ## Regresión post-hardening del asistente IA en runtime móvil (Fase 4)
 ### Fecha

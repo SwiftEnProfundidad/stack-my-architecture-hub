@@ -34,7 +34,7 @@ Repos incluidos:
      - `scripts/validate-learning-gates.py`
      - `scripts/validate-diagram-semantics.py`
    - Hub incorpora:
-     - `docs/PLAN-MAESTRO-IMPLEMENTACION-CURSOS-20260227.md`
+     - `docs/archive/plans-closed/PLAN-MAESTRO-IMPLEMENTACION-CURSOS-20260227.md`
      - `docs/GUIA-DIAGRAMAS-ARQUITECTURA-CAPAS-Y-FLECHAS.md`
      - `docs/TEMPLATE-DIAGRAMA-ARQUITECTURA-MERMAID.md`
    - sync selectivo de bundles (`ios/android/sdd`) y validacion runtime del Hub.
@@ -125,7 +125,7 @@ Repos incluidos:
      - `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`
      - `./scripts/smoke-hub-runtime.sh` -> OK
 4. Plan formal de continuidad:
-   - `docs/PLAN-PERFORMANCE-MOBILE-FIRST-20260301.md`
+   - `docs/archive/plans-closed/PLAN-PERFORMANCE-MOBILE-FIRST-20260301.md`
 
 ## Trabajo en curso
 1. ✅ Fase 1 performance móvil cerrada.
@@ -191,7 +191,10 @@ Repos incluidos:
      - iOS PR `#38` mergeada (`fix(ios-qa): links intro + baseline guardrails`).
      - Hub PR `#80` mergeada (`sync bundles + tracking 5.1->5.2`).
      - `develop` limpio en los 4 repos.
-   - tarea en construccion actual: `5.3` (deploy Vercel final con aprobacion explicita).
+   - `5.3` deploy final intentado y bloqueado por cuota Vercel:
+     - comando: `bash scripts/publish-architecture-stack.sh fast`
+     - error: `api-deployments-free-per-day` (retry en ~17h desde intento).
+   - tarea en construccion actual: `0.3` (limpieza de planes historicos cerrados en `docs/`).
 
 ## Última comprobación de espera activa
 1. Fecha: 2026-02-27.
@@ -233,8 +236,8 @@ Repos incluidos:
 31. ✅ Fase 8 de optimización de imágenes de arquitectura iOS para móvil (`webp` + fallback `png`).
 
 ## Siguiente paso concreto
-1. Ejecutar `5.3` del plan activo: despliegue final en Vercel con aprobacion explicita del usuario.
-2. Completar `0.3` (limpieza de planes historicos cerrados) para dejar `docs/` sin duplicados activos.
+1. Completar `0.3` del plan activo: limpieza documental de planes historicos cerrados en `docs/` y referencias.
+2. Retomar `5.3` cuando reinicie cuota Vercel para ejecutar despliegue final.
 3. Mantener commits atomicos y GitFlow estricto por bloque.
 4. Actualizar handoff al cerrar cada ola real de auditoria.
 

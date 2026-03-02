@@ -347,7 +347,7 @@ Evolucionar de cobertura puntual a cobertura total en lecciones con Mermaid, eje
 2. Android queda en `10/10` lecciones con Mermaid y 4 flechas.
 3. SDD queda en `157/157` lecciones con Mermaid y 4 flechas (excluyendo `00-informe`).
 4. Hub publica sync full coverage con `no drift (6/6)` y smoke runtime en verde.
-5. Plan operativo de ejecución documentado en `docs/PLAN-COBERTURA-TOTAL-FLECHAS-20260227.md`.
+5. Plan operativo de ejecución documentado en `docs/archive/plans-closed/PLAN-COBERTURA-TOTAL-FLECHAS-20260227.md`.
 
 ## ADR-LITE-016 — Buscador lateral obligatorio en cursos publicados
 ### Fecha
@@ -849,3 +849,20 @@ En viewport móvil estrecho (`<=480px`) los controles superiores de estudio debe
 ### Impacto
 1. Estado del plan alineado con el estado real de repos (todos limpios en `develop`).
 2. El siguiente paso técnico queda claro y sin ambigüedad: deploy final cuando el usuario lo autorice.
+
+## ADR-LITE-043 — Bloqueo externo de 5.3 por cuota Vercel y pivot temporal a 0.3
+### Fecha
+2026-03-02
+
+### Decisión
+1. Marcar `5.3` como `⛔` tras intento real de deploy productivo bloqueado por cuota de Vercel.
+2. Activar `0.3` como única tarea en construcción para avanzar en limpieza documental mientras reinicia cuota.
+3. Mantener deploy final en espera hasta ventana de reintento del proveedor.
+
+### Motivación
+1. El bloqueo es externo al código/repositorio (`api-deployments-free-per-day`), no solucionable con cambios locales.
+2. Evitar tiempo muerto: continuar cerrando deuda de tracking sin romper la regla de una sola tarea activa.
+
+### Impacto
+1. Trazabilidad honesta de estado operativo (deploy pendiente por cuota, no por regresión técnica).
+2. Continuidad del plan sin congelar la ejecución del backlog.

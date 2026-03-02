@@ -54,7 +54,7 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
     - iOS: `58/58` lecciones con Mermaid en 4 flechas.
     - Android: `10/10` lecciones con Mermaid en 4 flechas.
     - SDD: `157/157` lecciones con Mermaid (excluyendo `00-informe`) en 4 flechas.
-34. Plan operativo versionado para este bloque en `docs/PLAN-COBERTURA-TOTAL-FLECHAS-20260227.md`.
+34. Plan operativo versionado para este bloque en `docs/archive/plans-closed/PLAN-COBERTURA-TOTAL-FLECHAS-20260227.md`.
 35. Buscador lateral de lecciones integrado en iOS/Android/SDD y publicado en Hub con sync selectivo estable.
 36. Ajuste UX del buscador lateral: bloque `INDICE + buscador` fijo al scroll y con separación superior corregida en iOS/Android/SDD.
 37. Guardrail de publicación aplicado en Hub: `build-hub.sh` preserva `assets/assistant-panel.js` de `ios/android/sdd` durante sync para no romper BYOK multi-provider.
@@ -63,7 +63,7 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
     - Android PR `#9` merge `483744f`.
     - SDD PR `#10` merge `6c2fa09`.
     - Hub PR `#33` merge `079bfbb`.
-    - Plan operativo activo: `docs/PLAN-MAESTRO-IMPLEMENTACION-CURSOS-20260227.md`.
+    - Plan operativo activo: `docs/archive/plans-closed/PLAN-MAESTRO-IMPLEMENTACION-CURSOS-20260227.md`.
 39. Plan maestro reabierto por instrucción explícita del usuario para ejecución completa por fases:
     - Task `0.1` cerrada con inventario exacto cross-course en `docs/INVENTARIO-CROSS-COURSE-LECCIONES-ANEXOS-20260227.tsv`.
     - Task `0.2` abierta con baseline automático P0/P1/P2 en `docs/MATRIZ-BRECHAS-CROSS-COURSE-20260227.tsv`.
@@ -99,7 +99,7 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
     - `ios/android/sdd` cargan sin requests `/health` al abrir página.
     - apertura manual del asistente no dispara `/health` automático.
 49. Bloque operativo activo cerrado:
-    - plan de continuidad en `docs/PLAN-PERFORMANCE-MOBILE-FIRST-20260301.md` con fase 4.5 cerrada.
+    - plan de continuidad en `docs/archive/plans-closed/PLAN-PERFORMANCE-MOBILE-FIRST-20260301.md` con fase 4.5 cerrada.
 50. Optimización de arranque móvil aplicada en repos fuente (2026-03-01):
     - `mermaid.min.js` y `highlight.min.js` dejan de cargarse en `<head>` y pasan a runtime loader no bloqueante en iOS/Android/SDD.
     - validación end-to-end en verde: `py_compile` + `build-html` (3 cursos) + `build-hub --mode strict` + `no drift (6/6)` + smoke runtime OK.
@@ -348,7 +348,7 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
     - `content-visibility` en bloques de lección.
     - build Hub strict en verde tras ajuste de smoke runtime para aceptar marker legacy o BYOK (`KEY_PROVIDER | KEY_DAILY_BUDGET`).
 38. Plan operativo por fases versionado:
-    - `docs/PLAN-PERFORMANCE-MOBILE-FIRST-20260301.md`
+    - `docs/archive/plans-closed/PLAN-PERFORMANCE-MOBILE-FIRST-20260301.md`
 
 ## Tablero operativo (solo 1 en construcción)
 1. ✅ Publicar sync selectivo cross-course iOS + Android + SDD en Hub (`c9cd8c3`).
@@ -396,7 +396,8 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
     - `4.3` validación visual cerrada en caliente (3 estilos + desktop/iPhone en iOS/Android/SDD sin overflow horizontal).
     - `5.1` validaciones técnicas cross-repo cerradas en caliente (Android/SDD en verde; iOS con enlaces corregidos + baseline guardrails recalibrado + bundle QA en verde).
     - `5.2` GitFlow de cierre completado (iOS PR #38 + Hub PR #80 mergeadas).
-    - bloque actual: Hub `5.3` (deploy Vercel final con aprobación explícita).
+    - `5.3` deploy final intentado y bloqueado por cuota Vercel (`api-deployments-free-per-day`, retry ~17h).
+    - bloque actual: Hub `0.3` (limpieza documental de planes históricos cerrados en `docs/`).
     - plan activo: `docs/PLAN-AUDITORIA-CURSOS-FASES-20260302.md`.
     - matriz operativa: `docs/AUDITORIA-CURSOS-MATRIZ-20260302.tsv`.
 
@@ -405,8 +406,8 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 2. Riesgo de referencia remota en `SDD`: `origin/main` mantiene una línea distinta al baseline operativo actual (`main` local); no integrar sin instrucción explícita.
 
 ## Próximos pasos recomendados
-1. Completar `5.3` del plan activo con despliegue final en Vercel tras aprobación explícita.
-2. Cerrar limpieza documental de planes históricos (`0.3`) sin perder trazabilidad operativa.
+1. Completar `0.3` del plan activo cerrando limpieza documental y referencias de planes históricos.
+2. Retomar `5.3` en cuanto reinicie cuota Vercel para ejecutar despliegue final.
 3. Actualizar `docs/SESSION-HANDOFF.md` al cierre de cada ola de auditoría.
 4. Mantener un único despliegue final por bloque para evitar consumo innecesario de cuota Vercel.
 5. Consolidar decisiones operativas del nuevo ciclo en `docs/DECISIONS-ADR-LITE.md`.
@@ -520,7 +521,7 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
       - `./scripts/build-hub.sh --mode strict` -> PASS.
       - `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
       - `./scripts/smoke-hub-runtime.sh` -> OK.
-      - plan de ejecucion: `docs/PLAN-COBERTURA-TOTAL-FLECHAS-20260227.md`.
+      - plan de ejecucion: `docs/archive/plans-closed/PLAN-COBERTURA-TOTAL-FLECHAS-20260227.md`.
 16. Validación técnica del bloque de buscador lateral cross-course:
     - iOS:
       - `python3 scripts/build-html.py` -> PASS.

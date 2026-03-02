@@ -40,12 +40,12 @@ Notas:
 
 ## Migracion de planes anteriores
 1. Planes revisados:
-   - `PLAN-MAESTRO-IMPLEMENTACION-CURSOS-20260227.md`
-   - `PLAN-COBERTURA-TOTAL-FLECHAS-20260227.md`
-   - `PLAN-PERFORMANCE-MOBILE-FIRST-20260301.md`
-   - `PLAN-CLOUD-PROGRESS-SYNC-20260301.md`
-   - `PLAN-AUTH-PLATFORM-20260302.md`
-   - `PLAN-AUTH-RECOVERY-20260302.md`
+   - `docs/archive/plans-closed/PLAN-MAESTRO-IMPLEMENTACION-CURSOS-20260227.md`
+   - `docs/archive/plans-closed/PLAN-COBERTURA-TOTAL-FLECHAS-20260227.md`
+   - `docs/archive/plans-closed/PLAN-PERFORMANCE-MOBILE-FIRST-20260301.md`
+   - `docs/archive/plans-closed/PLAN-CLOUD-PROGRESS-SYNC-20260301.md`
+   - `docs/archive/plans-closed/PLAN-AUTH-PLATFORM-20260302.md`
+   - `docs/archive/plans-closed/PLAN-AUTH-RECOVERY-20260302.md`
 2. Estado de migracion:
    - tareas operativas cerradas: absorbidas como historico.
    - limpieza documental: pendiente de cierre en fase 0.3 para dejar `docs/` sin duplicados activos.
@@ -59,7 +59,7 @@ Notas:
 | --- | --- | --- | --- |
 | 0.1 | ✅ | Crear plan unico activo y leyenda estandar | Este archivo versionado |
 | 0.2 | ✅ | Generar matriz base `curso/seccion/leccion` | `AUDITORIA-CURSOS-MATRIZ-20260302.tsv` |
-| 0.3 | ⏳ | Limpiar planes historicos cerrados para dejar `docs/` sin duplicados activos | `docs/` depurado |
+| 0.3 | 🚧 | Limpiar planes historicos cerrados para dejar `docs/` sin duplicados activos | `docs/` depurado |
 | 0.4 | ⏳ | Actualizar `MASTER-TRACKER`, `SESSION-HANDOFF`, `HUB-STABILITY-LOG`, `ADR-LITE` al nuevo plan activo | Fuente de verdad sincronizada |
 
 ## Fase 1 - iOS (arranque obligatorio)
@@ -101,5 +101,5 @@ Notas:
 | --- | --- | --- | --- |
 | 5.1 | ✅ | Validaciones tecnicas por repo + Hub strict/drift/smoke | QA en verde |
 | 5.2 | ✅ | Commits atomicos + push + PR + merge por bloque | historial limpio |
-| 5.3 | 🚧 | Deploy Vercel final con aprobacion explicita | produccion estable |
+| 5.3 | ⛔ | Deploy Vercel final con aprobacion explicita | bloqueado por cuota Vercel (`api-deployments-free-per-day`) |
 | 5.4 | ⏳ | Cierre: 0 tareas `🚧` y backlog residual priorizado | tracking final |
