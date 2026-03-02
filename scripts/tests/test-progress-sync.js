@@ -220,3 +220,102 @@ test('POST /progress/state hace upsert con payload validado', async () => {
     lastTopic: 'topic-2'
   });
 });
+
+test('GET /progress/state autenticado prioriza user.id sobre profileKey enviado', async () => {
+  const fetchCalls = [];
+  const handler = loadHandler({
+    SUPABASE_URL: 'https://example.supabase.co',
+    SUPABASE_ANON_KEY: 'anon-key',
+    SUPABASE_SERVICE_ROLE_KEY: 'service-role-key',
+    PROGRESS_SYNC_TABLE: 'course_progress'
+  });
+
+  await withMockFetch(async (url, options) => {
+    fetchCalls.push({ url, options });
+    if (String(url).includes('/auth/v1/user')) {
+      return {
+        ok: true,
+        status: 200,
+        text: async () => JSON.stringify({
+          id: 'user-777'
+        })
+      };
+    }
+    return {
+      ok: true,
+      status: 200,
+      text: async () => JSON.stringify([
+        {
+          course_id: 'stack-my-architecture-ios',
+          profile_key: 'user-777',
+          updated_at: '2026-03-02T10:00:00.000Z',
+          data: {
+            completed: { 'topic-9': true }
+          }
+        }
+      ])
+    };
+  }, async () => {
+    const result = await invoke(handler, {
+      method: 'GET',
+      url: '/progress/state?route=state&courseId=stack-my-architecture-ios&profileKey=legacy-profile',
+      headers: {
+        authorization: 'Bearer user-token'
+      }
+    });
+
+    assert.equal(result.statusCode, 200);
+    assert.equal(result.json.ok, true);
+    assert.equal(result.json.authenticated, true);
+    assert.equal(result.json.state.profileKey, 'user-777');
+  });
+
+  assert.equal(fetchCalls.length, 2);
+  assert.match(fetchCalls[0].url, /auth\/v1\/user/);
+  assert.match(fetchCalls[1].url, /profile_key=eq\.user-777/);
+});
+
+test('POST /progress/state falla con 401 cuando token bearer no valida', async () => {
+  const handler = loadHandler({
+    SUPABASE_URL: 'https://example.supabase.co',
+    SUPABASE_ANON_KEY: 'anon-key',
+    SUPABASE_SERVICE_ROLE_KEY: 'service-role-key',
+    PROGRESS_SYNC_TABLE: 'course_progress'
+  });
+
+  await withMockFetch(async (url) => {
+    if (String(url).includes('/auth/v1/user')) {
+      return {
+        ok: false,
+        status: 401,
+        text: async () => JSON.stringify({
+          message: 'Invalid JWT'
+        })
+      };
+    }
+    return {
+      ok: true,
+      status: 200,
+      text: async () => JSON.stringify([])
+    };
+  }, async () => {
+    const result = await invoke(handler, {
+      method: 'POST',
+      url: '/progress/state?route=state',
+      headers: {
+        authorization: 'Bearer invalid'
+      },
+      body: {
+        courseId: 'stack-my-architecture-ios',
+        profileKey: 'profile-001',
+        data: {
+          completed: {}
+        }
+      }
+    });
+
+    assert.equal(result.statusCode, 401);
+    assert.equal(result.json.ok, false);
+    assert.match(String(result.json.error || ''), /invalid/i);
+  });
+});

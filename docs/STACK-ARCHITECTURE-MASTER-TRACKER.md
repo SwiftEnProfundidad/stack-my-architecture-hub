@@ -509,3 +509,22 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
    - `./scripts/smoke-hub-runtime.sh` -> OK.
    - Playwright local: abrir `/ios/index.html` sin query termina en `?progressProfile=...` y mantiene progreso.
 4. Estado: ✅ Hecho.
+
+## Actualizacion 2026-03-02 (4) — Plataforma de autenticacion por usuario
+61. Bloque auth plataforma implementado en Hub con contrato serverless y TDD:
+    - nuevo endpoint `api/auth-sync.js` (`config/signup/login/refresh/me/logout`).
+    - nuevo test `scripts/tests/test-auth-sync.js` (RED->GREEN).
+62. Flujo de acceso publicado:
+    - `/auth/index.html`, `/auth/register.html`, `/auth/login.html` + `assets/auth-client.js`.
+    - branding PUMUKI integrado en pantallas de autenticacion.
+63. Progreso cloud endurecido para cuenta autenticada:
+    - `api/progress-sync.js` valida bearer token y deriva `profileKey = user.id` cuando hay sesion.
+    - `scripts/tests/test-progress-sync.js` ampliado para cobertura autenticada (`401` + prioridad de `user.id`).
+64. Integracion cross-course iOS/Android/SDD cerrada:
+    - `assets/study-ux.js` y `assets/course-switcher.js` con sesion auth, bearer token en sync y acciones de cuenta (`Registro/Login`, `Cerrar sesion`).
+65. Validacion tecnica consolidada en Hub:
+    - `node --test scripts/tests/test-auth-sync.js scripts/tests/test-progress-sync.js scripts/tests/test-assistant-bridge-byok.js` -> PASS.
+    - `./scripts/build-hub.sh --mode strict` -> PASS.
+    - `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
+    - `./scripts/smoke-hub-runtime.sh` -> OK.
+66. Estado operativo: 🚧 cierre GitFlow end-to-end + deploy Vercel en ejecucion.

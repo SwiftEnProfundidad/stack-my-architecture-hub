@@ -240,3 +240,19 @@ Para ver el mismo progreso en otro dispositivo/navegador limpio, abrir el curso 
    - `./scripts/build-hub.sh --fast` -> PASS.
    - `./scripts/smoke-hub-runtime.sh` -> OK.
    - Playwright local: URL sin query se normaliza a URL con `progressProfile` sin recarga.
+
+## Bloque activo 2026-03-02 — Auth plataforma (registro/login + sync por cuenta)
+1. ✅ Backend auth Hub implementado con TDD (`api/auth-sync.js` + `scripts/tests/test-auth-sync.js`).
+2. ✅ Frontend auth Hub publicado (`/auth/index.html`, `/auth/register.html`, `/auth/login.html`).
+3. ✅ Integracion progreso autenticado:
+   - `api/progress-sync.js` ahora respeta `user.id` autenticado.
+   - iOS/Android/SDD envian bearer en sync cuando existe sesion.
+4. ✅ Validacion tecnica en verde:
+   - test Node Hub (`16/16`),
+   - `build-hub --mode strict`,
+   - `check-selective-sync-drift` (`no drift 6/6`),
+   - `smoke-hub-runtime`.
+5. 🚧 Tarea unica en construccion: cierre GitFlow completo (push + PR + merge en repos afectados) y deploy Vercel.
+
+### Nota de continuidad
+Si se necesita validar login real en local, exportar antes `SUPABASE_URL` y `SUPABASE_ANON_KEY`. En Vercel basta con las variables de entorno del proyecto.

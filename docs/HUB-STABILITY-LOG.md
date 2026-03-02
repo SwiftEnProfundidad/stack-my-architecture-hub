@@ -1224,3 +1224,36 @@ En escenarios cross-device (desktop -> iPhone), abrir el curso sin query explíc
 
 ### Resultado
 Se reduce la probabilidad de abrir cursos en iPhone/incógnito con perfil incorrecto por pérdida del parámetro en enlaces compartidos.
+
+## Bloque auth plataforma por cuenta (Supabase Auth)
+### Fecha
+2026-03-02
+
+### Contexto
+Se implementa registro/login real en Hub para resolver continuidad de progreso por usuario entre Vercel y dispositivos distintos, evitando dependencia de `localStorage` local.
+
+### Cambios aplicados
+1. Backend auth serverless: `api/auth-sync.js` (`config/signup/login/refresh/me/logout`) con CORS/validacion de payload.
+2. Backend progreso endurecido: `api/progress-sync.js` valida bearer y usa `user.id` como `profileKey` autentico.
+3. Frontend auth Hub:
+   - `auth/index.html`
+   - `auth/register.html`
+   - `auth/login.html`
+   - `auth/auth.css`
+   - `assets/auth-client.js`
+4. Rewrites Vercel para rutas amigables de auth en `vercel.json`.
+5. Integracion iOS/Android/SDD en bundles Hub:
+   - `assets/study-ux.js`: sync con bearer cuando hay sesion.
+   - `assets/course-switcher.js`: acceso a cuenta + cierre de sesion.
+
+### Verificacion funcional
+1. `node --test scripts/tests/test-auth-sync.js scripts/tests/test-progress-sync.js scripts/tests/test-assistant-bridge-byok.js` -> PASS (`16/16`).
+2. `./scripts/build-hub.sh --mode strict` -> PASS.
+3. `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
+4. `./scripts/smoke-hub-runtime.sh` -> OK.
+
+### Riesgo residual
+Sin `SUPABASE_URL` + `SUPABASE_ANON_KEY` en shell local, el flujo login/signup real queda limitado a despliegues con entorno configurado (Vercel). El fallback local se mantiene estable.
+
+### Resultado
+Sin regresion en arranque/rutas del Hub y con base tecnica lista para persistencia de progreso por cuenta en cloud.

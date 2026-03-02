@@ -25,6 +25,30 @@
       "destination": "/api/progress-sync?route=state"
     },
     {
+      "source": "/auth/config",
+      "destination": "/api/auth-sync?route=config"
+    },
+    {
+      "source": "/auth/signup",
+      "destination": "/api/auth-sync?route=signup"
+    },
+    {
+      "source": "/auth/login",
+      "destination": "/api/auth-sync?route=login"
+    },
+    {
+      "source": "/auth/refresh",
+      "destination": "/api/auth-sync?route=refresh"
+    },
+    {
+      "source": "/auth/me",
+      "destination": "/api/auth-sync?route=me"
+    },
+    {
+      "source": "/auth/logout",
+      "destination": "/api/auth-sync?route=logout"
+    },
+    {
       "source": "/assistant/query",
       "destination": "/api/assistant-bridge?route=assistant-query"
     },

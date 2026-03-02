@@ -43,6 +43,7 @@ const MAX_TOKENS_CAP = Number(process.env.ASSISTANT_MAX_TOKENS_CAP || 1200);
 const SOFT_DAILY_BUDGET_USD = Number(process.env.ASSISTANT_SOFT_DAILY_BUDGET_USD || 2.0);
 const DAILY_WARNING_USD = Number(process.env.ASSISTANT_DAILY_WARNING_USD || 0.25);
 const progressSyncHandler = require(path.join(HUB_ROOT, 'api', 'progress-sync.js'));
+const authSyncHandler = require(path.join(HUB_ROOT, 'api', 'auth-sync.js'));
 const PROGRESS_SYNC_UPSTREAM_ORIGIN = String(process.env.PROGRESS_SYNC_UPSTREAM_ORIGIN || 'https://architecture-stack.vercel.app')
     .trim()
     .replace(/\/$/, '');
@@ -130,6 +131,8 @@ app.get('/metrics', (_req, res) => {
 app.get('/progress/config', handleProgressSync);
 app.get('/progress/state', handleProgressSync);
 app.post('/progress/state', handleProgressSync);
+app.get('/api/auth-sync', handleAuthSync);
+app.post('/api/auth-sync', handleAuthSync);
 
 app.post(QUERY_PATH, handleQuery);
 app.post(QUERY_ALIAS_PATH, handleQuery);
@@ -170,6 +173,19 @@ async function handleProgressSync(req, res) {
             return res.status(500).json({
                 ok: false,
                 error: 'Error interno al enrutar progress-sync en local.'
+            });
+        }
+    }
+}
+
+async function handleAuthSync(req, res) {
+    try {
+        await authSyncHandler(req, res);
+    } catch (_error) {
+        if (!res.headersSent) {
+            return res.status(500).json({
+                ok: false,
+                error: 'Error interno al enrutar auth-sync en local.'
             });
         }
     }
