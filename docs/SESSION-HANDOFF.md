@@ -164,7 +164,8 @@ Repos incluidos:
    - `1.6` iOS `ETAPA 5: MAESTRIA + ANEXOS` cerrada en caliente (fences Mermaid, markers auto y convención de flechas alineados).
    - `1.7` iOS `ETAPA 6: PROYECTO FINAL` cerrada con sección propia (`06-proyecto-final`) y rúbrica de entrega defendible.
    - `2.1` Android bloque inicial cerrado en caliente (`00-nivel-cero`, `00-core-mobile`) con convención de flechas alineada.
-   - tarea en construccion actual: `2.2` (Android intermedio: `01-junior`, `02-midlevel`).
+   - `2.2` Android bloque intermedio cerrado en caliente (`01-junior`, `02-midlevel`) con convención de flechas y fences Mermaid alineados.
+   - tarea en construccion actual: `2.3` (Android avanzado: `03-senior`, `04-maestria`, `05-proyecto-final`, `anexos`).
 
 ## Última comprobación de espera activa
 1. Fecha: 2026-02-27.
@@ -206,7 +207,7 @@ Repos incluidos:
 31. ✅ Fase 8 de optimización de imágenes de arquitectura iOS para móvil (`webp` + fallback `png`).
 
 ## Siguiente paso concreto
-1. Cerrar `2.2` del plan activo (Android bloque intermedio) lección por lección con registro en la matriz TSV.
+1. Cerrar `2.3` del plan activo (Android bloque avanzado) lección por lección con registro en la matriz TSV.
 2. Completar `0.3` (limpieza de planes historicos cerrados) para dejar `docs/` sin duplicados activos.
 3. Mantener commits atomicos y GitFlow estricto por bloque.
 4. Actualizar handoff al cerrar cada ola real de auditoria.
