@@ -970,3 +970,23 @@ En viewport móvil estrecho (`<=480px`) los controles superiores de estudio debe
 ### Impacto
 1. `5.4` queda técnicamente preparada para cierre rápido cuando Vercel permita desplegar.
 2. La verificación post-deploy pasa de checklist manual a ejecución automatizada.
+
+## ADR-LITE-050 — Runner end-to-end de cierre y tercer reintento bloqueado de 5.3
+### Fecha
+2026-03-02
+
+### Decisión
+1. Añadir `scripts/deploy-and-verify-closeout.sh` para ejecutar en cadena:
+   - deploy productivo (`publish-architecture-stack.sh`)
+   - verificación post-deploy (`post-deploy-checks.sh`)
+2. Registrar tercera ejecución de `5.3` con bloqueo por cuota:
+   - `2026-03-02 23:49 CET` -> `api-deployments-free-per-day`, `retry in 16 hours`.
+3. Actualizar ventana estimada de reintento a `2026-03-03 15:49 CET` o posterior.
+
+### Motivación
+1. Tener preparado el cierre completo en un único comando cuando se libere cuota.
+2. Evitar nuevos intentos fuera de ventana útil.
+
+### Impacto
+1. `5.4` queda lista para cierre inmediato en la próxima ventana válida.
+2. Se reduce fricción operativa en el último tramo del plan.

@@ -307,9 +307,11 @@ Fase `5.2` cerrada en verde; bloque activo movido a `5.3` (deploy final en Verce
    - mensaje de retry: `try again in 17 hours`.
 3. Reintento validado:
    - `2026-03-02 23:37 CET` -> mismo bloqueo (`api-deployments-free-per-day`, retry `17 hours`).
-4. Próxima ventana estimada:
-   - `2026-03-03 16:37 CET` o posterior.
-5. Fase `5.3` pasa a `⛔` hasta reset de cuota.
+4. Reintento adicional validado:
+   - `2026-03-02 23:49 CET` -> mismo bloqueo (`api-deployments-free-per-day`, retry `16 hours`).
+5. Próxima ventana estimada:
+   - `2026-03-03 15:49 CET` o posterior.
+6. Fase `5.3` pasa a `⛔` hasta reset de cuota.
 
 ### Pivot operativo
 1. Mientras se libera cuota, el bloque activo pasa a `0.3` para limpiar planes históricos cerrados en `docs/`.
@@ -361,6 +363,9 @@ Fase `0.4` cerrada en verde; bloque activo movido a `5.4`.
 5. Runner unificado post-deploy:
    - `scripts/post-deploy-checks.sh [base_url]`
    - baseline: `2026-03-02 23:43 CET` en verde (rutas + funcional).
+6. Runner end-to-end de cierre:
+   - `scripts/deploy-and-verify-closeout.sh [fast|strict] [base_url]`
+   - última ejecución: `2026-03-02 23:49 CET` (build OK, deploy bloqueado por cuota).
 
 ## Regresión post-hardening del asistente IA en runtime móvil (Fase 4)
 ### Fecha

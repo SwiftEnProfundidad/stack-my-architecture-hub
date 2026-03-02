@@ -24,8 +24,9 @@ Documento operativo de cierre para la fase `5.4` del plan activo:
    - Intentos registrados:
      - `2026-03-02 23:24 CET` -> bloqueado (`try again in 17 hours`).
      - `2026-03-02 23:37 CET` -> bloqueado (`try again in 17 hours`).
+     - `2026-03-02 23:49 CET` -> bloqueado (`try again in 16 hours`).
    - Próxima ventana estimada de reintento:
-     - `2026-03-03 16:37 CET` o posterior.
+     - `2026-03-03 15:49 CET` o posterior.
    - Criterio de cierre:
      - deploy productivo completado sin error de cuota.
 
@@ -61,6 +62,14 @@ Documento operativo de cierre para la fase `5.4` del plan activo:
      - `2026-03-02 23:43 CET` -> runner completo en verde.
    - Criterio de cierre:
      - ejecución en verde inmediatamente después del deploy final de `5.3`.
+
+6. `P2` `⏳` Runner end-to-end de cierre.
+   - Script:
+     - `scripts/deploy-and-verify-closeout.sh [fast|strict] [base_url]`
+   - Última ejecución:
+     - `2026-03-02 23:49 CET` -> build OK, deploy bloqueado por cuota (`api-deployments-free-per-day`).
+   - Criterio de cierre:
+     - deploy productivo + `post-deploy-checks` en una sola ejecución verde.
 
 4. `P3` `⏳` Cerrar `5.4` y congelar handoff final.
    - Alcance:

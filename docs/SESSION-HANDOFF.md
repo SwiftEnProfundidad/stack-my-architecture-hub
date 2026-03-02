@@ -195,7 +195,8 @@ Repos incluidos:
      - comando: `bash scripts/publish-architecture-stack.sh fast`
      - error: `api-deployments-free-per-day` (retry en ~17h desde intento).
      - reintento adicional: `2026-03-02 23:37 CET` con mismo bloqueo.
-     - próxima ventana estimada: `2026-03-03 16:37 CET` o posterior.
+     - reintento adicional: `2026-03-02 23:49 CET` con `retry in 16 hours`.
+     - próxima ventana estimada: `2026-03-03 15:49 CET` o posterior.
    - `0.3` limpieza documental cerrada:
      - planes históricos movidos a `docs/archive/plans-closed/`.
      - `docs/` raíz queda con un único plan activo: `PLAN-AUDITORIA-CURSOS-FASES-20260302.md`.
@@ -211,6 +212,9 @@ Repos incluidos:
    - runner unificado de verificación post-deploy:
      - script: `scripts/post-deploy-checks.sh [base_url]`
      - baseline actual (pre-deploy): `2026-03-02 23:43 CET`, runner completo en verde.
+   - runner end-to-end de cierre:
+     - script: `scripts/deploy-and-verify-closeout.sh [fast|strict] [base_url]`
+     - última ejecución: `2026-03-02 23:49 CET` (build OK, deploy bloqueado por cuota).
 
 ## Última comprobación de espera activa
 1. Fecha: 2026-02-27.
