@@ -1085,3 +1085,24 @@ En viewport móvil estrecho (`<=480px`) los controles superiores de estudio debe
 ### Impacto
 1. Operación de cierre más trazable y reproducible en GitFlow.
 2. Menor probabilidad de fallo operativo por carrera de ventana/cuota.
+
+## ADR-LITE-056 — Auto-reschedule del job de cierre ante nuevo cooldown
+### Fecha
+2026-03-03
+
+### Decisión
+1. Extender `scripts/closeout-at-job.sh` para que:
+   - persista estado en `.runtime/auto-closeout-status.env`,
+   - genere `.runtime/closeout-complete.flag` al éxito,
+   - reprograme automáticamente siguiente ejecución al detectar cooldown actualizado.
+2. Mantener switch de control:
+   - `SMA_CLOSEOUT_AUTO_RESCHEDULE` (`1` por defecto).
+   - `SMA_CLOSEOUT_RESCHEDULE_OFFSET_SECONDS` (`60` por defecto).
+
+### Motivación
+1. Evitar intervención manual si Vercel devuelve nueva ventana de reintento en el primer disparo.
+2. Aumentar resiliencia del cierre final `5.4` con operación desatendida.
+
+### Impacto
+1. Menor riesgo de quedar bloqueados entre intentos por cambios dinámicos de cuota.
+2. Mayor trazabilidad operacional del cierre automático.
