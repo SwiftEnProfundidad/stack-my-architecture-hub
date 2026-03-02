@@ -1299,5 +1299,11 @@ Necesidad operativa del bloque auth por:
    - `scripts/tests/test-auth-sync.js` cubre enrutamiento, validación de email y mapeo de errores para ambos flujos.
 
 ### Estado
-1. Implementación cerrada en branch de trabajo.
-2. Pendiente de cierre de bloque: ejecución de test/build/smoke en integración y PR/merge en GitFlow.
+1. Implementación cerrada en `feature/hub-auth-recovery-20260302` y mergeada en `develop` (PR `#71`, squash).
+2. Validación ejecutada:
+   - `node --test scripts/tests/test-auth-sync.js` -> PASS (10/10).
+   - `./scripts/build-hub.sh --mode strict` -> PASS.
+   - `./scripts/smoke-hub-runtime.sh` -> OK.
+3. Despliegue productivo aplicado:
+   - `https://architecture-stack.vercel.app`
+   - `https://architecture-stack-4zketscuo-merlosalbarracins-projects.vercel.app`

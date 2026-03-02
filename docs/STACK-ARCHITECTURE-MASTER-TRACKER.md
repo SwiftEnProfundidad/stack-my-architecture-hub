@@ -541,5 +541,12 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
    - `vercel.json`: rewrites de `/auth/resend` y `/auth/recover`.
    - `scripts/tests/test-auth-sync.js`: tests de routing + payload obligatorio + mapeo de errores para ambos flujos.
 3. Estado
-   - Validación técnica pendiente en este bloque: `node --test scripts/tests/test-auth-sync.js`, `build-hub --mode strict`, `smoke-hub-runtime`.
-   - resto de implementación y pruebas de contrato preparadas en branch `feature/hub-auth-recovery-20260302`.
+   - PR mergeado en `develop`: `#71` (squash) desde `feature/hub-auth-recovery-20260302`.
+   - Validación técnica ejecutada:
+     - `node --test scripts/tests/test-auth-sync.js` -> PASS (10/10).
+     - `./scripts/build-hub.sh --mode strict` -> PASS.
+     - `./scripts/smoke-hub-runtime.sh` -> OK.
+   - Despliegue Vercel:
+     - `https://architecture-stack.vercel.app`
+     - `https://architecture-stack-4zketscuo-merlosalbarracins-projects.vercel.app`
+   - Estado operativo: ✅ bloque cerrado.

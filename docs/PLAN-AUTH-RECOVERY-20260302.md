@@ -24,6 +24,6 @@ Completar el flujo de cuenta con operaciones de soporte de acceso: reenviar conf
 3. ✅ Crear `auth/recover.html` y acceso desde login.
 
 ## Fase 4 — Validacion y cierre
-1. 🚧 Ejecutar `node --test scripts/tests/test-auth-sync.js`.
-2. ⏳ Ejecutar `./scripts/build-hub.sh --mode strict` y `./scripts/smoke-hub-runtime.sh`.
-3. ⏳ Actualizar tracking (`MASTER-TRACKER`, `HUB-STABILITY-LOG`, `SESSION-HANDOFF`) y cerrar GitFlow + deploy Vercel.
+1. ✅ Ejecutar `node --test scripts/tests/test-auth-sync.js`.
+2. ✅ Ejecutar `./scripts/build-hub.sh --mode strict` y `./scripts/smoke-hub-runtime.sh`.
+3. ✅ Actualizar tracking (`MASTER-TRACKER`, `HUB-STABILITY-LOG`, `SESSION-HANDOFF`) y cerrar GitFlow + deploy Vercel.
