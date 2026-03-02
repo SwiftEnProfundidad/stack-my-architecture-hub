@@ -1668,3 +1668,21 @@ Se añade cobertura para evitar regresiones en el comando de readiness justo ant
 1. `./scripts/tests/test-closeout-readiness.sh` -> `[PASS] closeout-readiness tests`.
 2. Cola real preservada:
    - `atq` mantiene job activo en `15:50 CET`.
+
+## QA de automatización — tests de scheduler closeout
+### Fecha
+2026-03-03
+
+### Contexto
+Se añade cobertura de regresión para evitar fallos de programación/limpieza de jobs en `schedule-closeout-at.sh`.
+
+### Cambios aplicados
+1. `scripts/schedule-closeout-at.sh` habilita inyección de comandos:
+   - `SMA_ATQ_CMD`, `SMA_AT_CMD`, `SMA_ATRM_CMD`.
+2. Nuevo test:
+   - `scripts/tests/test-schedule-closeout-at.sh`.
+
+### Verificación
+1. `./scripts/tests/test-schedule-closeout-at.sh` -> `[PASS] schedule-closeout-at tests`.
+2. No impacto en runtime real:
+   - `atq` conserva job activo en `15:50 CET`.
