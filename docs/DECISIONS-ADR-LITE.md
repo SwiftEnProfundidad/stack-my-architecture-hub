@@ -1051,3 +1051,20 @@ En viewport móvil estrecho (`<=480px`) los controles superiores de estudio debe
 ### Impacto
 1. El cierre final de `5.4` puede ejecutarse de forma desatendida y controlada.
 2. Se mantiene protección de cuota con guardrails explícitos y override consciente.
+
+## ADR-LITE-054 — Programar reintento explícito con `at` para primera ventana útil
+### Fecha
+2026-03-03
+
+### Decisión
+1. Programar un job `at` para `2026-03-03 15:50 CET`.
+2. Ejecutar desde ese job el script `.runtime/closeout-at-job.sh`.
+3. Delegar en ese script la ejecución de `./scripts/deploy-and-verify-closeout.sh fast` con logging dedicado.
+
+### Motivación
+1. Evitar dependencia de intervención humana en una ventana precisa de cuota.
+2. Asegurar intento único y trazable justo después del `not-before`.
+
+### Impacto
+1. Se reduce riesgo operativo de perder la ventana de despliegue por timing.
+2. Se gana trazabilidad explícita de ejecución automática (`atq` + log en `.runtime/auto-closeout-*.log`).

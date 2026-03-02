@@ -223,6 +223,10 @@ Repos incluidos:
    - runner de espera automática para cierre desatendido:
      - script: `scripts/closeout-wait-and-run.sh [fast|strict] [base_url]`
      - validación segura: `2026-03-03 00:01 CET` con `SMA_CLOSEOUT_MAX_WAIT_SECONDS=60` (salida controlada sin intento de deploy).
+   - orquestación programada de reintento:
+     - `at` job `#1` en `2026-03-03 15:50 CET` (posterior a `not-before 15:49 CET`).
+     - job file: `.runtime/closeout-at-job.sh`.
+     - objetivo: ejecutar `deploy-and-verify-closeout.sh fast` automáticamente en la primera ventana útil.
 
 ## Última comprobación de espera activa
 1. Fecha: 2026-02-27.
