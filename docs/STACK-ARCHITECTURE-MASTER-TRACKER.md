@@ -198,6 +198,11 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
     - validación técnica en verde (`validate-diagram-semantics`, `build-html`).
     - siguiente task activa: Android `2.1` (bloque inicial).
 
+67. Android bloque inicial (2.1) cerrado en ciclo gradual (2026-03-02):
+    - normalización de convención de flechas en `00-nivel-cero` y `00-core-mobile`.
+    - validación técnica en verde (`check-links`, `validate-diagram-semantics`, `build-html`).
+    - siguiente task activa: Android `2.2` (bloque intermedio).
+
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.
 2. Regeneración de launchers/apps de escritorio del Hub.

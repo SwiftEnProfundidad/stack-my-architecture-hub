@@ -76,8 +76,8 @@ Notas:
 ## Fase 2 - Android
 | ID | Estado | Task | Alcance |
 | --- | --- | --- | --- |
-| 2.1 | 🚧 | Auditar + corregir bloque inicial | `00-nivel-cero`, `00-core-mobile` |
-| 2.2 | ⏳ | Auditar + corregir intermedio | `01-junior`, `02-midlevel` |
+| 2.1 | ✅ | Auditar + corregir bloque inicial | `00-nivel-cero`, `00-core-mobile` |
+| 2.2 | 🚧 | Auditar + corregir intermedio | `01-junior`, `02-midlevel` |
 | 2.3 | ⏳ | Auditar + corregir avanzado | `03-senior`, `04-maestria`, `05-proyecto-final`, `anexos` |
 | 2.4 | ⏳ | Endurecer Proyecto Final Android | explicacion de reto integral, rubrica y expectativas enterprise |
 
