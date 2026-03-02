@@ -200,3 +200,146 @@ test('GET /auth/me requiere bearer y retorna user', async () => {
   assert.equal(calls[0].options.method, 'GET');
   assert.equal(calls[0].options.headers.Authorization, 'Bearer access-1');
 });
+
+test('POST /auth/resend valida email obligatorio', async () => {
+  const handler = loadHandler({
+    SUPABASE_URL: 'https://example.supabase.co',
+    SUPABASE_ANON_KEY: 'anon-key'
+  });
+
+  const result = await invoke(handler, {
+    method: 'POST',
+    url: '/auth/resend?route=resend',
+    body: {}
+  });
+
+  assert.equal(result.statusCode, 400);
+  assert.equal(result.json.ok, false);
+  assert.match(result.json.error, /email/i);
+});
+
+test('POST /auth/resend enruta contra Supabase resend signup', async () => {
+  const calls = [];
+  const handler = loadHandler({
+    SUPABASE_URL: 'https://example.supabase.co',
+    SUPABASE_ANON_KEY: 'anon-key'
+  });
+
+  await withMockFetch(async (url, options) => {
+    calls.push({ url, options });
+    return {
+      ok: true,
+      status: 200,
+      text: async () => JSON.stringify({ message_id: 'm-1' })
+    };
+  }, async () => {
+    const result = await invoke(handler, {
+      method: 'POST',
+      url: '/auth/resend?route=resend',
+      body: { email: 'foo@example.com' }
+    });
+
+    assert.equal(result.statusCode, 200);
+    assert.equal(result.json.ok, true);
+    assert.equal(result.json.sent, true);
+  });
+
+  assert.equal(calls.length, 1);
+  assert.match(calls[0].url, /auth\/v1\/resend$/);
+  assert.equal(calls[0].options.method, 'POST');
+  const body = JSON.parse(calls[0].options.body);
+  assert.equal(body.type, 'signup');
+  assert.equal(body.email, 'foo@example.com');
+});
+
+test('POST /auth/recover enruta contra Supabase recover', async () => {
+  const calls = [];
+  const handler = loadHandler({
+    SUPABASE_URL: 'https://example.supabase.co',
+    SUPABASE_ANON_KEY: 'anon-key'
+  });
+
+  await withMockFetch(async (url, options) => {
+    calls.push({ url, options });
+    return {
+      ok: true,
+      status: 200,
+      text: async () => JSON.stringify({})
+    };
+  }, async () => {
+    const result = await invoke(handler, {
+      method: 'POST',
+      url: '/auth/recover?route=recover',
+      body: { email: 'foo@example.com' }
+    });
+
+    assert.equal(result.statusCode, 200);
+  assert.equal(result.json.ok, true);
+  assert.equal(result.json.sent, true);
+  });
+
+  assert.equal(calls.length, 1);
+  assert.match(calls[0].url, /auth\/v1\/recover$/);
+  assert.equal(calls[0].options.method, 'POST');
+  const body = JSON.parse(calls[0].options.body);
+  assert.equal(body.email, 'foo@example.com');
+});
+
+test('POST /auth/recover valida email obligatorio', async () => {
+  const handler = loadHandler({
+    SUPABASE_URL: 'https://example.supabase.co',
+    SUPABASE_ANON_KEY: 'anon-key'
+  });
+
+  const result = await invoke(handler, {
+    method: 'POST',
+    url: '/auth/recover?route=recover',
+    body: {}
+  });
+
+  assert.equal(result.statusCode, 400);
+  assert.equal(result.json.ok, false);
+  assert.match(result.json.error, /email/i);
+});
+
+test('POST /auth/recover y /auth/resend mapean errores de proveedor', async () => {
+  const calls = [];
+  const handler = loadHandler({
+    SUPABASE_URL: 'https://example.supabase.co',
+    SUPABASE_ANON_KEY: 'anon-key'
+  });
+
+  await withMockFetch(async (url, options) => {
+    calls.push({ url, options });
+    return {
+      ok: false,
+      status: 400,
+      text: async () => JSON.stringify({
+        error: 'invalid request',
+        message: 'invalid request'
+      })
+    };
+  }, async () => {
+    const recover = await invoke(handler, {
+      method: 'POST',
+      url: '/auth/recover?route=recover',
+      body: { email: 'foo@example.com' }
+    });
+    const resend = await invoke(handler, {
+      method: 'POST',
+      url: '/auth/resend?route=resend',
+      body: { email: 'foo@example.com' }
+    });
+
+    assert.equal(recover.statusCode, 400);
+    assert.equal(recover.json.ok, false);
+    assert.equal(recover.json.error, 'invalid request');
+    assert.equal(resend.statusCode, 400);
+    assert.equal(resend.json.ok, false);
+    assert.equal(resend.json.error, 'invalid request');
+  });
+
+  assert.equal(calls.length, 2);
+  assert.match(calls[0].options.body, /\"email\":\"foo@example.com\"/);
+  assert.match(calls[1].options.body, /\"type\":\"signup\"/);
+});

@@ -1274,3 +1274,30 @@ Sin regresion en arranque/rutas del Hub y con base tecnica lista para persistenc
 3. Rutas auth/public verificadas en `200`:
    - `/`, `/ios/`, `/android/`, `/sdd/`
    - `/auth/index.html`, `/auth/register.html`, `/auth/login.html`, `/auth/config`
+
+## Hotfix auth recovery — resend y recover
+### Fecha
+2026-03-02
+
+### Contexto
+Necesidad operativa del bloque auth por:
+- reintento de confirmación por parte del usuario;
+- recuperación de contraseña sin dependencias extra.
+
+### Cambios aplicados
+1. Backend:
+   - `api/auth-sync.js`: rutas `resend` y `recover`, validaciones mínimas y normalización de payload.
+   - soporte de routes por pathname (`/auth/resend`, `/auth/recover`) y query (`route=...`).
+2. Frontend:
+   - `assets/auth-client.js`: `resendConfirmation()` y `recoverPassword()`.
+   - `auth/recover.html`: nueva vista de recuperación.
+   - `auth/login.html`: acceso directo a recuperación.
+   - `auth/register.html`: botón y flujo de reenvío de confirmación.
+3. Despliegue:
+   - `vercel.json`: rewrites `/auth/resend` y `/auth/recover`.
+4. Pruebas:
+   - `scripts/tests/test-auth-sync.js` cubre enrutamiento, validación de email y mapeo de errores para ambos flujos.
+
+### Estado
+1. Implementación cerrada en branch de trabajo.
+2. Pendiente de cierre de bloque: ejecución de test/build/smoke en integración y PR/merge en GitFlow.

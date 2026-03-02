@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Recuperar contraseña · Stack My Architecture</title>
+  <link rel="stylesheet" href="./auth.css" />
+</head>
+
+<body>
+  <main class="wrap">
+    <section class="panel">
+      <div class="top">
+        <img class="logo" src="../assets/brand/pumuki-logo-neon.png" alt="PUMUKI" loading="lazy" decoding="async" />
+        <div>
+          <h1>Recuperar contraseña</h1>
+          <p class="lead">Solicita un enlace de recuperación para restablecer tu acceso.</p>
+        </div>
+      </div>
+
+      <form id="recover-form" class="stack">
+        <div>
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" autocomplete="email" required />
+        </div>
+        <div class="row">
+          <button class="btn btn-primary" type="submit">Enviar enlace</button>
+          <a class="btn" href="./login.html">Volver al login</a>
+          <a class="btn" href="./index.html">Volver</a>
+        </div>
+      </form>
+
+      <div id="msg"></div>
+    </section>
+  </main>
+
+  <script src="../assets/auth-client.js"></script>
+  <script>
+    (function () {
+      var form = document.getElementById('recover-form');
+      var msg = document.getElementById('msg');
+
+      function setMessage(text, type) {
+        msg.textContent = text || '';
+        msg.className = text ? 'msg ' + (type || 'ok') : '';
+      }
+
+      function resolveRedirect() {
+        var current = new URL(window.location.href);
+        current.pathname = '/auth/login.html';
+        current.search = '';
+        current.hash = '';
+        return current.toString();
+      }
+
+      form.addEventListener('submit', async function (event) {
+        event.preventDefault();
+        setMessage('', '');
+        var email = form.email.value.trim();
+        if (!email) {
+          setMessage('Indica un email válido.', 'error');
+          return;
+        }
+
+        try {
+          await window.SMAAuth.recoverPassword({
+            email: email,
+            emailRedirectTo: resolveRedirect()
+          });
+          setMessage('Si la cuenta existe, hemos enviado el enlace de recuperación.', 'ok');
+        } catch (error) {
+          setMessage(error && error.message ? error.message : 'No se pudo solicitar la recuperación.', 'error');
+        }
+      });
+    })();
+  </script>
+</body>
+
+</html>
