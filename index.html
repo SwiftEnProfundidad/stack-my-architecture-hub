@@ -8,12 +8,11 @@
   <style>
     :root {
       --bg: #0a1326;
-      --bg-elevated: rgba(15, 23, 42, 0.72);
+      --bg-elevated: rgba(15, 23, 42, 0.74);
       --border: rgba(148, 163, 184, 0.28);
       --text: #e5e7eb;
       --text-muted: #cbd5e1;
       --accent: #60a5fa;
-      --accent-2: #22d3ee;
       --radius: 16px;
     }
 
@@ -22,20 +21,20 @@
     }
 
     body {
-      font-family: "Avenir Next", "SF Pro Display", "Segoe UI", sans-serif;
       margin: 0;
       min-height: 100vh;
+      font-family: "Avenir Next", "SF Pro Display", "Segoe UI", sans-serif;
+      color: var(--text);
       background:
         radial-gradient(80% 60% at 85% 0%, rgba(14, 165, 233, 0.2) 0%, transparent 70%),
         radial-gradient(70% 50% at 0% 100%, rgba(96, 165, 250, 0.18) 0%, transparent 75%),
         var(--bg);
-      color: var(--text);
     }
 
     .wrap {
-      width: min(980px, 100%);
+      width: min(1020px, 100%);
       margin: 0 auto;
-      padding: 24px 16px 36px;
+      padding: 16px;
     }
 
     .panel {
@@ -43,71 +42,153 @@
       border-radius: var(--radius);
       background: var(--bg-elevated);
       backdrop-filter: blur(8px);
-      padding: 20px;
+      padding: 16px;
       box-shadow: 0 20px 40px rgba(2, 6, 23, 0.35);
+    }
+
+    .hero-head {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .brand-card {
+      border: 1px solid rgba(148, 163, 184, 0.22);
+      border-radius: 12px;
+      background: rgba(2, 6, 23, 0.48);
+      padding: 10px;
+      width: 100%;
+      max-width: 280px;
+    }
+
+    .brand-card img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+    }
+
+    .title-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
     }
 
     h1 {
       margin: 0 0 10px;
-      line-height: 1.15;
-      font-size: clamp(1.55rem, 4vw, 2.2rem);
-      letter-spacing: 0.02em;
+      line-height: 1.12;
+      font-size: clamp(1.45rem, 4vw, 2.15rem);
+      letter-spacing: 0.01em;
     }
 
-    p.lead {
+    .lead {
       margin: 0;
       color: var(--text-muted);
-      font-size: clamp(0.96rem, 2.5vw, 1.05rem);
+      font-size: clamp(0.95rem, 2.4vw, 1.03rem);
+      max-width: 70ch;
     }
 
-    .actions {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin: 20px 0;
-    }
-
-    a.btn {
-      display: block;
-      padding: 14px 16px;
-      border-radius: 12px;
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       border: 1px solid var(--border);
-      text-decoration: none;
-      color: var(--text);
+      border-radius: 12px;
       background: rgba(15, 23, 42, 0.76);
+      color: var(--text);
+      text-decoration: none;
       font-weight: 700;
+      padding: 12px 14px;
+      min-height: 46px;
       transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease, color 0.18s ease;
+      white-space: nowrap;
     }
 
-    a.btn:hover {
+    .btn:hover {
       border-color: var(--accent);
       color: #dbeafe;
       transform: translateY(-1px);
       box-shadow: 0 8px 24px rgba(14, 165, 233, 0.16);
     }
 
-    p.note {
-      color: var(--text-muted);
+    .video-shell {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      background: rgba(2, 6, 23, 0.62);
+    }
+
+    .video-shell video {
+      display: block;
+      width: 100%;
+      height: auto;
+      max-height: 56vh;
+      background: #020617;
+    }
+
+    .video-caption {
       margin: 0;
+      padding: 8px 12px 10px;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      border-top: 1px solid rgba(148, 163, 184, 0.16);
+    }
+
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .actions .btn {
+      width: 100%;
+    }
+
+    .actions.secondary {
+      margin-top: 10px;
+    }
+
+    .note {
+      color: var(--text-muted);
+      margin: 10px 0 0;
       font-size: 0.92rem;
     }
 
-    @media (min-width: 640px) {
+    @media (min-width: 760px) {
       .wrap {
-        padding: 44px 24px 48px;
+        padding: 34px 20px 36px;
       }
 
       .panel {
-        padding: 30px;
+        padding: 18px;
       }
 
-      .actions {
-        flex-direction: row;
+      .hero-head {
+        grid-template-columns: 190px 1fr;
+        gap: 14px;
       }
 
-      a.btn {
-        flex: 1;
-        text-align: center;
+      .brand-card {
+        margin: 0;
+      }
+    }
+
+    @media (min-width: 940px) {
+      .panel {
+        padding: 18px;
+      }
+
+      .actions.primary {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .actions.secondary {
+        grid-template-columns: repeat(2, 1fr);
       }
     }
   </style>
@@ -115,17 +196,40 @@
 
 <body>
   <main class="wrap">
-    <div class="panel">
-      <h1>Stack My Architecture · Cursos</h1>
-      <p class="lead">Accede a iOS, Android y IA + SDD desde un hub único optimizado para móvil y escritorio.</p>
-      <div class="actions">
+    <section class="panel">
+      <div class="hero-head">
+        <div class="brand-card">
+          <img src="./assets/brand/pumuki-logo-neon.png" alt="PUMUKI" loading="lazy" decoding="async" />
+        </div>
+        <div>
+          <div class="title-row">
+            <h1>Stack My Architecture · Cursos</h1>
+          </div>
+          <p class="lead">Accede a iOS, Android y IA + SDD desde un hub único optimizado para móvil y escritorio.</p>
+        </div>
+      </div>
+
+      <figure class="video-shell">
+        <video controls playsinline preload="metadata" poster="./assets/brand/pumuki-logo-neon.png">
+          <source src="./assets/brand/pumuki-intro.mp4" type="video/mp4" />
+          Tu navegador no soporta video HTML5.
+        </video>
+        <figcaption class="video-caption">Intro oficial PUMUKI · 14s · versión optimizada para web.</figcaption>
+      </figure>
+
+      <div class="actions primary">
         <a class="btn" href="./ios/index.html">Abrir curso iOS</a>
         <a class="btn" href="./android/index.html">Abrir curso Android</a>
         <a class="btn" href="./sdd/index.html">Abrir curso IA + SDD</a>
-        <a class="btn" href="./auth/index.html">Registro / Login</a>
       </div>
+
+      <div class="actions secondary">
+        <a class="btn" href="./auth/index.html">Cuenta y sincronización</a>
+        <a class="btn" href="./auth/login.html">Ir a Login</a>
+      </div>
+
       <p class="note">Sin cuenta: progreso local por curso. Con login: progreso cloud por usuario.</p>
-    </div>
+    </section>
   </main>
 </body>
 
