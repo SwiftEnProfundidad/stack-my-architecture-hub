@@ -651,3 +651,23 @@ Agregar un backend de sincronización de progreso en Hub (`/progress/config`, `/
 2. iOS/Android/SDD sincronizan `completed`, `review`, `lastTopic`, `stats`, `zen` y `fontSize`.
 3. Operaciones de import/reset fuerzan push cloud para evitar recuperación de estado obsoleto.
 4. Se añade test de contrato `scripts/tests/test-progress-sync.js`.
+
+## ADR-LITE-032 — `updatedAt` cloud scope por `profileKey` y prioridad de perfil por URL
+### Fecha
+2026-03-02
+
+### Decisión
+Ajustar `study-ux.js` en iOS/Android/SDD para que:
+1. el timestamp de sincronización cloud no sea compartido por curso, sino por perfil (`v2` por `profileKey`),
+2. `progressProfile` de query string tenga prioridad sobre perfil persistido en storage,
+3. exista migración de `updatedAt` legacy solo cuando no hay perfil explícito en URL.
+
+### Motivación
+1. Evitar colisiones entre perfiles cuando un mismo navegador cambia de perfil de sincronización.
+2. Garantizar que un enlace de sincronización compartido fuerce el perfil correcto en bootstrap.
+3. Mantener compatibilidad con estado legacy sin introducir regresiones.
+
+### Impacto
+1. Pull cloud más estable en escenarios multi-dispositivo/local-Vercel.
+2. Menor probabilidad de estado desalineado al alternar perfiles.
+3. No cambia el modelo de datos de progreso (solo semántica de resolución de perfil/timestamp).

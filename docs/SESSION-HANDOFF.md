@@ -213,3 +213,17 @@ Repos incluidos:
 `cd "/Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture" && codex`
 4. Validar drift de sync selectivo del Hub:
 `cd "/Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture/stack-my-architecture-hub" && ./scripts/check-selective-sync-drift.sh`
+
+## Hotfix activo 2026-03-02 — Sync cloud profile-scoped
+1. ✅ Causa raíz cubierta: `updatedAt` cloud dejó de ser global por curso y pasa a ser específico por `profileKey`.
+2. ✅ Priorización corregida: `progressProfile` en query fuerza perfil activo (sobrescribe storage local cuando aplica).
+3. ✅ Build + sync hub en verde:
+   - `./scripts/build-hub.sh --fast` -> PASS
+   - `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`
+   - `./scripts/smoke-hub-runtime.sh` -> OK
+4. ✅ Trazabilidad versionada en:
+   - `docs/HUB-STABILITY-LOG.md`
+   - `docs/DECISIONS-ADR-LITE.md`
+
+### Nota operativa para validación cross-device
+Para ver el mismo progreso en otro dispositivo/navegador limpio, abrir el curso con el mismo `progressProfile` (enlace generado por `🔗 Copiar enlace de sincronización`).

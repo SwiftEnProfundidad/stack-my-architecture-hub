@@ -482,3 +482,15 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 1. Commit: `1940c7d`
 2. Tag: `hub-stable-20260224`
 3. Repo: `stack-my-architecture-hub`
+
+## Actualizacion 2026-03-02 — Hotfix sync cloud profile-scoped
+1. Alcance: iOS/Android/SDD + build/sync Hub.
+2. Cambios cerrados:
+   - `study-ux.js` con `updatedAt` cloud por `profileKey` (`v2`) en los 3 cursos.
+   - prioridad de `progressProfile` por URL sobre perfil persistido.
+   - migración segura de `updatedAt` legacy sin query explícita.
+3. Validación:
+   - `./scripts/build-hub.sh --fast` -> PASS.
+   - `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
+   - `./scripts/smoke-hub-runtime.sh` -> OK.
+4. Estado del bloque: ✅ Hecho.
