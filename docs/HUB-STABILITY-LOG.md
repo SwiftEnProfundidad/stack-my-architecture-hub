@@ -189,7 +189,7 @@ Se activa un plan único de auditoría gradual con tracking transversal para evi
 ### Evidencia versionada
 1. Plan activo: `docs/PLAN-AUDITORIA-CURSOS-FASES-20260302.md`
 2. Matriz operativa: `docs/AUDITORIA-CURSOS-MATRIZ-20260302.tsv`
-3. Bloque en construcción: Hub `4.3` (validación visual temas/viewport tras cierre de 4.2).
+3. Bloque en construcción: Hub `5.2` (commits atomicos + push + PR + merge por bloque).
 
 ### Estado de estabilidad
 1. Sin impacto en rutas públicas del Hub en esta actualización documental.
@@ -244,6 +244,49 @@ Fase `4.1` cerrada sin regresiones de rutas ni de apertura de cursos; siguiente 
 
 ### Resultado
 Fase `4.2` cerrada sin regresiones de rutas públicas ni de apertura autenticada; siguiente bloque activo `4.3`.
+
+## Cierre Fase 4.3 — validación visual 3 temas + desktop/iPhone
+### Fecha
+2026-03-02
+
+### Evidencia técnica
+1. Playwright runtime en iOS/Android/SDD con `desktop (1366x900)` e `iPhone (390x844)`.
+2. Ciclo de estilos validado en los 3 cursos:
+   - `Estilo: Enterprise`
+   - `Estilo: Bold`
+   - `Estilo: Paper`
+3. Métricas de layout:
+   - `bodyOverflowX=false`
+   - `controlsOverflowX=false`
+   - `assistantOverflowsViewport=false`
+   - toggle de índice visible en iPhone.
+
+### Resultado
+Fase `4.3` cerrada en verde para UX visual; bloque activo movido a `5.1` (QA técnico cross-repo).
+
+## Apertura Fase 5.1 — QA técnico cross-repo
+### Fecha
+2026-03-02
+
+### Estado actual
+1. Android QA técnico en verde (`check-links`, `validate-diagram-semantics`, `build-html`).
+2. SDD QA técnico en verde (estructura, OpenSpec, links, pedagogía, snippets, build, `swift test`).
+3. iOS QA técnico en verde tras cierre del bloqueo:
+   - enlaces de arquitectura corregidos en `00-core-mobile/00-introduccion.md`.
+   - baseline de guardrails recalibrado al corpus auditado actual.
+   - `run-qa-audit-bundle.sh` completado en verde.
+
+### Resultado
+Fase `5.1` cerrada en verde; bloque activo movido a `5.2` (GitFlow de cierre por bloques).
+
+## Apertura Fase 5.2 — cierre GitFlow por bloque
+### Fecha
+2026-03-02
+
+### Estado actual
+1. iOS: ciclo GitFlow de fix QA ya cerrado (push + PR + merge).
+2. Hub: pendientes commits atomicos de tracking + sync final para cerrar bloque.
+3. Siguiente paso: PR/merge en Hub y dejar branch `develop` limpio en los 4 repos.
 
 ## Regresión post-hardening del asistente IA en runtime móvil (Fase 4)
 ### Fecha

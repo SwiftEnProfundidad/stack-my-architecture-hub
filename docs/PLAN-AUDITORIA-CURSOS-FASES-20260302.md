@@ -94,12 +94,12 @@ Notas:
 | --- | --- | --- | --- |
 | 4.1 | ✅ | Auditar y corregir botones/navbars/menus responsive | Hub + cursos incrustados |
 | 4.2 | ✅ | Endurecer flujo auth/logout/acceso a cursos | evitar acceso sin sesion tras logout |
-| 4.3 | 🚧 | Validar 3 temas visuales + mobile/desktop + iPhone | evidencia Playwright |
+| 4.3 | ✅ | Validar 3 temas visuales + mobile/desktop + iPhone | evidencia Playwright |
 
 ## Fase 5 - QA, GitFlow, cierre
 | ID | Estado | Task | Entregable |
 | --- | --- | --- | --- |
-| 5.1 | ⏳ | Validaciones tecnicas por repo + Hub strict/drift/smoke | QA en verde |
-| 5.2 | ⏳ | Commits atomicos + push + PR + merge por bloque | historial limpio |
+| 5.1 | ✅ | Validaciones tecnicas por repo + Hub strict/drift/smoke | QA en verde |
+| 5.2 | 🚧 | Commits atomicos + push + PR + merge por bloque | historial limpio |
 | 5.3 | ⏳ | Deploy Vercel final con aprobacion explicita | produccion estable |
 | 5.4 | ⏳ | Cierre: 0 tareas `🚧` y backlog residual priorizado | tracking final |

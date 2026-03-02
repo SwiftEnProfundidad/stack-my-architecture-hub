@@ -251,7 +251,7 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
       - rúbrica ponderada + defensa final.
     - integración en `scripts/build-html.py` (full/public) y publicación en Hub SDD en perfil monetizable.
     - validación AGENTS en verde + `build-hub --mode fast`, `check-selective-sync-drift`, `smoke-hub-runtime` en verde.
-    - siguiente task activa: Hub `4.3` (validación visual de temas/viewport tras cierre de `4.2`).
+    - siguiente task activa: Hub `5.1` (QA técnico cross-repo tras cierre de `4.3`).
 
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.
@@ -393,7 +393,9 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 40. 🚧 Ejecutar auditoría gradual en caliente por lección con plan único activo:
     - `4.1` Hub UX/UI responsive cerrado en caliente (iOS/Android/SDD sin overflow del control IA en móvil).
     - `4.2` auth/logout/acceso cerrado en caliente (logout con limpieza total de identidad/perfil + `next` saneado).
-    - bloque actual: Hub `4.3` (validación visual en 3 temas + mobile/desktop + iPhone).
+    - `4.3` validación visual cerrada en caliente (3 estilos + desktop/iPhone en iOS/Android/SDD sin overflow horizontal).
+    - `5.1` validaciones técnicas cross-repo cerradas en caliente (Android/SDD en verde; iOS con enlaces corregidos + baseline guardrails recalibrado + bundle QA en verde).
+    - bloque actual: Hub `5.2` (commits atomicos + push + PR + merge por bloque).
     - plan activo: `docs/PLAN-AUDITORIA-CURSOS-FASES-20260302.md`.
     - matriz operativa: `docs/AUDITORIA-CURSOS-MATRIZ-20260302.tsv`.
 
@@ -402,7 +404,7 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 2. Riesgo de referencia remota en `SDD`: `origin/main` mantiene una línea distinta al baseline operativo actual (`main` local); no integrar sin instrucción explícita.
 
 ## Próximos pasos recomendados
-1. Completar `4.3` del plan activo sobre validación visual cross-theme/cross-device y registrar evidencia en tracking.
+1. Completar `5.2` del plan activo cerrando GitFlow de los cambios pendientes en Hub/tracking (commits atomicos + push + PR + merge).
 2. Cerrar limpieza documental de planes históricos (`0.3`) sin perder trazabilidad operativa.
 3. Actualizar `docs/SESSION-HANDOFF.md` al cierre de cada ola de auditoría.
 4. Mantener un único despliegue final por bloque para evitar consumo innecesario de cuota Vercel.

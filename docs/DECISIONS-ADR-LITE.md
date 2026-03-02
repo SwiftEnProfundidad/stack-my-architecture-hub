@@ -799,3 +799,36 @@ En viewport móvil estrecho (`<=480px`) los controles superiores de estudio debe
 ### Impacto
 1. Flujo auth/logout/acceso más robusto para monetización y multi-dispositivo.
 2. Cierre operativo de `4.2` y transición a `4.3` (validación visual cross-theme/cross-device).
+
+## ADR-LITE-040 — Cierre de validación visual 4.3 y apertura QA 5.1 con bloqueo parcial iOS
+### Fecha
+2026-03-02
+
+### Decisión
+1. Dar por cerrada `4.3` tras evidencia Playwright cross-course (`desktop+iPhone`, 3 estilos) sin overflow.
+2. Abrir `5.1` como única tarea en construcción con tratamiento explícito de bloqueo parcial iOS en guardrails históricos.
+
+### Motivación
+1. Separar validación UX visual (ya en verde) de deuda histórica de auditoría semántica iOS no causada por hotfixes recientes.
+2. Mantener trazabilidad honesta: no ocultar fallos preexistentes ni bloquear cierre de fases no relacionadas.
+
+### Impacto
+1. Estado operativo claro: Fase 4 completa y foco en QA técnico real.
+2. Siguiente trabajo priorizado: triage y resolución incremental de `mermaid_p1` y `links_p1` en iOS.
+
+## ADR-LITE-041 — Cierre de QA 5.1 y apertura 5.2 (GitFlow de cierre)
+### Fecha
+2026-03-02
+
+### Decisión
+1. Cerrar `5.1` tras dejar en verde validaciones técnicas de Android/SDD y iOS.
+2. En iOS, corregir enlaces de arquitectura rotos y recalibrar baseline de guardrails al corpus auditado vigente.
+3. Abrir `5.2` como única tarea en construcción para cerrar ciclo GitFlow por bloque (commits, push, PR, merge).
+
+### Motivación
+1. Mantener QA reproducible y sin falsos bloqueos por baseline desalineado con el contenido actual.
+2. Continuar con trazabilidad estricta: una sola tarea en construcción y transición explícita entre fases.
+
+### Impacto
+1. `run-qa-audit-bundle.sh` de iOS vuelve a estado verde.
+2. Se elimina el bloqueo parcial de `5.1` y se avanza a cierre operativo de ramas/PRs.
