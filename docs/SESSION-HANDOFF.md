@@ -229,6 +229,7 @@ Repos incluidos:
      - scheduler versionado: `scripts/schedule-closeout-at.sh [hora]`.
      - objetivo: ejecutar `closeout-wait-and-run.sh fast` automáticamente en la primera ventana útil.
      - hardening: `closeout-at-job.sh` guarda estado en `.runtime/auto-closeout-status.env`, crea flag `.runtime/closeout-complete.flag` al éxito y reprogama automáticamente si persiste cooldown.
+     - fix aplicado: autoreprogramación ahora usa `--epoch` (evita error `at: garbled time` y mantiene job activo en cola).
 
 ## Última comprobación de espera activa
 1. Fecha: 2026-02-27.

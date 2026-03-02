@@ -7,7 +7,16 @@ HUB_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 RUNTIME_DIR="$HUB_ROOT/.runtime"
 
 when="${1:-15:50}"
+epoch_arg=""
 job_script="$SCRIPT_DIR/closeout-at-job.sh"
+
+if [[ "${1:-}" == "--epoch" ]]; then
+  epoch_arg="${2:-}"
+  if [[ -z "$epoch_arg" ]] || [[ ! "$epoch_arg" =~ ^[0-9]+$ ]]; then
+    echo "[SCHEDULE-CLOSEOUT] --epoch requiere segundos unix validos."
+    exit 1
+  fi
+fi
 
 if [[ ! -x "$job_script" ]]; then
   echo "[SCHEDULE-CLOSEOUT] Script no ejecutable: $job_script"
@@ -31,8 +40,16 @@ fi
 
 {
   printf '%s\n' "$job_script"
-} | at "$when"
+} | if [[ -n "$epoch_arg" ]]; then
+  at -t "$(date -r "$epoch_arg" '+%Y%m%d%H%M.%S')"
+else
+  at "$when"
+fi
 
-echo "[SCHEDULE-CLOSEOUT] Scheduled closeout job at: $when"
+if [[ -n "$epoch_arg" ]]; then
+  echo "[SCHEDULE-CLOSEOUT] Scheduled closeout job at epoch: $epoch_arg ($(date -r "$epoch_arg" '+%Y-%m-%d %H:%M:%S %Z'))"
+else
+  echo "[SCHEDULE-CLOSEOUT] Scheduled closeout job at: $when"
+fi
 echo "[SCHEDULE-CLOSEOUT] Current queue:"
 atq || true

@@ -1607,3 +1607,24 @@ Se refuerza el job programado para manejar automáticamente nuevos cooldowns sin
 2. Ejecución segura:
    - `SMA_CLOSEOUT_MAX_WAIT_SECONDS=60 SMA_CLOSEOUT_AUTO_RESCHEDULE=0 ./scripts/closeout-at-job.sh`
    - resultado: `EXIT_CODE=2`, estado persistido, sin intento de deploy.
+
+## Hotfix scheduler `at` — corrección de formato en autoreprogramación
+### Fecha
+2026-03-03
+
+### Contexto
+La autoreprogramación de `closeout-at-job.sh` dejó la cola sin jobs por error de formato (`at: garbled time`).
+
+### Cambios aplicados
+1. `scripts/schedule-closeout-at.sh`:
+   - añade soporte `--epoch <unix>`.
+   - usa `at -t` para programación absoluta robusta.
+2. `scripts/closeout-at-job.sh`:
+   - migra autoreprogramación a `schedule-closeout-at.sh --epoch <unix>`.
+   - persiste `next_retry_epoch` en `.runtime/auto-closeout-status.env`.
+
+### Verificación
+1. `SMA_CLOSEOUT_MAX_WAIT_SECONDS=60 ./scripts/closeout-at-job.sh` -> `EXIT_CODE=2`.
+2. `atq` permanece con job activo en `15:50 CET`.
+3. Log de ejecución incluye:
+   - `Scheduled closeout job at epoch: ...`

@@ -275,6 +275,14 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
     - validación segura ejecutada:
       - `SMA_CLOSEOUT_MAX_WAIT_SECONDS=60 SMA_CLOSEOUT_AUTO_RESCHEDULE=0 ./scripts/closeout-at-job.sh` -> `EXIT_CODE=2` sin intento de deploy.
 
+78. Hotfix de formato en autoreprogramación `at` (2026-03-03):
+    - causa raíz: `at` rechazaba formato (`at: garbled time`) y vaciaba cola.
+    - solución:
+      - `scripts/schedule-closeout-at.sh` soporta `--epoch <unix>` y usa `at -t`.
+      - `scripts/closeout-at-job.sh` reprogama con `--epoch`.
+    - validación segura:
+      - `SMA_CLOSEOUT_MAX_WAIT_SECONDS=60 ./scripts/closeout-at-job.sh` -> `EXIT_CODE=2` y `atq` mantiene job activo en `15:50 CET`.
+
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.
 2. Regeneración de launchers/apps de escritorio del Hub.
