@@ -20,10 +20,10 @@
       </div>
 
       <div class="row">
-        <a class="btn btn-primary" href="./register.html">Crear cuenta</a>
-        <a class="btn" href="./login.html">Iniciar sesión</a>
-        <a class="btn" href="./recover.html">Recuperar contraseña</a>
-        <a class="btn" href="../index.html">Volver al hub</a>
+        <a id="auth-nav-register" class="btn btn-primary" href="./register.html">Crear cuenta</a>
+        <a id="auth-nav-login" class="btn" href="./login.html">Iniciar sesión</a>
+        <a id="auth-nav-recover" class="btn" href="./recover.html">Recuperar contraseña</a>
+        <a id="auth-nav-home" class="btn" href="../index.html">Volver al hub</a>
       </div>
 
       <div id="session-state" class="state-box"></div>
@@ -36,6 +36,10 @@
     (function () {
       var state = document.getElementById('session-state');
       var msg = document.getElementById('msg');
+      var registerLink = document.getElementById('auth-nav-register');
+      var loginLink = document.getElementById('auth-nav-login');
+      var recoverLink = document.getElementById('auth-nav-recover');
+      var homeLink = document.getElementById('auth-nav-home');
 
       function setMessage(text, type) {
         if (!text) {
@@ -68,8 +72,43 @@
           .replace(/'/g, '&#39;');
       }
 
+      function sanitizeNextTarget(value) {
+        var next = String(value || '').trim();
+        if (!next) return '';
+        if (next.charAt(0) !== '/') return '';
+        if (next.indexOf('//') === 0) return '';
+        if (next.indexOf('://') >= 0) return '';
+        if (next.indexOf('\n') >= 0 || next.indexOf('\r') >= 0) return '';
+        return next;
+      }
+
+      function readNextTarget() {
+        var params = new URLSearchParams(window.location.search || '');
+        return sanitizeNextTarget(params.get('next'));
+      }
+
+      function withNext(path, nextTarget) {
+        if (!path || !nextTarget) return path;
+        try {
+          var target = new URL(path, window.location.href);
+          target.searchParams.set('next', nextTarget);
+          return target.pathname + target.search + target.hash;
+        } catch (_error) {
+          return path;
+        }
+      }
+
+      function applyNavigationTargets() {
+        var nextTarget = readNextTarget();
+        if (registerLink) registerLink.href = withNext('./register.html', nextTarget);
+        if (loginLink) loginLink.href = withNext('./login.html', nextTarget);
+        if (recoverLink) recoverLink.href = withNext('./recover.html', nextTarget);
+        if (homeLink && nextTarget) homeLink.href = nextTarget;
+      }
+
       window.addEventListener('sma:auth-changed', renderState);
       renderState();
+      applyNavigationTargets();
 
       window.SMAAuth.config()
         .then(function (cfg) {

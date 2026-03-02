@@ -218,9 +218,9 @@
       </figure>
 
       <div class="actions primary">
-        <a class="btn" href="./ios/index.html">Abrir curso iOS</a>
-        <a class="btn" href="./android/index.html">Abrir curso Android</a>
-        <a class="btn" href="./sdd/index.html">Abrir curso IA + SDD</a>
+        <a class="btn" data-auth-required="1" href="./ios/index.html">Abrir curso iOS</a>
+        <a class="btn" data-auth-required="1" href="./android/index.html">Abrir curso Android</a>
+        <a class="btn" data-auth-required="1" href="./sdd/index.html">Abrir curso IA + SDD</a>
       </div>
 
       <div class="actions secondary">
@@ -231,6 +231,64 @@
       <p class="note">Plataforma enterprise con seguimiento de progreso por cuenta y experiencia unificada multi-dispositivo.</p>
     </section>
   </main>
+  <script>
+    (function () {
+      var AUTH_USER_KEY = 'sma:auth:user:v1';
+      var AUTH_SESSION_KEY = 'sma:auth:session:v1';
+
+      function readJsonStorage(key) {
+        try {
+          var raw = localStorage.getItem(key);
+          if (!raw) return null;
+          var parsed = JSON.parse(raw);
+          if (!parsed || typeof parsed !== 'object') return null;
+          return parsed;
+        } catch (_error) {
+          return null;
+        }
+      }
+
+      function hasActiveSession(session) {
+        if (!session || !session.accessToken) return false;
+        if (!session.expiresAt) return true;
+        var expiresAt = Date.parse(String(session.expiresAt));
+        if (!Number.isFinite(expiresAt)) return true;
+        return expiresAt > Date.now();
+      }
+
+      function hasAuthenticatedUser() {
+        var user = readJsonStorage(AUTH_USER_KEY);
+        var session = readJsonStorage(AUTH_SESSION_KEY);
+        if (!user || !user.id || !hasActiveSession(session)) return false;
+        return true;
+      }
+
+      function toRelativeTarget(url) {
+        try {
+          var target = new URL(url, window.location.href);
+          return target.pathname + target.search + target.hash;
+        } catch (_error) {
+          return '/index.html';
+        }
+      }
+
+      function buildLoginUrl(nextTarget) {
+        var target = new URL('./auth/login.html', window.location.href);
+        if (nextTarget) target.searchParams.set('next', nextTarget);
+        return target.pathname + target.search + target.hash;
+      }
+
+      if (hasAuthenticatedUser()) return;
+      var links = Array.from(document.querySelectorAll('a[data-auth-required="1"]'));
+      links.forEach(function (link) {
+        link.addEventListener('click', function (event) {
+          event.preventDefault();
+          var nextTarget = toRelativeTarget(link.getAttribute('href') || link.href);
+          window.location.href = buildLoginUrl(nextTarget);
+        });
+      });
+    })();
+  </script>
 </body>
 
 </html>

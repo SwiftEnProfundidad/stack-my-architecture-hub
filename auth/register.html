@@ -34,8 +34,8 @@
         </div>
         <div class="row">
           <button class="btn btn-primary" type="submit">Crear cuenta</button>
-          <a class="btn" href="./login.html">Ya tengo cuenta</a>
-          <a class="btn" href="./index.html">Volver</a>
+          <a id="register-nav-login" class="btn" href="./login.html">Ya tengo cuenta</a>
+          <a id="register-nav-index" class="btn" href="./index.html">Volver</a>
         </div>
       </form>
 
@@ -54,6 +54,8 @@
       var resendBtn = document.getElementById('resend-btn');
       var msg = document.getElementById('msg');
       var pendingEmail = '';
+      var loginLink = document.getElementById('register-nav-login');
+      var indexLink = document.getElementById('register-nav-index');
 
       function setMessage(text, type) {
         msg.textContent = text || '';
@@ -77,6 +79,42 @@
         return host === 'localhost' || host === '127.0.0.1' || host === '::1';
       }
 
+      function sanitizeNextTarget(value) {
+        var next = String(value || '').trim();
+        if (!next) return '';
+        if (next.charAt(0) !== '/') return '';
+        if (next.indexOf('//') === 0) return '';
+        if (next.indexOf('://') >= 0) return '';
+        if (next.indexOf('\n') >= 0 || next.indexOf('\r') >= 0) return '';
+        return next;
+      }
+
+      function readNextTarget() {
+        var params = new URLSearchParams(window.location.search || '');
+        return sanitizeNextTarget(params.get('next'));
+      }
+
+      function withNext(path, nextTarget) {
+        if (!path || !nextTarget) return path;
+        try {
+          var target = new URL(path, window.location.href);
+          target.searchParams.set('next', nextTarget);
+          return target.pathname + target.search + target.hash;
+        } catch (_error) {
+          return path;
+        }
+      }
+
+      function applyNavigationTargets() {
+        var nextTarget = readNextTarget();
+        if (loginLink) loginLink.href = withNext('./login.html', nextTarget);
+        if (indexLink) indexLink.href = withNext('./index.html', nextTarget);
+      }
+
+      function resolvePostLoginTarget() {
+        return readNextTarget() || '../index.html';
+      }
+
       function resolveAuthBase() {
         var params = new URLSearchParams(window.location.search);
         var fromQuery = normalizeBase(params.get('authBase') || params.get('redirectBase') || '');
@@ -93,7 +131,10 @@
       }
 
       function resolveRedirect() {
-        return resolveAuthBase() + '/auth/login.html';
+        var nextTarget = readNextTarget();
+        var target = resolveAuthBase() + '/auth/login.html';
+        if (!nextTarget) return target;
+        return target + '?next=' + encodeURIComponent(nextTarget);
       }
 
       form.addEventListener('submit', async function (event) {
@@ -126,9 +167,9 @@
             return;
           }
 
-          setMessage('Registro completado y sesión iniciada. Redirigiendo al hub...', 'ok');
+          setMessage('Registro completado y sesión iniciada. Redirigiendo...', 'ok');
           setTimeout(function () {
-            window.location.href = '../index.html';
+            window.location.href = resolvePostLoginTarget();
           }, 600);
         } catch (error) {
           setMessage(error && error.message ? error.message : 'No se pudo completar el registro.', 'error');
@@ -152,6 +193,8 @@
           setMessage(error && error.message ? error.message : 'No se pudo reenviar la confirmación.', 'error');
         }
       });
+
+      applyNavigationTargets();
     })();
   </script>
 </body>

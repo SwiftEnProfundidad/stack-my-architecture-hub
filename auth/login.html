@@ -30,9 +30,9 @@
         </div>
         <div class="row">
           <button class="btn btn-primary" type="submit">Entrar</button>
-          <a class="btn" href="./register.html">Crear cuenta</a>
-          <a class="btn" href="./recover.html">Recuperar contraseña</a>
-          <a class="btn" href="./index.html">Volver</a>
+          <a id="login-nav-register" class="btn" href="./register.html">Crear cuenta</a>
+          <a id="login-nav-recover" class="btn" href="./recover.html">Recuperar contraseña</a>
+          <a id="login-nav-index" class="btn" href="./index.html">Volver</a>
         </div>
       </form>
 
@@ -51,6 +51,9 @@
       var logoutBtn = document.getElementById('logout-btn');
       var state = document.getElementById('session-state');
       var msg = document.getElementById('msg');
+      var registerLink = document.getElementById('login-nav-register');
+      var recoverLink = document.getElementById('login-nav-recover');
+      var indexLink = document.getElementById('login-nav-index');
 
       function setMessage(text, type) {
         msg.textContent = text || '';
@@ -83,6 +86,43 @@
       function clearAuthHash() {
         if (!window.location.hash) return;
         history.replaceState(history.state, '', window.location.pathname + window.location.search);
+      }
+
+      function sanitizeNextTarget(value) {
+        var next = String(value || '').trim();
+        if (!next) return '';
+        if (next.charAt(0) !== '/') return '';
+        if (next.indexOf('//') === 0) return '';
+        if (next.indexOf('://') >= 0) return '';
+        if (next.indexOf('\n') >= 0 || next.indexOf('\r') >= 0) return '';
+        return next;
+      }
+
+      function readNextTarget() {
+        var params = new URLSearchParams(window.location.search || '');
+        return sanitizeNextTarget(params.get('next'));
+      }
+
+      function withNext(path, nextTarget) {
+        if (!path || !nextTarget) return path;
+        try {
+          var target = new URL(path, window.location.href);
+          target.searchParams.set('next', nextTarget);
+          return target.pathname + target.search + target.hash;
+        } catch (_error) {
+          return path;
+        }
+      }
+
+      function applyNavigationTargets() {
+        var nextTarget = readNextTarget();
+        if (registerLink) registerLink.href = withNext('./register.html', nextTarget);
+        if (recoverLink) recoverLink.href = withNext('./recover.html', nextTarget);
+        if (indexLink) indexLink.href = withNext('./index.html', nextTarget);
+      }
+
+      function resolvePostLoginTarget() {
+        return readNextTarget() || '../index.html';
       }
 
       async function consumeAuthHash() {
@@ -121,9 +161,9 @@
             setMessage('Enlace de recuperación validado. Inicia sesión para continuar.', 'ok');
             return;
           }
-          setMessage('Email confirmado correctamente. Redirigiendo al hub...', 'ok');
+          setMessage('Email confirmado correctamente. Redirigiendo...', 'ok');
           setTimeout(function () {
-            window.location.href = '../index.html';
+            window.location.href = resolvePostLoginTarget();
           }, 700);
         } catch (_error) {
           setMessage('No se pudo completar la sesión del enlace. Inicia sesión manualmente.', 'error');
@@ -139,9 +179,9 @@
             password: form.password.value
           });
           await window.SMAAuth.me();
-          setMessage('Login correcto. Redirigiendo al hub...', 'ok');
+          setMessage('Login correcto. Redirigiendo...', 'ok');
           setTimeout(function () {
-            window.location.href = '../index.html';
+            window.location.href = resolvePostLoginTarget();
           }, 500);
         } catch (error) {
           setMessage(error && error.message ? error.message : 'No se pudo iniciar sesión.', 'error');
@@ -159,6 +199,7 @@
 
       window.addEventListener('sma:auth-changed', renderState);
       renderState();
+      applyNavigationTargets();
       consumeAuthHash();
     })();
   </script>
