@@ -283,6 +283,15 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
     - validación segura:
       - `SMA_CLOSEOUT_MAX_WAIT_SECONDS=60 ./scripts/closeout-at-job.sh` -> `EXIT_CODE=2` y `atq` mantiene job activo en `15:50 CET`.
 
+79. Readiness command para cierre final (`5.3/5.4`) (2026-03-03):
+    - nuevo script `scripts/closeout-readiness.sh [--verbose]`.
+    - contrato de salida:
+      - `0`: listo para cerrar tracking.
+      - `2`: en espera por cooldown.
+      - `1`: revisión manual requerida.
+    - validación:
+      - estado actual `EN ESPERA` con `EXIT_CODE=2` y log del último job.
+
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.
 2. Regeneración de launchers/apps de escritorio del Hub.
