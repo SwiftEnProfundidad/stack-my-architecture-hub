@@ -1177,3 +1177,24 @@ En viewport móvil estrecho (`<=480px`) los controles superiores de estudio debe
 ### Impacto
 1. Mayor seguridad operativa del bloque `5.4`.
 2. Cambios futuros en readiness podrán verificarse de forma repetible.
+
+## ADR-LITE-061 — Añadir test de regresión para `schedule-closeout-at`
+### Fecha
+2026-03-03
+
+### Decisión
+1. Permitir inyección de comandos en `scripts/schedule-closeout-at.sh`:
+   - `SMA_ATQ_CMD`, `SMA_AT_CMD`, `SMA_ATRM_CMD`.
+2. Crear `scripts/tests/test-schedule-closeout-at.sh` con cobertura de:
+   - programación por hora,
+   - programación por epoch (`--epoch`),
+   - limpieza selectiva de jobs closeout,
+   - validación de epoch inválido.
+
+### Motivación
+1. Evitar regresiones silenciosas en el scheduler que puedan romper el cierre automático.
+2. Validar lógica de cola sin depender de estado real del sistema.
+
+### Impacto
+1. Mayor robustez del pipeline automático de cierre `5.4`.
+2. Menor riesgo de perder ventana por error en scheduling.

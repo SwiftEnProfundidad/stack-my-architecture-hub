@@ -298,6 +298,11 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
     - inyección de `at/atq` por entorno (`SMA_ATQ_CMD`, `SMA_AT_CAT_CMD`) para simular cola sin afectar jobs reales.
     - resultado: `[PASS]` en 4 escenarios clave (`1`, `3`, `2`, `0`).
 
+81. Test de regresión del scheduler de closeout (2026-03-03):
+    - test script: `scripts/tests/test-schedule-closeout-at.sh`.
+    - `scripts/schedule-closeout-at.sh` soporta inyección de comandos (`SMA_ATQ_CMD`, `SMA_AT_CMD`, `SMA_ATRM_CMD`) para pruebas aisladas.
+    - resultado: `[PASS]` en casos de hora textual, `--epoch`, limpieza selectiva de job closeout y validación de epoch inválido.
+
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.
 2. Regeneración de launchers/apps de escritorio del Hub.
