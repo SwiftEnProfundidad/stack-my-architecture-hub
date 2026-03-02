@@ -54,6 +54,14 @@ Documento operativo de cierre para la fase `5.4` del plan activo:
    - Criterio de cierre:
      - sin regresiones de arranque ni navegación.
 
+5. `P2` `⏳` Runner unificado post-deploy.
+   - Script:
+     - `scripts/post-deploy-checks.sh [base_url]`
+   - Baseline pre-deploy:
+     - `2026-03-02 23:43 CET` -> runner completo en verde.
+   - Criterio de cierre:
+     - ejecución en verde inmediatamente después del deploy final de `5.3`.
+
 4. `P3` `⏳` Cerrar `5.4` y congelar handoff final.
    - Alcance:
      - `PLAN`, `SESSION-HANDOFF`, `MASTER-TRACKER`, `HUB-STABILITY-LOG`, `ADR-LITE`.
