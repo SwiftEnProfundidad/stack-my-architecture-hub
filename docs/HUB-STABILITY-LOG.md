@@ -1544,3 +1544,25 @@ Se detecto bypass funcional: tras cerrar sesion era posible volver a abrir curso
 1. `./scripts/build-hub.sh --mode strict` -> OK.
 2. `./scripts/smoke-hub-runtime.sh` -> OK.
 3. Flujo validado: logout efectivo implica bloqueo de cursos hasta nuevo login.
+
+## Hardening cierre `5.4` — runner de espera para ventana de cuota
+### Fecha
+2026-03-03
+
+### Contexto
+El cierre final de `5.4` sigue condicionado por la cuota diaria de despliegue (`api-deployments-free-per-day`). Se requiere ejecución desatendida al abrir ventana para no perder el intento válido.
+
+### Cambios aplicados
+1. Script nuevo: `scripts/closeout-wait-and-run.sh`.
+2. Capacidades:
+   - espera hasta `not_before` cuando existe `.runtime/vercel-deploy-cooldown.env`,
+   - ejecuta `scripts/deploy-and-verify-closeout.sh` al abrir ventana,
+   - evita intentos cuando la espera supera `SMA_CLOSEOUT_MAX_WAIT_SECONDS`.
+3. Variables soportadas:
+   - `SMA_CLOSEOUT_POLL_SECONDS`
+   - `SMA_CLOSEOUT_MAX_WAIT_SECONDS`
+   - `SMA_DEPLOY_FORCE=1` (override explícito).
+
+### Verificacion
+1. `bash -n scripts/closeout-wait-and-run.sh` -> OK.
+2. `SMA_CLOSEOUT_MAX_WAIT_SECONDS=60 ./scripts/closeout-wait-and-run.sh fast` -> salida controlada por cooldown activo, sin intento de deploy.

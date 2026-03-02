@@ -1031,3 +1031,23 @@ En viewport móvil estrecho (`<=480px`) los controles superiores de estudio debe
 ### Impacto
 1. El estado de cierre se consulta con un único comando.
 2. Menor probabilidad de ejecutar deploy en ventana no válida.
+
+## ADR-LITE-053 — Runner de espera automática para ejecutar el cierre en ventana válida
+### Fecha
+2026-03-03
+
+### Decisión
+1. Añadir `scripts/closeout-wait-and-run.sh` como runner de espera y ejecución.
+2. Hacer que consuma cooldown de `.runtime/vercel-deploy-cooldown.env` y espere hasta `not_before`.
+3. Permitir límites de espera por entorno:
+   - `SMA_CLOSEOUT_POLL_SECONDS`
+   - `SMA_CLOSEOUT_MAX_WAIT_SECONDS`
+4. Delegar deploy + checks en `scripts/deploy-and-verify-closeout.sh` al abrir ventana.
+
+### Motivación
+1. Evitar perder la ventana útil de cuota por ejecución manual tardía.
+2. Reducir riesgo de intentos prematuros que consuman cuota sin valor.
+
+### Impacto
+1. El cierre final de `5.4` puede ejecutarse de forma desatendida y controlada.
+2. Se mantiene protección de cuota con guardrails explícitos y override consciente.

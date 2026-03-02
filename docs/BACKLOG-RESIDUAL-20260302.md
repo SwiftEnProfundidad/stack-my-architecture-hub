@@ -84,6 +84,18 @@ Documento operativo de cierre para la fase `5.4` del plan activo:
    - Criterio de cierre:
      - reportar estado `listo para reintento de deploy` en ventana válida.
 
+8. `P3` `✅` Runner de espera automática para ventana de cuota.
+   - Script:
+     - `scripts/closeout-wait-and-run.sh [fast|strict] [base_url]`
+   - Comportamiento:
+     - espera hasta `not_before` cuando hay cooldown.
+     - ejecuta `deploy-and-verify-closeout.sh` al abrir ventana.
+     - sale sin intento cuando la espera supera `SMA_CLOSEOUT_MAX_WAIT_SECONDS`.
+   - Evidencia:
+     - `2026-03-03 00:01 CET` -> `SMA_CLOSEOUT_MAX_WAIT_SECONDS=60 ./scripts/closeout-wait-and-run.sh fast` sale controlado con cooldown activo (sin consumir intento).
+   - Criterio de cierre:
+     - automatización lista para ejecución desatendida durante `5.4`.
+
 4. `P3` `⏳` Cerrar `5.4` y congelar handoff final.
    - Alcance:
      - `PLAN`, `SESSION-HANDOFF`, `MASTER-TRACKER`, `HUB-STABILITY-LOG`, `ADR-LITE`.
