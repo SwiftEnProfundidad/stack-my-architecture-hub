@@ -67,8 +67,8 @@ Notas:
 | --- | --- | --- | --- |
 | 1.1 | ✅ | Auditar + corregir ETAPA 0 leccion por leccion | `00-core-mobile/00-introduccion.md` -> `12-mobile-architect-parity-ios-android.md` |
 | 1.2 | ✅ | Auditar + corregir ETAPA 1 | `01-fundamentos` |
-| 1.3 | 🚧 | Auditar + corregir ETAPA 2 | `02-integracion` |
-| 1.4 | ⏳ | Auditar + corregir ETAPA 3 | `03-evolucion` |
+| 1.3 | ✅ | Auditar + corregir ETAPA 2 | `02-integracion` |
+| 1.4 | 🚧 | Auditar + corregir ETAPA 3 | `03-evolucion` |
 | 1.5 | ⏳ | Auditar + corregir ETAPA 4 | `04-arquitecto` |
 | 1.6 | ⏳ | Auditar + corregir ETAPA 5 + anexos | `05-maestria`, `anexos` |
 | 1.7 | ⏳ | Materializar ETAPA 6 Proyecto Final iOS | alcance, rubrica, entregables, narrativa+tecnico, criterios de evaluacion |

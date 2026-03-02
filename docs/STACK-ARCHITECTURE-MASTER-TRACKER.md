@@ -167,7 +167,12 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
     - limpieza de markers automáticos en `01-fundamentos`.
     - corrección de cierres Mermaid (` ```text` -> ` ``` ` al cierre de bloque Mermaid).
     - convención de flechas unificada (`==>` -> `-.o`) en ETAPA 1.
-    - siguiente task activa: iOS `ETAPA 2: MIDLEVEL` (`1.3`).
+
+62. Auditoría iOS ETAPA 2 cerrada en ciclo gradual (2026-03-02):
+    - limpieza de markers automáticos en `02-integracion`.
+    - corrección de cierres Mermaid en bloque (` ```text` -> ` ``` `).
+    - convención de flechas mantenida con baseline de 4 semánticas.
+    - siguiente task activa: iOS `ETAPA 3: SENIOR` (`1.4`).
 
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.
