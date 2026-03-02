@@ -1257,3 +1257,20 @@ Sin `SUPABASE_URL` + `SUPABASE_ANON_KEY` en shell local, el flujo login/signup r
 
 ### Resultado
 Sin regresion en arranque/rutas del Hub y con base tecnica lista para persistencia de progreso por cuenta en cloud.
+
+## Cierre operativo del bloque auth plataforma
+### Fecha
+2026-03-02
+
+### Evidencia de cierre
+1. GitFlow completo (push + PR + merge) en:
+   - `stack-my-architecture-ios` (PR `#35`)
+   - `stack-my-architecture-android` (PR `#31`)
+   - `stack-my-architecture-SDD` (PR `#32`)
+   - `stack-my-architecture-hub` (PR `#68`, `#69`)
+2. Deploy productivo verificado:
+   - `https://architecture-stack.vercel.app`
+   - `https://architecture-stack-knp9zjmp4-merlosalbarracins-projects.vercel.app`
+3. Rutas auth/public verificadas en `200`:
+   - `/`, `/ios/`, `/android/`, `/sdd/`
+   - `/auth/index.html`, `/auth/register.html`, `/auth/login.html`, `/auth/config`

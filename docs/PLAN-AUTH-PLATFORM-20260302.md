@@ -29,11 +29,18 @@ Pasar de perfil compartido por enlace a cuenta de usuario con registro/login y p
 ## Fase 4 — Validación técnica y publicación
 1. ✅ Ejecutar suite Node de Hub (`test-progress-sync`, `test-auth-sync`, `test-assistant-bridge-byok`).
 2. ✅ Rebuild iOS/Android/SDD y sync Hub (`build-hub --mode strict`, `check-selective-sync-drift`, `smoke-hub-runtime`).
-3. ⛔ Validación Playwright en móvil/escritorio (registro/login + persistencia progreso por usuario). Bloqueado localmente sin `SUPABASE_URL` + `SUPABASE_ANON_KEY` en entorno shell.
-4. 🚧 Cierre GitFlow end-to-end (push + PR + merge en 4 repos cuando aplique) + deploy Vercel.
+3. ⛔ Validación Playwright en móvil/escritorio (registro/login + persistencia progreso por usuario). Bloqueada sin buzón verificable en automatización (signup exige confirmación por email en entorno productivo).
+4. ✅ Cierre GitFlow end-to-end (push + PR + merge en 4 repos cuando aplique) + deploy Vercel.
 
 ## Fase 5 — Tracking y continuidad
 1. ✅ Actualizar `STACK-ARCHITECTURE-MASTER-TRACKER.md` con evidencias del bloque.
 2. ✅ Actualizar `HUB-STABILITY-LOG.md` con riesgo/regresión/post-fix.
 3. ✅ Actualizar `SESSION-HANDOFF.md` dejando tablero con una sola tarea en construcción.
 4. ✅ Actualizar `DECISIONS-ADR-LITE.md` con ADR de autenticación de plataforma.
+
+## Cierre del bloque
+1. ✅ Implementación técnica cerrada en los 4 repos.
+2. ✅ Publicación productiva realizada:
+   - `https://architecture-stack.vercel.app`
+   - `https://architecture-stack-knp9zjmp4-merlosalbarracins-projects.vercel.app`
+3. ✅ Verificación de rutas públicas `200`: `/`, `/ios/`, `/android/`, `/sdd/`, `/auth/index.html`, `/auth/register.html`, `/auth/login.html`, `/auth/config`.
