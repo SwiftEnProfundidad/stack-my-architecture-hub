@@ -1686,3 +1686,25 @@ Se añade cobertura de regresión para evitar fallos de programación/limpieza d
 1. `./scripts/tests/test-schedule-closeout-at.sh` -> `[PASS] schedule-closeout-at tests`.
 2. No impacto en runtime real:
    - `atq` conserva job activo en `15:50 CET`.
+
+## QA de automatización — tests de `closeout-at-job`
+### Fecha
+2026-03-03
+
+### Contexto
+Se añade cobertura de regresión para validar la lógica de ejecución principal del job automático.
+
+### Cambios aplicados
+1. `scripts/closeout-at-job.sh` soporta overrides para test aislado:
+   - `SMA_CLOSEOUT_RUNTIME_DIR`,
+   - `SMA_CLOSEOUT_WAIT_RUNNER_CMD`,
+   - `SMA_CLOSEOUT_SCHEDULER_CMD`,
+   - `SMA_CLOSEOUT_COOLDOWN_FILE`,
+   - `SMA_CLOSEOUT_COMPLETE_FLAG`.
+2. Nuevo test:
+   - `scripts/tests/test-closeout-at-job.sh`.
+
+### Verificación
+1. `./scripts/tests/test-closeout-at-job.sh` -> `[PASS] closeout-at-job tests`.
+2. Cola real preservada:
+   - `atq` mantiene job activo en `15:50 CET`.

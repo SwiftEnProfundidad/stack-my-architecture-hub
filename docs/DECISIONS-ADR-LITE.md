@@ -1198,3 +1198,22 @@ En viewport móvil estrecho (`<=480px`) los controles superiores de estudio debe
 ### Impacto
 1. Mayor robustez del pipeline automático de cierre `5.4`.
 2. Menor riesgo de perder ventana por error en scheduling.
+
+## ADR-LITE-062 — Añadir test de regresión para `closeout-at-job`
+### Fecha
+2026-03-03
+
+### Decisión
+1. Extender `scripts/closeout-at-job.sh` con overrides de runtime/comandos para pruebas aisladas.
+2. Crear `scripts/tests/test-closeout-at-job.sh` para validar:
+   - éxito y creación de flag de cierre,
+   - fallo con autoreprogramación por epoch,
+   - fallo sin autoreprogramación.
+
+### Motivación
+1. Blindar la pieza central de ejecución automática antes de la ventana real de deploy.
+2. Evitar regresiones en status/flag/retry que sólo aparecerían en producción.
+
+### Impacto
+1. Mayor fiabilidad del cierre desatendido de `5.3/5.4`.
+2. Mayor confianza en la trazabilidad de runtime (`status`, `complete_flag`, `next_retry_epoch`).

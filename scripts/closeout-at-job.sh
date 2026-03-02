@@ -4,11 +4,13 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 HUB_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
-RUNTIME_DIR="$HUB_ROOT/.runtime"
-COOLDOWN_FILE="$RUNTIME_DIR/vercel-deploy-cooldown.env"
-COMPLETE_FLAG="$RUNTIME_DIR/closeout-complete.flag"
+RUNTIME_DIR="${SMA_CLOSEOUT_RUNTIME_DIR:-$HUB_ROOT/.runtime}"
+COOLDOWN_FILE="${SMA_CLOSEOUT_COOLDOWN_FILE:-$RUNTIME_DIR/vercel-deploy-cooldown.env}"
+COMPLETE_FLAG="${SMA_CLOSEOUT_COMPLETE_FLAG:-$RUNTIME_DIR/closeout-complete.flag}"
 AUTO_RESCHEDULE="${SMA_CLOSEOUT_AUTO_RESCHEDULE:-1}"
 RESCHEDULE_OFFSET_SECONDS="${SMA_CLOSEOUT_RESCHEDULE_OFFSET_SECONDS:-60}"
+WAIT_RUNNER_CMD="${SMA_CLOSEOUT_WAIT_RUNNER_CMD:-$SCRIPT_DIR/closeout-wait-and-run.sh}"
+SCHEDULER_CMD="${SMA_CLOSEOUT_SCHEDULER_CMD:-$SCRIPT_DIR/schedule-closeout-at.sh}"
 
 if [[ ! "$RESCHEDULE_OFFSET_SECONDS" =~ ^[0-9]+$ ]]; then
   RESCHEDULE_OFFSET_SECONDS=60
@@ -21,7 +23,7 @@ log_file="$RUNTIME_DIR/auto-closeout-${timestamp}.log"
 status_file="$RUNTIME_DIR/auto-closeout-status.env"
 
 set +e
-"$SCRIPT_DIR/closeout-wait-and-run.sh" fast "https://architecture-stack.vercel.app" >"$log_file" 2>&1
+"$WAIT_RUNNER_CMD" fast "https://architecture-stack.vercel.app" >"$log_file" 2>&1
 exit_code=$?
 set -e
 
@@ -46,7 +48,7 @@ else
       next_retry_epoch="$next_epoch"
       next_retry_at="$(date -r "$next_epoch" '+%H:%M %Y-%m-%d')"
       next_retry_reason="$reason"
-      "$SCRIPT_DIR/schedule-closeout-at.sh" --epoch "$next_epoch" >>"$log_file" 2>&1 || true
+      "$SCHEDULER_CMD" --epoch "$next_epoch" >>"$log_file" 2>&1 || true
     fi
   fi
 fi

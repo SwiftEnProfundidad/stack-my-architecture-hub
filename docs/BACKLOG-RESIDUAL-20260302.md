@@ -145,6 +145,16 @@ Documento operativo de cierre para la fase `5.4` del plan activo:
    - Evidencia:
      - `2026-03-03 00:44 CET` -> `./scripts/tests/test-schedule-closeout-at.sh` -> `[PASS]`.
 
+13. `P3` `✅` Tests de regresión para `closeout-at-job`.
+   - Test:
+     - `scripts/tests/test-closeout-at-job.sh`
+   - Cobertura:
+     - éxito (`exit 0`) con creación de `closeout-complete.flag`,
+     - fallo con `auto_reschedule=1` y programación `--epoch` esperada,
+     - fallo con `auto_reschedule=0` sin reprogamación.
+   - Evidencia:
+     - `2026-03-03 00:48 CET` -> `./scripts/tests/test-closeout-at-job.sh` -> `[PASS]`.
+
 4. `P3` `⏳` Cerrar `5.4` y congelar handoff final.
    - Alcance:
      - `PLAN`, `SESSION-HANDOFF`, `MASTER-TRACKER`, `HUB-STABILITY-LOG`, `ADR-LITE`.

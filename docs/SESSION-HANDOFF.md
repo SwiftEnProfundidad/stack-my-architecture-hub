@@ -235,6 +235,7 @@ Repos incluidos:
      - guard adicional: verifica cola `at`; si no hay job automático activo con cooldown vigente devuelve `EXIT_CODE=3`.
      - cobertura de regresión: `scripts/tests/test-closeout-readiness.sh` valida los 4 estados (`1/3/2/0`) sin tocar la cola real de `at`.
    - cobertura de scheduler: `scripts/tests/test-schedule-closeout-at.sh` valida programación por hora/epoch y limpieza idempotente de jobs closeout.
+   - cobertura de job automático: `scripts/tests/test-closeout-at-job.sh` valida éxito/fallo, flag de cierre y auto-reschedule.
 
 ## Última comprobación de espera activa
 1. Fecha: 2026-02-27.
