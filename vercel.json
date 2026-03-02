@@ -41,6 +41,14 @@
       "destination": "/api/auth-sync?route=refresh"
     },
     {
+      "source": "/auth/resend",
+      "destination": "/api/auth-sync?route=resend"
+    },
+    {
+      "source": "/auth/recover",
+      "destination": "/api/auth-sync?route=recover"
+    },
+    {
       "source": "/auth/me",
       "destination": "/api/auth-sync?route=me"
     },

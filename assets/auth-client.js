@@ -113,6 +113,20 @@
     return payload;
   }
 
+  async function resendConfirmation(input) {
+    return await call('resend', 'POST', {
+      email: String(input && input.email || '').trim(),
+      emailRedirectTo: String(input && input.emailRedirectTo || '').trim()
+    });
+  }
+
+  async function recoverPassword(input) {
+    return await call('recover', 'POST', {
+      email: String(input && input.email || '').trim(),
+      emailRedirectTo: String(input && input.emailRedirectTo || '').trim()
+    });
+  }
+
   async function me() {
     const session = getSession();
     if (!session || !session.accessToken) {
@@ -146,6 +160,8 @@
     signup,
     login,
     refresh,
+    resendConfirmation,
+    recoverPassword,
     me,
     logout,
     clearAuth,

@@ -49,6 +49,16 @@ module.exports = async (req, res) => {
     return;
   }
 
+  if (route === 'resend' && req.method === 'POST') {
+    await handleResend(req, res);
+    return;
+  }
+
+  if (route === 'recover' && req.method === 'POST') {
+    await handleRecover(req, res);
+    return;
+  }
+
   if (route === 'me' && req.method === 'GET') {
     await handleMe(req, res);
     return;
@@ -186,6 +196,95 @@ async function handleRefresh(req, res) {
   }
 }
 
+async function handleResend(req, res) {
+  const body = await readJsonBody(req);
+  const email = normalizeEmail(body.email);
+  const redirectTo = normalizeRedirectUrl(body.emailRedirectTo);
+
+  if (!email) {
+    sendJson(res, 400, {
+      ok: false,
+      error: 'email es obligatorio.'
+    });
+    return;
+  }
+
+  const payload = {
+    type: 'signup',
+    email
+  };
+
+  if (redirectTo) {
+    payload.options = {
+      emailRedirectTo: redirectTo
+    };
+  }
+
+  try {
+    await fetchSupabaseJson(`${supabaseAuthBase()}/resend`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    });
+
+    sendJson(res, 200, {
+      ok: true,
+      sent: true
+    });
+  } catch (error) {
+    sendJson(res, toStatusCode(error), {
+      ok: false,
+      error: toErrorMessage(error)
+    });
+  }
+}
+
+async function handleRecover(req, res) {
+  const body = await readJsonBody(req);
+  const email = normalizeEmail(body.email);
+  const redirectTo = normalizeRedirectUrl(body.emailRedirectTo);
+
+  if (!email) {
+    sendJson(res, 400, {
+      ok: false,
+      error: 'email es obligatorio.'
+    });
+    return;
+  }
+
+  const payload = {
+    email
+  };
+
+  if (redirectTo) {
+    payload.options = {
+      redirectTo
+    };
+  }
+
+  try {
+    await fetchSupabaseJson(`${supabaseAuthBase()}/recover`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    });
+
+    sendJson(res, 200, {
+      ok: true,
+      sent: true
+    });
+  } catch (error) {
+    sendJson(res, toStatusCode(error), {
+      ok: false,
+      error: toErrorMessage(error)
+    });
+  }
+}
+
 async function handleMe(req, res) {
   const bearer = readBearerToken(req);
   if (!bearer) {
@@ -253,6 +352,8 @@ function resolveRoute(req) {
   if (pathname.endsWith('/signup')) return 'signup';
   if (pathname.endsWith('/login')) return 'login';
   if (pathname.endsWith('/refresh')) return 'refresh';
+  if (pathname.endsWith('/resend')) return 'resend';
+  if (pathname.endsWith('/recover')) return 'recover';
   if (pathname.endsWith('/me')) return 'me';
   if (pathname.endsWith('/logout')) return 'logout';
   return '';

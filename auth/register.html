@@ -39,6 +39,10 @@
         </div>
       </form>
 
+      <div class="row">
+        <button id="resend-btn" class="btn" type="button" disabled>Reenviar confirmación</button>
+      </div>
+
       <div id="msg"></div>
     </section>
   </main>
@@ -47,7 +51,9 @@
   <script>
     (function () {
       var form = document.getElementById('register-form');
+      var resendBtn = document.getElementById('resend-btn');
       var msg = document.getElementById('msg');
+      var pendingEmail = '';
 
       function setMessage(text, type) {
         msg.textContent = text || '';
@@ -86,6 +92,8 @@
           });
 
           if (result.requiresEmailConfirmation) {
+            pendingEmail = email;
+            resendBtn.disabled = false;
             setMessage('Cuenta creada. Revisa tu email para confirmar antes de iniciar sesión.', 'ok');
             return;
           }
@@ -96,6 +104,24 @@
           }, 600);
         } catch (error) {
           setMessage(error && error.message ? error.message : 'No se pudo completar el registro.', 'error');
+        }
+      });
+
+      resendBtn.addEventListener('click', async function () {
+        setMessage('', '');
+        var email = pendingEmail || form.email.value.trim();
+        if (!email) {
+          setMessage('Indica un email válido para reenviar la confirmación.', 'error');
+          return;
+        }
+        try {
+          await window.SMAAuth.resendConfirmation({
+            email: email,
+            emailRedirectTo: resolveRedirect()
+          });
+          setMessage('Email de confirmación reenviado. Revisa tu bandeja.', 'ok');
+        } catch (error) {
+          setMessage(error && error.message ? error.message : 'No se pudo reenviar la confirmación.', 'error');
         }
       });
     })();

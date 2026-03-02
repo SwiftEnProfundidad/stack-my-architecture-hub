@@ -256,3 +256,11 @@ Para ver el mismo progreso en otro dispositivo/navegador limpio, abrir el curso 
 
 ### Nota de continuidad
 La validación automática de login end-to-end queda parcialmente bloqueada si no se dispone de buzón para confirmar email (signup productivo exige confirmación). El backend/auth routes y la publicación están en verde.
+
+## Bloque activo 2026-03-02 — Auth recovery (resend/recover)
+1. ✅ Backend auth Hub soporta `route=resend` y `route=recover`.
+2. ✅ API client expone `resendConfirmation()` y `recoverPassword()`.
+3. ✅ `auth/recover.html` creado y enlazado desde login.
+4. ✅ Rewrites Vercel para `/auth/resend` y `/auth/recover`.
+5. ✅ Tests TDD para validación y mapeo de errores en `scripts/tests/test-auth-sync.js`.
+6. 🚧 Fase de cierre: validación final (`node --test`, `build-hub --mode strict`, `smoke-hub-runtime`) y cierre GitFlow del bloque.

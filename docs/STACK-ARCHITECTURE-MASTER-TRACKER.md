@@ -528,3 +528,18 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
     - `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
     - `./scripts/smoke-hub-runtime.sh` -> OK.
 66. Estado operativo: ✅ cierre GitFlow end-to-end + deploy Vercel completados.
+
+## Actualizacion 2026-03-02 (5) — Recovery de cuenta en Hub (resend / recover)
+1. Contexto
+   - Se añade soporte de soporte de cuenta para reenviar confirmación y recuperar contraseña con contratos en TDD (`resend`, `recover`).
+2. Cambios ejecutados
+   - `api/auth-sync.js`: rutas `resend` y `recover` para Supabase Auth + resolución de rutas por pathname y query.
+   - `assets/auth-client.js`: API client extendido con `resendConfirmation()` y `recoverPassword()`.
+   - `auth/recover.html`: nueva pantalla y estado UX de envío de enlace.
+   - `auth/login.html`: acceso a recuperación desde login.
+   - `auth/register.html`: botón de reenvío de confirmación con email persistido.
+   - `vercel.json`: rewrites de `/auth/resend` y `/auth/recover`.
+   - `scripts/tests/test-auth-sync.js`: tests de routing + payload obligatorio + mapeo de errores para ambos flujos.
+3. Estado
+   - Validación técnica pendiente en este bloque: `node --test scripts/tests/test-auth-sync.js`, `build-hub --mode strict`, `smoke-hub-runtime`.
+   - resto de implementación y pruebas de contrato preparadas en branch `feature/hub-auth-recovery-20260302`.
