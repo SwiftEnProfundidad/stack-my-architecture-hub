@@ -189,7 +189,7 @@ Se activa un plan único de auditoría gradual con tracking transversal para evi
 ### Evidencia versionada
 1. Plan activo: `docs/PLAN-AUDITORIA-CURSOS-FASES-20260302.md`
 2. Matriz operativa: `docs/AUDITORIA-CURSOS-MATRIZ-20260302.tsv`
-3. Bloque en construcción: Hub `5.2` (commits atomicos + push + PR + merge por bloque).
+3. Bloque en construcción: Hub `5.3` (deploy Vercel final con aprobación explícita).
 
 ### Estado de estabilidad
 1. Sin impacto en rutas públicas del Hub en esta actualización documental.
@@ -284,9 +284,21 @@ Fase `5.1` cerrada en verde; bloque activo movido a `5.2` (GitFlow de cierre por
 2026-03-02
 
 ### Estado actual
-1. iOS: ciclo GitFlow de fix QA ya cerrado (push + PR + merge).
-2. Hub: pendientes commits atomicos de tracking + sync final para cerrar bloque.
-3. Siguiente paso: PR/merge en Hub y dejar branch `develop` limpio en los 4 repos.
+1. iOS: ciclo GitFlow de fix QA cerrado (PR `#38` mergeada).
+2. Hub: ciclo GitFlow de sync + tracking cerrado (PR `#80` mergeada).
+3. `develop` limpio en los 4 repos.
+
+### Resultado
+Fase `5.2` cerrada en verde; bloque activo movido a `5.3` (deploy final en Vercel con aprobación explícita).
+
+## Apertura Fase 5.3 — despliegue final Vercel
+### Fecha
+2026-03-02
+
+### Estado actual
+1. Repos `hub`, `ios`, `android`, `SDD` limpios en `develop`.
+2. QA técnico cross-repo ya cerrado en verde.
+3. Pendiente aprobación explícita del usuario para ejecutar despliegue final y consumir cuota.
 
 ## Regresión post-hardening del asistente IA en runtime móvil (Fase 4)
 ### Fecha

@@ -832,3 +832,20 @@ En viewport móvil estrecho (`<=480px`) los controles superiores de estudio debe
 ### Impacto
 1. `run-qa-audit-bundle.sh` de iOS vuelve a estado verde.
 2. Se elimina el bloqueo parcial de `5.1` y se avanza a cierre operativo de ramas/PRs.
+
+## ADR-LITE-042 — Cierre 5.2 y apertura 5.3 con aprobación explícita
+### Fecha
+2026-03-02
+
+### Decisión
+1. Cerrar `5.2` tras completar el ciclo GitFlow de iOS y Hub (push, PR y merge).
+2. Abrir `5.3` como única tarea en construcción para despliegue final en Vercel.
+3. Mantener el despliegue condicionado a aprobación explícita del usuario para controlar cuota.
+
+### Motivación
+1. Consolidar trazabilidad operativa sin dejar tareas semi-cerradas en tracking.
+2. Respetar la política de despliegues controlados por coste/cupo.
+
+### Impacto
+1. Estado del plan alineado con el estado real de repos (todos limpios en `develop`).
+2. El siguiente paso técnico queda claro y sin ambigüedad: deploy final cuando el usuario lo autorice.
