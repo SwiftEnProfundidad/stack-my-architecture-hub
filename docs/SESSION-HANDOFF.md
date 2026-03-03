@@ -223,7 +223,12 @@ Repos incluidos:
      - última ejecución guardada: `2026-03-03 02:45 CET` (cooldown activo, sin consumir intento).
    - estado operativo rápido:
      - script: `scripts/closeout-status.sh`
-     - estado actual: `2026-03-03 02:52 CET` -> cooldown activo, not-before `2026-03-03 16:07:10 CET`.
+     - estado actual: `2026-03-03 02:58 CET` -> cooldown activo, not-before `2026-03-03 16:07:10 CET`.
+     - validación de ventana integrada:
+       - `Job main activo: 18`
+       - `Job watchdog activo: 19`
+       - `Job followup activo: 20`
+     - guard adicional: si falta alguno de los 3 jobs de ventana, `closeout-status` devuelve `EXIT_CODE=3` y sugiere `./scripts/schedule-closeout-window.sh`.
    - runner de espera automática para cierre desatendido:
      - script: `scripts/closeout-wait-and-run.sh [fast|strict] [base_url]`
      - validación segura: `2026-03-03 00:01 CET` con `SMA_CLOSEOUT_MAX_WAIT_SECONDS=60` (salida controlada sin intento de deploy).
@@ -241,6 +246,9 @@ Repos incluidos:
      - hardening: `schedule-closeout-at.sh` ahora sanea entorno al invocar `at` (evita heredar secretos no necesarios en jobs programados).
      - hardening adicional: `schedule-closeout-at.sh` y `schedule-closeout-window.sh` fijan `PATH` saneado por `SMA_AT_SANITIZED_PATH` (sin heredar `PATH` interactivo).
      - verificación runtime PATH hardening: `at -c 18|19|20` confirma `export PATH=/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin`.
+     - aislamiento de tests runtime:
+       - `closeout-readiness.sh` acepta `SMA_CLOSEOUT_RUNTIME_DIR`.
+       - `test-closeout-readiness.sh` ejecuta sobre runtime temporal y deja de tocar `.runtime` real.
      - verificación runtime hardening: job regenerado (`job 11`) y job activo actual (`job 12`) sin secretos (`OPENAI_API_KEY`, `HEYGEN_API_KEY`, `sk-`) al inspeccionar `at -c`.
      - incidencia controlada: job `02:02` quedó vencido en cola (past-due), se aplicó fallback manual `./scripts/closeout-at-job.sh`.
      - objetivo: ejecutar `closeout-wait-and-run.sh fast` automáticamente en la primera ventana útil.

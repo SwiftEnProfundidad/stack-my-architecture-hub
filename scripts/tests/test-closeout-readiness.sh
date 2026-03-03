@@ -5,59 +5,16 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 HUB_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 READINESS_SCRIPT="$HUB_ROOT/scripts/closeout-readiness.sh"
-RUNTIME_DIR="$HUB_ROOT/.runtime"
 
+TMP_DIR="$(mktemp -d)"
+RUNTIME_DIR="$TMP_DIR/runtime"
+mkdir -p "$RUNTIME_DIR"
 STATUS_FILE="$RUNTIME_DIR/auto-closeout-status.env"
 COOLDOWN_FILE="$RUNTIME_DIR/vercel-deploy-cooldown.env"
 COMPLETE_FLAG="$RUNTIME_DIR/closeout-complete.flag"
-
-TMP_DIR="$(mktemp -d)"
 FAKE_ATQ="$TMP_DIR/fake-atq.sh"
 FAKE_AT="$TMP_DIR/fake-at.sh"
-
-HAS_STATUS=0
-HAS_COOLDOWN=0
-HAS_FLAG=0
-
-if [[ -f "$STATUS_FILE" ]]; then
-  cp "$STATUS_FILE" "$TMP_DIR/status.bak"
-  HAS_STATUS=1
-fi
-
-if [[ -f "$COOLDOWN_FILE" ]]; then
-  cp "$COOLDOWN_FILE" "$TMP_DIR/cooldown.bak"
-  HAS_COOLDOWN=1
-fi
-
-if [[ -f "$COMPLETE_FLAG" ]]; then
-  cp "$COMPLETE_FLAG" "$TMP_DIR/flag.bak"
-  HAS_FLAG=1
-fi
-
-restore_runtime() {
-  if [[ "$HAS_STATUS" -eq 1 ]]; then
-    cp "$TMP_DIR/status.bak" "$STATUS_FILE"
-  else
-    rm -f "$STATUS_FILE"
-  fi
-
-  if [[ "$HAS_COOLDOWN" -eq 1 ]]; then
-    cp "$TMP_DIR/cooldown.bak" "$COOLDOWN_FILE"
-  else
-    rm -f "$COOLDOWN_FILE"
-  fi
-
-  if [[ "$HAS_FLAG" -eq 1 ]]; then
-    cp "$TMP_DIR/flag.bak" "$COMPLETE_FLAG"
-  else
-    rm -f "$COMPLETE_FLAG"
-  fi
-
-  rm -rf "$TMP_DIR"
-}
-trap restore_runtime EXIT
-
-mkdir -p "$RUNTIME_DIR"
+trap 'rm -rf "$TMP_DIR"' EXIT
 
 cat >"$FAKE_ATQ" <<'EOF'
 #!/usr/bin/env bash
@@ -116,7 +73,10 @@ assert_not_contains() {
 run_readiness() {
   local output_file="$1"
   set +e
-  SMA_ATQ_CMD="$FAKE_ATQ" SMA_AT_CAT_CMD="$FAKE_AT" "$READINESS_SCRIPT" >"$output_file" 2>&1
+  SMA_CLOSEOUT_RUNTIME_DIR="$RUNTIME_DIR" \
+  SMA_ATQ_CMD="$FAKE_ATQ" \
+  SMA_AT_CAT_CMD="$FAKE_AT" \
+  "$READINESS_SCRIPT" >"$output_file" 2>&1
   local code=$?
   set -e
   echo "$code"

@@ -4,7 +4,7 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 HUB_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
-RUNTIME_DIR="$HUB_ROOT/.runtime"
+RUNTIME_DIR="${SMA_CLOSEOUT_RUNTIME_DIR:-$HUB_ROOT/.runtime}"
 
 STATUS_FILE="$RUNTIME_DIR/auto-closeout-status.env"
 COOLDOWN_FILE="$RUNTIME_DIR/vercel-deploy-cooldown.env"

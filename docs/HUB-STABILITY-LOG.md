@@ -1992,3 +1992,26 @@ La cola activa de closeout (`15/16/17`) fue creada antes del hardening de PATH.
    - `job 20` -> followup (`16:12 CET`)
 2. `at -c 18|19|20` -> `export PATH=/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin`.
 3. `./scripts/closeout-readiness.sh --verbose` -> `EN ESPERA` por cuota con job automático activo.
+
+## Health-check de ventana y aislamiento de tests runtime
+### Fecha
+2026-03-03
+
+### Contexto
+Se detectó riesgo operacional: los tests de readiness podían alterar `.runtime` real y desalinear ventana de cooldown.
+
+### Cambios aplicados
+1. `scripts/closeout-status.sh` ahora valida en cooldown los 3 jobs de ventana (`main/watchdog/followup`).
+2. Si falta algún job, `closeout-status` devuelve `EXIT_CODE=3` y recomienda `./scripts/schedule-closeout-window.sh`.
+3. `scripts/closeout-readiness.sh` acepta `SMA_CLOSEOUT_RUNTIME_DIR` para permitir ejecución de tests en runtime temporal aislado.
+4. `scripts/tests/test-closeout-readiness.sh` deja de tocar `.runtime` real del repo.
+5. `scripts/tests/test-closeout-status.sh` añade cobertura de cola completa e incompleta.
+
+### Verificación
+1. `./scripts/tests/test-closeout-readiness.sh` -> `[PASS]`.
+2. `./scripts/tests/test-closeout-status.sh` -> `[PASS]`.
+3. `./scripts/run-closeout-qa-suite.sh tests` -> verde.
+4. `./scripts/run-closeout-qa-suite.sh full` -> verde.
+5. Estado runtime confirmado:
+   - cooldown `not-before 2026-03-03 16:07:10 CET`,
+   - cola activa `18/19/20`.
