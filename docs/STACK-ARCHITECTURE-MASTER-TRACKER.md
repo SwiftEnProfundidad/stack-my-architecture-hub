@@ -338,6 +338,17 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
     - `full`: añade `atq` + `closeout-readiness`; trata `EXIT_CODE=2` de readiness como espera válida.
     - resultado: ejecución `tests` y `full` en verde con job activo en cola.
 
+87. Guidance dinámica en readiness para programación por epoch (2026-03-03):
+    - `scripts/closeout-readiness.sh` calcula `not_before_epoch + 60s` y sugiere `schedule-closeout-at.sh --epoch`.
+    - `EXIT_CODE=3`: sin job automático, ahora recomienda reprogramación exacta por epoch.
+    - `EXIT_CODE=2`: con job activo, añade sugerencia explícita si el job está más tarde que la ventana.
+    - cobertura: `scripts/tests/test-closeout-readiness.sh` actualizado + `run-closeout-qa-suite.sh tests/full` en verde.
+
+88. Reprogramación operativa de cola closeout a primera ventana útil (2026-03-03):
+    - acción: `./scripts/schedule-closeout-at.sh --epoch <not_before+60s>`.
+    - resultado: cola `at` movida de `15:50` a `02:02 CET` para ejecutar cierre en la primera ventana posible.
+    - validación: `./scripts/closeout-readiness.sh` mantiene estado `EN ESPERA` con job activo detectado.
+
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.
 2. Regeneración de launchers/apps de escritorio del Hub.

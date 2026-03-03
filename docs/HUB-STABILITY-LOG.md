@@ -1753,3 +1753,22 @@ Se completa la cobertura de regresión en los scripts de orquestación final de 
 1. `./scripts/tests/test-deploy-and-verify-closeout.sh` -> `[PASS]`.
 2. `./scripts/tests/test-closeout-status.sh` -> `[PASS]`.
 3. Batería completa de closeout scripts en verde + `atq` estable.
+
+## QA de automatización — guidance dinámica en `closeout-readiness`
+### Fecha
+2026-03-03
+
+### Contexto
+Con cooldown activo, la recomendación fija `15:50` podía dejar la cola programada muy tarde frente al `not_before` real.
+
+### Cambios aplicados
+1. `scripts/closeout-readiness.sh` ahora calcula `suggested_epoch=not_before_epoch+60`.
+2. Si no hay job, recomienda `./scripts/schedule-closeout-at.sh --epoch <suggested_epoch>`.
+3. Si ya existe job activo, mantiene estado `EN ESPERA` y añade sugerencia de reprogramación por epoch.
+4. `scripts/tests/test-closeout-readiness.sh` amplía cobertura para exigir la recomendación dinámica.
+
+### Verificación
+1. `./scripts/tests/test-closeout-readiness.sh` -> `[PASS]`.
+2. `./scripts/run-closeout-qa-suite.sh tests` -> verde.
+3. `./scripts/run-closeout-qa-suite.sh full` -> verde.
+4. `./scripts/schedule-closeout-at.sh --epoch <not_before+60s>` -> cola closeout actualizada a la primera ventana útil (`02:02 CET`).
