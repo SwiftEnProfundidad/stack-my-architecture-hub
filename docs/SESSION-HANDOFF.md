@@ -223,16 +223,16 @@ Repos incluidos:
      - última ejecución guardada: `2026-03-03 02:45 CET` (cooldown activo, sin consumir intento).
    - estado operativo rápido:
      - script: `scripts/closeout-status.sh`
-     - estado actual: `2026-03-03 02:45 CET` -> cooldown activo, not-before `2026-03-03 16:07:10 CET`.
+     - estado actual: `2026-03-03 02:52 CET` -> cooldown activo, not-before `2026-03-03 16:07:10 CET`.
    - runner de espera automática para cierre desatendido:
      - script: `scripts/closeout-wait-and-run.sh [fast|strict] [base_url]`
      - validación segura: `2026-03-03 00:01 CET` con `SMA_CLOSEOUT_MAX_WAIT_SECONDS=60` (salida controlada sin intento de deploy).
    - orquestación programada de reintento:
       - `at` job inicial en `2026-03-03 15:50 CET`, reprogamado por epoch a `2026-03-03 02:02 CET` y luego autoreprogramado a `2026-03-03 16:08 CET` tras nuevo bloqueo de cuota.
       - cola actual refrescada con orquestador de ventana:
-        - `job 15` -> closeout principal (`16:08 CET`)
-        - `job 16` -> recovery watchdog (`16:10 CET`)
-        - `job 17` -> followup snapshot (`16:12 CET`)
+        - `job 18` -> closeout principal (`16:08 CET`)
+        - `job 19` -> recovery watchdog (`16:10 CET`)
+        - `job 20` -> followup snapshot (`16:12 CET`)
       - job file versionado: `scripts/closeout-at-job.sh`.
       - scheduler versionado: `scripts/schedule-closeout-at.sh [hora]`.
       - orquestador versionado: `scripts/schedule-closeout-window.sh [--epoch]` (programa main+watchdog+followup en una sola ejecución).
@@ -240,6 +240,7 @@ Repos incluidos:
      - followup versionado: `scripts/closeout-window-followup.sh` para snapshot post-ventana sin intervención manual.
      - hardening: `schedule-closeout-at.sh` ahora sanea entorno al invocar `at` (evita heredar secretos no necesarios en jobs programados).
      - hardening adicional: `schedule-closeout-at.sh` y `schedule-closeout-window.sh` fijan `PATH` saneado por `SMA_AT_SANITIZED_PATH` (sin heredar `PATH` interactivo).
+     - verificación runtime PATH hardening: `at -c 18|19|20` confirma `export PATH=/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin`.
      - verificación runtime hardening: job regenerado (`job 11`) y job activo actual (`job 12`) sin secretos (`OPENAI_API_KEY`, `HEYGEN_API_KEY`, `sk-`) al inspeccionar `at -c`.
      - incidencia controlada: job `02:02` quedó vencido en cola (past-due), se aplicó fallback manual `./scripts/closeout-at-job.sh`.
      - objetivo: ejecutar `closeout-wait-and-run.sh fast` automáticamente en la primera ventana útil.
