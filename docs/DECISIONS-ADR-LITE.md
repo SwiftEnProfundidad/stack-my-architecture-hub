@@ -1346,3 +1346,22 @@ En viewport móvil estrecho (`<=480px`) los controles superiores de estudio debe
 ### Impacto
 1. Menor superficie de exposición de credenciales en jobs programados.
 2. Test de regresión adicional en `test-schedule-closeout-at.sh` para validar no propagación de `TEST_SECRET`.
+
+## ADR-LITE-070 — Fallback manual cuando un job `at` queda past-due
+### Fecha
+2026-03-03
+
+### Decisión
+1. Si el job closeout en cola supera su hora objetivo y no se ejecuta, aplicar fallback manual:
+   - limpiar job vencido (`atrm <id>`),
+   - ejecutar `./scripts/closeout-at-job.sh`.
+2. Mantener autoreprogramación activa desde `closeout-at-job.sh` para reabrir siguiente ventana cuando persista cuota.
+
+### Motivación
+1. Evitar bloqueo silencioso de `5.4` cuando el daemon de `at` no dispara en tiempo.
+2. Garantizar intento real en ventana sin depender exclusivamente de cola programada.
+3. Mantener continuidad operativa y trazabilidad en handoff.
+
+### Impacto
+1. Cierre más resiliente ante incidentes de scheduling local.
+2. Estado de runtime consistente (`auto-closeout-status.env`, cooldown y next retry) incluso tras fallback manual.
