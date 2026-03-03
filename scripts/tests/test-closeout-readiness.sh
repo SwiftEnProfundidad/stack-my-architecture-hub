@@ -62,7 +62,7 @@ mkdir -p "$RUNTIME_DIR"
 cat >"$FAKE_ATQ" <<'EOF'
 #!/usr/bin/env bash
 if [[ "${FAKE_ATQ_MODE:-none}" == "active" ]]; then
-  echo "99 Tue Mar 3 15:50:00 2026"
+  echo "${FAKE_ATQ_LINE:-99 Tue Mar 3 15:50:00 2026}"
 fi
 EOF
 
@@ -94,6 +94,18 @@ assert_contains() {
   local pattern="$2"
   local msg="$3"
   if ! rg -q "$pattern" "$file"; then
+    echo "[FAIL] $msg (pattern='$pattern')"
+    echo "--- output ---"
+    cat "$file"
+    exit 1
+  fi
+}
+
+assert_not_contains() {
+  local file="$1"
+  local pattern="$2"
+  local msg="$3"
+  if rg -q "$pattern" "$file"; then
     echo "[FAIL] $msg (pattern='$pattern')"
     echo "--- output ---"
     cat "$file"
@@ -146,9 +158,20 @@ assert_contains "$TMP_DIR/out2.txt" "Último log: no disponible" "debe evitar mo
 
 # Case 3: cooldown activo con job -> EXIT 2
 export FAKE_ATQ_MODE="active"
+export FAKE_ATQ_LINE="99 Tue Mar 3 15:50:00 2026"
 code="$(run_readiness "$TMP_DIR/out3.txt")"
 assert_exit "2" "$code" "cooldown con job activo debe devolver 2"
 assert_contains "$TMP_DIR/out3.txt" "Job automático activo" "debe mostrar job activo"
+assert_contains "$TMP_DIR/out3.txt" "Sugerencia: si el job está más tarde que la ventana" "debe recomendar reprogramación cuando el job va tarde"
+
+# Case 3b: cooldown activo con job alineado -> EXIT 2 sin sugerencia
+aligned_epoch="$((future_epoch + 60))"
+aligned_line="$(date -r "$aligned_epoch" '+%a %b %e %T %Y')"
+export FAKE_ATQ_LINE="98 $aligned_line"
+code="$(run_readiness "$TMP_DIR/out3b.txt")"
+assert_exit "2" "$code" "cooldown con job alineado debe devolver 2"
+assert_contains "$TMP_DIR/out3b.txt" "Job automático activo" "debe mostrar job activo alineado"
+assert_not_contains "$TMP_DIR/out3b.txt" "Sugerencia: si el job está más tarde que la ventana" "no debe sugerir reprogramación cuando el job ya está en ventana"
 
 # Case 4: cierre completo -> EXIT 0
 cat >"$STATUS_FILE" <<EOF

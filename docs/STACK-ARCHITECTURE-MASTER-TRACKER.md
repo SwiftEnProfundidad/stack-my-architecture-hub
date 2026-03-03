@@ -356,6 +356,12 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
     - cobertura: `scripts/tests/test-closeout-readiness.sh` incluye caso de log inexistente.
     - resultado: salida operativa más fiable durante cooldown y estados de espera.
 
+90. Sugerencia inteligente en readiness según ventana real (2026-03-03):
+    - `scripts/closeout-readiness.sh` solo sugiere reprogramar cuando el job activo no cae en el minuto de `not_before+60s`.
+    - evita ruido cuando el job ya está alineado con ventana.
+    - cobertura: `scripts/tests/test-closeout-readiness.sh` añade caso de job alineado sin sugerencia.
+    - resultado: salida más precisa para operación de cierre `5.4`.
+
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.
 2. Regeneración de launchers/apps de escritorio del Hub.
