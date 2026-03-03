@@ -1770,6 +1770,7 @@ Con cooldown activo, la recomendación fija `15:50` podía dejar la cola program
 ### Verificación
 1. `./scripts/tests/test-closeout-readiness.sh` -> `[PASS]`.
 2. `./scripts/run-closeout-qa-suite.sh tests` -> verde.
+3. `./scripts/closeout-readiness.sh` con job alineado -> sin sugerencia redundante.
 3. `./scripts/run-closeout-qa-suite.sh full` -> verde.
 4. `./scripts/schedule-closeout-at.sh --epoch <not_before+60s>` -> cola closeout actualizada a la primera ventana útil (`02:02 CET`).
 
@@ -1790,3 +1791,19 @@ En estado de cooldown, `auto-closeout-status.env` podía contener rutas temporal
 1. `./scripts/tests/test-closeout-readiness.sh` -> `[PASS]`.
 2. `./scripts/run-closeout-qa-suite.sh tests` -> verde.
 3. `./scripts/closeout-readiness.sh` en runtime -> salida limpia (`Último log: no disponible`).
+
+## QA de automatización — sugerencia inteligente de reprogramación en readiness
+### Fecha
+2026-03-03
+
+### Contexto
+La sugerencia de reprogramación aparecía incluso con job ya alineado en la ventana recomendada.
+
+### Cambios aplicados
+1. `scripts/closeout-readiness.sh` compara minuto del job activo con minuto de `not_before+60s`.
+2. Solo muestra sugerencia de `--epoch` cuando el job no está alineado.
+3. `scripts/tests/test-closeout-readiness.sh` añade caso `3b` (job alineado sin sugerencia).
+
+### Verificación
+1. `./scripts/tests/test-closeout-readiness.sh` -> `[PASS]`.
+2. `./scripts/run-closeout-qa-suite.sh tests` -> verde.

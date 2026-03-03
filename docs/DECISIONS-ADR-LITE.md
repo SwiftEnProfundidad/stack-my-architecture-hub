@@ -1310,3 +1310,21 @@ En viewport móvil estrecho (`<=480px`) los controles superiores de estudio debe
 ### Impacto
 1. Salida más limpia y accionable para soporte nocturno/automático.
 2. Menor ruido en handoffs cuando no existe el log de la última ejecución.
+
+## ADR-LITE-068 — Sugerencia condicional de reprogramación en `closeout-readiness`
+### Fecha
+2026-03-03
+
+### Decisión
+1. Mostrar sugerencia de `schedule-closeout-at.sh --epoch <not_before+60s>` solo cuando el job activo no coincide con el minuto recomendado.
+2. Evitar sugerencia redundante cuando el job ya está alineado con ventana.
+3. Añadir cobertura de regresión con caso de job alineado (`scripts/tests/test-closeout-readiness.sh`).
+
+### Motivación
+1. Reducir ruido operativo en output de readiness durante estados `EN ESPERA`.
+2. Mantener señal accionable y evitar reprogramaciones innecesarias.
+3. Mejorar precisión del runbook de cierre `5.4`.
+
+### Impacto
+1. Menos acciones manuales innecesarias por parte del operador.
+2. Mejor legibilidad del estado real de cola `at` frente a la ventana de deploy.

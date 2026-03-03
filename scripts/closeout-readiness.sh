@@ -53,6 +53,17 @@ find_active_closeout_job() {
   return 1
 }
 
+extract_atq_minute() {
+  local line="$1"
+  local time_field
+  time_field="$(printf '%s\n' "$line" | awk '{print $5}')"
+  if [[ "$time_field" =~ ^[0-9]{1,2}:[0-9]{2}(:[0-9]{2})?$ ]]; then
+    awk -F: '{printf "%02d:%02d\n", $1, $2}' <<<"$time_field"
+    return 0
+  fi
+  return 1
+}
+
 echo "[CLOSEOUT-READINESS] Hub: $HUB_ROOT"
 
 if [[ -f "$COMPLETE_FLAG" ]] && [[ -f "$STATUS_FILE" ]]; then
@@ -101,9 +112,13 @@ if [[ -f "$COOLDOWN_FILE" ]]; then
     fi
 
     if active_job_line="$(find_active_closeout_job)"; then
+      suggested_minute="$(date -r "$suggested_epoch" '+%H:%M')"
+      active_job_minute="$(extract_atq_minute "$active_job_line" || true)"
       echo "[CLOSEOUT-READINESS] Job automático activo: $active_job_line"
-      echo "[CLOSEOUT-READINESS] Sugerencia: si el job está más tarde que la ventana, reprograma a:"
-      echo "[CLOSEOUT-READINESS]   ./scripts/schedule-closeout-at.sh --epoch $suggested_epoch  # $suggested_local"
+      if [[ -z "$active_job_minute" ]] || [[ "$active_job_minute" != "$suggested_minute" ]]; then
+        echo "[CLOSEOUT-READINESS] Sugerencia: si el job está más tarde que la ventana, reprograma a:"
+        echo "[CLOSEOUT-READINESS]   ./scripts/schedule-closeout-at.sh --epoch $suggested_epoch  # $suggested_local"
+      fi
       exit 2
     fi
 

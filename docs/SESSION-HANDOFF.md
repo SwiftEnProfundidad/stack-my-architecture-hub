@@ -235,6 +235,7 @@ Repos incluidos:
      - guard adicional: verifica cola `at`; si no hay job automático activo con cooldown vigente devuelve `EXIT_CODE=3`.
      - guidance dinámica: con cooldown activo recomienda `./scripts/schedule-closeout-at.sh --epoch <not_before+60s>` (evita depender de hora fija `15:50`).
      - higiene de salida: si `last_log_file` no existe, muestra `Último log: no disponible` para evitar rutas temporales stale.
+     - sugerencia inteligente: si el job ya está en el minuto recomendado de ventana, no muestra recomendación redundante de reprogramación.
      - cobertura de regresión: `scripts/tests/test-closeout-readiness.sh` valida los 4 estados (`1/3/2/0`) sin tocar la cola real de `at`.
    - cobertura de scheduler: `scripts/tests/test-schedule-closeout-at.sh` valida programación por hora/epoch y limpieza idempotente de jobs closeout.
    - cobertura de job automático: `scripts/tests/test-closeout-at-job.sh` valida éxito/fallo, flag de cierre y auto-reschedule.
