@@ -9,6 +9,10 @@ RUNTIME_DIR="${SMA_CLOSEOUT_RUNTIME_DIR:-$HUB_ROOT/.runtime}"
 ATQ_CMD="${SMA_ATQ_CMD:-atq}"
 STATUS_CMD="${SMA_CLOSEOUT_STATUS_CMD:-$SCRIPT_DIR/closeout-status.sh}"
 READINESS_CMD="${SMA_CLOSEOUT_READINESS_CMD:-$SCRIPT_DIR/closeout-readiness.sh}"
+PUBLIC_ROUTES_CMD="${SMA_CLOSEOUT_PUBLIC_ROUTES_CMD:-$SCRIPT_DIR/smoke-public-routes.sh}"
+PUBLIC_FUNCTIONAL_CMD="${SMA_CLOSEOUT_PUBLIC_FUNCTIONAL_CMD:-$SCRIPT_DIR/smoke-public-functional.sh}"
+POST_DEPLOY_CHECKS_CMD="${SMA_CLOSEOUT_POST_DEPLOY_CHECKS_CMD:-$SCRIPT_DIR/post-deploy-checks.sh}"
+CLOSEOUT_BASE_URL="${SMA_CLOSEOUT_BASE_URL:-https://architecture-stack.vercel.app}"
 
 AUTO_STATUS_FILE="${SMA_CLOSEOUT_AUTO_STATUS_FILE:-$RUNTIME_DIR/auto-closeout-status.env}"
 COMPLETE_FLAG="${SMA_CLOSEOUT_COMPLETE_FLAG:-$RUNTIME_DIR/closeout-complete.flag}"
@@ -59,8 +63,12 @@ fi
 
 if [[ -f "$COMPLETE_FLAG" ]]; then
   echo "[FOLLOWUP] closeout-complete.flag present: $COMPLETE_FLAG" >>"$LOG_FILE"
+  log_cmd "smoke-public-routes" "$PUBLIC_ROUTES_CMD" "$CLOSEOUT_BASE_URL"
+  log_cmd "smoke-public-functional" "$PUBLIC_FUNCTIONAL_CMD" "$CLOSEOUT_BASE_URL"
+  log_cmd "post-deploy-checks" "$POST_DEPLOY_CHECKS_CMD" "$CLOSEOUT_BASE_URL"
 else
   echo "[FOLLOWUP] closeout-complete.flag absent: $COMPLETE_FLAG" >>"$LOG_FILE"
+  echo "[FOLLOWUP] skip public verification (closeout not complete)" >>"$LOG_FILE"
 fi
 
 echo "[FOLLOWUP] Log: $LOG_FILE"
