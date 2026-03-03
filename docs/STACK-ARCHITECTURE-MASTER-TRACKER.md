@@ -947,3 +947,20 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
    - `./scripts/run-closeout-qa-suite.sh tests` -> PASS.
    - `./scripts/run-closeout-qa-suite.sh full` -> PASS.
 4. Estado: ✅ Hecho (subtask hardening de `P2 #6`).
+
+## Actualizacion 2026-03-03 (18) — Estado estructurado por ejecución en `deploy-and-verify-closeout`
+1. Alcance: `scripts/deploy-and-verify-closeout.sh` + test de regresión.
+2. Cambio:
+   - cada ejecución escribe `.runtime/deploy-and-verify-last.env` con:
+     - `state`, `mode`, `base_url`, `updated_at`,
+     - detalles según resultado (`quota/not_before`, `publish_exit`, `post_checks_exit`).
+3. Estados soportados:
+   - `guarded_cooldown`,
+   - `quota_blocked`,
+   - `publish_failed`,
+   - `post_checks_failed`,
+   - `success`.
+4. Validación:
+   - `./scripts/tests/test-deploy-and-verify-closeout.sh` -> PASS (incluye caso de fallo en post-checks).
+   - `./scripts/run-closeout-qa-suite.sh tests` -> PASS.
+5. Estado: ✅ Hecho (subtask hardening de `P2 #6`).

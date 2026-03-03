@@ -6,6 +6,7 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 HUB_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 RUNTIME_DIR="${SMA_CLOSEOUT_RUNTIME_DIR:-$HUB_ROOT/.runtime}"
 COOLDOWN_FILE="${SMA_CLOSEOUT_COOLDOWN_FILE:-$RUNTIME_DIR/vercel-deploy-cooldown.env}"
+STATUS_FILE="${SMA_CLOSEOUT_STATUS_FILE:-$RUNTIME_DIR/deploy-and-verify-last.env}"
 
 MODE="${1:-fast}"
 BASE_URL="${2:-https://architecture-stack.vercel.app}"
@@ -31,6 +32,23 @@ fi
 
 mkdir -p "$RUNTIME_DIR"
 
+write_status() {
+  local state="$1"
+  local mode="$2"
+  local base_url="$3"
+  local details="${4:-}"
+
+  {
+    echo "state='$state'"
+    echo "mode='$mode'"
+    echo "base_url='$base_url'"
+    echo "updated_at='$(date '+%Y-%m-%d %H:%M:%S %Z')'"
+    if [[ -n "$details" ]]; then
+      printf "%s\n" "$details"
+    fi
+  } >"$STATUS_FILE"
+}
+
 load_cooldown() {
   if [[ ! -f "$COOLDOWN_FILE" ]]; then
     return 1
@@ -51,6 +69,7 @@ if [[ "$FORCE_DEPLOY" != "1" ]] && load_cooldown; then
     echo "[GUARD] Reintentar no antes de: ${not_before_local:-desconocido}"
     echo "[GUARD] Tiempo restante aproximado: ${remaining_hours}h ${remaining_minutes}m"
     echo "[GUARD] Si necesitas forzar el intento: SMA_DEPLOY_FORCE=1 $0 $MODE $BASE_URL"
+    write_status "guarded_cooldown" "$MODE" "$BASE_URL" "guard_reason='${reason:-api-deployments-free-per-day}'"
     exit 2
   fi
 fi
@@ -83,10 +102,15 @@ if [[ "$deploy_status" -ne 0 ]]; then
 
     echo "[GUARD] Cuota detectada. Cooldown registrado en: $COOLDOWN_FILE"
     echo "[GUARD] Próxima ventana estimada: $not_before_local"
+    write_status "quota_blocked" "$MODE" "$BASE_URL" \
+"quota_reason='api-deployments-free-per-day'
+not_before_epoch=$not_before_epoch
+not_before_local='$not_before_local'"
     rm -f "$deploy_log"
     exit 3
   fi
 
+  write_status "publish_failed" "$MODE" "$BASE_URL" "publish_exit=$deploy_status"
   rm -f "$deploy_log"
   exit "$deploy_status"
 fi
@@ -95,6 +119,17 @@ rm -f "$deploy_log"
 rm -f "$COOLDOWN_FILE"
 
 echo "[CLOSEOUT] Paso 2/2: verificación post-deploy"
+set +e
 "$POST_DEPLOY_CHECKS" "$BASE_URL"
+post_checks_status=$?
+set -e
+
+if [[ "$post_checks_status" -ne 0 ]]; then
+  write_status "post_checks_failed" "$MODE" "$BASE_URL" "post_checks_exit=$post_checks_status"
+  exit "$post_checks_status"
+fi
+
+write_status "success" "$MODE" "$BASE_URL" "publish_exit=0
+post_checks_exit=0"
 
 echo "[CLOSEOUT] Deploy + verificación final completados en verde."

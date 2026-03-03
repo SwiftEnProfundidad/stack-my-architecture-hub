@@ -2133,3 +2133,30 @@ El followup capturaba snapshot operativo, pero no ejecutaba verificación públi
 
 ### Resultado
 Se reduce riesgo de cierre incompleto de `P2 #6`; al abrir cuota, la evidencia E2E queda registrada automáticamente en el log de followup.
+
+## Artefacto de estado por ejecución para runner E2E
+### Fecha
+2026-03-03
+
+### Contexto
+El runner `deploy-and-verify-closeout.sh` devolvía código/trace en consola, pero faltaba un estado estructurado persistente por ejecución.
+
+### Cambios aplicados
+1. Nuevo artefacto runtime:
+   - `.runtime/deploy-and-verify-last.env`
+2. Campos mínimos:
+   - `state`, `mode`, `base_url`, `updated_at`
+3. Estados persistidos:
+   - `guarded_cooldown`
+   - `quota_blocked`
+   - `publish_failed`
+   - `post_checks_failed`
+   - `success`
+4. `post-deploy-checks` se ejecuta con captura explícita de exit code para persistir `post_checks_failed` sin perder trazabilidad.
+
+### Verificación
+1. `./scripts/tests/test-deploy-and-verify-closeout.sh` -> `[PASS]` (incluye nuevo caso de fallo post-checks).
+2. `./scripts/run-closeout-qa-suite.sh tests` -> verde.
+
+### Resultado
+Mejora la auditabilidad de `P2 #6` en ventana real; el estado final del intento queda persistido de forma machine-readable.

@@ -90,6 +90,10 @@ Documento operativo de cierre para la fase `5.4` del plan activo:
        - `closeout-window-followup.sh` ejecuta `smoke-public-routes`, `smoke-public-functional` y `post-deploy-checks` cuando existe `closeout-complete.flag`.
        - `./scripts/tests/test-closeout-window-followup.sh` cubre casos con/sin flag.
        - `./scripts/run-closeout-qa-suite.sh tests` y `full` -> verde.
+     - `2026-03-03 03:29 CET` -> `deploy-and-verify-closeout.sh` genera estado estructurado por ejecución:
+       - artefacto: `.runtime/deploy-and-verify-last.env` (`state`, `mode`, `base_url`, `updated_at`, detalles de fallo/éxito).
+       - estados cubiertos por test: `guarded_cooldown`, `quota_blocked`, `publish_failed`, `post_checks_failed`, `success`.
+       - `./scripts/tests/test-deploy-and-verify-closeout.sh` y `./scripts/run-closeout-qa-suite.sh tests` -> verde.
    - Criterio de cierre:
      - deploy productivo + `post-deploy-checks` en una sola ejecución verde.
 
