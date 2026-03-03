@@ -1517,3 +1517,21 @@ En viewport móvil estrecho (`<=480px`) los controles superiores de estudio debe
 ### Impacto
 1. Lectura operativa más fiable para decidir si el cierre automático está listo.
 2. Menor probabilidad de llegar a `not-before` con watchdog/followup ausentes.
+
+## ADR-LITE-079 — Gate de `closeout-status` en runner QA `full`
+### Fecha
+2026-03-03
+
+### Decisión
+1. `run-closeout-qa-suite.sh full` valida explícitamente `closeout-status` antes de `closeout-readiness`.
+2. Si `closeout-status=3` (ventana incompleta), el runner falla inmediatamente.
+3. Se incorpora test dedicado de runner (`test-run-closeout-qa-suite.sh`) con comandos fake inyectables por entorno.
+
+### Motivación
+1. Evitar falsos verdes en `full` cuando `readiness` no detecta por sí solo una rotura parcial de ventana.
+2. Unificar la señal operativa de salud de ventana en el pipeline QA.
+3. Garantizar regresión controlada de la propia orquestación QA.
+
+### Impacto
+1. Mayor fiabilidad del gate `full` previo a la ventana real de deploy.
+2. Mejor testabilidad del runner sin depender de runtime real.
