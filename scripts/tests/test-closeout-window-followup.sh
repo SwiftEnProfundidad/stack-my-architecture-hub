@@ -56,13 +56,20 @@ echo "post-checks ok for $1"
 exit 0
 EOF
 
+cat >"$TMP_DIR/fake-freeze-check.sh" <<'EOF'
+#!/usr/bin/env bash
+echo "freeze-check stub report"
+exit "${FAKE_FREEZE_EXIT:-0}"
+EOF
+
 chmod +x \
   "$TMP_DIR/fake-atq.sh" \
   "$TMP_DIR/fake-status.sh" \
   "$TMP_DIR/fake-readiness.sh" \
   "$TMP_DIR/fake-routes.sh" \
   "$TMP_DIR/fake-functional.sh" \
-  "$TMP_DIR/fake-post-checks.sh"
+  "$TMP_DIR/fake-post-checks.sh" \
+  "$TMP_DIR/fake-freeze-check.sh"
 
 cat >"$AUTO_STATUS" <<'EOF'
 last_run_at='2026-03-03 02:07:10 CET'
@@ -101,6 +108,7 @@ SMA_CLOSEOUT_BASE_URL="https://example.test" \
 SMA_CLOSEOUT_PUBLIC_ROUTES_CMD="$TMP_DIR/fake-routes.sh" \
 SMA_CLOSEOUT_PUBLIC_FUNCTIONAL_CMD="$TMP_DIR/fake-functional.sh" \
 SMA_CLOSEOUT_POST_DEPLOY_CHECKS_CMD="$TMP_DIR/fake-post-checks.sh" \
+SMA_CLOSEOUT_FREEZE_CHECK_CMD="$TMP_DIR/fake-freeze-check.sh" \
 "$FOLLOWUP_SCRIPT" >"$TMP_DIR/stdout.txt" 2>&1
 
 assert_contains "$TMP_DIR/stdout.txt" "\\[FOLLOWUP\\] Log:" "debe imprimir path de log"
@@ -121,6 +129,9 @@ assert_contains "$LOG_FILE" "\\[FOLLOWUP\\] >>> smoke-public-functional" "debe e
 assert_contains "$LOG_FILE" "functional ok for https://example.test" "debe incluir salida de smoke funcional"
 assert_contains "$LOG_FILE" "\\[FOLLOWUP\\] >>> post-deploy-checks" "debe ejecutar post-checks"
 assert_contains "$LOG_FILE" "post-checks ok for https://example.test" "debe incluir salida de post-checks"
+assert_contains "$LOG_FILE" "\\[FOLLOWUP\\] >>> closeout-freeze-check" "debe ejecutar freeze-check"
+assert_contains "$LOG_FILE" "freeze-check stub report" "debe incluir salida de freeze-check"
+assert_contains "$LOG_FILE" "closeout-freeze-check exit=0" "debe registrar freeze-check en verde"
 
 # Case 2: without complete flag should skip public verification commands
 rm -f "$FLAG_FILE"
@@ -137,9 +148,13 @@ SMA_CLOSEOUT_BASE_URL="https://example.test" \
 SMA_CLOSEOUT_PUBLIC_ROUTES_CMD="$TMP_DIR/fake-routes.sh" \
 SMA_CLOSEOUT_PUBLIC_FUNCTIONAL_CMD="$TMP_DIR/fake-functional.sh" \
 SMA_CLOSEOUT_POST_DEPLOY_CHECKS_CMD="$TMP_DIR/fake-post-checks.sh" \
+SMA_CLOSEOUT_FREEZE_CHECK_CMD="$TMP_DIR/fake-freeze-check.sh" \
+FAKE_FREEZE_EXIT=2 \
 "$FOLLOWUP_SCRIPT" >"$TMP_DIR/stdout2.txt" 2>&1
 
 assert_contains "$LOG_FILE_2" "closeout-complete\\.flag absent" "debe indicar flag ausente"
 assert_contains "$LOG_FILE_2" "skip public verification" "debe indicar skip de verificacion publica"
+assert_contains "$LOG_FILE_2" "\\[FOLLOWUP\\] >>> closeout-freeze-check" "debe ejecutar freeze-check tambien sin flag"
+assert_contains "$LOG_FILE_2" "closeout-freeze-check exit=2" "debe registrar freeze-check no-ready"
 
 echo "[PASS] closeout-window-followup tests"
