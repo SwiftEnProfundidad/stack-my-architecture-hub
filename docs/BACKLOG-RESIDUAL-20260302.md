@@ -198,7 +198,7 @@ Documento operativo de cierre para la fase `5.4` del plan activo:
    - Script:
      - `scripts/run-closeout-qa-suite.sh [full|tests]`
    - Comportamiento:
-     - `tests`: ejecuta las suites de regresión de closeout (actualmente 8).
+     - `tests`: ejecuta las suites de regresión de closeout (actualmente 9).
      - `full`: ejecuta suites + checks runtime (`atq` + `closeout-readiness`), aceptando `readiness=2` como estado válido de espera.
    - Evidencia:
      - `2026-03-03 01:00 CET` -> `./scripts/run-closeout-qa-suite.sh tests` y `./scripts/run-closeout-qa-suite.sh full` -> verde.
@@ -295,8 +295,20 @@ Documento operativo de cierre para la fase `5.4` del plan activo:
      - `scripts/tests/test-schedule-closeout-window.sh`
    - Evidencia:
      - `2026-03-03 02:28 CET` -> `./scripts/tests/test-schedule-closeout-window.sh` -> `[PASS]`.
-     - `2026-03-03 02:28 CET` -> `./scripts/run-closeout-qa-suite.sh tests` (8 suites) -> verde.
+     - `2026-03-03 02:28 CET` -> `./scripts/run-closeout-qa-suite.sh tests` (8 suites en ese momento) -> verde.
      - `2026-03-03 02:29 CET` -> `./scripts/schedule-closeout-window.sh` refresca cola a `job 15` (`16:08`) + `job 16` (`16:10`).
+
+25. `P3` `✅` Snapshot post-ventana automatizado.
+   - Script:
+     - `scripts/closeout-window-followup.sh`
+   - Comportamiento:
+     - registra en log runtime: `atq`, `closeout-status`, `closeout-readiness`, `auto-closeout-status.env` y estado de `closeout-complete.flag`.
+   - Cobertura:
+     - `scripts/tests/test-closeout-window-followup.sh`
+   - Evidencia:
+     - `2026-03-03 02:36 CET` -> `./scripts/tests/test-closeout-window-followup.sh` -> `[PASS]`.
+     - `2026-03-03 02:36 CET` -> `./scripts/run-closeout-qa-suite.sh tests` (9 suites) -> verde.
+     - `2026-03-03 02:37 CET` -> followup programado como `job 17` (`16:12 CET`) detrás de main (`15`) y watchdog (`16`).
 
 4. `P3` `⏳` Cerrar `5.4` y congelar handoff final.
    - Alcance:

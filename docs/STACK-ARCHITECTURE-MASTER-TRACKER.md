@@ -334,7 +334,7 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 
 86. Runner unificado de QA de cierre (2026-03-03):
     - script: `scripts/run-closeout-qa-suite.sh [full|tests]`.
-    - `tests`: corre las suites de regresión de closeout (actualmente 8).
+    - `tests`: corre las suites de regresión de closeout (actualmente 9).
     - `full`: añade `atq` + `closeout-readiness`; trata `EXIT_CODE=2` de readiness como espera válida.
     - resultado: ejecución `tests` y `full` en verde con job activo en cola.
 
@@ -404,7 +404,13 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
     - nuevo script: `scripts/schedule-closeout-window.sh [--epoch <unix>]`.
     - programa job principal + watchdog recovery en una sola operación.
     - limpia watchdog previo y reprogama con offsets versionados.
-    - cobertura: `scripts/tests/test-schedule-closeout-window.sh` e integración en QA suite (8 suites totales).
+    - cobertura: `scripts/tests/test-schedule-closeout-window.sh` e integración en QA suite.
+
+99. Snapshot automático post-ventana de closeout (2026-03-03):
+    - nuevo script: `scripts/closeout-window-followup.sh`.
+    - captura en log runtime: `atq`, `closeout-status`, `closeout-readiness`, status env y flag de cierre.
+    - cobertura: `scripts/tests/test-closeout-window-followup.sh`.
+    - orquestación actual: `job 17` (`16:12 CET`) detrás de `job 15` (main) y `job 16` (watchdog).
 
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.

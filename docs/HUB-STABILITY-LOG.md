@@ -1903,3 +1903,22 @@ La programación de ventana (`main` y `watchdog`) se estaba haciendo en dos paso
 3. Runtime real:
    - cola refrescada a `job 15` (closeout `16:08 CET`) y `job 16` (watchdog `16:10 CET`).
    - inspección `at -c` de ambos jobs sin secretos detectados (`OPENAI_API_KEY`, `HEYGEN_API_KEY`, `sk-`).
+
+## Automatización de evidencias — followup post-ventana
+### Fecha
+2026-03-03
+
+### Contexto
+Se necesitaba evidencia automática post-ventana incluso sin sesión interactiva abierta.
+
+### Cambios aplicados
+1. Nuevo script: `scripts/closeout-window-followup.sh`.
+2. Registra snapshot operativo (`atq`, `closeout-status`, `closeout-readiness`, status env y flag).
+3. Test dedicado: `scripts/tests/test-closeout-window-followup.sh`.
+4. Integración en QA suite (ahora 9 suites).
+
+### Verificación
+1. `./scripts/tests/test-closeout-window-followup.sh` -> `[PASS]`.
+2. `./scripts/run-closeout-qa-suite.sh tests` -> verde (9 suites).
+3. Runtime real:
+   - job `17` programado a `16:12 CET` para ejecutar followup tras `job 15` (main) y `job 16` (watchdog).
