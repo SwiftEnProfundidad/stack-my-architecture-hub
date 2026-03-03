@@ -271,6 +271,7 @@ Documento operativo de cierre para la fase `5.4` del plan activo:
      - `2026-03-03 02:18 CET` -> `./scripts/tests/test-recover-past-due-closeout.sh` -> `[PASS]`.
      - `2026-03-03 02:18 CET` -> `./scripts/run-closeout-qa-suite.sh tests` (7 suites) -> verde.
      - `2026-03-03 02:18 CET` -> `./scripts/recover-past-due-closeout.sh` en runtime -> sin recovery (`within grace`).
+     - `2026-03-03 02:22 CET` -> watchdog programado (`job 14`, `16:10 CET`) para ejecutar recovery tras job principal (`16:08 CET`) si quedase stale.
 
 23. `P3` `✅` Estabilización de test flakey en wait-runner.
    - Test:

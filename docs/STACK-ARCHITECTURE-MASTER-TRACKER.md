@@ -395,6 +395,11 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
       - `Cooldown expirado/no valido -> ejecutando deploy`.
     - resultado: `run-closeout-qa-suite.sh tests` vuelve a verde de forma determinista.
 
+97. Watchdog operativo para ventana `16:08` (2026-03-03):
+    - job principal closeout: `job 12` (`16:08 CET`).
+    - job watchdog: `job 14` (`16:10 CET`) ejecutando `recover-past-due-closeout.sh`.
+    - objetivo: autocurar escenario `past-due` sin intervención manual en la segunda ventana del día.
+
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.
 2. Regeneración de launchers/apps de escritorio del Hub.
