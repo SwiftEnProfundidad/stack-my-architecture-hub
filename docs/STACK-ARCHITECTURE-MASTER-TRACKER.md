@@ -843,3 +843,15 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
    - `./scripts/deploy-and-verify-closeout.sh fast https://architecture-stack.vercel.app` -> guard activo (`EXIT_CODE=2`), sin consumir intento durante cooldown.
    - `./scripts/closeout-status.sh` y `./scripts/closeout-readiness.sh --verbose` confirman ventana vigente con `not-before 2026-03-03 16:07:10 CET`.
 3. Estado: ⏳ En espera de apertura de ventana para ejecutar cierre final de `5.3/5.4`.
+
+## Actualizacion 2026-03-03 (9) — Hardening de PATH en scheduler `at`
+1. Alcance: Hub (`schedule-closeout-at`, `schedule-closeout-window`) + tests.
+2. Cambio:
+   - el entorno saneado ahora usa `SMA_AT_SANITIZED_PATH` (default mínimo fijo) en vez de heredar `PATH` interactivo.
+   - reduce ruido y riesgo al evitar rutas efímeras de herramientas locales en jobs programados.
+3. Validación:
+   - `./scripts/tests/test-schedule-closeout-at.sh` -> PASS.
+   - `./scripts/tests/test-schedule-closeout-window.sh` -> PASS.
+   - `./scripts/run-closeout-qa-suite.sh tests` -> PASS.
+   - `./scripts/run-closeout-qa-suite.sh full` -> PASS.
+4. Estado: ✅ Hecho.

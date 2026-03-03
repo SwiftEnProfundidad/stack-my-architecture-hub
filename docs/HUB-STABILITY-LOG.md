@@ -1954,3 +1954,23 @@ Tras cerrar la integración del orquestador de ventana, se ejecuta verificación
 1. `./scripts/smoke-public-routes.sh https://architecture-stack.vercel.app` -> `[PASS]` (`200` en `/`, `/ios/`, `/android/`, `/sdd/`).
 2. `./scripts/smoke-public-functional.sh https://architecture-stack.vercel.app` -> `[PASS]` (Hub/Auth/iOS/Android/SDD).
 3. `./scripts/post-deploy-checks.sh https://architecture-stack.vercel.app` -> `[PASS]`.
+
+## Hardening de entorno `at` — PATH mínimo fijo
+### Fecha
+2026-03-03
+
+### Contexto
+Aunque el scheduler saneaba variables sensibles, seguía heredando un `PATH` interactivo grande en jobs `at`.
+
+### Cambios aplicados
+1. `scripts/schedule-closeout-at.sh` y `scripts/schedule-closeout-window.sh` usan `SMA_AT_SANITIZED_PATH` (default fijo) para `env -i`.
+2. Se evita propagar rutas efímeras de sesión (`codex tmp`, IDE paths, etc.) al runtime programado.
+3. Tests reforzados para validar explícitamente:
+   - `PATH` saneado esperado,
+   - ausencia de marcador de fuga (`leaky-bin`) en modo saneado forzado.
+
+### Verificación
+1. `./scripts/tests/test-schedule-closeout-at.sh` -> `[PASS]`.
+2. `./scripts/tests/test-schedule-closeout-window.sh` -> `[PASS]`.
+3. `./scripts/run-closeout-qa-suite.sh tests` -> verde.
+4. `./scripts/run-closeout-qa-suite.sh full` -> verde.
