@@ -254,13 +254,15 @@ Repos incluidos:
      - objetivo: ejecutar `closeout-wait-and-run.sh fast` automáticamente en la primera ventana útil.
      - hardening: `closeout-at-job.sh` guarda estado en `.runtime/auto-closeout-status.env`, crea flag `.runtime/closeout-complete.flag` al éxito y reprogama automáticamente si persiste cooldown.
      - fix aplicado: autoreprogramación ahora usa `--epoch` (evita error `at: garbled time` y mantiene job activo en cola).
-   - comando operativo de readiness:
-     - `scripts/closeout-readiness.sh [--verbose]` para saber si 5.3/5.4 están listos de cierre sin inspección manual.
-     - guard adicional: verifica cola `at`; si no hay job automático activo con cooldown vigente devuelve `EXIT_CODE=3`.
-     - guidance dinámica: con cooldown activo recomienda `./scripts/schedule-closeout-at.sh --epoch <not_before+60s>` (evita depender de hora fija `15:50`).
-     - higiene de salida: si `last_log_file` no existe, muestra `Último log: no disponible` para evitar rutas temporales stale.
-     - sugerencia inteligente: si el job ya está en el minuto recomendado de ventana, no muestra recomendación redundante de reprogramación.
-     - cobertura de regresión: `scripts/tests/test-closeout-readiness.sh` valida los 4 estados (`1/3/2/0`) sin tocar la cola real de `at`.
+     - comando operativo de readiness:
+      - `scripts/closeout-readiness.sh [--verbose]` para saber si 5.3/5.4 están listos de cierre sin inspección manual.
+      - guard adicional: verifica cola `at`; si falta cualquier job de ventana (`main/watchdog/followup`) con cooldown vigente devuelve `EXIT_CODE=3`.
+      - guidance dinámica: con cooldown activo recomienda `./scripts/schedule-closeout-at.sh --epoch <not_before+60s>` (evita depender de hora fija `15:50`).
+      - con ventana incompleta recomienda `./scripts/schedule-closeout-window.sh` (reconstrucción íntegra de ventana).
+      - higiene de salida: si `last_log_file` no existe, muestra `Último log: no disponible` para evitar rutas temporales stale.
+      - sugerencia inteligente: si el job ya está en el minuto recomendado de ventana, no muestra recomendación redundante de reprogramación.
+      - cobertura de regresión: `scripts/tests/test-closeout-readiness.sh` valida los 4 estados (`1/3/2/0`) sin tocar la cola real de `at`.
+      - cobertura ampliada de ventana: `test-closeout-readiness.sh` valida casos `solo main`, `ventana completa`, `main tardío` y `followup faltante`.
    - cobertura de scheduler:
      - `scripts/tests/test-schedule-closeout-at.sh` valida programación por hora/epoch y limpieza idempotente de jobs closeout.
      - mismo test valida `PATH` saneado fijo en modo `SMA_AT_FORCE_SANITIZE=1`.

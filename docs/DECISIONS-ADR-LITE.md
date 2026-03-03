@@ -1499,3 +1499,21 @@ En viewport móvil estrecho (`<=480px`) los controles superiores de estudio debe
 1. Diagnóstico más fuerte del estado de ventana (`main/watchdog/followup`).
 2. Suite de pruebas más segura y hermética.
 3. Menor riesgo de reintentos prematuros por corrupción de archivos de cooldown/estado.
+
+## ADR-LITE-078 — Alinear `readiness` con salud completa de ventana
+### Fecha
+2026-03-03
+
+### Decisión
+1. `closeout-readiness.sh` debe validar durante cooldown los tres jobs de ventana (`main/watchdog/followup`), no solo `main`.
+2. Si la ventana está incompleta, `readiness` devuelve `EXIT_CODE=3` y recomienda `./scripts/schedule-closeout-window.sh`.
+3. La sugerencia de reprogramación por `--epoch` se mantiene para el caso de `main` tardío cuando la ventana ya está completa.
+
+### Motivación
+1. Evitar falsos positivos de estado `EN ESPERA` con ventana parcialmente rota.
+2. Mantener consistencia semántica entre `closeout-status` y `closeout-readiness`.
+3. Reducir riesgo operativo antes de la ventana real de deploy.
+
+### Impacto
+1. Lectura operativa más fiable para decidir si el cierre automático está listo.
+2. Menor probabilidad de llegar a `not-before` con watchdog/followup ausentes.
