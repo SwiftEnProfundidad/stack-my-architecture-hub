@@ -431,6 +431,11 @@ Documento operativo de cierre para la fase `5.4` del plan activo:
 4. `P3` `⏳` Cerrar `5.4` y congelar handoff final.
    - Alcance:
      - `PLAN`, `SESSION-HANDOFF`, `MASTER-TRACKER`, `HUB-STABILITY-LOG`, `ADR-LITE`.
+   - Preparación cerrada (`2026-03-03 03:37 CET`):
+     - nuevo comando `scripts/closeout-freeze-check.sh`.
+     - genera reporte `closeout-freeze-check-*.md` con estado READY/NOT_READY para decidir cierre documental final.
+     - valida `deploy-and-verify-last.env`, `closeout-complete.flag`, followup log y checks públicos (`routes/functional/post-checks`).
+     - cobertura: `scripts/tests/test-closeout-freeze-check.sh` + `run-closeout-qa-suite.sh` (11 suites) en verde.
    - Criterio de cierre:
      - sin tareas `🚧` abiertas.
      - backlog residual en `✅` o `⛔` documentado con fecha.
