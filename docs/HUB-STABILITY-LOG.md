@@ -1864,6 +1864,9 @@ Tras detectar un job `at` vencido en cola, se automatiza el recovery para evitar
 1. `./scripts/tests/test-recover-past-due-closeout.sh` -> `[PASS]`.
 2. `./scripts/run-closeout-qa-suite.sh tests` -> verde (7 suites).
 3. `./scripts/recover-past-due-closeout.sh` en runtime actual -> sin recovery (dentro de ventana/gracia).
+4. Watchdog en cola para próxima ventana:
+   - `job 12` (`16:08 CET`) closeout principal,
+   - `job 14` (`16:10 CET`) recovery watchdog.
 
 ## Estabilidad QA — eliminación de flake en wait-runner
 ### Fecha
