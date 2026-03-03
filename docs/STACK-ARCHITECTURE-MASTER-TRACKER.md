@@ -989,3 +989,14 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
    - `./scripts/run-closeout-qa-suite.sh tests` -> PASS (11 suites).
    - `./scripts/run-closeout-qa-suite.sh full` -> PASS.
 4. Estado: ✅ Hecho (subtask de preparación); `P3 #4` permanece `⏳` hasta cierre real post-deploy.
+
+## Actualizacion 2026-03-03 (21) — Followup dispara freeze-check automáticamente
+1. Alcance: `scripts/closeout-window-followup.sh` + test de regresión.
+2. Cambio:
+   - al final del followup se ejecuta `closeout-freeze-check.sh` con contexto runtime/log actual.
+   - queda trazado en el mismo log: `closeout-freeze-check exit=<code>`.
+3. Validación:
+   - `./scripts/tests/test-closeout-window-followup.sh` -> PASS (caso con flag -> exit 0, sin flag -> exit 2).
+   - `./scripts/run-closeout-qa-suite.sh tests` -> PASS.
+   - `./scripts/run-closeout-qa-suite.sh full` -> PASS.
+4. Estado: ✅ Hecho (subtask hardening de `P2 #6` y preparación de `P3 #4`).

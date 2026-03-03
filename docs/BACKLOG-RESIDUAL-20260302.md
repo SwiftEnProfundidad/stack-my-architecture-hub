@@ -97,6 +97,10 @@ Documento operativo de cierre para la fase `5.4` del plan activo:
      - `2026-03-03 03:33 CET` -> followup integra estado del runner:
        - `closeout-window-followup.sh` vuelca `deploy-and-verify-last.env` en el log post-ventana (o marca `missing`).
        - `./scripts/tests/test-closeout-window-followup.sh` y `./scripts/run-closeout-qa-suite.sh tests` -> verde.
+     - `2026-03-03 03:42 CET` -> followup ejecuta gate de cierre automáticamente:
+       - `closeout-window-followup.sh` llama `closeout-freeze-check.sh` al final (con y sin `closeout-complete.flag`).
+       - el log post-ventana ya incluye `closeout-freeze-check exit=<code>` y su salida.
+       - `./scripts/tests/test-closeout-window-followup.sh` + `./scripts/run-closeout-qa-suite.sh tests|full` -> verde.
    - Criterio de cierre:
      - deploy productivo + `post-deploy-checks` en una sola ejecución verde.
 

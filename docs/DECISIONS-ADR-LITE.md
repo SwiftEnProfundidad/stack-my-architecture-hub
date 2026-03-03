@@ -1645,3 +1645,22 @@ En viewport móvil estrecho (`<=480px`) los controles superiores de estudio debe
 1. La decisión de cierre `5.4` pasa a ser verificable por comando.
 2. Se añade `test-closeout-freeze-check.sh` y la QA suite sube a 11 pruebas.
 3. Mejora la auditabilidad y consistencia de fin de ciclo.
+
+## ADR-LITE-085 — Ejecutar `closeout-freeze-check` dentro de `closeout-window-followup`
+### Fecha
+2026-03-03
+
+### Decisión
+1. `closeout-window-followup.sh` debe invocar `closeout-freeze-check.sh` al final de cada ejecución.
+2. La salida y `exit code` del freeze-check deben quedar registrados en el propio log de followup.
+3. Se mantiene tolerancia: el followup no falla por `NOT_READY` (exit 2), solo lo registra para diagnóstico.
+
+### Motivación
+1. Evitar dependencia de un paso manual adicional tras abrir ventana.
+2. Unificar en un único log toda la evidencia de cierre (checks públicos + gate READY/NOT_READY).
+3. Acelerar decisión final sobre `P2 #6` y `P3 #4`.
+
+### Impacto
+1. Flujo de cierre más automático y determinista.
+2. Trazabilidad mejorada al incluir `closeout-freeze-check exit=<code>` en logs post-ventana.
+3. `test-closeout-window-followup.sh` amplía cobertura para este camino automático.

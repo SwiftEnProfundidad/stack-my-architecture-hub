@@ -2213,3 +2213,30 @@ Con el cierre E2E pendiente por cuota, faltaba un comando único para decidir si
 
 ### Resultado
 Queda preparado el cierre inmediato de `5.4` en cuanto se complete el deploy en ventana, con criterio reproducible y auditable.
+
+## Followup ejecuta freeze-check en automático
+### Fecha
+2026-03-03
+
+### Contexto
+El freeze-check ya existía como comando manual, pero faltaba su ejecución automática dentro del followup post-ventana.
+
+### Cambios aplicados
+1. `closeout-window-followup.sh` añade ejecución final de:
+   - `closeout-freeze-check.sh`
+2. Se inyecta contexto actual para coherencia de diagnóstico:
+   - runtime dir,
+   - log followup activo,
+   - comandos status/readiness/atq,
+   - rutas de artefactos (`auto-closeout-status`, `deploy-and-verify-last`, `closeout-complete.flag`).
+3. Resultado visible en log:
+   - bloque `>>> closeout-freeze-check`,
+   - línea `closeout-freeze-check exit=<code>`.
+
+### Verificación
+1. `./scripts/tests/test-closeout-window-followup.sh` -> `[PASS]`.
+2. `./scripts/run-closeout-qa-suite.sh tests` -> verde.
+3. `./scripts/run-closeout-qa-suite.sh full` -> verde.
+
+### Resultado
+La decisión READY/NOT_READY queda embebida en el flujo automático de ventana, sin pasos manuales posteriores.
