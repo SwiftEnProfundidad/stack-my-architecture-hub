@@ -1974,3 +1974,21 @@ Aunque el scheduler saneaba variables sensibles, seguía heredando un `PATH` int
 2. `./scripts/tests/test-schedule-closeout-window.sh` -> `[PASS]`.
 3. `./scripts/run-closeout-qa-suite.sh tests` -> verde.
 4. `./scripts/run-closeout-qa-suite.sh full` -> verde.
+
+## Runtime closeout reprogamado tras hardening de PATH
+### Fecha
+2026-03-03
+
+### Contexto
+La cola activa de closeout (`15/16/17`) fue creada antes del hardening de PATH.
+
+### Acción
+1. Reprogramación completa de ventana con `./scripts/schedule-closeout-window.sh`.
+
+### Verificación
+1. Cola activa renovada:
+   - `job 18` -> main (`16:08 CET`)
+   - `job 19` -> watchdog (`16:10 CET`)
+   - `job 20` -> followup (`16:12 CET`)
+2. `at -c 18|19|20` -> `export PATH=/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin`.
+3. `./scripts/closeout-readiness.sh --verbose` -> `EN ESPERA` por cuota con job automático activo.

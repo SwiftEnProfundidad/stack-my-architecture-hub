@@ -91,6 +91,7 @@ Documento operativo de cierre para la fase `5.4` del plan activo:
    - Resultado actual:
      - `2026-03-03 02:07 CET` -> cooldown activo, not-before `2026-03-03 16:07:10 CET`.
      - `2026-03-03 02:45 CET` -> cooldown activo, not-before `2026-03-03 16:07:10 CET`, job automático activo (`15`, `16`, `17` en cola).
+     - `2026-03-03 02:52 CET` -> cooldown activo, not-before `2026-03-03 16:07:10 CET`, cola refrescada (`18`, `19`, `20`).
    - Criterio de cierre:
      - reportar estado `listo para reintento de deploy` en ventana válida.
 
@@ -308,6 +309,7 @@ Documento operativo de cierre para la fase `5.4` del plan activo:
      - `2026-03-03 02:29 CET` -> `./scripts/schedule-closeout-window.sh` refresca cola a `job 15` (`16:08`) + `job 16` (`16:10`).
      - `2026-03-03 02:39 CET` -> refuerzo de test para validar followup integrado (`AT -t` watchdog+followup + cleanup idempotente de jobs viejos) -> `[PASS]`.
      - `2026-03-03 02:39 CET` -> `./scripts/run-closeout-qa-suite.sh tests` -> verde (9 suites).
+     - `2026-03-03 02:51 CET` -> reprogamación runtime tras hardening de PATH: cola activa `job 18` (`16:08`) + `job 19` (`16:10`) + `job 20` (`16:12`).
 
 25. `P3` `✅` Snapshot post-ventana automatizado.
    - Script:
@@ -335,6 +337,7 @@ Documento operativo de cierre para la fase `5.4` del plan activo:
      - `2026-03-03 02:49 CET` -> ambos tests pasan con aserción explícita de `PATH` fijo y sin `leaky-bin`.
      - `2026-03-03 02:49 CET` -> `./scripts/run-closeout-qa-suite.sh tests` -> verde.
      - `2026-03-03 02:49 CET` -> `./scripts/run-closeout-qa-suite.sh full` -> verde.
+     - `2026-03-03 02:51 CET` -> `at -c 18|19|20` confirma `export PATH=/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin`.
 
 4. `P3` `⏳` Cerrar `5.4` y congelar handoff final.
    - Alcance:

@@ -855,3 +855,13 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
    - `./scripts/run-closeout-qa-suite.sh tests` -> PASS.
    - `./scripts/run-closeout-qa-suite.sh full` -> PASS.
 4. Estado: ✅ Hecho.
+
+## Actualizacion 2026-03-03 (10) — Reprogramación runtime con PATH hardening activo
+1. Alcance: cola `at` operativa de ventana `16:08/16:10/16:12`.
+2. Acción:
+   - `./scripts/schedule-closeout-window.sh` reprogama la ventana tras hardening.
+3. Resultado:
+   - cola actual: `job 18` (main), `job 19` (watchdog), `job 20` (followup).
+   - `./scripts/closeout-readiness.sh --verbose` mantiene estado `EN ESPERA` por cuota con job automático activo.
+   - `at -c 18|19|20` confirma `export PATH=/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin`.
+4. Estado: ✅ Hecho.
