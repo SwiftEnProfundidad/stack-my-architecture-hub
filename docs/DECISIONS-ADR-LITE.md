@@ -1602,3 +1602,22 @@ En viewport móvil estrecho (`<=480px`) los controles superiores de estudio debe
 1. Cada intento deja un estado persistente y comparable.
 2. Se amplía `test-deploy-and-verify-closeout.sh` con cobertura de estados (incluyendo fallo en post-checks).
 3. El flujo automático mantiene compatibilidad y mejora observabilidad operacional.
+
+## ADR-LITE-083 — Unificar diagnóstico post-ventana en `closeout-window-followup`
+### Fecha
+2026-03-03
+
+### Decisión
+1. `closeout-window-followup.sh` debe incorporar en su log el contenido de:
+   - `.runtime/deploy-and-verify-last.env`
+2. Si ese artefacto no existe, debe registrar explícitamente un `missing` para evitar falso silencio operacional.
+
+### Motivación
+1. Reunir en un solo log la lectura completa del cierre automático (estado de cola + readiness + resultado runner E2E).
+2. Reducir tiempo de diagnóstico tras la ventana de cuota.
+3. Evitar que el estado machine-readable quede desacoplado del log de seguimiento final.
+
+### Impacto
+1. El followup queda como fuente única de diagnóstico post-ventana.
+2. `test-closeout-window-followup.sh` amplía cobertura para validar bloque `deploy-and-verify-last.env`.
+3. Mejora la trazabilidad de `P2 #6` y prepara el cierre limpio de `5.4`.

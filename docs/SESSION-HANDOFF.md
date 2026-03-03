@@ -224,6 +224,7 @@ Repos incluidos:
      - preflight de ventana: `2026-03-03 03:20 CET` (status+cola+payload jobs+QA full) en verde, listo para ejecución automática a `16:08 CET`.
      - followup post-ventana endurecido (`2026-03-03 03:25 CET`): al detectar `closeout-complete.flag`, ejecuta automáticamente smoke público de rutas/funcional + post-checks para dejar evidencia E2E en log.
      - artefacto de estado por ejecución (`2026-03-03 03:29 CET`): `deploy-and-verify-closeout.sh` escribe `.runtime/deploy-and-verify-last.env` con estado final estructurado (`guarded_cooldown|quota_blocked|publish_failed|post_checks_failed|success`).
+     - followup con observabilidad completa (`2026-03-03 03:33 CET`): además de `auto-closeout-status.env`, incluye en log el contenido de `.runtime/deploy-and-verify-last.env`.
    - estado operativo rápido:
      - script: `scripts/closeout-status.sh`
      - estado actual: `2026-03-03 02:58 CET` -> cooldown activo, not-before `2026-03-03 16:07:10 CET`.
