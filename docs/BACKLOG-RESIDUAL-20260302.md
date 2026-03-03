@@ -81,6 +81,7 @@ Documento operativo de cierre para la fase `5.4` del plan activo:
      - `2026-03-02 23:49 CET` -> build OK, deploy bloqueado por cuota (`api-deployments-free-per-day`).
      - `2026-03-02 23:53 CET` -> guard activo (sin consumir intento), ventana vigente `2026-03-03 15:49:00 CET`.
      - `2026-03-03 02:07 CET` -> build OK, deploy bloqueado por cuota (`api-deployments-free-per-day`), cooldown actualizado a `2026-03-03 16:07:10 CET`.
+     - `2026-03-03 02:45 CET` -> guard activo (sin consumir intento), mantiene ventana `2026-03-03 16:07:10 CET`.
    - Criterio de cierre:
      - deploy productivo + `post-deploy-checks` en una sola ejecución verde.
 
@@ -89,6 +90,7 @@ Documento operativo de cierre para la fase `5.4` del plan activo:
      - `scripts/closeout-status.sh`
    - Resultado actual:
      - `2026-03-03 02:07 CET` -> cooldown activo, not-before `2026-03-03 16:07:10 CET`.
+     - `2026-03-03 02:45 CET` -> cooldown activo, not-before `2026-03-03 16:07:10 CET`, job automático activo (`15`, `16`, `17` en cola).
    - Criterio de cierre:
      - reportar estado `listo para reintento de deploy` en ventana válida.
 
