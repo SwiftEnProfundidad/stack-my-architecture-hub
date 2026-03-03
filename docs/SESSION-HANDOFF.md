@@ -240,6 +240,8 @@ Repos incluidos:
    - cobertura de deploy/status:
      - `scripts/tests/test-deploy-and-verify-closeout.sh`
      - `scripts/tests/test-closeout-status.sh`
+   - runner QA único:
+     - `scripts/run-closeout-qa-suite.sh tests|full` (full acepta `readiness=2` como espera válida).
 
 ## Última comprobación de espera activa
 1. Fecha: 2026-02-27.
