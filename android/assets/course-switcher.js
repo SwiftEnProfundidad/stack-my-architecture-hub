@@ -23,7 +23,18 @@
 
   function isLocalContext() {
     var host = String(window.location.hostname || '').toLowerCase();
-    return window.location.protocol === 'file:' || host === 'localhost' || host === '127.0.0.1' || host === '::1';
+    if (window.location.protocol === 'file:') return true;
+    if (!host) return false;
+    if (host === 'localhost' || host === '127.0.0.1' || host === '::1' || host === '0.0.0.0') return true;
+    if (host.endsWith('.local')) return true;
+    if (/^10\.\d{1,3}\.\d{1,3}\.\d{1,3}$/.test(host)) return true;
+    if (/^192\.168\.\d{1,3}\.\d{1,3}$/.test(host)) return true;
+    var private172 = host.match(/^172\.(\d{1,3})\.\d{1,3}\.\d{1,3}$/);
+    if (private172) {
+      var secondOctet = Number(private172[1]);
+      if (Number.isFinite(secondOctet) && secondOctet >= 16 && secondOctet <= 31) return true;
+    }
+    return false;
   }
 
   function collectSyncParams() {
