@@ -1419,3 +1419,21 @@ En viewport móvil estrecho (`<=480px`) los controles superiores de estudio debe
 ### Impacto
 1. Menor fricción para preparar cada nueva ventana de cuota.
 2. Cobertura dedicada en `test-schedule-closeout-window.sh` y QA suite ampliada.
+
+## ADR-LITE-074 — Snapshot automático post-ventana de closeout
+### Fecha
+2026-03-03
+
+### Decisión
+1. Añadir `scripts/closeout-window-followup.sh` para capturar estado operativo tras la ventana.
+2. Programar el followup como job posterior al main+watchdog en la misma ventana (`+2 min` sobre watchdog).
+3. Versionar cobertura con `test-closeout-window-followup.sh` e incluirla en la QA suite.
+
+### Motivación
+1. Tener evidencia runtime aunque no haya sesión interactiva en el momento del cierre.
+2. Mejorar handoff y auditoría de `5.4` con artefactos de estado consistentes.
+3. Reducir huecos de observabilidad entre job principal y revisión manual.
+
+### Impacto
+1. Mayor trazabilidad del cierre en ventanas de cuota.
+2. QA de cierre ampliada y más robusta.

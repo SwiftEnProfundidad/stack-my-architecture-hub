@@ -228,10 +228,12 @@ Repos incluidos:
       - cola actual refrescada con orquestador de ventana:
         - `job 15` -> closeout principal (`16:08 CET`)
         - `job 16` -> recovery watchdog (`16:10 CET`)
+        - `job 17` -> followup snapshot (`16:12 CET`)
       - job file versionado: `scripts/closeout-at-job.sh`.
       - scheduler versionado: `scripts/schedule-closeout-at.sh [hora]`.
       - orquestador versionado: `scripts/schedule-closeout-window.sh [--epoch]` (programa main+watchdog en una sola ejecución).
       - recovery versionado: `scripts/recover-past-due-closeout.sh` para limpiar jobs stale y lanzar fallback manual cuando procede.
+      - followup versionado: `scripts/closeout-window-followup.sh` para snapshot post-ventana sin intervención manual.
      - hardening: `schedule-closeout-at.sh` ahora sanea entorno al invocar `at` (evita heredar secretos no necesarios en jobs programados).
      - verificación runtime hardening: job regenerado (`job 11`) y job activo actual (`job 12`) sin secretos (`OPENAI_API_KEY`, `HEYGEN_API_KEY`, `sk-`) al inspeccionar `at -c`.
      - incidencia controlada: job `02:02` quedó vencido en cola (past-due), se aplicó fallback manual `./scripts/closeout-at-job.sh`.
@@ -248,6 +250,7 @@ Repos incluidos:
    - cobertura de scheduler:
      - `scripts/tests/test-schedule-closeout-at.sh` valida programación por hora/epoch y limpieza idempotente de jobs closeout.
      - `scripts/tests/test-schedule-closeout-window.sh` valida orquestación conjunta `main + watchdog`.
+   - cobertura de followup: `scripts/tests/test-closeout-window-followup.sh`.
    - cobertura de job automático: `scripts/tests/test-closeout-at-job.sh` valida éxito/fallo, flag de cierre y auto-reschedule.
    - cobertura de wait-runner: `scripts/tests/test-closeout-wait-and-run.sh` valida guard de cooldown, modo force y ejecución diferida.
    - robustez test wait-runner: el caso de cooldown corto admite ambos caminos válidos en frontera temporal (espera explícita o expirado inmediato) para eliminar flakiness.
@@ -255,7 +258,7 @@ Repos incluidos:
      - `scripts/tests/test-deploy-and-verify-closeout.sh`
      - `scripts/tests/test-closeout-status.sh`
    - runner QA único:
-     - `scripts/run-closeout-qa-suite.sh tests|full` (actualmente 8 suites; `full` acepta `readiness=2` como espera válida).
+     - `scripts/run-closeout-qa-suite.sh tests|full` (actualmente 9 suites; `full` acepta `readiness=2` como espera válida).
 
 ## Última comprobación de espera activa
 1. Fecha: 2026-02-27.
