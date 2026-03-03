@@ -15,6 +15,7 @@ POST_DEPLOY_CHECKS_CMD="${SMA_CLOSEOUT_POST_DEPLOY_CHECKS_CMD:-$SCRIPT_DIR/post-
 CLOSEOUT_BASE_URL="${SMA_CLOSEOUT_BASE_URL:-https://architecture-stack.vercel.app}"
 
 AUTO_STATUS_FILE="${SMA_CLOSEOUT_AUTO_STATUS_FILE:-$RUNTIME_DIR/auto-closeout-status.env}"
+DEPLOY_STATUS_FILE="${SMA_CLOSEOUT_DEPLOY_STATUS_FILE:-$RUNTIME_DIR/deploy-and-verify-last.env}"
 COMPLETE_FLAG="${SMA_CLOSEOUT_COMPLETE_FLAG:-$RUNTIME_DIR/closeout-complete.flag}"
 
 mkdir -p "$RUNTIME_DIR"
@@ -59,6 +60,16 @@ if [[ -f "$AUTO_STATUS_FILE" ]]; then
   } >>"$LOG_FILE"
 else
   echo "[FOLLOWUP] auto-closeout-status.env missing: $AUTO_STATUS_FILE" >>"$LOG_FILE"
+fi
+
+if [[ -f "$DEPLOY_STATUS_FILE" ]]; then
+  {
+    echo
+    echo "[FOLLOWUP] >>> deploy-and-verify-last.env"
+    cat "$DEPLOY_STATUS_FILE"
+  } >>"$LOG_FILE"
+else
+  echo "[FOLLOWUP] deploy-and-verify-last.env missing: $DEPLOY_STATUS_FILE" >>"$LOG_FILE"
 fi
 
 if [[ -f "$COMPLETE_FLAG" ]]; then
