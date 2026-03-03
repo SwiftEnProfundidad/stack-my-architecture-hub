@@ -89,13 +89,14 @@ Documento operativo de cierre para la fase `5.4` del plan activo:
    - Script:
      - `scripts/closeout-status.sh`
    - Resultado actual:
-      - `2026-03-03 02:07 CET` -> cooldown activo, not-before `2026-03-03 16:07:10 CET`.
-      - `2026-03-03 02:45 CET` -> cooldown activo, not-before `2026-03-03 16:07:10 CET`, job automático activo (`15`, `16`, `17` en cola).
-      - `2026-03-03 02:52 CET` -> cooldown activo, not-before `2026-03-03 16:07:10 CET`, cola refrescada (`18`, `19`, `20`).
+     - `2026-03-03 02:07 CET` -> cooldown activo, not-before `2026-03-03 16:07:10 CET`.
+     - `2026-03-03 02:45 CET` -> cooldown activo, not-before `2026-03-03 16:07:10 CET`, job automático activo (`15`, `16`, `17` en cola).
+     - `2026-03-03 02:52 CET` -> cooldown activo, not-before `2026-03-03 16:07:10 CET`, cola refrescada (`18`, `19`, `20`).
      - `2026-03-03 02:58 CET` -> cooldown activo + verificación explícita de jobs de ventana:
        - `Job main activo` (`18`),
        - `Job watchdog activo` (`19`),
        - `Job followup activo` (`20`).
+     - `2026-03-03 03:03 CET` -> `closeout-readiness` también valida ventana completa (`main/watchdog/followup`) y mantiene `EXIT_CODE=2` solo cuando la ventana está íntegra.
    - Criterio de cierre:
      - reportar estado `listo para reintento de deploy` en ventana válida.
 
@@ -359,6 +360,23 @@ Documento operativo de cierre para la fase `5.4` del plan activo:
      - `2026-03-03 02:57 CET` -> `./scripts/tests/test-closeout-status.sh` -> `[PASS]`.
      - `2026-03-03 02:57 CET` -> `./scripts/run-closeout-qa-suite.sh tests` -> verde.
      - `2026-03-03 02:58 CET` -> `./scripts/run-closeout-qa-suite.sh full` -> verde.
+
+28. `P3` `✅` Readiness endurecido con salud completa de ventana.
+   - Script:
+     - `scripts/closeout-readiness.sh`
+   - Comportamiento:
+     - durante cooldown exige `main + watchdog + followup` para considerar estado operativo en espera (`EXIT_CODE=2`).
+     - si falta cualquier job de ventana devuelve `EXIT_CODE=3` y recomienda `./scripts/schedule-closeout-window.sh`.
+   - Cobertura:
+     - `scripts/tests/test-closeout-readiness.sh` ampliado con casos:
+       - solo `main` -> `EXIT_CODE=3`,
+       - ventana completa -> `EXIT_CODE=2`,
+       - ventana completa con `main` tardío -> sugerencia `--epoch`,
+       - ventana incompleta (`followup` faltante) -> `EXIT_CODE=3`.
+   - Evidencia:
+     - `2026-03-03 03:03 CET` -> `./scripts/tests/test-closeout-readiness.sh` -> `[PASS]`.
+     - `2026-03-03 03:03 CET` -> `./scripts/run-closeout-qa-suite.sh tests` -> verde.
+     - `2026-03-03 03:03 CET` -> `./scripts/run-closeout-qa-suite.sh full` -> verde.
 
 4. `P3` `⏳` Cerrar `5.4` y congelar handoff final.
    - Alcance:

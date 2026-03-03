@@ -2015,3 +2015,20 @@ Se detectó riesgo operacional: los tests de readiness podían alterar `.runtime
 5. Estado runtime confirmado:
    - cooldown `not-before 2026-03-03 16:07:10 CET`,
    - cola activa `18/19/20`.
+
+## Readiness endurecido con salud completa de ventana
+### Fecha
+2026-03-03
+
+### Contexto
+`closeout-status` ya validaba la ventana completa, pero `closeout-readiness` aún se apoyaba solo en el job `main`.
+
+### Cambios aplicados
+1. `scripts/closeout-readiness.sh` ahora exige `main/watchdog/followup` durante cooldown.
+2. Si falta cualquier job de ventana -> `EXIT_CODE=3` + recomendación `./scripts/schedule-closeout-window.sh`.
+3. Se mantiene sugerencia `schedule-closeout-at --epoch` únicamente para desviación temporal del `main` cuando la ventana está completa.
+
+### Verificación
+1. `./scripts/tests/test-closeout-readiness.sh` -> `[PASS]` (incluye casos de ventana completa e incompleta).
+2. `./scripts/run-closeout-qa-suite.sh tests` -> verde.
+3. `./scripts/run-closeout-qa-suite.sh full` -> verde.

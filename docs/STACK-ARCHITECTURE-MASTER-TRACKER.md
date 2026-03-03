@@ -878,3 +878,14 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
    - `./scripts/run-closeout-qa-suite.sh tests` -> PASS.
    - `./scripts/run-closeout-qa-suite.sh full` -> PASS.
 4. Estado: ✅ Hecho.
+
+## Actualizacion 2026-03-03 (12) — Readiness con validación completa de ventana
+1. Alcance: `closeout-readiness` + tests de regresión.
+2. Cambio:
+   - readiness exige `main/watchdog/followup` durante cooldown para mantener `EXIT_CODE=2`.
+   - si falta cualquier job de ventana devuelve `EXIT_CODE=3` y sugiere `./scripts/schedule-closeout-window.sh`.
+3. Validación:
+   - `./scripts/tests/test-closeout-readiness.sh` -> PASS.
+   - `./scripts/run-closeout-qa-suite.sh tests` -> PASS.
+   - `./scripts/run-closeout-qa-suite.sh full` -> PASS.
+4. Estado: ✅ Hecho.
