@@ -226,6 +226,7 @@ Repos incluidos:
      - artefacto de estado por ejecución (`2026-03-03 03:29 CET`): `deploy-and-verify-closeout.sh` escribe `.runtime/deploy-and-verify-last.env` con estado final estructurado (`guarded_cooldown|quota_blocked|publish_failed|post_checks_failed|success`).
      - followup con observabilidad completa (`2026-03-03 03:33 CET`): además de `auto-closeout-status.env`, incluye en log el contenido de `.runtime/deploy-and-verify-last.env`.
      - freeze-check documental (`2026-03-03 03:37 CET`): `closeout-freeze-check.sh` produce reporte READY/NOT_READY para cerrar `5.4` sin ambigüedad tras la ventana real.
+     - freeze-check embebido en followup (`2026-03-03 03:42 CET`): `closeout-window-followup.sh` ejecuta `closeout-freeze-check.sh` automáticamente y deja `exit=<code>` en el mismo log post-ventana.
    - estado operativo rápido:
      - script: `scripts/closeout-status.sh`
      - estado actual: `2026-03-03 02:58 CET` -> cooldown activo, not-before `2026-03-03 16:07:10 CET`.
