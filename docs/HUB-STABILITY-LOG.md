@@ -2084,3 +2084,24 @@ Quedaba pendiente operativo verificar explícitamente que el estado de cierre re
 
 ### Resultado
 Pendiente `P3 #7` del backlog residual cerrado; se mantiene `5.4` en curso a la espera del reintento real de deploy al abrir cuota.
+
+## Preflight de ventana para cierre E2E (`P2 #6`)
+### Fecha
+2026-03-03
+
+### Contexto
+La cuota Vercel sigue bloqueando intentos hasta `2026-03-03 16:07:10 CET`, por lo que se ejecuta preflight completo para minimizar riesgo operativo en la ventana útil.
+
+### Verificación
+1. `./scripts/closeout-status.sh`:
+   - cooldown activo por `api-deployments-free-per-day`,
+   - jobs activos `18` (`main`), `19` (`watchdog`), `20` (`followup`).
+2. Inspección payload de jobs:
+   - `at -c 18` -> `scripts/closeout-at-job.sh`,
+   - `at -c 19` -> `scripts/recover-past-due-closeout.sh`,
+   - `at -c 20` -> `scripts/closeout-window-followup.sh`,
+   - los tres con `PATH` saneado fijo (`/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin`).
+3. `./scripts/run-closeout-qa-suite.sh full` -> verde (10 suites + checks runtime).
+
+### Resultado
+Subtask de preflight cerrada en verde; queda pendiente únicamente la ejecución real del deploy E2E cuando abra cuota.
