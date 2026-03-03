@@ -85,7 +85,7 @@ Documento operativo de cierre para la fase `5.4` del plan activo:
    - Criterio de cierre:
      - deploy productivo + `post-deploy-checks` en una sola ejecución verde.
 
-7. `P3` `⏳` Estado operativo de cierre con comando único.
+7. `P3` `✅` Estado operativo de cierre con comando único.
    - Script:
      - `scripts/closeout-status.sh`
    - Resultado actual:
@@ -97,6 +97,10 @@ Documento operativo de cierre para la fase `5.4` del plan activo:
        - `Job watchdog activo` (`19`),
        - `Job followup activo` (`20`).
      - `2026-03-03 03:03 CET` -> `closeout-readiness` también valida ventana completa (`main/watchdog/followup`) y mantiene `EXIT_CODE=2` solo cuando la ventana está íntegra.
+     - `2026-03-03 03:16 CET` -> simulación de ventana válida (`SMA_CLOSEOUT_COOLDOWN_FILE` temporal con `not_before` vencido) devuelve:
+       - `Estado: listo para reintento de deploy`.
+     - `2026-03-03 03:16 CET` -> `./scripts/tests/test-closeout-status.sh` -> `[PASS]`.
+     - `2026-03-03 03:16 CET` -> `./scripts/run-closeout-qa-suite.sh tests` -> verde (10 suites).
    - Criterio de cierre:
      - reportar estado `listo para reintento de deploy` en ventana válida.
 

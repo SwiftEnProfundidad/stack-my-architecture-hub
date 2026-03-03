@@ -913,3 +913,13 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
    - `./scripts/run-closeout-qa-suite.sh tests` -> PASS.
    - `./scripts/run-closeout-qa-suite.sh full` -> PASS.
 4. Estado: ✅ Hecho.
+
+## Actualizacion 2026-03-03 (15) — Estado closeout listo para reintento en ventana válida
+1. Alcance: `scripts/closeout-status.sh` + tracking de backlog residual.
+2. Cambio:
+   - se cierra el pendiente `P3 #7` al validar explícitamente que `closeout-status` reporta `Estado: listo para reintento de deploy` cuando la ventana es válida.
+3. Validación:
+   - simulación controlada con `SMA_CLOSEOUT_COOLDOWN_FILE` temporal (`not_before` vencido) -> salida `Estado: listo para reintento de deploy`.
+   - `./scripts/tests/test-closeout-status.sh` -> PASS.
+   - `./scripts/run-closeout-qa-suite.sh tests` -> PASS (10 suites).
+4. Estado: ✅ Hecho.
