@@ -865,3 +865,16 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
    - `./scripts/closeout-readiness.sh --verbose` mantiene estado `EN ESPERA` por cuota con job automático activo.
    - `at -c 18|19|20` confirma `export PATH=/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin`.
 4. Estado: ✅ Hecho.
+
+## Actualizacion 2026-03-03 (11) — Health de ventana en status + tests aislados
+1. Alcance: `closeout-status`, `closeout-readiness` y tests de regresión.
+2. Cambios:
+   - `closeout-status` valida en cooldown la presencia de jobs `main/watchdog/followup`.
+   - si falta algún job, devuelve `EXIT_CODE=3` y sugiere `./scripts/schedule-closeout-window.sh`.
+   - `closeout-readiness` soporta `SMA_CLOSEOUT_RUNTIME_DIR` para ejecutar tests en runtime temporal.
+3. Validación:
+   - `./scripts/tests/test-closeout-status.sh` -> PASS.
+   - `./scripts/tests/test-closeout-readiness.sh` -> PASS.
+   - `./scripts/run-closeout-qa-suite.sh tests` -> PASS.
+   - `./scripts/run-closeout-qa-suite.sh full` -> PASS.
+4. Estado: ✅ Hecho.

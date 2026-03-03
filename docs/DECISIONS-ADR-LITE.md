@@ -1476,3 +1476,26 @@ En viewport móvil estrecho (`<=480px`) los controles superiores de estudio debe
 ### Impacto
 1. Jobs de closeout más deterministas y reproducibles entre entornos.
 2. Hardening adicional sin romper el flujo actual de orquestación ni la suite de regresión.
+
+## ADR-LITE-077 — Validar ventana completa en status y aislar tests del runtime real
+### Fecha
+2026-03-03
+
+### Decisión
+1. `closeout-status.sh` valida durante cooldown que existan los 3 jobs de ventana:
+   - `main` (`closeout-at-job.sh`)
+   - `watchdog` (`recover-past-due-closeout.sh`)
+   - `followup` (`closeout-window-followup.sh`)
+2. Si falta alguno, `closeout-status` devuelve `EXIT_CODE=3` y recomienda `./scripts/schedule-closeout-window.sh`.
+3. `closeout-readiness.sh` acepta `SMA_CLOSEOUT_RUNTIME_DIR` para permitir pruebas en runtime temporal.
+4. Tests de readiness se ejecutan aislados sin tocar `.runtime` real.
+
+### Motivación
+1. Aumentar confianza operativa antes de la ventana real de deploy.
+2. Evitar contaminación accidental del estado productivo por pruebas locales.
+3. Mantener trazabilidad consistente entre estado runtime y documentación de cierre.
+
+### Impacto
+1. Diagnóstico más fuerte del estado de ventana (`main/watchdog/followup`).
+2. Suite de pruebas más segura y hermética.
+3. Menor riesgo de reintentos prematuros por corrupción de archivos de cooldown/estado.
