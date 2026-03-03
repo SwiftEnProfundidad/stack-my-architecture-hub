@@ -36,6 +36,7 @@ else
     "$SCRIPT_DIR/tests/test-recover-past-due-closeout.sh"
     "$SCRIPT_DIR/tests/test-closeout-window-followup.sh"
     "$SCRIPT_DIR/tests/test-deploy-and-verify-closeout.sh"
+    "$SCRIPT_DIR/tests/test-closeout-freeze-check.sh"
     "$SCRIPT_DIR/tests/test-closeout-status.sh"
     "$SCRIPT_DIR/tests/test-run-closeout-qa-suite.sh"
   )
