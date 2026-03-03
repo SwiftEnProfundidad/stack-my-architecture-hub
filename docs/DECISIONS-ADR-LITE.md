@@ -1535,3 +1535,21 @@ En viewport móvil estrecho (`<=480px`) los controles superiores de estudio debe
 ### Impacto
 1. Mayor fiabilidad del gate `full` previo a la ventana real de deploy.
 2. Mejor testabilidad del runner sin depender de runtime real.
+
+## ADR-LITE-080 — Reprogramar por defecto con `schedule-closeout-window.sh`
+### Fecha
+2026-03-03
+
+### Decisión
+1. `closeout-at-job.sh` cambia su scheduler default de `schedule-closeout-at.sh` a `schedule-closeout-window.sh`.
+2. Se mantiene `SMA_CLOSEOUT_SCHEDULER_CMD` para override explícito.
+3. Se añade test de regresión que valida el default scheduler en entorno hermético.
+
+### Motivación
+1. Evitar que un nuevo bloqueo por cuota deje únicamente job `main` para la siguiente ventana.
+2. Mantener consistencia con los nuevos gates de salud de ventana (`status/readiness`).
+3. Reducir intervención manual para reconstruir watchdog/followup tras cada reintento.
+
+### Impacto
+1. Reintentos automáticos más robustos y coherentes con la arquitectura de ventana completa.
+2. Menor riesgo de estado incompleto al acercarse `not-before`.
