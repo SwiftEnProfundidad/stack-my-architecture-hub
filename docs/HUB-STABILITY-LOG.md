@@ -1823,3 +1823,5 @@ El proceso de programación con `at` podía heredar variables sensibles innecesa
 ### Verificación
 1. `./scripts/tests/test-schedule-closeout-at.sh` -> `[PASS]`.
 2. `./scripts/run-closeout-qa-suite.sh tests` -> verde.
+3. Job closeout regenerado con scheduler hardened (`job 11`, `02:02 CET`).
+4. `at -c 11 | rg 'OPENAI_API_KEY|HEYGEN_API_KEY|sk-'` -> sin coincidencias.

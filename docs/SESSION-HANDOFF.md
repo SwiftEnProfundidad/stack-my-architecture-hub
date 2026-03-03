@@ -228,6 +228,7 @@ Repos incluidos:
      - job file versionado: `scripts/closeout-at-job.sh`.
      - scheduler versionado: `scripts/schedule-closeout-at.sh [hora]`.
      - hardening: `schedule-closeout-at.sh` ahora sanea entorno al invocar `at` (evita heredar secretos no necesarios en jobs programados).
+     - verificación runtime hardening: job actual regenerado (`job 11`) y `at -c 11` sin secretos (`OPENAI_API_KEY`, `HEYGEN_API_KEY`, `sk-`).
      - objetivo: ejecutar `closeout-wait-and-run.sh fast` automáticamente en la primera ventana útil.
      - hardening: `closeout-at-job.sh` guarda estado en `.runtime/auto-closeout-status.env`, crea flag `.runtime/closeout-complete.flag` al éxito y reprogama automáticamente si persiste cooldown.
      - fix aplicado: autoreprogramación ahora usa `--epoch` (evita error `at: garbled time` y mantiene job activo en cola).

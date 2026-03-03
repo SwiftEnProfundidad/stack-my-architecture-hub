@@ -368,6 +368,11 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
     - test de regresión ampliado (`test-schedule-closeout-at.sh`) con `SMA_AT_FORCE_SANITIZE=1` y verificación anti-leak (`TEST_SECRET` no propagado).
     - resultado: batería `run-closeout-qa-suite.sh tests` en verde sin romper compatibilidad de scheduler.
 
+92. Evidencia runtime del scheduler hardened (2026-03-03):
+    - job closeout regenerado con scheduler endurecido (`job 11`, `02:02 CET`).
+    - verificación de fuga: `at -c 11 | rg 'OPENAI_API_KEY|HEYGEN_API_KEY|sk-'` -> sin coincidencias.
+    - estado operativo: cola activa, cooldown vigente y ready para ventana de cierre.
+
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.
 2. Regeneración de launchers/apps de escritorio del Hub.
