@@ -18,19 +18,61 @@ trap 'rm -rf "$TMP_DIR"' EXIT
 
 cat >"$FAKE_ATQ" <<'EOF'
 #!/usr/bin/env bash
-if [[ "${FAKE_ATQ_MODE:-none}" == "active" ]]; then
-  echo "${FAKE_ATQ_LINE:-99 Tue Mar 3 15:50:00 2026}"
-fi
+case "${FAKE_ATQ_MODE:-none}" in
+  active)
+    echo "${FAKE_ATQ_LINE:-99 Tue Mar 3 15:50:00 2026}"
+    ;;
+  window-complete)
+    if [[ -n "${FAKE_ATQ_LINES:-}" ]]; then
+      printf '%s\n' "$FAKE_ATQ_LINES"
+    else
+      cat <<JOBS
+201 Tue Mar 3 15:50:00 2026
+202 Tue Mar 3 15:52:00 2026
+203 Tue Mar 3 15:54:00 2026
+JOBS
+    fi
+    ;;
+  window-missing-followup)
+    if [[ -n "${FAKE_ATQ_LINES:-}" ]]; then
+      printf '%s\n' "$FAKE_ATQ_LINES"
+    else
+      cat <<JOBS
+201 Tue Mar 3 15:50:00 2026
+202 Tue Mar 3 15:52:00 2026
+JOBS
+    fi
+    ;;
+esac
 EOF
 
 cat >"$FAKE_AT" <<'EOF'
 #!/usr/bin/env bash
 if [[ "${1:-}" == "-c" ]]; then
-  if [[ "${FAKE_ATQ_MODE:-none}" == "active" ]]; then
-    echo "/path/scripts/closeout-at-job.sh"
-  else
-    echo "echo noop"
-  fi
+  job_id="${2:-0}"
+  case "${FAKE_ATQ_MODE:-none}" in
+    active)
+      echo "/path/scripts/closeout-at-job.sh"
+      ;;
+    window-complete)
+      case "$job_id" in
+        201) echo "/path/scripts/closeout-at-job.sh" ;;
+        202) echo "/path/scripts/recover-past-due-closeout.sh" ;;
+        203) echo "/path/scripts/closeout-window-followup.sh" ;;
+        *) echo "echo noop" ;;
+      esac
+      ;;
+    window-missing-followup)
+      case "$job_id" in
+        201) echo "/path/scripts/closeout-at-job.sh" ;;
+        202) echo "/path/scripts/recover-past-due-closeout.sh" ;;
+        *) echo "echo noop" ;;
+      esac
+      ;;
+    *)
+      echo "echo noop"
+      ;;
+  esac
 fi
 EOF
 
@@ -112,26 +154,50 @@ EOF
 export FAKE_ATQ_MODE="none"
 code="$(run_readiness "$TMP_DIR/out2.txt")"
 assert_exit "3" "$code" "cooldown sin job debe devolver 3"
-assert_contains "$TMP_DIR/out2.txt" "ATENCIÓN: no hay job de closeout programado" "debe pedir reprogramar job"
-assert_contains "$TMP_DIR/out2.txt" "schedule-closeout-at\\.sh --epoch" "debe recomendar reprogramar con epoch dinamico"
+assert_contains "$TMP_DIR/out2.txt" "ATENCIÓN: faltan jobs de ventana: main watchdog followup" "debe alertar ventana incompleta"
+assert_contains "$TMP_DIR/out2.txt" "schedule-closeout-window\\.sh" "debe recomendar reprogramar ventana completa"
 assert_contains "$TMP_DIR/out2.txt" "Último log: no disponible" "debe evitar mostrar rutas de log inexistentes"
 
-# Case 3: cooldown activo con job -> EXIT 2
+# Case 3: cooldown activo con solo job main -> EXIT 3 (faltan watchdog/followup)
 export FAKE_ATQ_MODE="active"
 export FAKE_ATQ_LINE="99 Tue Mar 3 15:50:00 2026"
 code="$(run_readiness "$TMP_DIR/out3.txt")"
-assert_exit "2" "$code" "cooldown con job activo debe devolver 2"
-assert_contains "$TMP_DIR/out3.txt" "Job automático activo" "debe mostrar job activo"
-assert_contains "$TMP_DIR/out3.txt" "Sugerencia: si el job está más tarde que la ventana" "debe recomendar reprogramación cuando el job va tarde"
+assert_exit "3" "$code" "cooldown con solo main debe devolver 3"
+assert_contains "$TMP_DIR/out3.txt" "ATENCIÓN: faltan jobs de ventana: watchdog followup" "debe alertar faltantes de ventana"
+assert_contains "$TMP_DIR/out3.txt" "schedule-closeout-window\\.sh" "debe recomendar orquestador de ventana"
 
-# Case 3b: cooldown activo con job alineado -> EXIT 2 sin sugerencia
+# Case 3b: cooldown con ventana completa y main tarde -> EXIT 2 con sugerencia
+unset FAKE_ATQ_LINES
+export FAKE_ATQ_MODE="window-complete"
+code="$(run_readiness "$TMP_DIR/out3b.txt")"
+assert_exit "2" "$code" "cooldown con ventana completa debe devolver 2"
+assert_contains "$TMP_DIR/out3b.txt" "Job main activo" "debe mostrar job main"
+assert_contains "$TMP_DIR/out3b.txt" "Job watchdog activo" "debe mostrar job watchdog"
+assert_contains "$TMP_DIR/out3b.txt" "Job followup activo" "debe mostrar job followup"
+assert_contains "$TMP_DIR/out3b.txt" "Sugerencia: si el job está más tarde que la ventana" "debe sugerir reprogramación cuando main va tarde"
+assert_not_contains "$TMP_DIR/out3b.txt" "ATENCIÓN: faltan jobs de ventana" "no debe alertar faltantes con ventana completa"
+
+# Case 3c: cooldown con ventana completa y main alineado -> EXIT 2 sin sugerencia
 aligned_epoch="$((future_epoch + 60))"
 aligned_line="$(date -r "$aligned_epoch" '+%a %b %e %T %Y')"
-export FAKE_ATQ_LINE="98 $aligned_line"
-code="$(run_readiness "$TMP_DIR/out3b.txt")"
-assert_exit "2" "$code" "cooldown con job alineado debe devolver 2"
-assert_contains "$TMP_DIR/out3b.txt" "Job automático activo" "debe mostrar job activo alineado"
-assert_not_contains "$TMP_DIR/out3b.txt" "Sugerencia: si el job está más tarde que la ventana" "no debe sugerir reprogramación cuando el job ya está en ventana"
+export FAKE_ATQ_LINES="$(cat <<JOBS
+201 $aligned_line
+202 Tue Mar 3 15:52:00 2026
+203 Tue Mar 3 15:54:00 2026
+JOBS
+)"
+code="$(run_readiness "$TMP_DIR/out3c.txt")"
+assert_exit "2" "$code" "cooldown con ventana completa y main alineado debe devolver 2"
+assert_contains "$TMP_DIR/out3c.txt" "Job main activo" "debe mostrar job main alineado"
+assert_not_contains "$TMP_DIR/out3c.txt" "Sugerencia: si el job está más tarde que la ventana" "no debe sugerir reprogramación cuando el main ya está en ventana"
+
+# Case 3d: cooldown con ventana incompleta -> EXIT 3 y sugerencia window scheduler
+export FAKE_ATQ_MODE="window-missing-followup"
+unset FAKE_ATQ_LINES
+code="$(run_readiness "$TMP_DIR/out3d.txt")"
+assert_exit "3" "$code" "cooldown con ventana incompleta debe devolver 3"
+assert_contains "$TMP_DIR/out3d.txt" "ATENCIÓN: faltan jobs de ventana: followup" "debe alertar job faltante"
+assert_contains "$TMP_DIR/out3d.txt" "schedule-closeout-window\\.sh" "debe recomendar reprogramar la ventana completa"
 
 # Case 4: cierre completo -> EXIT 0
 cat >"$STATUS_FILE" <<EOF

@@ -53,6 +53,25 @@ find_active_closeout_job() {
   return 1
 }
 
+find_job_line_by_pattern() {
+  local pattern="$1"
+  local jobs line job_id job_body
+  jobs="$("$ATQ_CMD" 2>/dev/null || true)"
+  [[ -z "$jobs" ]] && return 1
+
+  while IFS= read -r line; do
+    [[ -z "$line" ]] && continue
+    job_id="$(printf '%s\n' "$line" | awk '{print $1}')"
+    job_body="$("$AT_CAT_CMD" -c "$job_id" 2>/dev/null || true)"
+    if printf '%s\n' "$job_body" | rg -q "$pattern"; then
+      printf '%s\n' "$line"
+      return 0
+    fi
+  done <<<"$jobs"
+
+  return 1
+}
+
 extract_atq_minute() {
   local line="$1"
   local time_field
@@ -111,10 +130,42 @@ if [[ -f "$COOLDOWN_FILE" ]]; then
       fi
     fi
 
-    if active_job_line="$(find_active_closeout_job)"; then
+    main_job_line="$(find_job_line_by_pattern "scripts/closeout-at-job\\.sh|closeout-at-job\\.sh" || true)"
+    watchdog_job_line="$(find_job_line_by_pattern "recover-past-due-closeout\\.sh|scripts/recover-past-due-closeout\\.sh" || true)"
+    followup_job_line="$(find_job_line_by_pattern "closeout-window-followup\\.sh|scripts/closeout-window-followup\\.sh" || true)"
+
+    missing_jobs=()
+    if [[ -z "$main_job_line" ]]; then
+      missing_jobs+=("main")
+    fi
+    if [[ -z "$watchdog_job_line" ]]; then
+      missing_jobs+=("watchdog")
+    fi
+    if [[ -z "$followup_job_line" ]]; then
+      missing_jobs+=("followup")
+    fi
+
+    if [[ "${#missing_jobs[@]}" -gt 0 ]]; then
+      if [[ -n "$main_job_line" ]]; then
+        echo "[CLOSEOUT-READINESS] Job main activo: $main_job_line"
+      fi
+      if [[ -n "$watchdog_job_line" ]]; then
+        echo "[CLOSEOUT-READINESS] Job watchdog activo: $watchdog_job_line"
+      fi
+      if [[ -n "$followup_job_line" ]]; then
+        echo "[CLOSEOUT-READINESS] Job followup activo: $followup_job_line"
+      fi
+      echo "[CLOSEOUT-READINESS] ATENCIÓN: faltan jobs de ventana: ${missing_jobs[*]}"
+      echo "[CLOSEOUT-READINESS] Ejecuta: ./scripts/schedule-closeout-window.sh"
+      exit 3
+    fi
+
+    echo "[CLOSEOUT-READINESS] Job main activo: $main_job_line"
+    echo "[CLOSEOUT-READINESS] Job watchdog activo: $watchdog_job_line"
+    echo "[CLOSEOUT-READINESS] Job followup activo: $followup_job_line"
+    if [[ -n "$main_job_line" ]]; then
       suggested_minute="$(date -r "$suggested_epoch" '+%H:%M')"
-      active_job_minute="$(extract_atq_minute "$active_job_line" || true)"
-      echo "[CLOSEOUT-READINESS] Job automático activo: $active_job_line"
+      active_job_minute="$(extract_atq_minute "$main_job_line" || true)"
       if [[ -z "$active_job_minute" ]] || [[ "$active_job_minute" != "$suggested_minute" ]]; then
         echo "[CLOSEOUT-READINESS] Sugerencia: si el job está más tarde que la ventana, reprograma a:"
         echo "[CLOSEOUT-READINESS]   ./scripts/schedule-closeout-at.sh --epoch $suggested_epoch  # $suggested_local"
