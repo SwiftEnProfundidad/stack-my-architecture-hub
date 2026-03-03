@@ -2182,3 +2182,34 @@ Aunque el estado estructurado del runner ya existía (`deploy-and-verify-last.en
 
 ### Resultado
 El diagnóstico post-ventana queda completo en un único log: cola/runtime + estado final del runner + smoke/post-checks condicionados por flag de cierre.
+
+## Freeze check para cierre documental `5.4`
+### Fecha
+2026-03-03
+
+### Contexto
+Con el cierre E2E pendiente por cuota, faltaba un comando único para decidir si ya se puede congelar documentación final sin revisión manual dispersa.
+
+### Cambios aplicados
+1. Nuevo script:
+   - `scripts/closeout-freeze-check.sh`
+2. Resultado del comando:
+   - `READY` (`exit 0`) cuando están todos los criterios de cierre.
+   - `NOT_READY` (`exit 2`) cuando falta evidencia.
+3. Evidencia evaluada:
+   - estado del runner (`deploy-and-verify-last.env`),
+   - `closeout-complete.flag`,
+   - followup log con `smoke-public-routes`, `smoke-public-functional` y `post-deploy-checks` en `exit=0`,
+   - snapshots de `closeout-status`, `closeout-readiness` y `atq`.
+4. Test dedicado:
+   - `scripts/tests/test-closeout-freeze-check.sh` (casos NOT_READY/READY).
+5. QA suite:
+   - `run-closeout-qa-suite.sh` pasa de 10 a 11 suites.
+
+### Verificación
+1. `./scripts/tests/test-closeout-freeze-check.sh` -> `[PASS]`.
+2. `./scripts/run-closeout-qa-suite.sh tests` -> verde.
+3. `./scripts/run-closeout-qa-suite.sh full` -> verde.
+
+### Resultado
+Queda preparado el cierre inmediato de `5.4` en cuanto se complete el deploy en ventana, con criterio reproducible y auditable.

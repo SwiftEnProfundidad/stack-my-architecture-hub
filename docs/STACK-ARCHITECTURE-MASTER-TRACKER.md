@@ -974,3 +974,18 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
    - `./scripts/tests/test-closeout-window-followup.sh` -> PASS.
    - `./scripts/run-closeout-qa-suite.sh tests` -> PASS.
 4. Estado: ✅ Hecho (subtask hardening de `P2 #6`).
+
+## Actualizacion 2026-03-03 (20) — Freeze check automático para cierre documental `5.4`
+1. Alcance: cierre final `P3 #4` (preparación).
+2. Cambio:
+   - nuevo script `scripts/closeout-freeze-check.sh` para decidir READY/NOT_READY de cierre documental.
+   - valida artefactos y evidencia real:
+     - `deploy-and-verify-last.env`,
+     - `closeout-complete.flag`,
+     - log followup con `routes/functional/post-checks` en `exit=0`.
+   - genera reporte Markdown `closeout-freeze-check-*.md` con snapshots de `closeout-status`, `closeout-readiness` y `atq`.
+3. Validación:
+   - `./scripts/tests/test-closeout-freeze-check.sh` -> PASS.
+   - `./scripts/run-closeout-qa-suite.sh tests` -> PASS (11 suites).
+   - `./scripts/run-closeout-qa-suite.sh full` -> PASS.
+4. Estado: ✅ Hecho (subtask de preparación); `P3 #4` permanece `⏳` hasta cierre real post-deploy.

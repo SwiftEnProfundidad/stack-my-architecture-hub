@@ -225,6 +225,7 @@ Repos incluidos:
      - followup post-ventana endurecido (`2026-03-03 03:25 CET`): al detectar `closeout-complete.flag`, ejecuta automáticamente smoke público de rutas/funcional + post-checks para dejar evidencia E2E en log.
      - artefacto de estado por ejecución (`2026-03-03 03:29 CET`): `deploy-and-verify-closeout.sh` escribe `.runtime/deploy-and-verify-last.env` con estado final estructurado (`guarded_cooldown|quota_blocked|publish_failed|post_checks_failed|success`).
      - followup con observabilidad completa (`2026-03-03 03:33 CET`): además de `auto-closeout-status.env`, incluye en log el contenido de `.runtime/deploy-and-verify-last.env`.
+     - freeze-check documental (`2026-03-03 03:37 CET`): `closeout-freeze-check.sh` produce reporte READY/NOT_READY para cerrar `5.4` sin ambigüedad tras la ventana real.
    - estado operativo rápido:
      - script: `scripts/closeout-status.sh`
      - estado actual: `2026-03-03 02:58 CET` -> cooldown activo, not-before `2026-03-03 16:07:10 CET`.
@@ -283,7 +284,7 @@ Repos incluidos:
      - `scripts/tests/test-closeout-status.sh`
      - `2026-03-03 03:16 CET` -> `./scripts/tests/test-closeout-status.sh` + `./scripts/run-closeout-qa-suite.sh tests` en verde.
    - runner QA único:
-     - `scripts/run-closeout-qa-suite.sh tests|full` (actualmente 10 suites; `full` valida `closeout-status` + `closeout-readiness` y acepta estado `2` como espera válida).
+     - `scripts/run-closeout-qa-suite.sh tests|full` (actualmente 11 suites; `full` valida `closeout-status` + `closeout-readiness` y acepta estado `2` como espera válida).
 
 ## Última comprobación de espera activa
 1. Fecha: 2026-02-27.

@@ -1621,3 +1621,27 @@ En viewport móvil estrecho (`<=480px`) los controles superiores de estudio debe
 1. El followup queda como fuente única de diagnóstico post-ventana.
 2. `test-closeout-window-followup.sh` amplía cobertura para validar bloque `deploy-and-verify-last.env`.
 3. Mejora la trazabilidad de `P2 #6` y prepara el cierre limpio de `5.4`.
+
+## ADR-LITE-084 — Gate reproducible de cierre documental (`closeout-freeze-check`)
+### Fecha
+2026-03-03
+
+### Decisión
+1. Introducir `scripts/closeout-freeze-check.sh` como gate previo para cerrar `5.4`.
+2. El gate devuelve:
+   - `READY` (`exit 0`) cuando hay evidencia completa de cierre.
+   - `NOT_READY` (`exit 2`) cuando falta cualquier condición.
+3. Evidencia mínima exigida por el gate:
+   - `deploy-and-verify-last.env` en estado `success`,
+   - `closeout-complete.flag`,
+   - followup log con `smoke-public-routes`, `smoke-public-functional` y `post-deploy-checks` en `exit=0`.
+
+### Motivación
+1. Evitar cierres documentales subjetivos o manuales.
+2. Tener criterio único y ejecutable para congelar handoff final.
+3. Reducir tiempo de decisión post-ventana de cuota.
+
+### Impacto
+1. La decisión de cierre `5.4` pasa a ser verificable por comando.
+2. Se añade `test-closeout-freeze-check.sh` y la QA suite sube a 11 pruebas.
+3. Mejora la auditabilidad y consistencia de fin de ciclo.
