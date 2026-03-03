@@ -1575,3 +1575,30 @@ En viewport móvil estrecho (`<=480px`) los controles superiores de estudio debe
 1. El followup pasa de snapshot pasivo a validación activa condicionada por éxito real.
 2. Se fortalece `P2 #6` con evidencia E2E automática en log.
 3. `test-closeout-window-followup.sh` valida casos con/sin flag en suite de regresión.
+
+## ADR-LITE-082 — Persistir estado estructurado por ejecución de closeout E2E
+### Fecha
+2026-03-03
+
+### Decisión
+1. `deploy-and-verify-closeout.sh` debe persistir un artefacto machine-readable por intento en:
+   - `.runtime/deploy-and-verify-last.env`
+2. El artefacto debe incluir:
+   - `state`, `mode`, `base_url`, `updated_at`
+   - detalles de contexto/fallo según estado.
+3. Estados normalizados:
+   - `guarded_cooldown`
+   - `quota_blocked`
+   - `publish_failed`
+   - `post_checks_failed`
+   - `success`
+
+### Motivación
+1. Facilitar cierre auditable de `P2 #6` sin depender solo de logs textuales.
+2. Permitir diagnóstico rápido post-ventana para saber si falló guard, publish o post-checks.
+3. Reforzar trazabilidad para `5.4` y handoff final.
+
+### Impacto
+1. Cada intento deja un estado persistente y comparable.
+2. Se amplía `test-deploy-and-verify-closeout.sh` con cobertura de estados (incluyendo fallo en post-checks).
+3. El flujo automático mantiene compatibilidad y mejora observabilidad operacional.
