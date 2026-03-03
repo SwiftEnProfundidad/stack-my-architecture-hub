@@ -923,3 +923,13 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
    - `./scripts/tests/test-closeout-status.sh` -> PASS.
    - `./scripts/run-closeout-qa-suite.sh tests` -> PASS (10 suites).
 4. Estado: ✅ Hecho.
+
+## Actualizacion 2026-03-03 (16) — Preflight de ventana de cierre E2E
+1. Alcance: pendiente `P2 #6` (`deploy-and-verify-closeout`) en espera de cuota.
+2. Cambio:
+   - validación preventiva completa antes de ventana real para reducir riesgo de fallo a `16:08 CET`.
+3. Validación:
+   - `./scripts/closeout-status.sh` -> cooldown activo con ventana `2026-03-03 16:07:10 CET` y jobs `18/19/20` activos.
+   - `at -c 18|19|20` -> payload correcto por job (`closeout-at-job`, `recover-past-due-closeout`, `closeout-window-followup`) + `PATH` saneado fijo.
+   - `./scripts/run-closeout-qa-suite.sh full` -> PASS (10 suites + runtime checks).
+4. Estado: ✅ Hecho (subtask preflight); `P2 #6` sigue `⏳` hasta ejecución real en ventana de cuota.

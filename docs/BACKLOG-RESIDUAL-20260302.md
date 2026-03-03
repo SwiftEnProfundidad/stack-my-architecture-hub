@@ -82,6 +82,10 @@ Documento operativo de cierre para la fase `5.4` del plan activo:
      - `2026-03-02 23:53 CET` -> guard activo (sin consumir intento), ventana vigente `2026-03-03 15:49:00 CET`.
      - `2026-03-03 02:07 CET` -> build OK, deploy bloqueado por cuota (`api-deployments-free-per-day`), cooldown actualizado a `2026-03-03 16:07:10 CET`.
      - `2026-03-03 02:45 CET` -> guard activo (sin consumir intento), mantiene ventana `2026-03-03 16:07:10 CET`.
+     - `2026-03-03 03:20 CET` -> preflight de ventana en verde:
+       - `./scripts/closeout-status.sh` confirma cooldown activo + jobs `18/19/20`.
+       - `at -c 18`, `at -c 19`, `at -c 20` confirman payload correcto (`closeout-at-job`, `recover-past-due-closeout`, `closeout-window-followup`) y `PATH` saneado fijo.
+       - `./scripts/run-closeout-qa-suite.sh full` -> verde (10 suites + runtime checks).
    - Criterio de cierre:
      - deploy productivo + `post-deploy-checks` en una sola ejecución verde.
 

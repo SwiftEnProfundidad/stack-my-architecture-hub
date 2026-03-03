@@ -221,6 +221,7 @@ Repos incluidos:
      - ejecución histórica con intento real: `2026-03-02 23:49 CET` (build OK, deploy bloqueado por cuota).
      - última ejecución con intento real: `2026-03-03 02:07 CET` (build OK, deploy bloqueado por cuota, retry `~14h`).
      - última ejecución guardada: `2026-03-03 02:45 CET` (cooldown activo, sin consumir intento).
+     - preflight de ventana: `2026-03-03 03:20 CET` (status+cola+payload jobs+QA full) en verde, listo para ejecución automática a `16:08 CET`.
    - estado operativo rápido:
      - script: `scripts/closeout-status.sh`
      - estado actual: `2026-03-03 02:58 CET` -> cooldown activo, not-before `2026-03-03 16:07:10 CET`.
