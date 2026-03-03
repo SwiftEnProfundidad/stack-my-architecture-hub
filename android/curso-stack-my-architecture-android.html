@@ -6,17 +6,17 @@
 <meta name="darkreader-lock">
 <meta name="course-id" content="stack-my-architecture-android">
 <title>Stack: My Architecture Android</title>
-<link rel="stylesheet" href="assets/study-ux.css?v=1772489930">
-<link rel="stylesheet" href="assets/course-switcher.css?v=1772489930">
-<link rel="stylesheet" href="assets/assistant-panel.css?v=1772489930">
-<script>window.__SMA_ASSISTANT_PANEL_SRC = "assets/assistant-panel.js?v=1772489930";</script>
+<link rel="stylesheet" href="assets/study-ux.css?v=1772525216">
+<link rel="stylesheet" href="assets/course-switcher.css?v=1772525216">
+<link rel="stylesheet" href="assets/assistant-panel.css?v=1772525216">
+<script>window.__SMA_ASSISTANT_PANEL_SRC = "assets/assistant-panel.js?v=1772525216";</script>
 <script>window.__SMA_MERMAID_SRC = "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js";</script>
 <script>window.__SMA_HLJS_CORE_SRC = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js";</script>
 <script>window.__SMA_HLJS_LANG_SRC = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/kotlin.min.js";</script>
-<script defer src="assets/study-ux.js?v=1772489930"></script>
-<script defer src="assets/course-switcher.js?v=1772489930"></script>
-<script defer src="assets/theme-controls.js?v=1772489930"></script>
-<script defer src="assets/assistant-bridge.js?v=1772489930"></script>
+<script defer src="assets/study-ux.js?v=1772525216"></script>
+<script defer src="assets/course-switcher.js?v=1772525216"></script>
+<script defer src="assets/theme-controls.js?v=1772525216"></script>
+<script defer src="assets/assistant-bridge.js?v=1772525216"></script>
 
 <!-- Google Fonts - Inter -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -680,6 +680,32 @@ p code, li code, td code {
 .sma-legend-arrow.contract-open { color: var(--mermaid-legend-contract); }
 .sma-legend-arrow.solid-open { color: var(--mermaid-legend-solid-open); }
 
+.sma-inline-arrow-token {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 50px;
+    padding: 3px 6px;
+}
+
+.sma-inline-arrow-token .sma-legend-arrow {
+    width: 34px;
+    height: 12px;
+    flex: 0 0 34px;
+}
+
+.sma-sr-only {
+    position: absolute !important;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
 .sma-architecture-block {
     margin-top: var(--space-md);
 }
@@ -844,6 +870,11 @@ html[data-theme][data-style] pre.mermaid marker polyline {
     fill: var(--mermaid-line) !important;
     stroke: var(--mermaid-line) !important;
     opacity: 1 !important;
+}
+
+html[data-theme][data-style] pre.mermaid marker path.sma-open-arrowhead {
+    fill: none !important;
+    stroke: var(--mermaid-line) !important;
 }
 
 html[data-theme][data-style] pre.mermaid .edgeLabel rect,
@@ -1604,7 +1635,7 @@ FIN</code></pre>
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ul>
 </section>
@@ -1632,7 +1663,7 @@ FIN</code></pre>
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ul>
 </section>
@@ -1660,7 +1691,7 @@ FIN</code></pre>
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ul>
 </section>
@@ -1711,7 +1742,7 @@ FIN</code></pre>
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ul>
 </section>
@@ -1765,7 +1796,7 @@ FIN</code></pre>
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ul>
 </section>
@@ -1821,7 +1852,7 @@ nivel = nivel + 1</code></pre>
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ul>
 </section>
@@ -1874,7 +1905,7 @@ nivel = nivel + 1</code></pre>
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ul>
 </section>
@@ -1933,7 +1964,7 @@ fun main() {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ul>
 </section>
@@ -1982,7 +2013,7 @@ fun main() {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ul>
 </section>
@@ -2009,7 +2040,7 @@ fun main() {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ul>
 </section>
@@ -2077,7 +2108,7 @@ fun PantallaBienvenida() {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ul>
 </section>
@@ -2150,7 +2181,7 @@ fun PantallaNombre() {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ul>
 </section>
@@ -2209,7 +2240,7 @@ fun PantallaDetalle() {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ul>
 </section>
@@ -2236,7 +2267,7 @@ fun PantallaDetalle() {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ul>
 </section>
@@ -2260,7 +2291,7 @@ fun PantallaDetalle() {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ul>
 </section>
@@ -2300,7 +2331,7 @@ fun PantallaDetalle() {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ul>
 </section>
@@ -2334,7 +2365,7 @@ fun PantallaDetalle() {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ul>
 </section>
@@ -2454,7 +2485,7 @@ sealed interface CatalogEvent {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ul>
 </section>
@@ -2598,7 +2629,7 @@ fun TasksScreen(
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ul>
 </section>
@@ -2829,7 +2860,7 @@ navController.navigate("task-detail/$id")</code></pre>
     APPROOT -.-&gt; DI
     DI -.-&gt; IMPL
     UI --&gt; VM
-    VM -.o PORT
+    VM -.-o PORT
     IMPL --o PORT
     IMPL --&gt; LOCAL</pre>
 </div>
@@ -2837,7 +2868,7 @@ navController.navigate("task-detail/$id")</code></pre>
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ul>
 </section>
@@ -2914,7 +2945,7 @@ navController.navigate("task-detail/$id")</code></pre>
     CONTAINER -.-&gt; VM
 
     UI --&gt; VM
-    VM -.o PORT
+    VM -.-o PORT
     IMPL --o PORT
     IMPL --&gt; DAO
     IMPL --&gt; API</pre>
@@ -2929,7 +2960,7 @@ navController.navigate("task-detail/$id")</code></pre>
 </ol>
 <p>   <code>@HiltAndroidApp</code>, <code>TasksModule</code> y <code>Hilt Container</code> conectan dependencias, pero no ejecutan caso de uso por sí mismos.</p>
 <ol>
-  <li><code>-.o</code> contrato/abstracción:</li>
+  <li><code>-.-o</code> contrato/abstracción:</li>
 </ol>
 <p>   <code>TasksViewModel</code> depende del contrato <code>TasksRepository</code> en lugar de una clase concreta.</p>
 <ol>
@@ -3348,7 +3379,7 @@ fun TasksScreen(viewModel: TasksViewModel) {
     APPROOT -.-&gt; DI
     DI -.-&gt; IMPL
     UI --&gt; VM
-    VM -.o PORT
+    VM -.-o PORT
     IMPL --o PORT
     IMPL --&gt; LOCAL</pre>
 </div>
@@ -3356,7 +3387,7 @@ fun TasksScreen(viewModel: TasksViewModel) {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ul>
 </section>
@@ -3613,7 +3644,7 @@ fun SettingsScreen(viewModel: SettingsViewModel = hiltViewModel()) {
     APPROOT -.-&gt; DI
     DI -.-&gt; IMPL
     UI --&gt; VM
-    VM -.o PORT
+    VM -.-o PORT
     IMPL --o PORT
     IMPL --&gt; LOCAL</pre>
 </div>
@@ -3621,7 +3652,7 @@ fun SettingsScreen(viewModel: SettingsViewModel = hiltViewModel()) {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ul>
 </section>
@@ -3867,7 +3898,7 @@ class App : Application(), Configuration.Provider {
     APPROOT -.-&gt; DI
     DI -.-&gt; IMPL
     UI --&gt; VM
-    VM -.o PORT
+    VM -.-o PORT
     IMPL --o PORT
     IMPL --&gt; LOCAL</pre>
 </div>
@@ -3875,7 +3906,7 @@ class App : Application(), Configuration.Provider {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ul>
 </section>
@@ -4074,7 +4105,7 @@ fun whenRetryClicked_thenCallbackIsInvoked() {
     APPROOT -.-&gt; DI
     DI -.-&gt; IMPL
     UI --&gt; VM
-    VM -.o PORT
+    VM -.-o PORT
     IMPL --o PORT
     IMPL --&gt; LOCAL</pre>
 </div>
@@ -4082,7 +4113,7 @@ fun whenRetryClicked_thenCallbackIsInvoked() {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ul>
 </section>
@@ -4338,7 +4369,7 @@ fun replaceTasks_replacesLocalStorage() = runTest {
     APPROOT -.-&gt; DI
     DI -.-&gt; IMPL
     UI --&gt; VM
-    VM -.o PORT
+    VM -.-o PORT
     IMPL --o PORT
     IMPL --&gt; LOCAL</pre>
 </div>
@@ -4346,7 +4377,7 @@ fun replaceTasks_replacesLocalStorage() = runTest {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ul>
 </section>
@@ -4376,7 +4407,7 @@ fun replaceTasks_replacesLocalStorage() = runTest {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ul>
 </section>
@@ -4417,7 +4448,7 @@ fun replaceTasks_replacesLocalStorage() = runTest {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ul>
 </section>
@@ -4706,7 +4737,7 @@ fun provideTasksApiService(retrofit: Retrofit): TasksApiService {
     APPROOT -.-&gt; DI
     DI -.-&gt; IMPL
     UI --&gt; VM
-    VM -.o PORT
+    VM -.-o PORT
     IMPL --o PORT
     IMPL --&gt; LOCAL</pre>
 </div>
@@ -4714,7 +4745,7 @@ fun provideTasksApiService(retrofit: Retrofit): TasksApiService {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ul>
 </section>
@@ -4777,8 +4808,8 @@ fun provideTasksApiService(retrofit: Retrofit): TasksApiService {
 
     UI --&gt; VM
     VM --&gt; REPO
-    REPO -.o STORE_PORT
-    REPO -.o SYNC_PORT
+    REPO -.-o STORE_PORT
+    REPO -.-o SYNC_PORT
 
     ROOM --o STORE_PORT
     ORCH --o SYNC_PORT
@@ -4795,7 +4826,7 @@ fun provideTasksApiService(retrofit: Retrofit): TasksApiService {
 </ol>
 <p>   <code>AppRoot + Hilt</code> ensamblan dependencias (<code>TasksRepository</code>, <code>TasksSyncOrchestrator</code>) sin ejecutar reglas de negocio.</p>
 <ol>
-  <li><code>-.o</code> contrato/abstracción:</li>
+  <li><code>-.-o</code> contrato/abstracción:</li>
 </ol>
 <p>   el repositorio habla con puertos (<code>LocalTasksStore</code>, <code>TasksSyncPort</code>) y no con implementaciones concretas.</p>
 <ol>
@@ -5269,7 +5300,7 @@ fun TaskEntity.toUiState(): TaskUiState {
     APPROOT -.-&gt; DI
     DI -.-&gt; IMPL
     UI --&gt; VM
-    VM -.o PORT
+    VM -.-o PORT
     IMPL --o PORT
     IMPL --&gt; LOCAL</pre>
 </div>
@@ -5277,7 +5308,7 @@ fun TaskEntity.toUiState(): TaskUiState {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ul>
 </section>
@@ -5520,7 +5551,7 @@ object ObservabilityModule {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ul>
 </section>
@@ -5858,7 +5889,7 @@ fun syncPendingTasks_conDosPendientes_sincronizaAmbas() = runTest {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ul>
 </section>
@@ -5990,7 +6021,7 @@ Si falla cualquiera de estos puntos, la PR debe corregirse antes de merge.</code
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ul>
 </section>
@@ -6153,7 +6184,7 @@ class BaselineProfileGenerator {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ul>
 </section>
@@ -6320,7 +6351,7 @@ object TelemetryModule {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ul>
 </section>
@@ -6396,7 +6427,7 @@ fun TechIssue.priorityScore(): Int {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ul>
 </section>
@@ -6497,7 +6528,7 @@ dependencies {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ul>
 </section>
@@ -6588,7 +6619,7 @@ interface SessionContractV1 {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ul>
 </section>
@@ -6678,7 +6709,7 @@ interface SessionContractV1 {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ul>
 </section>
@@ -6721,7 +6752,7 @@ class MidlevelGate {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ul>
 </section>
@@ -6774,7 +6805,7 @@ class MidlevelGate {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ul>
 </section>
@@ -6931,7 +6962,7 @@ jobs:
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ul>
 </section>
@@ -7035,7 +7066,7 @@ Si no hay recuperación, activar rollback de versión en canal producción.</cod
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ul>
 </section>
@@ -7146,7 +7177,7 @@ Cuando el budget se recupera por encima de 40%:
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ul>
 </section>
@@ -7261,7 +7292,7 @@ Runbook asociado: docs/runbooks/incident-login-freeze.md</code></pre>
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ul>
 </section>
@@ -7367,7 +7398,7 @@ class SprintCapacityEvaluator(
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ul>
 </section>
@@ -7446,7 +7477,7 @@ Condición para reabrir cambios de alto riesgo en login
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ul>
 </section>
@@ -7501,7 +7532,7 @@ sin convertir cada planning en una guerra entre áreas.</code></pre>
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ul>
 </section>
@@ -7553,7 +7584,7 @@ sin convertir cada planning en una guerra entre áreas.</code></pre>
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ul>
 </section>
@@ -7679,7 +7710,7 @@ Regla de retirada
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ul>
 </section>
@@ -7845,7 +7876,7 @@ Si un consumidor interpreta mal un campo contractual, catalog y consumidor abren
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ul>
 </section>
@@ -7975,7 +8006,7 @@ temporary_exceptions:
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ul>
 </section>
@@ -8070,7 +8101,7 @@ interface MigrationTelemetry {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ul>
 </section>
@@ -8154,7 +8185,7 @@ sealed interface PurchaseProfileResult {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ul>
 </section>
@@ -8223,7 +8254,7 @@ class ConservativeMigrationGate : MigrationGate {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ul>
 </section>
@@ -8290,7 +8321,7 @@ class DefaultReliabilityEvaluator : ReliabilityEvaluator {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ul>
 </section>
@@ -8359,7 +8390,7 @@ jobs:
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ul>
 </section>
@@ -8421,7 +8452,7 @@ class IncidentDecisionUseCase {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ul>
 </section>
@@ -8466,7 +8497,7 @@ class DecisionRetrospective {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ul>
 </section>
@@ -8510,7 +8541,7 @@ class ReflectionFormatter {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ul>
 </section>
@@ -8564,7 +8595,7 @@ class SignalDecisionEngine {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ul>
 </section>
@@ -8626,7 +8657,7 @@ class MaintenanceEvaluator {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ul>
 </section>
@@ -8672,7 +8703,7 @@ class DeliveryDecisionWriter {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ul>
 </section>
@@ -8713,7 +8744,7 @@ class CareerProgressEvaluator {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ul>
 </section>
@@ -8752,7 +8783,7 @@ class ReadinessNarrative {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ul>
 </section>
@@ -8799,7 +8830,7 @@ class ReadinessNarrative {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ul>
 </section>
@@ -8850,7 +8881,7 @@ class SubmissionValidator {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ul>
 </section>
@@ -8971,7 +9002,7 @@ class EmployabilityResultCalculator {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ul>
 </section>
@@ -9036,7 +9067,7 @@ class EvidenceGate {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ul>
 </section>
@@ -9088,7 +9119,7 @@ class SeniorOperationGate {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ul>
 </section>
@@ -9143,7 +9174,7 @@ class MasteryGovernanceGate {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ul>
 </section>
@@ -9831,6 +9862,84 @@ function currentMermaidTheme() {
     return theme === 'dark' ? 'dark' : 'default';
 }
 
+function ensureOpenArrowMarker(svg) {
+    if (!svg) return null;
+    let defs = svg.querySelector('defs');
+    if (!defs) {
+        defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+        if (svg.firstChild) {
+            svg.insertBefore(defs, svg.firstChild);
+        } else {
+            svg.appendChild(defs);
+        }
+    }
+    const svgId = svg.getAttribute('id') || `sma-${Math.random().toString(36).slice(2)}`;
+    const markerId = `${svgId}-sma-open-arrow-end`;
+    let marker = null;
+    defs.querySelectorAll('marker').forEach(candidate => {
+        if (candidate.getAttribute('id') === markerId) marker = candidate;
+    });
+    if (!marker) {
+        marker = document.createElementNS('http://www.w3.org/2000/svg', 'marker');
+        marker.setAttribute('id', markerId);
+        marker.setAttribute('class', 'sma-open-arrow-marker');
+        marker.setAttribute('viewBox', '0 0 12 12');
+        marker.setAttribute('refX', '11');
+        marker.setAttribute('refY', '6');
+        marker.setAttribute('markerWidth', '12');
+        marker.setAttribute('markerHeight', '12');
+        marker.setAttribute('orient', 'auto');
+        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        path.setAttribute('class', 'sma-open-arrowhead');
+        path.setAttribute('d', 'M1,1 L11,6 L1,11');
+        marker.appendChild(path);
+        defs.appendChild(marker);
+    }
+    return markerId;
+}
+
+function normalizeMermaidOpenArrows(container) {
+    const svg = container && container.querySelector('svg');
+    if (!svg) return;
+    const openEdges = svg.querySelectorAll('path[marker-end*="flowchart-circleEnd"]');
+    if (!openEdges.length) return;
+    const openMarkerId = ensureOpenArrowMarker(svg);
+    if (!openMarkerId) return;
+    openEdges.forEach(path => {
+        path.setAttribute('marker-end', `url(#${openMarkerId})`);
+    });
+}
+
+function arrowLegendSvgForToken(token) {
+    const typeMap = {
+        '-->': 'direct-closed',
+        '-.->': 'dashed-closed',
+        '-.-o': 'contract-open',
+        '--o': 'solid-open'
+    };
+    const type = typeMap[token];
+    if (!type) return null;
+    const head = (type === 'direct-closed' || type === 'dashed-closed')
+        ? '<polygon points="30,2 38,6 30,10"></polygon>'
+        : '<polyline points="30,2 38,6 30,10"></polyline>';
+    return `<svg class="sma-legend-arrow ${type}" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line>${head}</svg>`;
+}
+
+function hydrateArrowLegendCodeTokens(root = document) {
+    const codes = root.querySelectorAll('ol li > code, ul li > code');
+    codes.forEach(code => {
+        if (code.closest('pre')) return;
+        if (code.dataset.smaArrowHydrated === '1') return;
+        const token = (code.textContent || '').trim();
+        const svg = arrowLegendSvgForToken(token);
+        if (!svg) return;
+        code.classList.add('sma-inline-arrow-token');
+        code.dataset.smaArrowHydrated = '1';
+        code.innerHTML = `${svg}<span class="sma-sr-only">${token}</span>`;
+        code.setAttribute('aria-label', token);
+    });
+}
+
 async function renderMermaid() {
     try {
         await ensureMermaidLoaded();
@@ -9864,6 +9973,13 @@ async function renderMermaid() {
         if (!el || el.dataset.mermaidRendered === '1') return;
         mermaid.run({ nodes: [el] })
             .then(function() {
+                normalizeMermaidOpenArrows(el);
+                requestAnimationFrame(function() {
+                    normalizeMermaidOpenArrows(el);
+                });
+                setTimeout(function() {
+                    normalizeMermaidOpenArrows(el);
+                }, 80);
                 el.dataset.mermaidRendered = '1';
             })
             .catch(function() {});
@@ -9888,11 +10004,17 @@ async function renderMermaid() {
         if (el.dataset.mermaidRendered === '1') return;
         mermaidObserver.observe(el);
     });
+
+    setTimeout(function() {
+        document.querySelectorAll('pre.mermaid').forEach(normalizeMermaidOpenArrows);
+    }, 120);
 }
 
 function bootCourseRenderers() {
+    hydrateArrowLegendCodeTokens(document);
     renderMermaid();
     initCodeHighlighting();
+    setTimeout(() => hydrateArrowLegendCodeTokens(document), 120);
     document.body.classList.add('sma-hydrated');
 }
 
