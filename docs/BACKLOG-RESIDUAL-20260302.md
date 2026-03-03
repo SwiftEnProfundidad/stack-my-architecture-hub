@@ -212,8 +212,8 @@ Documento operativo de cierre para la fase `5.4` del plan activo:
    - Script:
      - `scripts/run-closeout-qa-suite.sh [full|tests]`
    - Comportamiento:
-     - `tests`: ejecuta las suites de regresión de closeout (actualmente 9).
-     - `full`: ejecuta suites + checks runtime (`atq` + `closeout-readiness`), aceptando `readiness=2` como estado válido de espera.
+     - `tests`: ejecuta las suites de regresión de closeout (actualmente 10).
+     - `full`: ejecuta suites + checks runtime (`atq` + `closeout-status` + `closeout-readiness`), aceptando estado `2` como espera válida.
    - Evidencia:
      - `2026-03-03 01:00 CET` -> `./scripts/run-closeout-qa-suite.sh tests` y `./scripts/run-closeout-qa-suite.sh full` -> verde.
 
@@ -377,6 +377,24 @@ Documento operativo de cierre para la fase `5.4` del plan activo:
      - `2026-03-03 03:03 CET` -> `./scripts/tests/test-closeout-readiness.sh` -> `[PASS]`.
      - `2026-03-03 03:03 CET` -> `./scripts/run-closeout-qa-suite.sh tests` -> verde.
      - `2026-03-03 03:03 CET` -> `./scripts/run-closeout-qa-suite.sh full` -> verde.
+
+29. `P3` `✅` Runner QA full endurecido con `closeout-status` + test dedicado.
+   - Script:
+     - `scripts/run-closeout-qa-suite.sh`
+   - Comportamiento:
+     - `full` ahora ejecuta `closeout-status` antes de `closeout-readiness`.
+     - si `closeout-status` devuelve `3` (ventana incompleta), falla inmediatamente el runner.
+     - acepta overrides por entorno para tests herméticos:
+       - `SMA_CLOSEOUT_QA_TESTS_FILE`
+       - `SMA_ATQ_CMD`
+       - `SMA_CLOSEOUT_STATUS_CMD`
+       - `SMA_CLOSEOUT_READINESS_CMD`
+   - Cobertura:
+     - `scripts/tests/test-run-closeout-qa-suite.sh`
+   - Evidencia:
+     - `2026-03-03 03:08 CET` -> `./scripts/tests/test-run-closeout-qa-suite.sh` -> `[PASS]`.
+     - `2026-03-03 03:08 CET` -> `./scripts/run-closeout-qa-suite.sh tests` -> verde (10 suites).
+     - `2026-03-03 03:08 CET` -> `./scripts/run-closeout-qa-suite.sh full` -> verde.
 
 4. `P3` `⏳` Cerrar `5.4` y congelar handoff final.
    - Alcance:

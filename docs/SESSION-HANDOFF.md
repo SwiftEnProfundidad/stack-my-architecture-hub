@@ -276,7 +276,7 @@ Repos incluidos:
      - `scripts/tests/test-deploy-and-verify-closeout.sh`
      - `scripts/tests/test-closeout-status.sh`
    - runner QA único:
-     - `scripts/run-closeout-qa-suite.sh tests|full` (actualmente 9 suites; `full` acepta `readiness=2` como espera válida).
+     - `scripts/run-closeout-qa-suite.sh tests|full` (actualmente 10 suites; `full` valida `closeout-status` + `closeout-readiness` y acepta estado `2` como espera válida).
 
 ## Última comprobación de espera activa
 1. Fecha: 2026-02-27.

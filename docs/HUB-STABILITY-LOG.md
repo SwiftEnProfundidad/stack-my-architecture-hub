@@ -2032,3 +2032,21 @@ Se detectó riesgo operacional: los tests de readiness podían alterar `.runtime
 1. `./scripts/tests/test-closeout-readiness.sh` -> `[PASS]` (incluye casos de ventana completa e incompleta).
 2. `./scripts/run-closeout-qa-suite.sh tests` -> verde.
 3. `./scripts/run-closeout-qa-suite.sh full` -> verde.
+
+## Runner QA full endurecido con gate de `closeout-status`
+### Fecha
+2026-03-03
+
+### Contexto
+El runner `full` validaba `atq` y `closeout-readiness`, pero no tenía gate explícito de `closeout-status`.
+
+### Cambios aplicados
+1. `scripts/run-closeout-qa-suite.sh` en modo `full` añade check runtime de `closeout-status`.
+2. Si `closeout-status` devuelve `3` (ventana incompleta), el runner falla de inmediato.
+3. Se añade test dedicado `scripts/tests/test-run-closeout-qa-suite.sh`.
+4. El runner soporta overrides por entorno para pruebas aisladas (`SMA_CLOSEOUT_QA_TESTS_FILE`, `SMA_ATQ_CMD`, `SMA_CLOSEOUT_STATUS_CMD`, `SMA_CLOSEOUT_READINESS_CMD`).
+
+### Verificación
+1. `./scripts/tests/test-run-closeout-qa-suite.sh` -> `[PASS]`.
+2. `./scripts/run-closeout-qa-suite.sh tests` -> verde (10 suites).
+3. `./scripts/run-closeout-qa-suite.sh full` -> verde.

@@ -889,3 +889,15 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
    - `./scripts/run-closeout-qa-suite.sh tests` -> PASS.
    - `./scripts/run-closeout-qa-suite.sh full` -> PASS.
 4. Estado: ✅ Hecho.
+
+## Actualizacion 2026-03-03 (13) — Runner QA `full` con gate de `closeout-status`
+1. Alcance: `run-closeout-qa-suite.sh` + test dedicado.
+2. Cambio:
+   - `full` valida runtime en orden: `atq` -> `closeout-status` -> `closeout-readiness`.
+   - si `closeout-status=3` (ventana incompleta), aborta con error explícito.
+   - se añade soporte de comandos/tests override por entorno para pruebas herméticas.
+3. Validación:
+   - `./scripts/tests/test-run-closeout-qa-suite.sh` -> PASS.
+   - `./scripts/run-closeout-qa-suite.sh tests` -> PASS (10 suites).
+   - `./scripts/run-closeout-qa-suite.sh full` -> PASS.
+4. Estado: ✅ Hecho.
