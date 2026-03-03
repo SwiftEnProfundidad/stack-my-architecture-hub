@@ -1825,3 +1825,24 @@ El proceso de programación con `at` podía heredar variables sensibles innecesa
 2. `./scripts/run-closeout-qa-suite.sh tests` -> verde.
 3. Job closeout regenerado con scheduler hardened (`job 11`, `02:02 CET`).
 4. `at -c 11 | rg 'OPENAI_API_KEY|HEYGEN_API_KEY|sk-'` -> sin coincidencias.
+
+## Operación de cierre en ventana — fallback manual y nuevo cooldown
+### Fecha
+2026-03-03
+
+### Contexto
+Al abrir la ventana `02:02 CET`, el job automático quedó vencido en cola sin ejecutarse (`past-due`).
+
+### Acciones aplicadas
+1. Se retiró el job vencido (`atrm 11`).
+2. Se ejecutó fallback manual: `./scripts/closeout-at-job.sh`.
+3. El fallback lanzó build+deploy real y quedó bloqueado de nuevo por cuota Vercel (`api-deployments-free-per-day`).
+4. Se activó autoreprogramación de siguiente intento a `16:08 CET` (`job 12`).
+
+### Evidencia
+1. Log operativo: `.runtime/auto-closeout-20260303T020701.log`.
+2. `closeout-status` tras fallback:
+   - cooldown activo,
+   - `not_before: 2026-03-03 16:07:10 CET`.
+3. `atq`:
+   - job activo `12 Tue Mar 3 16:08:00 2026`.

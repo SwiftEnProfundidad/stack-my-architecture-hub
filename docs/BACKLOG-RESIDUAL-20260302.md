@@ -25,8 +25,9 @@ Documento operativo de cierre para la fase `5.4` del plan activo:
      - `2026-03-02 23:24 CET` -> bloqueado (`try again in 17 hours`).
      - `2026-03-02 23:37 CET` -> bloqueado (`try again in 17 hours`).
      - `2026-03-02 23:49 CET` -> bloqueado (`try again in 16 hours`).
+     - `2026-03-03 02:07 CET` -> bloqueado (`try again in 14 hours`) tras fallback manual de ejecución.
    - Próxima ventana estimada de reintento:
-     - `2026-03-03 15:49 CET` o posterior.
+     - `2026-03-03 16:07 CET` o posterior (`job en cola: 16:08 CET`).
    - Criterio de cierre:
      - deploy productivo completado sin error de cuota.
 
@@ -73,6 +74,7 @@ Documento operativo de cierre para la fase `5.4` del plan activo:
    - Última ejecución:
      - `2026-03-02 23:49 CET` -> build OK, deploy bloqueado por cuota (`api-deployments-free-per-day`).
      - `2026-03-02 23:53 CET` -> guard activo (sin consumir intento), ventana vigente `2026-03-03 15:49:00 CET`.
+     - `2026-03-03 02:07 CET` -> build OK, deploy bloqueado por cuota (`api-deployments-free-per-day`), cooldown actualizado a `2026-03-03 16:07:10 CET`.
    - Criterio de cierre:
      - deploy productivo + `post-deploy-checks` en una sola ejecución verde.
 
@@ -80,7 +82,7 @@ Documento operativo de cierre para la fase `5.4` del plan activo:
    - Script:
      - `scripts/closeout-status.sh`
    - Resultado actual:
-     - `2026-03-02 23:56 CET` -> cooldown activo, not-before `2026-03-03 15:49:00 CET`.
+     - `2026-03-03 02:07 CET` -> cooldown activo, not-before `2026-03-03 16:07:10 CET`.
    - Criterio de cierre:
      - reportar estado `listo para reintento de deploy` en ventana válida.
 
@@ -110,6 +112,8 @@ Documento operativo de cierre para la fase `5.4` del plan activo:
      - `atq` muestra job activo en `Tue Mar 3 15:50:00 2026`.
      - `at -c <job_id_activo>` referencia `scripts/closeout-at-job.sh`.
      - `2026-03-03 01:08 CET` -> job closeout reprogramado por epoch (`not_before+60s`) a `Tue Mar 3 02:02:00 2026`.
+     - `2026-03-03 02:03 CET` -> job `02:02` quedó vencido en cola (past-due), se aplicó fallback manual.
+     - `2026-03-03 02:07 CET` -> fallback manual `./scripts/closeout-at-job.sh` ejecutado; autoreprogramación crea `job 12` para `16:08 CET`.
    - Criterio de cierre:
      - garantizar intento automático en primera ventana útil sin intervención manual.
 
@@ -123,6 +127,7 @@ Documento operativo de cierre para la fase `5.4` del plan activo:
       - `EXIT_CODE=1`: requiere revisión manual.
    - Evidencia:
      - `2026-03-03 00:33 CET` -> estado `EN ESPERA` + `EXIT_CODE=2` + job automático activo (`15:50 CET`) visible.
+     - `2026-03-03 02:07 CET` -> estado `EN ESPERA` + `EXIT_CODE=2` + job automático activo (`16:08 CET`) visible.
 
 11. `P3` `✅` Tests de regresión para readiness de cierre.
    - Test:

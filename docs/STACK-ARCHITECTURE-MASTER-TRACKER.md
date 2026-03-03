@@ -373,6 +373,16 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
     - verificación de fuga: `at -c 11 | rg 'OPENAI_API_KEY|HEYGEN_API_KEY|sk-'` -> sin coincidencias.
     - estado operativo: cola activa, cooldown vigente y ready para ventana de cierre.
 
+93. Incidencia operativa controlada: job `at` past-due (2026-03-03 02:03 CET):
+    - síntoma: job `11` (`02:02`) permaneció en cola vencido.
+    - mitigación: fallback manual `./scripts/closeout-at-job.sh`.
+    - resultado: ejecución real de cierre lanzada y trazada en `.runtime/auto-closeout-20260303T020701.log`.
+
+94. Nuevo bloqueo de cuota tras fallback manual (2026-03-03 02:07 CET):
+    - deploy intentado y bloqueado por `api-deployments-free-per-day` (`try again in 14 hours`).
+    - cooldown actualizado a `2026-03-03 16:07:10 CET`.
+    - autoreprogramación activa: `job 12` en cola para `2026-03-03 16:08 CET`.
+
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.
 2. Regeneración de launchers/apps de escritorio del Hub.
