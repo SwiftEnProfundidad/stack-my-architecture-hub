@@ -220,9 +220,10 @@ Repos incluidos:
      - guard de cuota activo vía `.runtime/vercel-deploy-cooldown.env`.
      - ejecución histórica con intento real: `2026-03-02 23:49 CET` (build OK, deploy bloqueado por cuota).
      - última ejecución con intento real: `2026-03-03 02:07 CET` (build OK, deploy bloqueado por cuota, retry `~14h`).
+     - última ejecución guardada: `2026-03-03 02:45 CET` (cooldown activo, sin consumir intento).
    - estado operativo rápido:
      - script: `scripts/closeout-status.sh`
-     - estado actual: `2026-03-03 02:07 CET` -> cooldown activo, not-before `2026-03-03 16:07:10 CET`.
+     - estado actual: `2026-03-03 02:45 CET` -> cooldown activo, not-before `2026-03-03 16:07:10 CET`.
    - runner de espera automática para cierre desatendido:
      - script: `scripts/closeout-wait-and-run.sh [fast|strict] [base_url]`
      - validación segura: `2026-03-03 00:01 CET` con `SMA_CLOSEOUT_MAX_WAIT_SECONDS=60` (salida controlada sin intento de deploy).

@@ -836,3 +836,10 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
    - `./scripts/smoke-public-functional.sh https://architecture-stack.vercel.app` -> PASS (Hub/Auth/iOS/Android/SDD).
    - `./scripts/post-deploy-checks.sh https://architecture-stack.vercel.app` -> PASS.
 3. Estado: ✅ Hecho.
+
+## Actualizacion 2026-03-03 (8) — Refresco de guard operativo de closeout
+1. Alcance: Hub (`deploy-and-verify-closeout`, `closeout-status`, `closeout-readiness`).
+2. Resultado:
+   - `./scripts/deploy-and-verify-closeout.sh fast https://architecture-stack.vercel.app` -> guard activo (`EXIT_CODE=2`), sin consumir intento durante cooldown.
+   - `./scripts/closeout-status.sh` y `./scripts/closeout-readiness.sh --verbose` confirman ventana vigente con `not-before 2026-03-03 16:07:10 CET`.
+3. Estado: ⏳ En espera de apertura de ventana para ejecutar cierre final de `5.3/5.4`.
