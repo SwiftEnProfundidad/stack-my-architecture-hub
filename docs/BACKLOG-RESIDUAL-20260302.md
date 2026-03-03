@@ -236,6 +236,18 @@ Documento operativo de cierre para la fase `5.4` del plan activo:
      - `2026-03-03 01:16 CET` -> `./scripts/run-closeout-qa-suite.sh tests` -> verde.
      - `2026-03-03 01:17 CET` -> `./scripts/closeout-readiness.sh` con job alineado (`02:02 CET`) -> sin sugerencia redundante.
 
+21. `P3` `✅` Hardening de entorno para programación `at`.
+   - Script:
+     - `scripts/schedule-closeout-at.sh`
+   - Comportamiento:
+     - sanea el entorno al invocar `AT_CMD` (real o forzado), minimizando variables heredadas.
+     - mantiene compatibilidad de tests permitiendo variables `FAKE_*` en entorno saneado.
+   - Cobertura:
+     - `scripts/tests/test-schedule-closeout-at.sh` añade caso con `SMA_AT_FORCE_SANITIZE=1` y valida que no se propaga `TEST_SECRET`.
+   - Evidencia:
+     - `2026-03-03 01:20 CET` -> `./scripts/tests/test-schedule-closeout-at.sh` -> `[PASS]`.
+     - `2026-03-03 01:20 CET` -> `./scripts/run-closeout-qa-suite.sh tests` -> verde.
+
 4. `P3` `⏳` Cerrar `5.4` y congelar handoff final.
    - Alcance:
      - `PLAN`, `SESSION-HANDOFF`, `MASTER-TRACKER`, `HUB-STABILITY-LOG`, `ADR-LITE`.

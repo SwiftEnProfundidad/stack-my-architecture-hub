@@ -1807,3 +1807,19 @@ La sugerencia de reprogramación aparecía incluso con job ya alineado en la ven
 ### Verificación
 1. `./scripts/tests/test-closeout-readiness.sh` -> `[PASS]`.
 2. `./scripts/run-closeout-qa-suite.sh tests` -> verde.
+
+## QA de automatización — hardening de entorno para scheduler `at`
+### Fecha
+2026-03-03
+
+### Contexto
+El proceso de programación con `at` podía heredar variables sensibles innecesarias del entorno interactivo.
+
+### Cambios aplicados
+1. `scripts/schedule-closeout-at.sh` sanea entorno al invocar `AT_CMD`.
+2. En modo saneado conserva solo variables base y `FAKE_*` para compatibilidad de tests.
+3. `scripts/tests/test-schedule-closeout-at.sh` añade caso anti-leak con `TEST_SECRET`.
+
+### Verificación
+1. `./scripts/tests/test-schedule-closeout-at.sh` -> `[PASS]`.
+2. `./scripts/run-closeout-qa-suite.sh tests` -> verde.

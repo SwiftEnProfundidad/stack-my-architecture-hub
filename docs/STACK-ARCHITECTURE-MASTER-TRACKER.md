@@ -362,6 +362,12 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
     - cobertura: `scripts/tests/test-closeout-readiness.sh` añade caso de job alineado sin sugerencia.
     - resultado: salida más precisa para operación de cierre `5.4`.
 
+91. Hardening de entorno en scheduler `at` (2026-03-03):
+    - `scripts/schedule-closeout-at.sh` sanea variables de entorno al invocar `AT_CMD`.
+    - objetivo: evitar herencia de secretos en jobs programados.
+    - test de regresión ampliado (`test-schedule-closeout-at.sh`) con `SMA_AT_FORCE_SANITIZE=1` y verificación anti-leak (`TEST_SECRET` no propagado).
+    - resultado: batería `run-closeout-qa-suite.sh tests` en verde sin romper compatibilidad de scheduler.
+
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.
 2. Regeneración de launchers/apps de escritorio del Hub.

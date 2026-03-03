@@ -1328,3 +1328,21 @@ En viewport móvil estrecho (`<=480px`) los controles superiores de estudio debe
 ### Impacto
 1. Menos acciones manuales innecesarias por parte del operador.
 2. Mejor legibilidad del estado real de cola `at` frente a la ventana de deploy.
+
+## ADR-LITE-069 — Sanitizar entorno al programar jobs con `at`
+### Fecha
+2026-03-03
+
+### Decisión
+1. `scripts/schedule-closeout-at.sh` invoca `AT_CMD` con entorno saneado (mínimo) cuando aplica hardening.
+2. Se admite forzar saneado vía `SMA_AT_FORCE_SANITIZE=1` para pruebas.
+3. Se preservan variables `FAKE_*` en entorno saneado para mantener los tests herméticos.
+
+### Motivación
+1. Evitar herencia accidental de secretos del entorno interactivo hacia jobs de `at`.
+2. Mantener operación segura sin romper automatización ni tests.
+3. Cerrar un riesgo enterprise en la ruta de cierre automático `5.4`.
+
+### Impacto
+1. Menor superficie de exposición de credenciales en jobs programados.
+2. Test de regresión adicional en `test-schedule-closeout-at.sh` para validar no propagación de `TEST_SECRET`.
