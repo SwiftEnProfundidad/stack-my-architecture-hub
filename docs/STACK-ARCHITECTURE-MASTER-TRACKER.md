@@ -828,3 +828,11 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
    - `./scripts/tests/test-closeout-window-followup.sh` -> PASS.
    - `./scripts/run-closeout-qa-suite.sh tests` -> PASS (9 suites).
 5. Estado: ✅ Hecho.
+
+## Actualizacion 2026-03-03 (7) — Verificación pública de runtime en Vercel
+1. Alcance: Hub publicado (`https://architecture-stack.vercel.app`).
+2. Validación ejecutada:
+   - `./scripts/smoke-public-routes.sh https://architecture-stack.vercel.app` -> PASS (`/`, `/ios/`, `/android/`, `/sdd/` en `200`).
+   - `./scripts/smoke-public-functional.sh https://architecture-stack.vercel.app` -> PASS (Hub/Auth/iOS/Android/SDD).
+   - `./scripts/post-deploy-checks.sh https://architecture-stack.vercel.app` -> PASS.
+3. Estado: ✅ Hecho.

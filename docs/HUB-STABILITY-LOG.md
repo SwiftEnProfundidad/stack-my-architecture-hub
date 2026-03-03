@@ -1942,3 +1942,15 @@ El orquestador de ventana ya programaba `main + watchdog`, pero faltaba blindar 
 1. `./scripts/tests/test-schedule-closeout-window.sh` -> `[PASS]`.
 2. `./scripts/tests/test-closeout-window-followup.sh` -> `[PASS]`.
 3. `./scripts/run-closeout-qa-suite.sh tests` -> verde (9 suites).
+
+## Verificación pública de runtime en Vercel
+### Fecha
+2026-03-03
+
+### Contexto
+Tras cerrar la integración del orquestador de ventana, se ejecuta verificación pública completa sobre el alias productivo.
+
+### Verificación
+1. `./scripts/smoke-public-routes.sh https://architecture-stack.vercel.app` -> `[PASS]` (`200` en `/`, `/ios/`, `/android/`, `/sdd/`).
+2. `./scripts/smoke-public-functional.sh https://architecture-stack.vercel.app` -> `[PASS]` (Hub/Auth/iOS/Android/SDD).
+3. `./scripts/post-deploy-checks.sh https://architecture-stack.vercel.app` -> `[PASS]`.
