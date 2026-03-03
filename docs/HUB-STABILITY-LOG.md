@@ -2050,3 +2050,21 @@ El runner `full` validaba `atq` y `closeout-readiness`, pero no tenía gate expl
 1. `./scripts/tests/test-run-closeout-qa-suite.sh` -> `[PASS]`.
 2. `./scripts/run-closeout-qa-suite.sh tests` -> verde (10 suites).
 3. `./scripts/run-closeout-qa-suite.sh full` -> verde.
+
+## Auto-reschedule de `closeout-at-job` alineado con ventana completa
+### Fecha
+2026-03-03
+
+### Contexto
+El job automático reprogramaba por defecto solo `main`, pudiendo dejar `watchdog/followup` fuera tras nuevos bloqueos de cuota.
+
+### Cambios aplicados
+1. `scripts/closeout-at-job.sh` usa por defecto `schedule-closeout-window.sh` para reprogamar.
+2. Se conserva override explícito con `SMA_CLOSEOUT_SCHEDULER_CMD`.
+3. `scripts/tests/test-closeout-at-job.sh` incorpora caso dedicado para validar el scheduler default en entorno hermético.
+
+### Verificación
+1. `./scripts/tests/test-closeout-at-job.sh` -> `[PASS]`.
+2. `./scripts/tests/test-run-closeout-qa-suite.sh` -> `[PASS]`.
+3. `./scripts/run-closeout-qa-suite.sh tests` -> verde.
+4. `./scripts/run-closeout-qa-suite.sh full` -> verde.

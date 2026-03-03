@@ -238,11 +238,12 @@ Repos incluidos:
         - `job 18` -> closeout principal (`16:08 CET`)
         - `job 19` -> recovery watchdog (`16:10 CET`)
         - `job 20` -> followup snapshot (`16:12 CET`)
-      - job file versionado: `scripts/closeout-at-job.sh`.
+     - job file versionado: `scripts/closeout-at-job.sh`.
       - scheduler versionado: `scripts/schedule-closeout-at.sh [hora]`.
       - orquestador versionado: `scripts/schedule-closeout-window.sh [--epoch]` (programa main+watchdog+followup en una sola ejecución).
+      - auto-reschedule por defecto: `closeout-at-job.sh` reprogama con `schedule-closeout-window.sh` para mantener ventana completa tras bloqueos de cuota.
       - recovery versionado: `scripts/recover-past-due-closeout.sh` para limpiar jobs stale y lanzar fallback manual cuando procede.
-     - followup versionado: `scripts/closeout-window-followup.sh` para snapshot post-ventana sin intervención manual.
+      - followup versionado: `scripts/closeout-window-followup.sh` para snapshot post-ventana sin intervención manual.
      - hardening: `schedule-closeout-at.sh` ahora sanea entorno al invocar `at` (evita heredar secretos no necesarios en jobs programados).
      - hardening adicional: `schedule-closeout-at.sh` y `schedule-closeout-window.sh` fijan `PATH` saneado por `SMA_AT_SANITIZED_PATH` (sin heredar `PATH` interactivo).
      - verificación runtime PATH hardening: `at -c 18|19|20` confirma `export PATH=/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin`.

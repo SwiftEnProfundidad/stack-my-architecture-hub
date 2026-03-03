@@ -901,3 +901,15 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
    - `./scripts/run-closeout-qa-suite.sh tests` -> PASS (10 suites).
    - `./scripts/run-closeout-qa-suite.sh full` -> PASS.
 4. Estado: ✅ Hecho.
+
+## Actualizacion 2026-03-03 (14) — Auto-reschedule por ventana completa en `closeout-at-job`
+1. Alcance: `closeout-at-job` + test de regresión.
+2. Cambio:
+   - el scheduler por defecto de reintento pasa a `schedule-closeout-window.sh`.
+   - objetivo: mantener `main/watchdog/followup` tras cada auto-reschedule por cuota.
+3. Validación:
+   - `./scripts/tests/test-closeout-at-job.sh` -> PASS (incluye caso del scheduler default).
+   - `./scripts/tests/test-run-closeout-qa-suite.sh` -> PASS.
+   - `./scripts/run-closeout-qa-suite.sh tests` -> PASS.
+   - `./scripts/run-closeout-qa-suite.sh full` -> PASS.
+4. Estado: ✅ Hecho.

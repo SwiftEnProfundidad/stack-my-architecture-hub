@@ -396,6 +396,19 @@ Documento operativo de cierre para la fase `5.4` del plan activo:
      - `2026-03-03 03:08 CET` -> `./scripts/run-closeout-qa-suite.sh tests` -> verde (10 suites).
      - `2026-03-03 03:08 CET` -> `./scripts/run-closeout-qa-suite.sh full` -> verde.
 
+30. `P3` `✅` Auto-reschedule de `closeout-at-job` alineado con ventana completa.
+   - Script:
+     - `scripts/closeout-at-job.sh`
+   - Comportamiento:
+     - la reprogramación automática tras cooldown usa por defecto `schedule-closeout-window.sh` (main + watchdog + followup), no solo `schedule-closeout-at.sh`.
+     - mantiene compatibilidad con override explícito vía `SMA_CLOSEOUT_SCHEDULER_CMD`.
+   - Cobertura:
+     - `scripts/tests/test-closeout-at-job.sh` añade caso de default scheduler (copy hermético del script + fake `schedule-closeout-window.sh`).
+   - Evidencia:
+     - `2026-03-03 03:12 CET` -> `./scripts/tests/test-closeout-at-job.sh` -> `[PASS]`.
+     - `2026-03-03 03:12 CET` -> `./scripts/tests/test-run-closeout-qa-suite.sh` -> `[PASS]`.
+     - `2026-03-03 03:12 CET` -> `./scripts/run-closeout-qa-suite.sh tests` y `full` -> verde.
+
 4. `P3` `⏳` Cerrar `5.4` y congelar handoff final.
    - Alcance:
      - `PLAN`, `SESSION-HANDOFF`, `MASTER-TRACKER`, `HUB-STABILITY-LOG`, `ADR-LITE`.
