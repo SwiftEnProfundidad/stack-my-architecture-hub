@@ -142,6 +142,7 @@ code="$(run_readiness "$TMP_DIR/out2.txt")"
 assert_exit "3" "$code" "cooldown sin job debe devolver 3"
 assert_contains "$TMP_DIR/out2.txt" "ATENCIÓN: no hay job de closeout programado" "debe pedir reprogramar job"
 assert_contains "$TMP_DIR/out2.txt" "schedule-closeout-at\\.sh --epoch" "debe recomendar reprogramar con epoch dinamico"
+assert_contains "$TMP_DIR/out2.txt" "Último log: no disponible" "debe evitar mostrar rutas de log inexistentes"
 
 # Case 3: cooldown activo con job -> EXIT 2
 export FAKE_ATQ_MODE="active"

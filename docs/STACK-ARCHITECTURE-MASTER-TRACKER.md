@@ -349,6 +349,13 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
     - resultado: cola `at` movida de `15:50` a `02:02 CET` para ejecutar cierre en la primera ventana posible.
     - validación: `./scripts/closeout-readiness.sh` mantiene estado `EN ESPERA` con job activo detectado.
 
+89. Higiene de salida en readiness para logs temporales stale (2026-03-03):
+    - `scripts/closeout-readiness.sh` normaliza `last_log_file`:
+      - path existente -> se muestra y se puede hacer tail en `--verbose`.
+      - path inexistente -> reporta `Último log: no disponible`.
+    - cobertura: `scripts/tests/test-closeout-readiness.sh` incluye caso de log inexistente.
+    - resultado: salida operativa más fiable durante cooldown y estados de espera.
+
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.
 2. Regeneración de launchers/apps de escritorio del Hub.

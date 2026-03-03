@@ -22,6 +22,19 @@ print_log_tail() {
   fi
 }
 
+resolve_log_path() {
+  local path="${1:-desconocido}"
+  if [[ -z "$path" ]] || [[ "$path" == "desconocido" ]]; then
+    echo "desconocido"
+    return 0
+  fi
+  if [[ -f "$path" ]]; then
+    echo "$path"
+    return 0
+  fi
+  echo "no disponible"
+}
+
 find_active_closeout_job() {
   local jobs line job_id job_body
   jobs="$("$ATQ_CMD" 2>/dev/null || true)"
@@ -46,12 +59,13 @@ if [[ -f "$COMPLETE_FLAG" ]] && [[ -f "$STATUS_FILE" ]]; then
   # shellcheck disable=SC1090
   source "$STATUS_FILE"
   if [[ "${last_exit_code:-1}" -eq 0 ]]; then
+    resolved_log_path="$(resolve_log_path "${last_log_file:-desconocido}")"
     echo "[CLOSEOUT-READINESS] Estado: LISTO"
     echo "[CLOSEOUT-READINESS] Última ejecución: ${last_run_at:-desconocida}"
-    echo "[CLOSEOUT-READINESS] Último log: ${last_log_file:-desconocido}"
+    echo "[CLOSEOUT-READINESS] Último log: $resolved_log_path"
     echo "[CLOSEOUT-READINESS] Puedes cerrar 5.3/5.4 en tracking."
-    if [[ "$verbose" == "--verbose" ]]; then
-      print_log_tail "${last_log_file:-}"
+    if [[ "$verbose" == "--verbose" ]] && [[ "$resolved_log_path" != "no disponible" ]]; then
+      print_log_tail "$resolved_log_path"
     fi
     exit 0
   fi
@@ -78,10 +92,11 @@ if [[ -f "$COOLDOWN_FILE" ]]; then
     if [[ -f "$STATUS_FILE" ]]; then
       # shellcheck disable=SC1090
       source "$STATUS_FILE"
+      resolved_log_path="$(resolve_log_path "${last_log_file:-desconocido}")"
       echo "[CLOSEOUT-READINESS] Último exit code job: ${last_exit_code:-desconocido}"
-      echo "[CLOSEOUT-READINESS] Último log: ${last_log_file:-desconocido}"
-      if [[ "$verbose" == "--verbose" ]]; then
-        print_log_tail "${last_log_file:-}"
+      echo "[CLOSEOUT-READINESS] Último log: $resolved_log_path"
+      if [[ "$verbose" == "--verbose" ]] && [[ "$resolved_log_path" != "no disponible" ]]; then
+        print_log_tail "$resolved_log_path"
       fi
     fi
 
@@ -101,13 +116,14 @@ fi
 if [[ -f "$STATUS_FILE" ]]; then
   # shellcheck disable=SC1090
   source "$STATUS_FILE"
+  resolved_log_path="$(resolve_log_path "${last_log_file:-desconocido}")"
   echo "[CLOSEOUT-READINESS] Estado: REVISIÓN MANUAL"
   echo "[CLOSEOUT-READINESS] Última ejecución: ${last_run_at:-desconocida}"
   echo "[CLOSEOUT-READINESS] Exit code: ${last_exit_code:-desconocido}"
-  echo "[CLOSEOUT-READINESS] Log: ${last_log_file:-desconocido}"
+  echo "[CLOSEOUT-READINESS] Log: $resolved_log_path"
   echo "[CLOSEOUT-READINESS] Ejecuta: ./scripts/deploy-and-verify-closeout.sh fast"
-  if [[ "$verbose" == "--verbose" ]]; then
-    print_log_tail "${last_log_file:-}"
+  if [[ "$verbose" == "--verbose" ]] && [[ "$resolved_log_path" != "no disponible" ]]; then
+    print_log_tail "$resolved_log_path"
   fi
   exit 1
 fi

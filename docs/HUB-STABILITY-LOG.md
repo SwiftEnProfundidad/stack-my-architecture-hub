@@ -1772,3 +1772,21 @@ Con cooldown activo, la recomendación fija `15:50` podía dejar la cola program
 2. `./scripts/run-closeout-qa-suite.sh tests` -> verde.
 3. `./scripts/run-closeout-qa-suite.sh full` -> verde.
 4. `./scripts/schedule-closeout-at.sh --epoch <not_before+60s>` -> cola closeout actualizada a la primera ventana útil (`02:02 CET`).
+
+## QA de automatización — sanitización de `last_log_file` en readiness
+### Fecha
+2026-03-03
+
+### Contexto
+En estado de cooldown, `auto-closeout-status.env` podía contener rutas temporales no existentes, generando salida confusa.
+
+### Cambios aplicados
+1. `scripts/closeout-readiness.sh` resuelve `last_log_file` con normalización:
+   - archivo existe -> muestra path real.
+   - archivo no existe -> muestra `Último log: no disponible`.
+2. `scripts/tests/test-closeout-readiness.sh` exige explícitamente ese comportamiento.
+
+### Verificación
+1. `./scripts/tests/test-closeout-readiness.sh` -> `[PASS]`.
+2. `./scripts/run-closeout-qa-suite.sh tests` -> verde.
+3. `./scripts/closeout-readiness.sh` en runtime -> salida limpia (`Último log: no disponible`).

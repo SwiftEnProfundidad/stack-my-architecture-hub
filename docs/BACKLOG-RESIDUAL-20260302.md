@@ -210,6 +210,19 @@ Documento operativo de cierre para la fase `5.4` del plan activo:
      - `2026-03-03 01:06 CET` -> `./scripts/run-closeout-qa-suite.sh tests` y `./scripts/run-closeout-qa-suite.sh full` -> verde.
      - `2026-03-03 01:08 CET` -> `./scripts/schedule-closeout-at.sh --epoch 1772499746` -> cola actualizada (`job 9`, `02:02 CET`).
 
+19. `P3` `✅` Sanitización de log path en readiness.
+   - Script:
+     - `scripts/closeout-readiness.sh [--verbose]`
+   - Comportamiento:
+     - cuando `last_log_file` no existe, reporta `Último log: no disponible` (sin rutas temporales stale).
+     - si el log existe, conserva path real y tail en modo `--verbose`.
+   - Cobertura:
+     - `scripts/tests/test-closeout-readiness.sh` verifica explícitamente el caso de log inexistente.
+   - Evidencia:
+     - `2026-03-03 01:12 CET` -> `./scripts/tests/test-closeout-readiness.sh` -> `[PASS]`.
+     - `2026-03-03 01:12 CET` -> `./scripts/run-closeout-qa-suite.sh tests` -> verde.
+     - `2026-03-03 01:13 CET` -> `./scripts/closeout-readiness.sh` muestra `Último log: no disponible`.
+
 4. `P3` `⏳` Cerrar `5.4` y congelar handoff final.
    - Alcance:
      - `PLAN`, `SESSION-HANDOFF`, `MASTER-TRACKER`, `HUB-STABILITY-LOG`, `ADR-LITE`.
