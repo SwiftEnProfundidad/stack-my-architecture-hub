@@ -1553,3 +1553,25 @@ En viewport móvil estrecho (`<=480px`) los controles superiores de estudio debe
 ### Impacto
 1. Reintentos automáticos más robustos y coherentes con la arquitectura de ventana completa.
 2. Menor riesgo de estado incompleto al acercarse `not-before`.
+
+## ADR-LITE-081 — Verificación pública automática en `closeout-window-followup`
+### Fecha
+2026-03-03
+
+### Decisión
+1. `closeout-window-followup.sh` ejecuta verificación pública completa cuando existe `closeout-complete.flag`:
+   - `smoke-public-routes.sh`
+   - `smoke-public-functional.sh`
+   - `post-deploy-checks.sh`
+2. Si no existe flag, registra `skip public verification` y mantiene followup en modo diagnóstico.
+3. El script expone overrides por entorno para ejecución hermética en tests.
+
+### Motivación
+1. Cerrar la brecha entre “deploy completado” y “evidencia pública de salud” en la misma ventana automática.
+2. Reducir riesgo de cierre documental sin pruebas públicas finales.
+3. Evitar intervención manual adicional tras cada reintento de cuota.
+
+### Impacto
+1. El followup pasa de snapshot pasivo a validación activa condicionada por éxito real.
+2. Se fortalece `P2 #6` con evidencia E2E automática en log.
+3. `test-closeout-window-followup.sh` valida casos con/sin flag en suite de regresión.

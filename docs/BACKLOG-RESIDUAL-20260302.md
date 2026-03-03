@@ -86,6 +86,10 @@ Documento operativo de cierre para la fase `5.4` del plan activo:
        - `./scripts/closeout-status.sh` confirma cooldown activo + jobs `18/19/20`.
        - `at -c 18`, `at -c 19`, `at -c 20` confirman payload correcto (`closeout-at-job`, `recover-past-due-closeout`, `closeout-window-followup`) y `PATH` saneado fijo.
        - `./scripts/run-closeout-qa-suite.sh full` -> verde (10 suites + runtime checks).
+     - `2026-03-03 03:25 CET` -> followup endurecido para cierre automático:
+       - `closeout-window-followup.sh` ejecuta `smoke-public-routes`, `smoke-public-functional` y `post-deploy-checks` cuando existe `closeout-complete.flag`.
+       - `./scripts/tests/test-closeout-window-followup.sh` cubre casos con/sin flag.
+       - `./scripts/run-closeout-qa-suite.sh tests` y `full` -> verde.
    - Criterio de cierre:
      - deploy productivo + `post-deploy-checks` en una sola ejecución verde.
 

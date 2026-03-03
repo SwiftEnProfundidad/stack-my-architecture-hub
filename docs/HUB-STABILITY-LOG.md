@@ -2105,3 +2105,31 @@ La cuota Vercel sigue bloqueando intentos hasta `2026-03-03 16:07:10 CET`, por l
 
 ### Resultado
 Subtask de preflight cerrada en verde; queda pendiente únicamente la ejecución real del deploy E2E cuando abra cuota.
+
+## Followup post-ventana con verificación pública automática
+### Fecha
+2026-03-03
+
+### Contexto
+El followup capturaba snapshot operativo, pero no ejecutaba verificación pública completa tras un cierre exitoso.
+
+### Cambios aplicados
+1. `scripts/closeout-window-followup.sh` ahora dispara automáticamente:
+   - `smoke-public-routes.sh`,
+   - `smoke-public-functional.sh`,
+   - `post-deploy-checks.sh`,
+   cuando detecta `closeout-complete.flag`.
+2. Si no existe flag, registra `skip public verification` (sin errores falsos).
+3. Se añaden overrides por entorno para tests herméticos:
+   - `SMA_CLOSEOUT_PUBLIC_ROUTES_CMD`
+   - `SMA_CLOSEOUT_PUBLIC_FUNCTIONAL_CMD`
+   - `SMA_CLOSEOUT_POST_DEPLOY_CHECKS_CMD`
+   - `SMA_CLOSEOUT_BASE_URL`
+
+### Verificación
+1. `./scripts/tests/test-closeout-window-followup.sh` -> `[PASS]` (con/sin flag).
+2. `./scripts/run-closeout-qa-suite.sh tests` -> verde.
+3. `./scripts/run-closeout-qa-suite.sh full` -> verde.
+
+### Resultado
+Se reduce riesgo de cierre incompleto de `P2 #6`; al abrir cuota, la evidencia E2E queda registrada automáticamente en el log de followup.
