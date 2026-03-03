@@ -1882,3 +1882,24 @@ El test de cooldown corto podía fallar de forma intermitente por carrera tempor
 ### Verificación
 1. `./scripts/tests/test-closeout-wait-and-run.sh` -> `[PASS]`.
 2. `./scripts/run-closeout-qa-suite.sh tests` -> verde estable.
+
+## Automatización de ventana — orquestador `main + watchdog`
+### Fecha
+2026-03-03
+
+### Contexto
+La programación de ventana (`main` y `watchdog`) se estaba haciendo en dos pasos manuales.
+
+### Cambios aplicados
+1. Nuevo script: `scripts/schedule-closeout-window.sh`.
+2. Programa job principal con `schedule-closeout-at.sh --epoch`.
+3. Limpia watchdog anterior y reprogama recovery watchdog en la misma ejecución.
+4. Test dedicado: `scripts/tests/test-schedule-closeout-window.sh`.
+5. Integración en suite QA (`run-closeout-qa-suite.sh`) -> 8 suites.
+
+### Verificación
+1. `./scripts/tests/test-schedule-closeout-window.sh` -> `[PASS]`.
+2. `./scripts/run-closeout-qa-suite.sh tests` -> verde (8 suites).
+3. Runtime real:
+   - cola refrescada a `job 15` (closeout `16:08 CET`) y `job 16` (watchdog `16:10 CET`).
+   - inspección `at -c` de ambos jobs sin secretos detectados (`OPENAI_API_KEY`, `HEYGEN_API_KEY`, `sk-`).
