@@ -2068,3 +2068,19 @@ El job automático reprogramaba por defecto solo `main`, pudiendo dejar `watchdo
 2. `./scripts/tests/test-run-closeout-qa-suite.sh` -> `[PASS]`.
 3. `./scripts/run-closeout-qa-suite.sh tests` -> verde.
 4. `./scripts/run-closeout-qa-suite.sh full` -> verde.
+
+## Estado operativo `closeout-status` listo para reintento
+### Fecha
+2026-03-03
+
+### Contexto
+Quedaba pendiente operativo verificar explícitamente que el estado de cierre reporta `listo para reintento de deploy` cuando la ventana ya es válida.
+
+### Verificación
+1. Simulación controlada con `SMA_CLOSEOUT_COOLDOWN_FILE` temporal y `not_before` vencido:
+   - salida confirmada: `Estado: listo para reintento de deploy`.
+2. `./scripts/tests/test-closeout-status.sh` -> `[PASS]`.
+3. `./scripts/run-closeout-qa-suite.sh tests` -> verde (10 suites).
+
+### Resultado
+Pendiente `P3 #7` del backlog residual cerrado; se mantiene `5.4` en curso a la espera del reintento real de deploy al abrir cuota.

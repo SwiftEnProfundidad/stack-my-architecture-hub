@@ -228,6 +228,7 @@ Repos incluidos:
        - `Job main activo: 18`
        - `Job watchdog activo: 19`
        - `Job followup activo: 20`
+     - `2026-03-03 03:16 CET` -> validación de ventana útil (cooldown vencido simulado) reporta `Estado: listo para reintento de deploy`.
      - guard adicional: si falta alguno de los 3 jobs de ventana, `closeout-status` devuelve `EXIT_CODE=3` y sugiere `./scripts/schedule-closeout-window.sh`.
    - runner de espera automática para cierre desatendido:
      - script: `scripts/closeout-wait-and-run.sh [fast|strict] [base_url]`
@@ -276,6 +277,7 @@ Repos incluidos:
    - cobertura de deploy/status:
      - `scripts/tests/test-deploy-and-verify-closeout.sh`
      - `scripts/tests/test-closeout-status.sh`
+     - `2026-03-03 03:16 CET` -> `./scripts/tests/test-closeout-status.sh` + `./scripts/run-closeout-qa-suite.sh tests` en verde.
    - runner QA único:
      - `scripts/run-closeout-qa-suite.sh tests|full` (actualmente 10 suites; `full` valida `closeout-status` + `closeout-readiness` y acepta estado `2` como espera válida).
 
@@ -317,6 +319,7 @@ Repos incluidos:
 29. ✅ Fase 3 validación final + despliegue Vercel.
 30. ✅ Desacoplar carga de Mermaid/Highlight del path crítico del arranque en iOS/Android/SDD.
 31. ✅ Fase 8 de optimización de imágenes de arquitectura iOS para móvil (`webp` + fallback `png`).
+32. ✅ Estado operativo de cierre reporta `listo para reintento de deploy` en ventana válida.
 
 ## Siguiente paso concreto
 1. Completar `5.4`: cierre documental final sin tareas `🚧` fuera del propio cierre y backlog residual priorizado.
