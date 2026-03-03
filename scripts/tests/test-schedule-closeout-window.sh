@@ -6,6 +6,7 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 HUB_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 WINDOW_SCRIPT="$HUB_ROOT/scripts/schedule-closeout-window.sh"
 RECOVER_SCRIPT="$HUB_ROOT/scripts/recover-past-due-closeout.sh"
+FOLLOWUP_SCRIPT="$HUB_ROOT/scripts/closeout-window-followup.sh"
 
 TMP_DIR="$(mktemp -d)"
 RUNTIME_DIR="$TMP_DIR/runtime"
@@ -122,6 +123,7 @@ run_window() {
   SMA_CLOSEOUT_COOLDOWN_FILE="$COOLDOWN_FILE" \
   SMA_CLOSEOUT_SCHEDULER_CMD="$TMP_DIR/fake-scheduler.sh" \
   SMA_CLOSEOUT_RECOVER_SCRIPT="$RECOVER_SCRIPT" \
+  SMA_CLOSEOUT_FOLLOWUP_SCRIPT="$FOLLOWUP_SCRIPT" \
   SMA_ATQ_CMD="$TMP_DIR/fake-atq.sh" \
   SMA_AT_CMD="$TMP_DIR/fake-at.sh" \
   SMA_ATRM_CMD="$TMP_DIR/fake-atrm.sh" \
@@ -142,6 +144,7 @@ run_window_force_sanitize() {
   SMA_CLOSEOUT_COOLDOWN_FILE="$COOLDOWN_FILE" \
   SMA_CLOSEOUT_SCHEDULER_CMD="$TMP_DIR/fake-scheduler.sh" \
   SMA_CLOSEOUT_RECOVER_SCRIPT="$RECOVER_SCRIPT" \
+  SMA_CLOSEOUT_FOLLOWUP_SCRIPT="$FOLLOWUP_SCRIPT" \
   SMA_ATQ_CMD="$TMP_DIR/fake-atq.sh" \
   SMA_AT_CMD="$TMP_DIR/fake-at.sh" \
   SMA_ATRM_CMD="$TMP_DIR/fake-atrm.sh" \
@@ -159,26 +162,32 @@ not_before_epoch="$((now_epoch + 3600))"
 not_before_local="$(date -r "$not_before_epoch" '+%Y-%m-%d %H:%M:%S %Z')"
 main_epoch="$((not_before_epoch + 60))"
 watchdog_epoch="$((main_epoch + 120))"
+followup_epoch="$((main_epoch + 240))"
 watchdog_token="$(date -r "$watchdog_epoch" '+%Y%m%d%H%M.%S')"
+followup_token="$(date -r "$followup_epoch" '+%Y%m%d%H%M.%S')"
 
-# Case 1: schedule using cooldown + remove old watchdog
+# Case 1: schedule using cooldown + remove old watchdog/followup
 cat >"$COOLDOWN_FILE" <<EOF
 not_before_epoch=$not_before_epoch
 not_before_local='$not_before_local'
 reason='api-deployments-free-per-day'
 last_error_seen_at='now'
 EOF
-printf "5\tOLD_WATCHDOG\n6\tOTHER\n" > "$QUEUE_FILE"
+printf "5\tOLD_WATCHDOG\n6\tOLD_FOLLOWUP\n7\tOTHER\n" > "$QUEUE_FILE"
 printf "%s\n" "/tmp/scripts/recover-past-due-closeout.sh" > "$JOBS_DIR/5.body"
-printf "%s\n" "echo noop" > "$JOBS_DIR/6.body"
+printf "%s\n" "/tmp/scripts/closeout-window-followup.sh" > "$JOBS_DIR/6.body"
+printf "%s\n" "echo noop" > "$JOBS_DIR/7.body"
 
 code="$(run_window "$TMP_DIR/out1.txt")"
 [[ "$code" -eq 0 ]] || { echo "[FAIL] case1 exit=$code"; cat "$TMP_DIR/out1.txt"; exit 1; }
 assert_contains "$CALLS_FILE" "^SCHED --epoch ${main_epoch}$" "debe programar main por epoch derivado"
 assert_contains "$CALLS_FILE" "^ATRM 5$" "debe eliminar watchdog anterior"
-assert_not_contains "$CALLS_FILE" "^ATRM 6$" "no debe eliminar jobs no-watchdog"
+assert_contains "$CALLS_FILE" "^ATRM 6$" "debe eliminar followup anterior"
+assert_not_contains "$CALLS_FILE" "^ATRM 7$" "no debe eliminar jobs no-watchdog/no-followup"
 assert_contains "$CALLS_FILE" "^AT -t ${watchdog_token}$" "debe programar watchdog con epoch esperado"
-assert_contains "$JOBS_DIR/7.body" "recover-past-due-closeout\\.sh" "payload watchdog debe ejecutar recovery"
+assert_contains "$CALLS_FILE" "^AT -t ${followup_token}$" "debe programar followup con epoch esperado"
+assert_contains "$JOBS_DIR/8.body" "recover-past-due-closeout\\.sh" "payload watchdog debe ejecutar recovery"
+assert_contains "$JOBS_DIR/9.body" "closeout-window-followup\\.sh" "payload followup debe ejecutar snapshot"
 
 # Case 2: explicit --epoch should work without cooldown file
 rm -f "$CALLS_FILE" "$COOLDOWN_FILE"
@@ -186,11 +195,14 @@ rm -f "$QUEUE_FILE"
 base_epoch2="$((now_epoch + 7200))"
 main_epoch2="$((base_epoch2 + 60))"
 watchdog_epoch2="$((main_epoch2 + 120))"
+followup_epoch2="$((main_epoch2 + 240))"
 watchdog_token2="$(date -r "$watchdog_epoch2" '+%Y%m%d%H%M.%S')"
+followup_token2="$(date -r "$followup_epoch2" '+%Y%m%d%H%M.%S')"
 code="$(run_window "$TMP_DIR/out2.txt" --epoch "$base_epoch2")"
 [[ "$code" -eq 0 ]] || { echo "[FAIL] case2 exit=$code"; cat "$TMP_DIR/out2.txt"; exit 1; }
 assert_contains "$CALLS_FILE" "^SCHED --epoch ${main_epoch2}$" "debe respetar epoch explícito para main"
 assert_contains "$CALLS_FILE" "^AT -t ${watchdog_token2}$" "debe programar watchdog desde epoch explícito"
+assert_contains "$CALLS_FILE" "^AT -t ${followup_token2}$" "debe programar followup desde epoch explícito"
 
 # Case 3: sanitize mode should avoid leaking TEST_SECRET to fake-at
 rm -f "$CALLS_FILE"

@@ -1437,3 +1437,24 @@ En viewport móvil estrecho (`<=480px`) los controles superiores de estudio debe
 ### Impacto
 1. Mayor trazabilidad del cierre en ventanas de cuota.
 2. QA de cierre ampliada y más robusta.
+
+## ADR-LITE-075 — Integrar followup en el orquestador único de ventana
+### Fecha
+2026-03-03
+
+### Decisión
+1. Consolidar en `scripts/schedule-closeout-window.sh` la programación completa `main + watchdog + followup`.
+2. Limpiar idempotentemente jobs previos de watchdog y followup antes de reprogramar.
+3. Endurecer `scripts/tests/test-schedule-closeout-window.sh` para validar:
+   - eliminación de jobs legacy,
+   - tokens `AT -t` de watchdog y followup,
+   - payload correcto de ambos jobs nuevos.
+
+### Motivación
+1. Evitar deriva entre scripts separados durante preparación de ventana.
+2. Reducir riesgo operativo de olvidar programar followup o dejar jobs viejos en cola.
+3. Hacer verificable por test la secuencia completa en una sola orden.
+
+### Impacto
+1. Preparación de ventana más determinista y repetible.
+2. Mayor confianza en automatización de cierre al cubrir cleanup + schedule + payload end-to-end.

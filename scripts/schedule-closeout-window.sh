@@ -8,6 +8,7 @@ HUB_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 COOLDOWN_FILE="${SMA_CLOSEOUT_COOLDOWN_FILE:-$HUB_ROOT/.runtime/vercel-deploy-cooldown.env}"
 SCHEDULER_CMD="${SMA_CLOSEOUT_SCHEDULER_CMD:-$SCRIPT_DIR/schedule-closeout-at.sh}"
 RECOVER_SCRIPT="${SMA_CLOSEOUT_RECOVER_SCRIPT:-$SCRIPT_DIR/recover-past-due-closeout.sh}"
+FOLLOWUP_SCRIPT="${SMA_CLOSEOUT_FOLLOWUP_SCRIPT:-$SCRIPT_DIR/closeout-window-followup.sh}"
 ATQ_CMD="${SMA_ATQ_CMD:-atq}"
 AT_CMD="${SMA_AT_CMD:-at}"
 ATRM_CMD="${SMA_ATRM_CMD:-atrm}"
@@ -15,6 +16,7 @@ AT_FORCE_SANITIZE="${SMA_AT_FORCE_SANITIZE:-0}"
 
 MAIN_OFFSET_SECONDS="${SMA_CLOSEOUT_MAIN_OFFSET_SECONDS:-60}"
 WATCHDOG_DELAY_SECONDS="${SMA_CLOSEOUT_WATCHDOG_DELAY_SECONDS:-120}"
+FOLLOWUP_DELAY_SECONDS="${SMA_CLOSEOUT_FOLLOWUP_DELAY_SECONDS:-240}"
 
 base_epoch_arg=""
 SANITIZED_ENV=()
@@ -28,13 +30,16 @@ Descripción:
   Programa en una sola operación:
   1) job principal de closeout (closeout-at-job.sh) en not_before+MAIN_OFFSET
   2) watchdog de recovery (recover-past-due-closeout.sh) en main_epoch+WATCHDOG_DELAY
+  3) followup snapshot (closeout-window-followup.sh) en main_epoch+FOLLOWUP_DELAY
 
 Env opcional:
   SMA_CLOSEOUT_COOLDOWN_FILE
   SMA_CLOSEOUT_SCHEDULER_CMD
   SMA_CLOSEOUT_RECOVER_SCRIPT
+  SMA_CLOSEOUT_FOLLOWUP_SCRIPT
   SMA_CLOSEOUT_MAIN_OFFSET_SECONDS   (default: 60)
   SMA_CLOSEOUT_WATCHDOG_DELAY_SECONDS (default: 120)
+  SMA_CLOSEOUT_FOLLOWUP_DELAY_SECONDS (default: 240)
   SMA_ATQ_CMD / SMA_AT_CMD / SMA_ATRM_CMD
   SMA_AT_FORCE_SANITIZE=1
 EOF
@@ -63,6 +68,11 @@ if [[ ! "$WATCHDOG_DELAY_SECONDS" =~ ^[0-9]+$ ]]; then
   exit 1
 fi
 
+if [[ ! "$FOLLOWUP_DELAY_SECONDS" =~ ^[0-9]+$ ]]; then
+  echo "[SCHEDULE-WINDOW] SMA_CLOSEOUT_FOLLOWUP_DELAY_SECONDS inválido: $FOLLOWUP_DELAY_SECONDS"
+  exit 1
+fi
+
 if [[ ! -x "$SCHEDULER_CMD" ]]; then
   echo "[SCHEDULE-WINDOW] Scheduler no ejecutable: $SCHEDULER_CMD"
   exit 1
@@ -70,6 +80,11 @@ fi
 
 if [[ ! -x "$RECOVER_SCRIPT" ]]; then
   echo "[SCHEDULE-WINDOW] Recovery no ejecutable: $RECOVER_SCRIPT"
+  exit 1
+fi
+
+if [[ ! -x "$FOLLOWUP_SCRIPT" ]]; then
+  echo "[SCHEDULE-WINDOW] Followup no ejecutable: $FOLLOWUP_SCRIPT"
   exit 1
 fi
 
@@ -134,6 +149,22 @@ remove_old_watchdog_jobs() {
   done <<<"$jobs"
 }
 
+remove_old_followup_jobs() {
+  local jobs line job_id job_body
+  jobs="$("$ATQ_CMD" 2>/dev/null || true)"
+  [[ -z "$jobs" ]] && return 0
+
+  while IFS= read -r line; do
+    [[ -z "$line" ]] && continue
+    job_id="$(printf '%s\n' "$line" | awk '{print $1}')"
+    job_body="$(run_at_cmd -c "$job_id" 2>/dev/null || true)"
+    if printf '%s\n' "$job_body" | rg -q "closeout-window-followup\\.sh|scripts/closeout-window-followup\\.sh"; then
+      "$ATRM_CMD" "$job_id"
+      echo "[SCHEDULE-WINDOW] Removed old followup snapshot job: $job_id"
+    fi
+  done <<<"$jobs"
+}
+
 if [[ -n "$base_epoch_arg" ]]; then
   base_epoch="$base_epoch_arg"
   base_local="$(date -r "$base_epoch" '+%Y-%m-%d %H:%M:%S %Z')"
@@ -156,21 +187,31 @@ fi
 
 main_epoch="$((base_epoch + MAIN_OFFSET_SECONDS))"
 watchdog_epoch="$((main_epoch + WATCHDOG_DELAY_SECONDS))"
+followup_epoch="$((main_epoch + FOLLOWUP_DELAY_SECONDS))"
 main_local="$(date -r "$main_epoch" '+%Y-%m-%d %H:%M:%S %Z')"
 watchdog_local="$(date -r "$watchdog_epoch" '+%Y-%m-%d %H:%M:%S %Z')"
+followup_local="$(date -r "$followup_epoch" '+%Y-%m-%d %H:%M:%S %Z')"
 
 echo "[SCHEDULE-WINDOW] Base window: $base_local ($base_epoch)"
 echo "[SCHEDULE-WINDOW] Main closeout: $main_local ($main_epoch)"
 echo "[SCHEDULE-WINDOW] Watchdog: $watchdog_local ($watchdog_epoch)"
+echo "[SCHEDULE-WINDOW] Followup: $followup_local ($followup_epoch)"
 
 "$SCHEDULER_CMD" --epoch "$main_epoch"
 
 remove_old_watchdog_jobs
+remove_old_followup_jobs
 
 {
   printf '%s\n' "$RECOVER_SCRIPT"
 } | run_at_cmd -t "$(date -r "$watchdog_epoch" '+%Y%m%d%H%M.%S')"
 
 echo "[SCHEDULE-WINDOW] Scheduled recovery watchdog at epoch: $watchdog_epoch ($watchdog_local)"
+
+{
+  printf '%s\n' "$FOLLOWUP_SCRIPT"
+} | run_at_cmd -t "$(date -r "$followup_epoch" '+%Y%m%d%H%M.%S')"
+
+echo "[SCHEDULE-WINDOW] Scheduled followup snapshot at epoch: $followup_epoch ($followup_local)"
 echo "[SCHEDULE-WINDOW] Current queue:"
 "$ATQ_CMD" || true
