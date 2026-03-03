@@ -1365,3 +1365,37 @@ En viewport móvil estrecho (`<=480px`) los controles superiores de estudio debe
 ### Impacto
 1. Cierre más resiliente ante incidentes de scheduling local.
 2. Estado de runtime consistente (`auto-closeout-status.env`, cooldown y next retry) incluso tras fallback manual.
+
+## ADR-LITE-071 — Recovery automático para jobs closeout past-due
+### Fecha
+2026-03-03
+
+### Decisión
+1. Añadir `scripts/recover-past-due-closeout.sh` como mitigación automática de jobs stale.
+2. Definir criterio de stale por `now >= not_before_epoch + grace` y job closeout aún en cola.
+3. Ejecutar cleanup + fallback con código de salida trazable (`2` cuando aplica recovery).
+
+### Motivación
+1. Reducir dependencia de intervención manual en ventanas críticas de cierre.
+2. Encapsular el runbook de contingencia en un comando versionado y testeado.
+3. Evitar bloqueos prolongados de `5.4` por incidencias de scheduler local.
+
+### Impacto
+1. Mayor resiliencia del pipeline operativo de cierre.
+2. Integración en QA suite para detectar regresiones del recovery.
+
+## ADR-LITE-072 — Tolerancia de frontera temporal en test de wait-runner
+### Fecha
+2026-03-03
+
+### Decisión
+1. Ajustar `test-closeout-wait-and-run.sh` para aceptar ambos mensajes válidos en cooldown de 1 segundo.
+2. Mantener aserción funcional sobre ejecución real de deploy en ese escenario.
+
+### Motivación
+1. El resultado depende de microtiming del reloj del sistema y era flakey.
+2. Se necesita suite de cierre determinista para no bloquear `5.4` por ruido de tests.
+
+### Impacto
+1. QA suite más estable en ejecuciones repetidas.
+2. Menor ruido operacional durante ventanas de cuota.

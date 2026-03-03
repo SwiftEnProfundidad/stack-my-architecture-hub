@@ -198,7 +198,7 @@ Documento operativo de cierre para la fase `5.4` del plan activo:
    - Script:
      - `scripts/run-closeout-qa-suite.sh [full|tests]`
    - Comportamiento:
-     - `tests`: ejecuta las 6 suites de regresión de closeout.
+     - `tests`: ejecuta las suites de regresión de closeout (actualmente 7).
      - `full`: ejecuta suites + checks runtime (`atq` + `closeout-readiness`), aceptando `readiness=2` como estado válido de espera.
    - Evidencia:
      - `2026-03-03 01:00 CET` -> `./scripts/run-closeout-qa-suite.sh tests` y `./scripts/run-closeout-qa-suite.sh full` -> verde.
@@ -254,6 +254,34 @@ Documento operativo de cierre para la fase `5.4` del plan activo:
      - `2026-03-03 01:20 CET` -> `./scripts/run-closeout-qa-suite.sh tests` -> verde.
      - `2026-03-03 01:24 CET` -> job closeout recreado con scheduler hardened (`job 11`, `02:02 CET`).
      - `2026-03-03 01:24 CET` -> `at -c 11 | rg 'OPENAI_API_KEY|HEYGEN_API_KEY|sk-'` -> sin coincidencias.
+
+22. `P3` `✅` Recovery automático de jobs closeout past-due.
+   - Script:
+     - `scripts/recover-past-due-closeout.sh`
+   - Comportamiento:
+     - detecta job closeout stale cuando el cooldown ya venció más un margen (`SMA_CLOSEOUT_GRACE_SECONDS`).
+     - elimina el job stale y ejecuta fallback manual (`closeout-at-job.sh` o override).
+   - Cobertura:
+     - `scripts/tests/test-recover-past-due-closeout.sh` cubre:
+       - cooldown activo (sin recovery),
+       - cooldown expirado sin job,
+       - cooldown expirado con job stale (recovery),
+       - error en fallback (propagación de exit code).
+   - Evidencia:
+     - `2026-03-03 02:18 CET` -> `./scripts/tests/test-recover-past-due-closeout.sh` -> `[PASS]`.
+     - `2026-03-03 02:18 CET` -> `./scripts/run-closeout-qa-suite.sh tests` (7 suites) -> verde.
+     - `2026-03-03 02:18 CET` -> `./scripts/recover-past-due-closeout.sh` en runtime -> sin recovery (`within grace`).
+
+23. `P3` `✅` Estabilización de test flakey en wait-runner.
+   - Test:
+     - `scripts/tests/test-closeout-wait-and-run.sh` (case `short cooldown`).
+   - Ajuste:
+     - la aserción acepta ambos caminos válidos en frontera temporal:
+       - espera explícita y apertura de ventana,
+       - cooldown ya expirado al inicio.
+   - Evidencia:
+     - `2026-03-03 02:20 CET` -> `./scripts/tests/test-closeout-wait-and-run.sh` -> `[PASS]`.
+     - `2026-03-03 02:20 CET` -> `./scripts/run-closeout-qa-suite.sh tests` -> verde estable.
 
 4. `P3` `⏳` Cerrar `5.4` y congelar handoff final.
    - Alcance:
