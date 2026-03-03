@@ -1922,3 +1922,23 @@ Se necesitaba evidencia automática post-ventana incluso sin sesión interactiva
 2. `./scripts/run-closeout-qa-suite.sh tests` -> verde (9 suites).
 3. Runtime real:
    - job `17` programado a `16:12 CET` para ejecutar followup tras `job 15` (main) y `job 16` (watchdog).
+
+## Automatización de ventana — integración total `main + watchdog + followup`
+### Fecha
+2026-03-03
+
+### Contexto
+El orquestador de ventana ya programaba `main + watchdog`, pero faltaba blindar por test la integración explícita del followup y su limpieza idempotente.
+
+### Cambios aplicados
+1. `scripts/schedule-closeout-window.sh` documenta y ejecuta la secuencia completa `main + watchdog + followup`.
+2. El orquestador limpia jobs antiguos de watchdog y followup antes de reprogramar ventana.
+3. `scripts/tests/test-schedule-closeout-window.sh` se refuerza para validar:
+   - `ATRM` de watchdog/followup antiguos,
+   - `AT -t` esperado para watchdog y followup,
+   - payload correcto de ambos jobs nuevos.
+
+### Verificación
+1. `./scripts/tests/test-schedule-closeout-window.sh` -> `[PASS]`.
+2. `./scripts/tests/test-closeout-window-followup.sh` -> `[PASS]`.
+3. `./scripts/run-closeout-qa-suite.sh tests` -> verde (9 suites).

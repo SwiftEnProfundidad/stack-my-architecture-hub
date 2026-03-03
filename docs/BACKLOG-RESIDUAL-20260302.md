@@ -284,19 +284,22 @@ Documento operativo de cierre para la fase `5.4` del plan activo:
      - `2026-03-03 02:20 CET` -> `./scripts/tests/test-closeout-wait-and-run.sh` -> `[PASS]`.
      - `2026-03-03 02:20 CET` -> `./scripts/run-closeout-qa-suite.sh tests` -> verde estable.
 
-24. `P3` `✅` Orquestador de ventana (main + watchdog) en comando único.
+24. `P3` `✅` Orquestador de ventana (main + watchdog + followup) en comando único.
    - Script:
      - `scripts/schedule-closeout-window.sh [--epoch <unix_epoch>]`
    - Comportamiento:
      - calcula y programa job principal (`not_before + main_offset`),
      - limpia y reprogama watchdog (`main_epoch + watchdog_delay`),
+     - limpia y reprogama followup (`main_epoch + followup_delay`),
      - usa scheduler/versionado existente + entorno saneado para `at`.
    - Cobertura:
-     - `scripts/tests/test-schedule-closeout-window.sh`
+     - `scripts/tests/test-schedule-closeout-window.sh` (incluye assertions de scheduling + payload para watchdog/followup).
    - Evidencia:
      - `2026-03-03 02:28 CET` -> `./scripts/tests/test-schedule-closeout-window.sh` -> `[PASS]`.
      - `2026-03-03 02:28 CET` -> `./scripts/run-closeout-qa-suite.sh tests` (8 suites en ese momento) -> verde.
      - `2026-03-03 02:29 CET` -> `./scripts/schedule-closeout-window.sh` refresca cola a `job 15` (`16:08`) + `job 16` (`16:10`).
+     - `2026-03-03 02:39 CET` -> refuerzo de test para validar followup integrado (`AT -t` watchdog+followup + cleanup idempotente de jobs viejos) -> `[PASS]`.
+     - `2026-03-03 02:39 CET` -> `./scripts/run-closeout-qa-suite.sh tests` -> verde (9 suites).
 
 25. `P3` `✅` Snapshot post-ventana automatizado.
    - Script:

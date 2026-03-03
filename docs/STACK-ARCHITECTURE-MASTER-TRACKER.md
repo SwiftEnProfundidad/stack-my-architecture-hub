@@ -813,3 +813,18 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
      - `https://architecture-stack.vercel.app`
      - `https://architecture-stack-4zketscuo-merlosalbarracins-projects.vercel.app`
    - Estado operativo: ✅ bloque cerrado.
+
+## Actualizacion 2026-03-03 (6) — Orquestador closeout con followup integrado
+1. Alcance: Hub (`scripts/`) + tracking operativo.
+2. Cambio:
+   - `scripts/schedule-closeout-window.sh` documenta y ejecuta la secuencia completa en una sola orden:
+     - job principal de closeout,
+     - watchdog de recovery,
+     - followup snapshot.
+3. Cobertura reforzada:
+   - `scripts/tests/test-schedule-closeout-window.sh` valida cleanup idempotente de jobs watchdog/followup previos, scheduling de ambos (`AT -t`) y payload correcto en jobs nuevos.
+4. Validación:
+   - `./scripts/tests/test-schedule-closeout-window.sh` -> PASS.
+   - `./scripts/tests/test-closeout-window-followup.sh` -> PASS.
+   - `./scripts/run-closeout-qa-suite.sh tests` -> PASS (9 suites).
+5. Estado: ✅ Hecho.
