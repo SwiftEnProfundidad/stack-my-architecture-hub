@@ -69,6 +69,8 @@ if [[ -f "$COOLDOWN_FILE" ]]; then
     remaining="$((not_before_epoch - now_epoch))"
     remaining_hours="$((remaining / 3600))"
     remaining_minutes="$(((remaining % 3600) / 60))"
+    suggested_epoch="$((not_before_epoch + 60))"
+    suggested_local="$(date -r "$suggested_epoch" '+%Y-%m-%d %H:%M:%S %Z')"
     echo "[CLOSEOUT-READINESS] Estado: EN ESPERA"
     echo "[CLOSEOUT-READINESS] Motivo: $reason"
     echo "[CLOSEOUT-READINESS] Not before: $not_before_local"
@@ -85,11 +87,13 @@ if [[ -f "$COOLDOWN_FILE" ]]; then
 
     if active_job_line="$(find_active_closeout_job)"; then
       echo "[CLOSEOUT-READINESS] Job automático activo: $active_job_line"
+      echo "[CLOSEOUT-READINESS] Sugerencia: si el job está más tarde que la ventana, reprograma a:"
+      echo "[CLOSEOUT-READINESS]   ./scripts/schedule-closeout-at.sh --epoch $suggested_epoch  # $suggested_local"
       exit 2
     fi
 
     echo "[CLOSEOUT-READINESS] ATENCIÓN: no hay job de closeout programado."
-    echo "[CLOSEOUT-READINESS] Ejecuta: ./scripts/schedule-closeout-at.sh 15:50"
+    echo "[CLOSEOUT-READINESS] Ejecuta: ./scripts/schedule-closeout-at.sh --epoch $suggested_epoch  # $suggested_local"
     exit 3
   fi
 fi

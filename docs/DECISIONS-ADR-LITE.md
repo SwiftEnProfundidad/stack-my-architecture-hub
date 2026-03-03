@@ -1271,3 +1271,23 @@ En viewport móvil estrecho (`<=480px`) los controles superiores de estudio debe
 ### Impacto
 1. Mayor confianza operativa antes de ventana de despliegue.
 2. Menor riesgo de decisiones de cierre basadas en estado incorrecto.
+
+## ADR-LITE-066 — Recomendación dinámica por epoch en `closeout-readiness`
+### Fecha
+2026-03-03
+
+### Decisión
+1. Cambiar la guía de reprogramación de `closeout-readiness.sh`:
+   - dejar de recomendar una hora fija (`15:50`),
+   - recomendar `schedule-closeout-at.sh --epoch <not_before+60s>`.
+2. Mantener `EXIT_CODE=2` cuando hay job activo, añadiendo sugerencia explícita de reprogramación si conviene adelantar a ventana.
+3. Ampliar `scripts/tests/test-closeout-readiness.sh` para cubrir esta recomendación dinámica.
+
+### Motivación
+1. Evitar colas programadas demasiado tarde respecto a la ventana real de cuota.
+2. Reducir pasos manuales y errores de interpretación en operaciones de madrugada.
+3. Alinear readiness con estrategia de cierre automática y determinista.
+
+### Impacto
+1. Operación más precisa para llegar a la primera ventana útil sin esperar horas extra.
+2. Mayor claridad en runbooks de `5.4` durante estado de cooldown.

@@ -109,6 +109,7 @@ Documento operativo de cierre para la fase `5.4` del plan activo:
    - Evidencia:
      - `atq` muestra job activo en `Tue Mar 3 15:50:00 2026`.
      - `at -c <job_id_activo>` referencia `scripts/closeout-at-job.sh`.
+     - `2026-03-03 01:08 CET` -> job closeout reprogramado por epoch (`not_before+60s`) a `Tue Mar 3 02:02:00 2026`.
    - Criterio de cierre:
      - garantizar intento automático en primera ventana útil sin intervención manual.
 
@@ -196,6 +197,18 @@ Documento operativo de cierre para la fase `5.4` del plan activo:
      - `full`: ejecuta suites + checks runtime (`atq` + `closeout-readiness`), aceptando `readiness=2` como estado válido de espera.
    - Evidencia:
      - `2026-03-03 01:00 CET` -> `./scripts/run-closeout-qa-suite.sh tests` y `./scripts/run-closeout-qa-suite.sh full` -> verde.
+
+18. `P3` `✅` Guidance dinámica de reprogramación en readiness.
+   - Script:
+     - `scripts/closeout-readiness.sh [--verbose]`
+   - Comportamiento:
+     - con cooldown activo calcula `suggested_epoch=not_before_epoch+60`.
+     - si no hay job automático devuelve `EXIT_CODE=3` y recomienda `schedule-closeout-at.sh --epoch <suggested_epoch>`.
+     - si hay job activo mantiene `EXIT_CODE=2` y muestra sugerencia de reprogramación al epoch recomendado.
+   - Evidencia:
+     - `2026-03-03 01:06 CET` -> `./scripts/tests/test-closeout-readiness.sh` -> `[PASS]`.
+     - `2026-03-03 01:06 CET` -> `./scripts/run-closeout-qa-suite.sh tests` y `./scripts/run-closeout-qa-suite.sh full` -> verde.
+     - `2026-03-03 01:08 CET` -> `./scripts/schedule-closeout-at.sh --epoch 1772499746` -> cola actualizada (`job 9`, `02:02 CET`).
 
 4. `P3` `⏳` Cerrar `5.4` y congelar handoff final.
    - Alcance:

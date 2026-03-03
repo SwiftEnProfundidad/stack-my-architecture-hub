@@ -224,7 +224,7 @@ Repos incluidos:
      - script: `scripts/closeout-wait-and-run.sh [fast|strict] [base_url]`
      - validación segura: `2026-03-03 00:01 CET` con `SMA_CLOSEOUT_MAX_WAIT_SECONDS=60` (salida controlada sin intento de deploy).
    - orquestación programada de reintento:
-     - `at` job activo en `2026-03-03 15:50 CET` (posterior a `not-before 15:49 CET`).
+     - `at` job inicial en `2026-03-03 15:50 CET` y reprogamado por epoch a `2026-03-03 02:02 CET` (`not_before+60s`).
      - job file versionado: `scripts/closeout-at-job.sh`.
      - scheduler versionado: `scripts/schedule-closeout-at.sh [hora]`.
      - objetivo: ejecutar `closeout-wait-and-run.sh fast` automáticamente en la primera ventana útil.
@@ -233,6 +233,7 @@ Repos incluidos:
    - comando operativo de readiness:
      - `scripts/closeout-readiness.sh [--verbose]` para saber si 5.3/5.4 están listos de cierre sin inspección manual.
      - guard adicional: verifica cola `at`; si no hay job automático activo con cooldown vigente devuelve `EXIT_CODE=3`.
+     - guidance dinámica: con cooldown activo recomienda `./scripts/schedule-closeout-at.sh --epoch <not_before+60s>` (evita depender de hora fija `15:50`).
      - cobertura de regresión: `scripts/tests/test-closeout-readiness.sh` valida los 4 estados (`1/3/2/0`) sin tocar la cola real de `at`.
    - cobertura de scheduler: `scripts/tests/test-schedule-closeout-at.sh` valida programación por hora/epoch y limpieza idempotente de jobs closeout.
    - cobertura de job automático: `scripts/tests/test-closeout-at-job.sh` valida éxito/fallo, flag de cierre y auto-reschedule.
