@@ -218,6 +218,17 @@ Repos incluidos:
    - runner end-to-end de cierre:
      - script: `scripts/deploy-and-verify-closeout.sh [fast|strict] [base_url]`
      - guard de cuota activo vía `.runtime/vercel-deploy-cooldown.env`.
+13. ✅ Hardening anti-cache + bypass local auth (2026-03-03):
+   - Hub:
+     - servidor local con cabeceras `no-store/no-cache` para invalidación estricta de caché.
+     - build pipeline con versionado automático de assets (`?v=`) por build.
+     - verificación de build adaptada para ignorar difs de versionado de assets.
+     - `vercel.json` con cabeceras anti-cache globales.
+   - iOS/Android/SDD:
+     - `course-switcher.js` permite acceso local sin login cloud (`localhost` y LAN privada), manteniendo gate de auth en entornos remotos.
+   - validación:
+     - `SKIP_RUNTIME_SMOKE=1 ./scripts/build-hub.sh --mode fast` -> PASS.
+     - smoke local Playwright: `index -> curso` sin redirección a login en local.
      - ejecución histórica con intento real: `2026-03-02 23:49 CET` (build OK, deploy bloqueado por cuota).
      - última ejecución con intento real: `2026-03-03 02:07 CET` (build OK, deploy bloqueado por cuota, retry `~14h`).
      - última ejecución guardada: `2026-03-03 02:45 CET` (cooldown activo, sin consumir intento).

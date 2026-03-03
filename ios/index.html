@@ -6,17 +6,17 @@
 <meta name="darkreader-lock">
 <meta name="course-id" content="stack-my-architecture-ios">
 <title>Stack: My Architecture iOS</title>
-<link rel="stylesheet" href="assets/study-ux.css?v=1772525216">
-<link rel="stylesheet" href="assets/course-switcher.css?v=1772525216">
-<link rel="stylesheet" href="assets/assistant-panel.css?v=1772525216">
-<script>window.__SMA_ASSISTANT_PANEL_SRC = "assets/assistant-panel.js?v=1772525216";</script>
+<link rel="stylesheet" href="assets/study-ux.css?v=1772538236">
+<link rel="stylesheet" href="assets/course-switcher.css?v=1772538236">
+<link rel="stylesheet" href="assets/assistant-panel.css?v=1772538236">
+<script>window.__SMA_ASSISTANT_PANEL_SRC = "assets/assistant-panel.js?v=1772538236";</script>
 <script>window.__SMA_MERMAID_SRC = "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js";</script>
 <script>window.__SMA_HLJS_CORE_SRC = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js";</script>
 <script>window.__SMA_HLJS_SWIFT_SRC = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/swift.min.js";</script>
-<script defer src="assets/study-ux.js?v=1772525216"></script>
-<script defer src="assets/course-switcher.js?v=1772525216"></script>
-<script defer src="assets/theme-controls.js?v=1772525216"></script>
-<script defer src="assets/assistant-bridge.js?v=1772525216"></script>
+<script defer src="assets/study-ux.js?v=1772538236"></script>
+<script defer src="assets/course-switcher.js?v=1772538236"></script>
+<script defer src="assets/theme-controls.js?v=1772538236"></script>
+<script defer src="assets/assistant-bridge.js?v=1772538236"></script>
 
 <!-- Google Fonts - Inter -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -747,32 +747,6 @@ p code, li code, td code {
 .sma-legend-arrow.contract-open { color: var(--mermaid-legend-contract); }
 .sma-legend-arrow.solid-open { color: var(--mermaid-legend-solid-open); }
 
-.sma-inline-arrow-token {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 50px;
-    padding: 3px 6px;
-}
-
-.sma-inline-arrow-token .sma-legend-arrow {
-    width: 34px;
-    height: 12px;
-    flex: 0 0 34px;
-}
-
-.sma-sr-only {
-    position: absolute !important;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
-}
-
 .sma-architecture-block {
     margin-top: var(--space-md);
 }
@@ -967,11 +941,6 @@ html[data-theme][data-style] pre.mermaid marker polyline {
     fill: var(--mermaid-line) !important;
     stroke: var(--mermaid-line) !important;
     opacity: 1 !important;
-}
-
-html[data-theme][data-style] pre.mermaid marker path.sma-open-arrowhead {
-    fill: none !important;
-    stroke: var(--mermaid-line) !important;
 }
 
 html[data-theme][data-style] pre.mermaid .edgeLabel rect,
@@ -2051,7 +2020,7 @@ blockquote p {
   <li><code>--&gt;</code> dependencia directa en runtime (linea continua, punta cerrada).</li>
   <li><code>--o</code> relacion continua con punta abierta.</li>
   <li><code>-.-&gt;</code> wiring/configuracion (linea discontinua, punta cerrada).</li>
-  <li><code>-.-o</code> dependencia discontinua contra contrato/abstraccion (punta abierta).</li>
+  <li><code>-.o</code> dependencia discontinua contra contrato/abstraccion (punta abierta).</li>
 </ol>
 <h3 id="00-core-mobile-00-introduccion-zoom-de-detalle-por-feature">Zoom de detalle por feature</h3>
 <p>Para evitar sobrecarga visual en el mapa global, aquí tienes dos vistas de detalle separadas:</p>
@@ -2139,7 +2108,7 @@ blockquote p {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-o PORT
+    UC -.o PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
@@ -2147,7 +2116,7 @@ blockquote p {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -2227,7 +2196,7 @@ blockquote p {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-o PORT
+    UC -.o PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
@@ -2235,7 +2204,7 @@ blockquote p {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -2330,7 +2299,7 @@ blockquote p {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-o PORT
+    UC -.o PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
@@ -2338,7 +2307,7 @@ blockquote p {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -2451,7 +2420,7 @@ blockquote p {
 
   VM --&gt; UC
   UC --&gt; ENT
-  UC -.-o PORT
+  UC -.o PORT
   BOOT -.-&gt; PORT
   BOOT -.-&gt; API
   BOOT -.-&gt; STORE
@@ -2478,7 +2447,7 @@ blockquote p {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.-o</code> dependencia discontinua contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia discontinua contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ol>
 </section>
@@ -2573,7 +2542,7 @@ blockquote p {
 
   VM --&gt; UC
   UC --&gt; ENT
-  UC -.-o PORT
+  UC -.o PORT
   BOOT -.-&gt; PORT
   BOOT -.-&gt; API
   BOOT -.-&gt; STORE
@@ -2600,7 +2569,7 @@ blockquote p {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.-o</code> dependencia discontinua contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia discontinua contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ol>
 </section>
@@ -2664,7 +2633,7 @@ blockquote p {
 
   VM --&gt; UC
   UC --&gt; ENT
-  UC -.-o PORT
+  UC -.o PORT
   BOOT -.-&gt; PORT
   BOOT -.-&gt; API
   BOOT -.-&gt; STORE
@@ -2691,7 +2660,7 @@ blockquote p {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.-o</code> dependencia discontinua contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia discontinua contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ol>
 </section>
@@ -2803,7 +2772,7 @@ blockquote p {
 
   VM --&gt; UC
   UC --&gt; ENT
-  UC -.-o PORT
+  UC -.o PORT
   BOOT -.-&gt; PORT
   BOOT -.-&gt; API
   BOOT -.-&gt; STORE
@@ -2830,7 +2799,7 @@ blockquote p {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.-o</code> dependencia discontinua contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia discontinua contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ol>
 </section>
@@ -2956,7 +2925,7 @@ blockquote p {
 
   VM --&gt; UC
   UC --&gt; ENT
-  UC -.-o PORT
+  UC -.o PORT
   BOOT -.-&gt; PORT
   BOOT -.-&gt; API
   BOOT -.-&gt; STORE
@@ -2983,7 +2952,7 @@ blockquote p {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.-o</code> dependencia discontinua contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia discontinua contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ol>
 </section>
@@ -3065,7 +3034,7 @@ blockquote p {
 
   VM --&gt; UC
   UC --&gt; ENT
-  UC -.-o PORT
+  UC -.o PORT
   BOOT -.-&gt; PORT
   BOOT -.-&gt; API
   BOOT -.-&gt; STORE
@@ -3092,7 +3061,7 @@ blockquote p {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.-o</code> dependencia discontinua contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia discontinua contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ol>
 </section>
@@ -3348,7 +3317,7 @@ blockquote p {
 
   VM --&gt; UC
   UC --&gt; ENT
-  UC -.-o PORT
+  UC -.o PORT
   BOOT -.-&gt; PORT
   BOOT -.-&gt; API
   BOOT -.-&gt; STORE
@@ -3375,7 +3344,7 @@ blockquote p {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.-o</code> dependencia discontinua contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia discontinua contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ol>
 </section>
@@ -3477,7 +3446,7 @@ blockquote p {
 
   VM --&gt; UC
   UC --&gt; ENT
-  UC -.-o PORT
+  UC -.o PORT
   BOOT -.-&gt; PORT
   BOOT -.-&gt; API
   BOOT -.-&gt; STORE
@@ -3504,7 +3473,7 @@ blockquote p {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.-o</code> dependencia discontinua contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia discontinua contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ol>
 </section>
@@ -3611,7 +3580,7 @@ blockquote p {
 
   VM --&gt; UC
   UC --&gt; ENT
-  UC -.-o PORT
+  UC -.o PORT
   BOOT -.-&gt; PORT
   BOOT -.-&gt; API
   BOOT -.-&gt; STORE
@@ -3638,7 +3607,7 @@ blockquote p {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.-o</code> dependencia discontinua contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia discontinua contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ol>
 </section>
@@ -3916,7 +3885,7 @@ blockquote p {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-o PORT
+    UC -.o PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
@@ -3924,7 +3893,7 @@ blockquote p {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -4316,7 +4285,7 @@ sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer</code></pr
 
   VM --&gt; UC
   UC --&gt; ENT
-  UC -.-o PORT
+  UC -.o PORT
   BOOT -.-&gt; PORT
   BOOT -.-&gt; API
   BOOT -.-&gt; STORE
@@ -4343,7 +4312,7 @@ sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer</code></pr
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ol>
 </section>
@@ -4504,7 +4473,7 @@ sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer</code></pr
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-o PORT
+    UC -.o PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
@@ -4512,7 +4481,7 @@ sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer</code></pr
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -4705,7 +4674,7 @@ Then rechaza el email                         } catch {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-o PORT
+    UC -.o PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
@@ -4713,7 +4682,7 @@ Then rechaza el email                         } catch {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -5074,7 +5043,7 @@ struct InMemoryProductStore: ProductStore {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-o PORT
+    UC -.o PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
@@ -5082,7 +5051,7 @@ struct InMemoryProductStore: ProductStore {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -5308,7 +5277,7 @@ struct InMemoryProductStore: ProductStore {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-o PORT
+    UC -.o PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
@@ -5316,7 +5285,7 @@ struct InMemoryProductStore: ProductStore {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -5489,7 +5458,7 @@ struct InMemoryProductStore: ProductStore {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-o PORT
+    UC -.o PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
@@ -5497,7 +5466,7 @@ struct InMemoryProductStore: ProductStore {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -5758,7 +5727,7 @@ Scenario: Login exitoso con credenciales válidas
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-o PORT
+    UC -.o PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
@@ -5766,7 +5735,7 @@ Scenario: Login exitoso con credenciales válidas
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -6198,7 +6167,7 @@ struct Session: Equatable, Sendable {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-o PORT
+    UC -.o PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
@@ -6206,7 +6175,7 @@ struct Session: Equatable, Sendable {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -6829,7 +6798,7 @@ final class LoginUseCaseTests: XCTestCase {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-o PORT
+    UC -.o PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
@@ -6837,7 +6806,7 @@ final class LoginUseCaseTests: XCTestCase {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -7287,7 +7256,7 @@ return Session(token: authResponse.access_token!, email: credentials.email.value
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-o PORT
+    UC -.o PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
@@ -7295,7 +7264,7 @@ return Session(token: authResponse.access_token!, email: credentials.email.value
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -7865,7 +7834,7 @@ struct StackMyArchitectureApp: App {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-o PORT
+    UC -.o PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
@@ -7873,7 +7842,7 @@ struct StackMyArchitectureApp: App {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -8156,7 +8125,7 @@ client.receivedRequests.first?.httpBody   // → el JSON del body</code></pre>
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-o PORT
+    UC -.o PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
@@ -8164,7 +8133,7 @@ client.receivedRequests.first?.httpBody   // → el JSON del body</code></pre>
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -8614,7 +8583,7 @@ class LoginViewModel {
 
   VM --&gt; UC
   UC --&gt; ENT
-  UC -.-o PORT
+  UC -.o PORT
   BOOT -.-&gt; PORT
   BOOT -.-&gt; API
   BOOT -.-&gt; STORE
@@ -8641,7 +8610,7 @@ class LoginViewModel {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ol>
 </section>
@@ -8764,7 +8733,7 @@ class LoginViewModel {
 
   VM --&gt; UC
   UC --&gt; ENT
-  UC -.-o PORT
+  UC -.o PORT
   BOOT -.-&gt; PORT
   BOOT -.-&gt; API
   BOOT -.-&gt; STORE
@@ -8791,7 +8760,7 @@ class LoginViewModel {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ol>
 </section>
@@ -9142,7 +9111,7 @@ class LoginViewModel {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-o PORT
+    UC -.o PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
@@ -9150,7 +9119,7 @@ class LoginViewModel {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -9549,7 +9518,7 @@ Scenario: Carga exitosa con productos disponibles
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-o PORT
+    UC -.o PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
@@ -9557,7 +9526,7 @@ Scenario: Carga exitosa con productos disponibles
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -9890,7 +9859,7 @@ final class ProductDomainTests: XCTestCase {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-o PORT
+    UC -.o PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
@@ -9898,7 +9867,7 @@ final class ProductDomainTests: XCTestCase {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -10356,7 +10325,7 @@ actor ProductRepositorySpy: ProductRepository {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-o PORT
+    UC -.o PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
@@ -10364,7 +10333,7 @@ actor ProductRepositorySpy: ProductRepository {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -10802,7 +10771,7 @@ final class RemoteProductRepositoryTests: XCTestCase {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-o PORT
+    UC -.o PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
@@ -10810,7 +10779,7 @@ final class RemoteProductRepositoryTests: XCTestCase {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -11309,7 +11278,7 @@ final class CatalogViewModelTests: XCTestCase {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-o PORT
+    UC -.o PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
@@ -11317,7 +11286,7 @@ final class CatalogViewModelTests: XCTestCase {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -11670,7 +11639,7 @@ final class AppCoordinatorTests: XCTestCase {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-o PORT
+    UC -.o PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
@@ -11678,7 +11647,7 @@ final class AppCoordinatorTests: XCTestCase {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -12073,7 +12042,7 @@ struct Session: Equatable, Hashable, Sendable {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-o PORT
+    UC -.o PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
@@ -12081,7 +12050,7 @@ struct Session: Equatable, Hashable, Sendable {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -12520,7 +12489,7 @@ final class URLSessionHTTPClientTests: XCTestCase {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-o PORT
+    UC -.o PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
@@ -12528,7 +12497,7 @@ final class URLSessionHTTPClientTests: XCTestCase {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -12842,7 +12811,7 @@ final class CatalogIntegrationTests: XCTestCase {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-o PORT
+    UC -.o PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
@@ -12850,7 +12819,7 @@ final class CatalogIntegrationTests: XCTestCase {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -13151,7 +13120,7 @@ let viewModel = LoginViewModel(loginUseCase: useCase, onLoginSucceeded: { _ in }
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-o PORT
+    UC -.o PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
@@ -13159,7 +13128,7 @@ let viewModel = LoginViewModel(loginUseCase: useCase, onLoginSucceeded: { _ in }
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -14456,7 +14425,7 @@ if #available(iOS 26, *) {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-o PORT
+    UC -.o PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
@@ -14464,7 +14433,7 @@ if #available(iOS 26, *) {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -15357,7 +15326,7 @@ func test_load_cancels_previous_load() async {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-o PORT
+    UC -.o PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
@@ -15365,7 +15334,7 @@ func test_load_cancels_previous_load() async {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -15441,8 +15410,8 @@ func test_load_cancels_previous_load() async {
     LVM --&gt; COORD
     CVM --&gt; COORD
 
-    LUC -.-o LGW
-    CUC -.-o CREPO
+    LUC -.o LGW
+    CUC -.o CREPO
 
     LREMOTE --o LGW
     CREMOTE --o CREPO
@@ -15458,7 +15427,7 @@ func test_load_cancels_previous_load() async {
 </ol>
 <p>   <code>CompositionRoot</code> no “ejecuta negocio”; <strong>construye e inyecta</strong> <code>AppCoordinator</code> y adapters.</p>
 <ol>
-  <li><code>-.-o</code> contrato/abstracción:</li>
+  <li><code>-.o</code> contrato/abstracción:</li>
 </ol>
 <p>   los use cases apuntan a puertos (<code>AuthGateway</code>, <code>ProductRepository</code>) y no a implementaciones concretas.</p>
 <ol>
@@ -16192,7 +16161,7 @@ class LoginViewModel {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-o PORT
+    UC -.o PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
@@ -16200,7 +16169,7 @@ class LoginViewModel {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -16577,7 +16546,7 @@ class LoginViewModel {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-o PORT
+    UC -.o PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
@@ -16585,7 +16554,7 @@ class LoginViewModel {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -17118,7 +17087,7 @@ protocol FavoritesRepository {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-o PORT
+    UC -.o PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
@@ -17126,7 +17095,7 @@ protocol FavoritesRepository {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -17686,7 +17655,7 @@ func test_loadProducts_ignoresExpiredCache() async throws {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-o PORT
+    UC -.o PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
@@ -17694,7 +17663,7 @@ func test_loadProducts_ignoresExpiredCache() async throws {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -18167,7 +18136,7 @@ final class CachedProductRepositoryConsistencyTests: XCTestCase {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-o PORT
+    UC -.o PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
@@ -18175,7 +18144,7 @@ final class CachedProductRepositoryConsistencyTests: XCTestCase {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -18672,7 +18641,7 @@ func test_loggingDecorator_emitsEventsInOrder() async throws {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-o PORT
+    UC -.o PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
@@ -18680,7 +18649,7 @@ func test_loggingDecorator_emitsEventsInOrder() async throws {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -19122,7 +19091,7 @@ struct FixedClock: Clock {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-o PORT
+    UC -.o PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
@@ -19130,7 +19099,7 @@ struct FixedClock: Clock {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -19561,7 +19530,7 @@ struct FixedClock: Clock {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-o PORT
+    UC -.o PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
@@ -19569,7 +19538,7 @@ struct FixedClock: Clock {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -20060,7 +20029,7 @@ final class SwiftDataProductStoreTests: XCTestCase {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-o PORT
+    UC -.o PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
@@ -20068,7 +20037,7 @@ final class SwiftDataProductStoreTests: XCTestCase {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -20600,7 +20569,7 @@ func test_composition_worksWithStubRepository() async throws {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-o PORT
+    UC -.o PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
@@ -20608,7 +20577,7 @@ func test_composition_worksWithStubRepository() async throws {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -20922,7 +20891,7 @@ func test_composition_worksWithStubRepository() async throws {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-o PORT
+    UC -.o PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
@@ -20930,7 +20899,7 @@ func test_composition_worksWithStubRepository() async throws {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -21429,7 +21398,7 @@ func test_composition_worksWithStubRepository() async throws {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-o PORT
+    UC -.o PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
@@ -21437,7 +21406,7 @@ func test_composition_worksWithStubRepository() async throws {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -21890,7 +21859,7 @@ final class CatalogToOrderItemMapperTests: XCTestCase {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-o PORT
+    UC -.o PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
@@ -21898,7 +21867,7 @@ final class CatalogToOrderItemMapperTests: XCTestCase {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -22299,7 +22268,7 @@ echo "Feature cross-imports OK"</code></pre>
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-o PORT
+    UC -.o PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
@@ -22307,7 +22276,7 @@ echo "Feature cross-imports OK"</code></pre>
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -22818,7 +22787,7 @@ final class AppCoordinatorNavigationTests: XCTestCase {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-o PORT
+    UC -.o PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
@@ -22826,7 +22795,7 @@ final class AppCoordinatorNavigationTests: XCTestCase {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -23274,7 +23243,7 @@ public let accessToken: String</code></pre>
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-o PORT
+    UC -.o PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
@@ -23282,7 +23251,7 @@ public let accessToken: String</code></pre>
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -23378,12 +23347,12 @@ public let accessToken: String</code></pre>
 
     LUI --&gt; LAPP
     LAPP --&gt; LDOM
-    LAPP -.-o LPORT
+    LAPP -.o LPORT
     LINF --o LPORT
 
     CUI --&gt; CAPP
     CAPP --&gt; CDOM
-    CAPP -.-o CPORT
+    CAPP -.o CPORT
     CINF --o CPORT
     CINF --&gt; CSTORE</pre>
 </div>
@@ -23391,7 +23360,7 @@ public let accessToken: String</code></pre>
 <ol>
   <li><code>--&gt;</code> indica dependencia de ejecución real (flujo operativo).</li>
   <li><code>-.-&gt;</code> indica solo ensamblaje/configuración (sin ejecutar negocio).</li>
-  <li><code>-.-o</code> indica que el core depende de un contrato, no de una implementación.</li>
+  <li><code>-.o</code> indica que el core depende de un contrato, no de una implementación.</li>
   <li><code>--o</code> indica salida/propagación desde una implementación concreta que satisface ese contrato.</li>
 </ol>
 <p>Regla práctica de arquitectura:</p>
@@ -24195,7 +24164,7 @@ jobs:
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-o PORT
+    UC -.o PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
@@ -24203,7 +24172,7 @@ jobs:
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -24471,7 +24440,7 @@ anexos/adrs/ADR-EXCEPTION-*.md (si aplica)</code></pre>
 
   VM --&gt; UC
   UC --&gt; ENT
-  UC -.-o PORT
+  UC -.o PORT
   BOOT -.-&gt; PORT
   BOOT -.-&gt; API
   BOOT -.-&gt; STORE
@@ -24498,7 +24467,7 @@ anexos/adrs/ADR-EXCEPTION-*.md (si aplica)</code></pre>
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ol>
 </section>
@@ -24975,7 +24944,7 @@ Sync Engine --&gt; Collaboration</code></pre>
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-o PORT
+    UC -.o PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
@@ -24983,7 +24952,7 @@ Sync Engine --&gt; Collaboration</code></pre>
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -25644,7 +25613,7 @@ func loadData(viewModel: ViewModel) async {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-o PORT
+    UC -.o PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
@@ -25652,7 +25621,7 @@ func loadData(viewModel: ViewModel) async {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -26168,7 +26137,7 @@ try await store.save(products, timestamp: Date()) // Con await: actor-isolated</
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-o PORT
+    UC -.o PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
@@ -26176,7 +26145,7 @@ try await store.save(products, timestamp: Date()) // Con await: actor-isolated</
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -26678,7 +26647,7 @@ await withTaskGroup(of: Product.self) { group in
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-o PORT
+    UC -.o PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
@@ -26686,7 +26655,7 @@ await withTaskGroup(of: Product.self) { group in
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -27119,7 +27088,7 @@ private func makeSUT(
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-o PORT
+    UC -.o PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
@@ -27127,7 +27096,7 @@ private func makeSUT(
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -27645,7 +27614,7 @@ struct ProductRow: View {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-o PORT
+    UC -.o PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
@@ -27653,7 +27622,7 @@ struct ProductRow: View {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -28075,7 +28044,7 @@ ExpensiveChartView(data: chartData, title: "Sales")
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-o PORT
+    UC -.o PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
@@ -28083,7 +28052,7 @@ ExpensiveChartView(data: chartData, title: "Sales")
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -28515,7 +28484,7 @@ final class CompositionRootTests: XCTestCase {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-o PORT
+    UC -.o PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
@@ -28523,7 +28492,7 @@ final class CompositionRootTests: XCTestCase {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -28954,7 +28923,7 @@ jobs:
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-o PORT
+    UC -.o PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
@@ -28962,7 +28931,7 @@ jobs:
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -29326,7 +29295,7 @@ final class HTTPClientStub: HTTPClient, @unchecked Sendable {
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-o PORT
+    UC -.o PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
@@ -29334,7 +29303,7 @@ final class HTTPClientStub: HTTPClient, @unchecked Sendable {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -29739,7 +29708,7 @@ actor B {
 
   VM --&gt; UC
   UC --&gt; ENT
-  UC -.-o PORT
+  UC -.o PORT
   BOOT -.-&gt; PORT
   BOOT -.-&gt; API
   BOOT -.-&gt; STORE
@@ -29766,7 +29735,7 @@ actor B {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ol>
 </section>
@@ -29913,7 +29882,7 @@ actor B {
 
   VM --&gt; UC
   UC --&gt; ENT
-  UC -.-o PORT
+  UC -.o PORT
   BOOT -.-&gt; PORT
   BOOT -.-&gt; API
   BOOT -.-&gt; STORE
@@ -29940,7 +29909,7 @@ actor B {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ol>
 </section>
@@ -30617,7 +30586,7 @@ HIPAA audit trail ────────────┘</code></pre>
 
   VM --&gt; UC
   UC --&gt; ENT
-  UC -.-o PORT
+  UC -.o PORT
   BOOT -.-&gt; PORT
   BOOT -.-&gt; API
   BOOT -.-&gt; STORE
@@ -30644,7 +30613,7 @@ HIPAA audit trail ────────────┘</code></pre>
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ol>
 </section>
@@ -31058,7 +31027,7 @@ HIPAA audit trail ────────────┘</code></pre>
     CR -.-&gt; COORD
     CR -.-&gt; ADAPTER
     VM --&gt; UC
-    UC -.-o PORT
+    UC -.o PORT
     ADAPTER --o PORT
     ADAPTER --&gt; STORE</pre>
 </div>
@@ -31066,7 +31035,7 @@ HIPAA audit trail ────────────┘</code></pre>
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -31445,7 +31414,7 @@ HIPAA audit trail ────────────┘</code></pre>
 
   VM --&gt; UC
   UC --&gt; ENT
-  UC -.-o PORT
+  UC -.o PORT
   BOOT -.-&gt; PORT
   BOOT -.-&gt; API
   BOOT -.-&gt; STORE
@@ -31472,7 +31441,7 @@ HIPAA audit trail ────────────┘</code></pre>
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ol>
 </section>
@@ -31603,7 +31572,7 @@ HIPAA audit trail ────────────┘</code></pre>
 
   VM --&gt; UC
   UC --&gt; ENT
-  UC -.-o PORT
+  UC -.o PORT
   BOOT -.-&gt; PORT
   BOOT -.-&gt; API
   BOOT -.-&gt; STORE
@@ -31630,7 +31599,7 @@ HIPAA audit trail ────────────┘</code></pre>
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ol>
 </section>
@@ -31707,7 +31676,7 @@ HIPAA audit trail ────────────┘</code></pre>
 
   VM --&gt; UC
   UC --&gt; ENT
-  UC -.-o PORT
+  UC -.o PORT
   BOOT -.-&gt; PORT
   BOOT -.-&gt; API
   BOOT -.-&gt; STORE
@@ -31734,7 +31703,7 @@ HIPAA audit trail ────────────┘</code></pre>
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring o configuracion.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida o propagacion de resultado.</li>
 </ol>
 </section>
@@ -31798,7 +31767,7 @@ HIPAA audit trail ────────────┘</code></pre>
   CR -.-&gt; COORD
   CR -.-&gt; API
   VM --&gt; UC
-  UC -.-o PORT
+  UC -.o PORT
   API --o PORT
   API --&gt; CACHE</pre>
 </div>
@@ -31806,7 +31775,7 @@ HIPAA audit trail ────────────┘</code></pre>
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring/configuración en composition root.</li>
-  <li><code>-.-o</code> dependencia contra contrato.</li>
+  <li><code>-.o</code> dependencia contra contrato.</li>
   <li><code>--o</code> salida desde implementación concreta.</li>
 </ol>
 <h2 id="06-proyecto-final-00-proyecto-final-ios-alcance-t-cnico-obligatorio">Alcance técnico obligatorio</h2>
@@ -39905,84 +39874,6 @@ function currentMermaidTheme() {
     return theme === 'dark' ? 'dark' : 'default';
 }
 
-function ensureOpenArrowMarker(svg) {
-    if (!svg) return null;
-    let defs = svg.querySelector('defs');
-    if (!defs) {
-        defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
-        if (svg.firstChild) {
-            svg.insertBefore(defs, svg.firstChild);
-        } else {
-            svg.appendChild(defs);
-        }
-    }
-    const svgId = svg.getAttribute('id') || `sma-${Math.random().toString(36).slice(2)}`;
-    const markerId = `${svgId}-sma-open-arrow-end`;
-    let marker = null;
-    defs.querySelectorAll('marker').forEach(candidate => {
-        if (candidate.getAttribute('id') === markerId) marker = candidate;
-    });
-    if (!marker) {
-        marker = document.createElementNS('http://www.w3.org/2000/svg', 'marker');
-        marker.setAttribute('id', markerId);
-        marker.setAttribute('class', 'sma-open-arrow-marker');
-        marker.setAttribute('viewBox', '0 0 12 12');
-        marker.setAttribute('refX', '11');
-        marker.setAttribute('refY', '6');
-        marker.setAttribute('markerWidth', '12');
-        marker.setAttribute('markerHeight', '12');
-        marker.setAttribute('orient', 'auto');
-        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-        path.setAttribute('class', 'sma-open-arrowhead');
-        path.setAttribute('d', 'M1,1 L11,6 L1,11');
-        marker.appendChild(path);
-        defs.appendChild(marker);
-    }
-    return markerId;
-}
-
-function normalizeMermaidOpenArrows(container) {
-    const svg = container && container.querySelector('svg');
-    if (!svg) return;
-    const openEdges = svg.querySelectorAll('path[marker-end*="flowchart-circleEnd"]');
-    if (!openEdges.length) return;
-    const openMarkerId = ensureOpenArrowMarker(svg);
-    if (!openMarkerId) return;
-    openEdges.forEach(path => {
-        path.setAttribute('marker-end', `url(#${openMarkerId})`);
-    });
-}
-
-function arrowLegendSvgForToken(token) {
-    const typeMap = {
-        '-->': 'direct-closed',
-        '-.->': 'dashed-closed',
-        '-.-o': 'contract-open',
-        '--o': 'solid-open'
-    };
-    const type = typeMap[token];
-    if (!type) return null;
-    const head = (type === 'direct-closed' || type === 'dashed-closed')
-        ? '<polygon points="30,2 38,6 30,10"></polygon>'
-        : '<polyline points="30,2 38,6 30,10"></polyline>';
-    return `<svg class="sma-legend-arrow ${type}" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line>${head}</svg>`;
-}
-
-function hydrateArrowLegendCodeTokens(root = document) {
-    const codes = root.querySelectorAll('ol li > code, ul li > code');
-    codes.forEach(code => {
-        if (code.closest('pre')) return;
-        if (code.dataset.smaArrowHydrated === '1') return;
-        const token = (code.textContent || '').trim();
-        const svg = arrowLegendSvgForToken(token);
-        if (!svg) return;
-        code.classList.add('sma-inline-arrow-token');
-        code.dataset.smaArrowHydrated = '1';
-        code.innerHTML = `${svg}<span class="sma-sr-only">${token}</span>`;
-        code.setAttribute('aria-label', token);
-    });
-}
-
 async function renderMermaid() {
     try {
         await ensureMermaidLoaded();
@@ -40016,13 +39907,6 @@ async function renderMermaid() {
         if (!el || el.dataset.mermaidRendered === '1') return;
         mermaid.run({ nodes: [el] })
             .then(function() {
-                normalizeMermaidOpenArrows(el);
-                requestAnimationFrame(function() {
-                    normalizeMermaidOpenArrows(el);
-                });
-                setTimeout(function() {
-                    normalizeMermaidOpenArrows(el);
-                }, 80);
                 el.dataset.mermaidRendered = '1';
             })
             .catch(function() {});
@@ -40047,17 +39931,11 @@ async function renderMermaid() {
         if (el.dataset.mermaidRendered === '1') return;
         mermaidObserver.observe(el);
     });
-
-    setTimeout(function() {
-        document.querySelectorAll('pre.mermaid').forEach(normalizeMermaidOpenArrows);
-    }, 120);
 }
 
 function bootCourseRenderers() {
-    hydrateArrowLegendCodeTokens(document);
     renderMermaid();
     initCodeHighlighting();
-    setTimeout(() => hydrateArrowLegendCodeTokens(document), 120);
     document.body.classList.add('sma-hydrated');
 }
 

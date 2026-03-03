@@ -2,6 +2,31 @@
 
 Fecha base: 2026-02-24
 
+## Hardening anti-cache + acceso local sin login (hotfix)
+### Fecha
+2026-03-03
+
+### Contexto
+Se detectaron regresiones intermitentes de cliente asociadas a caché agresiva del navegador y a redirecciones no deseadas de login en entorno local.
+
+### Cambios aplicados
+1. Servidor local del Hub con cabeceras anti-cache estrictas (`no-store`, `no-cache`, `must-revalidate`) en todas las respuestas.
+2. `build-hub` añade stamping automático de versión en assets `css/js` (`?v=<build>`), para invalidar caché por build.
+3. Verificación de build normalizada para aceptar cambios de `?v=` sin falsos positivos.
+4. `vercel.json` publica cabeceras anti-cache globales para rutas estáticas.
+5. `course-switcher.js` en iOS/Android/SDD y Hub reconoce contexto local (localhost + LAN privada) y evita bloqueo de cursos por login cloud.
+
+### Evidencia técnica
+1. `SKIP_RUNTIME_SMOKE=1 ./scripts/build-hub.sh --mode fast` -> PASS.
+2. `python3 scripts/verify-hub-build.py` -> PASS.
+3. Smoke local Playwright:
+   - `index.html` -> `Abrir curso iOS` navega a `/ios/index.html` sin redirección a login en local.
+4. Validación de cabeceras:
+   - `curl -I /index.html` y `curl -I /ios/index.html` incluyen `Cache-Control: no-store`.
+
+### Resultado
+Hotfix de continuidad aplicado: menor riesgo de servir versiones antiguas y acceso local estable para iteración sin backend cloud.
+
 ## Incidencia
 ### Síntoma
 La app abría en `127.0.0.1:46100/index.html` y devolvía `Cannot GET /index.html`.

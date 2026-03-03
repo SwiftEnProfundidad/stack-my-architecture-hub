@@ -16,6 +16,7 @@ SDD_ROOT="$PROJECTS_ROOT/stack-my-architecture-SDD"
 VERIFY_SCRIPT="$SCRIPT_DIR/verify-hub-build.py"
 RUNTIME_SMOKE_SCRIPT="$SCRIPT_DIR/smoke-hub-runtime.sh"
 MANIFEST_SCRIPT="$SCRIPT_DIR/generate-build-manifest.py"
+STAMP_ASSET_VERSION_SCRIPT="$SCRIPT_DIR/stamp-asset-version.py"
 
 resolve_course_root() {
   local candidate="$1"
@@ -256,6 +257,14 @@ fi
 if [[ -f "$HUB_ROOT/sdd/curso-stack-my-architecture-sdd.html" ]]; then
   cp "$HUB_ROOT/sdd/curso-stack-my-architecture-sdd.html" "$HUB_ROOT/sdd/index.html"
 fi
+
+if [[ ! -x "$STAMP_ASSET_VERSION_SCRIPT" ]]; then
+  echo "[ERROR] Missing or non-executable asset version stamp script: $STAMP_ASSET_VERSION_SCRIPT"
+  exit 1
+fi
+
+say "[6.5/8] Stamping shared asset version in generated HTML..."
+python3 "$STAMP_ASSET_VERSION_SCRIPT" --hub-root "$HUB_ROOT"
 
 if [[ ! -x "$VERIFY_SCRIPT" ]]; then
   echo "[ERROR] Missing or non-executable hub verification script: $VERIFY_SCRIPT"

@@ -6,17 +6,17 @@
 <meta name="darkreader-lock">
 <meta name="course-id" content="stack-my-architecture-sdd">
 <title>Stack: IA + Spec-Driven Development</title>
-<link rel="stylesheet" href="assets/study-ux.css?v=1772525217">
-<link rel="stylesheet" href="assets/course-switcher.css?v=1772525217">
-<link rel="stylesheet" href="assets/assistant-panel.css?v=1772525217">
-<script>window.__SMA_ASSISTANT_PANEL_SRC = "assets/assistant-panel.js?v=1772525217";</script>
+<link rel="stylesheet" href="assets/study-ux.css?v=1772538236">
+<link rel="stylesheet" href="assets/course-switcher.css?v=1772538236">
+<link rel="stylesheet" href="assets/assistant-panel.css?v=1772538236">
+<script>window.__SMA_ASSISTANT_PANEL_SRC = "assets/assistant-panel.js?v=1772538236";</script>
 <script>window.__SMA_MERMAID_SRC = "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js";</script>
 <script>window.__SMA_HLJS_CORE_SRC = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js";</script>
 <script>window.__SMA_HLJS_SWIFT_SRC = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/swift.min.js";</script>
-<script defer src="assets/study-ux.js?v=1772525217"></script>
-<script defer src="assets/course-switcher.js?v=1772525217"></script>
-<script defer src="assets/theme-controls.js?v=1772525217"></script>
-<script defer src="assets/assistant-bridge.js?v=1772525217"></script>
+<script defer src="assets/study-ux.js?v=1772538236"></script>
+<script defer src="assets/course-switcher.js?v=1772538236"></script>
+<script defer src="assets/theme-controls.js?v=1772538236"></script>
+<script defer src="assets/assistant-bridge.js?v=1772538236"></script>
 
 <!-- Google Fonts - Inter -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -708,32 +708,6 @@ p code, li code, td code {
 .sma-legend-arrow.contract-open { color: var(--mermaid-legend-contract); }
 .sma-legend-arrow.solid-open { color: var(--mermaid-legend-solid-open); }
 
-.sma-inline-arrow-token {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 50px;
-    padding: 3px 6px;
-}
-
-.sma-inline-arrow-token .sma-legend-arrow {
-    width: 34px;
-    height: 12px;
-    flex: 0 0 34px;
-}
-
-.sma-sr-only {
-    position: absolute !important;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
-}
-
 .sma-architecture-block {
     margin-top: var(--space-md);
 }
@@ -898,11 +872,6 @@ html[data-theme][data-style] pre.mermaid marker polyline {
     fill: var(--mermaid-line) !important;
     stroke: var(--mermaid-line) !important;
     opacity: 1 !important;
-}
-
-html[data-theme][data-style] pre.mermaid marker path.sma-open-arrowhead {
-    fill: none !important;
-    stroke: var(--mermaid-line) !important;
 }
 
 html[data-theme][data-style] pre.mermaid .edgeLabel rect,
@@ -12316,7 +12285,7 @@ Hito 4: refactor de CompliantTelemetrySink como wrapper + evidencia de evento sa
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -12460,7 +12429,7 @@ llegará a telemetría sin redactar.</code></pre>
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -12623,7 +12592,7 @@ Trazabilidad mínima:
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -12758,7 +12727,7 @@ Trazabilidad mínima:
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -12925,7 +12894,7 @@ Resultado: misma semántica, clasificación extensible. Suite sigue en verde.</c
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -13104,7 +13073,7 @@ struct DefaultPIIClassifier: PIIClassifier {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -13271,7 +13240,7 @@ Commit: refactor(security): add RedactionStrategy enum for flexible PII handling
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -13416,7 +13385,7 @@ python3 scripts/build-html.py</code></pre>
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -13557,7 +13526,7 @@ Atomicidad demostrada:
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -13665,7 +13634,7 @@ Hito 4: refactor de coexistencia en AppRoot (tickets + catálogo sin cross-impor
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -13788,7 +13757,7 @@ de ticketing, entonces ambas features pueden evolucionar independientemente.</co
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -13947,7 +13916,7 @@ Trazabilidad mínima:
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -14086,7 +14055,7 @@ Trazabilidad mínima:
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -14254,7 +14223,7 @@ Resultado: misma semántica, validación explícita. Suite sigue en verde.</code
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -14443,7 +14412,7 @@ class InMemoryCatalogRepository: CatalogRepository {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -14604,7 +14573,7 @@ Commit: refactor(catalog): add descriptive associated values to validation error
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -14751,7 +14720,7 @@ python3 scripts/build-html.py</code></pre>
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -14893,7 +14862,7 @@ Atomicidad demostrada:
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -14999,7 +14968,7 @@ Hito 4: refactor de coordinator como owner de estado de pestaña + evidencia de 
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -15127,7 +15096,7 @@ navega sin conocer la implementación interna de catálogo.</code></pre>
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -15286,7 +15255,7 @@ Trazabilidad mínima:
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -15421,7 +15390,7 @@ Trazabilidad mínima:
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -15582,7 +15551,7 @@ Resultado: misma semántica, rutas tipadas. Suite sigue en verde.</code></pre>
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -15640,7 +15609,7 @@ Resultado: misma semántica, rutas tipadas. Suite sigue en verde.</code></pre>
 <ol>
   <li><code>--&gt;</code> dependencia/flujo directo en runtime (<code>TicketListViewModel --&gt; openKnowledgeCatalog()</code>, <code>HelpdeskRootCoordinator --&gt; selectedTab</code>).</li>
   <li><code>-.-&gt;</code> wiring/configuración desde composition root (<code>HelpdeskAppRootBuilder</code> ensambla coordinador y view models).</li>
-  <li><code>-.-o</code> contrato/abstracción (la intención de feature se expresa contra <code>HelpdeskNavigationRouting</code>).</li>
+  <li><code>-.o</code> contrato/abstracción (la intención de feature se expresa contra <code>HelpdeskNavigationRouting</code>).</li>
   <li><code>--o</code> salida/propagación (el coordinador concreto satisface ese contrato y materializa la navegación global).</li>
 </ol>
 <p>Si una feature conoce directamente <code>selectedTab</code>, se rompió el boundary de integración.</p>
@@ -15807,7 +15776,7 @@ class AppRouter {
 <ol>
   <li><code>--&gt;</code> flujo directo de ejecución entre componentes ya construidos.</li>
   <li><code>-.-&gt;</code> ensamblado/configuración en composition root (no ejecución de casos de uso).</li>
-  <li><code>-.-o</code> dependencia hacia contrato desde feature.</li>
+  <li><code>-.o</code> dependencia hacia contrato desde feature.</li>
   <li><code>--o</code> implementación concreta que satisface y propaga ese contrato.</li>
 </ol>
 <p>Regla de sanity-check:</p>
@@ -16028,7 +15997,7 @@ python3 scripts/build-html.py</code></pre>
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -16164,7 +16133,7 @@ Atomicidad demostrada:
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -16269,7 +16238,7 @@ Hito 4: refactor de integración de señal de boundaries en quality gates + evid
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -16388,7 +16357,7 @@ prohibido pasará CI sin ser detectado.</code></pre>
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -16539,7 +16508,7 @@ Trazabilidad mínima:
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -16663,7 +16632,7 @@ Trazabilidad mínima:
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -16799,7 +16768,7 @@ Resultado: misma semántica, reporte tipado. Suite sigue en verde.</code></pre>
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -16923,7 +16892,7 @@ struct ModuleBoundaryEvaluator {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -17034,7 +17003,7 @@ Commit: refactor(boundaries): use typed ModuleEdge in BoundaryReport</code></pre
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -17155,7 +17124,7 @@ python3 scripts/build-html.py</code></pre>
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -17276,7 +17245,7 @@ Atomicidad demostrada:
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -17383,7 +17352,7 @@ Hito 4: refactor de integración de señal de gobernanza en quality gates + evid
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -17500,7 +17469,7 @@ lo protege, entonces ningún release pasará sin gobernanza documental mínima.<
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -17649,7 +17618,7 @@ Trazabilidad mínima:
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -17768,7 +17737,7 @@ Trazabilidad mínima:
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -17890,7 +17859,7 @@ Resultado: misma semántica, escaneo reutilizable. Suite sigue en verde.</code><
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -18018,7 +17987,7 @@ struct GovernanceValidator {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -18121,7 +18090,7 @@ Commit: refactor(governance): use typed GovernanceFailure enum</code></pre>
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -18240,7 +18209,7 @@ python3 scripts/build-html.py</code></pre>
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -18360,7 +18329,7 @@ Atomicidad demostrada:
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -18467,7 +18436,7 @@ Hito 4: refactor de integración de señal de readiness en quality gates + evide
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -18597,7 +18566,7 @@ sin verificación completa.</code></pre>
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -18763,7 +18732,7 @@ Trazabilidad mínima:
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -18898,7 +18867,7 @@ Trazabilidad mínima:
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -19057,7 +19026,7 @@ Resultado: misma semántica, gates extensibles. Suite sigue en verde.</code></pr
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -19193,7 +19162,7 @@ struct ReleaseReadinessEvaluator {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -19305,7 +19274,7 @@ Commit: refactor(readiness): add metadata to ReadinessReport for audit trail</co
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -19431,7 +19400,7 @@ python3 scripts/build-html.py</code></pre>
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -19565,7 +19534,7 @@ Atomicidad demostrada:
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -19672,7 +19641,7 @@ Hito 4: refactor de integración de señal de hardening en quality gates + evide
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -19788,7 +19757,7 @@ cualquier regresión de rendimiento se detectará antes del release.</code></pre
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -19939,7 +19908,7 @@ Trazabilidad mínima:
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -20057,7 +20026,7 @@ Trazabilidad mínima:
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -20195,7 +20164,7 @@ Resultado: misma semántica, cada presupuesto es una función testeable. Suite s
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -20362,7 +20331,7 @@ struct HardeningEvaluator {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -20487,7 +20456,7 @@ Commit: refactor(hardening): standardize report reason format</code></pre>
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -20619,7 +20588,7 @@ python3 scripts/build-html.py</code></pre>
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -20759,7 +20728,7 @@ Atomicidad demostrada:
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -20866,7 +20835,7 @@ Hito 4: ensayo de defensa end-to-end con run-full-audit.sh + evidencia reproduci
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -20981,7 +20950,7 @@ entonces la defensa solo pasa cuando toda la cadena de evidencia está completa.
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -21130,7 +21099,7 @@ Trazabilidad mínima:
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -21241,7 +21210,7 @@ Trazabilidad mínima:
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -21377,7 +21346,7 @@ Resultado: misma semántica, criterios configurables. Suite sigue en verde.</cod
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -21540,7 +21509,7 @@ struct FinalDefenseEvaluator {
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -21662,7 +21631,7 @@ Commit: refactor(defense): add structured EvidenceDossier to DefenseReport</code
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -21797,7 +21766,7 @@ python3 scripts/build-html.py</code></pre>
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -21940,7 +21909,7 @@ Atomicidad demostrada:
 <ol>
   <li><code>--&gt;</code> dependencia directa en runtime.</li>
   <li><code>-.-&gt;</code> wiring y configuracion de ensamblado.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstraccion.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstraccion.</li>
   <li><code>--o</code> salida/propagacion desde implementacion concreta.</li>
 </ol>
 </section>
@@ -22003,7 +21972,7 @@ Atomicidad demostrada:
 <ol>
   <li><code>--&gt;</code> dependencia directa de runtime.</li>
   <li><code>-.-&gt;</code> wiring/configuración en composition root.</li>
-  <li><code>-.-o</code> dependencia contra contrato/abstracción.</li>
+  <li><code>-.o</code> dependencia contra contrato/abstracción.</li>
   <li><code>--o</code> salida/propagación de implementación concreta.</li>
 </ol>
 <h2 id="18-proyecto-final-00-brief-helpdesk-sdd-enterprise-snippet-m-nimo-de-arranque">Snippet mínimo de arranque</h2>
@@ -22067,7 +22036,7 @@ Atomicidad demostrada:
 <ol>
   <li><code>--&gt;</code> flujo directo de entrega.</li>
   <li><code>-.-&gt;</code> ensamblado de evidencia para revisión.</li>
-  <li><code>-.-o</code> contrato de calidad exigible.</li>
+  <li><code>-.o</code> contrato de calidad exigible.</li>
   <li><code>--o</code> salida formal hacia defensa final.</li>
 </ol>
 <h2 id="18-proyecto-final-01-entregables-y-evidencia-obligatoria-formato-recomendado-del-paquete">Formato recomendado del paquete</h2>
@@ -22175,7 +22144,7 @@ swift test --package-path project/HelpdeskSDD</code></pre>
 <ol>
   <li><code>--&gt;</code> secuencia directa de defensa.</li>
   <li><code>-.-&gt;</code> ensamblado de evaluación colegiada.</li>
-  <li><code>-.-o</code> contrato de preguntas sobre evidencia.</li>
+  <li><code>-.o</code> contrato de preguntas sobre evidencia.</li>
   <li><code>--o</code> salida formal de veredicto y feedback.</li>
 </ol>
 <h2 id="18-proyecto-final-02-rubrica-y-defensa-final-snippet-de-checklist-final">Snippet de checklist final</h2>
@@ -23151,84 +23120,6 @@ function currentMermaidTheme() {
     return theme === 'dark' ? 'dark' : 'default';
 }
 
-function ensureOpenArrowMarker(svg) {
-    if (!svg) return null;
-    let defs = svg.querySelector('defs');
-    if (!defs) {
-        defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
-        if (svg.firstChild) {
-            svg.insertBefore(defs, svg.firstChild);
-        } else {
-            svg.appendChild(defs);
-        }
-    }
-    const svgId = svg.getAttribute('id') || `sma-${Math.random().toString(36).slice(2)}`;
-    const markerId = `${svgId}-sma-open-arrow-end`;
-    let marker = null;
-    defs.querySelectorAll('marker').forEach(candidate => {
-        if (candidate.getAttribute('id') === markerId) marker = candidate;
-    });
-    if (!marker) {
-        marker = document.createElementNS('http://www.w3.org/2000/svg', 'marker');
-        marker.setAttribute('id', markerId);
-        marker.setAttribute('class', 'sma-open-arrow-marker');
-        marker.setAttribute('viewBox', '0 0 12 12');
-        marker.setAttribute('refX', '11');
-        marker.setAttribute('refY', '6');
-        marker.setAttribute('markerWidth', '12');
-        marker.setAttribute('markerHeight', '12');
-        marker.setAttribute('orient', 'auto');
-        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-        path.setAttribute('class', 'sma-open-arrowhead');
-        path.setAttribute('d', 'M1,1 L11,6 L1,11');
-        marker.appendChild(path);
-        defs.appendChild(marker);
-    }
-    return markerId;
-}
-
-function normalizeMermaidOpenArrows(container) {
-    const svg = container && container.querySelector('svg');
-    if (!svg) return;
-    const openEdges = svg.querySelectorAll('path[marker-end*="flowchart-circleEnd"]');
-    if (!openEdges.length) return;
-    const openMarkerId = ensureOpenArrowMarker(svg);
-    if (!openMarkerId) return;
-    openEdges.forEach(path => {
-        path.setAttribute('marker-end', `url(#${openMarkerId})`);
-    });
-}
-
-function arrowLegendSvgForToken(token) {
-    const typeMap = {
-        '-->': 'direct-closed',
-        '-.->': 'dashed-closed',
-        '-.-o': 'contract-open',
-        '--o': 'solid-open'
-    };
-    const type = typeMap[token];
-    if (!type) return null;
-    const head = (type === 'direct-closed' || type === 'dashed-closed')
-        ? '<polygon points="30,2 38,6 30,10"></polygon>'
-        : '<polyline points="30,2 38,6 30,10"></polyline>';
-    return `<svg class="sma-legend-arrow ${type}" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line>${head}</svg>`;
-}
-
-function hydrateArrowLegendCodeTokens(root = document) {
-    const codes = root.querySelectorAll('ol li > code, ul li > code');
-    codes.forEach(code => {
-        if (code.closest('pre')) return;
-        if (code.dataset.smaArrowHydrated === '1') return;
-        const token = (code.textContent || '').trim();
-        const svg = arrowLegendSvgForToken(token);
-        if (!svg) return;
-        code.classList.add('sma-inline-arrow-token');
-        code.dataset.smaArrowHydrated = '1';
-        code.innerHTML = `${svg}<span class="sma-sr-only">${token}</span>`;
-        code.setAttribute('aria-label', token);
-    });
-}
-
 async function renderMermaid() {
     try {
         await ensureMermaidLoaded();
@@ -23262,13 +23153,6 @@ async function renderMermaid() {
         if (!el || el.dataset.mermaidRendered === '1') return;
         mermaid.run({ nodes: [el] })
             .then(function() {
-                normalizeMermaidOpenArrows(el);
-                requestAnimationFrame(function() {
-                    normalizeMermaidOpenArrows(el);
-                });
-                setTimeout(function() {
-                    normalizeMermaidOpenArrows(el);
-                }, 80);
                 el.dataset.mermaidRendered = '1';
             })
             .catch(function() {});
@@ -23293,17 +23177,11 @@ async function renderMermaid() {
         if (el.dataset.mermaidRendered === '1') return;
         mermaidObserver.observe(el);
     });
-
-    setTimeout(function() {
-        document.querySelectorAll('pre.mermaid').forEach(normalizeMermaidOpenArrows);
-    }, 120);
 }
 
 function bootCourseRenderers() {
-    hydrateArrowLegendCodeTokens(document);
     renderMermaid();
     initCodeHighlighting();
-    setTimeout(() => hydrateArrowLegendCodeTokens(document), 120);
     document.body.classList.add('sma-hydrated');
 }
 
