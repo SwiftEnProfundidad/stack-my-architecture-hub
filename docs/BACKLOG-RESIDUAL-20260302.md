@@ -198,7 +198,7 @@ Documento operativo de cierre para la fase `5.4` del plan activo:
    - Script:
      - `scripts/run-closeout-qa-suite.sh [full|tests]`
    - Comportamiento:
-     - `tests`: ejecuta las suites de regresión de closeout (actualmente 7).
+     - `tests`: ejecuta las suites de regresión de closeout (actualmente 8).
      - `full`: ejecuta suites + checks runtime (`atq` + `closeout-readiness`), aceptando `readiness=2` como estado válido de espera.
    - Evidencia:
      - `2026-03-03 01:00 CET` -> `./scripts/run-closeout-qa-suite.sh tests` y `./scripts/run-closeout-qa-suite.sh full` -> verde.
@@ -269,7 +269,7 @@ Documento operativo de cierre para la fase `5.4` del plan activo:
        - error en fallback (propagación de exit code).
    - Evidencia:
      - `2026-03-03 02:18 CET` -> `./scripts/tests/test-recover-past-due-closeout.sh` -> `[PASS]`.
-     - `2026-03-03 02:18 CET` -> `./scripts/run-closeout-qa-suite.sh tests` (7 suites) -> verde.
+     - `2026-03-03 02:18 CET` -> `./scripts/run-closeout-qa-suite.sh tests` (7 suites en ese momento) -> verde.
      - `2026-03-03 02:18 CET` -> `./scripts/recover-past-due-closeout.sh` en runtime -> sin recovery (`within grace`).
      - `2026-03-03 02:22 CET` -> watchdog programado (`job 14`, `16:10 CET`) para ejecutar recovery tras job principal (`16:08 CET`) si quedase stale.
 
@@ -283,6 +283,20 @@ Documento operativo de cierre para la fase `5.4` del plan activo:
    - Evidencia:
      - `2026-03-03 02:20 CET` -> `./scripts/tests/test-closeout-wait-and-run.sh` -> `[PASS]`.
      - `2026-03-03 02:20 CET` -> `./scripts/run-closeout-qa-suite.sh tests` -> verde estable.
+
+24. `P3` `✅` Orquestador de ventana (main + watchdog) en comando único.
+   - Script:
+     - `scripts/schedule-closeout-window.sh [--epoch <unix_epoch>]`
+   - Comportamiento:
+     - calcula y programa job principal (`not_before + main_offset`),
+     - limpia y reprogama watchdog (`main_epoch + watchdog_delay`),
+     - usa scheduler/versionado existente + entorno saneado para `at`.
+   - Cobertura:
+     - `scripts/tests/test-schedule-closeout-window.sh`
+   - Evidencia:
+     - `2026-03-03 02:28 CET` -> `./scripts/tests/test-schedule-closeout-window.sh` -> `[PASS]`.
+     - `2026-03-03 02:28 CET` -> `./scripts/run-closeout-qa-suite.sh tests` (8 suites) -> verde.
+     - `2026-03-03 02:29 CET` -> `./scripts/schedule-closeout-window.sh` refresca cola a `job 15` (`16:08`) + `job 16` (`16:10`).
 
 4. `P3` `⏳` Cerrar `5.4` y congelar handoff final.
    - Alcance:

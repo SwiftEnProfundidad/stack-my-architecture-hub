@@ -334,7 +334,7 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 
 86. Runner unificado de QA de cierre (2026-03-03):
     - script: `scripts/run-closeout-qa-suite.sh [full|tests]`.
-    - `tests`: corre las suites de regresión de closeout (actualmente 7).
+    - `tests`: corre las suites de regresión de closeout (actualmente 8).
     - `full`: añade `atq` + `closeout-readiness`; trata `EXIT_CODE=2` de readiness como espera válida.
     - resultado: ejecución `tests` y `full` en verde con job activo en cola.
 
@@ -386,7 +386,7 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 95. Recovery automatizado de jobs closeout past-due (2026-03-03):
     - nuevo script: `scripts/recover-past-due-closeout.sh`.
     - lógica: si cooldown venció + gracia y el job closeout sigue en cola, limpia job stale y ejecuta fallback manual.
-    - cobertura: `scripts/tests/test-recover-past-due-closeout.sh` + integración en `run-closeout-qa-suite.sh` (7 suites).
+    - cobertura: `scripts/tests/test-recover-past-due-closeout.sh` + integración en `run-closeout-qa-suite.sh`.
     - resultado: runbook de `5.4` más resiliente ante fallos del daemon `at`.
 
 96. Estabilización anti-flake de `test-closeout-wait-and-run` (2026-03-03):
@@ -396,9 +396,15 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
     - resultado: `run-closeout-qa-suite.sh tests` vuelve a verde de forma determinista.
 
 97. Watchdog operativo para ventana `16:08` (2026-03-03):
-    - job principal closeout: `job 12` (`16:08 CET`).
-    - job watchdog: `job 14` (`16:10 CET`) ejecutando `recover-past-due-closeout.sh`.
+    - cola original: `job 12` (`16:08 CET`) + `job 14` (`16:10 CET`).
+    - cola actual refrescada: `job 15` (`16:08 CET`) + `job 16` (`16:10 CET`).
     - objetivo: autocurar escenario `past-due` sin intervención manual en la segunda ventana del día.
+
+98. Orquestador de ventana closeout en comando único (2026-03-03):
+    - nuevo script: `scripts/schedule-closeout-window.sh [--epoch <unix>]`.
+    - programa job principal + watchdog recovery en una sola operación.
+    - limpia watchdog previo y reprogama con offsets versionados.
+    - cobertura: `scripts/tests/test-schedule-closeout-window.sh` e integración en QA suite (8 suites totales).
 
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.

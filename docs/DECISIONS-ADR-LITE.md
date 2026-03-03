@@ -1399,3 +1399,23 @@ En viewport móvil estrecho (`<=480px`) los controles superiores de estudio debe
 ### Impacto
 1. QA suite más estable en ejecuciones repetidas.
 2. Menor ruido operacional durante ventanas de cuota.
+
+## ADR-LITE-073 — Orquestar ventana de closeout en un solo comando
+### Fecha
+2026-03-03
+
+### Decisión
+1. Añadir `scripts/schedule-closeout-window.sh` para programar en una sola ejecución:
+   - job principal de closeout,
+   - watchdog de recovery.
+2. Basar cálculo en `not_before` del cooldown (o `--epoch` explícito).
+3. Limpiar watchdogs previos y aplicar saneado de entorno al programar `at`.
+
+### Motivación
+1. Reducir errores operativos al evitar pasos manuales duplicados.
+2. Garantizar consistencia temporal entre job principal y job de recuperación.
+3. Mejorar repetibilidad del runbook de `5.4`.
+
+### Impacto
+1. Menor fricción para preparar cada nueva ventana de cuota.
+2. Cobertura dedicada en `test-schedule-closeout-window.sh` y QA suite ampliada.
