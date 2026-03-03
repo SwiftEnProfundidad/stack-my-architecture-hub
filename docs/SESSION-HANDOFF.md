@@ -206,12 +206,15 @@ Repos incluidos:
    - automatización de smoke público preparada:
      - script: `scripts/smoke-public-routes.sh [base_url]`
      - baseline actual (pre-deploy): `2026-03-02 23:39 CET`, `200` en `/`, `/ios/`, `/android/`, `/sdd/`.
+     - última ejecución pública: `2026-03-03 02:42 CET` en `https://architecture-stack.vercel.app` -> `200` en las 4 rutas.
    - automatización de smoke funcional preparada:
      - script: `scripts/smoke-public-functional.sh [base_url]`
      - baseline actual (pre-deploy): `2026-03-02 23:41 CET`, smoke funcional en verde para Hub/Auth/iOS/Android/SDD.
+     - última ejecución pública: `2026-03-03 02:42 CET` en `https://architecture-stack.vercel.app` -> verde completo.
    - runner unificado de verificación post-deploy:
      - script: `scripts/post-deploy-checks.sh [base_url]`
      - baseline actual (pre-deploy): `2026-03-02 23:43 CET`, runner completo en verde.
+     - última ejecución pública: `2026-03-03 02:43 CET` en `https://architecture-stack.vercel.app` -> verde completo.
    - runner end-to-end de cierre:
      - script: `scripts/deploy-and-verify-closeout.sh [fast|strict] [base_url]`
      - guard de cuota activo vía `.runtime/vercel-deploy-cooldown.env`.

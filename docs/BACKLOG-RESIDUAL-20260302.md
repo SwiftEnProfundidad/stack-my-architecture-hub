@@ -31,7 +31,7 @@ Documento operativo de cierre para la fase `5.4` del plan activo:
    - Criterio de cierre:
      - deploy productivo completado sin error de cuota.
 
-2. `P1` `⏳` Verificar rutas públicas post-deploy.
+2. `P1` `✅` Verificar rutas públicas post-deploy.
    - Rutas:
      - `https://architecture-stack.vercel.app/`
      - `https://architecture-stack.vercel.app/ios/`
@@ -41,10 +41,12 @@ Documento operativo de cierre para la fase `5.4` del plan activo:
      - `scripts/smoke-public-routes.sh [base_url]`
    - Evidencia pre-deploy (baseline):
      - `2026-03-02 23:39 CET` -> `200` en las 4 rutas con `./scripts/smoke-public-routes.sh`
+   - Evidencia cierre:
+     - `2026-03-03 02:42 CET` -> `./scripts/smoke-public-routes.sh https://architecture-stack.vercel.app` -> `200` en `/`, `/ios/`, `/android/`, `/sdd/`.
    - Criterio de cierre:
      - HTTP `200` en las 4 rutas.
 
-3. `P2` `⏳` Ejecutar smoke funcional mínimo post-deploy.
+3. `P2` `✅` Ejecutar smoke funcional mínimo post-deploy.
    - Alcance:
      - apertura de cada curso desde el Hub.
      - navegación de una lección por curso.
@@ -53,14 +55,18 @@ Documento operativo de cierre para la fase `5.4` del plan activo:
      - `scripts/smoke-public-functional.sh [base_url]`
    - Evidencia pre-deploy (baseline):
      - `2026-03-02 23:41 CET` -> smoke funcional público en verde para Hub/Auth/iOS/Android/SDD.
+   - Evidencia cierre:
+     - `2026-03-03 02:42 CET` -> `./scripts/smoke-public-functional.sh https://architecture-stack.vercel.app` -> verde completo (Hub/Auth/iOS/Android/SDD).
    - Criterio de cierre:
      - sin regresiones de arranque ni navegación.
 
-5. `P2` `⏳` Runner unificado post-deploy.
+5. `P2` `✅` Runner unificado post-deploy.
    - Script:
      - `scripts/post-deploy-checks.sh [base_url]`
    - Baseline pre-deploy:
      - `2026-03-02 23:43 CET` -> runner completo en verde.
+   - Evidencia cierre:
+     - `2026-03-03 02:43 CET` -> `./scripts/post-deploy-checks.sh https://architecture-stack.vercel.app` -> verde completo.
    - Criterio de cierre:
      - ejecución en verde inmediatamente después del deploy final de `5.3`.
 
