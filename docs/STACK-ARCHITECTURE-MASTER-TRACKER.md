@@ -933,3 +933,17 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
    - `at -c 18|19|20` -> payload correcto por job (`closeout-at-job`, `recover-past-due-closeout`, `closeout-window-followup`) + `PATH` saneado fijo.
    - `./scripts/run-closeout-qa-suite.sh full` -> PASS (10 suites + runtime checks).
 4. Estado: ✅ Hecho (subtask preflight); `P2 #6` sigue `⏳` hasta ejecución real en ventana de cuota.
+
+## Actualizacion 2026-03-03 (17) — Followup de cierre ejecuta verificación pública automática
+1. Alcance: `scripts/closeout-window-followup.sh` + test dedicado.
+2. Cambio:
+   - cuando existe `closeout-complete.flag`, el followup ejecuta:
+     - `smoke-public-routes`,
+     - `smoke-public-functional`,
+     - `post-deploy-checks`.
+   - si no existe flag, registra `skip public verification` sin romper flujo.
+3. Validación:
+   - `./scripts/tests/test-closeout-window-followup.sh` -> PASS (casos con/sin flag).
+   - `./scripts/run-closeout-qa-suite.sh tests` -> PASS.
+   - `./scripts/run-closeout-qa-suite.sh full` -> PASS.
+4. Estado: ✅ Hecho (subtask hardening de `P2 #6`).
