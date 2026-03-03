@@ -332,6 +332,12 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
     - `scripts/closeout-status.sh` soporta override `SMA_CLOSEOUT_COOLDOWN_FILE`.
     - resultado: `[PASS]` en estados sin cooldown, cooldown activo y cooldown expirado.
 
+86. Runner unificado de QA de cierre (2026-03-03):
+    - script: `scripts/run-closeout-qa-suite.sh [full|tests]`.
+    - `tests`: corre las 6 suites de regresión de closeout.
+    - `full`: añade `atq` + `closeout-readiness`; trata `EXIT_CODE=2` de readiness como espera válida.
+    - resultado: ejecución `tests` y `full` en verde con job activo en cola.
+
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.
 2. Regeneración de launchers/apps de escritorio del Hub.

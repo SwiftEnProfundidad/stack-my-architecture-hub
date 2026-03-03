@@ -188,6 +188,15 @@ Documento operativo de cierre para la fase `5.4` del plan activo:
    - Evidencia:
      - `2026-03-03 00:56 CET` -> `./scripts/tests/test-closeout-status.sh` -> `[PASS]`.
 
+17. `P3` `✅` Runner único de QA de cierre.
+   - Script:
+     - `scripts/run-closeout-qa-suite.sh [full|tests]`
+   - Comportamiento:
+     - `tests`: ejecuta las 6 suites de regresión de closeout.
+     - `full`: ejecuta suites + checks runtime (`atq` + `closeout-readiness`), aceptando `readiness=2` como estado válido de espera.
+   - Evidencia:
+     - `2026-03-03 01:00 CET` -> `./scripts/run-closeout-qa-suite.sh tests` y `./scripts/run-closeout-qa-suite.sh full` -> verde.
+
 4. `P3` `⏳` Cerrar `5.4` y congelar handoff final.
    - Alcance:
      - `PLAN`, `SESSION-HANDOFF`, `MASTER-TRACKER`, `HUB-STABILITY-LOG`, `ADR-LITE`.
