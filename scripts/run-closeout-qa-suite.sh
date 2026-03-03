@@ -17,6 +17,7 @@ TESTS=(
   "$SCRIPT_DIR/tests/test-closeout-at-job.sh"
   "$SCRIPT_DIR/tests/test-closeout-readiness.sh"
   "$SCRIPT_DIR/tests/test-schedule-closeout-at.sh"
+  "$SCRIPT_DIR/tests/test-recover-past-due-closeout.sh"
   "$SCRIPT_DIR/tests/test-deploy-and-verify-closeout.sh"
   "$SCRIPT_DIR/tests/test-closeout-status.sh"
 )

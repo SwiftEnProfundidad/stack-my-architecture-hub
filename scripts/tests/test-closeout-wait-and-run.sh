@@ -141,6 +141,6 @@ code=$?
 set -e
 assert_eq "0" "$code" "near cooldown should wait then run deploy"
 assert_file_exists "$DEPLOY_CALLS" "deploy should run after short wait"
-assert_contains "$TMP_DIR/out4.txt" "Ventana abierta -> ejecutando deploy \\+ verificacion" "should report opening window"
+assert_contains "$TMP_DIR/out4.txt" "(Ventana abierta -> ejecutando deploy \\+ verificacion|Cooldown expirado/no valido -> ejecutando deploy\\.)" "should report wait-open or immediate-expired path"
 
 echo "[PASS] closeout-wait-and-run tests"

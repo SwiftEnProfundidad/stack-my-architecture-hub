@@ -1846,3 +1846,36 @@ Al abrir la ventana `02:02 CET`, el job automático quedó vencido en cola sin e
    - `not_before: 2026-03-03 16:07:10 CET`.
 3. `atq`:
    - job activo `12 Tue Mar 3 16:08:00 2026`.
+
+## Hardening de resiliencia — recovery automático de job past-due
+### Fecha
+2026-03-03
+
+### Contexto
+Tras detectar un job `at` vencido en cola, se automatiza el recovery para evitar intervención manual repetitiva.
+
+### Cambios aplicados
+1. Nuevo script: `scripts/recover-past-due-closeout.sh`.
+2. Cubre detección de stale job basada en `cooldown + grace`.
+3. Si detecta stale: limpia job (`atrm`) y ejecuta fallback manual (`closeout-at-job.sh`).
+4. Test dedicado: `scripts/tests/test-recover-past-due-closeout.sh`.
+
+### Verificación
+1. `./scripts/tests/test-recover-past-due-closeout.sh` -> `[PASS]`.
+2. `./scripts/run-closeout-qa-suite.sh tests` -> verde (7 suites).
+3. `./scripts/recover-past-due-closeout.sh` en runtime actual -> sin recovery (dentro de ventana/gracia).
+
+## Estabilidad QA — eliminación de flake en wait-runner
+### Fecha
+2026-03-03
+
+### Contexto
+El test de cooldown corto podía fallar de forma intermitente por carrera temporal de 1 segundo.
+
+### Cambios aplicados
+1. `scripts/tests/test-closeout-wait-and-run.sh` acepta ambos outputs válidos del borde temporal.
+2. Se mantiene la verificación principal: el deploy se ejecuta en ambos caminos.
+
+### Verificación
+1. `./scripts/tests/test-closeout-wait-and-run.sh` -> `[PASS]`.
+2. `./scripts/run-closeout-qa-suite.sh tests` -> verde estable.

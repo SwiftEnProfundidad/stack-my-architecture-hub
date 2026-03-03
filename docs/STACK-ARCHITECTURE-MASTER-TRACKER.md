@@ -334,7 +334,7 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 
 86. Runner unificado de QA de cierre (2026-03-03):
     - script: `scripts/run-closeout-qa-suite.sh [full|tests]`.
-    - `tests`: corre las 6 suites de regresión de closeout.
+    - `tests`: corre las suites de regresión de closeout (actualmente 7).
     - `full`: añade `atq` + `closeout-readiness`; trata `EXIT_CODE=2` de readiness como espera válida.
     - resultado: ejecución `tests` y `full` en verde con job activo en cola.
 
@@ -382,6 +382,18 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
     - deploy intentado y bloqueado por `api-deployments-free-per-day` (`try again in 14 hours`).
     - cooldown actualizado a `2026-03-03 16:07:10 CET`.
     - autoreprogramación activa: `job 12` en cola para `2026-03-03 16:08 CET`.
+
+95. Recovery automatizado de jobs closeout past-due (2026-03-03):
+    - nuevo script: `scripts/recover-past-due-closeout.sh`.
+    - lógica: si cooldown venció + gracia y el job closeout sigue en cola, limpia job stale y ejecuta fallback manual.
+    - cobertura: `scripts/tests/test-recover-past-due-closeout.sh` + integración en `run-closeout-qa-suite.sh` (7 suites).
+    - resultado: runbook de `5.4` más resiliente ante fallos del daemon `at`.
+
+96. Estabilización anti-flake de `test-closeout-wait-and-run` (2026-03-03):
+    - caso de cooldown corto ahora acepta los dos resultados válidos de frontera temporal:
+      - `Ventana abierta -> ejecutando deploy + verificacion`,
+      - `Cooldown expirado/no valido -> ejecutando deploy`.
+    - resultado: `run-closeout-qa-suite.sh tests` vuelve a verde de forma determinista.
 
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.

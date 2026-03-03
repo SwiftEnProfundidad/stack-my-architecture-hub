@@ -227,6 +227,7 @@ Repos incluidos:
      - `at` job inicial en `2026-03-03 15:50 CET`, reprogamado por epoch a `2026-03-03 02:02 CET` y luego autoreprogramado a `2026-03-03 16:08 CET` tras nuevo bloqueo de cuota.
      - job file versionado: `scripts/closeout-at-job.sh`.
      - scheduler versionado: `scripts/schedule-closeout-at.sh [hora]`.
+     - recovery versionado: `scripts/recover-past-due-closeout.sh` para limpiar jobs stale y lanzar fallback manual cuando procede.
      - hardening: `schedule-closeout-at.sh` ahora sanea entorno al invocar `at` (evita heredar secretos no necesarios en jobs programados).
      - verificación runtime hardening: job regenerado (`job 11`) y job activo actual (`job 12`) sin secretos (`OPENAI_API_KEY`, `HEYGEN_API_KEY`, `sk-`) al inspeccionar `at -c`.
      - incidencia controlada: job `02:02` quedó vencido en cola (past-due), se aplicó fallback manual `./scripts/closeout-at-job.sh`.
@@ -243,6 +244,7 @@ Repos incluidos:
    - cobertura de scheduler: `scripts/tests/test-schedule-closeout-at.sh` valida programación por hora/epoch y limpieza idempotente de jobs closeout.
    - cobertura de job automático: `scripts/tests/test-closeout-at-job.sh` valida éxito/fallo, flag de cierre y auto-reschedule.
    - cobertura de wait-runner: `scripts/tests/test-closeout-wait-and-run.sh` valida guard de cooldown, modo force y ejecución diferida.
+   - robustez test wait-runner: el caso de cooldown corto admite ambos caminos válidos en frontera temporal (espera explícita o expirado inmediato) para eliminar flakiness.
    - cobertura de deploy/status:
      - `scripts/tests/test-deploy-and-verify-closeout.sh`
      - `scripts/tests/test-closeout-status.sh`
