@@ -2160,3 +2160,25 @@ El runner `deploy-and-verify-closeout.sh` devolvía código/trace en consola, pe
 
 ### Resultado
 Mejora la auditabilidad de `P2 #6` en ventana real; el estado final del intento queda persistido de forma machine-readable.
+
+## Followup integra estado del runner E2E en log
+### Fecha
+2026-03-03
+
+### Contexto
+Aunque el estado estructurado del runner ya existía (`deploy-and-verify-last.env`), el log de followup no lo incluía todavía.
+
+### Cambios aplicados
+1. `closeout-window-followup.sh` añade bloque:
+   - `[FOLLOWUP] >>> deploy-and-verify-last.env`
+   con contenido del artefacto runtime.
+2. Si no existe artefacto, registra:
+   - `deploy-and-verify-last.env missing: ...`
+3. `test-closeout-window-followup.sh` verifica presencia del bloque y del campo `state`.
+
+### Verificación
+1. `./scripts/tests/test-closeout-window-followup.sh` -> `[PASS]`.
+2. `./scripts/run-closeout-qa-suite.sh tests` -> verde.
+
+### Resultado
+El diagnóstico post-ventana queda completo en un único log: cola/runtime + estado final del runner + smoke/post-checks condicionados por flag de cierre.

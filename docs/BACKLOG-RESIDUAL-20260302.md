@@ -94,6 +94,9 @@ Documento operativo de cierre para la fase `5.4` del plan activo:
        - artefacto: `.runtime/deploy-and-verify-last.env` (`state`, `mode`, `base_url`, `updated_at`, detalles de fallo/éxito).
        - estados cubiertos por test: `guarded_cooldown`, `quota_blocked`, `publish_failed`, `post_checks_failed`, `success`.
        - `./scripts/tests/test-deploy-and-verify-closeout.sh` y `./scripts/run-closeout-qa-suite.sh tests` -> verde.
+     - `2026-03-03 03:33 CET` -> followup integra estado del runner:
+       - `closeout-window-followup.sh` vuelca `deploy-and-verify-last.env` en el log post-ventana (o marca `missing`).
+       - `./scripts/tests/test-closeout-window-followup.sh` y `./scripts/run-closeout-qa-suite.sh tests` -> verde.
    - Criterio de cierre:
      - deploy productivo + `post-deploy-checks` en una sola ejecución verde.
 

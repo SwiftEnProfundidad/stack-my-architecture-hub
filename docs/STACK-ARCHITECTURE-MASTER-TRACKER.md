@@ -964,3 +964,13 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
    - `./scripts/tests/test-deploy-and-verify-closeout.sh` -> PASS (incluye caso de fallo en post-checks).
    - `./scripts/run-closeout-qa-suite.sh tests` -> PASS.
 5. Estado: ✅ Hecho (subtask hardening de `P2 #6`).
+
+## Actualizacion 2026-03-03 (19) — Followup incluye estado del runner en log final
+1. Alcance: `scripts/closeout-window-followup.sh` + test dedicado.
+2. Cambio:
+   - el followup vuelca `deploy-and-verify-last.env` en el log post-ventana.
+   - si el artefacto no existe, registra `deploy-and-verify-last.env missing`.
+3. Validación:
+   - `./scripts/tests/test-closeout-window-followup.sh` -> PASS.
+   - `./scripts/run-closeout-qa-suite.sh tests` -> PASS.
+4. Estado: ✅ Hecho (subtask hardening de `P2 #6`).
