@@ -45,6 +45,8 @@ QUEUE_FILE="${FAKE_QUEUE_FILE:?}"
 JOBS_DIR="${FAKE_JOBS_DIR:?}"
 JOB_SCRIPT="${FAKE_JOB_SCRIPT:?}"
 
+echo "PATH_SEEN ${PATH:-}" >> "$CALLS_FILE"
+
 if [[ -n "${TEST_SECRET:-}" ]]; then
   echo "SECRET_LEAK ${TEST_SECRET}" >> "$CALLS_FILE"
 fi
@@ -139,11 +141,13 @@ run_scheduler_force_sanitize() {
   FAKE_CALLS_FILE="$CALLS_FILE" \
   FAKE_JOBS_DIR="$JOBS_DIR" \
   FAKE_JOB_SCRIPT="$JOB_SCRIPT" \
+  PATH="/tmp/leaky-bin:${PATH:-}" \
   TEST_SECRET="super-secret-value" \
   SMA_ATQ_CMD="$TMP_DIR/fake-atq.sh" \
   SMA_AT_CMD="$TMP_DIR/fake-at.sh" \
   SMA_ATRM_CMD="$TMP_DIR/fake-atrm.sh" \
   SMA_AT_FORCE_SANITIZE="1" \
+  SMA_AT_SANITIZED_PATH="/usr/bin:/bin:/usr/sbin:/sbin" \
   "$SCHEDULER_SCRIPT" "$@" >"$output_file" 2>&1
   local code=$?
   set -e
@@ -183,5 +187,7 @@ rm -f "$CALLS_FILE"
 code="$(run_scheduler_force_sanitize "$TMP_DIR/out4.txt" "16:10")"
 [[ "$code" -eq 0 ]] || { echo "[FAIL] case4 exit=$code"; cat "$TMP_DIR/out4.txt"; exit 1; }
 assert_not_contains "$CALLS_FILE" "SECRET_LEAK" "no debe propagar secretos al proceso at en modo saneado"
+assert_contains "$CALLS_FILE" "^PATH_SEEN /usr/bin:/bin:/usr/sbin:/sbin$" "debe usar PATH saneado fijo"
+assert_not_contains "$CALLS_FILE" "leaky-bin" "no debe heredar PATH interactivo en modo saneado"
 
 echo "[PASS] schedule-closeout-at tests"
