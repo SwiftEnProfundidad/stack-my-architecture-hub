@@ -1291,3 +1291,22 @@ En viewport móvil estrecho (`<=480px`) los controles superiores de estudio debe
 ### Impacto
 1. Operación más precisa para llegar a la primera ventana útil sin esperar horas extra.
 2. Mayor claridad en runbooks de `5.4` durante estado de cooldown.
+
+## ADR-LITE-067 — Normalizar `last_log_file` inexistente en `closeout-readiness`
+### Fecha
+2026-03-03
+
+### Decisión
+1. Añadir normalización de `last_log_file` en `scripts/closeout-readiness.sh`:
+   - si existe: mostrar path real y permitir `tail` en modo verbose.
+   - si no existe: mostrar `no disponible` en lugar de ruta stale.
+2. Cubrir el caso con test en `scripts/tests/test-closeout-readiness.sh`.
+
+### Motivación
+1. Evitar diagnósticos confusos con rutas temporales borradas tras pruebas.
+2. Mejorar legibilidad operativa durante ventanas de espera largas.
+3. Mantener `closeout-readiness` como comando de estado fiable para cierre `5.4`.
+
+### Impacto
+1. Salida más limpia y accionable para soporte nocturno/automático.
+2. Menor ruido en handoffs cuando no existe el log de la última ejecución.
