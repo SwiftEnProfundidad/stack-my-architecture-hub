@@ -9,6 +9,7 @@ ATQ_CMD="${SMA_ATQ_CMD:-atq}"
 AT_CMD="${SMA_AT_CMD:-at}"
 ATRM_CMD="${SMA_ATRM_CMD:-atrm}"
 AT_FORCE_SANITIZE="${SMA_AT_FORCE_SANITIZE:-0}"
+AT_SANITIZED_PATH="${SMA_AT_SANITIZED_PATH:-/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin}"
 
 when="${1:-15:50}"
 epoch_arg=""
@@ -37,7 +38,7 @@ should_sanitize_at_env() {
 build_sanitized_env() {
   SANITIZED_ENV=(
     "HOME=${HOME:-}"
-    "PATH=${PATH:-/usr/bin:/bin:/usr/sbin:/sbin}"
+    "PATH=${AT_SANITIZED_PATH}"
     "SHELL=${SHELL:-/bin/sh}"
     "LANG=${LANG:-C.UTF-8}"
     "LC_ALL=${LC_ALL:-C.UTF-8}"

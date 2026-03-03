@@ -321,6 +321,21 @@ Documento operativo de cierre para la fase `5.4` del plan activo:
      - `2026-03-03 02:36 CET` -> `./scripts/run-closeout-qa-suite.sh tests` (9 suites) -> verde.
      - `2026-03-03 02:37 CET` -> followup programado como `job 17` (`16:12 CET`) detrás de main (`15`) y watchdog (`16`).
 
+26. `P3` `✅` Hardening de `PATH` saneado para jobs `at`.
+   - Scripts:
+     - `scripts/schedule-closeout-at.sh`
+     - `scripts/schedule-closeout-window.sh`
+   - Comportamiento:
+     - el entorno saneado deja de heredar `PATH` interactivo y usa `SMA_AT_SANITIZED_PATH` (default mínimo fijo).
+     - evita propagar rutas efímeras del shell/editor a jobs programados.
+   - Cobertura:
+     - `scripts/tests/test-schedule-closeout-at.sh`
+     - `scripts/tests/test-schedule-closeout-window.sh`
+   - Evidencia:
+     - `2026-03-03 02:49 CET` -> ambos tests pasan con aserción explícita de `PATH` fijo y sin `leaky-bin`.
+     - `2026-03-03 02:49 CET` -> `./scripts/run-closeout-qa-suite.sh tests` -> verde.
+     - `2026-03-03 02:49 CET` -> `./scripts/run-closeout-qa-suite.sh full` -> verde.
+
 4. `P3` `⏳` Cerrar `5.4` y congelar handoff final.
    - Alcance:
      - `PLAN`, `SESSION-HANDOFF`, `MASTER-TRACKER`, `HUB-STABILITY-LOG`, `ADR-LITE`.

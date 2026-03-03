@@ -1458,3 +1458,21 @@ En viewport móvil estrecho (`<=480px`) los controles superiores de estudio debe
 ### Impacto
 1. Preparación de ventana más determinista y repetible.
 2. Mayor confianza en automatización de cierre al cubrir cleanup + schedule + payload end-to-end.
+
+## ADR-LITE-076 — Fijar PATH saneado para jobs programados con `at`
+### Fecha
+2026-03-03
+
+### Decisión
+1. `schedule-closeout-at.sh` y `schedule-closeout-window.sh` dejan de reutilizar `PATH` del entorno interactivo al sanear.
+2. Ambos scripts usan `SMA_AT_SANITIZED_PATH` con default mínimo fijo (`/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin`).
+3. Se añade cobertura que valida `PATH` efectivo saneado y que no aparece un marcador de ruta heredada (`leaky-bin`).
+
+### Motivación
+1. Reducir superficie de riesgo y ruido operacional en jobs `at`.
+2. Evitar que rutas temporales de herramientas locales queden embebidas en jobs programados.
+3. Mantener compatibilidad al permitir override explícito con `SMA_AT_SANITIZED_PATH`.
+
+### Impacto
+1. Jobs de closeout más deterministas y reproducibles entre entornos.
+2. Hardening adicional sin romper el flujo actual de orquestación ni la suite de regresión.

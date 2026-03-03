@@ -54,6 +54,8 @@ CALLS_FILE="${FAKE_CALLS_FILE:?}"
 QUEUE_FILE="${FAKE_QUEUE_FILE:?}"
 JOBS_DIR="${FAKE_JOBS_DIR:?}"
 
+echo "PATH_SEEN ${PATH:-}" >> "$CALLS_FILE"
+
 if [[ -n "${TEST_SECRET:-}" ]]; then
   echo "SECRET_LEAK ${TEST_SECRET}" >> "$CALLS_FILE"
 fi
@@ -140,6 +142,7 @@ run_window_force_sanitize() {
   FAKE_CALLS_FILE="$CALLS_FILE" \
   FAKE_QUEUE_FILE="$QUEUE_FILE" \
   FAKE_JOBS_DIR="$JOBS_DIR" \
+  PATH="/tmp/leaky-bin:${PATH:-}" \
   TEST_SECRET="window-secret" \
   SMA_CLOSEOUT_COOLDOWN_FILE="$COOLDOWN_FILE" \
   SMA_CLOSEOUT_SCHEDULER_CMD="$TMP_DIR/fake-scheduler.sh" \
@@ -149,6 +152,7 @@ run_window_force_sanitize() {
   SMA_AT_CMD="$TMP_DIR/fake-at.sh" \
   SMA_ATRM_CMD="$TMP_DIR/fake-atrm.sh" \
   SMA_AT_FORCE_SANITIZE="1" \
+  SMA_AT_SANITIZED_PATH="/usr/bin:/bin:/usr/sbin:/sbin" \
   "$WINDOW_SCRIPT" "$@" >"$output_file" 2>&1
   local code=$?
   set -e
@@ -209,5 +213,7 @@ rm -f "$CALLS_FILE"
 code="$(run_window_force_sanitize "$TMP_DIR/out3.txt" --epoch "$base_epoch2")"
 [[ "$code" -eq 0 ]] || { echo "[FAIL] case3 exit=$code"; cat "$TMP_DIR/out3.txt"; exit 1; }
 assert_not_contains "$CALLS_FILE" "SECRET_LEAK" "no debe filtrar TEST_SECRET con saneado forzado"
+assert_contains "$CALLS_FILE" "^PATH_SEEN /usr/bin:/bin:/usr/sbin:/sbin$" "debe usar PATH saneado fijo"
+assert_not_contains "$CALLS_FILE" "leaky-bin" "no debe heredar PATH interactivo en modo saneado"
 
 echo "[PASS] schedule-closeout-window tests"

@@ -237,8 +237,9 @@ Repos incluidos:
       - scheduler versionado: `scripts/schedule-closeout-at.sh [hora]`.
       - orquestador versionado: `scripts/schedule-closeout-window.sh [--epoch]` (programa main+watchdog+followup en una sola ejecución).
       - recovery versionado: `scripts/recover-past-due-closeout.sh` para limpiar jobs stale y lanzar fallback manual cuando procede.
-      - followup versionado: `scripts/closeout-window-followup.sh` para snapshot post-ventana sin intervención manual.
+     - followup versionado: `scripts/closeout-window-followup.sh` para snapshot post-ventana sin intervención manual.
      - hardening: `schedule-closeout-at.sh` ahora sanea entorno al invocar `at` (evita heredar secretos no necesarios en jobs programados).
+     - hardening adicional: `schedule-closeout-at.sh` y `schedule-closeout-window.sh` fijan `PATH` saneado por `SMA_AT_SANITIZED_PATH` (sin heredar `PATH` interactivo).
      - verificación runtime hardening: job regenerado (`job 11`) y job activo actual (`job 12`) sin secretos (`OPENAI_API_KEY`, `HEYGEN_API_KEY`, `sk-`) al inspeccionar `at -c`.
      - incidencia controlada: job `02:02` quedó vencido en cola (past-due), se aplicó fallback manual `./scripts/closeout-at-job.sh`.
      - objetivo: ejecutar `closeout-wait-and-run.sh fast` automáticamente en la primera ventana útil.
@@ -253,7 +254,9 @@ Repos incluidos:
      - cobertura de regresión: `scripts/tests/test-closeout-readiness.sh` valida los 4 estados (`1/3/2/0`) sin tocar la cola real de `at`.
    - cobertura de scheduler:
      - `scripts/tests/test-schedule-closeout-at.sh` valida programación por hora/epoch y limpieza idempotente de jobs closeout.
+     - mismo test valida `PATH` saneado fijo en modo `SMA_AT_FORCE_SANITIZE=1`.
      - `scripts/tests/test-schedule-closeout-window.sh` valida orquestación conjunta `main + watchdog + followup` y limpieza idempotente de jobs previos.
+     - mismo test valida `PATH` saneado fijo en modo `SMA_AT_FORCE_SANITIZE=1`.
    - cobertura de followup: `scripts/tests/test-closeout-window-followup.sh`.
    - cobertura de job automático: `scripts/tests/test-closeout-at-job.sh` valida éxito/fallo, flag de cierre y auto-reschedule.
    - cobertura de wait-runner: `scripts/tests/test-closeout-wait-and-run.sh` valida guard de cooldown, modo force y ejecución diferida.
