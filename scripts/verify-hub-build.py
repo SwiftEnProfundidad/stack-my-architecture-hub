@@ -50,6 +50,15 @@ SOURCE_REPOS = {
 }
 
 
+def source_dist_dir(course: str) -> Path:
+    repo = SOURCE_REPOS[course]
+    primary = repo / "dist"
+    nested = repo / "stack-my-architecture-SDD" / "dist"
+    if course == "sdd" and nested.exists():
+        return nested
+    return primary
+
+
 def read_text(rel_path: str) -> str:
     return (HUB_ROOT / rel_path).read_text(encoding="utf-8")
 
@@ -84,8 +93,7 @@ def main() -> int:
 
     # Integridad de copia: el artefacto publicado debe coincidir con su fuente en dist.
     for course, html_name in COURSE_HTMLS.items():
-        src_repo = SOURCE_REPOS[course]
-        src_html = src_repo / "dist" / html_name
+        src_html = source_dist_dir(course) / html_name
         dst_html = HUB_ROOT / course / html_name
         course_index = HUB_ROOT / course / "index.html"
 

@@ -27,7 +27,15 @@ MANIFEST_SCRIPT="$SCRIPT_DIR/generate-build-manifest.py"
 
 IOS_OUTPUT="$IOS_ROOT/dist"
 ANDROID_OUTPUT="$ANDROID_ROOT/dist"
-SDD_OUTPUT="$SDD_ROOT/dist"
+SDD_OUTPUT_PRIMARY="$SDD_ROOT/dist"
+SDD_OUTPUT_NESTED="$SDD_ROOT/stack-my-architecture-SDD/dist"
+if [[ "$SDD_BUILD_SCRIPT" == "$SDD_ROOT/stack-my-architecture-SDD/scripts/build-html.py" ]]; then
+  SDD_OUTPUT="$SDD_OUTPUT_NESTED"
+elif [[ -d "$SDD_OUTPUT_NESTED" && ! -d "$SDD_OUTPUT_PRIMARY" ]]; then
+  SDD_OUTPUT="$SDD_OUTPUT_NESTED"
+else
+  SDD_OUTPUT="$SDD_OUTPUT_PRIMARY"
+fi
 
 MODE="strict"
 SDD_AUDIT_RAN=0
