@@ -6,17 +6,52 @@
 <meta name="darkreader-lock">
 <meta name="course-id" content="stack-my-architecture-ios">
 <title>Stack: My Architecture iOS</title>
-<link rel="stylesheet" href="assets/study-ux.css?v=1772833758">
-<link rel="stylesheet" href="assets/course-switcher.css?v=1772833758">
-<link rel="stylesheet" href="assets/assistant-panel.css?v=1772833758">
-<script>window.__SMA_ASSISTANT_PANEL_SRC = "assets/assistant-panel.js?v=1772833758";</script>
+<script>
+(function () {
+  try {
+    var host = String(window.location.hostname || '').toLowerCase();
+    var local172 = host.match(/^172\.(\d{1,3})\.\d{1,3}\.\d{1,3}$/);
+    var isLocal = window.location.protocol === 'file:' ||
+      host === 'localhost' || host === '127.0.0.1' || host === '::1' || host === '0.0.0.0' ||
+      host.endsWith('.local') ||
+      /^10\.\d{1,3}\.\d{1,3}\.\d{1,3}$/.test(host) ||
+      /^192\.168\.\d{1,3}\.\d{1,3}$/.test(host) ||
+      (local172 && Number(local172[1]) >= 16 && Number(local172[1]) <= 31);
+    if (isLocal) return;
+
+    var user = JSON.parse(localStorage.getItem('sma:auth:user:v1') || 'null');
+    var session = JSON.parse(localStorage.getItem('sma:auth:session:v1') || 'null');
+    var isValid = !!(user && user.id && session && session.accessToken);
+    if (isValid && session.expiresAt) {
+      var expiresAt = Date.parse(String(session.expiresAt));
+      if (Number.isFinite(expiresAt) && expiresAt <= Date.now()) isValid = false;
+    }
+    if (isValid) return;
+
+    localStorage.removeItem('sma:auth:user:v1');
+    localStorage.removeItem('sma:auth:session:v1');
+    localStorage.removeItem('sma:cloud:profile:v1');
+    var next = window.location.pathname + window.location.search + window.location.hash;
+    var login = new URL('/auth/login.html', window.location.origin);
+    login.searchParams.set('next', next);
+    window.location.replace(login.pathname + login.search + login.hash);
+  } catch (_error) {
+    var next = window.location.pathname + window.location.search + window.location.hash;
+    window.location.replace('/auth/login.html?next=' + encodeURIComponent(next));
+  }
+})();
+</script>
+<link rel="stylesheet" href="assets/study-ux.css?v=1772835108">
+<link rel="stylesheet" href="assets/course-switcher.css?v=1772835108">
+<link rel="stylesheet" href="assets/assistant-panel.css?v=1772835108">
+<script>window.__SMA_ASSISTANT_PANEL_SRC = "assets/assistant-panel.js?v=1772835108";</script>
 <script>window.__SMA_MERMAID_SRC = "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js";</script>
 <script>window.__SMA_HLJS_CORE_SRC = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js";</script>
 <script>window.__SMA_HLJS_SWIFT_SRC = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/swift.min.js";</script>
-<script defer src="assets/study-ux.js?v=1772833758"></script>
-<script defer src="assets/course-switcher.js?v=1772833758"></script>
-<script defer src="assets/theme-controls.js?v=1772833758"></script>
-<script defer src="assets/assistant-bridge.js?v=1772833758"></script>
+<script defer src="assets/study-ux.js?v=1772835108"></script>
+<script defer src="assets/course-switcher.js?v=1772835108"></script>
+<script defer src="assets/theme-controls.js?v=1772835108"></script>
+<script defer src="assets/assistant-bridge.js?v=1772835108"></script>
 
 <!-- Google Fonts - Inter -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1544,7 +1579,6 @@ blockquote p {
   <li><a class="doc-nav-link" data-lesson-path="anexos/adrs/TEMPLATE-ADR.md" href="#anexos-adrs-TEMPLATE-ADR">Anexo: ADR-NNN: [Título de la decisión]</a></li>
   <li><a class="doc-nav-link" data-lesson-path="anexos/apendice-banca-ledger.md" href="#anexos-apendice-banca-ledger">Anexo: Apendice: Dominio Banca / Ledger</a></li>
   <li><a class="doc-nav-link" data-lesson-path="anexos/glosario.md" href="#anexos-glosario">Anexo: Glosario iOS</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="anexos/proyecto-final.md" href="#anexos-proyecto-final">Anexo: Proyecto Final: Demuestra lo que has aprendido</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -5723,7 +5757,42 @@ Scenario: Login exitoso con credenciales válidas
 <p>Una lista completa de todos los comportamientos que el Login debe soportar. Un vocabulario preciso (lenguaje ubicuo) que usaremos en el código. Decisiones de diseño concretas que se derivan de los escenarios (validación local antes que remota, errores tipados, operación cancelable). Una tabla de trazabilidad que conecta cada escenario con un test concreto. Y un diagrama que visualiza el flujo de datos entre componentes.</p>
 <p>En la siguiente lección empezaremos a implementar, empezando por la capa Domain: los Value Objects <code>Email</code> y <code>Password</code>, con TDD usando XCTest.</p>
 <hr>
-<hr>
+<h2 id="01-fundamentos-05-feature-login-00-especificacion-bdd-semantica-de-flechas-aplicada-a-esta-arquitectura">Semantica de flechas aplicada a esta arquitectura</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><svg class="sma-legend-arrow direct-closed" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><svg class="sma-legend-arrow dashed-closed" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><svg class="sma-legend-arrow contract-open" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><svg class="sma-legend-arrow solid-open" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+    subgraph APP[&quot;App / Composition module&quot;]
+        CR[&quot;CompositionRoot&quot;]
+        COORD[&quot;AppCoordinator&quot;]
+    end
+
+    subgraph FEATURE[&quot;Feature module&quot;]
+        VM[&quot;FeatureViewModel&quot;]
+        UC[&quot;UseCase&quot;]
+        PORT[&quot;Repository protocol&quot;]
+    end
+
+    subgraph INFRA[&quot;Infrastructure module&quot;]
+        ADAPTER[&quot;RemoteRepository adapter&quot;]
+        STORE[&quot;LocalStore&quot;]
+    end
+
+    CR -.-&gt; COORD
+    CR -.-&gt; ADAPTER
+    VM --&gt; UC
+    UC -.-&gt; PORT
+    ADAPTER --&gt; PORT
+    ADAPTER --&gt; STORE</pre>
+</div>
+<p>Lectura semantica minima de este diagrama:</p>
+<ol>
+  
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span><span class="sma-inline-arrow-chip" role="img" aria-label="Flecha de arquitectura"><svg class="sma-legend-arrow direct-closed" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg></span> dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span><span class="sma-inline-arrow-chip" role="img" aria-label="Flecha de arquitectura"><svg class="sma-legend-arrow dashed-closed" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg></span> wiring y configuracion de ensamblado.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span><span class="sma-inline-arrow-chip" role="img" aria-label="Flecha de arquitectura"><svg class="sma-legend-arrow contract-open" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg></span> dependencia contra contrato/abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span><span class="sma-inline-arrow-chip" role="img" aria-label="Flecha de arquitectura"><svg class="sma-legend-arrow solid-open" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg></span> salida/propagacion desde implementacion concreta.</span></li>
+
+</ol>
 <p><!-- semántica-flechas:auto --></p>
 <h2 id="01-fundamentos-05-feature-login-00-especificacion-bdd-sem-ntica-de-flechas-aplicada-a-esta-arquitectura">Semántica de flechas aplicada a esta arquitectura</h2>
 <div class="sma-mermaid-block">
@@ -27729,7 +27798,42 @@ private func makeSUT(
 </tbody>
 </table>
 <hr>
-<hr>
+<h2 id="05-maestria-04-testing-concurrente-semantica-de-flechas-aplicada-a-esta-arquitectura">Semantica de flechas aplicada a esta arquitectura</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><svg class="sma-legend-arrow direct-closed" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><svg class="sma-legend-arrow dashed-closed" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><svg class="sma-legend-arrow contract-open" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><svg class="sma-legend-arrow solid-open" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+    subgraph APP[&quot;App / Composition module&quot;]
+        CR[&quot;CompositionRoot&quot;]
+        COORD[&quot;AppCoordinator&quot;]
+    end
+
+    subgraph FEATURE[&quot;Feature module&quot;]
+        VM[&quot;FeatureViewModel&quot;]
+        UC[&quot;UseCase&quot;]
+        PORT[&quot;Repository protocol&quot;]
+    end
+
+    subgraph INFRA[&quot;Infrastructure module&quot;]
+        ADAPTER[&quot;RemoteRepository adapter&quot;]
+        STORE[&quot;LocalStore&quot;]
+    end
+
+    CR -.-&gt; COORD
+    CR -.-&gt; ADAPTER
+    VM --&gt; UC
+    UC -.-&gt; PORT
+    ADAPTER --&gt; PORT
+    ADAPTER --&gt; STORE</pre>
+</div>
+<p>Lectura semantica minima de este diagrama:</p>
+<ol>
+  
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span><span class="sma-inline-arrow-chip" role="img" aria-label="Flecha de arquitectura"><svg class="sma-legend-arrow direct-closed" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg></span> dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span><span class="sma-inline-arrow-chip" role="img" aria-label="Flecha de arquitectura"><svg class="sma-legend-arrow dashed-closed" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg></span> wiring y configuracion de ensamblado.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span><span class="sma-inline-arrow-chip" role="img" aria-label="Flecha de arquitectura"><svg class="sma-legend-arrow contract-open" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg></span> dependencia contra contrato/abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span><span class="sma-inline-arrow-chip" role="img" aria-label="Flecha de arquitectura"><svg class="sma-legend-arrow solid-open" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg></span> salida/propagacion desde implementacion concreta.</span></li>
+
+</ol>
 <p><!-- semántica-flechas:auto --></p>
 <h2 id="05-maestria-04-testing-concurrente-sem-ntica-de-flechas-aplicada-a-esta-arquitectura">Semántica de flechas aplicada a esta arquitectura</h2>
 <div class="sma-mermaid-block">
@@ -29578,7 +29682,42 @@ jobs:
 </tbody>
 </table>
 <hr>
-<hr>
+<h2 id="05-maestria-08-memory-leaks-y-diagnostico-semantica-de-flechas-aplicada-a-esta-arquitectura">Semantica de flechas aplicada a esta arquitectura</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><svg class="sma-legend-arrow direct-closed" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><svg class="sma-legend-arrow dashed-closed" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><svg class="sma-legend-arrow contract-open" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><svg class="sma-legend-arrow solid-open" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+    subgraph APP[&quot;App / Composition module&quot;]
+        CR[&quot;CompositionRoot&quot;]
+        COORD[&quot;AppCoordinator&quot;]
+    end
+
+    subgraph FEATURE[&quot;Feature module&quot;]
+        VM[&quot;FeatureViewModel&quot;]
+        UC[&quot;UseCase&quot;]
+        PORT[&quot;Repository protocol&quot;]
+    end
+
+    subgraph INFRA[&quot;Infrastructure module&quot;]
+        ADAPTER[&quot;RemoteRepository adapter&quot;]
+        STORE[&quot;LocalStore&quot;]
+    end
+
+    CR -.-&gt; COORD
+    CR -.-&gt; ADAPTER
+    VM --&gt; UC
+    UC -.-&gt; PORT
+    ADAPTER --&gt; PORT
+    ADAPTER --&gt; STORE</pre>
+</div>
+<p>Lectura semantica minima de este diagrama:</p>
+<ol>
+  
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span><span class="sma-inline-arrow-chip" role="img" aria-label="Flecha de arquitectura"><svg class="sma-legend-arrow direct-closed" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg></span> dependencia directa en runtime.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span><span class="sma-inline-arrow-chip" role="img" aria-label="Flecha de arquitectura"><svg class="sma-legend-arrow dashed-closed" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg></span> wiring y configuracion de ensamblado.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span><span class="sma-inline-arrow-chip" role="img" aria-label="Flecha de arquitectura"><svg class="sma-legend-arrow contract-open" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg></span> dependencia contra contrato/abstraccion.</span></li>
+  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span><span class="sma-inline-arrow-chip" role="img" aria-label="Flecha de arquitectura"><svg class="sma-legend-arrow solid-open" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg></span> salida/propagacion desde implementacion concreta.</span></li>
+
+</ol>
 <p><!-- semántica-flechas:auto --></p>
 <h2 id="05-maestria-08-memory-leaks-y-diagnostico-sem-ntica-de-flechas-aplicada-a-esta-arquitectura">Semántica de flechas aplicada a esta arquitectura</h2>
 <div class="sma-mermaid-block">
@@ -30360,7 +30499,8 @@ actor B {
 <hr>
 <p><strong>Recuerda:</strong> El debugging es una habilidad que mejora con la práctica. Cada bug que arreglas te hace mejor para el siguiente.</p>
 <hr>
-<hr>
+<p><!-- auto-gapfix:layered-mermaid --></p>
+<h2 id="05-maestria-10-debugging-xcode-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
 <p><!-- auto-gapfix:layered-mermaid --></p>
 <h2 id="05-maestria-10-debugging-xcode-diagrama-de-arquitectura-por-capas">Diagrama de arquitectura por capas</h2>
 <div class="sma-mermaid-block">
@@ -32395,6 +32535,274 @@ HIPAA audit trail ────────────┘</code></pre>
   <li><span class="sma-inline-arrow-chip" role="img" aria-label="Flecha de arquitectura"><svg class="sma-legend-arrow solid-open" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg></span> salida o propagación de resultado.</li>
 </ol>
 </section>
+<section id="06-proyecto-final-00-proyecto-final-ios" class="lesson" data-topic-id="06-proyecto-final-00-proyecto-final-ios" data-lesson-path="06-proyecto-final/00-proyecto-final-ios.md">
+<div class="lesson-path">06-proyecto-final/00-proyecto-final-ios.md</div>
+<h1 id="06-proyecto-final-00-proyecto-final-ios-etapa-6-proyecto-final-ios-delivery-enterprise-end-to-end">ETAPA 6: Proyecto Final iOS — Delivery Enterprise End-to-End</h1>
+<h2 id="06-proyecto-final-00-proyecto-final-ios-ruta-scaffold-relacionada">Ruta scaffold relacionada</h2>
+<ul>
+  <li><code>apps/ios/ArchitectureKit/Sources/</code></li>
+  <li><code>apps/ios/ArchitectureKit/Tests/</code></li>
+  <li><code>apps/ios/ArchitectureHostApp/</code></li>
+</ul>
+<h2 id="06-proyecto-final-00-proyecto-final-ios-objetivo">Objetivo</h2>
+<p>Cerrar el curso con un proyecto defendible de nivel profesional: no solo una app que funcione, sino una solución que puedas explicar, operar, evolucionar y justificar en entrevista técnica.</p>
+<p>En esta etapa debes demostrar que integras de forma coherente todo lo aprendido en Core Mobile, Junior, Midlevel, Senior, Arquitecto y Maestría.</p>
+<h2 id="06-proyecto-final-00-proyecto-final-ios-reto-obligatorio">Reto obligatorio</h2>
+<p>Implementa la iniciativa <strong>Commerce+</strong> sobre la base del proyecto del curso:</p>
+<ol>
+  <li>Extiende la app actual (<code>Login + Catalog</code>) con una nueva capacidad de negocio real.</li>
+  <li>Mantén límites arquitectónicos claros (Domain, Application, Interface, Infrastructure).</li>
+  <li>Entrega evidencia técnica y operativa, no solo pantallas.</li>
+</ol>
+<h3 id="06-proyecto-final-00-proyecto-final-ios-funcionalidad-m-nima-exigida">Funcionalidad mínima exigida</h3>
+<p>Debes implementar <strong>2 features nuevas</strong> (mínimo una de flujo principal y una de soporte):</p>
+<ol>
+  <li>Flujo principal (elige una):</li>
+</ol>
+<ul>
+  <li><code>Checkout + Order Confirmation</code></li>
+  <li><code>Favorites + Saved Lists</code></li>
+  <li><code>Profile + Session Management</code></li>
+</ul>
+<ol>
+  <li>Flujo de soporte (elige una):</li>
+</ol>
+<ul>
+  <li><code>Search + Filter avanzado</code></li>
+  <li><code>Offline cache para catálogo</code></li>
+  <li><code>Observabilidad de flujos críticos</code></li>
+</ul>
+<h2 id="06-proyecto-final-00-proyecto-final-ios-arquitectura-objetivo-del-proyecto-final">Arquitectura objetivo del proyecto final</h2>
+<div class="sma-mermaid-block">
+<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><svg class="sma-legend-arrow direct-closed" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><svg class="sma-legend-arrow dashed-closed" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><svg class="sma-legend-arrow contract-open" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><svg class="sma-legend-arrow solid-open" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg>Salida / propagacion</span></div></div>
+<pre class="mermaid">flowchart LR
+  subgraph APP[&quot;App / Composition&quot;]
+    CR[&quot;CompositionRoot&quot;]
+    COORD[&quot;AppCoordinator&quot;]
+  end
+
+  subgraph FEATURE[&quot;Features (Catalog, Checkout, Profile)&quot;]
+    VM[&quot;FeatureViewModel&quot;]
+    UC[&quot;UseCase&quot;]
+    PORT[&quot;Port / Contract&quot;]
+  end
+
+  subgraph INFRA[&quot;Infrastructure&quot;]
+    API[&quot;Remote Adapter&quot;]
+    CACHE[&quot;Local Store&quot;]
+  end
+
+  CR -.-&gt; COORD
+  CR -.-&gt; API
+  VM --&gt; UC
+  UC -.-&gt; PORT
+  API --&gt; PORT
+  API --&gt; CACHE</pre>
+</div>
+<p>Lectura de flechas aplicada:</p>
+<ol>
+  <li><span class="sma-inline-arrow-chip" role="img" aria-label="Flecha de arquitectura"><svg class="sma-legend-arrow direct-closed" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg></span> dependencia directa en runtime.</li>
+  <li><span class="sma-inline-arrow-chip" role="img" aria-label="Flecha de arquitectura"><svg class="sma-legend-arrow dashed-closed" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg></span> wiring/configuración en composition root.</li>
+  <li><span class="sma-inline-arrow-chip" role="img" aria-label="Flecha de arquitectura"><svg class="sma-legend-arrow contract-open" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg></span> dependencia contra contrato.</li>
+  <li><span class="sma-inline-arrow-chip" role="img" aria-label="Flecha de arquitectura"><svg class="sma-legend-arrow solid-open" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg></span> salida desde implementación concreta.</li>
+</ol>
+<h2 id="06-proyecto-final-00-proyecto-final-ios-alcance-t-cnico-obligatorio">Alcance técnico obligatorio</h2>
+<h3 id="06-proyecto-final-00-proyecto-final-ios-1-calidad-y-testing">1) Calidad y testing</h3>
+<ul>
+  <li>TDD por comportamiento crítico (<code>Red -&gt; Green -&gt; Refactor</code>).</li>
+  <li>Suite mínima:</li>
+  <li>tests de dominio de reglas de negocio,</li>
+  <li>tests de aplicación (casos de uso),</li>
+  <li>tests de infraestructura (mapeo/errores),</li>
+  <li>al menos 1 test de integración entre capas.</li>
+</ul>
+<h3 id="06-proyecto-final-00-proyecto-final-ios-2-concurrencia-segura">2) Concurrencia segura</h3>
+<ul>
+  <li>Tipos de dominio cruzando fronteras async: <code>Sendable</code>.</li>
+  <li>ViewModels de UI en <code>@MainActor</code>.</li>
+  <li>Cancelación explícita en tareas largas o reintentos.</li>
+</ul>
+<h3 id="06-proyecto-final-00-proyecto-final-ios-3-operaci-n-y-observabilidad">3) Operación y observabilidad</h3>
+<ul>
+  <li>Logs estructurados en flujos críticos.</li>
+  <li>Señales de error accionables.</li>
+  <li>Runbook corto para incidente principal.</li>
+</ul>
+<h3 id="06-proyecto-final-00-proyecto-final-ios-4-release-y-mitigaci-n">4) Release y mitigación</h3>
+<ul>
+  <li>Estrategia de rollout (flag o activación progresiva).</li>
+  <li>Plan de rollback concreto y ejecutable.</li>
+</ul>
+<h3 id="06-proyecto-final-00-proyecto-final-ios-5-seguridad-y-privacidad">5) Seguridad y privacidad</h3>
+<ul>
+  <li>Sin PII en logs.</li>
+  <li>Tokens/sesión gestionados con criterio seguro.</li>
+  <li>Amenazas y mitigaciones principales documentadas.</li>
+</ul>
+<h2 id="06-proyecto-final-00-proyecto-final-ios-plan-de-ejecuci-n-recomendado-7-hitos">Plan de ejecución recomendado (7 hitos)</h2>
+<ol>
+  <li>Definir escenarios BDD y alcance.</li>
+  <li>Diseñar contratos y límites de dependencias.</li>
+  <li>Implementar dominio y casos de uso con TDD.</li>
+  <li>Integrar infraestructura y manejo de errores.</li>
+  <li>Conectar interfaz y navegación.</li>
+  <li>Añadir observabilidad, release y seguridad.</li>
+  <li>Preparar defensa técnica con evidencia.</li>
+</ol>
+<h2 id="06-proyecto-final-00-proyecto-final-ios-definici-n-de-done-de-la-etapa">Definición de Done de la etapa</h2>
+<p>La etapa está cerrada cuando:</p>
+<ol>
+  <li>La app cumple el alcance funcional mínimo.</li>
+  <li>El pipeline técnico está en verde.</li>
+  <li>Existe evidencia verificable de arquitectura, testing, operación y seguridad.</li>
+  <li>Puedes defender decisiones y trade-offs sin apoyarte en explicaciones ambiguas.</li>
+</ol>
+<h2 id="06-proyecto-final-00-proyecto-final-ios-entregables-de-esta-etapa">Entregables de esta etapa</h2>
+<p>Consulta y completa la rúbrica de entrega:</p>
+<ul>
+  <li><a href="#06-proyecto-final-01-rubrica-y-entrega">Leccion 2: Rubrica y entrega del Proyecto Final</a></li>
+</ul>
+<p>Y usa como soporte:</p>
+<ul>
+  <li><a href="#05-maestria-10-rubrica-final-01-rubrica-empleabilidad-ios"><code>05-maestria/10-rubrica-final/01-rubrica-empleabilidad-ios.md</code></a></li>
+  <li><a href="#05-maestria-10-rubrica-final-02-evidencias-obligatorias-ios"><code>05-maestria/10-rubrica-final/02-evidencias-obligatorias-ios.md</code></a></li>
+  <li><a href="#05-maestria-10-rubrica-final-03-checklist-entrega-para-entrevista"><code>05-maestria/10-rubrica-final/03-checklist-entrega-para-entrevista.md</code></a></li>
+</ul>
+</section>
+<section id="06-proyecto-final-01-rubrica-y-entrega" class="lesson" data-topic-id="06-proyecto-final-01-rubrica-y-entrega" data-lesson-path="06-proyecto-final/01-rubrica-y-entrega.md">
+<div class="lesson-path">06-proyecto-final/01-rubrica-y-entrega.md</div>
+<h1 id="06-proyecto-final-01-rubrica-y-entrega-etapa-6-r-brica-y-entrega-proyecto-final-ios">ETAPA 6: Rúbrica y Entrega — Proyecto Final iOS</h1>
+<h2 id="06-proyecto-final-01-rubrica-y-entrega-objetivo-de-evaluaci-n">Objetivo de evaluación</h2>
+<p>Evaluar capacidad de entrega real en contexto enterprise: diseño, implementación, calidad, operación y defensa técnica.</p>
+<p>No se evalúa volumen de código; se evalúa criterio más evidencia.</p>
+<h2 id="06-proyecto-final-01-rubrica-y-entrega-paquete-obligatorio-de-entrega">Paquete obligatorio de entrega</h2>
+<h3 id="06-proyecto-final-01-rubrica-y-entrega-c-digo-y-tests">Código y tests</h3>
+<ol>
+  <li>Código fuente de las 2 features nuevas.</li>
+  <li>Tests unitarios y de integración relevantes.</li>
+  <li>Evidencia de ejecución local en verde.</li>
+</ol>
+<h3 id="06-proyecto-final-01-rubrica-y-entrega-artefactos-de-arquitectura">Artefactos de arquitectura</h3>
+<ol>
+  <li>Diagrama de límites y dependencias actualizado.</li>
+  <li><code>&gt;= 3</code> ADRs y <code>&gt;= 1</code> RFC con trade-offs explícitos.</li>
+  <li>Contratos de puertos con su justificación.</li>
+</ol>
+<h3 id="06-proyecto-final-01-rubrica-y-entrega-operaci-n-y-riesgo">Operación y riesgo</h3>
+<ol>
+  <li>Minimal observability spec.</li>
+  <li>Release checklist + plan de rollback.</li>
+  <li>Threat model lite + medidas de privacidad.</li>
+</ol>
+<h3 id="06-proyecto-final-01-rubrica-y-entrega-defensa-t-cnica">Defensa técnica</h3>
+<ol>
+  <li>Resumen ejecutivo de 1 página (problema, decisión, resultado).</li>
+  <li>Tabla before/after con métricas.</li>
+  <li>Guion de defensa de 5 minutos.</li>
+</ol>
+<h2 id="06-proyecto-final-01-rubrica-y-entrega-r-brica-de-puntuaci-n-100-puntos">Rúbrica de puntuación (100 puntos)</h2>
+<table>
+<thead>
+<tr>
+  <th>Categoría</th>
+  <th>Peso</th>
+  <th>Criterio de aprobación</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>Arquitectura y límites</td>
+  <td>20</td>
+  <td>Módulos claros y dependencias defendibles</td>
+</tr>
+<tr>
+  <td>Testing y calidad</td>
+  <td>20</td>
+  <td>Cobertura significativa en caminos críticos</td>
+</tr>
+<tr>
+  <td>Concurrencia y seguridad técnica</td>
+  <td>15</td>
+  <td>Aislamiento correcto, cancelación, sin data races obvias</td>
+</tr>
+<tr>
+  <td>Operación y observabilidad</td>
+  <td>15</td>
+  <td>Señales accionables, runbook útil</td>
+</tr>
+<tr>
+  <td>Release y mitigación</td>
+  <td>10</td>
+  <td>Rollout + rollback realistas</td>
+</tr>
+<tr>
+  <td>Seguridad y privacidad</td>
+  <td>10</td>
+  <td>Sin fugas de PII, mitigaciones explícitas</td>
+</tr>
+<tr>
+  <td>Defensa y trazabilidad</td>
+  <td>10</td>
+  <td>Decisiones defendibles con evidencia</td>
+</tr>
+</tbody>
+</table>
+<h2 id="06-proyecto-final-01-rubrica-y-entrega-umbrales">Umbrales</h2>
+<ol>
+  <li><strong>Aprobado Hireable</strong>: <code>&gt;= 70/100</code> y sin bloqueadores.</li>
+  <li><strong>Aprobado Architect Ready</strong>: <code>&gt;= 85/100</code>, sin bloqueadores y con mínimo <code>&gt;= 75</code> en:</li>
+</ol>
+<ul>
+  <li>Arquitectura y límites</li>
+  <li>Operación y observabilidad</li>
+  <li>Seguridad y privacidad</li>
+</ul>
+<h2 id="06-proyecto-final-01-rubrica-y-entrega-bloqueadores-autom-ticos-no-apto">Bloqueadores automáticos (No apto)</h2>
+<ol>
+  <li>Ausencia de tests en caminos críticos.</li>
+  <li>Concurrencia insegura sin mitigación.</li>
+  <li>Sin plan de rollback para cambios de riesgo.</li>
+  <li>PII expuesta en logs/eventos.</li>
+  <li>Sin trazabilidad mínima (<code>ADRs/RFC/evidencia</code>).</li>
+</ol>
+<h2 id="06-proyecto-final-01-rubrica-y-entrega-checklist-de-validaci-n-final">Checklist de validación final</h2>
+<ul>
+  <li>&#9744; Alcance funcional mínimo cumplido.</li>
+  <li>&#9744; Build + tests en verde.</li>
+  <li>&#9744; Diagrama y contratos actualizados.</li>
+  <li>&#9744; ADRs/RFC completos.</li>
+  <li>&#9744; Observabilidad y runbook listos.</li>
+  <li>&#9744; Release/rollback definidos.</li>
+  <li>&#9744; Threat model y privacidad validados.</li>
+  <li>&#9744; Defensa de 5 minutos ensayada.</li>
+</ul>
+<h2 id="06-proyecto-final-01-rubrica-y-entrega-entrega-recomendada-formato">Entrega recomendada (formato)</h2>
+<ol>
+  <li>Repositorio/branch con código y tests.</li>
+  <li>Carpeta <code>docs/final-project/</code> con evidencias.</li>
+  <li>Documento <code>DEFENSA.md</code> con:</li>
+</ol>
+<ul>
+  <li>problema y contexto,</li>
+  <li>decisiones clave,</li>
+  <li>trade-offs,</li>
+  <li>resultados y métricas,</li>
+  <li>riesgos abiertos y próximos pasos.</li>
+</ul>
+<h2 id="06-proyecto-final-01-rubrica-y-entrega-preguntas-de-defensa-debes-poder-responder">Preguntas de defensa (debes poder responder)</h2>
+<ol>
+  <li>¿Qué invariante protegiste y cómo lo demuestras?</li>
+  <li>¿Qué trade-off principal aceptaste y por qué?</li>
+  <li>¿Cómo fallaría el sistema y qué harías en los primeros 15 minutos?</li>
+  <li>¿Qué parte sería más cara de mantener a 12 meses?</li>
+  <li>¿Qué automatizarías siguiente para reducir riesgo operativo?</li>
+</ol>
+<h2 id="06-proyecto-final-01-rubrica-y-entrega-cierre-de-etapa">Cierre de etapa</h2>
+<p>Cuando completes esta rúbrica, actualiza también los entregables de maestría para dejar la trazabilidad completa de salida:</p>
+<ul>
+  <li><a href="#05-maestria-entregables-etapa-5"><code>../05-maestria/entregables-etapa-5.md</code></a></li>
+</ul>
+</section>
 <section id="anexos-calentamiento-etapa-5-maestria" class="lesson" data-topic-id="anexos-calentamiento-etapa-5-maestria" data-lesson-path="anexos/calentamiento-etapa-5-maestria.md">
 <div class="lesson-path">anexos/calentamiento-etapa-5-maestria.md</div>
 <h1 id="anexos-calentamiento-etapa-5-maestria-calentamiento-etapa-5-maestr-a">Calentamiento: Etapa 5 - Maestría</h1>
@@ -33939,6 +34347,7 @@ timer = nil</code></pre>
     style NAV fill:#e2d5f1,stroke:#6f42c1
     style COMP fill:#f8d7da,stroke:#dc3545</pre>
 </div>
+<p>La semántica clave de este grafo es que <code>AppComposition</code> conecta wiring, mientras <code>SharedKernel</code> actúa como base común; <code>Platform</code> y <code>BackendFirebase</code> proveen infraestructura técnica; y las capas <code>Domain</code>, <code>Application</code>, <code>Interface</code> e <code>Infrastructure</code> se mantienen separadas por frontera de imports.</p>
 <p>La semántica clave de este grafo es que <code>AppComposition</code> conecta wiring, mientras <code>SharedKernel</code> actúa como base común; <code>Platform</code> y <code>BackendFirebase</code> proveen infraestructura técnica; y las capas <code>Domain</code>, <code>Application</code>, <code>Interface</code> e <code>Infrastructure</code> se mantienen separadas por frontera de imports.</p>
 <p><strong>Reglas de dependencia (enforceables por CI):</strong></p>
 <table>
@@ -40277,521 +40686,6 @@ final class TransferFundsUseCaseTests: XCTestCase {
   <li>&#9744; Sé volver a la lección donde se introdujo cada término importante.</li>
   <li>&#9744; Puedo explicar al menos un trade-off asociado a los conceptos nuevos de mi etapa actual.</li>
 </ul>
-</section>
-<section id="anexos-proyecto-final" class="lesson" data-topic-id="anexos-proyecto-final" data-lesson-path="anexos/proyecto-final.md">
-<div class="lesson-path">anexos/proyecto-final.md</div>
-<h1 id="anexos-proyecto-final-proyecto-final-demuestra-lo-que-has-aprendido">Proyecto Final: Demuestra lo que has aprendido</h1>
-<p>Has completado las 5 etapas del curso. Ahora es tu turno. Tienes <strong>dos opciones</strong> para demostrar lo que has aprendido:</p>
-<p><strong>Opción A: Extender tu app del curso (Recomendada)</strong></p>
-<p>Añade nuevas features a la app que has construido (Login + Catalog). Esto demuestra que puedes trabajar en un codebase existente, que es lo más común en el mundo real.</p>
-<p><strong>Opción B: Crear BookShelf desde cero</strong></p>
-<p>Construye una mini-app nueva de catálogo de libros. Esto demuestra que puedes iniciar un proyecto desde zero aplicando todo lo aprendido.</p>
-<p>Ambas opciones usan la misma rubrica y requisitos técnicos. Elige la que más te motive.</p>
-<hr>
-<h2 id="anexos-proyecto-final-opci-n-a-extender-tu-app-del-curso">Opción A: Extender tu app del curso</h2>
-<p>Añade <strong>una de estas features</strong> a tu app StackMyArchitecture:</p>
-<h3 id="anexos-proyecto-final-feature-a1-perfil-de-usuario">Feature A1: Perfil de usuario</h3>
-<ul>
-  <li>Pantalla de perfil con datos del usuario (nombre, email)</li>
-  <li>Persistencia local con <code>@AppStorage</code> o SwiftData</li>
-  <li>Navegación desde Catalog (botón de perfil en toolbar)</li>
-</ul>
-<h3 id="anexos-proyecto-final-feature-a2-favoritos">Feature A2: Favoritos</h3>
-<ul>
-  <li>Botón "Añadir a favoritos" en cada producto</li>
-  <li>Lista de favoritos persistida (SwiftData)</li>
-  <li>Pantalla de "Mis Favoritos" accesible desde Catalog</li>
-</ul>
-<h3 id="anexos-proyecto-final-feature-a3-b-squeda-de-productos">Feature A3: Búsqueda de productos</h3>
-<ul>
-  <li>Barra de búsqueda en Catalog (<code>.searchable</code>)</li>
-  <li>Filtrado local o remoto de productos</li>
-  <li>Resultados en tiempo real</li>
-</ul>
-<h3 id="anexos-proyecto-final-feature-a4-carrito-de-compras">Feature A4: Carrito de compras</h3>
-<ul>
-  <li>Botón "Añadir al carrito" en productos</li>
-  <li>Badge con cantidad en el icono del carrito</li>
-  <li>Pantalla de carrito con resumen y total</li>
-</ul>
-<hr>
-<h2 id="anexos-proyecto-final-opci-n-b-la-app-bookshelf-tu-estanteria-de-libros">Opción B: La app "BookShelf" — Tu estanteria de libros</h2>
-<p>Vas a construir una app de catalogo de libros desde cero. La app permite al usuario ver una lista de libros y consultar el detalle de cada uno. Es una app sencilla, pero toca TODOS los conceptos del curso.</p>
-<h3 id="anexos-proyecto-final-por-que-esta-app">Por que esta app</h3>
-<ul>
-  <li>Tiene un <strong>dominio claro</strong> (libros, autores, precios) — para aplicar Value Objects y modelos.</li>
-  <li>Necesita <strong>carga de datos asincrona</strong> — para aplicar async/await, Sendable, repositorios.</li>
-  <li>Tiene <strong>dos pantallas</strong> (lista + detalle) — para aplicar navegación con NavigationPath.</li>
-  <li>Requiere <strong>tests</strong> — para aplicar TDD, stubs, spies, Arrange-Act-Assert.</li>
-  <li>Es lo suficientemente pequeña para hacerla en unas horas, pero lo suficientemente completa para cubrir todo el curso.</li>
-</ul>
-<hr>
-<h2 id="anexos-proyecto-final-requisitos-funcionales-lo-que-la-app-tiene-que-hacer">Requisitos funcionales (lo que la app tiene que HACER)</h2>
-<p>Estos son los escenarios BDD que tu app debe cumplir:</p>
-<h3 id="anexos-proyecto-final-feature-ver-catalogo-de-libros">Feature: Ver catalogo de libros</h3>
-<p><strong>Escenario 1: Carga exitosa con libros</strong></p>
-<ul>
-  <li>Given el repositorio devuelve una lista de libros</li>
-  <li>When la pantalla de catalogo aparece</li>
-  <li>Then se muestra la lista de libros con titulo, autor y precio</li>
-</ul>
-<p><strong>Escenario 2: Carga exitosa sin libros</strong></p>
-<ul>
-  <li>Given el repositorio devuelve una lista vacia</li>
-  <li>When la pantalla de catalogo aparece</li>
-  <li>Then se muestra un mensaje "No hay libros disponibles"</li>
-</ul>
-<p><strong>Escenario 3: Error de conectividad</strong></p>
-<ul>
-  <li>Given el repositorio falla por error de red</li>
-  <li>When la pantalla de catalogo aparece</li>
-  <li>Then se muestra un mensaje de error con boton de reintentar</li>
-</ul>
-<h3 id="anexos-proyecto-final-feature-ver-detalle-de-un-libro">Feature: Ver detalle de un libro</h3>
-<p><strong>Escenario 4: Navegación a detalle</strong></p>
-<ul>
-  <li>Given la lista de libros se ha cargado</li>
-  <li>When el usuario pulsa sobre un libro</li>
-  <li>Then la app navega a la pantalla de detalle mostrando titulo, autor, precio, y descripción</li>
-</ul>
-<hr>
-<h2 id="anexos-proyecto-final-requisitos-t-cnicos-como-tiene-que-estar-construida">Requisitos técnicos (COMO tiene que estar construida)</h2>
-<h3 id="anexos-proyecto-final-estructura-de-carpetas-feature-first">Estructura de carpetas (Feature-First)</h3>
-<pre><code class="language-text">BookShelf/
-├── App/
-│   ├── BookShelfApp.swift
-│   ├── CompositionRoot.swift
-│   └── Navigation/
-│       ├── AppDestination.swift
-│       └── AppCoordinator.swift
-├── Features/
-│   └── Books/
-│       ├── Domain/
-│       │   ├── Models/
-│       │   │   └── Book.swift
-│       │   └── Errors/
-│       │       └── BooksError.swift
-│       ├── Application/
-│       │   ├── Ports/
-│       │   │   └── BookRepository.swift
-│       │   └── UseCases/
-│       │       └── LoadBooksUseCase.swift
-│       ├── Infrastructure/
-│       │   ├── DTOs/
-│       │   │   └── BookDTO.swift
-│       │   ├── BookMapper.swift
-│       │   ├── RemoteBookRepository.swift
-│       │   └── StubBookRepository.swift
-│       └── Interface/
-│           ├── BooksViewModel.swift
-│           ├── BooksView.swift
-│           ├── BookRow.swift
-│           ├── BookDetailView.swift
-│           └── BooksView+Preview.swift
-└── SharedKernel/
-    └── HTTPClient.swift (reutiliza el del curso)
-
-BookShelfTests/
-├── Features/
-│   └── Books/
-│       ├── Domain/
-│       │   └── BookTests.swift
-│       ├── Application/
-│       │   ├── LoadBooksUseCaseTests.swift
-│       │   └── Helpers/
-│       │       └── BookRepositoryStub.swift
-│       └── Infrastructure/
-│           ├── RemoteBookRepositoryTests.swift
-│           └── Helpers/
-│               └── HTTPClientStub.swift (reutiliza el del curso)
-└── App/
-    └── Navigation/
-        └── AppCoordinatorTests.swift</code></pre>
-<h3 id="anexos-proyecto-final-modelo-de-dominio">Modelo de dominio</h3>
-<p>Tu struct <code>Book</code> debe tener:</p>
-<pre><code class="language-text">Book
-├── id: String
-├── title: String
-├── author: String
-├── price: Price        (reutiliza el Price del curso o crea uno nuevo)
-├── coverURL: URL
-└── description: String</code></pre>
-<p><strong>Pregunta para ti:</strong> Que protocolos necesita conformar <code>Book</code>? Piensa en: tests (necesitas <code>==</code>), navegación (necesitas NavigationPath), concurrencia (es async). Escribe los protocolos ANTES de mirar la respuesta.</p>
-<details>
-<summary>Respuesta</summary>
-<p><code>struct Book: Equatable, Hashable, Sendable</code></p>
-<ul>
-  <li><code>Equatable</code> para XCTAssertEqual en tests y para que SwiftUI detecte cambios.</li>
-  <li><code>Hashable</code> para AppDestination.bookDetail(Book) y NavigationPath.</li>
-  <li><code>Sendable</code> para cruzar fronteras async (red a UI).</li>
-</ul>
-<p></details></p>
-<h3 id="anexos-proyecto-final-errores-de-dominio">Errores de dominio</h3>
-<pre><code class="language-swift">enum BooksError: Error, Equatable, Sendable {
-    case connectivity
-    case invalidData
-}</code></pre>
-<p><strong>Pregunta para ti:</strong> Por que <code>Error</code>, <code>Equatable</code> y <code>Sendable</code>? Escribe tu respuesta antes de mirar.</p>
-<details>
-<summary>Respuesta</summary>
-<ul>
-  <li><code>Error</code> para poder usar <code>throw BooksError.connectivity</code>.</li>
-  <li><code>Equatable</code> para verificar en tests QUE error se lanzo: <code>XCTAssertEqual(error, .connectivity)</code>.</li>
-  <li><code>Sendable</code> porque los errores viajan entre hilos (red a UI) en contextos async.</li>
-</ul>
-<p></details></p>
-<hr>
-<h2 id="anexos-proyecto-final-reglas-obligatorias">Reglas obligatorias</h2>
-<p>Estas reglas son <strong>innegociables</strong>. Si no las cumples, la practica no esta aprobada:</p>
-<h3 id="anexos-proyecto-final-1-tdd-obligatorio">1. TDD obligatorio</h3>
-<ul>
-  <li>Escribe SIEMPRE el test ANTES del código de produccion.</li>
-  <li>Ciclo Red, Green, Refactor en cada iteracion.</li>
-  <li>Minimo <strong>12 tests</strong> en total (ver rubrica).</li>
-</ul>
-<h3 id="anexos-proyecto-final-2-clean-architecture">2. Clean Architecture</h3>
-<ul>
-  <li><strong>Domain</strong> no importa Foundation (solo tipos Swift puros). Excepcion: <code>URL</code> y <code>Decimal</code> que requieren Foundation.</li>
-  <li><strong>Application</strong> no importa SwiftUI ni UIKit.</li>
-  <li><strong>Infrastructure</strong> no expone DTOs fuera de su capa.</li>
-  <li><strong>Interface</strong> no accede al repositorio directamente (pasa por el UseCase).</li>
-</ul>
-<h3 id="anexos-proyecto-final-3-concurrencia-segura">3. Concurrencia segura</h3>
-<ul>
-  <li>Todos los modelos de dominio: <code>Sendable</code>.</li>
-  <li>Todos los protocolos de puertos: <code>Sendable</code>.</li>
-  <li>ViewModels: <code>@Observable @MainActor final class</code>.</li>
-  <li>No usar <code>@unchecked Sendable</code> en produccion (solo en test doubles).</li>
-</ul>
-<h3 id="anexos-proyecto-final-4-navegaci-n-por-eventos">4. Navegación por eventos</h3>
-<ul>
-  <li>Las features NO se conocen entre si.</li>
-  <li>El ViewModel NO sabe de navegación.</li>
-  <li>Los closures (<code>onBookSelected</code>) conectan features con el coordinador.</li>
-  <li>El coordinador gestiona <code>NavigationPath</code>.</li>
-</ul>
-<h3 id="anexos-proyecto-final-5-inyecci-n-de-dependencias">5. Inyección de dependencias</h3>
-<ul>
-  <li>Ningun componente crea sus propias dependencias.</li>
-  <li>Todo se ensambla en el <code>CompositionRoot</code>.</li>
-  <li>Los tests inyectan stubs/spies.</li>
-</ul>
-<h3 id="anexos-proyecto-final-6-sin-acceso-global-a-estado">6. Sin acceso global a estado</h3>
-<ul>
-  <li>No usar instancias globales compartidas para nada.</li>
-  <li>No usar variables globales.</li>
-  <li>Cada dependencia se inyecta por constructor, nunca se accede de forma global.</li>
-</ul>
-<hr>
-<h2 id="anexos-proyecto-final-el-dto-del-servidor">El DTO del servidor</h2>
-<p>El servidor devuelve este JSON para el endpoint <code>GET /books</code>:</p>
-<pre><code class="language-json">[
-    {
-        "id": "1",
-        "title": "Clean Architecture",
-        "author": "Robert C. Martin",
-        "price": 35.99,
-        "currency": "EUR",
-        "cover_url": "https://example.com/clean-arch.jpg",
-        "description": "A craftsman's guide to software structure and design."
-    },
-    {
-        "id": "2",
-        "title": "Refactoring",
-        "author": "Martin Fowler",
-        "price": 42.50,
-        "currency": "EUR",
-        "cover_url": "https://example.com/refactoring.jpg",
-        "description": "Improving the design of existing code."
-    }
-]</code></pre>
-<p><strong>Pregunta para ti:</strong> Tu <code>BookDTO</code> debe ser <code>Decodable</code> o <code>Codable</code>? Y necesita <code>CodingKeys</code>?</p>
-<details>
-<summary>Respuesta</summary>
-<ul>
-  <li>Solo <code>Decodable</code> (no <code>Codable</code>) porque solo RECIBIMOS datos del servidor, no los enviamos.</li>
-  <li>Si necesita <code>CodingKeys</code> porque el campo <code>cover_url</code> del JSON usa snake_case, pero en Swift usamos camelCase (<code>coverURL</code>).</li>
-</ul>
-<p></details></p>
-<hr>
-<h2 id="anexos-proyecto-final-tests-minimos-que-debes-escribir">Tests minimos que debes escribir</h2>
-<h3 id="anexos-proyecto-final-domain-2-tests">Domain (2 tests)</h3>
-<ol>
-  <li><code>test_book_equality_with_same_properties_returns_true</code></li>
-  <li><code>test_book_equality_with_different_id_returns_false</code></li>
-</ol>
-<h3 id="anexos-proyecto-final-application-3-tests">Application (3 tests)</h3>
-<ol>
-  <li><code>test_execute_returns_books_from_repository</code></li>
-  <li><code>test_execute_with_empty_repository_returns_empty_array</code></li>
-  <li><code>test_execute_with_connectivity_error_throws_connectivity</code></li>
-</ol>
-<h3 id="anexos-proyecto-final-infrastructure-4-tests">Infrastructure (4 tests)</h3>
-<ol>
-  <li><code>test_loadAll_on_connectivity_error_throws_connectivity</code></li>
-  <li><code>test_loadAll_on_non_200_status_throws_connectivity</code></li>
-  <li><code>test_loadAll_on_200_with_valid_json_returns_mapped_books</code></li>
-  <li><code>test_loadAll_on_200_with_invalid_json_throws_invalidData</code></li>
-</ol>
-<h3 id="anexos-proyecto-final-interface-viewmodel-3-tests">Interface / ViewModel (3 tests)</h3>
-<ol>
-  <li><code>test_load_on_success_sets_loaded_state</code></li>
-  <li><code>test_load_on_empty_sets_empty_state</code></li>
-  <li><code>test_load_on_error_sets_error_state</code></li>
-</ol>
-<h3 id="anexos-proyecto-final-navegaci-n-2-tests">Navegación (2 tests)</h3>
-<ol>
-  <li><code>test_handleBookSelected_pushes_bookDetail</code></li>
-  <li><code>test_path_starts_empty</code></li>
-</ol>
-<p><strong>Total minimo: 14 tests.</strong></p>
-<hr>
-<h2 id="anexos-proyecto-final-rubrica-de-evaluaci-n">Rubrica de evaluación</h2>
-<p>Evalua tu propio trabajo con esta rubrica. Se honesto contigo mismo — el objetivo es aprender, no "aprobar".</p>
-<h3 id="anexos-proyecto-final-arquitectura-0-10-puntos">Arquitectura (0-10 puntos)</h3>
-<table>
-<thead>
-<tr>
-  <th>Criterio</th>
-  <th>Puntos</th>
-  <th>Como verificar</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-  <td>Estructura Feature-First correcta</td>
-  <td>2</td>
-  <td>Las carpetas siguen el esquema de arriba</td>
-</tr>
-<tr>
-  <td>Domain no importa SwiftUI</td>
-  <td>2</td>
-  <td>Abre cada archivo de Domain: solo <code>import Foundation</code></td>
-</tr>
-<tr>
-  <td>Application no importa SwiftUI</td>
-  <td>2</td>
-  <td>Abre cada archivo de Application: solo <code>import Foundation</code></td>
-</tr>
-<tr>
-  <td>Infrastructure no expone DTOs al Domain</td>
-  <td>2</td>
-  <td><code>BookDTO</code> no aparece en ningun archivo de Domain ni Application</td>
-</tr>
-<tr>
-  <td>CompositionRoot ensambla todo</td>
-  <td>2</td>
-  <td>Ningun componente crea sus dependencias internamente</td>
-</tr>
-</tbody>
-</table>
-<h3 id="anexos-proyecto-final-tdd-0-10-puntos">TDD (0-10 puntos)</h3>
-<table>
-<thead>
-<tr>
-  <th>Criterio</th>
-  <th>Puntos</th>
-  <th>Como verificar</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-  <td>14+ tests escritos</td>
-  <td>3</td>
-  <td>Cmd+U, cuenta los tests</td>
-</tr>
-<tr>
-  <td>Todos los tests pasan</td>
-  <td>3</td>
-  <td>Cmd+U muestra todo verde</td>
-</tr>
-<tr>
-  <td>Tests usan Arrange-Act-Assert</td>
-  <td>2</td>
-  <td>Cada test tiene 3 bloques claros separados</td>
-</tr>
-<tr>
-  <td>Tests usan stubs (no red real)</td>
-  <td>2</td>
-  <td>Ningun test hace peticiones HTTP reales</td>
-</tr>
-</tbody>
-</table>
-<h3 id="anexos-proyecto-final-concurrencia-0-10-puntos">Concurrencia (0-10 puntos)</h3>
-<table>
-<thead>
-<tr>
-  <th>Criterio</th>
-  <th>Puntos</th>
-  <th>Como verificar</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-  <td>Modelos de dominio son <code>Sendable</code></td>
-  <td>2</td>
-  <td><code>Book</code> y <code>BooksError</code> conforman <code>Sendable</code></td>
-</tr>
-<tr>
-  <td>Protocolos son <code>Sendable</code></td>
-  <td>2</td>
-  <td><code>BookRepository</code> y <code>HTTPClient</code> conforman <code>Sendable</code></td>
-</tr>
-<tr>
-  <td>ViewModel es <code>@MainActor</code></td>
-  <td>2</td>
-  <td><code>BooksViewModel</code> tiene <code>@MainActor</code></td>
-</tr>
-<tr>
-  <td>No <code>@unchecked Sendable</code> en produccion</td>
-  <td>2</td>
-  <td>Solo en <code>BookRepositoryStub</code> (tests)</td>
-</tr>
-<tr>
-  <td>Strict concurrency sin warnings</td>
-  <td>2</td>
-  <td>Build Settings, Strict Concurrency = Complete, 0 warnings</td>
-</tr>
-</tbody>
-</table>
-<h3 id="anexos-proyecto-final-swiftui-0-10-puntos">SwiftUI (0-10 puntos)</h3>
-<table>
-<thead>
-<tr>
-  <th>Criterio</th>
-  <th>Puntos</th>
-  <th>Como verificar</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-  <td>ViewModel usa <code>@Observable</code></td>
-  <td>2</td>
-  <td>No <code>ObservableObject</code> ni <code>@Published</code></td>
-</tr>
-<tr>
-  <td>Vista usa <code>@State</code> para el ViewModel</td>
-  <td>2</td>
-  <td><code>@State private var viewModel</code> en la vista</td>
-</tr>
-<tr>
-  <td>Navegación con <code>NavigationPath</code></td>
-  <td>2</td>
-  <td>AppCoordinator gestiona un <code>NavigationPath</code></td>
-</tr>
-<tr>
-  <td><code>.task</code> para carga automática</td>
-  <td>2</td>
-  <td>La vista usa <code>.task { await viewModel.load() }</code></td>
-</tr>
-<tr>
-  <td>Preview funciona con Stub</td>
-  <td>2</td>
-  <td>La Preview usa <code>StubBookRepository</code> y se ve en Xcode</td>
-</tr>
-</tbody>
-</table>
-<h3 id="anexos-proyecto-final-calidad-de-c-digo-0-10-puntos">Calidad de código (0-10 puntos)</h3>
-<table>
-<thead>
-<tr>
-  <th>Criterio</th>
-  <th>Puntos</th>
-  <th>Como verificar</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-  <td>Nombres descriptivos</td>
-  <td>2</td>
-  <td>Los nombres dicen QUE hace el código, no COMO</td>
-</tr>
-<tr>
-  <td>Sin force unwraps innecesarios</td>
-  <td>2</td>
-  <td>No <code>!</code> excepto en URLs hardcodeadas</td>
-</tr>
-<tr>
-  <td>Errores semánticos, no técnicos</td>
-  <td>2</td>
-  <td><code>BooksError.connectivity</code>, no <code>URLError</code></td>
-</tr>
-<tr>
-  <td>DTO separado del Domain</td>
-  <td>2</td>
-  <td><code>BookDTO</code> != <code>Book</code>, mapping explicito</td>
-</tr>
-<tr>
-  <td>Sin código muerto</td>
-  <td>2</td>
-  <td>No hay funciones o imports que no se usen</td>
-</tr>
-</tbody>
-</table>
-<h3 id="anexos-proyecto-final-puntuacion-total">Puntuacion total</h3>
-<table>
-<thead>
-<tr>
-  <th>Rango</th>
-  <th>Nivel</th>
-  <th>Significado</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-  <td>45-50</td>
-  <td>Excelente</td>
-  <td>Has interiorizado Clean Architecture y TDD</td>
-</tr>
-<tr>
-  <td>35-44</td>
-  <td>Bien</td>
-  <td>Entiendes los conceptos, algun detalle por pulir</td>
-</tr>
-<tr>
-  <td>25-34</td>
-  <td>Aceptable</td>
-  <td>Los fundamentos estan, pero necesitas repasar</td>
-</tr>
-<tr>
-  <td>0-24</td>
-  <td>Necesita repaso</td>
-  <td>Vuelve a las lecciones y repite los ejercicios</td>
-</tr>
-</tbody>
-</table>
-<hr>
-<h2 id="anexos-proyecto-final-consejos-para-la-practica">Consejos para la practica</h2>
-<h3 id="anexos-proyecto-final-el-orden-importa">El orden importa</h3>
-<p>Sigue este orden, igual que en el curso:</p>
-<ol>
-  <li><strong>Primero:</strong> Crea el proyecto Xcode y la estructura de carpetas.</li>
-  <li><strong>Domain:</strong> Crea <code>Book</code>, <code>BooksError</code>. Escribe tests de igualdad.</li>
-  <li><strong>Application:</strong> Crea <code>BookRepository</code> (protocolo), <code>LoadBooksUseCase</code>. Escribe tests con stub.</li>
-  <li><strong>Infrastructure:</strong> Crea <code>BookDTO</code>, <code>BookMapper</code>, <code>RemoteBookRepository</code>, <code>StubBookRepository</code>. Escribe tests con <code>HTTPClientStub</code>.</li>
-  <li><strong>Interface:</strong> Crea <code>BooksViewModel</code>, <code>BooksView</code>, <code>BookRow</code>, <code>BookDetailView</code>. Escribe tests del ViewModel.</li>
-  <li><strong>Navegación:</strong> Crea <code>AppDestination</code>, <code>AppCoordinator</code>. Conecta todo en <code>CompositionRoot</code>.</li>
-  <li><strong>Prueba final:</strong> Cmd+B (compila), Cmd+U (tests), Cmd+R (ejecuta con stub).</li>
-</ol>
-<h3 id="anexos-proyecto-final-si-te-atascas">Si te atascas</h3>
-<ul>
-  <li><strong>No compila:</strong> Lee el error con atencion. El 90% de los errores en este ejercicio son: falta un protocolo (<code>Hashable</code>, <code>Sendable</code>), falta un <code>import</code>, o un tipo no existe todavia.</li>
-  <li><strong>Test falla:</strong> Verifica el Arrange (configuraste el stub correctamente?), el Act (llamaste al metodo correcto?), y el Assert (comparas lo que crees que comparas?).</li>
-  <li><strong>No sabes como empezar un archivo:</strong> Busca el equivalente en el curso. <code>Book</code> es equivalente a <code>Product</code>. <code>BookRepository</code> es equivalente a <code>ProductRepository</code>. <code>BooksViewModel</code> es equivalente a <code>CatalogViewModel</code>.</li>
-</ul>
-<h3 id="anexos-proyecto-final-lo-que-no-debes-hacer">Lo que NO debes hacer</h3>
-<ul>
-  <li><strong>No copies y pegues del curso</strong> cambiando nombres. Escribe cada linea tu mismo. El objetivo es que entiendas, no que copies.</li>
-  <li><strong>No te saltes los tests.</strong> Si no escribes tests primero, no estas haciendo TDD y no estas practicando lo que aprendiste.</li>
-  <li><strong>No busques atajos.</strong> Si algo te parece tedioso (crear archivos, escribir stubs), es parte del oficio. La repetición construye musculo.</li>
-</ul>
-<hr>
-<h2 id="anexos-proyecto-final-cuando-hayas-terminado">Cuando hayas terminado</h2>
-<p>Si tu puntuacion es 35 o mas, felicidades: has demostrado que puedes construir una app iOS con Clean Architecture, TDD, y SwiftUI moderno. Eso te pone por delante del 90% de los juniors que salen de un bootcamp.</p>
-<p>Si tu puntuacion es menor de 35, no te frustres. Vuelve a las lecciones que fallen, repite los ejercicios, y vuelve a intentar esta practica. La repetición es la madre del aprendizaje.</p>
-<p><strong>El siguiente paso:</strong> Intenta conectar la app a una API real (puedes usar una API publica de libros como Open Library). Eso te obligara a adaptar el DTO al formato real de la API, que es exactamente lo que haras en tu primer trabajo como desarrollador iOS.</p>
-<p>Buena suerte. Ya tienes las herramientas. Ahora, a construir.</p>
-<hr>
 </section>
 
 </main>
