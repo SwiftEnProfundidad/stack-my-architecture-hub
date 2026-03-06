@@ -13,6 +13,14 @@ LOG_FILE="$RUNTIME_DIR/build-hub.log"
 IOS_ROOT="$PROJECTS_ROOT/stack-my-architecture-ios"
 ANDROID_ROOT="$PROJECTS_ROOT/stack-my-architecture-android"
 SDD_ROOT="$PROJECTS_ROOT/stack-my-architecture-SDD"
+SDD_AUDIT_SCRIPT="$SDD_ROOT/scripts/run-full-audit.sh"
+SDD_BUILD_SCRIPT="$SDD_ROOT/scripts/build-html.py"
+if [[ ! -f "$SDD_BUILD_SCRIPT" && -f "$SDD_ROOT/stack-my-architecture-SDD/scripts/build-html.py" ]]; then
+  SDD_BUILD_SCRIPT="$SDD_ROOT/stack-my-architecture-SDD/scripts/build-html.py"
+fi
+if [[ ! -x "$SDD_AUDIT_SCRIPT" && -x "$SDD_ROOT/stack-my-architecture-SDD/scripts/run-full-audit.sh" ]]; then
+  SDD_AUDIT_SCRIPT="$SDD_ROOT/stack-my-architecture-SDD/scripts/run-full-audit.sh"
+fi
 VERIFY_SCRIPT="$SCRIPT_DIR/verify-hub-build.py"
 RUNTIME_SMOKE_SCRIPT="$SCRIPT_DIR/smoke-hub-runtime.sh"
 MANIFEST_SCRIPT="$SCRIPT_DIR/generate-build-manifest.py"
@@ -42,7 +50,15 @@ SDD_ROOT="$(resolve_course_root "$SDD_ROOT" "stack-my-architecture-SDD")"
 SDD_AUDIT_SCRIPT="$SDD_ROOT/scripts/run-full-audit.sh"
 IOS_OUTPUT="$IOS_ROOT/dist"
 ANDROID_OUTPUT="$ANDROID_ROOT/dist"
-SDD_OUTPUT="$SDD_ROOT/dist"
+SDD_OUTPUT_PRIMARY="$SDD_ROOT/dist"
+SDD_OUTPUT_NESTED="$SDD_ROOT/stack-my-architecture-SDD/dist"
+if [[ "$SDD_BUILD_SCRIPT" == "$SDD_ROOT/stack-my-architecture-SDD/scripts/build-html.py" ]]; then
+  SDD_OUTPUT="$SDD_OUTPUT_NESTED"
+elif [[ -d "$SDD_OUTPUT_NESTED" && ! -d "$SDD_OUTPUT_PRIMARY" ]]; then
+  SDD_OUTPUT="$SDD_OUTPUT_NESTED"
+else
+  SDD_OUTPUT="$SDD_OUTPUT_PRIMARY"
+fi
 
 MODE="strict"
 SDD_AUDIT_RAN=0
@@ -179,8 +195,12 @@ say "[2/8] Building Android HTML output..."
 python3 "$ANDROID_ROOT/scripts/build-html.py"
 
 if [[ "$MODE" == "fast" ]]; then
-  say "[3/8] Fast mode: skipping strict SDD gate and building SDD HTML only (profile=$SDD_BUILD_PROFILE)..."
-  SMA_BUILD_PROFILE="$SDD_BUILD_PROFILE" python3 "$SDD_ROOT/scripts/build-html.py"
+  say "[3/8] Fast mode: skipping strict SDD gate and building SDD HTML only..."
+  if [[ ! -f "$SDD_BUILD_SCRIPT" ]]; then
+    echo "[ERROR] Missing SDD build script: $SDD_BUILD_SCRIPT"
+    exit 1
+  fi
+  python3 "$SDD_BUILD_SCRIPT"
 else
   if [[ ! -x "$SDD_AUDIT_SCRIPT" ]]; then
     echo "[ERROR] Missing or non-executable SDD audit script: $SDD_AUDIT_SCRIPT"

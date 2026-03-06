@@ -1,6 +1,6 @@
 # SESSION HANDOFF
 
-Fecha de corte: 2026-03-03
+Fecha de corte: 2026-03-01
 
 ## Leyenda
 - ✅ Hecho
@@ -34,7 +34,7 @@ Repos incluidos:
      - `scripts/validate-learning-gates.py`
      - `scripts/validate-diagram-semantics.py`
    - Hub incorpora:
-     - `docs/archive/plans-closed/PLAN-MAESTRO-IMPLEMENTACION-CURSOS-20260227.md`
+     - `docs/PLAN-MAESTRO-IMPLEMENTACION-CURSOS-20260227.md`
      - `docs/GUIA-DIAGRAMAS-ARQUITECTURA-CAPAS-Y-FLECHAS.md`
      - `docs/TEMPLATE-DIAGRAMA-ARQUITECTURA-MERMAID.md`
    - sync selectivo de bundles (`ios/android/sdd`) y validacion runtime del Hub.
@@ -125,7 +125,7 @@ Repos incluidos:
      - `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`
      - `./scripts/smoke-hub-runtime.sh` -> OK
 4. Plan formal de continuidad:
-   - `docs/archive/plans-closed/PLAN-PERFORMANCE-MOBILE-FIRST-20260301.md`
+   - `docs/PLAN-PERFORMANCE-MOBILE-FIRST-20260301.md`
 
 ## Trabajo en curso
 1. ✅ Fase 1 performance móvil cerrada.
@@ -142,161 +142,6 @@ Repos incluidos:
    - cierre GitFlow completo y despliegue Vercel en producción:
      - `https://architecture-stack.vercel.app`
      - `https://architecture-stack-787gl8cx3-merlosalbarracins-projects.vercel.app`
-11. ✅ Hotfix de continuidad multi-dispositivo y arranque Hub (2026-03-02):
-   - `build-hub.sh`, `verify-hub-build.py` y `check-selective-sync-drift.sh` soportan rutas flat/nested para iOS/Android/SDD.
-   - `study-ux.js` y `course-switcher.js` alineados en iOS/Android/SDD para:
-     - resolver `/progress/*` contra endpoint remoto en contexto local,
-     - conservar `progressProfile/progressBase/progressEndpoint` al cambiar de curso,
-     - exponer acción `🔗 Copiar enlace de sincronización` para compartir progreso entre dispositivos.
-   - validación en verde:
-     - `python3 scripts/build-html.py` en iOS/Android/SDD -> PASS
-     - `./scripts/build-hub.sh --mode fast` -> PASS
-     - `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`
-     - `./scripts/smoke-hub-runtime.sh` -> OK
-12. 🚧 Nuevo ciclo activo de auditoria gradual por leccion:
-   - plan activo unico: `docs/PLAN-AUDITORIA-CURSOS-FASES-20260302.md`
-   - matriz operativa: `docs/AUDITORIA-CURSOS-MATRIZ-20260302.tsv`
-   - `1.1` iOS `ETAPA 0: CORE MOBILE` cerrada en caliente (normalizacion de flechas, narrativa y jerarquia de encabezados).
-   - `1.2` iOS `ETAPA 1: JUNIOR` cerrada en caliente (fences Mermaid, markers auto y convención de flechas alineados).
-   - `1.3` iOS `ETAPA 2: MIDLEVEL` cerrada en caliente (fences Mermaid, markers auto y convención de flechas alineados).
-   - `1.4` iOS `ETAPA 3: SENIOR` cerrada en caliente (fences Mermaid, markers auto y convención de flechas alineados).
-   - `1.5` iOS `ETAPA 4: ARQUITECTO` cerrada en caliente (fences Mermaid, markers auto y convención de flechas alineados).
-   - `1.6` iOS `ETAPA 5: MAESTRIA + ANEXOS` cerrada en caliente (fences Mermaid, markers auto y convención de flechas alineados).
-   - `1.7` iOS `ETAPA 6: PROYECTO FINAL` cerrada con sección propia (`06-proyecto-final`) y rúbrica de entrega defendible.
-   - `2.1` Android bloque inicial cerrado en caliente (`00-nivel-cero`, `00-core-mobile`) con convención de flechas alineada.
-   - `2.2` Android bloque intermedio cerrado en caliente (`01-junior`, `02-midlevel`) con convención de flechas y fences Mermaid alineados.
-   - `2.3` Android bloque avanzado cerrado en caliente (`03-senior`, `04-maestria`, `05-proyecto-final`, `anexos`) con convención de flechas alineada.
-   - `2.4` Android Proyecto Final endurecido en caliente (brief/rúbrica/evidencias con criterio enterprise defendible).
-   - `3.1` SDD bloque base cerrado en caliente (`00-preparacion`, `01-roadmap`, semanas 01-08) con cierre consistente de fences Mermaid.
-   - `3.2` SDD bloque avanzado cerrado en caliente (semanas 09-16 con cierre consistente de fences Mermaid, anexos auditados sin regresión).
-   - `3.3` perfil público monetizable SDD cerrado (build profile público excluye `00-informe`, `docs`, `openspec` sin romper perfil local full).
-   - `3.4` Proyecto Final SDD obligatorio cerrado con sección pública dedicada (`18-proyecto-final`) y rúbrica de defensa.
-   - `4.1` Hub UX/UI responsive cerrado en caliente con fix cross-course de controles móviles:
-     - `#study-ux-controls` y `#theme-controls` ahora envuelven (`flex-wrap`) sin overflow horizontal.
-     - `#study-progress` pasa a primera fila en `<=480px` para evitar clipping del botón `💬 Asistente IA`.
-     - verificado en iOS/Android/SDD (`390x844`) con Playwright: sin desbordes de viewport.
-   - `4.2` auth/logout/acceso cerrado en caliente:
-     - logout limpia `sma:auth:user:v1`, `sma:auth:session:v1` y `sma:cloud:profile:v1`.
-     - accesos directos sin sesión redirigen a login con `next` saneado (sin `progressProfile/progressBase/progressEndpoint`).
-     - verificado en runtime: acceso bloqueado sin sesión y reentrada al curso exige login.
-   - `4.3` validación visual cerrada en caliente:
-     - Playwright en iOS/Android/SDD y viewports `desktop + iPhone`.
-     - 3 estilos (`Enterprise/Bold/Paper`) ciclan correctamente en los 3 cursos.
-     - sin overflow horizontal en body/controles y con toggle de índice visible en iPhone.
-   - `5.1` QA técnico cross-repo cerrado en caliente:
-     - Android: `check-links`, `validate-diagram-semantics`, `build-html` en verde.
-     - SDD: estructura/OpenSpec/links/pedagogía/snippets/build/`swift test` en verde.
-     - iOS: enlaces de arquitectura corregidos en `00-core-mobile/00-introduccion.md` y baseline de guardrails recalibrado al corpus auditado actual; `run-qa-audit-bundle.sh` en verde.
-   - `5.2` GitFlow de cierre completado:
-     - iOS PR `#38` mergeada (`fix(ios-qa): links intro + baseline guardrails`).
-     - Hub PR `#80` mergeada (`sync bundles + tracking 5.1->5.2`).
-     - `develop` limpio en los 4 repos.
-   - `5.3` deploy final intentado y bloqueado por cuota Vercel:
-     - comando: `bash scripts/publish-architecture-stack.sh fast`
-     - error: `api-deployments-free-per-day` (retry en ~17h desde intento).
-     - reintento adicional: `2026-03-02 23:37 CET` con mismo bloqueo.
-     - reintento adicional: `2026-03-02 23:49 CET` con `retry in 16 hours`.
-     - próxima ventana estimada: `2026-03-03 15:49 CET` o posterior.
-   - `0.3` limpieza documental cerrada:
-     - planes históricos movidos a `docs/archive/plans-closed/`.
-     - `docs/` raíz queda con un único plan activo: `PLAN-AUDITORIA-CURSOS-FASES-20260302.md`.
-   - `0.4` sincronización de fuentes de verdad cerrada (`MASTER-TRACKER`, `SESSION-HANDOFF`, `HUB-STABILITY-LOG`, `ADR-LITE`).
-   - tarea en construccion actual: `5.4` (cierre final con backlog residual priorizado).
-   - artefacto operativo creado: `docs/BACKLOG-RESIDUAL-20260302.md`.
-   - automatización de smoke público preparada:
-     - script: `scripts/smoke-public-routes.sh [base_url]`
-     - baseline actual (pre-deploy): `2026-03-02 23:39 CET`, `200` en `/`, `/ios/`, `/android/`, `/sdd/`.
-     - última ejecución pública: `2026-03-03 02:42 CET` en `https://architecture-stack.vercel.app` -> `200` en las 4 rutas.
-   - automatización de smoke funcional preparada:
-     - script: `scripts/smoke-public-functional.sh [base_url]`
-     - baseline actual (pre-deploy): `2026-03-02 23:41 CET`, smoke funcional en verde para Hub/Auth/iOS/Android/SDD.
-     - última ejecución pública: `2026-03-03 02:42 CET` en `https://architecture-stack.vercel.app` -> verde completo.
-   - runner unificado de verificación post-deploy:
-     - script: `scripts/post-deploy-checks.sh [base_url]`
-     - baseline actual (pre-deploy): `2026-03-02 23:43 CET`, runner completo en verde.
-     - última ejecución pública: `2026-03-03 02:43 CET` en `https://architecture-stack.vercel.app` -> verde completo.
-   - runner end-to-end de cierre:
-     - script: `scripts/deploy-and-verify-closeout.sh [fast|strict] [base_url]`
-     - guard de cuota activo vía `.runtime/vercel-deploy-cooldown.env`.
-13. ✅ Hardening anti-cache + bypass local auth (2026-03-03):
-   - Hub:
-     - servidor local con cabeceras `no-store/no-cache` para invalidación estricta de caché.
-     - build pipeline con versionado automático de assets (`?v=`) por build.
-     - verificación de build adaptada para ignorar difs de versionado de assets.
-     - `vercel.json` con cabeceras anti-cache globales.
-   - iOS/Android/SDD:
-     - `course-switcher.js` permite acceso local sin login cloud (`localhost` y LAN privada), manteniendo gate de auth en entornos remotos.
-   - validación:
-     - `SKIP_RUNTIME_SMOKE=1 ./scripts/build-hub.sh --mode fast` -> PASS.
-     - smoke local Playwright: `index -> curso` sin redirección a login en local.
-     - ejecución histórica con intento real: `2026-03-02 23:49 CET` (build OK, deploy bloqueado por cuota).
-     - última ejecución con intento real: `2026-03-03 02:07 CET` (build OK, deploy bloqueado por cuota, retry `~14h`).
-     - última ejecución guardada: `2026-03-03 02:45 CET` (cooldown activo, sin consumir intento).
-     - preflight de ventana: `2026-03-03 03:20 CET` (status+cola+payload jobs+QA full) en verde, listo para ejecución automática a `16:08 CET`.
-     - followup post-ventana endurecido (`2026-03-03 03:25 CET`): al detectar `closeout-complete.flag`, ejecuta automáticamente smoke público de rutas/funcional + post-checks para dejar evidencia E2E en log.
-     - artefacto de estado por ejecución (`2026-03-03 03:29 CET`): `deploy-and-verify-closeout.sh` escribe `.runtime/deploy-and-verify-last.env` con estado final estructurado (`guarded_cooldown|quota_blocked|publish_failed|post_checks_failed|success`).
-     - followup con observabilidad completa (`2026-03-03 03:33 CET`): además de `auto-closeout-status.env`, incluye en log el contenido de `.runtime/deploy-and-verify-last.env`.
-     - freeze-check documental (`2026-03-03 03:37 CET`): `closeout-freeze-check.sh` produce reporte READY/NOT_READY para cerrar `5.4` sin ambigüedad tras la ventana real.
-     - freeze-check embebido en followup (`2026-03-03 03:42 CET`): `closeout-window-followup.sh` ejecuta `closeout-freeze-check.sh` automáticamente y deja `exit=<code>` en el mismo log post-ventana.
-   - estado operativo rápido:
-     - script: `scripts/closeout-status.sh`
-     - estado actual: `2026-03-03 02:58 CET` -> cooldown activo, not-before `2026-03-03 16:07:10 CET`.
-     - validación de ventana integrada:
-       - `Job main activo: 18`
-       - `Job watchdog activo: 19`
-       - `Job followup activo: 20`
-     - `2026-03-03 03:16 CET` -> validación de ventana útil (cooldown vencido simulado) reporta `Estado: listo para reintento de deploy`.
-     - guard adicional: si falta alguno de los 3 jobs de ventana, `closeout-status` devuelve `EXIT_CODE=3` y sugiere `./scripts/schedule-closeout-window.sh`.
-   - runner de espera automática para cierre desatendido:
-     - script: `scripts/closeout-wait-and-run.sh [fast|strict] [base_url]`
-     - validación segura: `2026-03-03 00:01 CET` con `SMA_CLOSEOUT_MAX_WAIT_SECONDS=60` (salida controlada sin intento de deploy).
-   - orquestación programada de reintento:
-      - `at` job inicial en `2026-03-03 15:50 CET`, reprogamado por epoch a `2026-03-03 02:02 CET` y luego autoreprogramado a `2026-03-03 16:08 CET` tras nuevo bloqueo de cuota.
-      - cola actual refrescada con orquestador de ventana:
-        - `job 18` -> closeout principal (`16:08 CET`)
-        - `job 19` -> recovery watchdog (`16:10 CET`)
-        - `job 20` -> followup snapshot (`16:12 CET`)
-     - job file versionado: `scripts/closeout-at-job.sh`.
-      - scheduler versionado: `scripts/schedule-closeout-at.sh [hora]`.
-      - orquestador versionado: `scripts/schedule-closeout-window.sh [--epoch]` (programa main+watchdog+followup en una sola ejecución).
-      - auto-reschedule por defecto: `closeout-at-job.sh` reprogama con `schedule-closeout-window.sh` para mantener ventana completa tras bloqueos de cuota.
-      - recovery versionado: `scripts/recover-past-due-closeout.sh` para limpiar jobs stale y lanzar fallback manual cuando procede.
-      - followup versionado: `scripts/closeout-window-followup.sh` para snapshot post-ventana sin intervención manual.
-     - hardening: `schedule-closeout-at.sh` ahora sanea entorno al invocar `at` (evita heredar secretos no necesarios en jobs programados).
-     - hardening adicional: `schedule-closeout-at.sh` y `schedule-closeout-window.sh` fijan `PATH` saneado por `SMA_AT_SANITIZED_PATH` (sin heredar `PATH` interactivo).
-     - verificación runtime PATH hardening: `at -c 18|19|20` confirma `export PATH=/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin`.
-     - aislamiento de tests runtime:
-       - `closeout-readiness.sh` acepta `SMA_CLOSEOUT_RUNTIME_DIR`.
-       - `test-closeout-readiness.sh` ejecuta sobre runtime temporal y deja de tocar `.runtime` real.
-     - verificación runtime hardening: job regenerado (`job 11`) y job activo actual (`job 12`) sin secretos (`OPENAI_API_KEY`, `HEYGEN_API_KEY`, `sk-`) al inspeccionar `at -c`.
-     - incidencia controlada: job `02:02` quedó vencido en cola (past-due), se aplicó fallback manual `./scripts/closeout-at-job.sh`.
-     - objetivo: ejecutar `closeout-wait-and-run.sh fast` automáticamente en la primera ventana útil.
-     - hardening: `closeout-at-job.sh` guarda estado en `.runtime/auto-closeout-status.env`, crea flag `.runtime/closeout-complete.flag` al éxito y reprogama automáticamente si persiste cooldown.
-     - fix aplicado: autoreprogramación ahora usa `--epoch` (evita error `at: garbled time` y mantiene job activo en cola).
-     - comando operativo de readiness:
-      - `scripts/closeout-readiness.sh [--verbose]` para saber si 5.3/5.4 están listos de cierre sin inspección manual.
-      - guard adicional: verifica cola `at`; si falta cualquier job de ventana (`main/watchdog/followup`) con cooldown vigente devuelve `EXIT_CODE=3`.
-      - guidance dinámica: con cooldown activo recomienda `./scripts/schedule-closeout-at.sh --epoch <not_before+60s>` (evita depender de hora fija `15:50`).
-      - con ventana incompleta recomienda `./scripts/schedule-closeout-window.sh` (reconstrucción íntegra de ventana).
-      - higiene de salida: si `last_log_file` no existe, muestra `Último log: no disponible` para evitar rutas temporales stale.
-      - sugerencia inteligente: si el job ya está en el minuto recomendado de ventana, no muestra recomendación redundante de reprogramación.
-      - cobertura de regresión: `scripts/tests/test-closeout-readiness.sh` valida los 4 estados (`1/3/2/0`) sin tocar la cola real de `at`.
-      - cobertura ampliada de ventana: `test-closeout-readiness.sh` valida casos `solo main`, `ventana completa`, `main tardío` y `followup faltante`.
-   - cobertura de scheduler:
-     - `scripts/tests/test-schedule-closeout-at.sh` valida programación por hora/epoch y limpieza idempotente de jobs closeout.
-     - mismo test valida `PATH` saneado fijo en modo `SMA_AT_FORCE_SANITIZE=1`.
-     - `scripts/tests/test-schedule-closeout-window.sh` valida orquestación conjunta `main + watchdog + followup` y limpieza idempotente de jobs previos.
-     - mismo test valida `PATH` saneado fijo en modo `SMA_AT_FORCE_SANITIZE=1`.
-   - cobertura de followup: `scripts/tests/test-closeout-window-followup.sh`.
-   - cobertura de job automático: `scripts/tests/test-closeout-at-job.sh` valida éxito/fallo, flag de cierre y auto-reschedule.
-   - cobertura de wait-runner: `scripts/tests/test-closeout-wait-and-run.sh` valida guard de cooldown, modo force y ejecución diferida.
-   - robustez test wait-runner: el caso de cooldown corto admite ambos caminos válidos en frontera temporal (espera explícita o expirado inmediato) para eliminar flakiness.
-   - cobertura de deploy/status:
-     - `scripts/tests/test-deploy-and-verify-closeout.sh`
-     - `scripts/tests/test-closeout-status.sh`
-     - `2026-03-03 03:16 CET` -> `./scripts/tests/test-closeout-status.sh` + `./scripts/run-closeout-qa-suite.sh tests` en verde.
-   - runner QA único:
-     - `scripts/run-closeout-qa-suite.sh tests|full` (actualmente 11 suites; `full` valida `closeout-status` + `closeout-readiness` y acepta estado `2` como espera válida).
 
 ## Última comprobación de espera activa
 1. Fecha: 2026-02-27.
@@ -336,13 +181,12 @@ Repos incluidos:
 29. ✅ Fase 3 validación final + despliegue Vercel.
 30. ✅ Desacoplar carga de Mermaid/Highlight del path crítico del arranque en iOS/Android/SDD.
 31. ✅ Fase 8 de optimización de imágenes de arquitectura iOS para móvil (`webp` + fallback `png`).
-32. ✅ Estado operativo de cierre reporta `listo para reintento de deploy` en ventana válida.
 
 ## Siguiente paso concreto
-1. Completar `5.4`: cierre documental final sin tareas `🚧` fuera del propio cierre y backlog residual priorizado.
-2. Retomar `5.3` cuando reinicie cuota Vercel para ejecutar despliegue final.
-3. Mantener commits atomicos y GitFlow estricto por bloque.
-4. Actualizar handoff al cerrar cada ola real de auditoria.
+1. Mantener este paquete `docs/` como fuente de verdad transversal.
+2. Abrir próximo bloque operativo solo ante trigger real (nueva mejora o incidencia).
+3. Mantener commits atómicos al abrir próximo bloque operativo real.
+4. Actualizar handoff al cerrar cada bloque real.
 
 ## Riesgos abiertos
 1. `codex resume` filtra por `cwd` si no se usa `--all`.

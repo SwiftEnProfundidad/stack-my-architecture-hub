@@ -1,27 +1,4 @@
 {
-  "headers": [
-    {
-      "source": "/(.*)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0"
-        },
-        {
-          "key": "Pragma",
-          "value": "no-cache"
-        },
-        {
-          "key": "Expires",
-          "value": "0"
-        },
-        {
-          "key": "Surrogate-Control",
-          "value": "no-store"
-        }
-      ]
-    }
-  ],
   "rewrites": [
     {
       "source": "/health",
@@ -46,38 +23,6 @@
     {
       "source": "/progress/state",
       "destination": "/api/progress-sync?route=state"
-    },
-    {
-      "source": "/auth/config",
-      "destination": "/api/auth-sync?route=config"
-    },
-    {
-      "source": "/auth/signup",
-      "destination": "/api/auth-sync?route=signup"
-    },
-    {
-      "source": "/auth/login",
-      "destination": "/api/auth-sync?route=login"
-    },
-    {
-      "source": "/auth/refresh",
-      "destination": "/api/auth-sync?route=refresh"
-    },
-    {
-      "source": "/auth/resend",
-      "destination": "/api/auth-sync?route=resend"
-    },
-    {
-      "source": "/auth/recover",
-      "destination": "/api/auth-sync?route=recover"
-    },
-    {
-      "source": "/auth/me",
-      "destination": "/api/auth-sync?route=me"
-    },
-    {
-      "source": "/auth/logout",
-      "destination": "/api/auth-sync?route=logout"
     },
     {
       "source": "/assistant/query",

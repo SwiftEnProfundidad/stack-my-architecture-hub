@@ -346,6 +346,48 @@
     });
   }
 
+  function rerenderMermaidSafely(options) {
+    options = options || {};
+    applyMermaidCssVars();
+    if (typeof mermaid === 'undefined') return;
+
+    var scope = options.scope && typeof options.scope.querySelectorAll === 'function' ? options.scope : document;
+    var visibleOnly = options.visibleOnly !== false;
+    var blocks = Array.prototype.slice.call(scope.querySelectorAll('pre.mermaid'));
+    if (visibleOnly) {
+      blocks = blocks.filter(isVisibleMermaidBlock);
+    }
+    var renderableBlocks = blocks.filter(normalizeMermaidBlock);
+    if (!renderableBlocks.length) {
+      applyMermaidSvgOverrides(scope);
+      return;
+    }
+
+    renderableBlocks.forEach(function (el) {
+      el.setAttribute('data-sma-mermaid-pending', '1');
+    });
+
+    var selector = 'pre.mermaid[data-sma-mermaid-pending=\"1\"]';
+    var finish = function () {
+      renderableBlocks.forEach(function (el) {
+        el.removeAttribute('data-sma-mermaid-pending');
+      });
+      applyMermaidSvgOverrides(scope);
+    };
+
+    try {
+      mermaid.initialize({
+        startOnLoad: false,
+        theme: 'base',
+        securityLevel: 'loose',
+        deterministicIds: false,
+        themeVariables: buildMermaidThemeVariables(),
+        flowchart: { htmlLabels: true, curve: 'basis' }
+      });
+      mermaid.run({ querySelector: selector }).then(finish).catch(finish);
+    } catch (e) {}
+  }
+
   function applyStyle(style) {
     style = sanitizeChoice(style, STYLE_VALUES, STYLE_ALIASES) || 'enterprise';
     document.documentElement.setAttribute('data-style', style);
@@ -366,22 +408,10 @@
 
   function applyCodeTheme(theme) {
     theme = sanitizeChoice(theme, CODE_THEME_VALUES, CODE_THEME_ALIASES) || 'monokai';
-    document.documentElement.setAttribute('data-code-theme', theme);
     localStorage.setItem('course-code-theme', theme);
+    document.documentElement.setAttribute('data-code-theme', theme);
     var btn = document.getElementById('code-theme-cycle-btn');
-    if (btn) btn.textContent = 'Código: ' + theme.charAt(0).toUpperCase() + theme.slice(1).replace(/-/g, ' ');
-
-    var hljsLink = document.getElementById('hljs-theme');
-    if (hljsLink) {
-      var themeMap = {
-        monokai: 'monokai.min.css',
-        github: 'github.min.css',
-        'github-dark': 'github-dark.min.css',
-        'atom-one-dark': 'atom-one-dark.min.css'
-      };
-      hljsLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/' + (themeMap[theme] || 'monokai.min.css');
-    }
-
+    if (btn) btn.textContent = 'Codigo: ' + theme.charAt(0).toUpperCase() + theme.slice(1).replace(/-/g, ' ');
     rehighlightAll();
   }
 
@@ -417,48 +447,6 @@
     var current = activeTheme();
     applyTheme(current === 'dark' ? 'light' : 'dark');
     rerenderMermaidSafely();
-  }
-
-  function rerenderMermaidSafely(options) {
-    options = options || {};
-    applyMermaidCssVars();
-    if (typeof mermaid === 'undefined') return;
-
-    var scope = options.scope && typeof options.scope.querySelectorAll === 'function' ? options.scope : document;
-    var visibleOnly = options.visibleOnly !== false;
-    var blocks = Array.prototype.slice.call(scope.querySelectorAll('pre.mermaid'));
-    if (visibleOnly) {
-      blocks = blocks.filter(isVisibleMermaidBlock);
-    }
-    var renderableBlocks = blocks.filter(normalizeMermaidBlock);
-    if (!renderableBlocks.length) {
-      applyMermaidSvgOverrides(scope);
-      return;
-    }
-
-    renderableBlocks.forEach(function (el) {
-      el.setAttribute('data-sma-mermaid-pending', '1');
-    });
-
-    var selector = 'pre.mermaid[data-sma-mermaid-pending="1"]';
-    var finish = function () {
-      renderableBlocks.forEach(function (el) {
-        el.removeAttribute('data-sma-mermaid-pending');
-      });
-      applyMermaidSvgOverrides(scope);
-    };
-
-    try {
-      mermaid.initialize({
-        startOnLoad: false,
-        theme: 'base',
-        securityLevel: 'loose',
-        deterministicIds: false,
-        themeVariables: buildMermaidThemeVariables(),
-        flowchart: { htmlLabels: true, curve: 'basis' }
-      });
-      mermaid.run({ querySelector: selector }).then(finish).catch(finish);
-    } catch (e) {}
   }
 
   window.applyStyle = applyStyle;

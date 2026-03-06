@@ -1,6 +1,6 @@
 # STACK ARCHITECTURE MASTER TRACKER
 
-Fecha de actualización: 2026-03-03
+Fecha de actualización: 2026-03-01
 
 ## Leyenda
 - ✅ Hecho
@@ -54,7 +54,7 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
     - iOS: `58/58` lecciones con Mermaid en 4 flechas.
     - Android: `10/10` lecciones con Mermaid en 4 flechas.
     - SDD: `157/157` lecciones con Mermaid (excluyendo `00-informe`) en 4 flechas.
-34. Plan operativo versionado para este bloque en `docs/archive/plans-closed/PLAN-COBERTURA-TOTAL-FLECHAS-20260227.md`.
+34. Plan operativo versionado para este bloque en `docs/PLAN-COBERTURA-TOTAL-FLECHAS-20260227.md`.
 35. Buscador lateral de lecciones integrado en iOS/Android/SDD y publicado en Hub con sync selectivo estable.
 36. Ajuste UX del buscador lateral: bloque `INDICE + buscador` fijo al scroll y con separación superior corregida en iOS/Android/SDD.
 37. Guardrail de publicación aplicado en Hub: `build-hub.sh` preserva `assets/assistant-panel.js` de `ios/android/sdd` durante sync para no romper BYOK multi-provider.
@@ -63,7 +63,7 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
     - Android PR `#9` merge `483744f`.
     - SDD PR `#10` merge `6c2fa09`.
     - Hub PR `#33` merge `079bfbb`.
-    - Plan operativo activo: `docs/archive/plans-closed/PLAN-MAESTRO-IMPLEMENTACION-CURSOS-20260227.md`.
+    - Plan operativo activo: `docs/PLAN-MAESTRO-IMPLEMENTACION-CURSOS-20260227.md`.
 39. Plan maestro reabierto por instrucción explícita del usuario para ejecución completa por fases:
     - Task `0.1` cerrada con inventario exacto cross-course en `docs/INVENTARIO-CROSS-COURSE-LECCIONES-ANEXOS-20260227.tsv`.
     - Task `0.2` abierta con baseline automático P0/P1/P2 en `docs/MATRIZ-BRECHAS-CROSS-COURSE-20260227.tsv`.
@@ -99,7 +99,7 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
     - `ios/android/sdd` cargan sin requests `/health` al abrir página.
     - apertura manual del asistente no dispara `/health` automático.
 49. Bloque operativo activo cerrado:
-    - plan de continuidad en `docs/archive/plans-closed/PLAN-PERFORMANCE-MOBILE-FIRST-20260301.md` con fase 4.5 cerrada.
+    - plan de continuidad en `docs/PLAN-PERFORMANCE-MOBILE-FIRST-20260301.md` con fase 4.5 cerrada.
 50. Optimización de arranque móvil aplicada en repos fuente (2026-03-01):
     - `mermaid.min.js` y `highlight.min.js` dejan de cargarse en `<head>` y pasan a runtime loader no bloqueante en iOS/Android/SDD.
     - validación end-to-end en verde: `py_compile` + `build-html` (3 cursos) + `build-hub --mode strict` + `no drift (6/6)` + smoke runtime OK.
@@ -154,263 +154,6 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
       - `https://architecture-stack.vercel.app`
       - `https://architecture-stack-787gl8cx3-merlosalbarracins-projects.vercel.app`
     - rutas verificadas en `200`: `/`, `/ios/`, `/android/`, `/sdd/`.
-60. Hotfix de estabilidad cross-device y rutas anidadas (2026-03-02):
-    - `build-hub.sh` resuelve raíces de cursos en estructuras flat/nested.
-    - `verify-hub-build.py` y `check-selective-sync-drift.sh` validan contra la raíz real de cada curso (incluyendo SDD anidado).
-    - `study-ux.js` y `course-switcher.js` unificados en iOS/Android/SDD para preservar `progressProfile` y endpoint cloud entre cursos/dispositivos.
-    - evidencia:
-      - `python3 scripts/build-html.py` en iOS/Android/SDD -> PASS
-      - `./scripts/build-hub.sh --mode fast` -> PASS
-      - `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`
-      - `./scripts/smoke-hub-runtime.sh` -> OK
-61. Auditoría iOS ETAPA 1 cerrada en ciclo gradual (2026-03-02):
-    - limpieza de markers automáticos en `01-fundamentos`.
-    - corrección de cierres Mermaid (` ```text` -> ` ``` ` al cierre de bloque Mermaid).
-    - convención de flechas unificada (`==>` -> `-.o`) en ETAPA 1.
-
-62. Auditoría iOS ETAPA 2 cerrada en ciclo gradual (2026-03-02):
-    - limpieza de markers automáticos en `02-integracion`.
-    - corrección de cierres Mermaid en bloque (` ```text` -> ` ``` `).
-    - convención de flechas mantenida con baseline de 4 semánticas.
-    - siguiente task activa: iOS `ETAPA 3: SENIOR` (`1.4`).
-
-63. Auditoría iOS ETAPA 3 cerrada en ciclo gradual (2026-03-02):
-    - limpieza de markers automáticos en `03-evolucion`.
-    - corrección de cierres Mermaid en bloque (` ```text` -> ` ``` `).
-    - convención de flechas mantenida con baseline de 4 semánticas.
-    - siguiente task activa: iOS `ETAPA 4: ARQUITECTO` (`1.5`).
-
-64. Auditoría iOS ETAPA 4 cerrada en ciclo gradual (2026-03-02):
-    - limpieza de markers automáticos en `04-arquitecto`.
-    - corrección de cierres Mermaid en bloque (` ```text` -> ` ``` `).
-    - convención de flechas mantenida con baseline de 4 semánticas.
-    - siguiente task activa: iOS `ETAPA 5: MAESTRIA + ANEXOS` (`1.6`).
-
-65. Auditoría iOS ETAPA 5 + anexos cerrada en ciclo gradual (2026-03-02):
-    - limpieza de markers automáticos en `05-maestria` y `anexos`.
-    - corrección de cierres Mermaid en bloque (` ```text` -> ` ``` `).
-    - convención de flechas mantenida con baseline de 4 semánticas.
-    - siguiente task activa: iOS `ETAPA 6: PROYECTO FINAL` (`1.7`).
-
-66. ETAPA 6 iOS Proyecto Final materializada (2026-03-02):
-    - nueva sección `06-proyecto-final` integrada al build y navegación del curso.
-    - lecciones añadidas: brief técnico del reto + rúbrica/entrega/defensa.
-    - validación técnica en verde (`validate-diagram-semantics`, `build-html`).
-    - siguiente task activa: Android `2.1` (bloque inicial).
-
-67. Android bloque inicial (2.1) cerrado en ciclo gradual (2026-03-02):
-    - normalización de convención de flechas en `00-nivel-cero` y `00-core-mobile`.
-    - validación técnica en verde (`check-links`, `validate-diagram-semantics`, `build-html`).
-    - siguiente task activa: Android `2.2` (bloque intermedio).
-
-68. Android bloque intermedio (2.2) cerrado en ciclo gradual (2026-03-02):
-    - normalización de convención de flechas en `01-junior` y `02-midlevel`.
-    - corrección de cierres Mermaid y limpieza de markers auto en lecciones afectadas.
-    - validación técnica en verde (`check-links`, `validate-diagram-semantics`, `build-html`).
-    - siguiente task activa: Android `2.3` (bloque avanzado).
-
-69. Android bloque avanzado (2.3) cerrado en ciclo gradual (2026-03-02):
-    - normalización de convención de flechas en `03-senior`, `04-maestria`, `05-proyecto-final` y `anexos`.
-    - validación técnica en verde (`check-links`, `validate-diagram-semantics`, `build-html`).
-    - siguiente task activa: Android `2.4` (endurecimiento Proyecto Final).
-
-70. Android Proyecto Final endurecido (2.4) cerrado en ciclo gradual (2026-03-02):
-    - `05-proyecto-final/00-brief.md` reforzado con criterios de cierre enterprise y referencias obligatorias.
-    - `05-proyecto-final/01-rubrica-empleabilidad.md` reforzada con pesos, umbrales y bloqueadores críticos.
-    - `05-proyecto-final/02-evidencias-obligatorias.md` reforzada con mínimos cuantificables y criterio de rechazo.
-    - validación técnica en verde (`check-links`, `validate-diagram-semantics`, `build-html`).
-    - siguiente task activa: SDD `3.1` (bloque base).
-
-71. SDD bloque base (3.1) cerrado en ciclo gradual (2026-03-02):
-    - cierre de fences Mermaid en `00-preparacion`, `01-roadmap`, `02-semana-01` ... `09-semana-08` para evitar render ambiguo.
-    - matriz de auditoría ampliada para cubrir 85/85 lecciones del alcance (incluye `00-preparacion/07-11`).
-    - validación AGENTS en verde:
-      - `validate-course-structure`, `validate-openspec`, `check-links`, `validate-pedagogy`, `validate-markdown-snippets`, `validate-diagram-semantics`, `build-html`, `swift test`.
-    - siguiente task activa: SDD `3.2` (semanas 09-16 y anexos).
-
-72. SDD bloque avanzado (3.2) cerrado en ciclo gradual (2026-03-02):
-    - cierre consistente de transición Mermaid->texto en semanas `10` a `17` para evitar ambigüedad de render.
-    - anexos auditados sin hallazgos críticos ni cambios obligatorios en esta ola.
-    - validación AGENTS en verde:
-      - `validate-course-structure`, `validate-openspec`, `check-links`, `validate-pedagogy`, `validate-markdown-snippets`, `validate-diagram-semantics`, `build-html`, `swift test`.
-    - siguiente task activa: SDD `3.3` (perfil público monetizable).
-
-73. Perfil público monetizable SDD (3.3) cerrado en ciclo gradual (2026-03-02):
-    - `scripts/build-html.py` soporta `SMA_BUILD_PROFILE=public` para excluir `00-informe`, `docs` y `openspec`.
-    - `scripts/build-hub.sh` publica SDD en perfil `public` por defecto (`SMA_SDD_BUILD_PROFILE`, override a `full` disponible).
-    - validación de perfiles cerrada:
-      - `full` mantiene lecciones internas en `data-lesson-path`.
-      - `public` elimina lecciones internas sin romper navegación de roadmap/semanas/anexos.
-      - `build-hub --mode fast`, `check-selective-sync-drift`, `smoke-hub-runtime` en verde.
-    - siguiente task activa: SDD `3.4` (Proyecto Final obligatorio).
-
-74. Proyecto Final SDD obligatorio (3.4) cerrado en ciclo gradual (2026-03-02):
-    - nueva sección pública `18-proyecto-final` con:
-      - brief integrador enterprise,
-      - entregables/evidencia obligatoria,
-      - rúbrica ponderada + defensa final.
-    - integración en `scripts/build-html.py` (full/public) y publicación en Hub SDD en perfil monetizable.
-    - validación AGENTS en verde + `build-hub --mode fast`, `check-selective-sync-drift`, `smoke-hub-runtime` en verde.
-    - siguiente task activa: Hub `5.1` (QA técnico cross-repo tras cierre de `4.3`).
-
-75. Cierre asistido por ventana de cuota reforzado en Hub (2026-03-03):
-    - nuevo runner `scripts/closeout-wait-and-run.sh` para ejecutar deploy final cuando abra la ventana de cooldown.
-    - soporta control de espera (`SMA_CLOSEOUT_MAX_WAIT_SECONDS`) y polling (`SMA_CLOSEOUT_POLL_SECONDS`) sin consumir cuota fuera de ventana.
-    - validación segura en verde:
-      - `bash -n scripts/closeout-wait-and-run.sh`
-      - `SMA_CLOSEOUT_MAX_WAIT_SECONDS=60 ./scripts/closeout-wait-and-run.sh fast` -> salida controlada por cooldown activo (sin intento).
-
-76. Programación automática del reintento de cierre final (2026-03-03):
-    - job `at` registrado para `15:50 CET` (después de `not-before 15:49 CET`).
-    - script ejecutado por job: `scripts/closeout-at-job.sh` (versionado).
-    - scheduler: `scripts/schedule-closeout-at.sh [hora]`.
-    - comando objetivo del job: `closeout-wait-and-run.sh fast`.
-    - evidencia operativa: `atq` retorna job activo en `Tue Mar 3 15:50:00 2026`.
-
-77. Hardening de job automático de cierre (2026-03-03):
-    - `scripts/closeout-at-job.sh` añade:
-      - persistencia de estado (`.runtime/auto-closeout-status.env`),
-      - bandera de éxito (`.runtime/closeout-complete.flag`),
-      - autoreprogramación cuando persiste cooldown (`not_before + offset`).
-    - validación segura ejecutada:
-      - `SMA_CLOSEOUT_MAX_WAIT_SECONDS=60 SMA_CLOSEOUT_AUTO_RESCHEDULE=0 ./scripts/closeout-at-job.sh` -> `EXIT_CODE=2` sin intento de deploy.
-
-78. Hotfix de formato en autoreprogramación `at` (2026-03-03):
-    - causa raíz: `at` rechazaba formato (`at: garbled time`) y vaciaba cola.
-    - solución:
-      - `scripts/schedule-closeout-at.sh` soporta `--epoch <unix>` y usa `at -t`.
-      - `scripts/closeout-at-job.sh` reprogama con `--epoch`.
-    - validación segura:
-      - `SMA_CLOSEOUT_MAX_WAIT_SECONDS=60 ./scripts/closeout-at-job.sh` -> `EXIT_CODE=2` y `atq` mantiene job activo en `15:50 CET`.
-
-79. Readiness command para cierre final (`5.3/5.4`) (2026-03-03):
-    - nuevo script `scripts/closeout-readiness.sh [--verbose]`.
-    - contrato de salida:
-      - `0`: listo para cerrar tracking.
-      - `2`: en espera por cooldown.
-      - `3`: cooldown activo sin job `at` de closeout en cola.
-      - `1`: revisión manual requerida.
-    - validación:
-      - estado actual `EN ESPERA` con `EXIT_CODE=2`, log del último job y job automático activo (`15:50 CET`).
-
-80. Test de regresión del readiness de cierre (2026-03-03):
-    - test script: `scripts/tests/test-closeout-readiness.sh`.
-    - inyección de `at/atq` por entorno (`SMA_ATQ_CMD`, `SMA_AT_CAT_CMD`) para simular cola sin afectar jobs reales.
-    - resultado: `[PASS]` en 4 escenarios clave (`1`, `3`, `2`, `0`).
-
-81. Test de regresión del scheduler de closeout (2026-03-03):
-    - test script: `scripts/tests/test-schedule-closeout-at.sh`.
-    - `scripts/schedule-closeout-at.sh` soporta inyección de comandos (`SMA_ATQ_CMD`, `SMA_AT_CMD`, `SMA_ATRM_CMD`) para pruebas aisladas.
-    - resultado: `[PASS]` en casos de hora textual, `--epoch`, limpieza selectiva de job closeout y validación de epoch inválido.
-
-82. Test de regresión de `closeout-at-job` (2026-03-03):
-    - test script: `scripts/tests/test-closeout-at-job.sh`.
-    - `scripts/closeout-at-job.sh` soporta overrides de runtime/comandos para test aislado:
-      - `SMA_CLOSEOUT_RUNTIME_DIR`,
-      - `SMA_CLOSEOUT_WAIT_RUNNER_CMD`,
-    - `SMA_CLOSEOUT_SCHEDULER_CMD`.
-    - resultado: `[PASS]` en escenarios de éxito, fallo con autoreprogramación y fallo sin autoreprogramación.
-
-83. Test de regresión de `closeout-wait-and-run` (2026-03-03):
-    - test script: `scripts/tests/test-closeout-wait-and-run.sh`.
-    - `scripts/closeout-wait-and-run.sh` soporta overrides para test aislado:
-      - `SMA_CLOSEOUT_COOLDOWN_FILE`,
-    - `SMA_CLOSEOUT_DEPLOY_RUNNER_CMD`.
-    - resultado: `[PASS]` en escenarios de cooldown largo/corto, force deploy y arranque sin cooldown.
-
-84. Test de regresión de `deploy-and-verify-closeout` (2026-03-03):
-    - test script: `scripts/tests/test-deploy-and-verify-closeout.sh`.
-    - `scripts/deploy-and-verify-closeout.sh` soporta overrides para test:
-      - `SMA_CLOSEOUT_RUNTIME_DIR`,
-      - `SMA_CLOSEOUT_COOLDOWN_FILE`,
-      - `SMA_CLOSEOUT_PUBLISH_SCRIPT`,
-      - `SMA_CLOSEOUT_POSTCHECKS_SCRIPT`.
-    - resultado: `[PASS]` en guard cooldown, force, success, quota error y generic fail.
-
-85. Test de regresión de `closeout-status` (2026-03-03):
-    - test script: `scripts/tests/test-closeout-status.sh`.
-    - `scripts/closeout-status.sh` soporta override `SMA_CLOSEOUT_COOLDOWN_FILE`.
-    - resultado: `[PASS]` en estados sin cooldown, cooldown activo y cooldown expirado.
-
-86. Runner unificado de QA de cierre (2026-03-03):
-    - script: `scripts/run-closeout-qa-suite.sh [full|tests]`.
-    - `tests`: corre las suites de regresión de closeout (actualmente 9).
-    - `full`: añade `atq` + `closeout-readiness`; trata `EXIT_CODE=2` de readiness como espera válida.
-    - resultado: ejecución `tests` y `full` en verde con job activo en cola.
-
-87. Guidance dinámica en readiness para programación por epoch (2026-03-03):
-    - `scripts/closeout-readiness.sh` calcula `not_before_epoch + 60s` y sugiere `schedule-closeout-at.sh --epoch`.
-    - `EXIT_CODE=3`: sin job automático, ahora recomienda reprogramación exacta por epoch.
-    - `EXIT_CODE=2`: con job activo, añade sugerencia explícita si el job está más tarde que la ventana.
-    - cobertura: `scripts/tests/test-closeout-readiness.sh` actualizado + `run-closeout-qa-suite.sh tests/full` en verde.
-
-88. Reprogramación operativa de cola closeout a primera ventana útil (2026-03-03):
-    - acción: `./scripts/schedule-closeout-at.sh --epoch <not_before+60s>`.
-    - resultado: cola `at` movida de `15:50` a `02:02 CET` para ejecutar cierre en la primera ventana posible.
-    - validación: `./scripts/closeout-readiness.sh` mantiene estado `EN ESPERA` con job activo detectado.
-
-89. Higiene de salida en readiness para logs temporales stale (2026-03-03):
-    - `scripts/closeout-readiness.sh` normaliza `last_log_file`:
-      - path existente -> se muestra y se puede hacer tail en `--verbose`.
-      - path inexistente -> reporta `Último log: no disponible`.
-    - cobertura: `scripts/tests/test-closeout-readiness.sh` incluye caso de log inexistente.
-    - resultado: salida operativa más fiable durante cooldown y estados de espera.
-
-90. Sugerencia inteligente en readiness según ventana real (2026-03-03):
-    - `scripts/closeout-readiness.sh` solo sugiere reprogramar cuando el job activo no cae en el minuto de `not_before+60s`.
-    - evita ruido cuando el job ya está alineado con ventana.
-    - cobertura: `scripts/tests/test-closeout-readiness.sh` añade caso de job alineado sin sugerencia.
-    - resultado: salida más precisa para operación de cierre `5.4`.
-
-91. Hardening de entorno en scheduler `at` (2026-03-03):
-    - `scripts/schedule-closeout-at.sh` sanea variables de entorno al invocar `AT_CMD`.
-    - objetivo: evitar herencia de secretos en jobs programados.
-    - test de regresión ampliado (`test-schedule-closeout-at.sh`) con `SMA_AT_FORCE_SANITIZE=1` y verificación anti-leak (`TEST_SECRET` no propagado).
-    - resultado: batería `run-closeout-qa-suite.sh tests` en verde sin romper compatibilidad de scheduler.
-
-92. Evidencia runtime del scheduler hardened (2026-03-03):
-    - job closeout regenerado con scheduler endurecido (`job 11`, `02:02 CET`).
-    - verificación de fuga: `at -c 11 | rg 'OPENAI_API_KEY|HEYGEN_API_KEY|sk-'` -> sin coincidencias.
-    - estado operativo: cola activa, cooldown vigente y ready para ventana de cierre.
-
-93. Incidencia operativa controlada: job `at` past-due (2026-03-03 02:03 CET):
-    - síntoma: job `11` (`02:02`) permaneció en cola vencido.
-    - mitigación: fallback manual `./scripts/closeout-at-job.sh`.
-    - resultado: ejecución real de cierre lanzada y trazada en `.runtime/auto-closeout-20260303T020701.log`.
-
-94. Nuevo bloqueo de cuota tras fallback manual (2026-03-03 02:07 CET):
-    - deploy intentado y bloqueado por `api-deployments-free-per-day` (`try again in 14 hours`).
-    - cooldown actualizado a `2026-03-03 16:07:10 CET`.
-    - autoreprogramación activa: `job 12` en cola para `2026-03-03 16:08 CET`.
-
-95. Recovery automatizado de jobs closeout past-due (2026-03-03):
-    - nuevo script: `scripts/recover-past-due-closeout.sh`.
-    - lógica: si cooldown venció + gracia y el job closeout sigue en cola, limpia job stale y ejecuta fallback manual.
-    - cobertura: `scripts/tests/test-recover-past-due-closeout.sh` + integración en `run-closeout-qa-suite.sh`.
-    - resultado: runbook de `5.4` más resiliente ante fallos del daemon `at`.
-
-96. Estabilización anti-flake de `test-closeout-wait-and-run` (2026-03-03):
-    - caso de cooldown corto ahora acepta los dos resultados válidos de frontera temporal:
-      - `Ventana abierta -> ejecutando deploy + verificacion`,
-      - `Cooldown expirado/no valido -> ejecutando deploy`.
-    - resultado: `run-closeout-qa-suite.sh tests` vuelve a verde de forma determinista.
-
-97. Watchdog operativo para ventana `16:08` (2026-03-03):
-    - cola original: `job 12` (`16:08 CET`) + `job 14` (`16:10 CET`).
-    - cola actual refrescada: `job 15` (`16:08 CET`) + `job 16` (`16:10 CET`).
-    - objetivo: autocurar escenario `past-due` sin intervención manual en la segunda ventana del día.
-
-98. Orquestador de ventana closeout en comando único (2026-03-03):
-    - nuevo script: `scripts/schedule-closeout-window.sh [--epoch <unix>]`.
-    - programa job principal + watchdog recovery en una sola operación.
-    - limpia watchdog previo y reprogama con offsets versionados.
-    - cobertura: `scripts/tests/test-schedule-closeout-window.sh` e integración en QA suite.
-
-99. Snapshot automático post-ventana de closeout (2026-03-03):
-    - nuevo script: `scripts/closeout-window-followup.sh`.
-    - captura en log runtime: `atq`, `closeout-status`, `closeout-readiness`, status env y flag de cierre.
-    - cobertura: `scripts/tests/test-closeout-window-followup.sh`.
-    - orquestación actual: `job 17` (`16:12 CET`) detrás de `job 15` (main) y `job 16` (watchdog).
 
 ## Hitos cerrados
 1. Reubicación de repos en carpeta contenedora única.
@@ -507,7 +250,7 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
     - `content-visibility` en bloques de lección.
     - build Hub strict en verde tras ajuste de smoke runtime para aceptar marker legacy o BYOK (`KEY_PROVIDER | KEY_DAILY_BUDGET`).
 38. Plan operativo por fases versionado:
-    - `docs/archive/plans-closed/PLAN-PERFORMANCE-MOBILE-FIRST-20260301.md`
+    - `docs/PLAN-PERFORMANCE-MOBILE-FIRST-20260301.md`
 
 ## Tablero operativo (solo 1 en construcción)
 1. ✅ Publicar sync selectivo cross-course iOS + Android + SDD en Hub (`c9cd8c3`).
@@ -549,33 +292,18 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 37. ✅ Ejecutar Fase 7 de optimización de badges del índice (idle global + update inmediato por tópico) en iOS/Android/SDD + sync Hub.
 38. ✅ Ejecutar Fase 8 de optimización de imágenes de arquitectura iOS (webp + fallback png) y sync Hub en verde.
 39. ✅ Restaurar UX del dropdown de cursos en móvil (overlay visible sin clipping) en iOS/Android/SDD + sync Hub.
-40. 🚧 Ejecutar auditoría gradual en caliente por lección con plan único activo:
-    - `4.1` Hub UX/UI responsive cerrado en caliente (iOS/Android/SDD sin overflow del control IA en móvil).
-    - `4.2` auth/logout/acceso cerrado en caliente (logout con limpieza total de identidad/perfil + `next` saneado).
-    - `4.3` validación visual cerrada en caliente (3 estilos + desktop/iPhone en iOS/Android/SDD sin overflow horizontal).
-    - `5.1` validaciones técnicas cross-repo cerradas en caliente (Android/SDD en verde; iOS con enlaces corregidos + baseline guardrails recalibrado + bundle QA en verde).
-    - `5.2` GitFlow de cierre completado (iOS PR #38 + Hub PR #80 mergeadas).
-    - `5.3` deploy final reintentado y bloqueado por cuota Vercel (`api-deployments-free-per-day`):
-      - intento 1: `2026-03-02 23:24 CET`
-      - intento 2: `2026-03-02 23:37 CET`
-      - intento 3: `2026-03-02 23:49 CET` (`retry in 16 hours`)
-      - próxima ventana estimada: `2026-03-03 15:49 CET` o posterior.
-    - `0.3` limpieza documental cerrada (planes cerrados archivados bajo `docs/archive/plans-closed/`).
-    - `0.4` sincronización de tracking cerrada (fuentes de verdad alineadas al plan activo).
-    - bloque actual: Hub `5.4` (cierre final + backlog residual priorizado).
-    - plan activo: `docs/PLAN-AUDITORIA-CURSOS-FASES-20260302.md`.
-    - matriz operativa: `docs/AUDITORIA-CURSOS-MATRIZ-20260302.tsv`.
 
 ## Bloqueos actuales
 1. Riesgo de seguimiento: confusión en `codex resume` por filtro de `cwd`.
 2. Riesgo de referencia remota en `SDD`: `origin/main` mantiene una línea distinta al baseline operativo actual (`main` local); no integrar sin instrucción explícita.
 
 ## Próximos pasos recomendados
-1. Completar `5.4` cerrando el plan con backlog residual priorizado y sin tareas `🚧` adicionales.
-2. Retomar `5.3` en cuanto reinicie cuota Vercel para ejecutar despliegue final.
-3. Actualizar `docs/SESSION-HANDOFF.md` al cierre de cada ola de auditoría.
-4. Mantener un único despliegue final por bloque para evitar consumo innecesario de cuota Vercel.
-5. Consolidar decisiones operativas del nuevo ciclo en `docs/DECISIONS-ADR-LITE.md`.
+1. Mantener este tracker como fuente única de estado transversal.
+2. Mantener un único despliegue final por bloque para evitar consumo innecesario de cuota Vercel.
+3. Mantener política anti-bucle y registrar nuevos ciclos solo con trigger real.
+4. Aplicar sync selectivo por curso (iOS/Android/SDD) cuando se cierren nuevos bloques en repos fuente.
+5. Actualizar `docs/SESSION-HANDOFF.md` al cerrar cada sesión de trabajo.
+6. Consolidar próximas decisiones operativas en `docs/DECISIONS-ADR-LITE.md`.
 
 ## Última validación operativa
 1. Runtime smoke: `./scripts/smoke-hub-runtime.sh` -> OK.
@@ -686,7 +414,7 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
       - `./scripts/build-hub.sh --mode strict` -> PASS.
       - `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
       - `./scripts/smoke-hub-runtime.sh` -> OK.
-      - plan de ejecucion: `docs/archive/plans-closed/PLAN-COBERTURA-TOTAL-FLECHAS-20260227.md`.
+      - plan de ejecucion: `docs/PLAN-COBERTURA-TOTAL-FLECHAS-20260227.md`.
 16. Validación técnica del bloque de buscador lateral cross-course:
     - iOS:
       - `python3 scripts/build-html.py` -> PASS.

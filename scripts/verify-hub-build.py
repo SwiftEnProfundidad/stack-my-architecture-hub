@@ -50,25 +50,18 @@ SOURCE_REPOS = {
     "sdd": PROJECTS_ROOT / "stack-my-architecture-SDD",
 }
 
-
-def resolve_repo_root(candidate: Path, nested_name: str) -> Path:
-    if (candidate / "scripts" / "build-html.py").exists():
-        return candidate
-    nested = candidate / nested_name
-    if (nested / "scripts" / "build-html.py").exists():
-        return nested
-    return candidate
-
-
-SOURCE_REPOS = {
-    "ios": resolve_repo_root(SOURCE_REPOS["ios"], "stack-my-architecture-ios"),
-    "android": resolve_repo_root(SOURCE_REPOS["android"], "stack-my-architecture-android"),
-    "sdd": resolve_repo_root(SOURCE_REPOS["sdd"], "stack-my-architecture-SDD"),
-}
-
 ASSET_VERSION_RE = re.compile(
     r"(assets/[A-Za-z0-9._/-]+\.(?:css|js)\?v=)([A-Za-z0-9._-]+)"
 )
+
+
+def source_dist_dir(course: str) -> Path:
+    repo = SOURCE_REPOS[course]
+    primary = repo / "dist"
+    nested = repo / "stack-my-architecture-SDD" / "dist"
+    if course == "sdd" and nested.exists():
+        return nested
+    return primary
 
 
 def read_text(rel_path: str) -> str:
@@ -112,8 +105,7 @@ def main() -> int:
 
     # Integridad de copia: el artefacto publicado debe coincidir con su fuente en dist.
     for course, html_name in COURSE_HTMLS.items():
-        src_repo = SOURCE_REPOS[course]
-        src_html = src_repo / "dist" / html_name
+        src_html = source_dist_dir(course) / html_name
         dst_html = HUB_ROOT / course / html_name
         course_index = HUB_ROOT / course / "index.html"
 

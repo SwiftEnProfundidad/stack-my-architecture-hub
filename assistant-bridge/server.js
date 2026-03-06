@@ -75,13 +75,47 @@ const PRICE_PER_1K = {
 };
 
 const threadStore = Object.create(null);
+const THREAD_STORE_MAX = 200;
+const THREAD_STORE_EVICT = 50;
 ensureThreadsDir();
 
+function isAllowedOrigin(origin) {
+    if (!origin) return true;
+    const normalized = String(origin).toLowerCase().replace(/\/$/, '');
+    return normalized.startsWith('http://localhost:') || normalized.startsWith('http://127.0.0.1:') || normalized === 'http://localhost' || normalized === 'http://127.0.0.1';
+}
+
+function evictOldThreads() {
+    const keys = Object.keys(threadStore);
+    if (keys.length <= THREAD_STORE_MAX) return;
+    keys.sort((a, b) => {
+        const ta = threadStore[a] && threadStore[a].updatedAt ? threadStore[a].updatedAt : '';
+        const tb = threadStore[b] && threadStore[b].updatedAt ? threadStore[b].updatedAt : '';
+        return ta < tb ? -1 : 1;
+    });
+    keys.slice(0, THREAD_STORE_EVICT).forEach((key) => { delete threadStore[key]; });
+}
+
 app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
+    const origin = req.headers && req.headers.origin ? String(req.headers.origin) : '';
+    if (origin && !isAllowedOrigin(origin)) {
+        return res.status(403).json({ ok: false, error: 'Origen no permitido.' });
+    }
+    if (origin) {
+        res.setHeader('Access-Control-Allow-Origin', origin);
+        res.setHeader('Vary', 'Origin');
+    }
     res.setHeader('Access-Control-Allow-Headers', 'content-type, authorization');
     res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
     if (req.method === 'OPTIONS') return res.status(204).end();
+    next();
+});
+
+app.use((req, res, next) => {
+    const reqPath = String(req.path || '').replace(/\\/g, '/');
+    if (reqPath.startsWith('/assistant-bridge/')) {
+        return res.status(403).json({ ok: false, error: 'Acceso denegado.' });
+    }
     next();
 });
 
@@ -137,24 +171,9 @@ app.post('/api/auth-sync', handleAuthSync);
 app.post(QUERY_PATH, handleQuery);
 app.post(QUERY_ALIAS_PATH, handleQuery);
 
-app.use(express.static(HUB_ROOT, {
-    extensions: ['html'],
-    etag: false,
-    lastModified: false,
-    cacheControl: false,
-    setHeaders: (res) => {
-        res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
-        res.setHeader('Pragma', 'no-cache');
-        res.setHeader('Expires', '0');
-        res.setHeader('Surrogate-Control', 'no-store');
-    }
-}));
+app.use(express.static(HUB_ROOT, { extensions: ['html'] }));
 
 app.get('/', (_req, res) => {
-    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
-    res.setHeader('Pragma', 'no-cache');
-    res.setHeader('Expires', '0');
-    res.setHeader('Surrogate-Control', 'no-store');
     res.sendFile(path.join(HUB_ROOT, 'index.html'));
 });
 
@@ -929,6 +948,7 @@ function readThreadFromDisk(threadId) {
 
 function getThreadState(threadId) {
     if (!threadStore[threadId]) {
+        evictOldThreads();
         threadStore[threadId] = readThreadFromDisk(threadId);
     }
     return threadStore[threadId];

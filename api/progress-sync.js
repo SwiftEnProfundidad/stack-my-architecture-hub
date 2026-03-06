@@ -3,7 +3,6 @@ const MAX_DATA_BYTES = toInt(process.env.PROGRESS_SYNC_MAX_BYTES, 65536, 2048, 5
 const MAX_PROFILE_KEY_LEN = 128;
 const MAX_COURSE_ID_LEN = 128;
 const SUPABASE_URL = String(process.env.SUPABASE_URL || '').trim().replace(/\/$/, '');
-const SUPABASE_ANON_KEY = String(process.env.SUPABASE_ANON_KEY || '').trim();
 const SUPABASE_SERVICE_ROLE_KEY = String(process.env.SUPABASE_SERVICE_ROLE_KEY || '').trim();
 const PROGRESS_SYNC_TABLE = normalizeTableName(String(process.env.PROGRESS_SYNC_TABLE || DEFAULT_TABLE).trim());
 
@@ -51,25 +50,22 @@ async function handleStateGet(req, res) {
     return;
   }
 
+  const query = parseQuery(req.url);
+  const courseId = normalizeCourseId(query.courseId);
+  const profileKey = normalizeProfileKey(query.profileKey);
+
+  if (!courseId || !profileKey) {
+    sendJson(res, 400, {
+      ok: false,
+      error: 'courseId y profileKey son obligatorios.'
+    });
+    return;
+  }
+
   try {
-    const query = parseQuery(req.url);
-    const courseId = normalizeCourseId(query.courseId);
-    const requestedProfileKey = normalizeProfileKey(query.profileKey);
-    const authProfileKey = await resolveAuthorizedProfileKey(req);
-    const profileKey = authProfileKey || requestedProfileKey;
-
-    if (!courseId || !profileKey) {
-      sendJson(res, 400, {
-        ok: false,
-        error: 'courseId y profileKey son obligatorios.'
-      });
-      return;
-    }
-
     const state = await fetchProgressState(courseId, profileKey);
     sendJson(res, 200, {
       ok: true,
-      authenticated: Boolean(authProfileKey),
       state: state || {
         courseId,
         profileKey,
@@ -94,31 +90,29 @@ async function handleStatePost(req, res) {
     return;
   }
 
+  const body = await readJsonBody(req);
+  const courseId = normalizeCourseId(body.courseId);
+  const profileKey = normalizeProfileKey(body.profileKey);
+  const clientUpdatedAt = normalizeIsoDate(body.clientUpdatedAt);
+  const data = sanitizeData(body.data);
+
+  if (!courseId || !profileKey) {
+    sendJson(res, 400, {
+      ok: false,
+      error: 'courseId y profileKey son obligatorios.'
+    });
+    return;
+  }
+
+  if (!data.ok) {
+    sendJson(res, 400, {
+      ok: false,
+      error: data.error
+    });
+    return;
+  }
+
   try {
-    const body = await readJsonBody(req);
-    const courseId = normalizeCourseId(body.courseId);
-    const requestedProfileKey = normalizeProfileKey(body.profileKey);
-    const authProfileKey = await resolveAuthorizedProfileKey(req);
-    const profileKey = authProfileKey || requestedProfileKey;
-    const clientUpdatedAt = normalizeIsoDate(body.clientUpdatedAt);
-    const data = sanitizeData(body.data);
-
-    if (!courseId || !profileKey) {
-      sendJson(res, 400, {
-        ok: false,
-        error: 'courseId y profileKey son obligatorios.'
-      });
-      return;
-    }
-
-    if (!data.ok) {
-      sendJson(res, 400, {
-        ok: false,
-        error: data.error
-      });
-      return;
-    }
-
     const state = await upsertProgressState({
       courseId,
       profileKey,
@@ -128,7 +122,6 @@ async function handleStatePost(req, res) {
 
     sendJson(res, 200, {
       ok: true,
-      authenticated: Boolean(authProfileKey),
       state
     });
   } catch (error) {
@@ -356,62 +349,12 @@ function supabaseServiceKey() {
   return SUPABASE_SERVICE_ROLE_KEY;
 }
 
-function supabasePublicKey() {
-  return SUPABASE_ANON_KEY || SUPABASE_SERVICE_ROLE_KEY;
-}
-
 function supabaseRestBase() {
   return `${supabaseBaseUrl()}/rest/v1`;
 }
 
 function isBackendConfigured() {
   return Boolean(supabaseBaseUrl() && supabaseServiceKey());
-}
-
-async function resolveAuthorizedProfileKey(req) {
-  const bearer = readBearerToken(req);
-  if (!bearer) return '';
-  const user = await fetchSupabaseAuthUser(bearer);
-  const profileKey = normalizeProfileKey(user && user.id);
-  if (!profileKey) {
-    const error = new Error('Token inválido para sincronización autenticada.');
-    error.statusCode = 401;
-    throw error;
-  }
-  return profileKey;
-}
-
-async function fetchSupabaseAuthUser(accessToken) {
-  const key = supabasePublicKey();
-  if (!key) {
-    const error = new Error('SUPABASE_ANON_KEY no configurada para validar sesión.');
-    error.statusCode = 500;
-    throw error;
-  }
-
-  const response = await fetch(`${supabaseBaseUrl()}/auth/v1/user`, {
-    method: 'GET',
-    headers: {
-      apikey: key,
-      Authorization: `Bearer ${accessToken}`
-    }
-  });
-
-  const text = await response.text();
-  let payload = null;
-  try {
-    payload = text ? JSON.parse(text) : null;
-  } catch (_error) {
-    payload = null;
-  }
-
-  if (!response.ok) {
-    const error = new Error(readSupabaseError(payload) || 'No se pudo validar sesión de usuario.');
-    error.statusCode = response.status || 401;
-    throw error;
-  }
-
-  return payload && typeof payload === 'object' ? payload : {};
 }
 
 function normalizeTableName(value) {
@@ -461,25 +404,6 @@ function readRawBody(req) {
 function hasHeader(headers, key) {
   const target = String(key || '').toLowerCase();
   return Object.keys(headers || {}).some((name) => String(name).toLowerCase() === target);
-}
-
-function readHeader(req, key) {
-  if (!req || !req.headers) return '';
-  const target = String(key || '').toLowerCase();
-  const direct = req.headers[target];
-  if (direct !== undefined) return direct;
-  const original = Object.keys(req.headers).find((name) => String(name).toLowerCase() === target);
-  return original ? req.headers[original] : '';
-}
-
-function readBearerToken(req) {
-  const header = String(readHeader(req, 'authorization') || '').trim();
-  if (!header) return '';
-  const match = header.match(/^Bearer\s+(.+)$/i);
-  if (!match) return '';
-  const token = String(match[1] || '').trim();
-  if (!token || token.length > 4096) return '';
-  return token;
 }
 
 function isPlainObject(value) {
