@@ -5,6 +5,8 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 
+hydrateEnvFromFile(path.join(__dirname, '.env'));
+
 const app = express();
 const PORT = Number(process.env.PORT || 8090);
 const OPENAI_API_KEY = String(process.env.OPENAI_API_KEY || '').trim();
@@ -40,6 +42,11 @@ const DEFAULT_MAX_TOKENS = Number(process.env.ASSISTANT_MAX_TOKENS_DEFAULT || 60
 const MAX_TOKENS_CAP = Number(process.env.ASSISTANT_MAX_TOKENS_CAP || 1200);
 const SOFT_DAILY_BUDGET_USD = Number(process.env.ASSISTANT_SOFT_DAILY_BUDGET_USD || 2.0);
 const DAILY_WARNING_USD = Number(process.env.ASSISTANT_DAILY_WARNING_USD || 0.25);
+const progressSyncHandler = require(path.join(HUB_ROOT, 'api', 'progress-sync.js'));
+const authSyncHandler = require(path.join(HUB_ROOT, 'api', 'auth-sync.js'));
+const PROGRESS_SYNC_UPSTREAM_ORIGIN = String(process.env.PROGRESS_SYNC_UPSTREAM_ORIGIN || 'https://architecture-stack.vercel.app')
+    .trim()
+    .replace(/\/$/, '');
 
 const MAX_IMAGES = 3;
 const MAX_IMAGE_BYTES = 3 * 1024 * 1024;
@@ -155,6 +162,12 @@ app.get('/metrics', (_req, res) => {
     res.json(metricsPayload());
 });
 
+app.get('/progress/config', handleProgressSync);
+app.get('/progress/state', handleProgressSync);
+app.post('/progress/state', handleProgressSync);
+app.get('/api/auth-sync', handleAuthSync);
+app.post('/api/auth-sync', handleAuthSync);
+
 app.post(QUERY_PATH, handleQuery);
 app.post(QUERY_ALIAS_PATH, handleQuery);
 
@@ -167,6 +180,131 @@ app.get('/', (_req, res) => {
 app.listen(PORT, () => {
     console.log(`[assistant-bridge] Hub + proxy escuchando en http://localhost:${PORT}`);
 });
+
+async function handleProgressSync(req, res) {
+    try {
+        if (!hasProgressSyncBackendConfigured()) {
+            return await proxyProgressSyncToUpstream(req, res);
+        }
+        await progressSyncHandler(req, res);
+    } catch (error) {
+        if (!res.headersSent) {
+            return res.status(500).json({
+                ok: false,
+                error: 'Error interno al enrutar progress-sync en local.'
+            });
+        }
+    }
+}
+
+async function handleAuthSync(req, res) {
+    try {
+        await authSyncHandler(req, res);
+    } catch (_error) {
+        if (!res.headersSent) {
+            return res.status(500).json({
+                ok: false,
+                error: 'Error interno al enrutar auth-sync en local.'
+            });
+        }
+    }
+}
+
+function hasProgressSyncBackendConfigured() {
+    const url = String(process.env.SUPABASE_URL || '').trim();
+    const key = String(process.env.SUPABASE_SERVICE_ROLE_KEY || '').trim();
+    return Boolean(url && key);
+}
+
+async function proxyProgressSyncToUpstream(req, res) {
+    if (!PROGRESS_SYNC_UPSTREAM_ORIGIN) {
+        return res.status(503).json({
+            ok: false,
+            error: 'Progress sync no configurado en local (sin backend ni upstream).'
+        });
+    }
+
+    const host = String((req.headers && req.headers.host) || '').toLowerCase();
+    const upstreamHost = safeHost(PROGRESS_SYNC_UPSTREAM_ORIGIN);
+    if (host && upstreamHost && host.includes(upstreamHost)) {
+        return res.status(503).json({
+            ok: false,
+            error: 'Progress sync upstream inválido: apunta al mismo host.'
+        });
+    }
+
+    const originalPath = String(req.originalUrl || req.url || '/progress/config');
+    const url = `${PROGRESS_SYNC_UPSTREAM_ORIGIN}${originalPath}`;
+
+    const init = {
+        method: req.method,
+        headers: {}
+    };
+
+    if (req.method === 'POST') {
+        init.headers['Content-Type'] = 'application/json';
+        init.body = JSON.stringify(req.body && typeof req.body === 'object' ? req.body : {});
+    }
+
+    const upstreamResponse = await fetch(url, init);
+    const payload = await upstreamResponse.text();
+    res.status(upstreamResponse.status);
+
+    const contentType = upstreamResponse.headers.get('content-type');
+    if (contentType) {
+        res.setHeader('Content-Type', contentType);
+    } else {
+        res.setHeader('Content-Type', 'application/json; charset=utf-8');
+    }
+
+    res.end(payload);
+}
+
+function safeHost(url) {
+    try {
+        return new URL(url).host.toLowerCase();
+    } catch (_error) {
+        return '';
+    }
+}
+
+function hydrateEnvFromFile(filePath) {
+    if (!filePath || !fs.existsSync(filePath)) return;
+    let raw = '';
+    try {
+        raw = fs.readFileSync(filePath, 'utf8');
+    } catch (_error) {
+        return;
+    }
+    if (!raw) return;
+
+    const lines = raw.split(/\r?\n/);
+    for (let i = 0; i < lines.length; i += 1) {
+        const line = String(lines[i] || '').trim();
+        if (!line || line.startsWith('#')) continue;
+        const normalized = line.startsWith('export ') ? line.slice(7).trim() : line;
+        const index = normalized.indexOf('=');
+        if (index <= 0) continue;
+        const key = normalized.slice(0, index).trim();
+        if (!key) continue;
+
+        if (process.env[key]) continue;
+
+        let value = normalized.slice(index + 1).trim();
+        value = stripMatchingQuotes(value);
+        process.env[key] = value;
+    }
+}
+
+function stripMatchingQuotes(value) {
+    if (!value) return '';
+    const first = value[0];
+    const last = value[value.length - 1];
+    if ((first === '"' && last === '"') || (first === '\'' && last === '\'')) {
+        return value.slice(1, -1);
+    }
+    return value;
+}
 
 async function handleQuery(req, res) {
     if (!OPENAI_API_KEY) {

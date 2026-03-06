@@ -488,8 +488,6 @@
         renderMessages();
         renderPendingAttachments();
         setStatus('Listo. Selecciona texto o escribe una consulta.');
-        fetchBridgeConfig();
-        refreshMetrics();
     }
 
     function escapeHtml(value) {
@@ -1184,6 +1182,43 @@
             }
             return tryPath(0);
         });
+    }
+
+    function syncRuntimeConfig(options) {
+        var opts = options || {};
+        return ensureProxyBaseReachable()
+            .then(function (ok) {
+                if (!ok) return null;
+                return fetch(proxyUrl('/config/runtime'), {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        softDailyBudgetUsd: state.softDailyBudgetUsd
+                    })
+                });
+            })
+            .then(function (res) {
+                if (!res) return null;
+                if (!res.ok) throw new Error('HTTP ' + res.status);
+                return res.json();
+            })
+            .then(function (json) {
+                if (!json) return null;
+                var budget = normalizeBudgetValue(
+                    json.soft_daily_budget_usd ?? json.softDailyBudgetUsd,
+                    state.softDailyBudgetUsd
+                );
+                state.softDailyBudgetUsd = budget;
+                if (refs.dailyBudgetInput) refs.dailyBudgetInput.value = formatBudgetValue(budget);
+                saveConfig();
+                return json;
+            })
+            .catch(function () {
+                if (!opts.silent) {
+                    setStatus('No se pudo actualizar el presupuesto diario en el proxy.', 'warning');
+                }
+                return null;
+            });
     }
 
     function syncRuntimeConfig(options) {

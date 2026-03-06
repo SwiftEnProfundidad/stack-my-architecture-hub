@@ -202,3 +202,61 @@ Repos incluidos:
 `cd "/Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture" && codex`
 4. Validar drift de sync selectivo del Hub:
 `cd "/Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture/stack-my-architecture-hub" && ./scripts/check-selective-sync-drift.sh`
+
+## Hotfix activo 2026-03-02 — Sync cloud profile-scoped
+1. ✅ Causa raíz cubierta: `updatedAt` cloud dejó de ser global por curso y pasa a ser específico por `profileKey`.
+2. ✅ Priorización corregida: `progressProfile` en query fuerza perfil activo (sobrescribe storage local cuando aplica).
+3. ✅ Build + sync hub en verde:
+   - `./scripts/build-hub.sh --fast` -> PASS
+   - `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`
+   - `./scripts/smoke-hub-runtime.sh` -> OK
+4. ✅ Trazabilidad versionada en:
+   - `docs/HUB-STABILITY-LOG.md`
+   - `docs/DECISIONS-ADR-LITE.md`
+
+### Nota operativa para validación cross-device
+Para ver el mismo progreso en otro dispositivo/navegador limpio, abrir el curso con el mismo `progressProfile` (enlace generado por `🔗 Copiar enlace de sincronización`).
+
+## Hotfix incremental 2026-03-02 — sync-link con push cloud previo
+1. ✅ `copySyncLink()` en iOS/Android/SDD fuerza `pushNow({ force: true })` antes de copiar enlace.
+2. ✅ Validado en Playwright: se observa `POST /progress/state` `200` al pulsar `🔗 Copiar enlace de sincronización`.
+3. ✅ Objetivo: evitar que iPhone abra perfil con estado remoto viejo cuando desktop tenía progreso solo local.
+
+## Hotfix incremental 2026-03-02 (2) — `progressProfile` persistente en URL
+1. ✅ `study-ux.js` en iOS/Android/SDD fuerza `?progressProfile=...` en la URL activa tras resolver perfil.
+2. ✅ Objetivo: evitar que compartir/abrir enlace desde barra sin query pierda el perfil en iPhone/incógnito.
+3. ✅ Validación:
+   - `./scripts/build-hub.sh --fast` -> PASS.
+   - `./scripts/smoke-hub-runtime.sh` -> OK.
+   - Playwright local: URL sin query se normaliza a URL con `progressProfile` sin recarga.
+
+## Bloque activo 2026-03-02 — Auth plataforma (registro/login + sync por cuenta)
+1. ✅ Backend auth Hub implementado con TDD (`api/auth-sync.js` + `scripts/tests/test-auth-sync.js`).
+2. ✅ Frontend auth Hub publicado (`/auth/index.html`, `/auth/register.html`, `/auth/login.html`).
+3. ✅ Integracion progreso autenticado:
+   - `api/progress-sync.js` ahora respeta `user.id` autenticado.
+   - iOS/Android/SDD envian bearer en sync cuando existe sesion.
+4. ✅ Validacion tecnica en verde:
+   - test Node Hub (`16/16`),
+   - `build-hub --mode strict`,
+   - `check-selective-sync-drift` (`no drift 6/6`),
+   - `smoke-hub-runtime`.
+5. ✅ Cierre GitFlow completo (push + PR + merge en repos afectados) y deploy Vercel ejecutados.
+
+### Nota de continuidad
+La validación automática de login end-to-end queda parcialmente bloqueada si no se dispone de buzón para confirmar email (signup productivo exige confirmación). El backend/auth routes y la publicación están en verde.
+
+## Bloque cerrado 2026-03-02 — Auth recovery (resend/recover)
+1. ✅ Backend auth Hub soporta `route=resend` y `route=recover`.
+2. ✅ API client expone `resendConfirmation()` y `recoverPassword()`.
+3. ✅ `auth/recover.html` creado y enlazado desde login.
+4. ✅ Rewrites Vercel para `/auth/resend` y `/auth/recover`.
+5. ✅ Tests TDD para validación y mapeo de errores en `scripts/tests/test-auth-sync.js`.
+6. ✅ Validación final y cierre:
+   - `node --test scripts/tests/test-auth-sync.js` -> PASS (10/10).
+   - `./scripts/build-hub.sh --mode strict` -> PASS.
+   - `./scripts/smoke-hub-runtime.sh` -> OK.
+7. ✅ PR merge en GitFlow y despliegue Vercel ejecutados.
+   - PR `#71`.
+   - `https://architecture-stack.vercel.app`
+   - `https://architecture-stack-4zketscuo-merlosalbarracins-projects.vercel.app`

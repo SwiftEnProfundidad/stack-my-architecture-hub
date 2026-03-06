@@ -473,3 +473,258 @@ Unificar operación y seguimiento de los 4 repos del ecosistema Stack My Archite
 1. Commit: `1940c7d`
 2. Tag: `hub-stable-20260224`
 3. Repo: `stack-my-architecture-hub`
+
+## Actualizacion 2026-03-02 — Hotfix sync cloud profile-scoped
+1. Alcance: iOS/Android/SDD + build/sync Hub.
+2. Cambios cerrados:
+   - `study-ux.js` con `updatedAt` cloud por `profileKey` (`v2`) en los 3 cursos.
+   - prioridad de `progressProfile` por URL sobre perfil persistido.
+   - migración segura de `updatedAt` legacy sin query explícita.
+3. Validación:
+   - `./scripts/build-hub.sh --fast` -> PASS.
+   - `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
+   - `./scripts/smoke-hub-runtime.sh` -> OK.
+4. Estado del bloque: ✅ Hecho.
+
+## Actualizacion 2026-03-02 (2) — Sync-link con push cloud previo
+1. Alcance: iOS/Android/SDD + sync Hub.
+2. Cambio: `copySyncLink()` fuerza push cloud antes de copiar URL.
+3. Validación: Playwright confirma `POST /progress/state` `200` al copiar enlace.
+4. Estado: ✅ Hecho.
+
+## Actualizacion 2026-03-02 (3) — Persistencia visible de `progressProfile` en URL
+1. Alcance: iOS/Android/SDD + sync Hub.
+2. Cambio: `study-ux.js` añade `progressProfile` activo a la URL en bootstrap (sin recarga) para evitar pérdida del perfil al compartir/abrir en otros dispositivos.
+3. Validación:
+   - `./scripts/build-hub.sh --fast` -> PASS.
+   - `./scripts/smoke-hub-runtime.sh` -> OK.
+   - Playwright local: abrir `/ios/index.html` sin query termina en `?progressProfile=...` y mantiene progreso.
+4. Estado: ✅ Hecho.
+
+## Actualizacion 2026-03-02 (4) — Plataforma de autenticacion por usuario
+61. Bloque auth plataforma implementado en Hub con contrato serverless y TDD:
+    - nuevo endpoint `api/auth-sync.js` (`config/signup/login/refresh/me/logout`).
+    - nuevo test `scripts/tests/test-auth-sync.js` (RED->GREEN).
+62. Flujo de acceso publicado:
+    - `/auth/index.html`, `/auth/register.html`, `/auth/login.html` + `assets/auth-client.js`.
+    - branding PUMUKI integrado en pantallas de autenticacion.
+63. Progreso cloud endurecido para cuenta autenticada:
+    - `api/progress-sync.js` valida bearer token y deriva `profileKey = user.id` cuando hay sesion.
+    - `scripts/tests/test-progress-sync.js` ampliado para cobertura autenticada (`401` + prioridad de `user.id`).
+64. Integracion cross-course iOS/Android/SDD cerrada:
+    - `assets/study-ux.js` y `assets/course-switcher.js` con sesion auth, bearer token en sync y acciones de cuenta (`Registro/Login`, `Cerrar sesion`).
+65. Validacion tecnica consolidada en Hub:
+    - `node --test scripts/tests/test-auth-sync.js scripts/tests/test-progress-sync.js scripts/tests/test-assistant-bridge-byok.js` -> PASS.
+    - `./scripts/build-hub.sh --mode strict` -> PASS.
+    - `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
+    - `./scripts/smoke-hub-runtime.sh` -> OK.
+66. Estado operativo: ✅ cierre GitFlow end-to-end + deploy Vercel completados.
+
+## Actualizacion 2026-03-02 (5) — Recovery de cuenta en Hub (resend / recover)
+1. Contexto
+   - Se añade soporte de soporte de cuenta para reenviar confirmación y recuperar contraseña con contratos en TDD (`resend`, `recover`).
+2. Cambios ejecutados
+   - `api/auth-sync.js`: rutas `resend` y `recover` para Supabase Auth + resolución de rutas por pathname y query.
+   - `assets/auth-client.js`: API client extendido con `resendConfirmation()` y `recoverPassword()`.
+   - `auth/recover.html`: nueva pantalla y estado UX de envío de enlace.
+   - `auth/login.html`: acceso a recuperación desde login.
+   - `auth/register.html`: botón de reenvío de confirmación con email persistido.
+   - `vercel.json`: rewrites de `/auth/resend` y `/auth/recover`.
+   - `scripts/tests/test-auth-sync.js`: tests de routing + payload obligatorio + mapeo de errores para ambos flujos.
+3. Estado
+   - PR mergeado en `develop`: `#71` (squash) desde `feature/hub-auth-recovery-20260302`.
+   - Validación técnica ejecutada:
+     - `node --test scripts/tests/test-auth-sync.js` -> PASS (10/10).
+     - `./scripts/build-hub.sh --mode strict` -> PASS.
+     - `./scripts/smoke-hub-runtime.sh` -> OK.
+   - Despliegue Vercel:
+     - `https://architecture-stack.vercel.app`
+     - `https://architecture-stack-4zketscuo-merlosalbarracins-projects.vercel.app`
+   - Estado operativo: ✅ bloque cerrado.
+
+## Actualizacion 2026-03-03 (6) — Orquestador closeout con followup integrado
+1. Alcance: Hub (`scripts/`) + tracking operativo.
+2. Cambio:
+   - `scripts/schedule-closeout-window.sh` documenta y ejecuta la secuencia completa en una sola orden:
+     - job principal de closeout,
+     - watchdog de recovery,
+     - followup snapshot.
+3. Cobertura reforzada:
+   - `scripts/tests/test-schedule-closeout-window.sh` valida cleanup idempotente de jobs watchdog/followup previos, scheduling de ambos (`AT -t`) y payload correcto en jobs nuevos.
+4. Validación:
+   - `./scripts/tests/test-schedule-closeout-window.sh` -> PASS.
+   - `./scripts/tests/test-closeout-window-followup.sh` -> PASS.
+   - `./scripts/run-closeout-qa-suite.sh tests` -> PASS (9 suites).
+5. Estado: ✅ Hecho.
+
+## Actualizacion 2026-03-03 (7) — Verificación pública de runtime en Vercel
+1. Alcance: Hub publicado (`https://architecture-stack.vercel.app`).
+2. Validación ejecutada:
+   - `./scripts/smoke-public-routes.sh https://architecture-stack.vercel.app` -> PASS (`/`, `/ios/`, `/android/`, `/sdd/` en `200`).
+   - `./scripts/smoke-public-functional.sh https://architecture-stack.vercel.app` -> PASS (Hub/Auth/iOS/Android/SDD).
+   - `./scripts/post-deploy-checks.sh https://architecture-stack.vercel.app` -> PASS.
+3. Estado: ✅ Hecho.
+
+## Actualizacion 2026-03-03 (8) — Refresco de guard operativo de closeout
+1. Alcance: Hub (`deploy-and-verify-closeout`, `closeout-status`, `closeout-readiness`).
+2. Resultado:
+   - `./scripts/deploy-and-verify-closeout.sh fast https://architecture-stack.vercel.app` -> guard activo (`EXIT_CODE=2`), sin consumir intento durante cooldown.
+   - `./scripts/closeout-status.sh` y `./scripts/closeout-readiness.sh --verbose` confirman ventana vigente con `not-before 2026-03-03 16:07:10 CET`.
+3. Estado: ⏳ En espera de apertura de ventana para ejecutar cierre final de `5.3/5.4`.
+
+## Actualizacion 2026-03-03 (9) — Hardening de PATH en scheduler `at`
+1. Alcance: Hub (`schedule-closeout-at`, `schedule-closeout-window`) + tests.
+2. Cambio:
+   - el entorno saneado ahora usa `SMA_AT_SANITIZED_PATH` (default mínimo fijo) en vez de heredar `PATH` interactivo.
+   - reduce ruido y riesgo al evitar rutas efímeras de herramientas locales en jobs programados.
+3. Validación:
+   - `./scripts/tests/test-schedule-closeout-at.sh` -> PASS.
+   - `./scripts/tests/test-schedule-closeout-window.sh` -> PASS.
+   - `./scripts/run-closeout-qa-suite.sh tests` -> PASS.
+   - `./scripts/run-closeout-qa-suite.sh full` -> PASS.
+4. Estado: ✅ Hecho.
+
+## Actualizacion 2026-03-03 (10) — Reprogramación runtime con PATH hardening activo
+1. Alcance: cola `at` operativa de ventana `16:08/16:10/16:12`.
+2. Acción:
+   - `./scripts/schedule-closeout-window.sh` reprogama la ventana tras hardening.
+3. Resultado:
+   - cola actual: `job 18` (main), `job 19` (watchdog), `job 20` (followup).
+   - `./scripts/closeout-readiness.sh --verbose` mantiene estado `EN ESPERA` por cuota con job automático activo.
+   - `at -c 18|19|20` confirma `export PATH=/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin`.
+4. Estado: ✅ Hecho.
+
+## Actualizacion 2026-03-03 (11) — Health de ventana en status + tests aislados
+1. Alcance: `closeout-status`, `closeout-readiness` y tests de regresión.
+2. Cambios:
+   - `closeout-status` valida en cooldown la presencia de jobs `main/watchdog/followup`.
+   - si falta algún job, devuelve `EXIT_CODE=3` y sugiere `./scripts/schedule-closeout-window.sh`.
+   - `closeout-readiness` soporta `SMA_CLOSEOUT_RUNTIME_DIR` para ejecutar tests en runtime temporal.
+3. Validación:
+   - `./scripts/tests/test-closeout-status.sh` -> PASS.
+   - `./scripts/tests/test-closeout-readiness.sh` -> PASS.
+   - `./scripts/run-closeout-qa-suite.sh tests` -> PASS.
+   - `./scripts/run-closeout-qa-suite.sh full` -> PASS.
+4. Estado: ✅ Hecho.
+
+## Actualizacion 2026-03-03 (12) — Readiness con validación completa de ventana
+1. Alcance: `closeout-readiness` + tests de regresión.
+2. Cambio:
+   - readiness exige `main/watchdog/followup` durante cooldown para mantener `EXIT_CODE=2`.
+   - si falta cualquier job de ventana devuelve `EXIT_CODE=3` y sugiere `./scripts/schedule-closeout-window.sh`.
+3. Validación:
+   - `./scripts/tests/test-closeout-readiness.sh` -> PASS.
+   - `./scripts/run-closeout-qa-suite.sh tests` -> PASS.
+   - `./scripts/run-closeout-qa-suite.sh full` -> PASS.
+4. Estado: ✅ Hecho.
+
+## Actualizacion 2026-03-03 (13) — Runner QA `full` con gate de `closeout-status`
+1. Alcance: `run-closeout-qa-suite.sh` + test dedicado.
+2. Cambio:
+   - `full` valida runtime en orden: `atq` -> `closeout-status` -> `closeout-readiness`.
+   - si `closeout-status=3` (ventana incompleta), aborta con error explícito.
+   - se añade soporte de comandos/tests override por entorno para pruebas herméticas.
+3. Validación:
+   - `./scripts/tests/test-run-closeout-qa-suite.sh` -> PASS.
+   - `./scripts/run-closeout-qa-suite.sh tests` -> PASS (10 suites).
+   - `./scripts/run-closeout-qa-suite.sh full` -> PASS.
+4. Estado: ✅ Hecho.
+
+## Actualizacion 2026-03-03 (14) — Auto-reschedule por ventana completa en `closeout-at-job`
+1. Alcance: `closeout-at-job` + test de regresión.
+2. Cambio:
+   - el scheduler por defecto de reintento pasa a `schedule-closeout-window.sh`.
+   - objetivo: mantener `main/watchdog/followup` tras cada auto-reschedule por cuota.
+3. Validación:
+   - `./scripts/tests/test-closeout-at-job.sh` -> PASS (incluye caso del scheduler default).
+   - `./scripts/tests/test-run-closeout-qa-suite.sh` -> PASS.
+   - `./scripts/run-closeout-qa-suite.sh tests` -> PASS.
+   - `./scripts/run-closeout-qa-suite.sh full` -> PASS.
+4. Estado: ✅ Hecho.
+
+## Actualizacion 2026-03-03 (15) — Estado closeout listo para reintento en ventana válida
+1. Alcance: `scripts/closeout-status.sh` + tracking de backlog residual.
+2. Cambio:
+   - se cierra el pendiente `P3 #7` al validar explícitamente que `closeout-status` reporta `Estado: listo para reintento de deploy` cuando la ventana es válida.
+3. Validación:
+   - simulación controlada con `SMA_CLOSEOUT_COOLDOWN_FILE` temporal (`not_before` vencido) -> salida `Estado: listo para reintento de deploy`.
+   - `./scripts/tests/test-closeout-status.sh` -> PASS.
+   - `./scripts/run-closeout-qa-suite.sh tests` -> PASS (10 suites).
+4. Estado: ✅ Hecho.
+
+## Actualizacion 2026-03-03 (16) — Preflight de ventana de cierre E2E
+1. Alcance: pendiente `P2 #6` (`deploy-and-verify-closeout`) en espera de cuota.
+2. Cambio:
+   - validación preventiva completa antes de ventana real para reducir riesgo de fallo a `16:08 CET`.
+3. Validación:
+   - `./scripts/closeout-status.sh` -> cooldown activo con ventana `2026-03-03 16:07:10 CET` y jobs `18/19/20` activos.
+   - `at -c 18|19|20` -> payload correcto por job (`closeout-at-job`, `recover-past-due-closeout`, `closeout-window-followup`) + `PATH` saneado fijo.
+   - `./scripts/run-closeout-qa-suite.sh full` -> PASS (10 suites + runtime checks).
+4. Estado: ✅ Hecho (subtask preflight); `P2 #6` sigue `⏳` hasta ejecución real en ventana de cuota.
+
+## Actualizacion 2026-03-03 (17) — Followup de cierre ejecuta verificación pública automática
+1. Alcance: `scripts/closeout-window-followup.sh` + test dedicado.
+2. Cambio:
+   - cuando existe `closeout-complete.flag`, el followup ejecuta:
+     - `smoke-public-routes`,
+     - `smoke-public-functional`,
+     - `post-deploy-checks`.
+   - si no existe flag, registra `skip public verification` sin romper flujo.
+3. Validación:
+   - `./scripts/tests/test-closeout-window-followup.sh` -> PASS (casos con/sin flag).
+   - `./scripts/run-closeout-qa-suite.sh tests` -> PASS.
+   - `./scripts/run-closeout-qa-suite.sh full` -> PASS.
+4. Estado: ✅ Hecho (subtask hardening de `P2 #6`).
+
+## Actualizacion 2026-03-03 (18) — Estado estructurado por ejecución en `deploy-and-verify-closeout`
+1. Alcance: `scripts/deploy-and-verify-closeout.sh` + test de regresión.
+2. Cambio:
+   - cada ejecución escribe `.runtime/deploy-and-verify-last.env` con:
+     - `state`, `mode`, `base_url`, `updated_at`,
+     - detalles según resultado (`quota/not_before`, `publish_exit`, `post_checks_exit`).
+3. Estados soportados:
+   - `guarded_cooldown`,
+   - `quota_blocked`,
+   - `publish_failed`,
+   - `post_checks_failed`,
+   - `success`.
+4. Validación:
+   - `./scripts/tests/test-deploy-and-verify-closeout.sh` -> PASS (incluye caso de fallo en post-checks).
+   - `./scripts/run-closeout-qa-suite.sh tests` -> PASS.
+5. Estado: ✅ Hecho (subtask hardening de `P2 #6`).
+
+## Actualizacion 2026-03-03 (19) — Followup incluye estado del runner en log final
+1. Alcance: `scripts/closeout-window-followup.sh` + test dedicado.
+2. Cambio:
+   - el followup vuelca `deploy-and-verify-last.env` en el log post-ventana.
+   - si el artefacto no existe, registra `deploy-and-verify-last.env missing`.
+3. Validación:
+   - `./scripts/tests/test-closeout-window-followup.sh` -> PASS.
+   - `./scripts/run-closeout-qa-suite.sh tests` -> PASS.
+4. Estado: ✅ Hecho (subtask hardening de `P2 #6`).
+
+## Actualizacion 2026-03-03 (20) — Freeze check automático para cierre documental `5.4`
+1. Alcance: cierre final `P3 #4` (preparación).
+2. Cambio:
+   - nuevo script `scripts/closeout-freeze-check.sh` para decidir READY/NOT_READY de cierre documental.
+   - valida artefactos y evidencia real:
+     - `deploy-and-verify-last.env`,
+     - `closeout-complete.flag`,
+     - log followup con `routes/functional/post-checks` en `exit=0`.
+   - genera reporte Markdown `closeout-freeze-check-*.md` con snapshots de `closeout-status`, `closeout-readiness` y `atq`.
+3. Validación:
+   - `./scripts/tests/test-closeout-freeze-check.sh` -> PASS.
+   - `./scripts/run-closeout-qa-suite.sh tests` -> PASS (11 suites).
+   - `./scripts/run-closeout-qa-suite.sh full` -> PASS.
+4. Estado: ✅ Hecho (subtask de preparación); `P3 #4` permanece `⏳` hasta cierre real post-deploy.
+
+## Actualizacion 2026-03-03 (21) — Followup dispara freeze-check automáticamente
+1. Alcance: `scripts/closeout-window-followup.sh` + test de regresión.
+2. Cambio:
+   - al final del followup se ejecuta `closeout-freeze-check.sh` con contexto runtime/log actual.
+   - queda trazado en el mismo log: `closeout-freeze-check exit=<code>`.
+3. Validación:
+   - `./scripts/tests/test-closeout-window-followup.sh` -> PASS (caso con flag -> exit 0, sin flag -> exit 2).
+   - `./scripts/run-closeout-qa-suite.sh tests` -> PASS.
+   - `./scripts/run-closeout-qa-suite.sh full` -> PASS.
+4. Estado: ✅ Hecho (subtask hardening de `P2 #6` y preparación de `P3 #4`).

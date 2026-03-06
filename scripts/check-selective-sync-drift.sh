@@ -11,6 +11,27 @@ IOS_REPO="${IOS_REPO_OVERRIDE:-$WORKSPACE_ROOT/stack-my-architecture-ios}"
 ANDROID_REPO="${ANDROID_REPO_OVERRIDE:-$WORKSPACE_ROOT/stack-my-architecture-android}"
 SDD_REPO="${SDD_REPO_OVERRIDE:-$WORKSPACE_ROOT/stack-my-architecture-SDD}"
 
+resolve_course_root() {
+  local candidate="$1"
+  local nested_name="$2"
+
+  if [ -f "$candidate/scripts/build-html.py" ]; then
+    printf '%s\n' "$candidate"
+    return
+  fi
+
+  if [ -f "$candidate/$nested_name/scripts/build-html.py" ]; then
+    printf '%s\n' "$candidate/$nested_name"
+    return
+  fi
+
+  printf '%s\n' "$candidate"
+}
+
+IOS_REPO="$(resolve_course_root "$IOS_REPO" "stack-my-architecture-ios")"
+ANDROID_REPO="$(resolve_course_root "$ANDROID_REPO" "stack-my-architecture-android")"
+SDD_REPO="$(resolve_course_root "$SDD_REPO" "stack-my-architecture-SDD")"
+
 if [ "${1:-}" = "--help" ] || [ "${1:-}" = "-h" ]; then
   cat <<EOF
 Uso:
