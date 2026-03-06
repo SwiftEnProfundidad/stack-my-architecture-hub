@@ -50,6 +50,10 @@ SOURCE_REPOS = {
     "sdd": PROJECTS_ROOT / "stack-my-architecture-SDD",
 }
 
+ASSET_VERSION_RE = re.compile(
+    r"(assets/[A-Za-z0-9._/-]+\.(?:css|js)\?v=)([A-Za-z0-9._-]+)"
+)
+
 
 def source_dist_dir(course: str) -> Path:
     repo = SOURCE_REPOS[course]
