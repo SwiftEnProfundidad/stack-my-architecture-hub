@@ -1369,3 +1369,8 @@ Se elimina un falso negativo en post-deploy checks sin relajar cobertura real de
 1. `node --check scripts/tests/run-authenticated-progress-cross-device-ci.cjs` -> PASS.
 2. Validación YAML del workflow -> PASS.
 3. Ejecución local del runner CI con `NODE_PATH=.runtime/playwright-runner/node_modules` -> PASS.
+4. Workflow publicada y trigger automático sobre `develop` verificado.
+5. Ejecución en GitHub Actions intentada:
+   - run `22827196688`
+   - estado real: `failure`
+   - causa operativa externa: `The job was not started because your account is locked due to a billing issue.`
