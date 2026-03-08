@@ -1,6 +1,21 @@
 name: Hub Production Auth E2E
 
 on:
+  push:
+    branches:
+      - develop
+    paths:
+      - '.github/workflows/hub-production-auth-e2e.yml'
+      - 'scripts/tests/run-authenticated-progress-cross-device-ci.cjs'
+      - 'scripts/tests/test-authenticated-progress-cross-device.sh'
+      - 'scripts/tests/test-auth-and-progress-api-suite.sh'
+      - 'scripts/tests/test-progress-sync.js'
+      - 'api/progress-sync.js'
+      - 'assets/auth-client.js'
+      - 'auth/**'
+      - 'ios/assets/study-ux.js'
+      - 'android/assets/study-ux.js'
+      - 'sdd/assets/study-ux.js'
   workflow_dispatch:
     inputs:
       base_url:

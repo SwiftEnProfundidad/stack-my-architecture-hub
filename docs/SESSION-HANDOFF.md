@@ -393,9 +393,11 @@ La validación automática de login end-to-end queda parcialmente bloqueada si n
 2. ✅ Script runner nuevo para GitHub Actions:
    - `scripts/tests/run-authenticated-progress-cross-device-ci.cjs`
 3. ✅ El workflow queda listo para:
+   - `push` a `develop`
    - `workflow_dispatch`
    - `schedule`
 4. ✅ Secretos requeridos en GitHub repo:
    - `SMA_E2E_AUTH_EMAIL`
    - `SMA_E2E_AUTH_PASSWORD`
 5. ✅ Validación local equivalente a CI ya ejecutada en verde con la cuenta dedicada.
+6. ✅ El trigger automático realmente utilizable hoy es `push` sobre `develop`, porque la rama por defecto del repo en GitHub sigue siendo `main`.
