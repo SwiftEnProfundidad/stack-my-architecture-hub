@@ -151,5 +151,8 @@ test('GET /api/dashboard agrega progreso, notas, bookmarks y siguiente paso', as
     assert.equal(result.json.notes.length, 1);
     assert.equal(result.json.notes[0].preview.includes('quality gates'), true);
     assert.equal(result.json.bookmarks.length, 1);
+    assert.equal(result.json.entitlements.length, 1);
+    assert.equal(result.json.reviewQueue.length, 1);
+    assert.equal(result.json.reviewQueue[0].topicId, '00-core-mobile-04-quality-pr-ready');
   });
 });

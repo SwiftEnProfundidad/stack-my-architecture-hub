@@ -161,6 +161,23 @@ body.hub-app-body {
   border-color: rgba(251, 113, 133, 0.34);
 }
 
+.hub-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.hub-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 8px 12px;
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: var(--hub-text);
+}
+
 .hub-status-row {
   display: flex;
   flex-direction: column;

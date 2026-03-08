@@ -148,15 +148,22 @@ async function handleMe(req, res) {
     });
 
     const nextCourse = courses.find((item) => item.allowed && item.nextStep.topicId) || courses.find((item) => item.allowed) || null;
+    const reviewQueue = courses
+      .filter((course) => course.allowed)
+      .flatMap((course) => buildReviewQueue(course.courseId, progressByCourse.get(course.courseId)))
+      .sort(sortByUpdatedAtDesc)
+      .slice(0, 6);
 
     sendJson(res, 200, {
       ok: true,
       user: context.user,
       role: context.role,
       allowedCourses,
+      entitlements: context.entitlements,
       courses,
       notes: recentNotes,
       bookmarks: recentBookmarks,
+      reviewQueue,
       nextStep: nextCourse ? {
         courseId: nextCourse.courseId,
         topicId: nextCourse.nextStep.topicId,
@@ -201,6 +208,19 @@ function buildNextStep(courseId, data, access) {
     topicId: null,
     label: access === 'teaser' ? 'Explora la muestra pública del curso.' : `Continúa el curso ${courseId}.`
   };
+}
+
+function buildReviewQueue(courseId, progressRow) {
+  const data = progressRow && progressRow.data && typeof progressRow.data === 'object' ? progressRow.data : {};
+  const review = data.review && typeof data.review === 'object' ? data.review : {};
+  const updatedAt = progressRow ? String(progressRow.updated_at || '') : '';
+  return Object.keys(review)
+    .filter((topicId) => review[topicId])
+    .map((topicId) => ({
+      courseId,
+      topicId: String(topicId),
+      updatedAt
+    }));
 }
 
 function sortByUpdatedAtDesc(a, b) {

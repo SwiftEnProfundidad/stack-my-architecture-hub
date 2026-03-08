@@ -30,6 +30,8 @@
     dashboardNext: document.getElementById('hub-dashboard-next'),
     dashboardNotes: document.getElementById('hub-dashboard-notes'),
     dashboardBookmarks: document.getElementById('hub-dashboard-bookmarks'),
+    dashboardReview: document.getElementById('hub-dashboard-review'),
+    dashboardAccount: document.getElementById('hub-dashboard-account'),
     coursesGrid: document.getElementById('hub-courses-grid'),
     accessSummary: document.getElementById('hub-access-summary')
   };
@@ -187,6 +189,7 @@
     renderDashboardKpis();
     renderDashboardNext();
     renderDashboardCourses();
+    renderDashboardAccount();
     renderDashboardList(els.dashboardNotes, state.dashboard.notes || [], 'Aún no tienes notas privadas guardadas.', function (item) {
       return {
         title: `${courseLabel(item.courseId)} · ${item.topicId}`,
@@ -198,6 +201,13 @@
       return {
         title: `${courseLabel(item.courseId)} · ${item.topicId}`,
         copy: 'Acceso rápido a la lección guardada para volver sin perder contexto.',
+        href: courseUrl(item.courseId, item.topicId)
+      };
+    });
+    renderDashboardList(els.dashboardReview, state.dashboard.reviewQueue || [], 'No tienes lecciones marcadas para repaso en este momento.', function (item) {
+      return {
+        title: `${courseLabel(item.courseId)} · ${item.topicId}`,
+        copy: 'Repaso prioritario pendiente. Úsalo para retomar conceptos que ya marcaste como críticos.',
         href: courseUrl(item.courseId, item.topicId)
       };
     });
@@ -283,6 +293,39 @@
         '</article>'
       ].join('');
     }).join('');
+  }
+
+  function renderDashboardAccount() {
+    if (!els.dashboardAccount) return;
+    const entitlements = Array.isArray(state.dashboard.entitlements) ? state.dashboard.entitlements : [];
+    const body = [];
+    body.push('<div class="hub-section-head">');
+    body.push('<div>');
+    body.push('<h3 class="hub-section-title">Cuenta y plan</h3>');
+    body.push('<p class="hub-section-copy">Resumen operativo de tu rol, cursos habilitados y accesos de cuenta.</p>');
+    body.push('</div>');
+    body.push('</div>');
+    body.push('<div class="hub-mini-grid">');
+    body.push(miniStat('Rol', roleLabel(state.dashboard.role || 'student')));
+    body.push(miniStat('Cursos activos', String((state.dashboard.allowedCourses || []).length)));
+    body.push(miniStat('Entitlements', String(entitlements.length)));
+    body.push(miniStat('Repasos abiertos', String((state.dashboard.reviewQueue || []).length)));
+    body.push('</div>');
+    if (entitlements.length) {
+      body.push('<div class="hub-chip-row">');
+      entitlements.forEach(function (item) {
+        body.push(`<span class="hub-chip">${escapeHtml(String(item.planCode || item.courseId || 'plan'))}</span>`);
+      });
+      body.push('</div>');
+    }
+    body.push('<div class="hub-list-actions">');
+    body.push('<a class="hub-btn hub-btn-primary" href="./auth/index.html">Gestionar cuenta</a>');
+    if (state.dashboard.reviewQueue && state.dashboard.reviewQueue.length) {
+      const firstReview = state.dashboard.reviewQueue[0];
+      body.push(`<a class="hub-btn hub-btn-muted" href="${escapeHtml(courseUrl(firstReview.courseId, firstReview.topicId))}">Ir a repaso prioritario</a>`);
+    }
+    body.push('</div>');
+    els.dashboardAccount.innerHTML = body.join('');
   }
 
   function renderDashboardList(node, items, emptyLabel, mapItem) {
