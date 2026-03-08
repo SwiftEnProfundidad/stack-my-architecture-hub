@@ -1429,8 +1429,9 @@ blockquote p {
 <li class="nav-section"><strong>Informe fundacional</strong>
 <ul>
   <li><a class="doc-nav-link" data-lesson-path="00-informe/INFORME-CURSO.md" href="#00-informe-INFORME-CURSO">Documento: Informe del Curso: Stack My Architecture iOS</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="00-informe/DECISIONES-TOMADAS.md" href="#00-informe-DECISIONES-TOMADAS">Documento: Decisiones tomadas durante el desarrollo del curso</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="00-informe/TODO.md" href="#00-informe-TODO">Documento: Backlog técnico del repositorio</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="00-informe/MATRIZ-COMPETENCIAS.md" href="#00-informe-MATRIZ-COMPETENCIAS">Documento: Matriz de competencias - iOS</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="00-informe/RUBRICA-GATES-POR-FASE.md" href="#00-informe-RUBRICA-GATES-POR-FASE">Documento: Rubrica de gates por fase - iOS</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="00-informe/SCORECARD-EMPLEABILIDAD.md" href="#00-informe-SCORECARD-EMPLEABILIDAD">Documento: Scorecard de empleabilidad - iOS</a></li>
 </ul></li>
 <li class="nav-section"><strong>ETAPA 0: CORE MOBILE</strong>
 <ul>
@@ -1849,183 +1850,197 @@ blockquote p {
   <li>No es adoptar modas; es construir un sistema coherente guiado por requisitos, tests y límites.</li>
 </ul>
 </section>
-<section id="00-informe-DECISIONES-TOMADAS" class="lesson" data-topic-id="00-informe-DECISIONES-TOMADAS" data-lesson-path="00-informe/DECISIONES-TOMADAS.md">
-<div class="lesson-path">00-informe/DECISIONES-TOMADAS.md</div>
-<h1 id="00-informe-DECISIONES-TOMADAS-decisiones-tomadas-durante-el-desarrollo-del-curso">Decisiones tomadas durante el desarrollo del curso</h1>
-<h2 id="00-informe-DECISIONES-TOMADAS-proposito">Proposito</h2>
-<p>Este documento consolida decisiones de alcance, arquitectura y pedagogía de la edición vigente del curso.</p>
-<p>Sirve como contrato de coherencia para futuras iteraciones.</p>
-<hr>
-<h2 id="00-informe-DECISIONES-TOMADAS-decisiones-de-alcance-edici-n-actual">Decisiones de alcance (edición actual)</h2>
+<section id="00-informe-MATRIZ-COMPETENCIAS" class="lesson" data-topic-id="00-informe-MATRIZ-COMPETENCIAS" data-lesson-path="00-informe/MATRIZ-COMPETENCIAS.md">
+<div class="lesson-path">00-informe/MATRIZ-COMPETENCIAS.md</div>
+<h1 id="00-informe-MATRIZ-COMPETENCIAS-matriz-de-competencias-ios">Matriz de competencias - iOS</h1>
+<h2 id="00-informe-MATRIZ-COMPETENCIAS-objetivo">Objetivo</h2>
+<p>Asegurar progresion verificable desde etapa 0 hasta maestria con evidencia ejecutable y defensa tecnica.</p>
+<h2 id="00-informe-MATRIZ-COMPETENCIAS-niveles-y-evidencias">Niveles y evidencias</h2>
 <table>
 <thead>
 <tr>
-  <th>Tema</th>
-  <th>Decision vigente</th>
-  <th>Fuera de alcance ahora</th>
-  <th>Motivo</th>
+  <th>Nivel</th>
+  <th>Capacidad objetivo</th>
+  <th>Evidencia minima obligatoria</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-  <td><strong>Backend</strong></td>
-  <td>Firebase (Auth + Firestore)</td>
-  <td>Supabase y otros backends alternativos</td>
-  <td>Mantener foco y reducir carga cognitiva para juniors</td>
+  <td>Etapa 0 Core Mobile</td>
+  <td>Entender capas y semántica de dependencias</td>
+  <td>Diagrama de capas + explicacion de 4 flechas + snippet compilable</td>
 </tr>
 <tr>
-  <td><strong>State management</strong></td>
-  <td>SwiftUI moderno con <code>@Observable</code></td>
-  <td>TCA</td>
-  <td>TCA se considera curso separado o extensión futura</td>
+  <td>Etapa 1 Fundamentos</td>
+  <td>Aplicar feature-first, puertos y TDD base</td>
+  <td>Test unitario en rojo/verde + implementacion minima + refactor documentado</td>
 </tr>
 <tr>
-  <td><strong>CI ejecutable</strong></td>
-  <td>Documentación conceptual de quality gates</td>
-  <td>Pipeline real en este repositorio del curso</td>
-  <td>El foco actual es arquitectura y proceso técnico</td>
+  <td>Etapa 2 Integracion</td>
+  <td>Integrar features sin acoplamiento accidental</td>
+  <td>Caso de integracion probado + diagrama de wiring + trade-off escrito</td>
 </tr>
 <tr>
-  <td><strong>Formato</strong></td>
-  <td>Markdown + HTML navegable</td>
-  <td>Generación de proyecto app preconstruido</td>
-  <td>El alumno construye la app paso a paso</td>
+  <td>Etapa 3 Evolucion</td>
+  <td>Evolucionar persistencia/servicios con contratos estables</td>
+  <td>Contrato versionado + test de no regresion + metrica de impacto</td>
 </tr>
 <tr>
-  <td><strong>Target mínimo</strong></td>
-  <td>iOS 17+</td>
-  <td>iOS 16 y anteriores</td>
-  <td>Aprovechar APIs modernas (<code>@Observable</code>, SwiftData)</td>
+  <td>Etapa 4 Arquitecto</td>
+  <td>Disenar fronteras, navegacion y decisiones complejas</td>
+  <td>ADR corto + diagrama inter-feature + defensa de decision</td>
+</tr>
+<tr>
+  <td>Etapa 5 Maestria</td>
+  <td>Operar sistema enterprise con criterios de riesgo</td>
+  <td>Runbook minimo + gates de calidad + simulacion de incidente</td>
 </tr>
 </tbody>
 </table>
-<hr>
-<h2 id="00-informe-DECISIONES-TOMADAS-decisiones-arquitect-nicas">Decisiones arquitectónicas</h2>
-<table>
-<thead>
-<tr>
-  <th>Tema</th>
-  <th>Decision</th>
-  <th>Referencia</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-  <td>Patrón base</td>
-  <td>Clean Architecture + Feature-First</td>
-  <td>Etapa 1</td>
-</tr>
-<tr>
-  <td>Dependencias</td>
-  <td>Flechas hacia adentro, composición fuera del core</td>
-  <td>Etapa 1-2</td>
-</tr>
-<tr>
-  <td>Navegación</td>
-  <td>Event-driven + coordinador</td>
-  <td>Etapa 2 y 4</td>
-</tr>
-<tr>
-  <td>Persistencia local</td>
-  <td>SwiftData para ruta principal de curso</td>
-  <td>Etapa 3</td>
-</tr>
-<tr>
-  <td>Concurrencia</td>
-  <td>Swift 6.2 strict concurrency (<code>Sendable</code>, actors, cancelación)</td>
-  <td>Etapa 3-5</td>
-</tr>
-<tr>
-  <td>Gobernanza</td>
-  <td>ADRs + reglas + guías documentadas</td>
-  <td>Etapa 4</td>
-</tr>
-</tbody>
-</table>
-<hr>
-<h2 id="00-informe-DECISIONES-TOMADAS-decisiones-pedag-gicas">Decisiones pedagógicas</h2>
-<table>
-<thead>
-<tr>
-  <th>Tema</th>
-  <th>Decision</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-  <td>Audiencia</td>
-  <td>Junior absoluto a arquitecto</td>
-</tr>
-<tr>
-  <td>Método</td>
-  <td>BDD -> TDD (Red/Green/Refactor) -> producción -> refactor</td>
-</tr>
-<tr>
-  <td>Enfoque</td>
-  <td>Hands-on obligatorio con checkpoints visibles en Xcode</td>
-</tr>
-<tr>
-  <td>Profundidad</td>
-  <td>Explicación extensa: qué, por qué, cómo, cuándo y errores típicos</td>
-</tr>
-<tr>
-  <td>Calidad de aprendizaje</td>
-  <td>Uniformidad de nivel entre lecciones, evitando huecos y ambigüedad</td>
-</tr>
-</tbody>
-</table>
-<hr>
-<h2 id="00-informe-DECISIONES-TOMADAS-regla-de-hands-on-obligatoria">Regla de hands-on (obligatoria)</h2>
-<p>Cada lección debe dar, como mínimo:</p>
+<h2 id="00-informe-MATRIZ-COMPETENCIAS-criterio-de-paso">Criterio de paso</h2>
 <ol>
-  <li>Qué archivo crear/editar y en qué ruta.</li>
-  <li>Qué test ejecutar primero y por qué debe fallar (RED).</li>
-  <li>Qué implementación mínima escribir (GREEN).</li>
-  <li>Qué refactor hacer sin romper tests (REFACTOR).</li>
-  <li>Qué comandos/acciones de verificación ejecutar (<code>Cmd+U</code>, <code>Cmd+B</code>, <code>Cmd+R</code> cuando aplique).</li>
+  <li>No se aprueba una etapa sin evidencia tecnica y defensa verbal breve.</li>
+  <li>Si falla un gate, la etapa queda en recuperacion y no avanza.</li>
+  <li>Toda evidencia debe ser reproducible en repo.</li>
 </ol>
-<p>Si una lección es conceptual (por ejemplo, gobernanza), debe incluir igualmente un checkpoint práctico verificable en documentación, decisiones o pruebas de contrato.</p>
-<hr>
-<h2 id="00-informe-DECISIONES-TOMADAS-seguimiento-de-pendientes-pr-xima-edici-n">Seguimiento de pendientes (próxima edición)</h2>
+<h2 id="00-informe-MATRIZ-COMPETENCIAS-reglas-de-evaluacion">Reglas de evaluacion</h2>
+<ol>
+  <li>Comprension: explica por que la decision existe.</li>
+  <li>Aplicacion: demuestra con codigo o test.</li>
+  <li>Defensa: justifica trade-offs y riesgos.</li>
+  <li>Operacion: muestra como monitorear, rollback y verificar.</li>
+</ol>
+</section>
+<section id="00-informe-RUBRICA-GATES-POR-FASE" class="lesson" data-topic-id="00-informe-RUBRICA-GATES-POR-FASE" data-lesson-path="00-informe/RUBRICA-GATES-POR-FASE.md">
+<div class="lesson-path">00-informe/RUBRICA-GATES-POR-FASE.md</div>
+<h1 id="00-informe-RUBRICA-GATES-POR-FASE-rubrica-de-gates-por-fase-ios">Rubrica de gates por fase - iOS</h1>
+<h2 id="00-informe-RUBRICA-GATES-POR-FASE-objetivo">Objetivo</h2>
+<p>Definir criterios de aprobado/rechazado por fase para evitar avance con huecos.</p>
+<h2 id="00-informe-RUBRICA-GATES-POR-FASE-gates-por-fase">Gates por fase</h2>
 <table>
 <thead>
 <tr>
-  <th>Pendiente</th>
-  <th>Estado</th>
+  <th>Fase</th>
+  <th>Gate tecnico</th>
+  <th>Gate pedagogico</th>
+  <th>Gate de defensa</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-  <td>CI ejecutable en GitHub Actions para repo demo del alumno</td>
-  <td>Diferido</td>
+  <td>Etapa 0</td>
+  <td>Diagrama de capas correcto</td>
+  <td>Explica significado de las flechas</td>
+  <td>Justifica una dependencia valida y una invalida</td>
 </tr>
 <tr>
-  <td>Ruta backend alternativa completa</td>
-  <td>Diferido</td>
+  <td>Etapa 1</td>
+  <td>TDD rojo-verde-refactor completo</td>
+  <td>Explica por que el test protege el comportamiento</td>
+  <td>Defiende por que no usar acoplamiento directo</td>
 </tr>
 <tr>
-  <td>Profundización específica en TCA</td>
-  <td>Diferido</td>
+  <td>Etapa 2</td>
+  <td>Integracion de features en verde</td>
+  <td>Describe contrato entre modulos</td>
+  <td>Defiende trade-off entre simplicidad y aislamiento</td>
+</tr>
+<tr>
+  <td>Etapa 3</td>
+  <td>Persistencia/infra con tests de regresion</td>
+  <td>Explica impacto en dominio</td>
+  <td>Defiende costo de cambio y estrategia de migracion</td>
+</tr>
+<tr>
+  <td>Etapa 4</td>
+  <td>Arquitectura y navegacion sin ciclos</td>
+  <td>Describe fronteras y ownership</td>
+  <td>Defiende ADR con criterios de riesgo</td>
+</tr>
+<tr>
+  <td>Etapa 5</td>
+  <td>Hardening/release checklist en verde</td>
+  <td>Explica criterio de readiness</td>
+  <td>Defiende plan de rollback y observabilidad</td>
 </tr>
 </tbody>
 </table>
+<h2 id="00-informe-RUBRICA-GATES-POR-FASE-regla-de-aprobado">Regla de aprobado</h2>
+<ol>
+  <li>Se aprueba fase solo con los tres gates en verde.</li>
+  <li>Si un gate falla, se registra recuperacion y evidencia faltante.</li>
+  <li>Todo gate debe poder auditarse en PR o script.</li>
+</ol>
+<h2 id="00-informe-RUBRICA-GATES-POR-FASE-evidencia-de-recuperacion">Evidencia de recuperacion</h2>
+<ol>
+  <li>Causa del fallo.</li>
+  <li>Cambio aplicado.</li>
+  <li>Prueba de cierre.</li>
+  <li>Leccion aprendida.</li>
+</ol>
 </section>
-<section id="00-informe-TODO" class="lesson" data-topic-id="00-informe-TODO" data-lesson-path="00-informe/TODO.md">
-<div class="lesson-path">00-informe/TODO.md</div>
-<h1 id="00-informe-TODO-backlog-t-cnico-del-repositorio">Backlog técnico del repositorio</h1>
-<p>Actualizado: 2026-02-24.</p>
-<h2 id="00-informe-TODO-alcance-de-este-documento">Alcance de este documento</h2>
-<p>Este archivo es un backlog de <strong>mantenimiento del repositorio del curso</strong>. No define objetivos de aprendizaje para el alumno ni es una lección curricular.</p>
-<h2 id="00-informe-TODO-mejora-curricular-estado">Mejora curricular (estado)</h2>
+<section id="00-informe-SCORECARD-EMPLEABILIDAD" class="lesson" data-topic-id="00-informe-SCORECARD-EMPLEABILIDAD" data-lesson-path="00-informe/SCORECARD-EMPLEABILIDAD.md">
+<div class="lesson-path">00-informe/SCORECARD-EMPLEABILIDAD.md</div>
+<h1 id="00-informe-SCORECARD-EMPLEABILIDAD-scorecard-de-empleabilidad-ios">Scorecard de empleabilidad - iOS</h1>
+<h2 id="00-informe-SCORECARD-EMPLEABILIDAD-objetivo">Objetivo</h2>
+<p>Mapear cada fase a competencias observables en entrevista y en portfolio tecnico.</p>
+<h2 id="00-informe-SCORECARD-EMPLEABILIDAD-seniority-map">Seniority map</h2>
+<table>
+<thead>
+<tr>
+  <th>Nivel</th>
+  <th>Senal en entrevista</th>
+  <th>Evidencia portfolio</th>
+  <th>Riesgo si falta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>Junior</td>
+  <td>Explica capas y flujo basico</td>
+  <td>Feature pequena con tests base</td>
+  <td>Respuestas memorizadas sin criterio</td>
+</tr>
+<tr>
+  <td>Mid</td>
+  <td>Argumenta contratos y boundaries</td>
+  <td>Integracion de dos features desacopladas</td>
+  <td>Acoplamiento accidental en cambios</td>
+</tr>
+<tr>
+  <td>Senior</td>
+  <td>Decide con trade-offs y metricas</td>
+  <td>ADR + evidencia de evolucion segura</td>
+  <td>Decisiones por intuicion sin datos</td>
+</tr>
+<tr>
+  <td>Arquitecto</td>
+  <td>Coordina modulos y roadmap tecnico</td>
+  <td>Diagrama global + plan de migracion</td>
+  <td>Arquitectura no defendible ante staff</td>
+</tr>
+<tr>
+  <td>Maestria</td>
+  <td>Opera bajo riesgo y release real</td>
+  <td>Runbook + quality gates + rollback</td>
+  <td>Falta de criterio operativo en produccion</td>
+</tr>
+</tbody>
+</table>
+<h2 id="00-informe-SCORECARD-EMPLEABILIDAD-criterio-de-empleabilidad">Criterio de empleabilidad</h2>
+<ol>
+  <li>Cada nivel exige al menos una evidencia ejecutable.</li>
+  <li>Cada evidencia debe incluir defensa de decision.</li>
+  <li>La defensa debe cubrir alternativa descartada y riesgo asumido.</li>
+</ol>
+<h2 id="00-informe-SCORECARD-EMPLEABILIDAD-checklist-de-defensa-tecnica">Checklist de defensa tecnica</h2>
 <ul>
-  <li>&#9745; [Alta] Reducir duplicación entre <code>01-fundamentos/00-setup.md</code> y <code>01-fundamentos/04-estructura-feature-first.md</code> en la parte de creación del proyecto Xcode y estructura inicial.</li>
-  <li>&#9745; [Media] Añadir referencias cruzadas explícitas desde las lecciones prácticas a <code>01-fundamentos/01-principios-ingenieria.md</code> (por ejemplo: "Recuerda el Principio 1" al aplicar TDD/BDD).</li>
-  <li>&#9745; [Media] Dividir <code>01-fundamentos/02-metodologia-bdd-tdd.md</code> en dos lecciones: BDD (teoría y escenarios) y TDD (práctica Red-Green-Refactor).</li>
-</ul>
-<h2 id="00-informe-TODO-mantenimiento-interno-no-curricular">Mantenimiento interno (no curricular)</h2>
-<ul>
-  <li>&#9745; [Media] Añadir validación automática de enlaces/anchors al pipeline de publicación de <code>dist/</code> (workflow <code>course-qa-audit.yml</code> ejecutando <code>run-qa-audit-bundle.sh</code> con <code>audit-cross-links.py</code>).</li>
-  <li>&#9745; [Media] Ejecutar revisión visual trimestral de diagramas Mermaid y assets embebidos en el HTML final (<code>00-informe/AUDITORIA-REVISION-VISUAL-TRIMESTRAL-2026Q1.md</code>, evidencia visual en <code>output/playwright/ios-qa-visual-2026Q1-full.png</code>).</li>
+  <li>Problema y contexto</li>
+  <li>Invariantes</li>
+  <li>Opciones evaluadas</li>
+  <li>Decision final</li>
+  <li>Riesgo y mitigacion</li>
+  <li>Como validar en runtime</li>
 </ul>
 </section>
 <section id="00-core-mobile-00-introduccion" class="lesson" data-topic-id="00-core-mobile-00-introduccion" data-lesson-path="00-core-mobile/00-introduccion.md">

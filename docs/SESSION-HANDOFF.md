@@ -1,6 +1,6 @@
 # SESSION HANDOFF
 
-Fecha de corte: 2026-03-01
+Fecha de corte: 2026-03-08
 
 ## Leyenda
 - ✅ Hecho
@@ -8,7 +8,7 @@ Fecha de corte: 2026-03-01
 - ⏳ Pendiente
 - ⛔ Bloqueado
 
-## Estado actual
+## Contexto de arranque
 Workspace unificado en:
 `/Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture`
 
@@ -18,394 +18,39 @@ Repos incluidos:
 3. `stack-my-architecture-ios`
 4. `stack-my-architecture-android`
 
-## Último hito cerrado
-1. Hub estabilizado y funcional para abrir cursos.
-2. Commit: `1940c7d`
-3. Tag: `hub-stable-20260224`
+## Estado actual del producto
+- Hub operativo en Vercel con rutas públicas en verde.
+- Cursos publicados y sincronizados desde sus repos fuente.
+- Sync cloud de progreso validado por cuenta autenticada.
+- Runtime mobile-first y responsive estabilizado.
+- Suites locales de smoke y closeout en verde.
 
-## Último bloque operativo cerrado
-1. Bloque empleabilidad + rigor enterprise cerrado end-to-end.
-2. Acción aplicada:
-   - iOS/Android/SDD incorporan baseline comun:
-     - `00-informe/MATRIZ-COMPETENCIAS.md`
-     - `00-informe/RUBRICA-GATES-POR-FASE.md`
-     - `00-informe/SCORECARD-EMPLEABILIDAD.md`
-   - iOS/Android/SDD incorporan validadores:
-     - `scripts/validate-learning-gates.py`
-     - `scripts/validate-diagram-semantics.py`
-   - Hub incorpora:
-     - `docs/PLAN-MAESTRO-IMPLEMENTACION-CURSOS-20260227.md`
-     - `docs/GUIA-DIAGRAMAS-ARQUITECTURA-CAPAS-Y-FLECHAS.md`
-     - `docs/TEMPLATE-DIAGRAMA-ARQUITECTURA-MERMAID.md`
-   - sync selectivo de bundles (`ios/android/sdd`) y validacion runtime del Hub.
-   - ciclo RED-GREEN-REFACTOR aplicado:
-     - RED: `build-hub --strict` falla por gate pedagogico en nuevos documentos SDD.
-     - GREEN: se anaden Mermaid + snippet no-Mermaid en los 3 documentos nuevos de SDD.
-     - REFACTOR: validadores de semantica Mermaid quedan calibrados con deteccion exacta de `-.->`.
-   - validacion final en verde de repos fuente + Hub strict.
-3. Evidencia versionada:
-   - iOS PR `#12` -> merge `2767696`.
-   - Android PR `#9` -> merge `483744f`.
-   - SDD PR `#10` -> merge `6c2fa09`.
-   - Hub PR `#33` -> merge `079bfbb`.
-   - Hub PR `#36` -> merge `c0b65a5` (inventario + matriz de brechas).
-   - iOS PR `#13` -> merge `1fbb0c8` (cierre de brechas accionables en lecciones).
-   - Android PR `#10` -> merge `d183d1e` (cierre de brechas accionables en lecciones).
-   - SDD PR `#11` -> merge `aa1e4cf` (auditoría plan maestro).
-   - SDD PR `#12` -> merge `7deaa30` (fix validador pedagógico en informe).
-   - iOS PR `#14` -> merge `e2a2e91` (reparación visual Mermaid post-cierre).
-   - Android PR `#11` -> merge `03db5b8` (reparación visual Mermaid post-cierre).
-   - iOS PR `#15` -> merge `2208297` (diagrama por capas migrado a SVG estilo mock).
-   - Android PR `#12` -> merge `3896bad` (diagrama por capas migrado a SVG estilo mock).
-   - SDD PR `#13` -> merge `0338ba9` (week16 con diagrama por capas SVG estilo mock).
-   - Hub sync bundles -> commit `06ab4cc` (ios/android/sdd) en `chore/hub-sync-svg-architecture-20260227`.
-4. Política operativa vigente:
-   - no abrir una nueva task en `🚧` sin trigger real (merge fuente, drift detectado o instrucción explícita).
-5. Última evidencia técnica consolidada:
-   - iOS: `python3 scripts/build-html.py` -> PASS.
-   - Android: `python3 scripts/check-links.py && python3 scripts/build-html.py` -> PASS.
-   - SDD:
-     - `python3 scripts/validate-course-structure.py` -> PASS.
-     - `python3 scripts/validate-openspec.py` -> PASS.
-     - `python3 scripts/check-links.py` -> PASS.
-     - `python3 scripts/validate-pedagogy.py` -> PASS.
-     - `python3 scripts/validate-markdown-snippets.py` -> PASS.
-     - `python3 scripts/build-html.py` -> PASS.
-     - `swift test --package-path project/HelpdeskSDD` -> PASS.
-   - Hub:
-     - `./scripts/build-hub.sh --mode strict` -> PASS.
-     - `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
-     - `./scripts/smoke-hub-runtime.sh` -> OK.
-     - carga de Mermaid/Highlight desacoplada del `<head>` en iOS/Android/SDD (runtime loader bajo demanda, no bloqueante para arranque inicial).
-     - corrección Mermaid post-cierre validada visualmente con Playwright (sin `Syntax error in text` en muestra iOS).
-     - arquitectura por capas SVG (estilo mock) sincronizada para iOS/Android/SDD con build strict en verde.
-     - refinamiento visual determinista del SVG iOS (Lección 1: Core Mobile Architecture) validado con Playwright:
-       - `Composition / App Shell` separado bajo `Application`.
-       - ruteo ortogonal de flechas (runtime/wiring/contrato/salida) sin puntas descentradas.
-       - labels y cajas recalibrados para evitar clipping.
-     - optimización de payload de diagramas iOS para móvil:
-       - `picture` con `webp` + fallback `png` para `core/login/catalog` en `ETAPA 0`.
-       - limpieza de `dist/assets` por build para evitar residuos de assets obsoletos.
-     - despliegue Vercel productivo completado:
-       - deployment: `https://architecture-stack-gflts3pkz-merlosalbarracins-projects.vercel.app`
-       - alias: `https://architecture-stack.vercel.app`
-       - rutas en `200`: `/`, `/ios/`, `/android/`, `/sdd/`.
-     - asserts runtime en smoke:
-       - `/ios/assets/assistant-panel.js` contiene `KEY_PROVIDER` o `KEY_DAILY_BUDGET`.
-       - `/android/assets/assistant-panel.js` contiene `KEY_PROVIDER` o `KEY_DAILY_BUDGET`.
-       - `/sdd/assets/assistant-panel.js` contiene `KEY_PROVIDER` o `KEY_DAILY_BUDGET`.
+## Estado actual de documentación
+- La fuente de verdad transversal queda reducida a:
+  - `docs/STACK-ARCHITECTURE-MASTER-TRACKER.md`
+  - `docs/HUB-STABILITY-LOG.md`
+  - `docs/SESSION-HANDOFF.md`
+  - `docs/DECISIONS-ADR-LITE.md`
+- Los artefactos de seguimiento cerrados, auditorías puntuales y planes ya ejecutados deben eliminarse o quedar fuera de versión si no gobiernan el sistema hoy.
 
-## Último bloque operativo ejecutado
-1. Hardening de versionado determinista de assets en iOS/Android/SDD + Hub.
-2. Cambios ejecutados:
-   - `scripts/build-html.py` en iOS/Android/SDD deja de usar timestamps y calcula `asset_version` por hash de contenido.
-   - `scripts/stamp-asset-version.py` del Hub calcula hash compartido determinista sobre assets publicados.
-   - nueva regresión `scripts/tests/test-stamp-asset-version.sh`.
-   - hashes sincronizados en `ios/*.html`, `android/*.html` y `sdd/*.html` del Hub.
-3. Evidencia técnica:
-   - doble build consecutivo estable en iOS/Android/SDD.
-   - `./scripts/tests/test-stamp-asset-version.sh` -> PASS.
-   - `./scripts/run-closeout-qa-suite.sh tests` -> PASS.
-   - `./scripts/build-hub.sh --fast` -> PASS.
-4. Resultado operativo:
-   - se elimina la principal fuente de suciedad artificial post-build/post-deploy en el Hub.
+## Último bloque cerrado
+- ✅ Limpieza enterprise de artefactos de seguimiento cerrados en Hub, iOS, Android y SDD.
 
-## Bloque operativo anterior
-1. Fase 4 de hardening runtime móvil aplicada en iOS/Android/SDD + sync Hub.
-2. Cambios ejecutados:
-   - `assistant-panel.js` diferido bajo interacción (lazy-load desde `assistant-bridge.js`).
-   - eliminación de llamadas `/health` en arranque en frío.
-   - sincronización de `assistant-panel.js` fuente->Hub sin preservación forzada.
-   - ajuste de `build-hub.sh` para preservar panel solo en modo explícito (`PRESERVE_ASSISTANT_PANEL=1`).
-   - renderizadores CDN de Mermaid/Highlight movidos a carga dinámica en runtime (iOS/Android/SDD), evitando bloqueo de `DOMContentLoaded` por red externa lenta.
-   - modo compacto de controles de estudio en iPhone estrecho (`<=480px`) con etiquetas cortas (`✅ Hecho`, `🔁 Repaso`, `🧘 Zen`) manteniendo `aria-label` completo.
-   - ajuste de espaciado/padding en topbar móvil para reducir ruido visual sin romper navegación.
-   - micro-optimización de navegación de lección: `study-ux.js` deja de reconstruir nav para todas las lecciones y actualiza solo la lección activa.
-   - diferir `study-ux-index-actions` a fase `idle` para reducir coste del primer render en móvil.
-   - indexación de enlaces por `topicId` y decoración de badges global diferida a `idle`, con actualización inmediata del tópico afectado.
-   - optimización de imágenes de arquitectura iOS para móvil (`webp` + fallback `png`) con limpieza determinista de `dist/assets`.
-   - restauración del menú desplegable de cursos en topbar móvil (iOS/Android/SDD) para evitar clipping por `overflow` y mantener overlay visible sin scroll adicional.
-3. Evidencia técnica:
-   - `python3 scripts/build-html.py` en iOS/Android/SDD -> PASS.
-   - `python3 -m py_compile scripts/build-html.py` en iOS/Android/SDD -> PASS.
-   - `./scripts/build-hub.sh --mode strict` en Hub -> PASS.
-   - `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
-   - `./scripts/smoke-hub-runtime.sh` -> OK.
-   - Playwright local:
-     - carga inicial en `ios/android/sdd` sin requests `/health`.
-     - apertura de asistente en `ios/android/sdd` sin requests `/health` automáticos.
-     - validación viewport `390x844` en `ios/android/sdd` con topbar compacta estable y controles legibles.
-   - validación final hub tras optimización:
-     - `./scripts/build-hub.sh --mode strict` -> PASS
-     - `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`
-     - `./scripts/smoke-hub-runtime.sh` -> OK
-4. Plan formal de continuidad:
-   - `docs/PLAN-PERFORMANCE-MOBILE-FIRST-20260301.md`
+## Resultado del bloque
+1. Builders y validadores dejan de depender de `TODO`, `DECISIONES-TOMADAS` o auditorías cerradas.
+2. Los cursos solo publican documentación estable del alumno.
+3. Los repos quedan sin residuos de seguimiento ya amortizados.
+4. El Hub vuelve a compilar y sincronizar en verde.
 
-## Trabajo en curso
-1. ✅ Fase 1 performance móvil cerrada.
-2. ✅ Fase 2 mobile-first UX cerrada.
-3. ✅ Fase 3 validación final + publicación cerrada.
-4. ✅ Fase 4.5: pase responsive móvil final (iPhone viewport estrecho) en cursos + Hub.
-5. ✅ Fase 5: micro-optimización del render de navegación de lección (solo tema activo).
-6. ✅ Fase 6: diferir panel de acciones/estadísticas del índice a `idle` (sin cambio funcional).
-7. ✅ Fase 7: optimización de badges del índice (idle global + update inmediato por tópico).
-8. ✅ Fase 8: optimización de diagramas iOS para móvil (`webp` + fallback `png`) y sync Hub.
-9. ✅ Fix UX móvil: dropdown de cursos vuelve a mostrarse por encima de la topbar sin recorte.
-10. ✅ Bloque cloud progress sync (opción 2) cerrado:
-   - backend Hub + sync híbrido iOS/Android/SDD en verde técnico;
-   - cierre GitFlow completo y despliegue Vercel en producción:
-     - `https://architecture-stack.vercel.app`
-     - `https://architecture-stack-787gl8cx3-merlosalbarracins-projects.vercel.app`
+## Comandos útiles
+1. Build Hub estricto:
+`cd "/Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture/stack-my-architecture-hub" && ./scripts/build-hub.sh --mode strict`
+2. Rebuild iOS:
+`cd "/Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture/stack-my-architecture-ios" && python3 scripts/build-html.py`
+3. Rebuild Android:
+`cd "/Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture/stack-my-architecture-android" && python3 scripts/build-html.py`
+4. Rebuild SDD:
+`cd "/Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture/stack-my-architecture-SDD/stack-my-architecture-SDD" && python3 scripts/build-html.py`
 
-## Última comprobación de espera activa
-1. Fecha: 2026-02-27.
-2. `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`.
-3. `./scripts/smoke-hub-runtime.sh` -> OK.
-4. Resultado operativo: sin regresión runtime tras cobertura total de flechas Mermaid en iOS/Android/SDD.
-
-## Tablero operativo (la unica en construccion vive en Master Tracker)
-1. ✅ Publicación selectiva cross-course iOS + Android + SDD en Hub (`c9cd8c3`).
-2. ✅ Tracking anti-bucle consolidado con última evidencia técnica válida de `2026-02-25 11:21 CET`.
-3. ✅ Espera activa previa cerrada por consolidación anti-bucle (sin trigger técnico pendiente).
-4. ✅ Standby operativo cerrado por trigger explícito para iniciar BYOK.
-5. ✅ Cierre GitFlow BYOK multi-provider (push, PR y merge).
-6. ✅ Standby operativo posterior al BYOK cerrado administrativamente.
-7. ✅ Pendientes de higiene SDD cerrados.
-8. ✅ Auditoría profunda de cursos cerrada (sin P0/P1 abiertos).
-9. ✅ Calibración del validador pedagógico SDD cerrada en GitFlow.
-10. ✅ Cierre de backlog iOS Mermaid semántica + publicación cross-course.
-11. ✅ Cierre de backlog iOS trazabilidad scaffold + publicación selectiva de iOS.
-12. ✅ Publicación productiva en Vercel sin regresión de BYOK multi-provider.
-13. ✅ Corrección visual de leyenda Mermaid (flechas) en iOS/Android/SDD + sync selectivo estable en Hub.
-14. ✅ Refuerzo pedagógico iOS: aplicación explícita de las 4 flechas Mermaid en lecciones de arquitectura de la app ejemplo.
-15. ✅ Refuerzo pedagógico cross-course de semántica Mermaid (Android + SDD) + sync Hub.
-16. ✅ Cobertura total Mermaid en iOS -> Android -> SDD + sync Hub y plan versionado.
-17. ✅ Buscador lateral de lecciones en iOS/Android/SDD + sync selectivo Hub.
-18. ✅ Fijar bloque `INDICE + buscador` al scroll y corregir separación superior para evitar clipping visual.
-19. ✅ Blindar build/sync del Hub para preservar `assistant-panel.js` y evitar regresión BYOK multi-provider.
-20. ✅ Trigger real aplicado para abrir bloque de empleabilidad + rigor enterprise.
-21. ✅ Cierre GitFlow del bloque empleabilidad + rigor enterprise (4 repos + tracking final).
-22. ✅ Ejecutar plan maestro de implementación de cursos (fases iOS -> Android -> SDD cerradas).
-23. ✅ Integración final Hub cerrada (`build-hub strict`, `no drift`, `smoke`).
-24. ⛔ Despliegue final Vercel bloqueado por cuota diaria (`api-deployments-free-per-day`).
-25. ✅ Corrección visual Mermaid post-cierre integrada (fuentes iOS/Android + sync Hub).
-26. ✅ Arquitectura por capas estilo mock migrada a SVG en iOS/Android/SDD y publicada en Hub.
-27. ✅ Fase 1 performance móvil aplicada cross-course + sync Hub en verde.
-28. ✅ Fase 2 mobile-first UX (Hub + cursos).
-29. ✅ Fase 3 validación final + despliegue Vercel.
-30. ✅ Desacoplar carga de Mermaid/Highlight del path crítico del arranque en iOS/Android/SDD.
-31. ✅ Fase 8 de optimización de imágenes de arquitectura iOS para móvil (`webp` + fallback `png`).
-
-## Siguiente paso concreto
-1. Mantener este paquete `docs/` como fuente de verdad transversal.
-2. Abrir próximo bloque operativo solo ante trigger real (nueva mejora o incidencia).
-3. Mantener commits atómicos al abrir próximo bloque operativo real.
-4. Actualizar handoff al cerrar cada bloque real.
-
-## Riesgos abiertos
-1. `codex resume` filtra por `cwd` si no se usa `--all`.
-2. El índice de sesiones puede reflejar con desfase respecto al chat activo.
-3. Riesgo de deriva de contexto si no se priorizan estos 4 documentos como fuente de verdad.
-
-## Comandos útiles de continuidad
-1. Ver todo en picker:
-`codex resume --all`
-2. Abrir hilo renombrado en raíz nueva:
-`codex resume "UNIFY-WORKSPACE-STACK-ARCHITECTURE" --all -C "/Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture"`
-3. Crear sesión nueva en esta raíz:
-`cd "/Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture" && codex`
-4. Validar drift de sync selectivo del Hub:
-`cd "/Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture/stack-my-architecture-hub" && ./scripts/check-selective-sync-drift.sh`
-
-## Hotfix activo 2026-03-02 — Sync cloud profile-scoped
-1. ✅ Causa raíz cubierta: `updatedAt` cloud dejó de ser global por curso y pasa a ser específico por `profileKey`.
-2. ✅ Priorización corregida: `progressProfile` en query fuerza perfil activo (sobrescribe storage local cuando aplica).
-3. ✅ Build + sync hub en verde:
-   - `./scripts/build-hub.sh --fast` -> PASS
-   - `./scripts/check-selective-sync-drift.sh` -> `no drift (6/6)`
-   - `./scripts/smoke-hub-runtime.sh` -> OK
-4. ✅ Trazabilidad versionada en:
-   - `docs/HUB-STABILITY-LOG.md`
-   - `docs/DECISIONS-ADR-LITE.md`
-
-### Nota operativa para validación cross-device
-Para ver el mismo progreso en otro dispositivo/navegador limpio, abrir el curso con el mismo `progressProfile` (enlace generado por `🔗 Copiar enlace de sincronización`).
-
-## Hotfix incremental 2026-03-02 — sync-link con push cloud previo
-1. ✅ `copySyncLink()` en iOS/Android/SDD fuerza `pushNow({ force: true })` antes de copiar enlace.
-2. ✅ Validado en Playwright: se observa `POST /progress/state` `200` al pulsar `🔗 Copiar enlace de sincronización`.
-3. ✅ Objetivo: evitar que iPhone abra perfil con estado remoto viejo cuando desktop tenía progreso solo local.
-
-## Hotfix incremental 2026-03-02 (2) — `progressProfile` persistente en URL
-1. ✅ `study-ux.js` en iOS/Android/SDD fuerza `?progressProfile=...` en la URL activa tras resolver perfil.
-2. ✅ Objetivo: evitar que compartir/abrir enlace desde barra sin query pierda el perfil en iPhone/incógnito.
-3. ✅ Validación:
-   - `./scripts/build-hub.sh --fast` -> PASS.
-   - `./scripts/smoke-hub-runtime.sh` -> OK.
-   - Playwright local: URL sin query se normaliza a URL con `progressProfile` sin recarga.
-
-## Bloque activo 2026-03-02 — Auth plataforma (registro/login + sync por cuenta)
-1. ✅ Backend auth Hub implementado con TDD (`api/auth-sync.js` + `scripts/tests/test-auth-sync.js`).
-2. ✅ Frontend auth Hub publicado (`/auth/index.html`, `/auth/register.html`, `/auth/login.html`).
-3. ✅ Integracion progreso autenticado:
-   - `api/progress-sync.js` ahora respeta `user.id` autenticado.
-   - iOS/Android/SDD envian bearer en sync cuando existe sesion.
-4. ✅ Validacion tecnica en verde:
-   - test Node Hub (`16/16`),
-   - `build-hub --mode strict`,
-   - `check-selective-sync-drift` (`no drift 6/6`),
-   - `smoke-hub-runtime`.
-5. ✅ Cierre GitFlow completo (push + PR + merge en repos afectados) y deploy Vercel ejecutados.
-
-### Nota de continuidad
-La validación automática de login end-to-end queda parcialmente bloqueada si no se dispone de buzón para confirmar email (signup productivo exige confirmación). El backend/auth routes y la publicación están en verde.
-
-## Bloque cerrado 2026-03-02 — Auth recovery (resend/recover)
-1. ✅ Backend auth Hub soporta `route=resend` y `route=recover`.
-2. ✅ API client expone `resendConfirmation()` y `recoverPassword()`.
-3. ✅ `auth/recover.html` creado y enlazado desde login.
-4. ✅ Rewrites Vercel para `/auth/resend` y `/auth/recover`.
-5. ✅ Tests TDD para validación y mapeo de errores en `scripts/tests/test-auth-sync.js`.
-6. ✅ Validación final y cierre:
-   - `node --test scripts/tests/test-auth-sync.js` -> PASS (10/10).
-   - `./scripts/build-hub.sh --mode strict` -> PASS.
-   - `./scripts/smoke-hub-runtime.sh` -> OK.
-7. ✅ PR merge en GitFlow y despliegue Vercel ejecutados.
-   - PR `#71`.
-   - `https://architecture-stack.vercel.app`
-   - `https://architecture-stack-4zketscuo-merlosalbarracins-projects.vercel.app`
-
-## Ajuste incremental 2026-03-08 — smoke público Hub
-1. ✅ `scripts/smoke-public-functional.sh` alineado con la landing real del Hub.
-2. ✅ Se elimina la expectativa obsoleta de CTA HTML `cuenta y sincronización`.
-3. ✅ El smoke sigue validando:
-   - enlaces de cursos,
-   - soporte de ruta auth/login,
-   - páginas públicas `auth/index.html` y `auth/login.html`.
-4. ✅ Suite endurecida:
-   - `BASE_URL` tolerante a slash final,
-   - checks Auth por `id`,
-   - `post-deploy-checks` testeable por inyección,
-   - nuevo `test-public-smoke-suite.sh` incluido en QA por defecto.
-
-## Endurecimiento incremental 2026-03-08 — suite local/runtime
-1. ✅ `smoke-hub-runtime.sh` ya es testeable sin depender del bridge real.
-2. ✅ `deploy-and-verify-closeout.sh` normaliza `BASE_URL`.
-3. ✅ Nuevo `test-smoke-hub-runtime.sh` añadido a la suite QA por defecto.
-4. ✅ Validación cerrada:
-   - `./scripts/tests/test-smoke-hub-runtime.sh`
-   - `./scripts/tests/test-deploy-and-verify-closeout.sh`
-   - `./scripts/run-closeout-qa-suite.sh tests`
-   - `./scripts/smoke-hub-runtime.sh`
-
-
-## Endurecimiento incremental 2026-03-08 — contenido curricular + Mermaid
-1. ✅ Nuevo gate agregado en Hub: `scripts/validate-course-content-and-mermaid.sh`.
-2. ✅ El gate reutiliza validadores curriculares existentes:
-   - `validate-learning-gates.py` en iOS/Android/SDD,
-   - `validate-diagram-semantics.py` en iOS/Android/SDD,
-   - `validate-pedagogy.py` en SDD.
-3. ✅ Nuevo validador runtime `scripts/validate-hub-mermaid-runtime.mjs`:
-   - revisa `ios/index.html`, `android/index.html`, `sdd/index.html`,
-   - exige leyenda Mermaid SVG real,
-   - bloquea regresión a `<i class="sma-arrow">`,
-   - parsea Mermaid publicado en navegador headless con Mermaid 10.
-4. ✅ Nuevo test `scripts/tests/test-course-content-mermaid-suite.sh` integrado en `run-closeout-qa-suite.sh`.
-5. ✅ Validación cerrada en verde:
-   - `./scripts/validate-course-content-and-mermaid.sh`
-   - `./scripts/tests/test-course-content-mermaid-suite.sh`
-   - `./scripts/run-closeout-qa-suite.sh tests`
-
-
-## Corrección incremental 2026-03-08 — publish/public profile SDD
-1. ✅ Corregido `build-hub.sh` para que `fast` publique SDD con perfil `public` real.
-2. ✅ Nuevo guardarraíl: `validate-hub-mermaid-runtime.mjs` falla si el HTML final de SDD expone `00-informe/`, `docs/` u `openspec/`.
-3. ✅ `hub/sdd/.gitignore` queda preservado en regeneraciones del hub.
-4. ✅ Validación cerrada:
-   - `./scripts/build-hub.sh --fast`
-   - `./scripts/validate-course-content-and-mermaid.sh`
-   - `./scripts/tests/test-course-content-mermaid-suite.sh`
-
-## Sincronización incremental 2026-03-08 — Android reconciliado
-1. ✅ El curso Android queda reconciliado con la evidencia ejecutable actual del proyecto real.
-2. ✅ La lección `01-junior/00-introduccion.md` ya publica el estado correcto de FieldOps:
-   - Retrofit/OkHttp presentes.
-   - WorkManager presente.
-   - pruebas unitarias/sync presentes.
-   - `4` tests UI Compose presentes.
-3. ✅ Regeneración del hub cerrada sin ruido colateral:
-   - `android/index.html`
-   - `android/curso-stack-my-architecture-android.html`
-4. ✅ Evidencia:
-   - `python3 scripts/build-html.py` en Android -> PASS.
-   - `./scripts/build-hub.sh --fast` -> PASS.
-
-## Endurecimiento incremental 2026-03-08 — progreso cloud ligado a cuenta
-1. ✅ `progress-sync` ya resuelve `profileKey` desde el usuario autenticado y deja de aceptar el valor cliente como fuente de verdad.
-2. ✅ `study-ux.js` en `iOS`, `Android` y `SDD`:
-   - no expone `progressProfile` en URL cuando hay sesión,
-   - desactiva sync cloud si el backend exige auth y no existe sesión,
-   - actualiza el CTA para hablar de cuenta cloud, no de enlace compartible.
-3. ✅ Nueva regresión automatizada añadida a QA del Hub:
-   - `scripts/tests/test-auth-and-progress-api-suite.sh`
-   - `scripts/tests/test-progress-sync.js`
-4. ✅ Evidencia:
-   - `node --test scripts/tests/test-progress-sync.js` -> PASS.
-   - `./scripts/tests/test-auth-and-progress-api-suite.sh` -> PASS.
-   - `./scripts/build-hub.sh --fast` -> PASS.
-   - validación real en host no local -> curso anónimo redirige a login.
-
-## Endurecimiento incremental 2026-03-08 — E2E auth cross-device
-1. ✅ Nuevo test opt-in del Hub:
-   - `scripts/tests/test-authenticated-progress-cross-device.sh`
-2. ✅ El test automatiza dos sesiones Playwright separadas y valida:
-   - login real,
-   - marcado de completado/repaso en `device-a`,
-   - apertura del mismo curso en `device-b`,
-   - sync cloud visible,
-   - restauración del estado original para no contaminar la cuenta.
-3. ✅ La suite estándar del Hub ya lo invoca:
-   - `scripts/run-closeout-qa-suite.sh`
-4. ✅ Si faltan credenciales E2E, la ejecución hace `SKIP` sin romper QA.
-5. ✅ Variables esperadas para ejecución real:
-   - `SMA_E2E_AUTH_EMAIL`
-   - `SMA_E2E_AUTH_PASSWORD`
-   - opcional: `SMA_E2E_BASE_URL`, `SMA_E2E_COURSE_PATH`, `SMA_E2E_COURSE_ID`, `SMA_E2E_TOPIC_ID`
-
-## Cierre incremental 2026-03-08 — E2E auth real en producción
-1. ✅ E2E autenticada cross-device ejecutada de verdad contra `https://architecture-stack.vercel.app`.
-2. ✅ Resultado confirmado:
-   - sesión autenticada persistida en curso iOS,
-   - `progressProfile` ausente en URL autenticada,
-   - sync cross-device de `completado` + `repaso`,
-   - restauración final del estado original.
-3. ✅ Se corrigió además una regresión de hidratación en `study-ux.js` de iOS/Android que abortaba la UI de estudio.
-4. ✅ El repo Hub ignora ya residuos locales de Playwright:
-   - `.playwright-cli/`
-   - `output/playwright/`
-5. Siguiente mejora natural si se retoma este bloque:
-   - ejecutar esta E2E desde CI con una cuenta de prueba estable y secretos dedicados.
-
-## Cierre incremental 2026-03-08 — CI para E2E auth production
-1. ✅ Workflow nuevo:
-   - `.github/workflows/hub-production-auth-e2e.yml`
-2. ✅ Script runner nuevo para GitHub Actions:
-   - `scripts/tests/run-authenticated-progress-cross-device-ci.cjs`
-3. ✅ El workflow queda listo para:
-   - `push` a `develop`
-   - `workflow_dispatch`
-   - `schedule`
-4. ✅ Secretos requeridos en GitHub repo:
-   - `SMA_E2E_AUTH_EMAIL`
-   - `SMA_E2E_AUTH_PASSWORD`
-5. ✅ Validación local equivalente a CI ya ejecutada en verde con la cuenta dedicada.
-6. ✅ El trigger automático realmente utilizable hoy es `push` sobre `develop`, porque la rama por defecto del repo en GitHub sigue siendo `main`.
-7. ✅ La workflow no depende ya de inputs dinámicos en el camino `push`; usa los defaults del runner CI.
-8. ⛔ La primera ejecución real en GitHub Actions quedó bloqueada antes de arrancar pasos por un issue externo de billing de la cuenta:
-   - run `22827196688`
-   - mensaje GitHub: `The job was not started because your account is locked due to a billing issue.`
-9. ✅ Decisión operativa posterior:
-   - mientras no haya billing para GitHub Actions, el workflow queda aparcado en:
-     - `.github/workflows-disabled/hub-production-auth-e2e.yml`
-   - el runner CI se mantiene versionado y listo para reactivar sin rehacer trabajo.
+## Nota operativa
+No mergear este bloque sin instrucción explícita del usuario.
