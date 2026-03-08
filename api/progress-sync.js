@@ -18,6 +18,7 @@ module.exports = async (req, res) => {
     sendJson(res, 200, {
       ok: true,
       enabled: isBackendConfigured(),
+      requiresAuth: isBackendConfigured(),
       provider: 'supabase-rest',
       schemaVersion: 1,
       maxDataBytes: MAX_DATA_BYTES
@@ -52,17 +53,19 @@ async function handleStateGet(req, res) {
 
   const query = parseQuery(req.url);
   const courseId = normalizeCourseId(query.courseId);
-  const profileKey = normalizeProfileKey(query.profileKey);
+  let profileKey = '';
 
-  if (!courseId || !profileKey) {
+  if (!courseId) {
     sendJson(res, 400, {
       ok: false,
-      error: 'courseId y profileKey son obligatorios.'
+      error: 'courseId es obligatorio.'
     });
     return;
   }
 
   try {
+    const authProfile = await resolveAuthenticatedProfile(req);
+    profileKey = authProfile.profileKey;
     const state = await fetchProgressState(courseId, profileKey);
     sendJson(res, 200, {
       ok: true,
@@ -92,14 +95,14 @@ async function handleStatePost(req, res) {
 
   const body = await readJsonBody(req);
   const courseId = normalizeCourseId(body.courseId);
-  const profileKey = normalizeProfileKey(body.profileKey);
+  let profileKey = '';
   const clientUpdatedAt = normalizeIsoDate(body.clientUpdatedAt);
   const data = sanitizeData(body.data);
 
-  if (!courseId || !profileKey) {
+  if (!courseId) {
     sendJson(res, 400, {
       ok: false,
-      error: 'courseId y profileKey son obligatorios.'
+      error: 'courseId es obligatorio.'
     });
     return;
   }
@@ -113,6 +116,8 @@ async function handleStatePost(req, res) {
   }
 
   try {
+    const authProfile = await resolveAuthenticatedProfile(req);
+    profileKey = authProfile.profileKey;
     const state = await upsertProgressState({
       courseId,
       profileKey,
@@ -353,6 +358,10 @@ function supabaseRestBase() {
   return `${supabaseBaseUrl()}/rest/v1`;
 }
 
+function supabaseAuthBase() {
+  return `${supabaseBaseUrl()}/auth/v1`;
+}
+
 function isBackendConfigured() {
   return Boolean(supabaseBaseUrl() && supabaseServiceKey());
 }
@@ -361,6 +370,34 @@ function normalizeTableName(value) {
   if (!value) return DEFAULT_TABLE;
   if (!/^[A-Za-z0-9_]+$/.test(value)) return DEFAULT_TABLE;
   return value;
+}
+
+async function resolveAuthenticatedProfile(req) {
+  const bearer = readBearerToken(req);
+  if (!bearer) {
+    const error = new Error('Se requiere sesión autenticada para sincronización cloud.');
+    error.statusCode = 401;
+    throw error;
+  }
+
+  const payload = await fetchSupabaseJson(`${supabaseAuthBase()}/user`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${bearer}`
+    }
+  });
+
+  const profileKey = normalizeProfileKey(payload && payload.id);
+  if (!profileKey) {
+    const error = new Error('No se pudo resolver el usuario autenticado para sincronización cloud.');
+    error.statusCode = 401;
+    throw error;
+  }
+
+  return {
+    profileKey,
+    user: payload
+  };
 }
 
 function readSupabaseError(payload) {
@@ -404,6 +441,29 @@ function readRawBody(req) {
 function hasHeader(headers, key) {
   const target = String(key || '').toLowerCase();
   return Object.keys(headers || {}).some((name) => String(name).toLowerCase() === target);
+}
+
+function readBearerToken(req) {
+  const header = String(readHeader(req, 'authorization') || '').trim();
+  if (!header) return '';
+  const match = header.match(/^Bearer\s+(.+)$/i);
+  if (!match) return '';
+  return normalizeBearerToken(match[1]);
+}
+
+function normalizeBearerToken(value) {
+  const token = String(value || '').trim();
+  if (!token || token.length > 4096) return '';
+  return token;
+}
+
+function readHeader(req, name) {
+  if (!req || !req.headers) return '';
+  const key = String(name || '').toLowerCase();
+  const direct = req.headers[key];
+  if (direct !== undefined) return direct;
+  const mapKey = Object.keys(req.headers).find((item) => String(item).toLowerCase() === key);
+  return mapKey ? req.headers[mapKey] : '';
 }
 
 function isPlainObject(value) {
