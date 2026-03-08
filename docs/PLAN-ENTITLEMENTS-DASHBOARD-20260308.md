@@ -40,10 +40,10 @@ Convertir el Hub en una plataforma operable y monetizable con:
 ## Fase 3 - Panel admin
 | ID | Estado | Task |
 | --- | --- | --- |
-| 3.1 | ⏳ | Crear panel admin protegido por rol |
-| 3.2 | ⏳ | Gestionar usuarios, planes y entitlements |
-| 3.3 | ⏳ | Gestionar teasers por curso/leccion |
-| 3.4 | ⏳ | Registrar auditoria minima de cambios manuales |
+| 3.1 | ✅ | Crear panel admin protegido por rol |
+| 3.2 | ✅ | Gestionar usuarios, planes y entitlements |
+| 3.3 | ✅ | Gestionar teasers por curso/leccion |
+| 3.4 | ✅ | Registrar auditoria minima de cambios manuales |
 
 ## Fase 4 - QA y despliegue
 | ID | Estado | Task |
@@ -60,4 +60,5 @@ Convertir el Hub en una plataforma operable y monetizable con:
 - ✅ Home del Hub ya muestra estado local resuelto, catalogo con acceso y dashboard base listo para cuenta autenticada.
 - ✅ Dashboard ya expone etapa actual y checkpoints inferidos por curso en la API y en la UI del Hub.
 - ✅ `trial` queda acotado a teaser: no concede acceso completo aunque exista entitlement con estado `trial`.
+- ✅ Panel admin ya opera usuarios, roles, entitlements, teasers y auditoria reciente.
 - ✅ `./scripts/build-hub.sh --mode strict` en verde tras integrar el bloque.

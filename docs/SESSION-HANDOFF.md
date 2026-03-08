@@ -45,7 +45,7 @@ Repos incluidos:
 2. Fase 1 cerrada: Hub y cursos resuelven acceso `full / teaser / blocked` con bypass local acotado.
 3. Fase 2 abierta: el Hub ya tiene home autenticada base, KPIs, continuidad, etapa actual, checkpoints y notas/bookmarks por curso, pero falta validacion end-to-end autenticada del dashboard completo.
 4. La semántica de `trial` ya está corregida a `teaser-only`, sin acceso completo implícito.
-5. Panel admin base ya existe y redirige correctamente a login cuando no hay sesion.
+5. Panel admin ya cubre usuarios, roles, entitlements, teasers y auditoría mínima; sigue protegido por login admin.
 
 ## Resultado del bloque anterior
 1. Builders y validadores dejan de depender de `TODO`, `DECISIONES-TOMADAS` o auditorías cerradas.

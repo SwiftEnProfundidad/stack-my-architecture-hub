@@ -57,6 +57,11 @@ module.exports = async (req, res) => {
     return;
   }
 
+  if (route === 'audit-log' && req.method === 'GET') {
+    await handleAuditLog(req, res);
+    return;
+  }
+
   if (route === 'set-role' && req.method === 'POST') {
     await handleSetRole(req, res);
     return;
@@ -223,6 +228,35 @@ async function handleTeasers(req, res) {
       sortOrder: Number(row.sort_order || 0)
     })).filter((row) => row.courseId && row.topicId);
     sendJson(res, 200, { ok: true, teasers });
+  } catch (error) {
+    sendJson(res, toStatusCode(error), { ok: false, error: toErrorMessage(error) });
+  }
+}
+
+async function handleAuditLog(req, res) {
+  if (!isBackendConfigured()) {
+    sendJson(res, 503, { ok: false, error: 'Backend admin no configurado en este entorno.' });
+    return;
+  }
+
+  try {
+    await requireAdminContext(req);
+    const rows = await fetchOptionalRows(AUDIT_TABLE, {
+      select: 'actor_user_id,subject_user_id,action,payload,created_at',
+      order: 'created_at.desc',
+      limit: '25'
+    });
+
+    sendJson(res, 200, {
+      ok: true,
+      entries: rows.map((row) => ({
+        actorUserId: String(row.actor_user_id || ''),
+        subjectUserId: String(row.subject_user_id || ''),
+        action: String(row.action || ''),
+        payload: row.payload && typeof row.payload === 'object' ? row.payload : {},
+        createdAt: String(row.created_at || '')
+      }))
+    });
   } catch (error) {
     sendJson(res, toStatusCode(error), { ok: false, error: toErrorMessage(error) });
   }

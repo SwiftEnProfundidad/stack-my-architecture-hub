@@ -8,6 +8,7 @@
     shell: document.getElementById('admin-shell'),
     users: document.getElementById('admin-users'),
     teasers: document.getElementById('admin-teasers'),
+    auditLog: document.getElementById('admin-audit-log'),
     searchForm: document.getElementById('admin-search-form'),
     searchInput: document.getElementById('admin-search-input'),
     searchReset: document.getElementById('admin-search-reset'),
@@ -23,7 +24,8 @@
     auth: null,
     role: 'anonymous',
     users: [],
-    teasers: []
+    teasers: [],
+    auditLog: []
   };
 
   wireEvents();
@@ -52,7 +54,7 @@
       }
 
       els.shell.classList.remove('hub-hidden');
-      await Promise.all([loadUsers(''), loadTeasers('')]);
+      await Promise.all([loadUsers(''), loadTeasers(''), loadAuditLog()]);
       setMessage(`Panel admin activo para ${entitlements.user.email || entitlements.user.id}.`, 'ok');
     } catch (error) {
       if (error && error.statusCode === 401) {
@@ -112,6 +114,12 @@
     const payload = await requestJson(`/api/admin?route=teasers${suffix}`);
     state.teasers = Array.isArray(payload.teasers) ? payload.teasers : [];
     renderTeasers();
+  }
+
+  async function loadAuditLog() {
+    const payload = await requestJson('/api/admin?route=audit-log');
+    state.auditLog = Array.isArray(payload.entries) ? payload.entries : [];
+    renderAuditLog();
   }
 
   function renderAuthActions() {
@@ -200,6 +208,28 @@
         '<article class="hub-list-item">',
         `<p class="hub-list-title">${escapeHtml(teaser.courseId)} · ${escapeHtml(teaser.topicId)}</p>`,
         `<p class="hub-list-copy">Tipo: ${escapeHtml(teaser.kind)} · Público: ${escapeHtml(String(teaser.isPublic))} · Orden: ${escapeHtml(String(teaser.sortOrder))}</p>`,
+        '</article>'
+      ].join('');
+    }).join('');
+  }
+
+  function renderAuditLog() {
+    if (!els.auditLog) return;
+    const entries = Array.isArray(state.auditLog) ? state.auditLog : [];
+    if (!entries.length) {
+      els.auditLog.innerHTML = '<div class="hub-empty">Todavía no hay eventos de auditoría registrados.</div>';
+      return;
+    }
+
+    els.auditLog.innerHTML = entries.map(function (entry) {
+      const payload = entry.payload && typeof entry.payload === 'object' ? Object.entries(entry.payload).map(function (item) {
+        return `${item[0]}=${String(item[1])}`;
+      }).join(' · ') : 'sin payload';
+      return [
+        '<article class="hub-list-item">',
+        `<p class="hub-list-title">${escapeHtml(entry.action || 'unknown')}</p>`,
+        `<p class="hub-list-copy">Actor: ${escapeHtml(entry.actorUserId || 'n/a')} · Subject: ${escapeHtml(entry.subjectUserId || 'n/a')}</p>`,
+        `<p class="hub-admin-meta">${escapeHtml(entry.createdAt || 'sin fecha')} · ${escapeHtml(payload)}</p>`,
         '</article>'
       ].join('');
     }).join('');

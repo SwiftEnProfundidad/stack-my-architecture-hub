@@ -262,3 +262,56 @@ test('POST /api/admin teaser-upsert persiste teaser publico', async () => {
     assert.equal(result.json.teaser.kind, 'course_overview');
   });
 });
+
+test('GET /api/admin audit-log devuelve eventos recientes para admin', async () => {
+  const handler = loadHandler('api/admin.js', {
+    SUPABASE_URL: 'https://example.supabase.co',
+    SUPABASE_SERVICE_ROLE_KEY: 'service-role-key',
+    HUB_BOOTSTRAP_ADMIN_EMAILS: 'admin@example.com'
+  });
+
+  await withMockFetch(async (url) => {
+    const value = String(url);
+    if (value.includes('/auth/v1/user')) {
+      return {
+        ok: true,
+        status: 200,
+        text: async () => JSON.stringify({
+          id: '11111111-1111-4111-8111-111111111111',
+          email: 'admin@example.com'
+        })
+      };
+    }
+    if (value.includes('/hub_admin_audit_log')) {
+      return {
+        ok: true,
+        status: 200,
+        text: async () => JSON.stringify([
+          {
+            actor_user_id: '11111111-1111-4111-8111-111111111111',
+            subject_user_id: '22222222-2222-4222-8222-222222222222',
+            action: 'grant-entitlement',
+            payload: { courseId: 'ios', planCode: 'ios' },
+            created_at: '2026-03-08T10:00:00.000Z'
+          }
+        ])
+      };
+    }
+    return {
+      ok: true,
+      status: 200,
+      text: async () => JSON.stringify([])
+    };
+  }, async () => {
+    const result = await invoke(handler, {
+      method: 'GET',
+      url: '/api/admin?route=audit-log',
+      headers: { authorization: 'Bearer admin-token' }
+    });
+
+    assert.equal(result.statusCode, 200);
+    assert.equal(result.json.ok, true);
+    assert.equal(result.json.entries.length, 1);
+    assert.equal(result.json.entries[0].action, 'grant-entitlement');
+  });
+});
