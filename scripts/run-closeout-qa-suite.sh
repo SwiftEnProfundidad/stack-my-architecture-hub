@@ -38,6 +38,7 @@ else
     "$SCRIPT_DIR/tests/test-deploy-and-verify-closeout.sh"
     "$SCRIPT_DIR/tests/test-closeout-freeze-check.sh"
     "$SCRIPT_DIR/tests/test-closeout-status.sh"
+    "$SCRIPT_DIR/tests/test-public-smoke-suite.sh"
     "$SCRIPT_DIR/tests/test-run-closeout-qa-suite.sh"
   )
 fi

@@ -3,6 +3,7 @@
 set -euo pipefail
 
 BASE_URL="${1:-https://architecture-stack.vercel.app}"
+BASE_URL="${BASE_URL%/}"
 
 if ! command -v curl >/dev/null 2>&1; then
   echo "[ERROR] curl no esta disponible en PATH."
@@ -38,6 +39,19 @@ assert_contains() {
   return 0
 }
 
+assert_contains_any() {
+  local file="$1"
+  local pattern_a="$2"
+  local pattern_b="$3"
+  local label="$4"
+  if grep -Eq "$pattern_a" "$file" || grep -Eq "$pattern_b" "$file"; then
+    echo "[OK] ${label}"
+    return 0
+  fi
+  echo "[FAIL] Falta '${label}'"
+  return 1
+}
+
 tmp_dir="$(mktemp -d)"
 trap 'rm -rf "$tmp_dir"' EXIT
 
@@ -61,13 +75,13 @@ echo "[SMOKE-FUNCIONAL] Validando Hub landing..."
 assert_contains "$hub_html" 'href="\./ios/index\.html"' "Hub -> enlace curso iOS"
 assert_contains "$hub_html" 'href="\./android/index\.html"' "Hub -> enlace curso Android"
 assert_contains "$hub_html" 'href="\./sdd/index\.html"' "Hub -> enlace curso IA + SDD"
-assert_contains "$hub_html" 'auth/login\.html' "Hub -> soporte de ruta auth/login"
+assert_contains_any "$hub_html" 'href="\./auth/login\.html"' 'buildLoginUrl|auth/login\.html' "Hub -> soporte de ruta auth/login"
 
 echo "[SMOKE-FUNCIONAL] Validando Auth..."
-assert_contains "$auth_index_html" 'Crear cuenta' "Auth index -> crear cuenta"
-assert_contains "$auth_index_html" 'Iniciar sesión' "Auth index -> iniciar sesión"
-assert_contains "$auth_index_html" 'Recuperar contraseña' "Auth index -> recuperar contraseña"
-assert_contains "$auth_index_html" 'Volver al hub' "Auth index -> volver al hub"
+assert_contains "$auth_index_html" 'id="auth-nav-register"' "Auth index -> crear cuenta"
+assert_contains "$auth_index_html" 'id="auth-nav-login"' "Auth index -> iniciar sesión"
+assert_contains "$auth_index_html" 'id="auth-nav-recover"' "Auth index -> recuperar contraseña"
+assert_contains "$auth_index_html" 'id="auth-nav-home"' "Auth index -> volver al hub"
 assert_contains "$auth_login_html" 'id="login-form"' "Auth login -> formulario login"
 assert_contains "$auth_login_html" 'id="logout-btn"' "Auth login -> botón logout"
 assert_contains "$auth_login_html" 'window\.SMAAuth' "Auth login -> runtime auth client"

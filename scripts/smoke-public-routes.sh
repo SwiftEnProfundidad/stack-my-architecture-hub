@@ -3,6 +3,7 @@
 set -euo pipefail
 
 BASE_URL="${1:-https://architecture-stack.vercel.app}"
+BASE_URL="${BASE_URL%/}"
 
 if ! command -v curl >/dev/null 2>&1; then
   echo "[ERROR] curl no esta disponible en PATH."
