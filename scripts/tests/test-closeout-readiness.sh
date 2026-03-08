@@ -12,6 +12,7 @@ mkdir -p "$RUNTIME_DIR"
 STATUS_FILE="$RUNTIME_DIR/auto-closeout-status.env"
 COOLDOWN_FILE="$RUNTIME_DIR/vercel-deploy-cooldown.env"
 COMPLETE_FLAG="$RUNTIME_DIR/closeout-complete.flag"
+DEPLOY_STATUS_FILE="$RUNTIME_DIR/deploy-and-verify-last.env"
 FAKE_ATQ="$TMP_DIR/fake-atq.sh"
 FAKE_AT="$TMP_DIR/fake-at.sh"
 trap 'rm -rf "$TMP_DIR"' EXIT
@@ -129,7 +130,7 @@ future_epoch="$((now_epoch + 3600))"
 future_local="$(date -r "$future_epoch" '+%Y-%m-%d %H:%M:%S %Z')"
 
 # Case 1: sin runtime previo -> EXIT 1
-rm -f "$STATUS_FILE" "$COOLDOWN_FILE" "$COMPLETE_FLAG"
+rm -f "$STATUS_FILE" "$COOLDOWN_FILE" "$COMPLETE_FLAG" "$DEPLOY_STATUS_FILE"
 export FAKE_ATQ_MODE="none"
 code="$(run_readiness "$TMP_DIR/out1.txt")"
 assert_exit "1" "$code" "sin ejecución registrada debe devolver 1"
@@ -151,12 +152,25 @@ not_before_local='$future_local'
 reason='api-deployments-free-per-day'
 last_error_seen_at='2026-03-03 00:00:00 CET'
 EOF
+cat >"$DEPLOY_STATUS_FILE" <<EOF
+state='quota_blocked'
+mode='fast'
+base_url='https://architecture-stack.vercel.app'
+updated_at='2026-03-09 00:46:49 CET'
+quota_reason='api-deployments-free-per-day'
+not_before_epoch=$future_epoch
+not_before_local='$future_local'
+EOF
+# force deploy status file to look newer than the stale auto-closeout status
+touch -t 202603090046.49 "$DEPLOY_STATUS_FILE"
+touch -t 202603030000.00 "$STATUS_FILE"
 export FAKE_ATQ_MODE="none"
 code="$(run_readiness "$TMP_DIR/out2.txt")"
 assert_exit "3" "$code" "cooldown sin job debe devolver 3"
 assert_contains "$TMP_DIR/out2.txt" "ATENCIÓN: faltan jobs de ventana: main watchdog followup" "debe alertar ventana incompleta"
 assert_contains "$TMP_DIR/out2.txt" "schedule-closeout-window\\.sh" "debe recomendar reprogramar ventana completa"
 assert_contains "$TMP_DIR/out2.txt" "Último log: no disponible" "debe evitar mostrar rutas de log inexistentes"
+assert_contains "$TMP_DIR/out2.txt" "Último estado deploy: quota_blocked" "debe priorizar el último intento de deploy más reciente"
 
 # Case 3: cooldown activo con solo job main -> EXIT 3 (faltan watchdog/followup)
 export FAKE_ATQ_MODE="active"

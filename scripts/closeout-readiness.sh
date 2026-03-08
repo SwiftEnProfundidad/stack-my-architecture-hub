@@ -9,6 +9,7 @@ RUNTIME_DIR="${SMA_CLOSEOUT_RUNTIME_DIR:-$HUB_ROOT/.runtime}"
 STATUS_FILE="$RUNTIME_DIR/auto-closeout-status.env"
 COOLDOWN_FILE="$RUNTIME_DIR/vercel-deploy-cooldown.env"
 COMPLETE_FLAG="$RUNTIME_DIR/closeout-complete.flag"
+DEPLOY_STATUS_FILE="$RUNTIME_DIR/deploy-and-verify-last.env"
 
 verbose="${1:-}"
 ATQ_CMD="${SMA_ATQ_CMD:-atq}"
@@ -33,6 +34,47 @@ resolve_log_path() {
     return 0
   fi
   echo "no disponible"
+}
+
+file_mtime() {
+  local path="$1"
+  if [[ ! -f "$path" ]]; then
+    echo "0"
+    return 0
+  fi
+  stat -f '%m' "$path" 2>/dev/null || echo "0"
+}
+
+print_latest_attempt_context() {
+  local auto_mtime deploy_mtime
+  auto_mtime="$(file_mtime "$STATUS_FILE")"
+  deploy_mtime="$(file_mtime "$DEPLOY_STATUS_FILE")"
+
+  if [[ "$deploy_mtime" -gt "$auto_mtime" ]] && [[ -f "$DEPLOY_STATUS_FILE" ]]; then
+    # shellcheck disable=SC1090
+    source "$DEPLOY_STATUS_FILE"
+    echo "[CLOSEOUT-READINESS] Último intento registrado: ${updated_at:-desconocido}"
+    echo "[CLOSEOUT-READINESS] Último estado deploy: ${state:-desconocido}"
+    if [[ -n "${quota_reason:-}" ]]; then
+      echo "[CLOSEOUT-READINESS] Último motivo deploy: ${quota_reason}"
+    fi
+    if [[ -n "${guard_reason:-}" ]]; then
+      echo "[CLOSEOUT-READINESS] Último motivo deploy: ${guard_reason}"
+    fi
+    echo "[CLOSEOUT-READINESS] Último log: no disponible"
+    return 0
+  fi
+
+  if [[ -f "$STATUS_FILE" ]]; then
+    # shellcheck disable=SC1090
+    source "$STATUS_FILE"
+    resolved_log_path="$(resolve_log_path "${last_log_file:-desconocido}")"
+    echo "[CLOSEOUT-READINESS] Último exit code job: ${last_exit_code:-desconocido}"
+    echo "[CLOSEOUT-READINESS] Último log: $resolved_log_path"
+    if [[ "$verbose" == "--verbose" ]] && [[ "$resolved_log_path" != "no disponible" ]]; then
+      print_log_tail "$resolved_log_path"
+    fi
+  fi
 }
 
 find_active_closeout_job() {
@@ -119,16 +161,7 @@ if [[ -f "$COOLDOWN_FILE" ]]; then
     echo "[CLOSEOUT-READINESS] Motivo: $reason"
     echo "[CLOSEOUT-READINESS] Not before: $not_before_local"
     echo "[CLOSEOUT-READINESS] Restante aprox: ${remaining_hours}h ${remaining_minutes}m"
-    if [[ -f "$STATUS_FILE" ]]; then
-      # shellcheck disable=SC1090
-      source "$STATUS_FILE"
-      resolved_log_path="$(resolve_log_path "${last_log_file:-desconocido}")"
-      echo "[CLOSEOUT-READINESS] Último exit code job: ${last_exit_code:-desconocido}"
-      echo "[CLOSEOUT-READINESS] Último log: $resolved_log_path"
-      if [[ "$verbose" == "--verbose" ]] && [[ "$resolved_log_path" != "no disponible" ]]; then
-        print_log_tail "$resolved_log_path"
-      fi
-    fi
+    print_latest_attempt_context
 
     main_job_line="$(find_job_line_by_pattern "scripts/closeout-at-job\\.sh|closeout-at-job\\.sh" || true)"
     watchdog_job_line="$(find_job_line_by_pattern "recover-past-due-closeout\\.sh|scripts/recover-past-due-closeout\\.sh" || true)"
