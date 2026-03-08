@@ -1296,3 +1296,25 @@ Se elimina un falso negativo en post-deploy checks sin relajar cobertura real de
 4. Validación real de acceso anónimo sobre host no local:
    - `http://127.0.0.1.nip.io:4173/ios/index.html`
    - redirección observada a `auth/login.html?next=%2Fios%2Findex.html`
+
+
+## E2E autenticada cross-device 2026-03-08
+
+### Cambios aplicados
+1. Nuevo test opt-in `scripts/tests/test-authenticated-progress-cross-device.sh`.
+2. La E2E usa dos sesiones Playwright aisladas (`device-a`, `device-b`) y valida el flujo real:
+   - login con cuenta autenticada,
+   - marcar completado y repaso en `device-a`,
+   - abrir el mismo curso en `device-b`,
+   - comprobar que el progreso cloud se refleja,
+   - restaurar el estado original de la lección para no dejar residuos en la cuenta de prueba.
+3. `scripts/run-closeout-qa-suite.sh` incorpora la nueva E2E en la suite por defecto.
+4. La ejecución queda en modo `SKIP` limpio si faltan credenciales reales:
+   - `SMA_E2E_AUTH_EMAIL`
+   - `SMA_E2E_AUTH_PASSWORD`
+   - opcional: `SMA_E2E_BASE_URL`, `SMA_E2E_COURSE_PATH`, `SMA_E2E_TOPIC_ID`
+
+### Evidencia técnica
+1. `bash -n scripts/tests/test-authenticated-progress-cross-device.sh` -> PASS.
+2. `./scripts/tests/test-authenticated-progress-cross-device.sh` -> SKIP controlado sin credenciales.
+3. `./scripts/run-closeout-qa-suite.sh tests` -> PASS con la nueva regresión integrada.
