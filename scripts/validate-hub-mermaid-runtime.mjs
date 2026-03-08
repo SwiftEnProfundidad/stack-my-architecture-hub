@@ -22,6 +22,9 @@ const COURSE_PAGES = [
 const MERMAID_BROWSER_SRC = process.env.SMA_MERMAID_BROWSER_SRC || 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js';
 const FLOWCHART_KNOWN_RUNTIME_RISKS = ['-.o', '--o'];
 const LEGEND_VARIANTS = ['direct-closed', 'dashed-closed', 'contract-open', 'solid-open'];
+const PUBLIC_FORBIDDEN_PATH_PREFIXES = {
+  sdd: ['00-informe/', 'docs/', 'openspec/'],
+};
 const MERMAID_BLOCK_RE = /<pre class="mermaid">([\s\S]*?)<\/pre>/gi;
 
 function decodeHtml(input) {
@@ -52,6 +55,15 @@ function assertSvgLegends(courseId, html) {
   for (const variant of LEGEND_VARIANTS) {
     if (!html.includes(`class="sma-legend-arrow ${variant}`)) {
       throw new Error(`[${courseId}] falta variante SVG en leyenda: ${variant}`);
+    }
+  }
+}
+
+function assertPublicContentBoundaries(courseId, html) {
+  const forbidden = PUBLIC_FORBIDDEN_PATH_PREFIXES[courseId] || [];
+  for (const prefix of forbidden) {
+    if (html.includes(`data-lesson-path="${prefix}`)) {
+      throw new Error(`[${courseId}] contenido interno publicado por error: ${prefix}`);
     }
   }
 }
@@ -139,6 +151,7 @@ async function main() {
 
       const html = fs.readFileSync(course.htmlPath, 'utf-8');
       assertSvgLegends(course.id, html);
+      assertPublicContentBoundaries(course.id, html);
       const blocks = extractMermaidBlocks(html);
       if (blocks.length === 0) {
         throw new Error(`[${course.id}] no contiene bloques Mermaid publicados.`);

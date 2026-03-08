@@ -200,7 +200,7 @@ if [[ "$MODE" == "fast" ]]; then
     echo "[ERROR] Missing SDD build script: $SDD_BUILD_SCRIPT"
     exit 1
   fi
-  python3 "$SDD_BUILD_SCRIPT"
+  SMA_BUILD_PROFILE="$SDD_BUILD_PROFILE" python3 "$SDD_BUILD_SCRIPT"
 else
   if [[ ! -x "$SDD_AUDIT_SCRIPT" ]]; then
     echo "[ERROR] Missing or non-executable SDD audit script: $SDD_AUDIT_SCRIPT"
@@ -235,26 +235,36 @@ copy_course_output_preserving_assistant_panel() {
   local src="$1"
   local dst="$2"
   local label="$3"
-  local rel_dst="${dst#"$HUB_ROOT"/}"
   local assistant_rel="assets/assistant-panel.js"
   local dst_assistant="$dst/$assistant_rel"
-  local backup_file="$RUNTIME_DIR/.preserve-${label}-assistant-panel.js"
-  local had_backup=0
+  local assistant_backup="$RUNTIME_DIR/.preserve-${label}-assistant-panel.js"
+  local gitignore_backup="$RUNTIME_DIR/.preserve-${label}-.gitignore"
+  local had_assistant_backup=0
+  local had_gitignore_backup=0
   local preserve_panel="${PRESERVE_ASSISTANT_PANEL:-0}"
 
   if [[ "$preserve_panel" == "1" && -f "$dst_assistant" ]]; then
-    cp "$dst_assistant" "$backup_file"
-    had_backup=1
+    cp "$dst_assistant" "$assistant_backup"
+    had_assistant_backup=1
+  fi
+
+  if [[ -f "$dst/.gitignore" ]]; then
+    cp "$dst/.gitignore" "$gitignore_backup"
+    had_gitignore_backup=1
   fi
 
   copy_dir "$src" "$dst"
 
-  if [[ "$had_backup" -eq 1 ]]; then
+  if [[ "$had_assistant_backup" -eq 1 ]]; then
     mkdir -p "$dst/assets"
-    cp "$backup_file" "$dst_assistant"
-    rm -f "$backup_file"
+    cp "$assistant_backup" "$dst_assistant"
+    rm -f "$assistant_backup"
   fi
 
+  if [[ "$had_gitignore_backup" -eq 1 ]]; then
+    cp "$gitignore_backup" "$dst/.gitignore"
+    rm -f "$gitignore_backup"
+  fi
 }
 
 say "[4/8] Copying iOS output folder AS-IS to hub/ios ..."
