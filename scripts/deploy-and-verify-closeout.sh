@@ -10,6 +10,7 @@ STATUS_FILE="${SMA_CLOSEOUT_STATUS_FILE:-$RUNTIME_DIR/deploy-and-verify-last.env
 
 MODE="${1:-fast}"
 BASE_URL="${2:-https://architecture-stack.vercel.app}"
+BASE_URL="${BASE_URL%/}"
 FORCE_DEPLOY="${SMA_DEPLOY_FORCE:-0}"
 
 if [[ "$MODE" != "fast" && "$MODE" != "strict" ]]; then

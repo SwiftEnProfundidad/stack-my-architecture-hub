@@ -148,12 +148,12 @@ assert_contains "$PUBLISH_CALLS" "^strict$" "publish should receive mode"
 assert_contains "$POST_CALLS" "^https://force\\.test$" "post-checks should receive base url"
 assert_contains "$STATUS_FILE" "^state='success'$" "force success should write success status"
 
-# Case 3: sin cooldown y publish ok -> exit 0, elimina cooldown
+# Case 3: sin cooldown y publish ok -> exit 0, elimina cooldown y normaliza slash final
 rm -f "$PUBLISH_CALLS" "$POST_CALLS" "$COOLDOWN_FILE"
-code="$(FAKE_PUBLISH_MODE=success run_runner "$TMP_DIR/out3.txt" fast "https://ok.test")"
+code="$(FAKE_PUBLISH_MODE=success run_runner "$TMP_DIR/out3.txt" fast "https://ok.test/")"
 assert_eq "0" "$code" "successful flow should exit 0"
 assert_contains "$PUBLISH_CALLS" "^fast$" "publish should run in fast mode"
-assert_contains "$POST_CALLS" "^https://ok\\.test$" "post-checks should run"
+assert_contains "$POST_CALLS" "^https://ok\\.test$" "post-checks should run with normalized base url"
 assert_file_not_exists "$COOLDOWN_FILE" "success should clear cooldown file"
 assert_contains "$STATUS_FILE" "^state='success'$" "success should write success status"
 

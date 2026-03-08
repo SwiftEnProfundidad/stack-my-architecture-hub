@@ -273,3 +273,13 @@ La validación automática de login end-to-end queda parcialmente bloqueada si n
    - checks Auth por `id`,
    - `post-deploy-checks` testeable por inyección,
    - nuevo `test-public-smoke-suite.sh` incluido en QA por defecto.
+
+## Endurecimiento incremental 2026-03-08 — suite local/runtime
+1. ✅ `smoke-hub-runtime.sh` ya es testeable sin depender del bridge real.
+2. ✅ `deploy-and-verify-closeout.sh` normaliza `BASE_URL`.
+3. ✅ Nuevo `test-smoke-hub-runtime.sh` añadido a la suite QA por defecto.
+4. ✅ Validación cerrada:
+   - `./scripts/tests/test-smoke-hub-runtime.sh`
+   - `./scripts/tests/test-deploy-and-verify-closeout.sh`
+   - `./scripts/run-closeout-qa-suite.sh tests`
+   - `./scripts/smoke-hub-runtime.sh`

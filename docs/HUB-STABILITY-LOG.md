@@ -1177,3 +1177,21 @@ Se elimina un falso negativo en post-deploy checks sin relajar cobertura real de
 ### Evidencia técnica
 1. `./scripts/tests/test-public-smoke-suite.sh` -> PASS.
 2. `./scripts/post-deploy-checks.sh https://architecture-stack.vercel.app/` -> PASS.
+
+## Endurecimiento suite local/runtime 2026-03-08
+
+### Cambios aplicados
+1. `scripts/smoke-hub-runtime.sh` soporta:
+   - puerto libre real por `python3`,
+   - override de `assistant-bridge` por entorno,
+   - comando de servidor inyectable,
+   - skip opcional de `npm install`.
+2. `scripts/deploy-and-verify-closeout.sh` normaliza `BASE_URL` con o sin slash final.
+3. Nuevo test `scripts/tests/test-smoke-hub-runtime.sh`.
+4. `scripts/run-closeout-qa-suite.sh` incorpora el test de runtime local en la suite por defecto.
+
+### Evidencia técnica
+1. `./scripts/tests/test-smoke-hub-runtime.sh` -> PASS.
+2. `./scripts/tests/test-deploy-and-verify-closeout.sh` -> PASS.
+3. `./scripts/run-closeout-qa-suite.sh tests` -> PASS.
+4. `./scripts/smoke-hub-runtime.sh` -> PASS.
