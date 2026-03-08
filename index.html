@@ -4,202 +4,122 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Stack My Architecture Cursos</title>
-  <style>
-    :root {
-      --bg: #0a1326;
-      --bg-elevated: rgba(15, 23, 42, 0.72);
-      --border: rgba(148, 163, 184, 0.28);
-      --text: #e5e7eb;
-      --text-muted: #cbd5e1;
-      --accent: #60a5fa;
-      --accent-2: #22d3ee;
-      --radius: 16px;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: "Avenir Next", "SF Pro Display", "Segoe UI", sans-serif;
-      margin: 0;
-      min-height: 100vh;
-      background:
-        radial-gradient(80% 60% at 85% 0%, rgba(14, 165, 233, 0.2) 0%, transparent 70%),
-        radial-gradient(70% 50% at 0% 100%, rgba(96, 165, 250, 0.18) 0%, transparent 75%),
-        var(--bg);
-      color: var(--text);
-    }
-
-    .wrap {
-      width: min(980px, 100%);
-      margin: 0 auto;
-      padding: 24px 16px 36px;
-    }
-
-    .panel {
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      background: var(--bg-elevated);
-      backdrop-filter: blur(8px);
-      padding: 20px;
-      box-shadow: 0 20px 40px rgba(2, 6, 23, 0.35);
-    }
-
-    h1 {
-      margin: 0 0 10px;
-      line-height: 1.15;
-      font-size: clamp(1.55rem, 4vw, 2.2rem);
-      letter-spacing: 0.02em;
-    }
-
-    p.lead {
-      margin: 0;
-      color: var(--text-muted);
-      font-size: clamp(0.96rem, 2.5vw, 1.05rem);
-    }
-
-    .actions {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin: 20px 0;
-    }
-
-    a.btn {
-      display: block;
-      padding: 14px 16px;
-      border-radius: 12px;
-      border: 1px solid var(--border);
-      text-decoration: none;
-      color: var(--text);
-      background: rgba(15, 23, 42, 0.76);
-      font-weight: 700;
-      transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease, color 0.18s ease;
-    }
-
-    a.btn:hover {
-      border-color: var(--accent);
-      color: #dbeafe;
-      transform: translateY(-1px);
-      box-shadow: 0 8px 24px rgba(14, 165, 233, 0.16);
-    }
-
-    p.note {
-      color: var(--text-muted);
-      margin: 0;
-      font-size: 0.92rem;
-    }
-
-    @media (min-width: 640px) {
-      .wrap {
-        padding: 44px 24px 48px;
-      }
-
-      .panel {
-        padding: 30px;
-      }
-
-      .actions {
-        flex-direction: row;
-      }
-
-      a.btn {
-        flex: 1;
-        text-align: center;
-      }
-    }
-  </style>
+  <title>Stack My Architecture · Cursos</title>
+  <link rel="stylesheet" href="./assets/hub-app.css" />
 </head>
 
-<body>
-  <main class="wrap">
-    <div class="panel">
-      <h1>Stack My Architecture · Cursos</h1>
-      <p class="lead">Accede a iOS, Android y IA + SDD desde un hub único optimizado para móvil y escritorio.</p>
-      <div class="actions">
-        <a class="btn" href="./ios/index.html">Abrir curso iOS</a>
-        <a class="btn" href="./android/index.html">Abrir curso Android</a>
-        <a class="btn" href="./sdd/index.html">Abrir curso IA + SDD</a>
+<body class="hub-app-body">
+  <main class="hub-shell hub-stack">
+    <section class="hub-panel">
+      <div class="hub-panel-inner hub-stack">
+        <div class="hub-topbar">
+          <div class="hub-brand">
+            <img class="hub-brand-media" src="./assets/brand/pumuki-logo-neon.png" alt="PUMUKI" loading="lazy" decoding="async" />
+            <div>
+              <p class="hub-eyebrow">PUMUKI · plataforma formativa</p>
+              <h1 class="hub-title">Stack My Architecture · Cursos</h1>
+              <p class="hub-lead">Una plataforma unificada para estudiar iOS, Android y IA + SDD con progreso cloud, acceso controlado por cuenta y una experiencia lista para crecer hacia monetización real.</p>
+            </div>
+          </div>
+          <div id="hub-auth-bar" class="hub-actions" aria-label="Acciones de cuenta"></div>
+        </div>
+
+        <div id="hub-status-box" class="hub-message hub-panel" data-tone="warn" aria-live="polite"></div>
+
+        <div class="hub-hero-grid">
+          <section class="hub-panel hub-panel-inner hub-stack">
+            <div class="hub-section-head">
+              <div>
+                <h2 class="hub-section-title">Acceso teaser + progreso por cuenta</h2>
+                <p class="hub-section-copy">Los cursos siguen siendo bundles estáticos de alto rendimiento, pero el runtime del Hub ya decide qué puede ver cada usuario y qué debe quedar bloqueado o mostrado como muestra pública.</p>
+              </div>
+            </div>
+            <div id="hub-access-summary"></div>
+            <div class="hub-actions" aria-label="Accesos rápidos a cursos">
+              <a class="hub-btn hub-btn-primary" href="./ios/index.html">Abrir curso iOS</a>
+              <a class="hub-btn hub-btn-primary" href="./android/index.html">Abrir curso Android</a>
+              <a class="hub-btn hub-btn-primary" href="./sdd/index.html">Abrir curso IA + SDD</a>
+            </div>
+            <div class="hub-actions">
+              <a class="hub-btn hub-btn-primary" href="./auth/index.html">Cuenta y sincronización</a>
+              <a class="hub-btn hub-btn-muted" href="#hub-courses-grid">Ver catálogo</a>
+            </div>
+          </section>
+
+          <figure class="hub-video">
+            <video controls playsinline preload="metadata" poster="./assets/brand/pumuki-logo-neon.png">
+              <source src="./assets/brand/pumuki-intro.mp4" type="video/mp4" />
+            </video>
+            <figcaption>Intro oficial PUMUKI · versión optimizada para web y mobile-first.</figcaption>
+          </figure>
+        </div>
       </div>
-      <p class="note">El progreso se guarda localmente por curso.</p>
-    </div>
+    </section>
+
+    <section id="hub-dashboard-section" class="hub-panel hub-hidden">
+      <div class="hub-panel-inner hub-stack">
+        <div class="hub-section-head">
+          <div>
+            <p class="hub-eyebrow">Dashboard del estudiante</p>
+            <h2 class="hub-section-title">Tu estado real de aprendizaje</h2>
+            <p class="hub-section-copy">Progreso, continuidad recomendada, notas y bookmarks sincronizados por cuenta para que no dependas del dispositivo desde el que estudias.</p>
+          </div>
+        </div>
+
+        <div id="hub-dashboard-kpis" class="hub-kpi-grid"></div>
+
+        <div class="hub-dashboard-grid">
+          <section id="hub-dashboard-next" class="hub-panel hub-panel-inner"></section>
+          <section class="hub-panel hub-panel-inner hub-stack">
+            <div class="hub-section-head">
+              <div>
+                <h3 class="hub-section-title">Cursos en tu plan</h3>
+                <p class="hub-section-copy">Resumen operativo por curso con acceso, progreso, repaso y continuidad.</p>
+              </div>
+            </div>
+            <div id="hub-dashboard-courses" class="hub-list"></div>
+          </section>
+        </div>
+
+        <div class="hub-dashboard-grid">
+          <section class="hub-panel hub-panel-inner hub-stack">
+            <div class="hub-section-head">
+              <div>
+                <h3 class="hub-section-title">Notas recientes</h3>
+                <p class="hub-section-copy">Tus notas privadas más recientes, listas para retomar el contexto exacto de estudio.</p>
+              </div>
+            </div>
+            <div id="hub-dashboard-notes" class="hub-list"></div>
+          </section>
+          <section class="hub-panel hub-panel-inner hub-stack">
+            <div class="hub-section-head">
+              <div>
+                <h3 class="hub-section-title">Bookmarks recientes</h3>
+                <p class="hub-section-copy">Puntos guardados para volver rápido a temas clave, repasos o lecciones puente.</p>
+              </div>
+            </div>
+            <div id="hub-dashboard-bookmarks" class="hub-list"></div>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <section class="hub-panel">
+      <div class="hub-panel-inner hub-stack">
+        <div class="hub-section-head">
+          <div>
+            <p class="hub-eyebrow">Catálogo</p>
+            <h2 class="hub-section-title">Cursos disponibles</h2>
+            <p class="hub-section-copy">Cada curso expone acceso completo, teaser o bloqueo real según tu cuenta y el entitlement activo de la plataforma.</p>
+          </div>
+        </div>
+        <div id="hub-courses-grid" class="hub-course-grid"></div>
+      </div>
+    </section>
   </main>
-  <script>
-    (function () {
-      var AUTH_USER_KEY = 'sma:auth:user:v1';
-      var AUTH_SESSION_KEY = 'sma:auth:session:v1';
 
-      function readJsonStorage(key) {
-        try {
-          var raw = localStorage.getItem(key);
-          if (!raw) return null;
-          var parsed = JSON.parse(raw);
-          if (!parsed || typeof parsed !== 'object') return null;
-          return parsed;
-        } catch (_error) {
-          return null;
-        }
-      }
-
-      function hasActiveSession(session) {
-        if (!session || !session.accessToken) return false;
-        if (!session.expiresAt) return true;
-        var expiresAt = Date.parse(String(session.expiresAt));
-        if (!Number.isFinite(expiresAt)) return true;
-        return expiresAt > Date.now();
-      }
-
-      function hasAuthenticatedUser() {
-        var user = readJsonStorage(AUTH_USER_KEY);
-        var session = readJsonStorage(AUTH_SESSION_KEY);
-        if (!user || !user.id || !hasActiveSession(session)) return false;
-        return true;
-      }
-
-      function isLocalContext() {
-        var host = String(window.location.hostname || '').toLowerCase();
-        if (window.location.protocol === 'file:') return true;
-        if (!host) return false;
-        if (host === 'localhost' || host === '127.0.0.1' || host === '::1' || host === '0.0.0.0') return true;
-        if (host.endsWith('.local')) return true;
-        if (/^10\.\d{1,3}\.\d{1,3}\.\d{1,3}$/.test(host)) return true;
-        if (/^192\.168\.\d{1,3}\.\d{1,3}$/.test(host)) return true;
-        var private172 = host.match(/^172\.(\d{1,3})\.\d{1,3}\.\d{1,3}$/);
-        if (private172) {
-          var secondOctet = Number(private172[1]);
-          if (Number.isFinite(secondOctet) && secondOctet >= 16 && secondOctet <= 31) return true;
-        }
-        return false;
-      }
-
-      function toRelativeTarget(url) {
-        try {
-          var target = new URL(url, window.location.href);
-          return target.pathname + target.search + target.hash;
-        } catch (_error) {
-          return '/index.html';
-        }
-      }
-
-      function buildLoginUrl(nextTarget) {
-        var target = new URL('./auth/login.html', window.location.href);
-        if (nextTarget) target.searchParams.set('next', nextTarget);
-        return target.pathname + target.search + target.hash;
-      }
-
-      if (isLocalContext() || hasAuthenticatedUser()) return;
-      var links = Array.from(document.querySelectorAll('a[data-auth-required="1"]'));
-      links.forEach(function (link) {
-        link.addEventListener('click', function (event) {
-          event.preventDefault();
-          var nextTarget = toRelativeTarget(link.getAttribute('href') || link.href);
-          window.location.href = buildLoginUrl(nextTarget);
-        });
-      });
-    })();
-  </script>
+  <script src="./assets/auth-client.js"></script>
+  <script src="./assets/hub-app.js"></script>
 </body>
 
 </html>

@@ -1,0 +1,465 @@
+:root {
+  --hub-bg: #091120;
+  --hub-bg-elevated: rgba(12, 22, 38, 0.9);
+  --hub-bg-soft: rgba(20, 33, 57, 0.72);
+  --hub-border: rgba(148, 163, 184, 0.22);
+  --hub-border-strong: rgba(96, 165, 250, 0.36);
+  --hub-text: #e5edf8;
+  --hub-text-muted: #9fb0c8;
+  --hub-accent: #60a5fa;
+  --hub-accent-2: #22d3ee;
+  --hub-ok: #34d399;
+  --hub-warn: #fbbf24;
+  --hub-danger: #fb7185;
+  --hub-radius: 22px;
+  --hub-shadow: 0 24px 64px rgba(2, 6, 23, 0.44);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body.hub-app-body {
+  font-family: "Avenir Next", "SF Pro Display", "Segoe UI", sans-serif;
+  background:
+    radial-gradient(80% 50% at 100% 0%, rgba(34, 211, 238, 0.16), transparent 70%),
+    radial-gradient(70% 45% at 0% 100%, rgba(96, 165, 250, 0.16), transparent 72%),
+    linear-gradient(180deg, #091120 0%, #0b1427 52%, #0a1326 100%);
+  color: var(--hub-text);
+}
+
+.hub-shell {
+  width: min(1200px, 100%);
+  margin: 0 auto;
+  padding: 18px 14px 40px;
+}
+
+.hub-stack {
+  display: grid;
+  gap: 16px;
+}
+
+.hub-panel {
+  border: 1px solid var(--hub-border);
+  border-radius: var(--hub-radius);
+  background: var(--hub-bg-elevated);
+  backdrop-filter: blur(14px);
+  box-shadow: var(--hub-shadow);
+}
+
+.hub-panel-inner {
+  padding: 16px;
+}
+
+.hub-topbar {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.hub-brand {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+
+.hub-brand-media {
+  width: 92px;
+  height: 92px;
+  flex: 0 0 auto;
+  border-radius: 18px;
+  border: 1px solid var(--hub-border);
+  background: rgba(5, 10, 20, 0.92);
+  object-fit: cover;
+  padding: 10px;
+}
+
+.hub-eyebrow {
+  margin: 0 0 6px;
+  color: var(--hub-accent-2);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.hub-title {
+  margin: 0;
+  font-size: clamp(1.75rem, 4.8vw, 2.8rem);
+  line-height: 1.05;
+}
+
+.hub-lead {
+  margin: 10px 0 0;
+  color: var(--hub-text-muted);
+  line-height: 1.55;
+  max-width: 62ch;
+}
+
+.hub-actions,
+.hub-inline-actions,
+.hub-card-actions,
+.hub-list-actions,
+.hub-form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.hub-btn,
+.hub-chip,
+.hub-input,
+.hub-select,
+.hub-textarea,
+.hub-video,
+.hub-kpi,
+.hub-course-card,
+.hub-list-item,
+.hub-admin-user,
+.hub-admin-panel,
+.hub-access-banner {
+  border-radius: 16px;
+  border: 1px solid var(--hub-border);
+  background: var(--hub-bg-soft);
+}
+
+.hub-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 12px 16px;
+  color: var(--hub-text);
+  text-decoration: none;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+}
+
+.hub-btn:hover {
+  transform: translateY(-1px);
+  border-color: var(--hub-border-strong);
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.28);
+}
+
+.hub-btn-primary {
+  background: linear-gradient(135deg, rgba(96, 165, 250, 0.26), rgba(34, 211, 238, 0.2));
+  border-color: rgba(96, 165, 250, 0.42);
+}
+
+.hub-btn-muted {
+  background: rgba(15, 23, 42, 0.9);
+}
+
+.hub-btn-danger {
+  background: rgba(127, 29, 29, 0.38);
+  border-color: rgba(251, 113, 133, 0.34);
+}
+
+.hub-status-row {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.hub-status-card {
+  padding: 14px;
+}
+
+.hub-status-title {
+  margin: 0 0 6px;
+  font-size: 0.92rem;
+  color: var(--hub-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.hub-status-value {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.hub-role-badge,
+.hub-access-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--hub-border);
+  background: rgba(15, 23, 42, 0.92);
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.hub-access-badge[data-access="full"],
+.hub-role-badge[data-role="admin"] {
+  border-color: rgba(52, 211, 153, 0.36);
+  color: #d1fae5;
+}
+
+.hub-access-badge[data-access="teaser"],
+.hub-role-badge[data-role="trial"] {
+  border-color: rgba(251, 191, 36, 0.32);
+  color: #fde68a;
+}
+
+.hub-access-badge[data-access="blocked"] {
+  border-color: rgba(251, 113, 133, 0.3);
+  color: #fecdd3;
+}
+
+.hub-hero-grid,
+.hub-dashboard-grid,
+.hub-course-grid,
+.hub-admin-grid,
+.hub-kpi-grid {
+  display: grid;
+  gap: 16px;
+}
+
+.hub-video {
+  overflow: hidden;
+  background: rgba(3, 7, 18, 0.9);
+}
+
+.hub-video video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  background: #000;
+}
+
+.hub-video figcaption {
+  padding: 12px 14px 14px;
+  color: var(--hub-text-muted);
+  font-size: 0.92rem;
+}
+
+.hub-section-title {
+  margin: 0;
+  font-size: clamp(1.15rem, 3.2vw, 1.5rem);
+}
+
+.hub-section-copy {
+  margin: 8px 0 0;
+  color: var(--hub-text-muted);
+  line-height: 1.55;
+}
+
+.hub-section-head {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.hub-kpi {
+  padding: 14px;
+}
+
+.hub-kpi-label {
+  margin: 0 0 8px;
+  color: var(--hub-text-muted);
+  font-size: 0.84rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.hub-kpi-value {
+  margin: 0;
+  font-size: clamp(1.25rem, 4vw, 1.8rem);
+  font-weight: 800;
+}
+
+.hub-course-card,
+.hub-list-item,
+.hub-admin-user,
+.hub-admin-panel,
+.hub-access-banner {
+  padding: 16px;
+}
+
+.hub-course-card {
+  display: grid;
+  gap: 14px;
+}
+
+.hub-course-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.hub-course-title {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.hub-course-copy,
+.hub-course-meta,
+.hub-list-copy,
+.hub-empty,
+.hub-form-help,
+.hub-inline-note,
+.hub-admin-meta {
+  color: var(--hub-text-muted);
+  line-height: 1.55;
+}
+
+.hub-course-meta,
+.hub-admin-meta {
+  font-size: 0.92rem;
+}
+
+.hub-mini-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.hub-mini-stat {
+  padding: 12px;
+  border-radius: 14px;
+  background: rgba(15, 23, 42, 0.88);
+  border: 1px solid rgba(148, 163, 184, 0.18);
+}
+
+.hub-mini-label {
+  margin: 0 0 4px;
+  color: var(--hub-text-muted);
+  font-size: 0.78rem;
+}
+
+.hub-mini-value {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.hub-list {
+  display: grid;
+  gap: 12px;
+}
+
+.hub-list-item {
+  display: grid;
+  gap: 8px;
+}
+
+.hub-list-title {
+  margin: 0;
+  font-weight: 700;
+}
+
+.hub-admin-toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.hub-form-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.hub-label {
+  display: grid;
+  gap: 8px;
+  font-weight: 700;
+}
+
+.hub-input,
+.hub-select,
+.hub-textarea {
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 14px;
+  color: var(--hub-text);
+  background: rgba(5, 10, 20, 0.9);
+}
+
+.hub-textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.hub-message {
+  display: none;
+  padding: 14px 16px;
+}
+
+.hub-message.is-visible {
+  display: block;
+}
+
+.hub-message[data-tone="ok"] {
+  border-color: rgba(52, 211, 153, 0.34);
+  color: #d1fae5;
+}
+
+.hub-message[data-tone="warn"] {
+  border-color: rgba(251, 191, 36, 0.34);
+  color: #fde68a;
+}
+
+.hub-message[data-tone="error"] {
+  border-color: rgba(251, 113, 133, 0.34);
+  color: #fecdd3;
+}
+
+.hub-hidden {
+  display: none !important;
+}
+
+@media (min-width: 720px) {
+  .hub-shell {
+    padding: 28px 20px 52px;
+  }
+
+  .hub-panel-inner {
+    padding: 22px;
+  }
+
+  .hub-topbar,
+  .hub-status-row,
+  .hub-admin-toolbar {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .hub-hero-grid {
+    grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.95fr);
+    align-items: stretch;
+  }
+
+  .hub-dashboard-grid {
+    grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.95fr);
+  }
+
+  .hub-kpi-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .hub-course-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .hub-admin-grid {
+    grid-template-columns: minmax(0, 1.2fr) minmax(340px, 0.95fr);
+  }
+
+  .hub-form-grid.two-cols {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

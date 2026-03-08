@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Panel Admin · Stack My Architecture</title>
+  <link rel="stylesheet" href="../assets/hub-app.css" />
+</head>
+
+<body class="hub-app-body">
+  <main class="hub-shell hub-stack">
+    <section class="hub-panel">
+      <div class="hub-panel-inner hub-stack">
+        <div class="hub-topbar">
+          <div class="hub-brand">
+            <img class="hub-brand-media" src="../assets/brand/pumuki-logo-neon.png" alt="PUMUKI" loading="lazy" decoding="async" />
+            <div>
+              <p class="hub-eyebrow">Operación de plataforma</p>
+              <h1 class="hub-title">Panel admin</h1>
+              <p class="hub-lead">Gestión manual de usuarios, roles, entitlements y teasers públicos mientras la monetización automática todavía no entra en juego.</p>
+            </div>
+          </div>
+          <div id="admin-auth-actions" class="hub-actions"></div>
+        </div>
+        <div id="admin-message" class="hub-message" data-tone="warn" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section id="admin-shell" class="hub-admin-grid hub-hidden">
+      <section class="hub-panel hub-panel-inner hub-stack">
+        <div class="hub-admin-toolbar">
+          <div>
+            <h2 class="hub-section-title">Usuarios y acceso</h2>
+            <p class="hub-section-copy">Busca por email, ajusta rol y concede o revoca acceso por curso.</p>
+          </div>
+          <form id="admin-search-form" class="hub-inline-actions">
+            <input id="admin-search-input" class="hub-input" type="search" placeholder="Buscar por email o user id" />
+            <button class="hub-btn hub-btn-primary" type="submit">Buscar</button>
+            <button id="admin-search-reset" class="hub-btn hub-btn-muted" type="button">Reset</button>
+          </form>
+        </div>
+        <div id="admin-users" class="hub-list"></div>
+      </section>
+
+      <aside class="hub-stack">
+        <section class="hub-panel hub-panel-inner hub-stack">
+          <div>
+            <h2 class="hub-section-title">Teasers públicos</h2>
+            <p class="hub-section-copy">Define qué tema actúa como muestra pública por curso.</p>
+          </div>
+          <form id="admin-teaser-form" class="hub-form-grid">
+            <label class="hub-label">Curso
+              <select id="admin-teaser-course" class="hub-select">
+                <option value="ios">iOS</option>
+                <option value="android">Android</option>
+                <option value="sdd">SDD</option>
+              </select>
+            </label>
+            <label class="hub-label">Topic ID
+              <input id="admin-teaser-topic" class="hub-input" type="text" placeholder="00-core-mobile-00-introduccion" required />
+            </label>
+            <div class="hub-form-grid two-cols">
+              <label class="hub-label">Tipo
+                <select id="admin-teaser-kind" class="hub-select">
+                  <option value="lesson">lesson</option>
+                  <option value="course_overview">course_overview</option>
+                </select>
+              </label>
+              <label class="hub-label">Orden
+                <input id="admin-teaser-order" class="hub-input" type="number" value="10" />
+              </label>
+            </div>
+            <label class="hub-label">Visibilidad
+              <select id="admin-teaser-public" class="hub-select">
+                <option value="true">Público</option>
+                <option value="false">Oculto</option>
+              </select>
+            </label>
+            <div class="hub-form-actions">
+              <button class="hub-btn hub-btn-primary" type="submit">Guardar teaser</button>
+            </div>
+          </form>
+          <div id="admin-teasers" class="hub-list"></div>
+        </section>
+      </aside>
+    </section>
+  </main>
+
+  <script src="../assets/auth-client.js"></script>
+  <script src="../assets/hub-admin.js"></script>
+</body>
+
+</html>
