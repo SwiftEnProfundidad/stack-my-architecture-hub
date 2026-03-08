@@ -1,6 +1,6 @@
 # SESSION HANDOFF
 
-Fecha de corte: 2026-03-08
+Fecha de corte: 2026-03-09
 
 ## Leyenda
 - ✅ Hecho
@@ -37,8 +37,10 @@ Repos incluidos:
 - ✅ Limpieza enterprise de artefactos de seguimiento cerrados en Hub, iOS, Android y SDD.
 
 ## Bloque en curso
-- 🚧 Entitlements + Dashboard del estudiante v1.
-- Fuente activa: `docs/PLAN-ENTITLEMENTS-DASHBOARD-20260308.md`.
+- ⛔ Entitlements + Dashboard del estudiante v1.
+- Fuente activa de ese bloque: `docs/PLAN-ENTITLEMENTS-DASHBOARD-20260308.md`.
+- ✅ Modo entrevista tecnica v1.
+- Fuente activa del bloque nuevo: `docs/PLAN-MODO-ENTREVISTA-TECNICA-20260309.md`.
 
 ## Progreso real del bloque en curso
 1. Fase 0 cerrada: esquema Supabase, contratos API y seeds teaser iniciales.
@@ -51,8 +53,28 @@ Repos incluidos:
    - `anonymous`, `trial`, `student` y `admin` validados con Playwright en host público local `sslip.io`
    - sync cross-device validado para el caso de negocio real: dispositivo A guarda, dispositivo B abre después y recupera `completado`, `repaso`, `bookmark` y `nota`
    - dashboard y panel admin validados en `390x844`; corregido overflow horizontal del panel admin
-8. Queda abierta solo la Fase 4.4: cierre GitFlow + despliegue.
+8. Queda abierta solo la Fase 4.4: redeploy final cuando Vercel deje publicar.
 9. Existe una discrepancia de entorno en Vercel/local pulled: la `SUPABASE_SERVICE_ROLE_KEY` actual no opera bien sobre tablas `hub_*`; con clave corregida local el bloque funciona.
+
+## Progreso real del bloque de modo entrevista tecnica
+1. Packs curados para `iOS`, `Android` y `SDD` reutilizando contenido ya publicado de defensa técnica, empleabilidad y proyecto final.
+2. Punto de entrada listo en Hub:
+   - dashboard autenticado
+   - catálogo con quick action visible cuando existe acceso válido
+3. Runtime operativo en los tres cursos:
+   - botón `Entrevista` en topbar
+   - autoapertura por `?mode=interview`
+   - panel con pregunta guía, rúbrica y lecciones fuente
+4. QA local cerrada:
+   - `iOS` validado en escritorio y móvil con Playwright
+   - `Android` validado en escritorio; se observan errores Mermaid legacy ya existentes fuera del alcance de este bloque
+   - `SDD` validado en escritorio con panel y enlaces fuente operativos
+5. Build Hub `strict` en verde tras sincronizar los runtimes modificados.
+
+## Siguiente paso operativo
+1. Cerrar GitFlow del bloque `Modo entrevista tecnica v1` en `feature/interview-mode-v1`.
+2. Reintentar despliegue de `Entitlements + Dashboard` cuando Vercel libere cuota.
+3. Abrir el siguiente bloque de producto solo después del cierre de este frente.
 
 ## Resultado del bloque anterior
 1. Builders y validadores dejan de depender de `TODO`, `DECISIONES-TOMADAS` o auditorías cerradas.
@@ -71,4 +93,4 @@ Repos incluidos:
 `cd "/Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture/stack-my-architecture-SDD/stack-my-architecture-SDD" && python3 scripts/build-html.py`
 
 ## Nota operativa
-El usuario ha pedido continuar en automático con el plan; el siguiente paso natural es cerrar GitFlow del bloque y preparar el despliegue, teniendo en cuenta la discrepancia de entorno de `SUPABASE_SERVICE_ROLE_KEY`.
+El usuario ha pedido continuar en automático. Mientras Vercel siga bloqueado por cuota, el trabajo activo pasa a `Modo entrevista tecnica v1`; el bloque de entitlements solo queda pendiente de redeploy final.

@@ -1,6 +1,6 @@
 # STACK ARCHITECTURE MASTER TRACKER
 
-Fecha de actualización: 2026-03-08
+Fecha de actualización: 2026-03-09
 
 ## Leyenda
 - ✅ Hecho
@@ -26,6 +26,7 @@ Mantener una única fuente de verdad operativa para el ecosistema `Hub + iOS + A
 6. `docs/TEMPLATE-DIAGRAMA-ARQUITECTURA-MERMAID.md`
 7. `docs/PROGRESS-SYNC-SUPABASE.sql`
 8. `docs/PLAN-ENTITLEMENTS-DASHBOARD-20260308.md`
+9. `docs/PLAN-MODO-ENTREVISTA-TECNICA-20260309.md`
 
 ## Estado consolidado
 - ✅ Hub estable y publicado en `https://architecture-stack.vercel.app`.
@@ -44,9 +45,10 @@ Mantener una única fuente de verdad operativa para el ecosistema `Hub + iOS + A
 5. Cada bloque nuevo se abre con GitFlow real y una sola tarea `🚧`.
 
 ## Bloque actual
-- 🚧 Entitlements + Dashboard del estudiante v1 en Fase 4.4 (QA local cerrada; pendiente cierre GitFlow y despliegue controlado).
+- ⛔ Entitlements + Dashboard del estudiante v1 en Fase 4.4 (todo cerrado salvo redeploy, bloqueado por cuota diaria de Vercel).
+- ✅ Modo entrevista tecnica v1 implementado, validado en local y listo para cierre GitFlow.
 
 ## Siguiente paso operativo
-1. Sincronizar el Hub con los runtimes actualizados de `iOS`, `Android` y `SDD`.
-2. Cerrar GitFlow del bloque `Entitlements + Dashboard`.
-3. Publicar en Vercel una vez resuelta la discrepancia de `SUPABASE_SERVICE_ROLE_KEY` del entorno.
+1. Cerrar GitFlow del bloque `Modo entrevista tecnica v1` con `push + PR + merge` repo por repo.
+2. Mantener `Entitlements + Dashboard` pendiente solo del redeploy cuando Vercel libere cuota.
+3. Reintentar publicación cuando Vercel vuelva a aceptar despliegues.

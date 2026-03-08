@@ -20,6 +20,42 @@
     }
   };
 
+  const INTERVIEW_PACKS = {
+    ios: {
+      title: 'Defensa técnica iOS',
+      summary: 'Ensaya cómo explicar arquitectura por capas, decisiones de concurrencia y cierre defendible sin caer en respuestas genéricas.',
+      eyebrow: 'Swift · SwiftUI · Clean Architecture',
+      leadQuestion: '¿Cómo justificas Feature-First + Composition Root + puertos sin convertir la app en ceremonias vacías?',
+      sourceTopicIds: [
+        '05-maestria-11-entrevista-arquitecto',
+        '05-maestria-10-rubrica-final-03-checklist-entrega-para-entrevista',
+        '06-proyecto-final-00-proyecto-final-ios'
+      ]
+    },
+    android: {
+      title: 'Defensa técnica Android',
+      summary: 'Entrena cómo defender offline-first, gobernanza de módulos y evolución multi-equipo con señales reales de producto.',
+      eyebrow: 'Kotlin · Compose · Offline-first',
+      leadQuestion: '¿Qué trade-off aceptaste en sincronización offline-first y cómo demostrarías que fue la decisión correcta?',
+      sourceTopicIds: [
+        '04-maestria-07-defensa-tecnica-del-proyecto-android',
+        '04-maestria-09-rubrica-final-y-entrevista-tecnica-android',
+        '05-proyecto-final-01-rubrica-empleabilidad'
+      ]
+    },
+    sdd: {
+      title: 'Defensa técnica IA + SDD',
+      summary: 'Practica cómo defender OpenSpec, quality gates y cierre enterprise con evidencia trazable y ejecutable.',
+      eyebrow: 'OpenSpec · Gobernanza · Release readiness',
+      leadQuestion: '¿Cómo explicarías que SDD no es “más documentación”, sino una forma de reducir riesgo y elevar calidad verificable?',
+      sourceTopicIds: [
+        '17-semana-16-00-semana-16-roadmap',
+        '18-proyecto-final-02-rubrica-y-defensa-final',
+        '00-informe-SCORECARD-EMPLEABILIDAD'
+      ]
+    }
+  };
+
   const els = {
     authBar: document.getElementById('hub-auth-bar'),
     statusBox: document.getElementById('hub-status-box'),
@@ -28,6 +64,7 @@
     dashboardKpis: document.getElementById('hub-dashboard-kpis'),
     dashboardCourses: document.getElementById('hub-dashboard-courses'),
     dashboardNext: document.getElementById('hub-dashboard-next'),
+    dashboardInterview: document.getElementById('hub-dashboard-interview'),
     dashboardNotes: document.getElementById('hub-dashboard-notes'),
     dashboardBookmarks: document.getElementById('hub-dashboard-bookmarks'),
     dashboardReview: document.getElementById('hub-dashboard-review'),
@@ -189,6 +226,7 @@
     renderDashboardKpis();
     renderDashboardNext();
     renderDashboardCourses();
+    renderDashboardInterview();
     renderDashboardAccount();
     renderDashboardList(els.dashboardNotes, state.dashboard.notes || [], 'Aún no tienes notas privadas guardadas.', function (item) {
       return {
@@ -333,6 +371,39 @@
     els.dashboardAccount.innerHTML = body.join('');
   }
 
+  function renderDashboardInterview() {
+    if (!els.dashboardInterview) return;
+    const enabledCourses = Object.keys(COURSE_META).filter(function (courseId) {
+      if (state.local) return true;
+      const access = state.access[courseId];
+      return Boolean(state.auth.loggedIn && access && access.access === 'full');
+    });
+
+    if (!enabledCourses.length) {
+      els.dashboardInterview.innerHTML = '<div class="hub-empty">El modo entrevista aparece cuando tu cuenta tiene acceso completo a algún curso. Mientras tanto, puedes revisar el catálogo o activar tu plan.</div>';
+      return;
+    }
+
+    els.dashboardInterview.innerHTML = enabledCourses.map(function (courseId) {
+      const pack = INTERVIEW_PACKS[courseId];
+      const sourceTopicId = pack && Array.isArray(pack.sourceTopicIds) ? pack.sourceTopicIds[0] : '';
+      return [
+        '<article class="hub-course-card">',
+        '<div class="hub-course-head">',
+        `<div><p class="hub-eyebrow">${escapeHtml(pack.eyebrow || courseLabel(courseId))}</p><h3 class="hub-course-title">${escapeHtml(pack.title || courseLabel(courseId))}</h3></div>`,
+        badgeHtml('Entrevista lista', 'full', 'hub-access-badge'),
+        '</div>',
+        `<p class="hub-course-copy">${escapeHtml(pack.summary || '')}</p>`,
+        `<p class="hub-course-meta"><strong>Pregunta guía:</strong> ${escapeHtml(pack.leadQuestion || '')}</p>`,
+        '<div class="hub-card-actions">',
+        `<a class="hub-btn hub-btn-primary" href="${escapeHtml(courseInterviewUrl(courseId, sourceTopicId))}">Abrir modo entrevista</a>`,
+        `<a class="hub-btn hub-btn-muted" href="${escapeHtml(courseUrl(courseId, sourceTopicId))}">Abrir lección fuente</a>`,
+        '</div>',
+        '</article>'
+      ].join('');
+    }).join('');
+  }
+
   function renderDashboardList(node, items, emptyLabel, mapItem) {
     if (!node) return;
     const body = [];
@@ -392,7 +463,7 @@
         course ? renderCourseProgress(course) : '',
         course ? `<p class="hub-course-meta">Etapa actual: <strong>${escapeHtml(course.currentStageLabel || 'Ruta principal')}</strong> · Checkpoints: <strong>${escapeHtml(String(course.completedCheckpoints || 0))}/${escapeHtml(String(course.totalCheckpoints || 0))}</strong></p>` : '',
         `<p class="hub-course-meta">${escapeHtml(resolveCourseMeta(access.access, course))}</p>`,
-        course ? renderCourseQuickLinks(course) : '',
+        renderCourseQuickLinks(course, access, courseId),
         '<div class="hub-card-actions">',
         `<a class="hub-btn hub-btn-primary" href="${escapeHtml(resolvePrimaryCourseHref(courseId, access.access, course && course.nextStep && course.nextStep.topicId))}">${escapeHtml(resolvePrimaryCourseLabel(access.access))}</a>`,
         `<a class="hub-btn hub-btn-muted" href="${escapeHtml(resolveSecondaryCourseHref(courseId, access.access))}">${escapeHtml(resolveSecondaryCourseLabel(access.access))}</a>`,
@@ -454,7 +525,8 @@
     ].join('');
   }
 
-  function renderCourseQuickLinks(course) {
+  function renderCourseQuickLinks(course, access, fallbackCourseId) {
+    const courseId = course && course.courseId ? course.courseId : fallbackCourseId;
     const actions = [];
     if (course && course.nextStep && course.nextStep.topicId) {
       actions.push({ label: 'Seguir lección actual', href: courseUrl(course.courseId, course.nextStep.topicId) });
@@ -467,6 +539,14 @@
     }
     if (course && course.noteTargetTopicId && course.noteTargetTopicId !== course.bookmarkTargetTopicId && course.noteTargetTopicId !== course.reviewTargetTopicId && (!course.nextStep || course.noteTargetTopicId !== course.nextStep.topicId)) {
       actions.push({ label: 'Retomar desde tus notas', href: courseUrl(course.courseId, course.noteTargetTopicId) });
+    }
+    const canOpenInterview = Boolean(
+      courseId &&
+      INTERVIEW_PACKS[courseId] &&
+      (state.local || (access && access.access === 'full') || (state.access[courseId] && state.access[courseId].access === 'full'))
+    );
+    if (canOpenInterview) {
+      actions.push({ label: 'Modo entrevista', href: courseInterviewUrl(courseId, INTERVIEW_PACKS[courseId].sourceTopicIds[0] || '') });
     }
     if (!actions.length) return '';
     return `<div class="hub-inline-actions hub-course-quick-actions">${actions.slice(0, 3).map(function (action) { return `<a class="hub-chip" href="${escapeHtml(action.href)}">${escapeHtml(action.label)}</a>`; }).join('')}</div>`;
@@ -508,6 +588,13 @@
     if (!meta) return './index.html';
     const hash = topicId ? `#${encodeURIComponent(topicId)}` : '';
     return `${meta.path}${hash}`;
+  }
+
+  function courseInterviewUrl(courseId, topicId) {
+    const meta = COURSE_META[courseId];
+    if (!meta) return './index.html';
+    const hash = topicId ? `#${encodeURIComponent(topicId)}` : '';
+    return `${meta.path}?mode=interview${hash}`;
   }
 
   function loginUrl(nextPath) {
