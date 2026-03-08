@@ -44,9 +44,9 @@ Mantener una única fuente de verdad operativa para el ecosistema `Hub + iOS + A
 5. Cada bloque nuevo se abre con GitFlow real y una sola tarea `🚧`.
 
 ## Bloque actual
-- 🚧 Entitlements + Dashboard del estudiante v1 en Fase 2 (dashboard operativo con etapa, checkpoints y continuidad).
+- 🚧 Entitlements + Dashboard del estudiante v1 en Fase 4.1 (dashboard operativo con progreso de ruta, quick actions y compatibilidad real con `course-id` publicados).
 
 ## Siguiente paso operativo
-1. Terminar el dashboard operativo real con continuidad por curso y CTA más finos.
-2. Validar con cuenta real los flujos `anonymous`, `student`, `trial` y `admin`.
-3. Cerrar CTA de continuidad y accesos rápidos antes del primer ciclo GitFlow de este bloque.
+1. Cerrar la validación operativa de flujos `anonymous`, `student`, `trial` y `admin`.
+2. Validar sync cross-device de progreso, notas y bookmarks con una estrategia de usuario temporal que no dependa de privilegios extra del proveedor Auth.
+3. Validar mobile-first y responsive del dashboard y del panel admin antes del primer ciclo GitFlow de este bloque.

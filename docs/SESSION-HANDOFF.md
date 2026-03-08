@@ -43,9 +43,11 @@ Repos incluidos:
 ## Progreso real del bloque en curso
 1. Fase 0 cerrada: esquema Supabase, contratos API y seeds teaser iniciales.
 2. Fase 1 cerrada: Hub y cursos resuelven acceso `full / teaser / blocked` con bypass local acotado.
-3. Fase 2 abierta: el Hub ya tiene home autenticada base, KPIs, continuidad, etapa actual, checkpoints y notas/bookmarks por curso, pero falta validacion end-to-end autenticada del dashboard completo.
-4. La semántica de `trial` ya está corregida a `teaser-only`, sin acceso completo implícito.
-5. Panel admin ya cubre usuarios, roles, entitlements, teasers y auditoría mínima; sigue protegido por login admin.
+3. Fase 2 cerrada: el Hub ya muestra progreso por curso, etapa, checkpoints, progreso de ruta y siguiente paso con quick actions operativas.
+4. Se corrigió la compatibilidad entre los `course-id` publicados (`stack-my-architecture-ios/android/sdd`) y la normalización backend del Hub, de modo que dashboard, progreso, notas, bookmarks y access gate hablen el mismo idioma.
+5. La semántica de `trial` ya está corregida a `teaser-only`, sin acceso completo implícito.
+6. Panel admin ya cubre usuarios, roles, entitlements, teasers y auditoría mínima; sigue protegido por login admin.
+7. La validación local role-based con usuarios temporales sigue abierta: el proveedor Auth bloquea el provisioning limpio en local (`not_admin` para admin users y rate limit en signup), así que ese tramo debe retomarse con una estrategia de cuenta seed o credenciales de prueba estables.
 
 ## Resultado del bloque anterior
 1. Builders y validadores dejan de depender de `TODO`, `DECISIONES-TOMADAS` o auditorías cerradas.

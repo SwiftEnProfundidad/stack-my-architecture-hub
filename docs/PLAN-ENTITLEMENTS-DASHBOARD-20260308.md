@@ -33,9 +33,9 @@ Convertir el Hub en una plataforma operable y monetizable con:
 | ID | Estado | Task |
 | --- | --- | --- |
 | 2.1 | ✅ | Crear home autenticada del estudiante |
-| 2.2 | 🚧 | Mostrar progreso por curso, etapa, checkpoints y siguiente paso |
+| 2.2 | ✅ | Mostrar progreso por curso, etapa, checkpoints y siguiente paso |
 | 2.3 | ✅ | Añadir notas privadas y bookmarks por leccion |
-| 2.4 | ⏳ | Integrar CTA de continuidad y acceso rapido a lecciones |
+| 2.4 | ✅ | Integrar CTA de continuidad y acceso rapido a lecciones |
 
 ## Fase 3 - Panel admin
 | ID | Estado | Task |
@@ -48,7 +48,7 @@ Convertir el Hub en una plataforma operable y monetizable con:
 ## Fase 4 - QA y despliegue
 | ID | Estado | Task |
 | --- | --- | --- |
-| 4.1 | ⏳ | Validar flujos anonimo, student, trial y admin |
+| 4.1 | 🚧 | Validar flujos anonimo, student, trial y admin |
 | 4.2 | ⏳ | Validar sync cross-device de progreso, notas y bookmarks |
 | 4.3 | ⏳ | Validar mobile-first y responsive del dashboard y panel admin |
 | 4.4 | ⏳ | Sync Hub, GitFlow completo y despliegue Vercel |
@@ -62,3 +62,6 @@ Convertir el Hub en una plataforma operable y monetizable con:
 - ✅ `trial` queda acotado a teaser: no concede acceso completo aunque exista entitlement con estado `trial`.
 - ✅ Panel admin ya opera usuarios, roles, entitlements, teasers y auditoria reciente.
 - ✅ `./scripts/build-hub.sh --mode strict` en verde tras integrar el bloque.
+- ✅ Dashboard del estudiante ahora renderiza progreso de ruta por curso, porcentaje/ordinal de etapa y quick actions de continuidad, repaso, bookmark y notas.
+- ✅ Compatibilidad corregida entre `course-id` publicados (`stack-my-architecture-*`) y normalizacion backend del Hub para progreso, notas, bookmarks y acceso.
+- 🚧 Intento de E2E local role-based con usuarios temporales contra `vercel dev` bloqueado por limitaciones del proveedor Auth para provisioning limpio (`not_admin` en admin users y rate limit en signup).
