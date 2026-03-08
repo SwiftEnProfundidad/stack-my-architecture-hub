@@ -1318,3 +1318,29 @@ Se elimina un falso negativo en post-deploy checks sin relajar cobertura real de
 1. `bash -n scripts/tests/test-authenticated-progress-cross-device.sh` -> PASS.
 2. `./scripts/tests/test-authenticated-progress-cross-device.sh` -> SKIP controlado sin credenciales.
 3. `./scripts/run-closeout-qa-suite.sh tests` -> PASS con la nueva regresión integrada.
+
+## E2E autenticada ejecutada en producción 2026-03-08
+
+### Cambios aplicados
+1. Se corrigió una regresión de runtime en `study-ux.js` de iOS y Android: un bloque duplicado dentro de `hydrateTopicLessonLabels` lanzaba `ReferenceError: topic is not defined` y abortaba parte de la hidratación de la UI de estudio.
+2. Se endureció `scripts/tests/test-authenticated-progress-cross-device.sh` para el wrapper Playwright real:
+   - bootstrap fiable tras `delete-data`,
+   - renderizado seguro de snippets JS,
+   - parser robusto de `### Result`,
+   - lectura de auth desde `localStorage`,
+   - capturas sin `require("path")`.
+3. Se redeployó el Hub en Vercel con los assets corregidos.
+
+### Evidencia técnica
+1. `./scripts/publish-architecture-stack.sh fast` -> deploy OK.
+2. Alias activo verificado:
+   - `https://architecture-stack.vercel.app/`
+   - `https://architecture-stack.vercel.app/ios/`
+   - `https://architecture-stack.vercel.app/android/`
+   - `https://architecture-stack.vercel.app/sdd/`
+3. `./scripts/tests/test-authenticated-progress-cross-device.sh` con credenciales reales -> PASS.
+4. Flujo validado en producción:
+   - login real,
+   - marcado `completado + repaso` en `device-a`,
+   - lectura sincronizada en `device-b`,
+   - restauración final del estado original.
