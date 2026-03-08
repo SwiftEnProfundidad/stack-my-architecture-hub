@@ -12,6 +12,14 @@ const DEFAULT_BOOKMARKS_TABLE = 'hub_student_bookmarks';
 const DEFAULT_AUDIT_TABLE = 'hub_admin_audit_log';
 
 const COURSE_IDS = ['ios', 'android', 'sdd'];
+const COURSE_ID_ALIASES = {
+  ios: 'ios',
+  'stack-my-architecture-ios': 'ios',
+  android: 'android',
+  'stack-my-architecture-android': 'android',
+  sdd: 'sdd',
+  'stack-my-architecture-sdd': 'sdd'
+};
 const COURSE_STAGE_DEFINITIONS = {
   ios: [
     { id: 'core-mobile', label: 'Etapa 0 · Core Mobile', prefixes: ['00-core-mobile'] },
@@ -170,14 +178,14 @@ function normalizeTableName(value, fallback) {
 function normalizeCourseId(value) {
   const raw = String(value || '').trim().toLowerCase();
   if (!raw || raw.length > MAX_COURSE_ID_LEN) return '';
-  return COURSE_IDS.includes(raw) ? raw : '';
+  return COURSE_ID_ALIASES[raw] || '';
 }
 
 function normalizeCourseScope(value) {
   const raw = String(value || '').trim().toLowerCase();
   if (!raw || raw.length > MAX_COURSE_ID_LEN) return '';
   if (raw === 'all') return raw;
-  return COURSE_IDS.includes(raw) ? raw : '';
+  return COURSE_ID_ALIASES[raw] || '';
 }
 
 function normalizeTopicId(value) {
@@ -486,9 +494,11 @@ function inferCourseStageSummary(courseId, data) {
     return {
       currentStageId: '',
       currentStageLabel: 'Ruta principal',
+      currentStageOrdinal: 0,
       completedCheckpoints: 0,
       totalCheckpoints: 0,
-      nextStageLabel: null
+      nextStageLabel: null,
+      stageProgressPercent: 0
     };
   }
 
@@ -498,6 +508,7 @@ function inferCourseStageSummary(courseId, data) {
   const lastTopic = normalizeTopicId(safeData.lastTopic);
   const activityTopics = new Set([...completed, ...review]);
   if (lastTopic) activityTopics.add(lastTopic);
+  const hasActivity = activityTopics.size > 0;
 
   let highestStageIndex = -1;
   Array.from(activityTopics).forEach((topicId) => {
@@ -512,9 +523,11 @@ function inferCourseStageSummary(courseId, data) {
   return {
     currentStageId: currentStage.id,
     currentStageLabel: currentStage.label,
+    currentStageOrdinal: hasActivity ? currentStageIndex + 1 : 0,
     completedCheckpoints: Math.max(0, currentStageIndex),
     totalCheckpoints: stages.length,
-    nextStageLabel: nextStage ? nextStage.label : null
+    nextStageLabel: nextStage ? nextStage.label : null,
+    stageProgressPercent: hasActivity ? Math.max(0, Math.min(100, Math.round(((currentStageIndex + 1) / stages.length) * 100))) : 0
   };
 }
 

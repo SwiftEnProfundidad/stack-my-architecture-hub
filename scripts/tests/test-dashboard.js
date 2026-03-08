@@ -69,7 +69,7 @@ test('GET /api/dashboard agrega progreso, notas, bookmarks y siguiente paso', as
         status: 200,
         text: async () => JSON.stringify([
           {
-            course_id: 'ios',
+            course_id: 'stack-my-architecture-ios',
             updated_at: '2026-03-08T10:05:00.000Z',
             data: {
               completed: {
@@ -91,7 +91,7 @@ test('GET /api/dashboard agrega progreso, notas, bookmarks y siguiente paso', as
         status: 200,
         text: async () => JSON.stringify([
           {
-            course_id: 'ios',
+            course_id: 'stack-my-architecture-ios',
             topic_id: '00-core-mobile-04-quality-pr-ready',
             content: 'Recordar los quality gates y el criterio de PR-ready.',
             updated_at: '2026-03-08T10:04:00.000Z'
@@ -104,7 +104,7 @@ test('GET /api/dashboard agrega progreso, notas, bookmarks y siguiente paso', as
         ok: true,
         status: 200,
         text: async () => JSON.stringify([
-          { course_id: 'ios', topic_id: '00-core-mobile-04-quality-pr-ready', updated_at: '2026-03-08T10:04:30.000Z' }
+          { course_id: 'stack-my-architecture-ios', topic_id: '00-core-mobile-04-quality-pr-ready', updated_at: '2026-03-08T10:04:30.000Z' }
         ])
       };
     }
@@ -143,10 +143,15 @@ test('GET /api/dashboard agrega progreso, notas, bookmarks y siguiente paso', as
     assert.equal(ios.noteCount, 1);
     assert.equal(ios.bookmarkCount, 1);
     assert.equal(ios.currentStageLabel, 'Etapa 0 · Core Mobile');
+    assert.equal(ios.currentStageOrdinal, 1);
     assert.equal(ios.completedCheckpoints, 0);
     assert.equal(ios.totalCheckpoints, 7);
+    assert.equal(ios.stageProgressPercent, 14);
     assert.equal(ios.nextStageLabel, 'Etapa 1 · Junior');
     assert.equal(ios.nextStep.topicId, '00-core-mobile-04-quality-pr-ready');
+    assert.equal(ios.reviewTargetTopicId, '00-core-mobile-04-quality-pr-ready');
+    assert.equal(ios.bookmarkTargetTopicId, '00-core-mobile-04-quality-pr-ready');
+    assert.equal(ios.noteTargetTopicId, '00-core-mobile-04-quality-pr-ready');
     assert.equal(android.access, 'teaser');
     assert.equal(result.json.notes.length, 1);
     assert.equal(result.json.notes[0].preview.includes('quality gates'), true);

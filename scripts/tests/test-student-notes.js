@@ -50,7 +50,7 @@ test('POST /api/student-notes upsert persiste nota por usuario y lección', asyn
       status: 200,
       text: async () => JSON.stringify([
         {
-          course_id: 'ios',
+          course_id: 'stack-my-architecture-ios',
           topic_id: '00-core-mobile-04-quality-pr-ready',
           content: 'Resumen clave',
           updated_at: '2026-03-08T10:10:00.000Z'
@@ -63,7 +63,7 @@ test('POST /api/student-notes upsert persiste nota por usuario y lección', asyn
       url: '/api/student-notes?route=upsert',
       headers: { authorization: 'Bearer access-1' },
       body: {
-        courseId: 'ios',
+        courseId: 'stack-my-architecture-ios',
         topicId: '00-core-mobile-04-quality-pr-ready',
         content: 'Resumen clave'
       }

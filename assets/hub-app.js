@@ -263,6 +263,9 @@
     body.push('<div class="hub-list-actions">');
     body.push(`<a class="hub-btn hub-btn-primary" href="${escapeHtml(courseUrl(next.courseId, next.topicId))}">Continuar ahora</a>`);
     body.push(`<a class="hub-btn hub-btn-muted" href="${escapeHtml(COURSE_META[next.courseId].path)}">Abrir índice del curso</a>`);
+    if (nextCourse && nextCourse.reviewTargetTopicId && nextCourse.reviewTargetTopicId !== next.topicId) {
+      body.push(`<a class="hub-btn hub-btn-muted" href="${escapeHtml(courseUrl(next.courseId, nextCourse.reviewTargetTopicId))}">Ir al repaso prioritario</a>`);
+    }
     body.push('</div></div>');
     els.dashboardNext.innerHTML = body.join('');
   }
@@ -284,8 +287,10 @@
         miniStat('Notas', String(course.noteCount || 0)),
         miniStat('Bookmarks', String(course.bookmarkCount || 0)),
         '</div>',
+        renderCourseProgress(course),
         `<p class="hub-course-meta">Etapa actual: <strong>${escapeHtml(course.currentStageLabel || 'Ruta principal')}</strong> · Checkpoints: <strong>${escapeHtml(String(course.completedCheckpoints || 0))}/${escapeHtml(String(course.totalCheckpoints || 0))}</strong></p>`,
         `<p class="hub-course-meta">Último tema: <strong>${escapeHtml(course.lastTopic || 'Aún sin abrir')}</strong></p>`,
+        renderCourseQuickLinks(course),
         '<div class="hub-card-actions">',
         `<a class="hub-btn hub-btn-primary" href="${escapeHtml(resolvePrimaryCourseHref(course.courseId, course.access, course.nextStep && course.nextStep.topicId))}">${escapeHtml(resolvePrimaryCourseLabel(course.access))}</a>`,
         `<a class="hub-btn hub-btn-muted" href="${escapeHtml(resolveSecondaryCourseHref(course.courseId, course.access))}">${escapeHtml(resolveSecondaryCourseLabel(course.access))}</a>`,
@@ -384,8 +389,10 @@
         miniStat('Completadas', String(course ? course.completedCount || 0 : 0)),
         miniStat('Repaso', String(course ? course.reviewCount || 0 : 0)),
         '</div>',
+        course ? renderCourseProgress(course) : '',
         course ? `<p class="hub-course-meta">Etapa actual: <strong>${escapeHtml(course.currentStageLabel || 'Ruta principal')}</strong> · Checkpoints: <strong>${escapeHtml(String(course.completedCheckpoints || 0))}/${escapeHtml(String(course.totalCheckpoints || 0))}</strong></p>` : '',
         `<p class="hub-course-meta">${escapeHtml(resolveCourseMeta(access.access, course))}</p>`,
+        course ? renderCourseQuickLinks(course) : '',
         '<div class="hub-card-actions">',
         `<a class="hub-btn hub-btn-primary" href="${escapeHtml(resolvePrimaryCourseHref(courseId, access.access, course && course.nextStep && course.nextStep.topicId))}">${escapeHtml(resolvePrimaryCourseLabel(access.access))}</a>`,
         `<a class="hub-btn hub-btn-muted" href="${escapeHtml(resolveSecondaryCourseHref(courseId, access.access))}">${escapeHtml(resolveSecondaryCourseLabel(access.access))}</a>`,
@@ -428,6 +435,41 @@
     }
     if (access === 'teaser') return 'Acceso limitado a lecciones teaser públicas.';
     return 'Contenido premium bloqueado hasta disponer de entitlement activo.';
+  }
+
+  function renderCourseProgress(course) {
+    const percent = Math.max(0, Math.min(100, Number(course.stageProgressPercent || 0)));
+    const ordinal = Number(course.currentStageOrdinal || 0);
+    const total = Number(course.totalCheckpoints || 0);
+    const summary = ordinal && total
+      ? `Ruta actual: ${ordinal}/${total}`
+      : 'Ruta actual: pendiente de inicio';
+    return [
+      '<div class="hub-progress">',
+      `<div class="hub-progress-head"><p class="hub-mini-label">Progreso de ruta</p><p class="hub-progress-copy">${escapeHtml(summary)}</p></div>`,
+      '<div class="hub-progress-track" aria-hidden="true">',
+      `<span class="hub-progress-fill" style="width:${escapeHtml(String(percent))}%"></span>`,
+      '</div>',
+      '</div>'
+    ].join('');
+  }
+
+  function renderCourseQuickLinks(course) {
+    const actions = [];
+    if (course && course.nextStep && course.nextStep.topicId) {
+      actions.push({ label: 'Seguir lección actual', href: courseUrl(course.courseId, course.nextStep.topicId) });
+    }
+    if (course && course.reviewTargetTopicId && (!course.nextStep || course.reviewTargetTopicId !== course.nextStep.topicId)) {
+      actions.push({ label: 'Abrir repaso prioritario', href: courseUrl(course.courseId, course.reviewTargetTopicId) });
+    }
+    if (course && course.bookmarkTargetTopicId && course.bookmarkTargetTopicId !== course.reviewTargetTopicId && (!course.nextStep || course.bookmarkTargetTopicId !== course.nextStep.topicId)) {
+      actions.push({ label: 'Ir al último bookmark', href: courseUrl(course.courseId, course.bookmarkTargetTopicId) });
+    }
+    if (course && course.noteTargetTopicId && course.noteTargetTopicId !== course.bookmarkTargetTopicId && course.noteTargetTopicId !== course.reviewTargetTopicId && (!course.nextStep || course.noteTargetTopicId !== course.nextStep.topicId)) {
+      actions.push({ label: 'Retomar desde tus notas', href: courseUrl(course.courseId, course.noteTargetTopicId) });
+    }
+    if (!actions.length) return '';
+    return `<div class="hub-inline-actions hub-course-quick-actions">${actions.slice(0, 3).map(function (action) { return `<a class="hub-chip" href="${escapeHtml(action.href)}">${escapeHtml(action.label)}</a>`; }).join('')}</div>`;
   }
 
   function readAuthState() {

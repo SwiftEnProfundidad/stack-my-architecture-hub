@@ -171,7 +171,7 @@ test('GET /api/entitlements access concede acceso completo con entitlement activ
   }, async () => {
     const result = await invoke(handler, {
       method: 'GET',
-      url: '/api/entitlements?route=access&courseId=ios&topicId=01-fundamentos-00-introduccion-curso',
+      url: '/api/entitlements?route=access&courseId=stack-my-architecture-ios&topicId=01-fundamentos-00-introduccion-curso',
       headers: { authorization: 'Bearer access-1' }
     });
 

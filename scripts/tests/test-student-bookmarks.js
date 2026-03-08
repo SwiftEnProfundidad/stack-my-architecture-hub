@@ -57,7 +57,7 @@ test('POST /api/student-bookmarks toggle crea bookmark si no existe', async () =
       status: 200,
       text: async () => JSON.stringify([
         {
-          course_id: 'ios',
+          course_id: 'stack-my-architecture-ios',
           topic_id: '00-core-mobile-04-quality-pr-ready',
           updated_at: '2026-03-08T10:11:00.000Z'
         }
@@ -69,7 +69,7 @@ test('POST /api/student-bookmarks toggle crea bookmark si no existe', async () =
       url: '/api/student-bookmarks?route=toggle',
       headers: { authorization: 'Bearer access-1' },
       body: {
-        courseId: 'ios',
+        courseId: 'stack-my-architecture-ios',
         topicId: '00-core-mobile-04-quality-pr-ready'
       }
     });
@@ -83,4 +83,5 @@ test('POST /api/student-bookmarks toggle crea bookmark si no existe', async () =
   const upsertCall = fetchCalls.find((item) => item.url.includes('/hub_student_bookmarks?on_conflict='));
   const sent = JSON.parse(upsertCall.options.body);
   assert.equal(sent[0].user_id, '11111111-1111-4111-8111-111111111111');
+  assert.equal(sent[0].course_id, 'ios');
 });

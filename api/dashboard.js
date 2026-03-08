@@ -97,6 +97,8 @@ async function handleMe(req, res) {
     const noteCounts = countByCourse(notesRows);
     const bookmarkCounts = countByCourse(bookmarkRows);
     const teaserCounts = countByCourse(teaserRows);
+    const latestNoteByCourse = latestTopicByCourse(notesRows, 'content');
+    const latestBookmarkByCourse = latestTopicByCourse(bookmarkRows);
     const recentNotes = notesRows
       .map((row) => ({
         courseId: normalizeCourseId(row.course_id),
@@ -127,6 +129,8 @@ async function handleMe(req, res) {
       const reviewCount = Object.keys(review).length;
       const access = allowedCourses.includes(courseId) ? 'full' : (teaserCounts.get(courseId) ? 'teaser' : 'blocked');
       const stageSummary = inferCourseStageSummary(courseId, data);
+      const reviewQueue = buildReviewQueue(courseId, row);
+      const firstReview = reviewQueue[0] || null;
       return {
         courseId,
         access,
@@ -140,9 +144,14 @@ async function handleMe(req, res) {
         teaserCount: teaserCounts.get(courseId) || 0,
         currentStageId: stageSummary.currentStageId,
         currentStageLabel: stageSummary.currentStageLabel,
+        currentStageOrdinal: stageSummary.currentStageOrdinal,
         completedCheckpoints: stageSummary.completedCheckpoints,
         totalCheckpoints: stageSummary.totalCheckpoints,
         nextStageLabel: stageSummary.nextStageLabel,
+        stageProgressPercent: stageSummary.stageProgressPercent,
+        reviewTargetTopicId: firstReview ? firstReview.topicId : null,
+        bookmarkTargetTopicId: latestBookmarkByCourse.get(courseId) || null,
+        noteTargetTopicId: latestNoteByCourse.get(courseId) || null,
         nextStep: buildNextStep(courseId, data, access)
       };
     });
@@ -184,6 +193,26 @@ function countByCourse(rows) {
     const courseId = normalizeCourseId(row.course_id);
     if (!courseId) return;
     output.set(courseId, (output.get(courseId) || 0) + 1);
+  });
+  return output;
+}
+
+function latestTopicByCourse(rows, contentKey) {
+  const sorted = rows
+    .map((row) => ({
+      courseId: normalizeCourseId(row.course_id),
+      topicId: String(row.topic_id || '').trim(),
+      updatedAt: String(row.updated_at || ''),
+      content: contentKey ? String(row[contentKey] || '').trim() : ''
+    }))
+    .filter((row) => row.courseId && row.topicId)
+    .sort(sortByUpdatedAtDesc);
+
+  const output = new Map();
+  sorted.forEach((row) => {
+    if (output.has(row.courseId)) return;
+    if (contentKey && !row.content) return;
+    output.set(row.courseId, row.topicId);
   });
   return output;
 }
