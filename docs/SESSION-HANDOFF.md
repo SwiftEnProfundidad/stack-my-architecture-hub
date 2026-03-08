@@ -326,3 +326,17 @@ La validación automática de login end-to-end queda parcialmente bloqueada si n
    - `./scripts/build-hub.sh --fast`
    - `./scripts/validate-course-content-and-mermaid.sh`
    - `./scripts/tests/test-course-content-mermaid-suite.sh`
+
+## Sincronización incremental 2026-03-08 — Android reconciliado
+1. ✅ El curso Android queda reconciliado con la evidencia ejecutable actual del proyecto real.
+2. ✅ La lección `01-junior/00-introduccion.md` ya publica el estado correcto de FieldOps:
+   - Retrofit/OkHttp presentes.
+   - WorkManager presente.
+   - pruebas unitarias/sync presentes.
+   - `4` tests UI Compose presentes.
+3. ✅ Regeneración del hub cerrada sin ruido colateral:
+   - `android/index.html`
+   - `android/curso-stack-my-architecture-android.html`
+4. ✅ Evidencia:
+   - `python3 scripts/build-html.py` en Android -> PASS.
+   - `./scripts/build-hub.sh --fast` -> PASS.

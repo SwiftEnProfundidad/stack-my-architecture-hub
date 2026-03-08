@@ -1262,3 +1262,17 @@ Se elimina un falso negativo en post-deploy checks sin relajar cobertura real de
 1. `./scripts/build-hub.sh --fast` -> SDD `Perfil de build: public`.
 2. `sdd/index.html` y `sdd/curso-stack-my-architecture-sdd.html` sin `data-lesson-path="00-informe/|docs/|openspec/`.
 3. `./scripts/validate-course-content-and-mermaid.sh` -> PASS.
+
+
+## Sincronización incremental Android 2026-03-08
+
+### Cambios aplicados
+1. Se resincroniza el HTML publicado de Android tras reconciliar el estado real del curso con el proyecto ejecutable.
+2. La lección `01-junior/00-introduccion.md` deja de declarar un estado obsoleto (`9 unit tests + 3 integration tests`) y pasa a reflejar evidencia real actual: pruebas unitarias/sync y `4` tests UI Compose.
+
+### Evidencia técnica
+1. `python3 scripts/build-html.py` en `stack-my-architecture-android` -> PASS (`80 archivos`, `1350 KB`).
+2. `./scripts/build-hub.sh --fast` -> PASS.
+3. Diff del hub acotado a:
+   - `android/index.html`
+   - `android/curso-stack-my-architecture-android.html`
