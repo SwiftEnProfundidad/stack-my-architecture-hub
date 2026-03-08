@@ -386,3 +386,16 @@ La validación automática de login end-to-end queda parcialmente bloqueada si n
    - `output/playwright/`
 5. Siguiente mejora natural si se retoma este bloque:
    - ejecutar esta E2E desde CI con una cuenta de prueba estable y secretos dedicados.
+
+## Cierre incremental 2026-03-08 — CI para E2E auth production
+1. ✅ Workflow nuevo:
+   - `.github/workflows/hub-production-auth-e2e.yml`
+2. ✅ Script runner nuevo para GitHub Actions:
+   - `scripts/tests/run-authenticated-progress-cross-device-ci.cjs`
+3. ✅ El workflow queda listo para:
+   - `workflow_dispatch`
+   - `schedule`
+4. ✅ Secretos requeridos en GitHub repo:
+   - `SMA_E2E_AUTH_EMAIL`
+   - `SMA_E2E_AUTH_PASSWORD`
+5. ✅ Validación local equivalente a CI ya ejecutada en verde con la cuenta dedicada.

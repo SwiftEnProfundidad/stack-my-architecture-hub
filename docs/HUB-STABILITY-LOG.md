@@ -1344,3 +1344,24 @@ Se elimina un falso negativo en post-deploy checks sin relajar cobertura real de
    - marcado `completado + repaso` en `device-a`,
    - lectura sincronizada en `device-b`,
    - restauración final del estado original.
+
+## CI GitHub Actions — E2E auth production 2026-03-08
+
+### Cambios aplicados
+1. Nuevo workflow versionado:
+   - `.github/workflows/hub-production-auth-e2e.yml`
+2. Nueva implementación CI-friendly sin dependencia del wrapper local de Codex:
+   - `scripts/tests/run-authenticated-progress-cross-device-ci.cjs`
+3. El workflow:
+   - instala `playwright@1.52.0` en `.runtime/playwright-runner`,
+   - descarga `chromium`,
+   - ejecuta la E2E real contra producción,
+   - sube artefactos en `output/playwright-ci-auth-e2e`.
+4. Secretos dedicados previstos para el repo:
+   - `SMA_E2E_AUTH_EMAIL`
+   - `SMA_E2E_AUTH_PASSWORD`
+
+### Evidencia técnica
+1. `node --check scripts/tests/run-authenticated-progress-cross-device-ci.cjs` -> PASS.
+2. Validación YAML del workflow -> PASS.
+3. Ejecución local del runner CI con `NODE_PATH=.runtime/playwright-runner/node_modules` -> PASS.
