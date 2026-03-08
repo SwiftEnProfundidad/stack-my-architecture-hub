@@ -1150,3 +1150,18 @@ Sin regresión de arranque ni de rutas de cursos. Queda habilitada persistencia 
    - `/ios/`
    - `/android/`
    - `/sdd/`
+
+## Ajuste de smoke público 2026-03-08
+
+### Contexto
+El smoke público funcional seguía esperando una CTA legacy de Hub (`cuenta y sincronización`) como enlace HTML directo, pero el Hub actual ya no publica esa acción de esa forma.
+
+### Cambios aplicados
+1. `scripts/smoke-public-functional.sh` deja de exigir `href="./auth/index.html"` en la landing.
+2. La validación se alinea con el comportamiento real:
+   - enlaces visibles a cursos,
+   - soporte de ruta `auth/login`,
+   - páginas `auth/*` públicas verificables por separado.
+
+### Resultado
+Se elimina un falso negativo en post-deploy checks sin relajar cobertura real del flujo público.

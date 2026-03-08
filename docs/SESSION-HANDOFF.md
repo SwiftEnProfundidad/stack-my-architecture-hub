@@ -260,3 +260,11 @@ La validación automática de login end-to-end queda parcialmente bloqueada si n
    - PR `#71`.
    - `https://architecture-stack.vercel.app`
    - `https://architecture-stack-4zketscuo-merlosalbarracins-projects.vercel.app`
+
+## Ajuste incremental 2026-03-08 — smoke público Hub
+1. ✅ `scripts/smoke-public-functional.sh` alineado con la landing real del Hub.
+2. ✅ Se elimina la expectativa obsoleta de CTA HTML `cuenta y sincronización`.
+3. ✅ El smoke sigue validando:
+   - enlaces de cursos,
+   - soporte de ruta auth/login,
+   - páginas públicas `auth/index.html` y `auth/login.html`.
