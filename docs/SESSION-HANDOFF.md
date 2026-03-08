@@ -39,7 +39,7 @@ Repos incluidos:
 ## Bloque en curso
 - ⛔ Entitlements + Dashboard del estudiante v1.
 - Fuente activa de ese bloque: `docs/PLAN-ENTITLEMENTS-DASHBOARD-20260308.md`.
-- ✅ Modo entrevista tecnica v1.
+- ⛔ Modo entrevista tecnica v1.
 - Fuente activa del bloque nuevo: `docs/PLAN-MODO-ENTREVISTA-TECNICA-20260309.md`.
 
 ## Progreso real del bloque en curso
@@ -70,11 +70,13 @@ Repos incluidos:
    - `Android` validado en escritorio; se observan errores Mermaid legacy ya existentes fuera del alcance de este bloque
    - `SDD` validado en escritorio con panel y enlaces fuente operativos
 5. Build Hub `strict` en verde tras sincronizar los runtimes modificados.
+6. GitFlow del bloque de modo entrevista ya está cerrado: PRs mergeadas en Hub/iOS/Android/SDD y `develop` limpio en los cuatro repos.
+7. El redeploy final no pudo ejecutarse por cuota diaria de Vercel (`api-deployments-free-per-day`).
 
 ## Siguiente paso operativo
-1. Cerrar GitFlow del bloque `Modo entrevista tecnica v1` en `feature/interview-mode-v1`.
-2. Reintentar despliegue de `Entitlements + Dashboard` cuando Vercel libere cuota.
-3. Abrir el siguiente bloque de producto solo después del cierre de este frente.
+1. Reintentar despliegue del Hub cuando Vercel libere cuota diaria.
+2. Ejecutar `post-deploy-checks` para cerrar publicación pendiente de `Entitlements + Dashboard` y `Modo entrevista tecnica v1`.
+3. Abrir el siguiente bloque de producto solo después de ese redeploy.
 
 ## Resultado del bloque anterior
 1. Builders y validadores dejan de depender de `TODO`, `DECISIONES-TOMADAS` o auditorías cerradas.

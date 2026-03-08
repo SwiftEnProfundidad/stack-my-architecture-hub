@@ -45,10 +45,10 @@ Mantener una única fuente de verdad operativa para el ecosistema `Hub + iOS + A
 5. Cada bloque nuevo se abre con GitFlow real y una sola tarea `🚧`.
 
 ## Bloque actual
-- ⛔ Entitlements + Dashboard del estudiante v1 en Fase 4.4 (todo cerrado salvo redeploy, bloqueado por cuota diaria de Vercel).
-- ✅ Modo entrevista tecnica v1 implementado, validado en local y listo para cierre GitFlow.
+- ⛔ Entitlements + Dashboard del estudiante v1: implementado, mergeado y pendiente solo de redeploy por cuota diaria de Vercel.
+- ⛔ Modo entrevista tecnica v1: implementado, mergeado y pendiente de publicacion por la misma cuota diaria de Vercel.
 
 ## Siguiente paso operativo
-1. Cerrar GitFlow del bloque `Modo entrevista tecnica v1` con `push + PR + merge` repo por repo.
-2. Mantener `Entitlements + Dashboard` pendiente solo del redeploy cuando Vercel libere cuota.
-3. Reintentar publicación cuando Vercel vuelva a aceptar despliegues.
+1. Reintentar publicación de Hub en cuanto Vercel vuelva a aceptar despliegues.
+2. Ejecutar `post-deploy-checks` para cerrar a la vez `Entitlements + Dashboard` y `Modo entrevista tecnica v1`.
+3. Abrir el siguiente bloque de producto solo después de ese redeploy.
