@@ -36,7 +36,17 @@ Repos incluidos:
 ## Último bloque cerrado
 - ✅ Limpieza enterprise de artefactos de seguimiento cerrados en Hub, iOS, Android y SDD.
 
-## Resultado del bloque
+## Bloque en curso
+- 🚧 Entitlements + Dashboard del estudiante v1.
+- Fuente activa: `docs/PLAN-ENTITLEMENTS-DASHBOARD-20260308.md`.
+
+## Progreso real del bloque en curso
+1. Fase 0 cerrada: esquema Supabase, contratos API y seeds teaser iniciales.
+2. Fase 1 cerrada: Hub y cursos resuelven acceso `full / teaser / blocked` con bypass local acotado.
+3. Fase 2 abierta: el Hub ya tiene home autenticada base, KPIs, continuidad, etapa actual y checkpoints por curso, pero falta validacion end-to-end autenticada del dashboard completo.
+4. Panel admin base ya existe y redirige correctamente a login cuando no hay sesion.
+
+## Resultado del bloque anterior
 1. Builders y validadores dejan de depender de `TODO`, `DECISIONES-TOMADAS` o auditorías cerradas.
 2. Los cursos solo publican documentación estable del alumno.
 3. Los repos quedan sin residuos de seguimiento ya amortizados.

@@ -25,6 +25,7 @@ Mantener una única fuente de verdad operativa para el ecosistema `Hub + iOS + A
 5. `docs/GUIA-DIAGRAMAS-ARQUITECTURA-CAPAS-Y-FLECHAS.md`
 6. `docs/TEMPLATE-DIAGRAMA-ARQUITECTURA-MERMAID.md`
 7. `docs/PROGRESS-SYNC-SUPABASE.sql`
+8. `docs/PLAN-ENTITLEMENTS-DASHBOARD-20260308.md`
 
 ## Estado consolidado
 - ✅ Hub estable y publicado en `https://architecture-stack.vercel.app`.
@@ -43,8 +44,9 @@ Mantener una única fuente de verdad operativa para el ecosistema `Hub + iOS + A
 5. Cada bloque nuevo se abre con GitFlow real y una sola tarea `🚧`.
 
 ## Bloque actual
-- ✅ Limpieza enterprise de artefactos de seguimiento cerrados y consolidación de fuentes de verdad.
+- 🚧 Entitlements + Dashboard del estudiante v1 en Fase 2 (dashboard operativo con etapa, checkpoints y continuidad).
 
 ## Siguiente paso operativo
-1. Versionar el bloque con commits atómicos por repo.
-2. Esperar instrucción explícita antes de mergear.
+1. Terminar el dashboard operativo real con continuidad por curso y CTA más finos.
+2. Validar con cuenta real los flujos `anonymous`, `student`, `trial` y `admin`.
+3. Cerrar notas/bookmarks + continuidad recomendada antes del primer ciclo GitFlow de este bloque.
