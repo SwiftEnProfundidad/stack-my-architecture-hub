@@ -1394,3 +1394,24 @@ Se elimina un falso negativo en post-deploy checks sin relajar cobertura real de
 - Se consolida la política de documentación estable del ecosistema.
 - El Hub deja como fuente de verdad solo `MASTER TRACKER`, `SESSION HANDOFF`, `HUB STABILITY LOG` y `ADR-LITE`.
 - Los cursos pasan a publicar únicamente documentación estable para alumno y operación (`INFORME`, `MATRIZ`, `RUBRICA`, `SCORECARD`).
+
+## 2026-03-09 — QA endurecida para modo entrevista mientras Vercel sigue bloqueado
+
+### Cambios aplicados
+1. Nuevo smoke automatizado para `modo entrevista`:
+   - `scripts/tests/run-interview-mode-smoke.cjs`
+   - `scripts/tests/test-interview-mode-smoke.sh`
+2. La suite estándar del Hub integra ya esta regresión:
+   - `scripts/run-closeout-qa-suite.sh`
+3. El smoke valida en servidor local temporal:
+   - Hub con accesos `Modo entrevista` visibles en catálogo
+   - `iOS` en móvil (`390x844`)
+   - `Android`
+   - `SDD`
+4. Se evita la fragilidad del wrapper Playwright shell usando `playwright` directo desde `.runtime/playwright-runner`.
+
+### Evidencia técnica
+1. `./scripts/tests/test-interview-mode-smoke.sh` -> PASS.
+2. `./scripts/run-closeout-qa-suite.sh tests` -> PASS con el smoke nuevo integrado.
+3. El despliegue sigue bloqueado solo por Vercel:
+   - `api-deployments-free-per-day`
