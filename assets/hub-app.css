@@ -66,6 +66,7 @@ body.hub-app-body {
   display: flex;
   gap: 14px;
   align-items: center;
+  min-width: 0;
 }
 
 .hub-brand-media {
@@ -109,6 +110,7 @@ body.hub-app-body {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
+  min-width: 0;
 }
 
 .hub-btn,
@@ -315,11 +317,18 @@ body.hub-app-body {
   justify-content: space-between;
   gap: 12px;
   align-items: flex-start;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.hub-course-head > * {
+  min-width: 0;
 }
 
 .hub-course-title {
   margin: 0;
   font-size: 1.1rem;
+  overflow-wrap: anywhere;
 }
 
 .hub-course-copy,
@@ -336,6 +345,7 @@ body.hub-app-body {
 .hub-course-meta,
 .hub-admin-meta {
   font-size: 0.92rem;
+  overflow-wrap: anywhere;
 }
 
 .hub-mini-grid {
@@ -443,6 +453,7 @@ body.hub-app-body {
   padding: 12px 14px;
   color: var(--hub-text);
   background: rgba(5, 10, 20, 0.9);
+  min-width: 0;
 }
 
 .hub-textarea {
@@ -478,6 +489,32 @@ body.hub-app-body {
   display: none !important;
 }
 
+.hub-inline-note,
+.hub-list-copy,
+.hub-empty {
+  overflow-wrap: anywhere;
+}
+
+.hub-topbar > *,
+.hub-admin-toolbar > *,
+.hub-panel-inner > *,
+.hub-admin-user > * {
+  min-width: 0;
+}
+
+.hub-inline-actions > *,
+.hub-form-actions > *,
+.hub-list-actions > * {
+  min-width: 0;
+}
+
+.hub-inline-actions .hub-input,
+.hub-inline-actions .hub-btn,
+.hub-form-actions .hub-btn,
+.hub-list-actions .hub-btn {
+  flex: 1 1 100%;
+}
+
 @media (min-width: 720px) {
   .hub-shell {
     padding: 28px 20px 52px;
@@ -493,6 +530,10 @@ body.hub-app-body {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+  }
+
+  .hub-course-head {
+    flex-direction: row;
   }
 
   .hub-hero-grid {
@@ -518,5 +559,12 @@ body.hub-app-body {
 
   .hub-form-grid.two-cols {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .hub-inline-actions .hub-input,
+  .hub-inline-actions .hub-btn,
+  .hub-form-actions .hub-btn,
+  .hub-list-actions .hub-btn {
+    flex: 0 1 auto;
   }
 }

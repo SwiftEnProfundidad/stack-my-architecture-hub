@@ -47,7 +47,12 @@ Repos incluidos:
 4. Se corrigió la compatibilidad entre los `course-id` publicados (`stack-my-architecture-ios/android/sdd`) y la normalización backend del Hub, de modo que dashboard, progreso, notas, bookmarks y access gate hablen el mismo idioma.
 5. La semántica de `trial` ya está corregida a `teaser-only`, sin acceso completo implícito.
 6. Panel admin ya cubre usuarios, roles, entitlements, teasers y auditoría mínima; sigue protegido por login admin.
-7. La validación local role-based con usuarios temporales sigue abierta: el proveedor Auth bloquea el provisioning limpio en local (`not_admin` para admin users y rate limit en signup), así que ese tramo debe retomarse con una estrategia de cuenta seed o credenciales de prueba estables.
+7. QA local cerrada:
+   - `anonymous`, `trial`, `student` y `admin` validados con Playwright en host público local `sslip.io`
+   - sync cross-device validado para el caso de negocio real: dispositivo A guarda, dispositivo B abre después y recupera `completado`, `repaso`, `bookmark` y `nota`
+   - dashboard y panel admin validados en `390x844`; corregido overflow horizontal del panel admin
+8. Queda abierta solo la Fase 4.4: cierre GitFlow + despliegue.
+9. Existe una discrepancia de entorno en Vercel/local pulled: la `SUPABASE_SERVICE_ROLE_KEY` actual no opera bien sobre tablas `hub_*`; con clave corregida local el bloque funciona.
 
 ## Resultado del bloque anterior
 1. Builders y validadores dejan de depender de `TODO`, `DECISIONES-TOMADAS` o auditorías cerradas.
@@ -66,4 +71,4 @@ Repos incluidos:
 `cd "/Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture/stack-my-architecture-SDD/stack-my-architecture-SDD" && python3 scripts/build-html.py`
 
 ## Nota operativa
-No mergear este bloque sin instrucción explícita del usuario.
+El usuario ha pedido continuar en automático con el plan; el siguiente paso natural es cerrar GitFlow del bloque y preparar el despliegue, teniendo en cuenta la discrepancia de entorno de `SUPABASE_SERVICE_ROLE_KEY`.

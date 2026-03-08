@@ -44,9 +44,9 @@ Mantener una única fuente de verdad operativa para el ecosistema `Hub + iOS + A
 5. Cada bloque nuevo se abre con GitFlow real y una sola tarea `🚧`.
 
 ## Bloque actual
-- 🚧 Entitlements + Dashboard del estudiante v1 en Fase 4.1 (dashboard operativo con progreso de ruta, quick actions y compatibilidad real con `course-id` publicados).
+- 🚧 Entitlements + Dashboard del estudiante v1 en Fase 4.4 (QA local cerrada; pendiente cierre GitFlow y despliegue controlado).
 
 ## Siguiente paso operativo
-1. Cerrar la validación operativa de flujos `anonymous`, `student`, `trial` y `admin`.
-2. Validar sync cross-device de progreso, notas y bookmarks con una estrategia de usuario temporal que no dependa de privilegios extra del proveedor Auth.
-3. Validar mobile-first y responsive del dashboard y del panel admin antes del primer ciclo GitFlow de este bloque.
+1. Sincronizar el Hub con los runtimes actualizados de `iOS`, `Android` y `SDD`.
+2. Cerrar GitFlow del bloque `Entitlements + Dashboard`.
+3. Publicar en Vercel una vez resuelta la discrepancia de `SUPABASE_SERVICE_ROLE_KEY` del entorno.

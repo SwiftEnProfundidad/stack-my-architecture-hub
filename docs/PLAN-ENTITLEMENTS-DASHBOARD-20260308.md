@@ -48,10 +48,10 @@ Convertir el Hub en una plataforma operable y monetizable con:
 ## Fase 4 - QA y despliegue
 | ID | Estado | Task |
 | --- | --- | --- |
-| 4.1 | 🚧 | Validar flujos anonimo, student, trial y admin |
-| 4.2 | ⏳ | Validar sync cross-device de progreso, notas y bookmarks |
-| 4.3 | ⏳ | Validar mobile-first y responsive del dashboard y panel admin |
-| 4.4 | ⏳ | Sync Hub, GitFlow completo y despliegue Vercel |
+| 4.1 | ✅ | Validar flujos anonimo, student, trial y admin |
+| 4.2 | ✅ | Validar sync cross-device de progreso, notas y bookmarks |
+| 4.3 | ✅ | Validar mobile-first y responsive del dashboard y panel admin |
+| 4.4 | 🚧 | Sync Hub, GitFlow completo y despliegue Vercel |
 
 ## Evidencia reciente
 - ✅ Migracion `hub_entitlements_dashboard_v1` aplicada en Supabase con tablas `hub_*` y seeds teaser iniciales.
@@ -64,4 +64,7 @@ Convertir el Hub en una plataforma operable y monetizable con:
 - ✅ `./scripts/build-hub.sh --mode strict` en verde tras integrar el bloque.
 - ✅ Dashboard del estudiante ahora renderiza progreso de ruta por curso, porcentaje/ordinal de etapa y quick actions de continuidad, repaso, bookmark y notas.
 - ✅ Compatibilidad corregida entre `course-id` publicados (`stack-my-architecture-*`) y normalizacion backend del Hub para progreso, notas, bookmarks y acceso.
-- 🚧 Intento de E2E local role-based con usuarios temporales contra `vercel dev` bloqueado por limitaciones del proveedor Auth para provisioning limpio (`not_admin` en admin users y rate limit en signup).
+- ✅ Flujos locales `anonymous`, `trial`, `student` y `admin` validados con Playwright en host publico local (`sslip.io`) sobre `vercel dev`.
+- ✅ Sync cross-device validado para el caso de negocio real: dispositivo A guarda `completado`, `repaso`, `bookmark` y `nota`; dispositivo B inicia sesion despues y recupera el estado cloud completo.
+- ✅ Responsive mobile-first validado en `390x844` para landing anonima, dashboard estudiante y panel admin; corregido overflow horizontal en admin.
+- ⚠️ Se mantiene una discrepancia de entorno: el `SUPABASE_SERVICE_ROLE_KEY` actual cargado en Vercel/hub local pulled no opera bien sobre tablas `hub_*`; con clave corregida local la plataforma queda funcional.
