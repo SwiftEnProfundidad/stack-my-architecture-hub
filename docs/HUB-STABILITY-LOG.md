@@ -2,6 +2,35 @@
 
 Fecha base: 2026-02-24
 
+## Hardening de versionado determinista de assets
+### Fecha
+2026-03-08
+
+### Contexto
+Tras cada publicación seguía apareciendo suciedad artificial en el worktree del Hub porque los `?v=` de los assets se recalculaban con marcas temporales. Eso forzaba resyncs innecesarios de artefactos aunque el contenido real no hubiera cambiado.
+
+### Cambios aplicados
+1. `iOS`, `Android` y `SDD` calculan `asset_version` a partir de hash de contenido de los assets realmente publicados.
+2. `scripts/stamp-asset-version.py` del Hub deja de usar epoch time y pasa a calcular un hash determinista compartido sobre `ios/assets`, `android/assets` y `sdd/assets`.
+3. Nueva regresión automática:
+   - `scripts/tests/test-stamp-asset-version.sh`
+   - integrada en `./scripts/run-closeout-qa-suite.sh`
+4. Rebuild del Hub sincronizado con hashes estables en:
+   - `ios/*.html`
+   - `android/*.html`
+   - `sdd/*.html`
+
+### Evidencia técnica
+1. `python3 scripts/build-html.py` ejecutado dos veces seguidas en `stack-my-architecture-ios` -> sin diffs adicionales.
+2. `python3 scripts/build-html.py` ejecutado dos veces seguidas en `stack-my-architecture-android` -> sin diffs adicionales.
+3. `python3 stack-my-architecture-SDD/scripts/build-html.py` ejecutado dos veces seguidas en `stack-my-architecture-SDD` -> sin diffs adicionales.
+4. `./scripts/tests/test-stamp-asset-version.sh` -> PASS.
+5. `./scripts/run-closeout-qa-suite.sh tests` -> PASS.
+6. `./scripts/build-hub.sh --fast` ejecutado dos veces -> mismo resultado estable.
+
+### Resultado
+El versionado de assets queda ligado al contenido real y ya no a la hora del build. El Hub reduce suciedad post-deploy y evita resyncs espurios de artefactos publicados.
+
 ## Hardening anti-cache + acceso local sin login (hotfix)
 ### Fecha
 2026-03-03
