@@ -1216,3 +1216,20 @@ Se elimina un falso negativo en post-deploy checks sin relajar cobertura real de
    - iOS: `232` bloques (`157` únicos)
    - Android: `28` bloques (`21` únicos)
    - SDD: `172` bloques (`169` únicos)
+
+
+## Corrección publish/public profile SDD 2026-03-08
+
+### Causa raíz
+1. `scripts/build-hub.sh` en modo `fast` llamaba al builder SDD sin propagar `SMA_SDD_BUILD_PROFILE`, por lo que el builder usaba `full` y publicaba contenido interno (`00-informe`, `docs`, `openspec`).
+2. El copy del hub también eliminaba `sdd/.gitignore` en cada regeneración.
+
+### Cambios aplicados
+1. `build-hub.sh` propaga `SMA_BUILD_PROFILE="$SDD_BUILD_PROFILE"` también en `fast`.
+2. `validate-hub-mermaid-runtime.mjs` ahora bloquea publicación de rutas internas SDD en el HTML final.
+3. El copy del hub preserva `.gitignore` en `hub/sdd` igual que ya podía preservar `assistant-panel.js`.
+
+### Evidencia técnica
+1. `./scripts/build-hub.sh --fast` -> SDD `Perfil de build: public`.
+2. `sdd/index.html` y `sdd/curso-stack-my-architecture-sdd.html` sin `data-lesson-path="00-informe/|docs/|openspec/`.
+3. `./scripts/validate-course-content-and-mermaid.sh` -> PASS.

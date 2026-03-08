@@ -301,3 +301,13 @@ La validación automática de login end-to-end queda parcialmente bloqueada si n
    - `./scripts/validate-course-content-and-mermaid.sh`
    - `./scripts/tests/test-course-content-mermaid-suite.sh`
    - `./scripts/run-closeout-qa-suite.sh tests`
+
+
+## Corrección incremental 2026-03-08 — publish/public profile SDD
+1. ✅ Corregido `build-hub.sh` para que `fast` publique SDD con perfil `public` real.
+2. ✅ Nuevo guardarraíl: `validate-hub-mermaid-runtime.mjs` falla si el HTML final de SDD expone `00-informe/`, `docs/` u `openspec/`.
+3. ✅ `hub/sdd/.gitignore` queda preservado en regeneraciones del hub.
+4. ✅ Validación cerrada:
+   - `./scripts/build-hub.sh --fast`
+   - `./scripts/validate-course-content-and-mermaid.sh`
+   - `./scripts/tests/test-course-content-mermaid-suite.sh`
