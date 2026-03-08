@@ -1,0 +1,79 @@
+name: Hub Production Auth E2E
+
+on:
+  workflow_dispatch:
+    inputs:
+      base_url:
+        description: Base URL publicada a validar
+        required: false
+        default: https://architecture-stack.vercel.app
+      course_path:
+        description: Ruta del curso
+        required: false
+        default: /ios/index.html
+      course_id:
+        description: ID logico del curso
+        required: false
+        default: stack-my-architecture-ios
+      topic_id:
+        description: Topic ID a sincronizar
+        required: false
+        default: 01-fundamentos-00-introduccion
+  schedule:
+    - cron: '17 4 * * *'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: hub-production-auth-e2e
+  cancel-in-progress: false
+
+jobs:
+  authenticated-progress-sync:
+    name: Authenticated progress sync against production
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      SMA_E2E_AUTH_EMAIL: ${{ secrets.SMA_E2E_AUTH_EMAIL }}
+      SMA_E2E_AUTH_PASSWORD: ${{ secrets.SMA_E2E_AUTH_PASSWORD }}
+      SMA_E2E_BASE_URL: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.base_url || 'https://architecture-stack.vercel.app' }}
+      SMA_E2E_COURSE_PATH: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.course_path || '/ios/index.html' }}
+      SMA_E2E_COURSE_ID: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.course_id || 'stack-my-architecture-ios' }}
+      SMA_E2E_TOPIC_ID: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.topic_id || '01-fundamentos-00-introduccion' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Prepare Playwright runner
+        run: |
+          mkdir -p .runtime/playwright-runner
+          npm init -y --prefix .runtime/playwright-runner
+          npm install --prefix .runtime/playwright-runner playwright@1.52.0
+
+      - name: Validate required secrets
+        run: |
+          test -n "$SMA_E2E_AUTH_EMAIL" || { echo "::error::Missing repo secret SMA_E2E_AUTH_EMAIL"; exit 1; }
+          test -n "$SMA_E2E_AUTH_PASSWORD" || { echo "::error::Missing repo secret SMA_E2E_AUTH_PASSWORD"; exit 1; }
+
+      - name: Install Playwright browser
+        run: |
+          .runtime/playwright-runner/node_modules/.bin/playwright install --with-deps chromium
+
+      - name: Run authenticated cross-device E2E
+        run: |
+          NODE_PATH="$PWD/.runtime/playwright-runner/node_modules" node scripts/tests/run-authenticated-progress-cross-device-ci.cjs
+
+      - name: Upload Playwright artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hub-production-auth-e2e-${{ github.run_id }}
+          path: |
+            output/playwright-ci-auth-e2e
+          if-no-files-found: ignore
