@@ -355,3 +355,20 @@ La validación automática de login end-to-end queda parcialmente bloqueada si n
    - `./scripts/tests/test-auth-and-progress-api-suite.sh` -> PASS.
    - `./scripts/build-hub.sh --fast` -> PASS.
    - validación real en host no local -> curso anónimo redirige a login.
+
+## Endurecimiento incremental 2026-03-08 — E2E auth cross-device
+1. ✅ Nuevo test opt-in del Hub:
+   - `scripts/tests/test-authenticated-progress-cross-device.sh`
+2. ✅ El test automatiza dos sesiones Playwright separadas y valida:
+   - login real,
+   - marcado de completado/repaso en `device-a`,
+   - apertura del mismo curso en `device-b`,
+   - sync cloud visible,
+   - restauración del estado original para no contaminar la cuenta.
+3. ✅ La suite estándar del Hub ya lo invoca:
+   - `scripts/run-closeout-qa-suite.sh`
+4. ✅ Si faltan credenciales E2E, la ejecución hace `SKIP` sin romper QA.
+5. ✅ Variables esperadas para ejecución real:
+   - `SMA_E2E_AUTH_EMAIL`
+   - `SMA_E2E_AUTH_PASSWORD`
+   - opcional: `SMA_E2E_BASE_URL`, `SMA_E2E_COURSE_PATH`, `SMA_E2E_COURSE_ID`, `SMA_E2E_TOPIC_ID`

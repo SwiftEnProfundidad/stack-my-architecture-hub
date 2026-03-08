@@ -39,6 +39,7 @@ else
     "$SCRIPT_DIR/tests/test-closeout-freeze-check.sh"
     "$SCRIPT_DIR/tests/test-closeout-status.sh"
     "$SCRIPT_DIR/tests/test-auth-and-progress-api-suite.sh"
+    "$SCRIPT_DIR/tests/test-authenticated-progress-cross-device.sh"
     "$SCRIPT_DIR/tests/test-public-smoke-suite.sh"
     "$SCRIPT_DIR/tests/test-smoke-hub-runtime.sh"
     "$SCRIPT_DIR/tests/test-course-content-mermaid-suite.sh"
