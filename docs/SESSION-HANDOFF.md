@@ -340,3 +340,18 @@ La validación automática de login end-to-end queda parcialmente bloqueada si n
 4. ✅ Evidencia:
    - `python3 scripts/build-html.py` en Android -> PASS.
    - `./scripts/build-hub.sh --fast` -> PASS.
+
+## Endurecimiento incremental 2026-03-08 — progreso cloud ligado a cuenta
+1. ✅ `progress-sync` ya resuelve `profileKey` desde el usuario autenticado y deja de aceptar el valor cliente como fuente de verdad.
+2. ✅ `study-ux.js` en `iOS`, `Android` y `SDD`:
+   - no expone `progressProfile` en URL cuando hay sesión,
+   - desactiva sync cloud si el backend exige auth y no existe sesión,
+   - actualiza el CTA para hablar de cuenta cloud, no de enlace compartible.
+3. ✅ Nueva regresión automatizada añadida a QA del Hub:
+   - `scripts/tests/test-auth-and-progress-api-suite.sh`
+   - `scripts/tests/test-progress-sync.js`
+4. ✅ Evidencia:
+   - `node --test scripts/tests/test-progress-sync.js` -> PASS.
+   - `./scripts/tests/test-auth-and-progress-api-suite.sh` -> PASS.
+   - `./scripts/build-hub.sh --fast` -> PASS.
+   - validación real en host no local -> curso anónimo redirige a login.

@@ -1276,3 +1276,23 @@ Se elimina un falso negativo en post-deploy checks sin relajar cobertura real de
 3. Diff del hub acotado a:
    - `android/index.html`
    - `android/curso-stack-my-architecture-android.html`
+
+
+## Endurecimiento auth-bound cloud progress 2026-03-08
+
+### Cambios aplicados
+1. `api/progress-sync.js` deja de confiar en `profileKey` enviado por cliente y lo deriva del usuario autenticado vía bearer token.
+2. La config pública de progreso expone `requiresAuth` para que el runtime pueda degradar correctamente sin sync cloud cuando no hay sesión.
+3. `study-ux.js` en iOS/Android/SDD deja de filtrar `progressProfile` en la URL cuando el progreso va ligado a cuenta.
+4. El CTA de sincronización pasa de “enlace compartible” a semántica de cuenta cloud.
+5. Nueva regresión automatizada en QA:
+   - `scripts/tests/test-auth-and-progress-api-suite.sh`
+   - incluida en `scripts/run-closeout-qa-suite.sh`
+
+### Evidencia técnica
+1. `node --test scripts/tests/test-progress-sync.js` -> PASS.
+2. `./scripts/tests/test-auth-and-progress-api-suite.sh` -> PASS.
+3. `./scripts/build-hub.sh --fast` -> PASS.
+4. Validación real de acceso anónimo sobre host no local:
+   - `http://127.0.0.1.nip.io:4173/ios/index.html`
+   - redirección observada a `auth/login.html?next=%2Fios%2Findex.html`
