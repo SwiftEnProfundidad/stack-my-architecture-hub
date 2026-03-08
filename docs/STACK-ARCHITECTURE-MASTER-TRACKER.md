@@ -49,4 +49,4 @@ Mantener una única fuente de verdad operativa para el ecosistema `Hub + iOS + A
 ## Siguiente paso operativo
 1. Terminar el dashboard operativo real con continuidad por curso y CTA más finos.
 2. Validar con cuenta real los flujos `anonymous`, `student`, `trial` y `admin`.
-3. Cerrar notas/bookmarks + continuidad recomendada antes del primer ciclo GitFlow de este bloque.
+3. Cerrar CTA de continuidad y accesos rápidos antes del primer ciclo GitFlow de este bloque.

@@ -34,7 +34,7 @@ Convertir el Hub en una plataforma operable y monetizable con:
 | --- | --- | --- |
 | 2.1 | ✅ | Crear home autenticada del estudiante |
 | 2.2 | 🚧 | Mostrar progreso por curso, etapa, checkpoints y siguiente paso |
-| 2.3 | ⏳ | Añadir notas privadas y bookmarks por leccion |
+| 2.3 | ✅ | Añadir notas privadas y bookmarks por leccion |
 | 2.4 | ⏳ | Integrar CTA de continuidad y acceso rapido a lecciones |
 
 ## Fase 3 - Panel admin
@@ -59,4 +59,5 @@ Convertir el Hub en una plataforma operable y monetizable con:
 - ✅ Runtime de cursos (`iOS`, `Android`, `SDD`) ya resuelve acceso por entitlement, teaser y bypass local seguro.
 - ✅ Home del Hub ya muestra estado local resuelto, catalogo con acceso y dashboard base listo para cuenta autenticada.
 - ✅ Dashboard ya expone etapa actual y checkpoints inferidos por curso en la API y en la UI del Hub.
+- ✅ `trial` queda acotado a teaser: no concede acceso completo aunque exista entitlement con estado `trial`.
 - ✅ `./scripts/build-hub.sh --mode strict` en verde tras integrar el bloque.
