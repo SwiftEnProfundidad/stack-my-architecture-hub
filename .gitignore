@@ -19,3 +19,4 @@ yarn-error.log*
 .vercel
 .playwright-cli/
 output/playwright/
+output/playwright-ci-auth-e2e/
