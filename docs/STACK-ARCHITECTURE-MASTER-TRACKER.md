@@ -49,6 +49,6 @@ Mantener una única fuente de verdad operativa para el ecosistema `Hub + iOS + A
 - ⛔ Modo entrevista tecnica v1: implementado, mergeado y pendiente de publicacion por la misma cuota diaria de Vercel.
 
 ## Siguiente paso operativo
-1. Reintentar publicación de Hub en cuanto Vercel vuelva a aceptar despliegues.
-2. Ejecutar `post-deploy-checks` para cerrar a la vez `Entitlements + Dashboard` y `Modo entrevista tecnica v1`.
+1. Esperar la ventana automática de closeout ya programada para `2026-03-09 03:47 CET`.
+2. Verificar el resultado con `closeout-status` / `closeout-readiness` y `post-deploy-checks` si hiciera falta.
 3. Abrir el siguiente bloque de producto solo después de ese redeploy.

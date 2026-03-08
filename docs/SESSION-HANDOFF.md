@@ -72,15 +72,17 @@ Repos incluidos:
 5. Build Hub `strict` en verde tras sincronizar los runtimes modificados.
 6. GitFlow del bloque de modo entrevista ya está cerrado: PRs mergeadas en Hub/iOS/Android/SDD y `develop` limpio en los cuatro repos.
 7. El redeploy final no pudo ejecutarse por cuota diaria de Vercel (`api-deployments-free-per-day`).
+
+8. El redeploy no se volverá a lanzar manualmente antes de la ventana; queda automatizado con jobs `21`, `22` y `23`.
 8. Mientras la cuota de Vercel sigue cerrada, se endureció la QA local del bloque:
    - smoke nuevo `scripts/tests/test-interview-mode-smoke.sh`
    - runner Playwright estable `scripts/tests/run-interview-mode-smoke.cjs`
    - integración en `./scripts/run-closeout-qa-suite.sh tests` en verde
 
 ## Siguiente paso operativo
-1. Reintentar despliegue del Hub cuando Vercel libere cuota diaria.
-2. Ejecutar `post-deploy-checks` para cerrar publicación pendiente de `Entitlements + Dashboard` y `Modo entrevista tecnica v1`.
-3. Abrir el siguiente bloque de producto solo después de ese redeploy.
+1. Esperar la ventana automática ya programada para `03:47 CET` y revisar el resultado del closeout.
+2. Si el deploy principal falla, dejar actuar al watchdog/followup antes de tocar nada manualmente.
+3. Ejecutar `post-deploy-checks` solo si el closeout no los hubiera dejado ya cerrados.
 
 ## Resultado del bloque anterior
 1. Builders y validadores dejan de depender de `TODO`, `DECISIONES-TOMADAS` o auditorías cerradas.
