@@ -51,7 +51,7 @@ Convertir el Hub en una plataforma operable y monetizable con:
 | 4.1 | ✅ | Validar flujos anonimo, student, trial y admin |
 | 4.2 | ✅ | Validar sync cross-device de progreso, notas y bookmarks |
 | 4.3 | ✅ | Validar mobile-first y responsive del dashboard y panel admin |
-| 4.4 | 🚧 | Sync Hub, GitFlow completo y despliegue Vercel |
+| 4.4 | ⛔ | Sync Hub, GitFlow completo y despliegue Vercel |
 
 ## Evidencia reciente
 - ✅ Migracion `hub_entitlements_dashboard_v1` aplicada en Supabase con tablas `hub_*` y seeds teaser iniciales.
@@ -68,3 +68,4 @@ Convertir el Hub en una plataforma operable y monetizable con:
 - ✅ Sync cross-device validado para el caso de negocio real: dispositivo A guarda `completado`, `repaso`, `bookmark` y `nota`; dispositivo B inicia sesion despues y recupera el estado cloud completo.
 - ✅ Responsive mobile-first validado en `390x844` para landing anonima, dashboard estudiante y panel admin; corregido overflow horizontal en admin.
 - ⚠️ Se mantiene una discrepancia de entorno: el `SUPABASE_SERVICE_ROLE_KEY` actual cargado en Vercel/hub local pulled no opera bien sobre tablas `hub_*`; con clave corregida local la plataforma queda funcional.
+- ⛔ El cierre por publicacion en Vercel sigue bloqueado por cuota diaria (`api-deployments-free-per-day`). El bloque queda listo en codigo, QA y GitFlow; pendiente solo del redeploy.
