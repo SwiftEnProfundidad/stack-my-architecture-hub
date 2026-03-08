@@ -1415,3 +1415,19 @@ Se elimina un falso negativo en post-deploy checks sin relajar cobertura real de
 2. `./scripts/run-closeout-qa-suite.sh tests` -> PASS con el smoke nuevo integrado.
 3. El despliegue sigue bloqueado solo por Vercel:
    - `api-deployments-free-per-day`
+
+
+## 2026-03-09 — Ventana de redeploy programada por cooldown de Vercel
+
+### Estado operativo
+1. `./scripts/deploy-and-verify-closeout.sh fast` refrescó el cooldown real de Vercel.
+2. Ventana estimada de reapertura registrada:
+   - `2026-03-09 03:46:49 CET`
+3. Cola automática programada:
+   - job principal `21` -> `03:47`
+   - watchdog `22` -> `03:49`
+   - followup `23` -> `03:51`
+4. Validación operativa:
+   - `./scripts/closeout-status.sh` -> `EN ESPERA`
+   - `./scripts/closeout-readiness.sh` -> `EN ESPERA`
+5. No se aplican cambios de código en este paso; es cierre operativo usando la infraestructura de cooldown ya existente.
