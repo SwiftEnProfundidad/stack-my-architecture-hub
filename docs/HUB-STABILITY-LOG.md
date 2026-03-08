@@ -1360,6 +1360,9 @@ Se elimina un falso negativo en post-deploy checks sin relajar cobertura real de
 4. Secretos dedicados previstos para el repo:
    - `SMA_E2E_AUTH_EMAIL`
    - `SMA_E2E_AUTH_PASSWORD`
+5. Trigger operativo activo:
+   - `push` a `develop` cuando cambian auth/progreso/runtime o la propia E2E.
+6. `workflow_dispatch` y `schedule` quedan versionados, pero GitHub solo permitirá lanzarlos directamente cuando el workflow exista también en la rama por defecto (`main`).
 
 ### Evidencia técnica
 1. `node --check scripts/tests/run-authenticated-progress-cross-device-ci.cjs` -> PASS.
