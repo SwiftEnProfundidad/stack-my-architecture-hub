@@ -402,3 +402,6 @@ La validación automática de login end-to-end queda parcialmente bloqueada si n
 5. ✅ Validación local equivalente a CI ya ejecutada en verde con la cuenta dedicada.
 6. ✅ El trigger automático realmente utilizable hoy es `push` sobre `develop`, porque la rama por defecto del repo en GitHub sigue siendo `main`.
 7. ✅ La workflow no depende ya de inputs dinámicos en el camino `push`; usa los defaults del runner CI.
+8. ⛔ La primera ejecución real en GitHub Actions quedó bloqueada antes de arrancar pasos por un issue externo de billing de la cuenta:
+   - run `22827196688`
+   - mensaje GitHub: `The job was not started because your account is locked due to a billing issue.`
