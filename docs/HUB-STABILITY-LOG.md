@@ -1374,3 +1374,18 @@ Se elimina un falso negativo en post-deploy checks sin relajar cobertura real de
    - run `22827196688`
    - estado real: `failure`
    - causa operativa externa: `The job was not started because your account is locked due to a billing issue.`
+
+## Parking operativo 2026-03-08 — workflow CI aparcado por no disponer de billing
+
+### Cambios aplicados
+1. El workflow de GitHub Actions queda aparcado fuera de `.github/workflows/` para evitar fallos automáticos en cada push:
+   - `.github/workflows-disabled/hub-production-auth-e2e.yml`
+2. Se conserva intacto el runner CI:
+   - `scripts/tests/run-authenticated-progress-cross-device-ci.cjs`
+3. La validación manual/local sigue siendo la vía activa mientras no haya billing en GitHub Actions.
+
+### Criterio operativo
+1. No reactivar el workflow mientras la cuenta siga bloqueada para `Actions`.
+2. Para reactivarlo en el futuro basta con devolver el archivo a:
+   - `.github/workflows/hub-production-auth-e2e.yml`
+3. No hace falta rehacer código ni secretos; solo restaurar el archivo a su carpeta activa y relanzar el run.

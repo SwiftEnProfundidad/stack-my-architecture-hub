@@ -405,3 +405,7 @@ La validación automática de login end-to-end queda parcialmente bloqueada si n
 8. ⛔ La primera ejecución real en GitHub Actions quedó bloqueada antes de arrancar pasos por un issue externo de billing de la cuenta:
    - run `22827196688`
    - mensaje GitHub: `The job was not started because your account is locked due to a billing issue.`
+9. ✅ Decisión operativa posterior:
+   - mientras no haya billing para GitHub Actions, el workflow queda aparcado en:
+     - `.github/workflows-disabled/hub-production-auth-e2e.yml`
+   - el runner CI se mantiene versionado y listo para reactivar sin rehacer trabajo.
