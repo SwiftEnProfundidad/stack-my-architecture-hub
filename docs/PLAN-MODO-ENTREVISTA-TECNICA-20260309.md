@@ -36,4 +36,4 @@ Convertir el contenido de empleabilidad, defensa tecnica y cierre profesional ya
 | --- | --- | --- |
 | 3.1 | ✅ | Validar Hub y cursos en escritorio y mobile con Playwright |
 | 3.2 | ✅ | Validar build strict y sincronizacion del runtime al Hub |
-| 3.3 | 🚧 | Actualizar tracker/handoff y dejar el bloque listo para GitFlow |
+| 3.3 | ✅ | Actualizar tracker/handoff y dejar el bloque listo para GitFlow |

@@ -46,9 +46,9 @@ Mantener una única fuente de verdad operativa para el ecosistema `Hub + iOS + A
 
 ## Bloque actual
 - ⛔ Entitlements + Dashboard del estudiante v1 en Fase 4.4 (todo cerrado salvo redeploy, bloqueado por cuota diaria de Vercel).
-- 🚧 Modo entrevista tecnica v1 en Fase 3.3 (tracking, handoff y GitFlow del bloque).
+- ✅ Modo entrevista tecnica v1 implementado, validado en local y listo para cierre GitFlow.
 
 ## Siguiente paso operativo
-1. Cerrar el bloque `Modo entrevista tecnica v1` con commits atómicos y GitFlow limpio.
-2. Mantener el cierre de `Entitlements + Dashboard` pendiente solo del redeploy cuando Vercel libere cuota.
-3. Abrir el siguiente bloque de producto únicamente cuando este cierre quede consolidado.
+1. Cerrar GitFlow del bloque `Modo entrevista tecnica v1` con `push + PR + merge` repo por repo.
+2. Mantener `Entitlements + Dashboard` pendiente solo del redeploy cuando Vercel libere cuota.
+3. Reintentar publicación cuando Vercel vuelva a aceptar despliegues.

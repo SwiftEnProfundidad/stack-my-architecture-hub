@@ -39,7 +39,7 @@ Repos incluidos:
 ## Bloque en curso
 - ⛔ Entitlements + Dashboard del estudiante v1.
 - Fuente activa de ese bloque: `docs/PLAN-ENTITLEMENTS-DASHBOARD-20260308.md`.
-- 🚧 Modo entrevista tecnica v1.
+- ✅ Modo entrevista tecnica v1.
 - Fuente activa del bloque nuevo: `docs/PLAN-MODO-ENTREVISTA-TECNICA-20260309.md`.
 
 ## Progreso real del bloque en curso
@@ -72,9 +72,9 @@ Repos incluidos:
 5. Build Hub `strict` en verde tras sincronizar los runtimes modificados.
 
 ## Siguiente paso operativo
-1. Cerrar tracking/handoff del bloque `Modo entrevista tecnica v1`.
-2. Hacer commits atómicos repo por repo en `feature/interview-mode-v1`.
-3. Esperar instrucción del usuario antes de `push + PR + merge`.
+1. Cerrar GitFlow del bloque `Modo entrevista tecnica v1` en `feature/interview-mode-v1`.
+2. Reintentar despliegue de `Entitlements + Dashboard` cuando Vercel libere cuota.
+3. Abrir el siguiente bloque de producto solo después del cierre de este frente.
 
 ## Resultado del bloque anterior
 1. Builders y validadores dejan de depender de `TODO`, `DECISIONES-TOMADAS` o auditorías cerradas.
