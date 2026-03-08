@@ -96,6 +96,21 @@ Repos incluidos:
        - `/sdd/assets/assistant-panel.js` contiene `KEY_PROVIDER` o `KEY_DAILY_BUDGET`.
 
 ## Último bloque operativo ejecutado
+1. Hardening de versionado determinista de assets en iOS/Android/SDD + Hub.
+2. Cambios ejecutados:
+   - `scripts/build-html.py` en iOS/Android/SDD deja de usar timestamps y calcula `asset_version` por hash de contenido.
+   - `scripts/stamp-asset-version.py` del Hub calcula hash compartido determinista sobre assets publicados.
+   - nueva regresión `scripts/tests/test-stamp-asset-version.sh`.
+   - hashes sincronizados en `ios/*.html`, `android/*.html` y `sdd/*.html` del Hub.
+3. Evidencia técnica:
+   - doble build consecutivo estable en iOS/Android/SDD.
+   - `./scripts/tests/test-stamp-asset-version.sh` -> PASS.
+   - `./scripts/run-closeout-qa-suite.sh tests` -> PASS.
+   - `./scripts/build-hub.sh --fast` -> PASS.
+4. Resultado operativo:
+   - se elimina la principal fuente de suciedad artificial post-build/post-deploy en el Hub.
+
+## Bloque operativo anterior
 1. Fase 4 de hardening runtime móvil aplicada en iOS/Android/SDD + sync Hub.
 2. Cambios ejecutados:
    - `assistant-panel.js` diferido bajo interacción (lazy-load desde `assistant-bridge.js`).
