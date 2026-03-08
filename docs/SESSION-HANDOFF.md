@@ -72,6 +72,10 @@ Repos incluidos:
 5. Build Hub `strict` en verde tras sincronizar los runtimes modificados.
 6. GitFlow del bloque de modo entrevista ya está cerrado: PRs mergeadas en Hub/iOS/Android/SDD y `develop` limpio en los cuatro repos.
 7. El redeploy final no pudo ejecutarse por cuota diaria de Vercel (`api-deployments-free-per-day`).
+8. Mientras la cuota de Vercel sigue cerrada, se endureció la QA local del bloque:
+   - smoke nuevo `scripts/tests/test-interview-mode-smoke.sh`
+   - runner Playwright estable `scripts/tests/run-interview-mode-smoke.cjs`
+   - integración en `./scripts/run-closeout-qa-suite.sh tests` en verde
 
 ## Siguiente paso operativo
 1. Reintentar despliegue del Hub cuando Vercel libere cuota diaria.
@@ -95,4 +99,4 @@ Repos incluidos:
 `cd "/Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture/stack-my-architecture-SDD/stack-my-architecture-SDD" && python3 scripts/build-html.py`
 
 ## Nota operativa
-El usuario ha pedido continuar en automático. Mientras Vercel siga bloqueado por cuota, el trabajo activo pasa a `Modo entrevista tecnica v1`; el bloque de entitlements solo queda pendiente de redeploy final.
+El usuario ha pedido continuar en automático. Mientras Vercel siga bloqueado por cuota, el único pendiente real de producto es el redeploy del Hub; el tiempo intermedio se está usando para endurecer QA y evitar regresiones antes de la publicación.
