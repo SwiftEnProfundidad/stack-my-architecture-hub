@@ -283,3 +283,21 @@ La validación automática de login end-to-end queda parcialmente bloqueada si n
    - `./scripts/tests/test-deploy-and-verify-closeout.sh`
    - `./scripts/run-closeout-qa-suite.sh tests`
    - `./scripts/smoke-hub-runtime.sh`
+
+
+## Endurecimiento incremental 2026-03-08 — contenido curricular + Mermaid
+1. ✅ Nuevo gate agregado en Hub: `scripts/validate-course-content-and-mermaid.sh`.
+2. ✅ El gate reutiliza validadores curriculares existentes:
+   - `validate-learning-gates.py` en iOS/Android/SDD,
+   - `validate-diagram-semantics.py` en iOS/Android/SDD,
+   - `validate-pedagogy.py` en SDD.
+3. ✅ Nuevo validador runtime `scripts/validate-hub-mermaid-runtime.mjs`:
+   - revisa `ios/index.html`, `android/index.html`, `sdd/index.html`,
+   - exige leyenda Mermaid SVG real,
+   - bloquea regresión a `<i class="sma-arrow">`,
+   - parsea Mermaid publicado en navegador headless con Mermaid 10.
+4. ✅ Nuevo test `scripts/tests/test-course-content-mermaid-suite.sh` integrado en `run-closeout-qa-suite.sh`.
+5. ✅ Validación cerrada en verde:
+   - `./scripts/validate-course-content-and-mermaid.sh`
+   - `./scripts/tests/test-course-content-mermaid-suite.sh`
+   - `./scripts/run-closeout-qa-suite.sh tests`

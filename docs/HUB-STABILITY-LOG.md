@@ -1195,3 +1195,24 @@ Se elimina un falso negativo en post-deploy checks sin relajar cobertura real de
 2. `./scripts/tests/test-deploy-and-verify-closeout.sh` -> PASS.
 3. `./scripts/run-closeout-qa-suite.sh tests` -> PASS.
 4. `./scripts/smoke-hub-runtime.sh` -> PASS.
+
+
+## Endurecimiento curricular + Mermaid 2026-03-08
+
+### Cambios aplicados
+1. Nuevo orquestador `scripts/validate-course-content-and-mermaid.sh` para ejecutar gates curriculares de iOS, Android y SDD desde el Hub.
+2. Nuevo validador `scripts/validate-hub-mermaid-runtime.mjs` que audita el HTML final publicado del Hub y comprueba:
+   - leyenda Mermaid en SVG real,
+   - ausencia de markup legacy `<i class="sma-arrow">`,
+   - ausencia de tokens conflictivos `-.o/--o` en flowcharts publicados,
+   - parse real en navegador headless con Mermaid 10 sobre los tres cursos.
+3. Nuevo test `scripts/tests/test-course-content-mermaid-suite.sh` añadido a `scripts/run-closeout-qa-suite.sh`.
+
+### Evidencia técnica
+1. `./scripts/validate-course-content-and-mermaid.sh` -> PASS.
+2. `./scripts/tests/test-course-content-mermaid-suite.sh` -> PASS.
+3. `./scripts/run-closeout-qa-suite.sh tests` -> PASS.
+4. Cobertura Mermaid publicada validada:
+   - iOS: `232` bloques (`157` únicos)
+   - Android: `28` bloques (`21` únicos)
+   - SDD: `172` bloques (`169` únicos)
