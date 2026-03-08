@@ -25,6 +25,7 @@ Mantener una única fuente de verdad operativa para el ecosistema `Hub + iOS + A
 5. `docs/GUIA-DIAGRAMAS-ARQUITECTURA-CAPAS-Y-FLECHAS.md`
 6. `docs/TEMPLATE-DIAGRAMA-ARQUITECTURA-MERMAID.md`
 7. `docs/PROGRESS-SYNC-SUPABASE.sql`
+8. `docs/PLAN-ENTITLEMENTS-DASHBOARD-20260308.md`
 
 ## Estado consolidado
 - ✅ Hub estable y publicado en `https://architecture-stack.vercel.app`.
@@ -43,8 +44,9 @@ Mantener una única fuente de verdad operativa para el ecosistema `Hub + iOS + A
 5. Cada bloque nuevo se abre con GitFlow real y una sola tarea `🚧`.
 
 ## Bloque actual
-- ✅ Limpieza enterprise de artefactos de seguimiento cerrados y consolidación de fuentes de verdad.
+- 🚧 Entitlements + Dashboard del estudiante v1 en Fase 4.4 (QA local cerrada; pendiente cierre GitFlow y despliegue controlado).
 
 ## Siguiente paso operativo
-1. Versionar el bloque con commits atómicos por repo.
-2. Esperar instrucción explícita antes de mergear.
+1. Sincronizar el Hub con los runtimes actualizados de `iOS`, `Android` y `SDD`.
+2. Cerrar GitFlow del bloque `Entitlements + Dashboard`.
+3. Publicar en Vercel una vez resuelta la discrepancia de `SUPABASE_SERVICE_ROLE_KEY` del entorno.

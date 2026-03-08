@@ -36,7 +36,25 @@ Repos incluidos:
 ## Último bloque cerrado
 - ✅ Limpieza enterprise de artefactos de seguimiento cerrados en Hub, iOS, Android y SDD.
 
-## Resultado del bloque
+## Bloque en curso
+- 🚧 Entitlements + Dashboard del estudiante v1.
+- Fuente activa: `docs/PLAN-ENTITLEMENTS-DASHBOARD-20260308.md`.
+
+## Progreso real del bloque en curso
+1. Fase 0 cerrada: esquema Supabase, contratos API y seeds teaser iniciales.
+2. Fase 1 cerrada: Hub y cursos resuelven acceso `full / teaser / blocked` con bypass local acotado.
+3. Fase 2 cerrada: el Hub ya muestra progreso por curso, etapa, checkpoints, progreso de ruta y siguiente paso con quick actions operativas.
+4. Se corrigió la compatibilidad entre los `course-id` publicados (`stack-my-architecture-ios/android/sdd`) y la normalización backend del Hub, de modo que dashboard, progreso, notas, bookmarks y access gate hablen el mismo idioma.
+5. La semántica de `trial` ya está corregida a `teaser-only`, sin acceso completo implícito.
+6. Panel admin ya cubre usuarios, roles, entitlements, teasers y auditoría mínima; sigue protegido por login admin.
+7. QA local cerrada:
+   - `anonymous`, `trial`, `student` y `admin` validados con Playwright en host público local `sslip.io`
+   - sync cross-device validado para el caso de negocio real: dispositivo A guarda, dispositivo B abre después y recupera `completado`, `repaso`, `bookmark` y `nota`
+   - dashboard y panel admin validados en `390x844`; corregido overflow horizontal del panel admin
+8. Queda abierta solo la Fase 4.4: cierre GitFlow + despliegue.
+9. Existe una discrepancia de entorno en Vercel/local pulled: la `SUPABASE_SERVICE_ROLE_KEY` actual no opera bien sobre tablas `hub_*`; con clave corregida local el bloque funciona.
+
+## Resultado del bloque anterior
 1. Builders y validadores dejan de depender de `TODO`, `DECISIONES-TOMADAS` o auditorías cerradas.
 2. Los cursos solo publican documentación estable del alumno.
 3. Los repos quedan sin residuos de seguimiento ya amortizados.
@@ -53,4 +71,4 @@ Repos incluidos:
 `cd "/Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture/stack-my-architecture-SDD/stack-my-architecture-SDD" && python3 scripts/build-html.py`
 
 ## Nota operativa
-No mergear este bloque sin instrucción explícita del usuario.
+El usuario ha pedido continuar en automático con el plan; el siguiente paso natural es cerrar GitFlow del bloque y preparar el despliegue, teniendo en cuenta la discrepancia de entorno de `SUPABASE_SERVICE_ROLE_KEY`.
