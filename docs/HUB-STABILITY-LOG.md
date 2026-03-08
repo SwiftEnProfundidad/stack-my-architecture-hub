@@ -1363,6 +1363,7 @@ Se elimina un falso negativo en post-deploy checks sin relajar cobertura real de
 5. Trigger operativo activo:
    - `push` a `develop` cuando cambian auth/progreso/runtime o la propia E2E.
 6. `workflow_dispatch` y `schedule` quedan versionados, pero GitHub solo permitirá lanzarlos directamente cuando el workflow exista también en la rama por defecto (`main`).
+7. El workflow usa los defaults del runner CI para `baseUrl`, `coursePath`, `courseId` y `topicId`, evitando expresiones dinámicas frágiles en `push`.
 
 ### Evidencia técnica
 1. `node --check scripts/tests/run-authenticated-progress-cross-device-ci.cjs` -> PASS.

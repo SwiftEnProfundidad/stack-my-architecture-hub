@@ -17,23 +17,6 @@ on:
       - 'android/assets/study-ux.js'
       - 'sdd/assets/study-ux.js'
   workflow_dispatch:
-    inputs:
-      base_url:
-        description: Base URL publicada a validar
-        required: false
-        default: https://architecture-stack.vercel.app
-      course_path:
-        description: Ruta del curso
-        required: false
-        default: /ios/index.html
-      course_id:
-        description: ID logico del curso
-        required: false
-        default: stack-my-architecture-ios
-      topic_id:
-        description: Topic ID a sincronizar
-        required: false
-        default: 01-fundamentos-00-introduccion
   schedule:
     - cron: '17 4 * * *'
 
@@ -52,10 +35,6 @@ jobs:
     env:
       SMA_E2E_AUTH_EMAIL: ${{ secrets.SMA_E2E_AUTH_EMAIL }}
       SMA_E2E_AUTH_PASSWORD: ${{ secrets.SMA_E2E_AUTH_PASSWORD }}
-      SMA_E2E_BASE_URL: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.base_url || 'https://architecture-stack.vercel.app' }}
-      SMA_E2E_COURSE_PATH: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.course_path || '/ios/index.html' }}
-      SMA_E2E_COURSE_ID: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.course_id || 'stack-my-architecture-ios' }}
-      SMA_E2E_TOPIC_ID: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.topic_id || '01-fundamentos-00-introduccion' }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4

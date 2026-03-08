@@ -401,3 +401,4 @@ La validación automática de login end-to-end queda parcialmente bloqueada si n
    - `SMA_E2E_AUTH_PASSWORD`
 5. ✅ Validación local equivalente a CI ya ejecutada en verde con la cuenta dedicada.
 6. ✅ El trigger automático realmente utilizable hoy es `push` sobre `develop`, porque la rama por defecto del repo en GitHub sigue siendo `main`.
+7. ✅ La workflow no depende ya de inputs dinámicos en el camino `push`; usa los defaults del runner CI.
