@@ -74,7 +74,7 @@ Repos incluidos:
 7. El redeploy final no pudo ejecutarse por cuota diaria de Vercel (`api-deployments-free-per-day`).
 
 8. El redeploy no se volverá a lanzar manualmente antes de la ventana; queda automatizado con jobs `21`, `22` y `23`.
-8. Mientras la cuota de Vercel sigue cerrada, se endureció la QA local del bloque:
+9. Mientras la cuota de Vercel sigue cerrada, se endureció la QA local del bloque:
    - smoke nuevo `scripts/tests/test-interview-mode-smoke.sh`
    - runner Playwright estable `scripts/tests/run-interview-mode-smoke.cjs`
    - integración en `./scripts/run-closeout-qa-suite.sh tests` en verde
