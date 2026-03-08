@@ -268,3 +268,8 @@ La validación automática de login end-to-end queda parcialmente bloqueada si n
    - enlaces de cursos,
    - soporte de ruta auth/login,
    - páginas públicas `auth/index.html` y `auth/login.html`.
+4. ✅ Suite endurecida:
+   - `BASE_URL` tolerante a slash final,
+   - checks Auth por `id`,
+   - `post-deploy-checks` testeable por inyección,
+   - nuevo `test-public-smoke-suite.sh` incluido en QA por defecto.

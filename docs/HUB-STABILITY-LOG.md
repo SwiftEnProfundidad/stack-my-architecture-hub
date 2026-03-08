@@ -1165,3 +1165,15 @@ El smoke público funcional seguía esperando una CTA legacy de Hub (`cuenta y s
 
 ### Resultado
 Se elimina un falso negativo en post-deploy checks sin relajar cobertura real del flujo público.
+
+## Endurecimiento suite pública 2026-03-08
+
+### Cambios aplicados
+1. `scripts/smoke-public-routes.sh`, `scripts/smoke-public-functional.sh` y `scripts/post-deploy-checks.sh` normalizan `BASE_URL` con o sin `/` final.
+2. `scripts/smoke-public-functional.sh` usa comprobaciones más estables en Auth por `id` en vez de texto visible.
+3. `scripts/post-deploy-checks.sh` permite inyección de comandos para pruebas aisladas.
+4. Nuevo test `scripts/tests/test-public-smoke-suite.sh` añadido a `scripts/run-closeout-qa-suite.sh`.
+
+### Evidencia técnica
+1. `./scripts/tests/test-public-smoke-suite.sh` -> PASS.
+2. `./scripts/post-deploy-checks.sh https://architecture-stack.vercel.app/` -> PASS.
