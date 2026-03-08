@@ -1389,3 +1389,8 @@ Se elimina un falso negativo en post-deploy checks sin relajar cobertura real de
 2. Para reactivarlo en el futuro basta con devolver el archivo a:
    - `.github/workflows/hub-production-auth-e2e.yml`
 3. No hace falta rehacer código ni secretos; solo restaurar el archivo a su carpeta activa y relanzar el run.
+
+## 2026-03-08 — Limpieza enterprise de artefactos de seguimiento
+- Se consolida la política de documentación estable del ecosistema.
+- El Hub deja como fuente de verdad solo `MASTER TRACKER`, `SESSION HANDOFF`, `HUB STABILITY LOG` y `ADR-LITE`.
+- Los cursos pasan a publicar únicamente documentación estable para alumno y operación (`INFORME`, `MATRIZ`, `RUBRICA`, `SCORECARD`).

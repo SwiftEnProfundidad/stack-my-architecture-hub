@@ -1277,9 +1277,9 @@ blockquote p {
 <li class="nav-section"><strong>Informe fundacional</strong>
 <ul>
   <li><a class="doc-nav-link" data-lesson-path="00-informe/INFORME-CURSO.md" href="#00-informe-INFORME-CURSO">Informe del curso</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="00-informe/AUDITORIA-EQUIVALENCIA-IOS-ANDROID.md" href="#00-informe-AUDITORIA-EQUIVALENCIA-IOS-ANDROID">Auditoría de equivalencia iOS ↔ Android</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="00-informe/PLAN-REFUERZO-CURSO-ANDROID.md" href="#00-informe-PLAN-REFUERZO-CURSO-ANDROID">Plan de refuerzo integral del curso Android</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="00-informe/MEJORAS-POR-MODULO-Y-EVIDENCIAS.md" href="#00-informe-MEJORAS-POR-MODULO-Y-EVIDENCIAS">Mejoras por módulo, criterios y evidencias</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="00-informe/MATRIZ-COMPETENCIAS.md" href="#00-informe-MATRIZ-COMPETENCIAS">Matriz de competencias - Android</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="00-informe/RUBRICA-GATES-POR-FASE.md" href="#00-informe-RUBRICA-GATES-POR-FASE">Rubrica de gates por fase - Android</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="00-informe/SCORECARD-EMPLEABILIDAD.md" href="#00-informe-SCORECARD-EMPLEABILIDAD">Scorecard de empleabilidad - Android</a></li>
 </ul></li>
 <li class="nav-section"><strong>ETAPA 0: NIVEL CERO</strong>
 <ul>
@@ -1493,127 +1493,198 @@ blockquote p {
   <li>Dependencias técnicas cambiantes: política de actualización de matriz.</li>
 </ul>
 </section>
-<section id="00-informe-AUDITORIA-EQUIVALENCIA-IOS-ANDROID" class="lesson" data-topic-id="00-informe-AUDITORIA-EQUIVALENCIA-IOS-ANDROID" data-lesson-path="00-informe/AUDITORIA-EQUIVALENCIA-IOS-ANDROID.md">
-<div class="lesson-path">00-informe/AUDITORIA-EQUIVALENCIA-IOS-ANDROID.md</div>
-<h1 id="00-informe-AUDITORIA-EQUIVALENCIA-IOS-ANDROID-auditor-a-de-equivalencia-ios-android">Auditoría de equivalencia iOS ↔ Android</h1>
-<h2 id="00-informe-AUDITORIA-EQUIVALENCIA-IOS-ANDROID-contexto-y-objetivo-de-esta-auditor-a">Contexto y objetivo de esta auditoría</h2>
-<p>Este documento existe para responder una pregunta incómoda, pero necesaria: si una persona termina el recorrido Android, ¿sale con el mismo nivel de preparación profesional que quien termina el recorrido iOS? La respuesta, en el estado actual, es que todavía no. Hay avances importantes en cobertura y narrativa, pero la equivalencia real exige algo más que contenido amplio. Exige evidencia operativa consistente, un proyecto final verdaderamente integrador y una forma de evaluación que compruebe empleabilidad técnica, no solo comprensión conceptual.</p>
-<p>La comparación se hace sobre artefactos concretos de ambos repositorios. Del lado Android se toma como referencia la estructura y el contrato pedagógico publicado, y del lado iOS se toma el estándar de profundidad operativa ya consolidado.</p>
-<h2 id="00-informe-AUDITORIA-EQUIVALENCIA-IOS-ANDROID-estado-comparativo-actual">Estado comparativo actual</h2>
-<p>Cuando se compara la propuesta de valor, Android ya tiene una promesa formativa potente: progresión clara, stack moderno y cobertura por niveles. Esa base está bien representada en <a href="../README.md"><code>README.md</code></a> y en <a href="INFORME-CURSO.md"><code>INFORME-CURSO.md</code></a>. Sin embargo, la versión iOS sigue mostrando una columna vertebral más cerrada entre teoría, decisiones y ejecución verificable, visible en <a href="../../stack-my-architecture-ios/README.md"><code>README.md</code></a> y en su informe fundacional <a href="../../stack-my-architecture-ios/00-informe/INFORME-CURSO.md"><code>INFORME-CURSO.md</code></a>.</p>
-<p>En profundidad técnica, Android cubre casi todos los temas críticos del stack solicitado, pero todavía no obliga al alumno a demostrarlos de forma integrada sobre un único producto vivo con gates duros de calidad. En iOS esa exigencia aparece con más fuerza en la continuidad de sus etapas y artefactos.</p>
-<p>En coherencia pedagógica, Android mejoró tras revisiones de calidad, pero aún hay brechas de trazabilidad entre lo que se aprende en módulos aislados y lo que debe sostenerse en un ciclo real de release, operación y mantenimiento de producto.</p>
-<h2 id="00-informe-AUDITORIA-EQUIVALENCIA-IOS-ANDROID-brechas-cr-ticas-detectadas">Brechas críticas detectadas</h2>
-<p>La primera brecha es estructural: el proyecto final existe como anexo útil, pero no funciona todavía como hilo conductor obligatorio de extremo a extremo. Eso deja espacio para completar niveles con buen conocimiento parcial sin haber demostrado integración profesional completa.</p>
-<p>La segunda brecha es de evidencia técnica. Faltan criterios de aceptación duros que conecten cada nivel con resultados verificables en build, tests, rendimiento, observabilidad, release y mantenimiento.</p>
-<p>La tercera brecha es de evaluación de empleabilidad. Hay entregables por nivel, pero falta una rúbrica unificada que convierta esas entregas en una señal clara de readiness profesional.</p>
-<p>La cuarta brecha es de gobernanza de decisiones. Android necesita reforzar el uso de decisiones técnicas versionadas para que la evolución del proyecto final no dependa de memoria ni criterio implícito.</p>
-<h2 id="00-informe-AUDITORIA-EQUIVALENCIA-IOS-ANDROID-criterio-de-equivalencia-objetivo">Criterio de equivalencia objetivo</h2>
-<p>Se considera equivalencia real con iOS solo si Android cumple simultáneamente estas condiciones:</p>
+<section id="00-informe-MATRIZ-COMPETENCIAS" class="lesson" data-topic-id="00-informe-MATRIZ-COMPETENCIAS" data-lesson-path="00-informe/MATRIZ-COMPETENCIAS.md">
+<div class="lesson-path">00-informe/MATRIZ-COMPETENCIAS.md</div>
+<h1 id="00-informe-MATRIZ-COMPETENCIAS-matriz-de-competencias-android">Matriz de competencias - Android</h1>
+<h2 id="00-informe-MATRIZ-COMPETENCIAS-objetivo">Objetivo</h2>
+<p>Asegurar progresion verificable desde nivel cero hasta maestria con evidencia ejecutable y defensa tecnica.</p>
+<h2 id="00-informe-MATRIZ-COMPETENCIAS-niveles-y-evidencias">Niveles y evidencias</h2>
+<table>
+<thead>
+<tr>
+  <th>Nivel</th>
+  <th>Capacidad objetivo</th>
+  <th>Evidencia minima obligatoria</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>Core Mobile + Nivel Cero</td>
+  <td>Comprender capas, invariantes y estructura base</td>
+  <td>Diagrama de capas + glosario de flechas + snippet compilable</td>
+</tr>
+<tr>
+  <td>Junior</td>
+  <td>Construir feature completa con arquitectura limpia</td>
+  <td>Caso de uso + ViewModel + test unitario en verde</td>
+</tr>
+<tr>
+  <td>Midlevel</td>
+  <td>Integrar offline-first, contratos y sincronizacion</td>
+  <td>Test de integracion + diagrama de wiring + trade-off escrito</td>
+</tr>
+<tr>
+  <td>Senior</td>
+  <td>Operar modulos con observabilidad y governance</td>
+  <td>Metricas base + runbook corto + decision de riesgo</td>
+</tr>
+<tr>
+  <td>Maestria</td>
+  <td>Defender arquitectura enterprise en evolucion</td>
+  <td>ADR + estrategia de rollout/rollback + checklist release</td>
+</tr>
+<tr>
+  <td>Proyecto Final</td>
+  <td>Entregar sistema defendible end-to-end</td>
+  <td>Demo reproducible + evidencia tecnica + defensa oral</td>
+</tr>
+</tbody>
+</table>
+<h2 id="00-informe-MATRIZ-COMPETENCIAS-criterio-de-paso">Criterio de paso</h2>
 <ol>
-  <li>El proyecto final no es accesorio, sino obligatorio y transversal a todo el recorrido.</li>
-  <li>Cada nivel deja evidencia técnica verificable en código, pruebas, rendimiento y operación.</li>
-  <li>Existe rúbrica de empleabilidad única con umbrales explícitos de aprobación.</li>
-  <li>Las decisiones arquitectónicas relevantes quedan registradas y defendibles.</li>
-  <li>El cierre incluye simulación realista de trabajo en equipo, release y mantenimiento post-publicación.</li>
+  <li>No se aprueba nivel sin evidencia tecnica y defensa breve.</li>
+  <li>Si falla un gate, el nivel queda en recuperacion.</li>
+  <li>Toda evidencia debe poder ejecutarse desde repo.</li>
 </ol>
-<h2 id="00-informe-AUDITORIA-EQUIVALENCIA-IOS-ANDROID-decisi-n-de-esta-auditor-a">Decisión de esta auditoría</h2>
-<p>La auditoría concluye que el curso Android debe entrar en fase de refuerzo controlado. El objetivo no es reescribir todo ni romper continuidad. El objetivo es convertir lo ya construido en un sistema de formación verificable por evidencias, con un proyecto final central y una evaluación que realmente mida desempeño profesional.</p>
-<p>La implementación de esta decisión se desarrolla en el plan de refuerzo y en el nuevo bloque de proyecto final.</p>
+<h2 id="00-informe-MATRIZ-COMPETENCIAS-reglas-de-evaluacion">Reglas de evaluacion</h2>
+<ol>
+  <li>Comprension: explica limites y dependencias.</li>
+  <li>Aplicacion: demuestra con codigo y pruebas.</li>
+  <li>Defensa: argumenta decision y alternativa descartada.</li>
+  <li>Operacion: valida observabilidad y resiliencia.</li>
+</ol>
 </section>
-<section id="00-informe-PLAN-REFUERZO-CURSO-ANDROID" class="lesson" data-topic-id="00-informe-PLAN-REFUERZO-CURSO-ANDROID" data-lesson-path="00-informe/PLAN-REFUERZO-CURSO-ANDROID.md">
-<div class="lesson-path">00-informe/PLAN-REFUERZO-CURSO-ANDROID.md</div>
-<h1 id="00-informe-PLAN-REFUERZO-CURSO-ANDROID-plan-de-refuerzo-integral-del-curso-android">Plan de refuerzo integral del curso Android</h1>
-<p>Este plan convierte la revisión crítica en ejecución concreta. El objetivo no es rehacer el curso desde cero, sino reforzarlo donde más impacta para cerrar la brecha de equivalencia con iOS y, sobre todo, para que el alumno salga con señales reales de empleabilidad técnica.</p>
-<p>La idea central es simple: todo el recorrido debe desembocar en un único producto vivo, y cada nivel debe aportar una versión verificable de ese producto. Ese producto es RuralGO FieldOps, definido en <a href="../05-proyecto-final/00-brief-ruralgo-fieldops.md"><code>00-brief-ruralgo-fieldops.md</code></a>, con rúbrica de cierre en <a href="../05-proyecto-final/01-rubrica-empleabilidad.md"><code>01-rubrica-empleabilidad.md</code></a> y evidencias obligatorias en <a href="../05-proyecto-final/02-evidencias-obligatorias.md"><code>02-evidencias-obligatorias.md</code></a>.</p>
-<h2 id="00-informe-PLAN-REFUERZO-CURSO-ANDROID-qu-se-refuerza-en-cada-nivel">Qué se refuerza en cada nivel</h2>
-<p>En Nivel Cero no se cambia el foco de alfabetización técnica, pero sí se introduce una disciplina de evidencia desde el primer día. Cada mini proyecto debe cerrar con un registro breve de ejecución: qué se intentó, qué falló, cómo se corrigió y qué quedó funcionando. Ese hábito se vuelve estructural y acompaña todo el curso.</p>
-<p>En Junior, los entregables dejan de sentirse como piezas aisladas. Cada módulo se conecta explícitamente con la versión v1.0 del proyecto final. El alumno ya no entrega “una feature cualquiera”, sino una parte concreta de FieldOps con estado, navegación y persistencia funcionando en conjunto.</p>
-<p>En Midlevel, el objetivo es endurecer robustez técnica y trazabilidad. Aquí se exige v2.0 con sincronización offline-first, integración real de red + Room + DataStore, y primera línea seria de calidad automatizada en CI. Midlevel pasa a ser el punto donde el alumno demuestra que no solo construye, sino que integra sin romper.</p>
-<p>En Senior, se activa la capa operativa. El proyecto se convierte en v3.0 con release controlado, rollback viable, runbook de incidentes y señales de salud que permitan decidir bajo presión. Este nivel deja de ser únicamente “arquitectura bonita” y se vuelve entrenamiento de sostenibilidad de producto.</p>
-<p>En Maestría, el foco es gobernanza y evolución de largo plazo. FieldOps pasa a v4.0 con contratos internos versionados, reglas de dependencia más estrictas, criterios de cambio entre equipos y defensa técnica formal de decisiones con evidencia.</p>
-<h2 id="00-informe-PLAN-REFUERZO-CURSO-ANDROID-mejoras-concretas-por-m-dulo-y-continuidad-pedag-gica">Mejoras concretas por módulo y continuidad pedagógica</h2>
-<p>El refuerzo no obliga a reescribir todos los módulos. Obliga a insertar puentes pedagógicos claros donde antes había saltos. Cada introducción de nivel incorpora ahora una sección de “estado actual de FieldOps”, para que el alumno entienda qué hereda, qué mejora y qué valida en ese tramo.</p>
-<p>En los módulos de arquitectura, testing, observabilidad y rendimiento se añade una cláusula de aplicación obligatoria sobre el proyecto final. Eso evita que la lección se consuma como teoría separada y garantiza transferencia inmediata a un caso real del curso.</p>
-<p>En los módulos avanzados de Senior y Maestría, cada decisión técnica debe cerrar con una evidencia de impacto operativo. Ya no basta con explicar por qué una estrategia “suena correcta”; hay que mostrar qué señal la valida o la refuta.</p>
-<h2 id="00-informe-PLAN-REFUERZO-CURSO-ANDROID-criterios-de-evaluaci-n-reforzados">Criterios de evaluación reforzados</h2>
-<p>La evaluación deja de fragmentarse por “entregables sueltos” y se unifica en dos capas. La primera capa mide progreso por nivel sobre el producto vivo. La segunda capa mide readiness final con la rúbrica de empleabilidad de 100 puntos.</p>
-<p>La aprobación final requiere superar el umbral global y no tener vacíos críticos en arquitectura, testing u operación. Este criterio protege al alumno de una falsa sensación de preparación basada en fortalezas parciales.</p>
-<h2 id="00-informe-PLAN-REFUERZO-CURSO-ANDROID-evidencias-esperadas-de-aprendizaje">Evidencias esperadas de aprendizaje</h2>
-<p>La evidencia mínima exigible en cada hito incluye código ejecutable, pruebas pasando, señal de calidad/rendimiento acorde al nivel, y defensa técnica escrita en lenguaje propio. Con esto se evalúa comprensión, ejecución y capacidad de explicar decisiones, que es lo que de verdad se pide en contexto profesional.</p>
-<h2 id="00-informe-PLAN-REFUERZO-CURSO-ANDROID-plan-de-implementaci-n-priorizado">Plan de implementación priorizado</h2>
-<p>La primera prioridad es estabilizar el marco del proyecto final transversal y enlazarlo desde los puntos de entrada del curso. Esto tiene el mayor impacto con el menor riesgo de ruptura curricular.</p>
-<p>La segunda prioridad es adaptar entregables de Junior, Midlevel, Senior y Maestría para que validen explícitamente versiones sucesivas de FieldOps. Aquí se gana coherencia pedagógica de extremo a extremo.</p>
-<p>La tercera prioridad es endurecer quality gates y evidencias de CI/rendimiento/publicación en el cierre final. Ese paso transforma la experiencia de “curso completo” en “preparación profesional defendible”.</p>
-<p>La cuarta prioridad es ejecutar una auditoría final de equivalencia contra iOS con resultado explícito de brechas cerradas y pendientes residuales.</p>
-<pre><code class="language-kotlin">package com.stackmyarchitecture.reinforcement
-
-data class ReinforcementMilestone(
-    val name: String,
-    val scope: String,
-    val completionCriteria: String
-)
-
-class ReinforcementPlanner {
-    fun orderedMilestones(): List&lt;ReinforcementMilestone&gt; {
-        return listOf(
-            ReinforcementMilestone(
-                name = "Marco proyecto final",
-                scope = "Definición transversal y enlaces curriculares",
-                completionCriteria = "Brief, rúbrica y evidencias integrados"
-            ),
-            ReinforcementMilestone(
-                name = "Alineación por nivel",
-                scope = "Entregables Junior/Midlevel/Senior/Maestría sobre FieldOps",
-                completionCriteria = "Cada nivel entrega versión verificable"
-            ),
-            ReinforcementMilestone(
-                name = "Cierre operativo",
-                scope = "CI, rendimiento, publicación y defensa técnica",
-                completionCriteria = "Evidencia completa de empleabilidad"
-            )
-        )
-    }
-}</code></pre>
-<p>Este código no es decorativo. Resume la lógica de implementación: primero crear columna vertebral, luego conectar niveles, luego cerrar con evidencia operativa.</p>
+<section id="00-informe-RUBRICA-GATES-POR-FASE" class="lesson" data-topic-id="00-informe-RUBRICA-GATES-POR-FASE" data-lesson-path="00-informe/RUBRICA-GATES-POR-FASE.md">
+<div class="lesson-path">00-informe/RUBRICA-GATES-POR-FASE.md</div>
+<h1 id="00-informe-RUBRICA-GATES-POR-FASE-rubrica-de-gates-por-fase-android">Rubrica de gates por fase - Android</h1>
+<h2 id="00-informe-RUBRICA-GATES-POR-FASE-objetivo">Objetivo</h2>
+<p>Definir criterios de aprobado/rechazado por fase para asegurar progresion real.</p>
+<h2 id="00-informe-RUBRICA-GATES-POR-FASE-gates-por-fase">Gates por fase</h2>
+<table>
+<thead>
+<tr>
+  <th>Fase</th>
+  <th>Gate tecnico</th>
+  <th>Gate pedagogico</th>
+  <th>Gate de defensa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>Core Mobile + Nivel Cero</td>
+  <td>Diagrama de capas y limites correcto</td>
+  <td>Explica semántica de flechas</td>
+  <td>Defiende una dependencia valida y una invalida</td>
+</tr>
+<tr>
+  <td>Junior</td>
+  <td>Flujo rojo-verde-refactor completo</td>
+  <td>Explica como aisla feature de framework</td>
+  <td>Defiende por que elegiste ese boundary</td>
+</tr>
+<tr>
+  <td>Midlevel</td>
+  <td>Offline-first y sync en verde</td>
+  <td>Explica conflicto y resolucion</td>
+  <td>Defiende trade-off consistencia vs latencia</td>
+</tr>
+<tr>
+  <td>Senior</td>
+  <td>Observabilidad y quality gates activos</td>
+  <td>Explica impacto de metricas</td>
+  <td>Defiende decision de hardening por riesgo</td>
+</tr>
+<tr>
+  <td>Maestria</td>
+  <td>Release readiness y runbook validado</td>
+  <td>Explica criterio de readiness</td>
+  <td>Defiende plan de rollback y mitigacion</td>
+</tr>
+<tr>
+  <td>Proyecto Final</td>
+  <td>Integracion end-to-end reproducible</td>
+  <td>Explica arquitectura completa</td>
+  <td>Defiende roadmap de evolucion</td>
+</tr>
+</tbody>
+</table>
+<h2 id="00-informe-RUBRICA-GATES-POR-FASE-regla-de-aprobado">Regla de aprobado</h2>
+<ol>
+  <li>Se aprueba fase solo con los tres gates en verde.</li>
+  <li>Si un gate falla, se registra recuperacion con evidencia faltante.</li>
+  <li>Todo gate debe trazarse a comando, test o artefacto versionado.</li>
+</ol>
+<h2 id="00-informe-RUBRICA-GATES-POR-FASE-evidencia-de-recuperacion">Evidencia de recuperacion</h2>
+<ol>
+  <li>Causa del fallo.</li>
+  <li>Cambio aplicado.</li>
+  <li>Prueba de cierre.</li>
+  <li>Leccion aprendida.</li>
+</ol>
 </section>
-<section id="00-informe-MEJORAS-POR-MODULO-Y-EVIDENCIAS" class="lesson" data-topic-id="00-informe-MEJORAS-POR-MODULO-Y-EVIDENCIAS" data-lesson-path="00-informe/MEJORAS-POR-MODULO-Y-EVIDENCIAS.md">
-<div class="lesson-path">00-informe/MEJORAS-POR-MODULO-Y-EVIDENCIAS.md</div>
-<h1 id="00-informe-MEJORAS-POR-MODULO-Y-EVIDENCIAS-mejoras-por-m-dulo-criterios-y-evidencias">Mejoras por módulo, criterios y evidencias</h1>
-<p>Este documento baja el plan de refuerzo a nivel de ejecución curricular. No sustituye las lecciones existentes. Las conecta con una exigencia común: cada módulo debe dejar una mejora concreta sobre RuralGO FieldOps y una evidencia verificable de aprendizaje.</p>
-<h2 id="00-informe-MEJORAS-POR-MODULO-Y-EVIDENCIAS-nivel-cero">Nivel Cero</h2>
-<p>En este nivel se mantiene la prioridad de comprensión base, pero se incorpora una mejora estructural en todos los módulos: cada práctica termina con un registro mínimo de evidencia. Ese registro debe incluir captura de ejecución, error principal encontrado y corrección aplicada. El objetivo no es producir software grande, sino instalar una disciplina de aprendizaje observable desde el inicio.</p>
-<p>El criterio de evaluación aquí es claridad de comprensión y capacidad de corregir errores frecuentes sin bloqueo total. La evidencia esperada es una mini app navegable y una bitácora breve de decisiones.</p>
-<h2 id="00-informe-MEJORAS-POR-MODULO-Y-EVIDENCIAS-junior">Junior</h2>
-<p>La mejora principal de Junior es dejar de tratar los entregables como piezas independientes. Cada módulo aporta una parte explícita de la versión v1.0 de FieldOps. El alumno debe entender que arquitectura, estado, navegación, persistencia y pruebas forman parte del mismo sistema, no de cinco ejercicios distintos.</p>
-<p>El criterio de evaluación es integración funcional básica con separación de responsabilidades. La evidencia esperada es un flujo usable de dos o más pantallas, ViewModel por pantalla, persistencia local coherente y pruebas mínimas pasando.</p>
-<h2 id="00-informe-MEJORAS-POR-MODULO-Y-EVIDENCIAS-midlevel">Midlevel</h2>
-<p>La mejora principal de Midlevel es endurecer robustez y trazabilidad técnica en v2.0 de FieldOps. Cada módulo debe conectarse con problemas reales de sincronización, red inestable y consistencia de datos.</p>
-<p>El criterio de evaluación es que el sistema se mantenga operativo bajo condiciones no ideales. La evidencia esperada es sincronización offline-first funcional, pruebas de integración sobre flujos críticos y señales mínimas de calidad en CI.</p>
-<h2 id="00-informe-MEJORAS-POR-MODULO-Y-EVIDENCIAS-senior">Senior</h2>
-<p>La mejora principal de Senior es convertir la app en un producto operable, no solo implementable. Aquí la versión v3.0 debe demostrar estrategia de release, rollback y respuesta a incidentes con criterio técnico.</p>
-<p>El criterio de evaluación es capacidad de sostener cambios bajo presión sin degradar estabilidad de forma ciega. La evidencia esperada es runbook operativo, decisiones de priorización con señales y validación de salud del sistema tras release.</p>
-<h2 id="00-informe-MEJORAS-POR-MODULO-Y-EVIDENCIAS-maestr-a">Maestría</h2>
-<p>La mejora principal de Maestría es gobernanza de evolución en v4.0. Los módulos deben consolidar contratos versionados, reglas de dependencia y defensa técnica de decisiones con impacto organizativo real.</p>
-<p>El criterio de evaluación es madurez para liderar decisiones de arquitectura y evolución multi-equipo con evidencia. La evidencia esperada es defensa técnica estructurada, trazabilidad de cambios y cierre profesional de publicación/mantenimiento.</p>
-<h2 id="00-informe-MEJORAS-POR-MODULO-Y-EVIDENCIAS-puente-transversal-obligatorio">Puente transversal obligatorio</h2>
-<p>Todos los niveles deben referenciar explícitamente el estado de FieldOps al inicio de cada introducción de bloque. Esto elimina saltos pedagógicos y deja claro qué hereda el alumno, qué mejora en el nivel actual y qué evidencia debe producir para avanzar.</p>
-<pre><code class="language-kotlin">package com.stackmyarchitecture.curriculum
-
-data class ModuleReinforcement(
-    val level: String,
-    val targetVersion: String,
-    val expectedEvidence: String
-)
-
-class CurriculumContinuityChecker {
-    fun hasContinuity(reinforcement: ModuleReinforcement): Boolean {
-        return reinforcement.level.isNotBlank() &amp;&amp;
-            reinforcement.targetVersion.isNotBlank() &amp;&amp;
-            reinforcement.expectedEvidence.isNotBlank()
-    }
-}</code></pre>
-<p>Este bloque de código representa el contrato pedagógico reforzado: cada módulo debe decir qué versión del producto toca y qué evidencia deja. Si eso no está claro, la continuidad se rompe.</p>
+<section id="00-informe-SCORECARD-EMPLEABILIDAD" class="lesson" data-topic-id="00-informe-SCORECARD-EMPLEABILIDAD" data-lesson-path="00-informe/SCORECARD-EMPLEABILIDAD.md">
+<div class="lesson-path">00-informe/SCORECARD-EMPLEABILIDAD.md</div>
+<h1 id="00-informe-SCORECARD-EMPLEABILIDAD-scorecard-de-empleabilidad-android">Scorecard de empleabilidad - Android</h1>
+<h2 id="00-informe-SCORECARD-EMPLEABILIDAD-objetivo">Objetivo</h2>
+<p>Mapear niveles del curso a senales observables de contratacion y defensa tecnica.</p>
+<h2 id="00-informe-SCORECARD-EMPLEABILIDAD-seniority-map">Seniority map</h2>
+<table>
+<thead>
+<tr>
+  <th>Nivel</th>
+  <th>Senal en entrevista</th>
+  <th>Evidencia portfolio</th>
+  <th>Riesgo si falta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>Junior</td>
+  <td>Explica clean architecture y testing base</td>
+  <td>Feature Android completa con tests</td>
+  <td>Implementacion acoplada y fragil</td>
+</tr>
+<tr>
+  <td>Mid</td>
+  <td>Defiende offline-first y contratos internos</td>
+  <td>Integracion Room/Worker/API con pruebas</td>
+  <td>Arquitectura no escalable</td>
+</tr>
+<tr>
+  <td>Senior</td>
+  <td>Decide con metricas y calidad operativa</td>
+  <td>Dashboard de metricas + quality gates</td>
+  <td>Decisiones sin observabilidad</td>
+</tr>
+<tr>
+  <td>Arquitecto</td>
+  <td>Coordina modulos y limites de ownership</td>
+  <td>ADR + diagrama inter-modulo + governance</td>
+  <td>Sistema dificil de evolucionar</td>
+</tr>
+<tr>
+  <td>Maestria</td>
+  <td>Opera release con control de riesgo</td>
+  <td>Runbook + estrategia rollout/rollback</td>
+  <td>Riesgo alto en produccion</td>
+</tr>
+</tbody>
+</table>
+<h2 id="00-informe-SCORECARD-EMPLEABILIDAD-criterio-de-empleabilidad">Criterio de empleabilidad</h2>
+<ol>
+  <li>Cada nivel requiere evidencia ejecutable.</li>
+  <li>Cada evidencia incluye defensa de decision.</li>
+  <li>La defensa cubre riesgo, mitigacion y alternativa descartada.</li>
+</ol>
+<h2 id="00-informe-SCORECARD-EMPLEABILIDAD-checklist-de-defensa-tecnica">Checklist de defensa tecnica</h2>
+<ul>
+  <li>Problema y contexto</li>
+  <li>Invariantes</li>
+  <li>Opciones evaluadas</li>
+  <li>Decision final</li>
+  <li>Riesgo y mitigacion</li>
+  <li>Validacion en runtime</li>
+</ul>
 </section>
 <section id="00-nivel-cero-00-introduccion" class="lesson" data-topic-id="00-nivel-cero-00-introduccion" data-lesson-path="00-nivel-cero/00-introduccion.md">
 <div class="lesson-path">00-nivel-cero/00-introduccion.md</div>

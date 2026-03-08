@@ -304,7 +304,7 @@ Evolucionar de cobertura puntual a cobertura total en lecciones con Mermaid, eje
 2. Android queda en `10/10` lecciones con Mermaid y 4 flechas.
 3. SDD queda en `157/157` lecciones con Mermaid y 4 flechas (excluyendo `00-informe`).
 4. Hub publica sync full coverage con `no drift (6/6)` y smoke runtime en verde.
-5. Plan operativo de ejecución documentado en `docs/PLAN-COBERTURA-TOTAL-FLECHAS-20260227.md`.
+5. Cobertura total ejecutada y consolidada en este ADR-lite y en `docs/STACK-ARCHITECTURE-MASTER-TRACKER.md`.
 
 ## ADR-LITE-016 — Buscador lateral obligatorio en cursos publicados
 ### Fecha
