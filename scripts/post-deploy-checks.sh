@@ -3,11 +3,12 @@
 set -euo pipefail
 
 BASE_URL="${1:-https://architecture-stack.vercel.app}"
+BASE_URL="${BASE_URL%/}"
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
-ROUTES_SMOKE="$SCRIPT_DIR/smoke-public-routes.sh"
-FUNCTIONAL_SMOKE="$SCRIPT_DIR/smoke-public-functional.sh"
+ROUTES_SMOKE="${SMA_POST_DEPLOY_ROUTES_SCRIPT:-$SCRIPT_DIR/smoke-public-routes.sh}"
+FUNCTIONAL_SMOKE="${SMA_POST_DEPLOY_FUNCTIONAL_SCRIPT:-$SCRIPT_DIR/smoke-public-functional.sh}"
 
 if [[ ! -x "$ROUTES_SMOKE" ]]; then
   echo "[ERROR] Script no ejecutable o inexistente: $ROUTES_SMOKE"
