@@ -4,8 +4,8 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import re
-from datetime import datetime, timezone
 from pathlib import Path
 
 ASSET_PATTERN = re.compile(
@@ -32,8 +32,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--version",
         default="",
-        help="Version value to inject (default: UTC epoch seconds)",
-    )
+        help="Version value to inject (default: deterministic content hash)",
+        )
     parser.add_argument(
         "--target",
         action="append",
@@ -43,12 +43,29 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
+def compute_shared_asset_version(hub_root: Path) -> str:
+    digest = hashlib.sha1()
+    found = False
+    for course_dir in ("ios", "android", "sdd"):
+        assets_dir = hub_root / course_dir / "assets"
+        if not assets_dir.exists():
+            continue
+        for asset_path in sorted(assets_dir.rglob("*")):
+            if not asset_path.is_file():
+                continue
+            if asset_path.suffix not in {".css", ".js"}:
+                continue
+            found = True
+            rel_path = asset_path.relative_to(hub_root).as_posix()
+            digest.update(rel_path.encode("utf-8"))
+            digest.update(b"\0")
+            digest.update(asset_path.read_bytes())
+            digest.update(b"\0")
+    return digest.hexdigest()[:12] if found else "0"
+
+
 def resolve_version(raw: str) -> str:
-    clean = str(raw or "").strip()
-    if clean:
-        return clean
-    now = datetime.now(timezone.utc)
-    return str(int(now.timestamp()))
+    return str(raw or "").strip()
 
 
 def patch_html(path: Path, version: str) -> bool:
@@ -65,7 +82,7 @@ def patch_html(path: Path, version: str) -> bool:
 def main() -> int:
     args = parse_args()
     hub_root = Path(args.hub_root).resolve()
-    version = resolve_version(args.version)
+    version = resolve_version(args.version) or compute_shared_asset_version(hub_root)
     targets = args.target or DEFAULT_TARGETS
 
     changed = []
