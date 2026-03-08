@@ -372,3 +372,17 @@ La validación automática de login end-to-end queda parcialmente bloqueada si n
    - `SMA_E2E_AUTH_EMAIL`
    - `SMA_E2E_AUTH_PASSWORD`
    - opcional: `SMA_E2E_BASE_URL`, `SMA_E2E_COURSE_PATH`, `SMA_E2E_COURSE_ID`, `SMA_E2E_TOPIC_ID`
+
+## Cierre incremental 2026-03-08 — E2E auth real en producción
+1. ✅ E2E autenticada cross-device ejecutada de verdad contra `https://architecture-stack.vercel.app`.
+2. ✅ Resultado confirmado:
+   - sesión autenticada persistida en curso iOS,
+   - `progressProfile` ausente en URL autenticada,
+   - sync cross-device de `completado` + `repaso`,
+   - restauración final del estado original.
+3. ✅ Se corrigió además una regresión de hidratación en `study-ux.js` de iOS/Android que abortaba la UI de estudio.
+4. ✅ El repo Hub ignora ya residuos locales de Playwright:
+   - `.playwright-cli/`
+   - `output/playwright/`
+5. Siguiente mejora natural si se retoma este bloque:
+   - ejecutar esta E2E desde CI con una cuenta de prueba estable y secretos dedicados.
