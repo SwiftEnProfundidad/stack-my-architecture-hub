@@ -78,11 +78,15 @@ Repos incluidos:
    - smoke nuevo `scripts/tests/test-interview-mode-smoke.sh`
    - runner Playwright estable `scripts/tests/run-interview-mode-smoke.cjs`
    - integración en `./scripts/run-closeout-qa-suite.sh tests` en verde
+10. `./scripts/publish-architecture-stack.sh` ya respeta el cooldown activo y bloquea intentos manuales antes de la ventana:
+   - salida esperada: guard activo con `EXIT_CODE=2`
+   - override solo si se fuerza de forma explícita con `SMA_DEPLOY_FORCE=1`
 
 ## Siguiente paso operativo
 1. Esperar la ventana automática ya programada para `03:47 CET` y revisar el resultado del closeout.
 2. Si el deploy principal falla, dejar actuar al watchdog/followup antes de tocar nada manualmente.
 3. Ejecutar `post-deploy-checks` solo si el closeout no los hubiera dejado ya cerrados.
+4. No usar `publish-architecture-stack.sh` manualmente durante el cooldown salvo override consciente con `SMA_DEPLOY_FORCE=1`.
 
 ## Resultado del bloque anterior
 1. Builders y validadores dejan de depender de `TODO`, `DECISIONES-TOMADAS` o auditorías cerradas.

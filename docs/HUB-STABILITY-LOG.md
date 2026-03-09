@@ -1431,3 +1431,27 @@ Se elimina un falso negativo en post-deploy checks sin relajar cobertura real de
    - `./scripts/closeout-status.sh` -> `EN ESPERA`
    - `./scripts/closeout-readiness.sh` -> `EN ESPERA`
 5. No se aplican cambios de código en este paso; es cierre operativo usando la infraestructura de cooldown ya existente.
+
+## 2026-03-09 — Guardarrail de publicacion durante cooldown de Vercel
+
+### Contexto
+Tras dejar programada la ventana automática de redeploy, seguía existiendo el riesgo operativo de que un `./scripts/publish-architecture-stack.sh fast` manual intentara publicar antes de tiempo y consumiera cuota innecesariamente.
+
+### Cambios aplicados
+1. `scripts/publish-architecture-stack.sh` ahora lee el cooldown activo y bloquea el deploy mientras siga vigente.
+2. Se añade bypass explícito solo para casos de emergencia:
+   - `SMA_DEPLOY_FORCE=1 ./scripts/publish-architecture-stack.sh fast`
+3. Nueva regresión automática:
+   - `scripts/tests/test-publish-architecture-stack.sh`
+4. La nueva regresión queda integrada en:
+   - `./scripts/run-closeout-qa-suite.sh tests`
+
+### Evidencia técnica
+1. `./scripts/tests/test-publish-architecture-stack.sh` -> PASS.
+2. `./scripts/run-closeout-qa-suite.sh tests` -> PASS.
+3. Prueba operativa real:
+   - `./scripts/publish-architecture-stack.sh fast` -> guard activo, `EXIT_CODE=2`
+   - no intenta publicar antes de `2026-03-09 03:46:49 CET`
+
+### Resultado
+La infraestructura de closeout queda mejor protegida: durante el cooldown, la publicación manual ya no puede malgastar cuota por error humano y el flujo correcto pasa a ser esperar la ventana automática programada.

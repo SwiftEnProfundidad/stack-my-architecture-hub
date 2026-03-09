@@ -51,4 +51,5 @@ Mantener una única fuente de verdad operativa para el ecosistema `Hub + iOS + A
 ## Siguiente paso operativo
 1. Esperar la ventana automática de closeout ya programada para `2026-03-09 03:47 CET`.
 2. Verificar el resultado con `closeout-status` / `closeout-readiness` y `post-deploy-checks` si hiciera falta.
-3. Abrir el siguiente bloque de producto solo después de ese redeploy.
+3. Durante el cooldown, `publish-architecture-stack.sh` debe quedar bloqueado por guardarraíl salvo override explícito con `SMA_DEPLOY_FORCE=1`.
+4. Abrir el siguiente bloque de producto solo después de ese redeploy.
