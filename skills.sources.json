@@ -1,0 +1,19 @@
+{
+  "version": "1.0",
+  "bundles": [
+    {
+      "name": "frontend-guidelines",
+      "version": "1.0.0",
+      "template": "frontend-guidelines",
+      "sourcePath": "vendor/skills/frontend-enterprise-rules/SKILL.md",
+      "enabled": true
+    },
+    {
+      "name": "backend-guidelines",
+      "version": "1.0.0",
+      "template": "backend-guidelines",
+      "sourcePath": "vendor/skills/backend-enterprise-rules/SKILL.md",
+      "enabled": true
+    }
+  ]
+}
