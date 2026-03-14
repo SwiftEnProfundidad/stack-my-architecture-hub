@@ -2,27 +2,25 @@
 
 const {
   DEFAULT_BOOKMARKS_TABLE,
-  DEFAULT_ENTITLEMENTS_TABLE,
-  DEFAULT_ROLE_TABLE,
   deleteRows,
   fetchOptionalRows,
-  isBackendConfigured,
+  isUserScopedBackendConfigured,
   normalizeCourseId,
   normalizeTableName,
   normalizeTopicId,
   parseQuery,
   readJsonBody,
-  resolveUserContext,
+  readBearerToken,
+  resolveAuthenticatedUser,
   sendJson,
   setCorsHeaders,
+  supabasePublicKey,
   toErrorMessage,
   toStatusCode,
   withInfrastructureGuidance,
   upsertRows
 } = require('./_hub-platform.js');
 
-const ROLE_TABLE = normalizeTableName(process.env.HUB_ROLE_TABLE, DEFAULT_ROLE_TABLE);
-const ENTITLEMENTS_TABLE = normalizeTableName(process.env.HUB_ENTITLEMENTS_TABLE, DEFAULT_ENTITLEMENTS_TABLE);
 const BOOKMARKS_TABLE = normalizeTableName(process.env.HUB_BOOKMARKS_TABLE, DEFAULT_BOOKMARKS_TABLE);
 
 module.exports = async (req, res) => {
@@ -51,20 +49,26 @@ module.exports = async (req, res) => {
 };
 
 async function requireContext(req) {
-  const context = await resolveUserContext(req, {
-    roleTable: ROLE_TABLE,
-    entitlementsTable: ENTITLEMENTS_TABLE
-  });
-  if (!context.authenticated) {
+  const user = await resolveAuthenticatedUser(req, { optional: true });
+  if (!user || !user.id) {
     const error = new Error('Se requiere sesión autenticada.');
     error.statusCode = 401;
     throw error;
   }
-  return context;
+  return {
+    user: {
+      id: String(user.id || ''),
+      email: String(user.email || '')
+    },
+    requestOptions: {
+      supabaseKey: supabasePublicKey(),
+      bearerToken: readBearerToken(req)
+    }
+  };
 }
 
 async function handleList(req, res) {
-  if (!isBackendConfigured()) {
+  if (!isUserScopedBackendConfigured()) {
     sendJson(res, 503, {
       ok: false,
       error: 'Backend de bookmarks no configurado en este entorno.'
@@ -87,7 +91,7 @@ async function handleList(req, res) {
       user_id: `eq.${context.user.id}`,
       course_id: `eq.${courseId}`,
       order: 'updated_at.desc'
-    });
+    }, context.requestOptions);
 
     sendJson(res, 200, {
       ok: true,
@@ -100,7 +104,8 @@ async function handleList(req, res) {
   } catch (error) {
     const next = withInfrastructureGuidance(error, {
       table: BOOKMARKS_TABLE,
-      featureLabel: 'los bookmarks privados'
+      featureLabel: 'los bookmarks privados',
+      principalLabel: 'authenticated'
     });
     sendJson(res, toStatusCode(next), {
       ok: false,
@@ -110,7 +115,7 @@ async function handleList(req, res) {
 }
 
 async function handleToggle(req, res) {
-  if (!isBackendConfigured()) {
+  if (!isUserScopedBackendConfigured()) {
     sendJson(res, 503, {
       ok: false,
       error: 'Backend de bookmarks no configurado en este entorno.'
@@ -136,14 +141,14 @@ async function handleToggle(req, res) {
       course_id: `eq.${courseId}`,
       topic_id: `eq.${topicId}`,
       limit: '1'
-    });
+    }, context.requestOptions);
 
     if (existing.length) {
       await deleteRows(BOOKMARKS_TABLE, {
         user_id: `eq.${context.user.id}`,
         course_id: `eq.${courseId}`,
         topic_id: `eq.${topicId}`
-      });
+      }, context.requestOptions);
       sendJson(res, 200, {
         ok: true,
         active: false,
@@ -157,7 +162,7 @@ async function handleToggle(req, res) {
       course_id: courseId,
       topic_id: topicId,
       updated_at: new Date().toISOString()
-    }], 'user_id,course_id,topic_id');
+    }], 'user_id,course_id,topic_id', context.requestOptions);
 
     const row = rows[0] || null;
     sendJson(res, 200, {
@@ -176,7 +181,8 @@ async function handleToggle(req, res) {
   } catch (error) {
     const next = withInfrastructureGuidance(error, {
       table: BOOKMARKS_TABLE,
-      featureLabel: 'los bookmarks privados'
+      featureLabel: 'los bookmarks privados',
+      principalLabel: 'authenticated'
     });
     sendJson(res, toStatusCode(next), {
       ok: false,

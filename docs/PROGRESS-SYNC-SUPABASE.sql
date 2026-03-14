@@ -112,15 +112,76 @@ revoke all on public.hub_student_bookmarks from authenticated;
 revoke all on public.hub_admin_audit_log from anon;
 revoke all on public.hub_admin_audit_log from authenticated;
 
+grant usage on schema public to authenticated;
 grant usage on schema public to service_role;
 
 grant select, insert, update, delete on public.course_progress to service_role;
 grant select, insert, update, delete on public.hub_user_roles to service_role;
 grant select, insert, update, delete on public.hub_course_entitlements to service_role;
 grant select, insert, update, delete on public.hub_course_teasers to service_role;
+grant select, insert, update, delete on public.hub_student_notes to authenticated;
 grant select, insert, update, delete on public.hub_student_notes to service_role;
+grant select, insert, update, delete on public.hub_student_bookmarks to authenticated;
 grant select, insert, update, delete on public.hub_student_bookmarks to service_role;
 grant select, insert, update, delete on public.hub_admin_audit_log to service_role;
+
+drop policy if exists hub_student_notes_select_own on public.hub_student_notes;
+create policy hub_student_notes_select_own
+  on public.hub_student_notes
+  for select
+  to authenticated
+  using (auth.uid() = user_id);
+
+drop policy if exists hub_student_notes_insert_own on public.hub_student_notes;
+create policy hub_student_notes_insert_own
+  on public.hub_student_notes
+  for insert
+  to authenticated
+  with check (auth.uid() = user_id);
+
+drop policy if exists hub_student_notes_update_own on public.hub_student_notes;
+create policy hub_student_notes_update_own
+  on public.hub_student_notes
+  for update
+  to authenticated
+  using (auth.uid() = user_id)
+  with check (auth.uid() = user_id);
+
+drop policy if exists hub_student_notes_delete_own on public.hub_student_notes;
+create policy hub_student_notes_delete_own
+  on public.hub_student_notes
+  for delete
+  to authenticated
+  using (auth.uid() = user_id);
+
+drop policy if exists hub_student_bookmarks_select_own on public.hub_student_bookmarks;
+create policy hub_student_bookmarks_select_own
+  on public.hub_student_bookmarks
+  for select
+  to authenticated
+  using (auth.uid() = user_id);
+
+drop policy if exists hub_student_bookmarks_insert_own on public.hub_student_bookmarks;
+create policy hub_student_bookmarks_insert_own
+  on public.hub_student_bookmarks
+  for insert
+  to authenticated
+  with check (auth.uid() = user_id);
+
+drop policy if exists hub_student_bookmarks_update_own on public.hub_student_bookmarks;
+create policy hub_student_bookmarks_update_own
+  on public.hub_student_bookmarks
+  for update
+  to authenticated
+  using (auth.uid() = user_id)
+  with check (auth.uid() = user_id);
+
+drop policy if exists hub_student_bookmarks_delete_own on public.hub_student_bookmarks;
+create policy hub_student_bookmarks_delete_own
+  on public.hub_student_bookmarks
+  for delete
+  to authenticated
+  using (auth.uid() = user_id);
 
 insert into public.hub_course_teasers (course_id, topic_id, kind, is_public, sort_order)
 values

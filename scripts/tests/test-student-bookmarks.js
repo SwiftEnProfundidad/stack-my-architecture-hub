@@ -8,7 +8,8 @@ const { invoke, loadHandler, withMockFetch } = require('./helpers/serverless-api
 test('GET /api/student-bookmarks requiere sesión autenticada', async () => {
   const handler = loadHandler('api/student-bookmarks.js', {
     SUPABASE_URL: 'https://example.supabase.co',
-    SUPABASE_SERVICE_ROLE_KEY: 'service-role-key'
+    SUPABASE_SERVICE_ROLE_KEY: 'service-role-key',
+    SUPABASE_ANON_KEY: 'anon-key'
   });
 
   const result = await invoke(handler, {
@@ -22,7 +23,8 @@ test('GET /api/student-bookmarks requiere sesión autenticada', async () => {
 test('POST /api/student-bookmarks toggle crea bookmark si no existe', async () => {
   const handler = loadHandler('api/student-bookmarks.js', {
     SUPABASE_URL: 'https://example.supabase.co',
-    SUPABASE_SERVICE_ROLE_KEY: 'service-role-key'
+    SUPABASE_SERVICE_ROLE_KEY: 'service-role-key',
+    SUPABASE_ANON_KEY: 'anon-key'
   });
 
   const fetchCalls = [];
@@ -36,13 +38,6 @@ test('POST /api/student-bookmarks toggle crea bookmark si no existe', async () =
           id: '11111111-1111-4111-8111-111111111111',
           email: 'student@example.com'
         })
-      };
-    }
-    if (String(url).includes('/hub_user_roles') || String(url).includes('/hub_course_entitlements')) {
-      return {
-        ok: true,
-        status: 200,
-        text: async () => JSON.stringify([])
       };
     }
     if (String(url).includes('/hub_student_bookmarks') && options.method === 'GET') {
@@ -84,12 +79,15 @@ test('POST /api/student-bookmarks toggle crea bookmark si no existe', async () =
   const sent = JSON.parse(upsertCall.options.body);
   assert.equal(sent[0].user_id, '11111111-1111-4111-8111-111111111111');
   assert.equal(sent[0].course_id, 'ios');
+  assert.equal(upsertCall.options.headers.apikey, 'anon-key');
+  assert.equal(upsertCall.options.headers.Authorization, 'Bearer access-1');
 });
 
 test('POST /api/student-bookmarks devuelve error accionable si Supabase deniega acceso a la tabla', async () => {
   const handler = loadHandler('api/student-bookmarks.js', {
     SUPABASE_URL: 'https://example.supabase.co',
-    SUPABASE_SERVICE_ROLE_KEY: 'service-role-key'
+    SUPABASE_SERVICE_ROLE_KEY: 'service-role-key',
+    SUPABASE_ANON_KEY: 'anon-key'
   });
 
   await withMockFetch(async (url, options) => {
@@ -101,13 +99,6 @@ test('POST /api/student-bookmarks devuelve error accionable si Supabase deniega 
           id: '11111111-1111-4111-8111-111111111111',
           email: 'student@example.com'
         })
-      };
-    }
-    if (String(url).includes('/hub_user_roles') || String(url).includes('/hub_course_entitlements')) {
-      return {
-        ok: true,
-        status: 200,
-        text: async () => JSON.stringify([])
       };
     }
     if (String(url).includes('/hub_student_bookmarks') && options.method === 'GET') {
@@ -145,5 +136,6 @@ test('POST /api/student-bookmarks devuelve error accionable si Supabase deniega 
     assert.equal(result.statusCode, 503);
     assert.match(result.json.error, /Supabase está denegando acceso a los bookmarks privados/i);
     assert.match(result.json.error, /hub_student_bookmarks/i);
+    assert.match(result.json.error, /authenticated/i);
   });
 });

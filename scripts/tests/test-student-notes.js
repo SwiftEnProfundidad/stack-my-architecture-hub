@@ -8,7 +8,8 @@ const { invoke, loadHandler, withMockFetch } = require('./helpers/serverless-api
 test('GET /api/student-notes requiere sesión autenticada', async () => {
   const handler = loadHandler('api/student-notes.js', {
     SUPABASE_URL: 'https://example.supabase.co',
-    SUPABASE_SERVICE_ROLE_KEY: 'service-role-key'
+    SUPABASE_SERVICE_ROLE_KEY: 'service-role-key',
+    SUPABASE_ANON_KEY: 'anon-key'
   });
 
   const result = await invoke(handler, {
@@ -22,7 +23,8 @@ test('GET /api/student-notes requiere sesión autenticada', async () => {
 test('POST /api/student-notes upsert persiste nota por usuario y lección', async () => {
   const handler = loadHandler('api/student-notes.js', {
     SUPABASE_URL: 'https://example.supabase.co',
-    SUPABASE_SERVICE_ROLE_KEY: 'service-role-key'
+    SUPABASE_SERVICE_ROLE_KEY: 'service-role-key',
+    SUPABASE_ANON_KEY: 'anon-key'
   });
 
   const fetchCalls = [];
@@ -36,13 +38,6 @@ test('POST /api/student-notes upsert persiste nota por usuario y lección', asyn
           id: '11111111-1111-4111-8111-111111111111',
           email: 'student@example.com'
         })
-      };
-    }
-    if (String(url).includes('/hub_user_roles') || String(url).includes('/hub_course_entitlements')) {
-      return {
-        ok: true,
-        status: 200,
-        text: async () => JSON.stringify([])
       };
     }
     return {
@@ -79,12 +74,15 @@ test('POST /api/student-notes upsert persiste nota por usuario y lección', asyn
   const sent = JSON.parse(upsertCall.options.body);
   assert.equal(sent[0].user_id, '11111111-1111-4111-8111-111111111111');
   assert.equal(sent[0].course_id, 'ios');
+  assert.equal(upsertCall.options.headers.apikey, 'anon-key');
+  assert.equal(upsertCall.options.headers.Authorization, 'Bearer access-1');
 });
 
 test('POST /api/student-notes devuelve error accionable si Supabase deniega acceso a la tabla', async () => {
   const handler = loadHandler('api/student-notes.js', {
     SUPABASE_URL: 'https://example.supabase.co',
-    SUPABASE_SERVICE_ROLE_KEY: 'service-role-key'
+    SUPABASE_SERVICE_ROLE_KEY: 'service-role-key',
+    SUPABASE_ANON_KEY: 'anon-key'
   });
 
   await withMockFetch(async (url, options) => {
@@ -96,13 +94,6 @@ test('POST /api/student-notes devuelve error accionable si Supabase deniega acce
           id: '11111111-1111-4111-8111-111111111111',
           email: 'student@example.com'
         })
-      };
-    }
-    if (String(url).includes('/hub_user_roles') || String(url).includes('/hub_course_entitlements')) {
-      return {
-        ok: true,
-        status: 200,
-        text: async () => JSON.stringify([])
       };
     }
     if (String(url).includes('/hub_student_notes') && options.method === 'POST') {
@@ -135,5 +126,6 @@ test('POST /api/student-notes devuelve error accionable si Supabase deniega acce
     assert.match(result.json.error, /Supabase está denegando acceso a las notas privadas/i);
     assert.match(result.json.error, /PROGRESS-SYNC-SUPABASE\.sql/i);
     assert.match(result.json.error, /hub_student_notes/i);
+    assert.match(result.json.error, /authenticated/i);
   });
 });
