@@ -1481,4 +1481,10 @@ En el runtime de curso, el panel `Notas privadas por lección` devolvía `Supaba
 3. `./scripts/build-hub.sh --mode strict` -> PASS.
 
 ### Estado
-Hotfix implementado en código y tracking. Pendiente de despliegue y verificación final en producción.
+Hotfix publicado en Vercel, migración Supabase aplicada y guardarraíl backend endurecido.
+
+### Evidencia operativa final
+1. Deploy de producción activo: `https://architecture-stack.vercel.app`.
+2. Alias Vercel confirmado: `https://stack-my-architecture-hub.vercel.app`.
+3. Grants verificados con SQL: `hub_student_notes`, `hub_student_bookmarks`, `hub_course_entitlements` y `public` -> OK.
+4. `./scripts/post-deploy-checks.sh https://architecture-stack.vercel.app` -> PASS.
