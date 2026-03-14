@@ -22,6 +22,7 @@ if [[ ! -x "$SDD_AUDIT_SCRIPT" && -x "$SDD_ROOT/stack-my-architecture-SDD/script
   SDD_AUDIT_SCRIPT="$SDD_ROOT/stack-my-architecture-SDD/scripts/run-full-audit.sh"
 fi
 VERIFY_SCRIPT="$SCRIPT_DIR/verify-hub-build.py"
+SURFACE_GUARD_SCRIPT="$SCRIPT_DIR/validate-course-surface-guard.sh"
 RUNTIME_SMOKE_SCRIPT="$SCRIPT_DIR/smoke-hub-runtime.sh"
 MANIFEST_SCRIPT="$SCRIPT_DIR/generate-build-manifest.py"
 STAMP_ASSET_VERSION_SCRIPT="$SCRIPT_DIR/stamp-asset-version.py"
@@ -309,9 +310,15 @@ if [[ ! -x "$VERIFY_SCRIPT" ]]; then
   echo "[ERROR] Missing or non-executable hub verification script: $VERIFY_SCRIPT"
   exit 1
 fi
+if [[ ! -x "$SURFACE_GUARD_SCRIPT" ]]; then
+  echo "[ERROR] Missing or non-executable surface guard script: $SURFACE_GUARD_SCRIPT"
+  exit 1
+fi
 
 say "[7/8] Verifying hub output integrity..."
 python3 "$VERIFY_SCRIPT"
+say "[7.5/8] Running course surface anti-regression guard..."
+"$SURFACE_GUARD_SCRIPT"
 
 if [[ "$MODE" == "fast" || "${SKIP_RUNTIME_SMOKE:-0}" == "1" ]]; then
   say "[8/8] Runtime smoke skipped (mode=$MODE, SKIP_RUNTIME_SMOKE=${SKIP_RUNTIME_SMOKE:-0})"

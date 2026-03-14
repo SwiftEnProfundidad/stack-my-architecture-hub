@@ -1,0 +1,165 @@
+name: Hub Production Release Gate
+
+on:
+  workflow_dispatch:
+    inputs:
+      base_url:
+        description: "URL base objetivo de postchecks y verificación"
+        required: false
+        default: "https://architecture-stack.vercel.app"
+      mode:
+        description: "Modo de publicación"
+        required: true
+        default: strict
+        type: choice
+        options:
+          - strict
+          - fast
+      force_deploy:
+        description: "Forzar deploy (omite cooldown por cuota)"
+        required: false
+        default: false
+        type: boolean
+      run_postchecks:
+        description: "Ejecutar verificación post-publicación en producción"
+        required: false
+        default: true
+        type: boolean
+
+jobs:
+  release-gate:
+    name: Release gate manual de producción
+    runs-on: ubuntu-latest
+    concurrency:
+      group: hub-production-release
+      cancel-in-progress: false
+    environment:
+      name: production
+      url: https://architecture-stack.vercel.app
+      # Nota: para entornos alternos usar base_url distinto + sin aprobación automática de producción.
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Precheck enterprise de evidencia
+        id: precheck
+        run: |
+          set -euo pipefail
+
+          mkdir -p "$RUNNER_TEMP/hub-release-evidence"
+          mkdir -p "$RUNNER_TEMP/hub-release-logs"
+
+          echo "[RELEASE-PRECHECK] Ejecutando suite de humo público..."
+          ./scripts/tests/test-public-smoke-suite.sh 2>&1 | tee "$RUNNER_TEMP/hub-release-logs/public-smoke.out"
+
+          echo "[RELEASE-PRECHECK] Ejecutando guardas de superficie..."
+          ./scripts/tests/test-course-surface-guard-suite.sh 2>&1 | tee "$RUNNER_TEMP/hub-release-logs/course-surface-guard.out"
+
+          echo "[RELEASE-PRECHECK] Ejecutando determinismo de stamp de assets..."
+          ./scripts/tests/test-stamp-asset-version.sh 2>&1 | tee "$RUNNER_TEMP/hub-release-logs/stamp-asset.out"
+
+      - name: Publicación a producción con aprobación enterprise
+        id: publish
+        env:
+          SMA_DEPLOY_FORCE: ${{ inputs.force_deploy == true && '1' || '0' }}
+          SMA_PUBLISH_BUILD_SCRIPT: ${{ github.workspace }}/scripts/build-hub.sh
+          SMA_PUBLISH_BASE_URL: ${{ inputs.base_url }}
+        run: |
+          set -euo pipefail
+
+          mkdir -p "$RUNNER_TEMP/hub-release-evidence"
+          mkdir -p "$RUNNER_TEMP/hub-release-logs"
+          RELEASE_LOG="$RUNNER_TEMP/hub-release-logs/publish.log"
+
+          echo "[RELEASE] Iniciando publish-architecture-stack.sh (${{ inputs.mode }})" | tee "$RELEASE_LOG"
+          ./scripts/publish-architecture-stack.sh "${{ inputs.mode }}" 2>&1 | tee -a "$RELEASE_LOG"
+          publish_exit=${PIPESTATUS[0]}
+
+          if [[ "$publish_exit" -ne 0 ]]; then
+            echo "[RELEASE] Publicación fallida con exit $publish_exit" | tee -a "$RELEASE_LOG"
+            exit "$publish_exit"
+          fi
+
+          echo "[RELEASE] Publicación completada con éxito." | tee -a "$RELEASE_LOG"
+
+          {
+            echo "# Release gate evidence"
+            echo "- Commit: $GITHUB_SHA"
+            echo "- Branch: $GITHUB_REF_NAME"
+            echo "- Modo: ${{ inputs.mode }}"
+            echo "- Force deploy: ${{ inputs.force_deploy }}"
+            echo "- Actor: $GITHUB_ACTOR"
+            echo "- Base URL: ${{ inputs.base_url }}"
+            echo "- Fecha UTC: $(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+            echo "- Estado: OK"
+            echo "- Evidencia:"
+            echo "  - public smoke suite: ok"
+            echo "  - course surface guard suite: ok"
+            echo "  - stamp asset version suite: ok"
+            echo "  - publish-architecture-stack: ok"
+            echo "  - post-publish checks: pendiente"
+            if [[ -f "$GITHUB_WORKSPACE/.runtime/build-manifest.json" ]]; then
+              echo "  - build-manifest: generado"
+            else
+              echo "  - build-manifest: no disponible"
+            fi
+          } > "$RUNNER_TEMP/hub-release-evidence/checklist.md"
+
+          if [[ -f "$GITHUB_WORKSPACE/.runtime/build-manifest.json" ]]; then
+            cp "$GITHUB_WORKSPACE/.runtime/build-manifest.json" "$RUNNER_TEMP/hub-release-evidence/build-manifest.json"
+          else
+            echo "{}" > "$RUNNER_TEMP/hub-release-evidence/build-manifest.json"
+          fi
+
+      - name: Verificación post-publicación en production
+        id: postchecks
+        if: ${{ inputs.run_postchecks }}
+        env:
+          BASE_URL: ${{ inputs.base_url }}
+        run: |
+          set -euo pipefail
+
+          mkdir -p "$RUNNER_TEMP/hub-release-evidence"
+          mkdir -p "$RUNNER_TEMP/hub-release-logs"
+          POSTCHECK_LOG="$RUNNER_TEMP/hub-release-logs/postchecks.out"
+
+          echo "[RELEASE-POSTCHECK] Ejecutando verificación de producción en $BASE_URL" | tee "$POSTCHECK_LOG"
+          ./scripts/post-deploy-checks.sh "$BASE_URL" 2>&1 | tee -a "$POSTCHECK_LOG"
+          postcheck_exit=${PIPESTATUS[0]}
+
+          if [[ "$postcheck_exit" -ne 0 ]]; then
+            echo "[RELEASE-POSTCHECK] Postchecks fallaron con exit $postcheck_exit" | tee -a "$POSTCHECK_LOG"
+            exit "$postcheck_exit"
+          fi
+
+          echo "[RELEASE-POSTCHECK] Postchecks OK" | tee -a "$POSTCHECK_LOG"
+
+          if [[ -f "$RUNNER_TEMP/hub-release-evidence/checklist.md" ]]; then
+            echo "  - post-publish checks: ok" >> "$RUNNER_TEMP/hub-release-evidence/checklist.md"
+          fi
+
+      - name: Marcar postchecks omitidas en checklist
+        if: ${{ !inputs.run_postchecks }}
+        run: |
+          if [[ -f "$RUNNER_TEMP/hub-release-evidence/checklist.md" ]]; then
+            sed -i 's/  - post-publish checks: pendiente/  - post-publish checks: omitidos/g' "$RUNNER_TEMP/hub-release-evidence/checklist.md"
+          fi
+
+      - name: Subir evidencia de release
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: hub-release-evidence-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/hub-release-logs
+            ${{ runner.temp }}/hub-release-evidence

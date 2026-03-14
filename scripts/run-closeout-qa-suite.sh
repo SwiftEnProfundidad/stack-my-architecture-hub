@@ -44,6 +44,7 @@ else
     "$SCRIPT_DIR/tests/test-smoke-hub-runtime.sh"
     "$SCRIPT_DIR/tests/test-interview-mode-smoke.sh"
     "$SCRIPT_DIR/tests/test-course-content-mermaid-suite.sh"
+    "$SCRIPT_DIR/tests/test-course-surface-guard-suite.sh"
     "$SCRIPT_DIR/tests/test-publish-architecture-stack.sh"
     "$SCRIPT_DIR/tests/test-stamp-asset-version.sh"
     "$SCRIPT_DIR/tests/test-run-closeout-qa-suite.sh"
