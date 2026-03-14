@@ -112,6 +112,16 @@ revoke all on public.hub_student_bookmarks from authenticated;
 revoke all on public.hub_admin_audit_log from anon;
 revoke all on public.hub_admin_audit_log from authenticated;
 
+grant usage on schema public to service_role;
+
+grant select, insert, update, delete on public.course_progress to service_role;
+grant select, insert, update, delete on public.hub_user_roles to service_role;
+grant select, insert, update, delete on public.hub_course_entitlements to service_role;
+grant select, insert, update, delete on public.hub_course_teasers to service_role;
+grant select, insert, update, delete on public.hub_student_notes to service_role;
+grant select, insert, update, delete on public.hub_student_bookmarks to service_role;
+grant select, insert, update, delete on public.hub_admin_audit_log to service_role;
+
 insert into public.hub_course_teasers (course_id, topic_id, kind, is_public, sort_order)
 values
   ('ios', '00-informe-INFORME-CURSO', 'course_overview', true, 0),
