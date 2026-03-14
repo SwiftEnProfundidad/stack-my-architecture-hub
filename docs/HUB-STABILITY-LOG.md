@@ -1488,3 +1488,22 @@ Hotfix publicado en Vercel, migración Supabase aplicada y guardarraíl backend 
 2. Alias Vercel confirmado: `https://stack-my-architecture-hub.vercel.app`.
 3. Grants verificados con SQL: `hub_student_notes`, `hub_student_bookmarks`, `hub_course_entitlements` y `public` -> OK.
 4. `./scripts/post-deploy-checks.sh https://architecture-stack.vercel.app` -> PASS.
+
+## Hotfix UX teaser: progreso y navegación final
+### Fecha
+2026-03-14
+
+### Síntoma
+En modo `teaser`, el runtime mostraba `Progreso: X/Y` como si fuera progreso del curso completo y el botón `Siguiente lección` quedaba desactivado al completar la última lección visible, dando sensación de bug.
+
+### Diagnóstico
+1. El gating `teaser` poda `topics` a las lecciones visibles, por lo que el progreso se calculaba sobre la muestra y no sobre el curso completo.
+2. La navegación final reutilizaba la misma lógica que el acceso completo y dejaba el botón desactivado en la última lección teaser en vez de guiar al usuario hacia el desbloqueo.
+
+### Cambios aplicados
+1. `study-ux.js` publicado en `ios`, `android` y `sdd` etiqueta el progreso teaser como `Muestra: X/Y lecciones teaser`.
+2. En la última lección visible del teaser, el botón final pasa a `🔐 Desbloquear curso` y revela el gate de acceso en vez de quedar muerto.
+3. Se expone `revealGate()` desde el control de acceso para reutilizar el CTA sin duplicar lógica.
+
+### Estado
+Hotfix listo para publicación.
