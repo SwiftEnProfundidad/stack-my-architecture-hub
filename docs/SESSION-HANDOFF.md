@@ -32,7 +32,7 @@ Repos incluidos:
   - `docs/STACK-ARCHITECTURE-MASTER-TRACKER.md`
   - `docs/HUB-STABILITY-LOG.md`
   - `docs/SESSION-HANDOFF.md`
-  - `docs/DECISIONS-ADR-LITE.md`
+  - `docs/PROGRESS-SYNC-SUPABASE.sql`
 - Los artefactos de seguimiento cerrados, auditorías puntuales y planes ya ejecutados deben eliminarse o quedar fuera de versión si no gobiernan el sistema hoy.
 
 ## Último bloque cerrado

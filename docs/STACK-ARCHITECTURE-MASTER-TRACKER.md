@@ -21,10 +21,7 @@ Mantener una única fuente de verdad operativa para el ecosistema `Hub + iOS + A
 1. `docs/STACK-ARCHITECTURE-MASTER-TRACKER.md`
 2. `docs/HUB-STABILITY-LOG.md`
 3. `docs/SESSION-HANDOFF.md`
-4. `docs/DECISIONS-ADR-LITE.md`
-5. `docs/GUIA-DIAGRAMAS-ARQUITECTURA-CAPAS-Y-FLECHAS.md`
-6. `docs/TEMPLATE-DIAGRAMA-ARQUITECTURA-MERMAID.md`
-7. `docs/PROGRESS-SYNC-SUPABASE.sql`
+4. `docs/PROGRESS-SYNC-SUPABASE.sql`
 
 ## Estado consolidado
 - ✅ Hub estable y publicado en `https://architecture-stack.vercel.app`.
