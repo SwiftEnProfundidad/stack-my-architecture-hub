@@ -61,3 +61,14 @@ Ruta de contexto: `/Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my
   - precheck de evidencia pre-publicación (`test-public-smoke-suite`, `test-course-surface-guard-suite`, `test-stamp-asset-version`).
   - ejecución de `publish-architecture-stack.sh`.
   - generación de evidencia en artefacto (`release-checklist.md`, logs y build manifest).
+
+## Bloque en curso
+1. 🚧 Definir contrato operativo de post-deploy para evitar regresiones de producción.
+   - Alcance mínimo:
+     - Ejecutar postchecks canary tras cada deployment (rutas críticas, smoke, versiones de assets y APIs clave).
+     - Estandarizar evidencia por ejecución (`checklist` + logs + timestamp) y enlazarla desde este archivo.
+     - Documentar política de rollback y criterio de freno automático cuando falle postcheck.
+     - Añadir tarea de revisión semanal al runbook de release.
+2. Criterio de cierre:
+   - 100% de postchecks verdes en al menos 2 deployments consecutivos.
+   - Rollback automático documentado y probado con un escenario de fallo simulado sin impacto de datos.
