@@ -42,9 +42,8 @@ Mantener una única fuente de verdad operativa para el ecosistema `Hub + iOS + A
 5. Cada bloque nuevo se abre con GitFlow real y una sola tarea `🚧`.
 
 ## Bloque actual
-- 🚧 Hotfix Hub: notas y bookmarks dejan de depender de `service_role` inválida y pasan a `SUPABASE_ANON_KEY` + RLS autenticado.
+- ✅ Hotfix Hub completado: notas y bookmarks ya usan `SUPABASE_ANON_KEY` + RLS autenticado y quedan validadas en producción.
 
 ## Siguiente paso operativo
-1. Desplegar el hotfix del Hub al proyecto real `architecture-stack`.
-2. Verificar en producción `guardar nota`, `guardar bookmark` y persistencia tras recarga.
-3. Si queda verde, volver a estado estable sin bloque abierto.
+1. No hay tarea operativa obligatoria abierta.
+2. El siguiente trabajo debe arrancar como bloque nuevo con una sola task `🚧`.
