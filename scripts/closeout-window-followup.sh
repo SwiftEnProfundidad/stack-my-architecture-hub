@@ -1,0 +1,99 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+HUB_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+RUNTIME_DIR="${SMA_CLOSEOUT_RUNTIME_DIR:-$HUB_ROOT/.runtime}"
+
+ATQ_CMD="${SMA_ATQ_CMD:-atq}"
+STATUS_CMD="${SMA_CLOSEOUT_STATUS_CMD:-$SCRIPT_DIR/closeout-status.sh}"
+READINESS_CMD="${SMA_CLOSEOUT_READINESS_CMD:-$SCRIPT_DIR/closeout-readiness.sh}"
+PUBLIC_ROUTES_CMD="${SMA_CLOSEOUT_PUBLIC_ROUTES_CMD:-$SCRIPT_DIR/smoke-public-routes.sh}"
+PUBLIC_FUNCTIONAL_CMD="${SMA_CLOSEOUT_PUBLIC_FUNCTIONAL_CMD:-$SCRIPT_DIR/smoke-public-functional.sh}"
+POST_DEPLOY_CHECKS_CMD="${SMA_CLOSEOUT_POST_DEPLOY_CHECKS_CMD:-$SCRIPT_DIR/post-deploy-checks.sh}"
+FREEZE_CHECK_CMD="${SMA_CLOSEOUT_FREEZE_CHECK_CMD:-$SCRIPT_DIR/closeout-freeze-check.sh}"
+CLOSEOUT_BASE_URL="${SMA_CLOSEOUT_BASE_URL:-https://architecture-stack.vercel.app}"
+
+AUTO_STATUS_FILE="${SMA_CLOSEOUT_AUTO_STATUS_FILE:-$RUNTIME_DIR/auto-closeout-status.env}"
+DEPLOY_STATUS_FILE="${SMA_CLOSEOUT_DEPLOY_STATUS_FILE:-$RUNTIME_DIR/deploy-and-verify-last.env}"
+COMPLETE_FLAG="${SMA_CLOSEOUT_COMPLETE_FLAG:-$RUNTIME_DIR/closeout-complete.flag}"
+
+mkdir -p "$RUNTIME_DIR"
+
+if [[ -n "${SMA_CLOSEOUT_FOLLOWUP_LOG_FILE:-}" ]]; then
+  LOG_FILE="${SMA_CLOSEOUT_FOLLOWUP_LOG_FILE}"
+else
+  LOG_FILE="$RUNTIME_DIR/closeout-followup-$(date +%Y%m%dT%H%M%S).log"
+fi
+
+log_cmd() {
+  local title="$1"
+  shift
+  {
+    echo
+    echo "[FOLLOWUP] >>> $title"
+  } >>"$LOG_FILE"
+
+  set +e
+  "$@" >>"$LOG_FILE" 2>&1
+  local cmd_code=$?
+  set -e
+
+  echo "[FOLLOWUP] $title exit=$cmd_code" >>"$LOG_FILE"
+  return 0
+}
+
+{
+  echo "[FOLLOWUP] Hub: $HUB_ROOT"
+  echo "[FOLLOWUP] Date: $(date '+%Y-%m-%d %H:%M:%S %Z')"
+} >"$LOG_FILE"
+
+log_cmd "atq" "$ATQ_CMD"
+log_cmd "closeout-status" "$STATUS_CMD"
+log_cmd "closeout-readiness" "$READINESS_CMD"
+
+if [[ -f "$AUTO_STATUS_FILE" ]]; then
+  {
+    echo
+    echo "[FOLLOWUP] >>> auto-closeout-status.env"
+    cat "$AUTO_STATUS_FILE"
+  } >>"$LOG_FILE"
+else
+  echo "[FOLLOWUP] auto-closeout-status.env missing: $AUTO_STATUS_FILE" >>"$LOG_FILE"
+fi
+
+if [[ -f "$DEPLOY_STATUS_FILE" ]]; then
+  {
+    echo
+    echo "[FOLLOWUP] >>> deploy-and-verify-last.env"
+    cat "$DEPLOY_STATUS_FILE"
+  } >>"$LOG_FILE"
+else
+  echo "[FOLLOWUP] deploy-and-verify-last.env missing: $DEPLOY_STATUS_FILE" >>"$LOG_FILE"
+fi
+
+if [[ -f "$COMPLETE_FLAG" ]]; then
+  echo "[FOLLOWUP] closeout-complete.flag present: $COMPLETE_FLAG" >>"$LOG_FILE"
+  log_cmd "smoke-public-routes" "$PUBLIC_ROUTES_CMD" "$CLOSEOUT_BASE_URL"
+  log_cmd "smoke-public-functional" "$PUBLIC_FUNCTIONAL_CMD" "$CLOSEOUT_BASE_URL"
+  log_cmd "post-deploy-checks" "$POST_DEPLOY_CHECKS_CMD" "$CLOSEOUT_BASE_URL"
+else
+  echo "[FOLLOWUP] closeout-complete.flag absent: $COMPLETE_FLAG" >>"$LOG_FILE"
+  echo "[FOLLOWUP] skip public verification (closeout not complete)" >>"$LOG_FILE"
+fi
+
+log_cmd \
+  "closeout-freeze-check" \
+  env \
+  SMA_CLOSEOUT_RUNTIME_DIR="$RUNTIME_DIR" \
+  SMA_CLOSEOUT_FOLLOWUP_LOG_FILE="$LOG_FILE" \
+  SMA_CLOSEOUT_STATUS_CMD="$STATUS_CMD" \
+  SMA_CLOSEOUT_READINESS_CMD="$READINESS_CMD" \
+  SMA_ATQ_CMD="$ATQ_CMD" \
+  SMA_CLOSEOUT_AUTO_STATUS_FILE="$AUTO_STATUS_FILE" \
+  SMA_CLOSEOUT_DEPLOY_STATUS_FILE="$DEPLOY_STATUS_FILE" \
+  SMA_CLOSEOUT_COMPLETE_FLAG="$COMPLETE_FLAG" \
+  "$FREEZE_CHECK_CMD"
+
+echo "[FOLLOWUP] Log: $LOG_FILE"

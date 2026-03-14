@@ -3,11 +3,14 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 HUB_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
-BRIDGE_DIR="$HUB_ROOT/assistant-bridge"
+BRIDGE_DIR="${SMA_RUNTIME_SMOKE_BRIDGE_DIR:-$HUB_ROOT/assistant-bridge}"
+SERVER_CMD="${SMA_RUNTIME_SMOKE_SERVER_CMD:-node server.js}"
+WAIT_RETRIES="${SMA_RUNTIME_SMOKE_WAIT_RETRIES:-30}"
+SKIP_INSTALL="${SMA_RUNTIME_SMOKE_SKIP_INSTALL:-0}"
 
 TMP_DIR="$(mktemp -d)"
 SMOKE_LOG="$TMP_DIR/smoke.log"
-PORT="${STACK_MY_ARCH_HUB_SMOKE_PORT:-}"
+PORT="${SMA_RUNTIME_SMOKE_PORT:-${STACK_MY_ARCH_HUB_SMOKE_PORT:-}}"
 PID=""
 
 cleanup() {
@@ -20,6 +23,17 @@ cleanup() {
 trap cleanup EXIT
 
 pick_port() {
+  if command -v python3 >/dev/null 2>&1; then
+    python3 - <<'PY'
+import socket
+s = socket.socket()
+s.bind(("127.0.0.1", 0))
+print(s.getsockname()[1])
+s.close()
+PY
+    return 0
+  fi
+
   local candidates=(46210 46211 46212 46213 46214 46215 46216 46217 46218 46219 46220)
   local p
   for p in "${candidates[@]}"; do
@@ -33,7 +47,7 @@ pick_port() {
 
 wait_health() {
   local port="$1"
-  local retries=30
+  local retries="$WAIT_RETRIES"
   local i=0
   while [[ "$i" -lt "$retries" ]]; do
     if curl -fsS "http://127.0.0.1:${port}/health" >/dev/null 2>&1; then
@@ -99,13 +113,13 @@ fi
 
 cd "$BRIDGE_DIR"
 
-if [[ ! -d node_modules ]]; then
+if [[ "$SKIP_INSTALL" != "1" && ! -d node_modules ]]; then
   echo "[SMOKE] Instalando dependencias de assistant-bridge..."
   npm install --silent
 fi
 
 echo "[SMOKE] Arrancando servidor temporal en puerto $PORT..."
-PORT="$PORT" OPENAI_API_KEY="${OPENAI_API_KEY:-smoke-test-key}" nohup node server.js >"$SMOKE_LOG" 2>&1 &
+PORT="$PORT" OPENAI_API_KEY="${OPENAI_API_KEY:-smoke-test-key}" nohup sh -c "$SERVER_CMD" >"$SMOKE_LOG" 2>&1 &
 PID=$!
 
 if ! wait_health "$PORT"; then

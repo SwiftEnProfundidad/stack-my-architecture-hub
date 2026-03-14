@@ -1,0 +1,73 @@
+name: Hub Production Auth E2E
+
+on:
+  push:
+    branches:
+      - develop
+    paths:
+      - '.github/workflows/hub-production-auth-e2e.yml'
+      - 'scripts/tests/run-authenticated-progress-cross-device-ci.cjs'
+      - 'scripts/tests/test-authenticated-progress-cross-device.sh'
+      - 'scripts/tests/test-auth-and-progress-api-suite.sh'
+      - 'scripts/tests/test-progress-sync.js'
+      - 'api/progress-sync.js'
+      - 'assets/auth-client.js'
+      - 'auth/**'
+      - 'ios/assets/study-ux.js'
+      - 'android/assets/study-ux.js'
+      - 'sdd/assets/study-ux.js'
+  workflow_dispatch:
+  schedule:
+    - cron: '17 4 * * *'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: hub-production-auth-e2e
+  cancel-in-progress: false
+
+jobs:
+  authenticated-progress-sync:
+    name: Authenticated progress sync against production
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      SMA_E2E_AUTH_EMAIL: ${{ secrets.SMA_E2E_AUTH_EMAIL }}
+      SMA_E2E_AUTH_PASSWORD: ${{ secrets.SMA_E2E_AUTH_PASSWORD }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Prepare Playwright runner
+        run: |
+          mkdir -p .runtime/playwright-runner
+          npm init -y --prefix .runtime/playwright-runner
+          npm install --prefix .runtime/playwright-runner playwright@1.52.0
+
+      - name: Validate required secrets
+        run: |
+          test -n "$SMA_E2E_AUTH_EMAIL" || { echo "::error::Missing repo secret SMA_E2E_AUTH_EMAIL"; exit 1; }
+          test -n "$SMA_E2E_AUTH_PASSWORD" || { echo "::error::Missing repo secret SMA_E2E_AUTH_PASSWORD"; exit 1; }
+
+      - name: Install Playwright browser
+        run: |
+          .runtime/playwright-runner/node_modules/.bin/playwright install --with-deps chromium
+
+      - name: Run authenticated cross-device E2E
+        run: |
+          NODE_PATH="$PWD/.runtime/playwright-runner/node_modules" node scripts/tests/run-authenticated-progress-cross-device-ci.cjs
+
+      - name: Upload Playwright artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hub-production-auth-e2e-${{ github.run_id }}
+          path: |
+            output/playwright-ci-auth-e2e
+          if-no-files-found: ignore

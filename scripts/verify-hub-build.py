@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import hashlib
 from pathlib import Path
+import re
 import sys
 
 HUB_ROOT = Path(__file__).resolve().parent.parent
@@ -49,6 +50,19 @@ SOURCE_REPOS = {
     "sdd": PROJECTS_ROOT / "stack-my-architecture-SDD",
 }
 
+ASSET_VERSION_RE = re.compile(
+    r"(assets/[A-Za-z0-9._/-]+\.(?:css|js)\?v=)([A-Za-z0-9._-]+)"
+)
+
+
+def source_dist_dir(course: str) -> Path:
+    repo = SOURCE_REPOS[course]
+    primary = repo / "dist"
+    nested = repo / "stack-my-architecture-SDD" / "dist"
+    if course == "sdd" and nested.exists():
+        return nested
+    return primary
+
 
 def read_text(rel_path: str) -> str:
     return (HUB_ROOT / rel_path).read_text(encoding="utf-8")
@@ -63,6 +77,13 @@ def sha256_file(path: Path) -> str:
                 break
             h.update(chunk)
     return h.hexdigest()
+
+
+def sha256_normalized_html(path: Path) -> str:
+    """Hash HTML while ignoring asset cache-busting version values."""
+    text = path.read_text(encoding="utf-8")
+    normalized = ASSET_VERSION_RE.sub(r"\1<STAMP>", text)
+    return hashlib.sha256(normalized.encode("utf-8")).hexdigest()
 
 
 def main() -> int:
@@ -84,8 +105,7 @@ def main() -> int:
 
     # Integridad de copia: el artefacto publicado debe coincidir con su fuente en dist.
     for course, html_name in COURSE_HTMLS.items():
-        src_repo = SOURCE_REPOS[course]
-        src_html = src_repo / "dist" / html_name
+        src_html = source_dist_dir(course) / html_name
         dst_html = HUB_ROOT / course / html_name
         course_index = HUB_ROOT / course / "index.html"
 
@@ -96,8 +116,8 @@ def main() -> int:
             errors.append(f"Missing published course HTML: {dst_html}")
             continue
 
-        src_hash = sha256_file(src_html)
-        dst_hash = sha256_file(dst_html)
+        src_hash = sha256_normalized_html(src_html)
+        dst_hash = sha256_normalized_html(dst_html)
         if src_hash != dst_hash:
             errors.append(
                 f"Published HTML hash mismatch for {course}: source={src_hash[:12]} dest={dst_hash[:12]}"
@@ -105,7 +125,7 @@ def main() -> int:
 
         # En este hub index.html de cada curso debe ser copia exacta del HTML principal.
         if course_index.exists():
-            index_hash = sha256_file(course_index)
+            index_hash = sha256_normalized_html(course_index)
             if index_hash != dst_hash:
                 errors.append(
                     f"Course index is not aligned with published HTML for {course}: index={index_hash[:12]} html={dst_hash[:12]}"

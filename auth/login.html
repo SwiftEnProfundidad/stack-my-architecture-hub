@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login · Stack My Architecture</title>
+  <link rel="stylesheet" href="./auth.css" />
+</head>
+
+<body>
+  <main class="wrap">
+    <section class="panel">
+      <div class="top">
+        <img class="logo" src="../assets/brand/pumuki-logo-neon.png" alt="PUMUKI" loading="lazy" decoding="async" />
+        <div>
+          <h1>Iniciar sesión</h1>
+          <p class="lead">Accede para sincronizar progreso y repaso por usuario en cloud.</p>
+        </div>
+      </div>
+
+      <form id="login-form" class="stack">
+        <div>
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" autocomplete="email" required />
+        </div>
+        <div>
+          <label for="password">Contraseña</label>
+          <input id="password" name="password" type="password" autocomplete="current-password" required />
+        </div>
+        <div class="row">
+          <button class="btn btn-primary" type="submit">Entrar</button>
+          <a id="login-nav-register" class="btn" href="./register.html">Crear cuenta</a>
+          <a id="login-nav-recover" class="btn" href="./recover.html">Recuperar contraseña</a>
+          <a id="login-nav-index" class="btn" href="./index.html">Volver</a>
+        </div>
+      </form>
+
+      <div id="session-state" class="state-box"></div>
+      <div class="row">
+        <button id="logout-btn" class="btn btn-danger" type="button">Cerrar sesión</button>
+      </div>
+      <div id="msg"></div>
+    </section>
+  </main>
+
+  <script src="../assets/auth-client.js"></script>
+  <script>
+    (function () {
+      var form = document.getElementById('login-form');
+      var logoutBtn = document.getElementById('logout-btn');
+      var state = document.getElementById('session-state');
+      var msg = document.getElementById('msg');
+      var registerLink = document.getElementById('login-nav-register');
+      var recoverLink = document.getElementById('login-nav-recover');
+      var indexLink = document.getElementById('login-nav-index');
+
+      function setMessage(text, type) {
+        msg.textContent = text || '';
+        msg.className = text ? 'msg ' + (type || 'ok') : '';
+      }
+
+      function escapeHtml(value) {
+        return String(value || '')
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;');
+      }
+
+      function renderState() {
+        var user = window.SMAAuth.getUser();
+        var session = window.SMAAuth.getSession();
+        if (!user || !session) {
+          state.innerHTML = '<strong>Estado:</strong> sin sesión activa.';
+          logoutBtn.disabled = true;
+          return;
+        }
+        logoutBtn.disabled = false;
+        state.innerHTML = '<strong>Sesión activa</strong><br><span class="muted">Usuario:</span> <code>' +
+          escapeHtml(user.email || user.id) + '</code><br><span class="muted">ID:</span> <code>' +
+          escapeHtml(user.id || '') + '</code>';
+      }
+
+      function clearAuthHash() {
+        if (!window.location.hash) return;
+        history.replaceState(history.state, '', window.location.pathname + window.location.search);
+      }
+
+      function sanitizeNextTarget(value) {
+        var next = String(value || '').trim();
+        if (!next) return '';
+        if (next.charAt(0) !== '/') return '';
+        if (next.indexOf('//') === 0) return '';
+        if (next.indexOf('://') >= 0) return '';
+        if (next.indexOf('\n') >= 0 || next.indexOf('\r') >= 0) return '';
+        return next;
+      }
+
+      function readNextTarget() {
+        var params = new URLSearchParams(window.location.search || '');
+        return sanitizeNextTarget(params.get('next'));
+      }
+
+      function withNext(path, nextTarget) {
+        if (!path || !nextTarget) return path;
+        try {
+          var target = new URL(path, window.location.href);
+          target.searchParams.set('next', nextTarget);
+          return target.pathname + target.search + target.hash;
+        } catch (_error) {
+          return path;
+        }
+      }
+
+      function applyNavigationTargets() {
+        var nextTarget = readNextTarget();
+        if (registerLink) registerLink.href = withNext('./register.html', nextTarget);
+        if (recoverLink) recoverLink.href = withNext('./recover.html', nextTarget);
+        if (indexLink) indexLink.href = withNext('./index.html', nextTarget);
+      }
+
+      function resolvePostLoginTarget() {
+        return readNextTarget() || '../index.html';
+      }
+
+      async function consumeAuthHash() {
+        if (!window.location.hash || window.location.hash.length < 2) return;
+        var params = new URLSearchParams(window.location.hash.slice(1));
+        var errorMessage = params.get('error_description') || params.get('error') || '';
+        if (errorMessage) {
+          clearAuthHash();
+          setMessage(errorMessage, 'error');
+          return;
+        }
+
+        var accessToken = String(params.get('access_token') || '').trim();
+        var refreshToken = String(params.get('refresh_token') || '').trim();
+        if (!accessToken || !refreshToken) return;
+
+        var tokenType = String(params.get('token_type') || 'bearer').trim();
+        var expiresIn = Number(params.get('expires_in') || 0);
+        var session = {
+          accessToken: accessToken,
+          refreshToken: refreshToken,
+          tokenType: tokenType
+        };
+        if (Number.isFinite(expiresIn) && expiresIn > 0) {
+          session.expiresIn = expiresIn;
+          session.expiresAt = new Date(Date.now() + expiresIn * 1000).toISOString();
+        }
+
+        localStorage.setItem(window.SMAAuth.keys.session, JSON.stringify(session));
+        clearAuthHash();
+
+        try {
+          await window.SMAAuth.me();
+          var flowType = String(params.get('type') || '').trim().toLowerCase();
+          if (flowType === 'recovery') {
+            setMessage('Enlace de recuperación validado. Inicia sesión para continuar.', 'ok');
+            return;
+          }
+          setMessage('Email confirmado correctamente. Redirigiendo...', 'ok');
+          setTimeout(function () {
+            window.location.href = resolvePostLoginTarget();
+          }, 700);
+        } catch (_error) {
+          setMessage('No se pudo completar la sesión del enlace. Inicia sesión manualmente.', 'error');
+        }
+      }
+
+      form.addEventListener('submit', async function (event) {
+        event.preventDefault();
+        setMessage('', '');
+        try {
+          await window.SMAAuth.login({
+            email: form.email.value.trim(),
+            password: form.password.value
+          });
+          await window.SMAAuth.me();
+          setMessage('Login correcto. Redirigiendo...', 'ok');
+          setTimeout(function () {
+            window.location.href = resolvePostLoginTarget();
+          }, 500);
+        } catch (error) {
+          setMessage(error && error.message ? error.message : 'No se pudo iniciar sesión.', 'error');
+        }
+      });
+
+      logoutBtn.addEventListener('click', async function () {
+        try {
+          await window.SMAAuth.logout();
+          setMessage('Sesión cerrada.', 'ok');
+        } catch (error) {
+          setMessage(error && error.message ? error.message : 'No se pudo cerrar sesión.', 'error');
+        }
+      });
+
+      window.addEventListener('sma:auth-changed', renderState);
+      renderState();
+      applyNavigationTargets();
+      consumeAuthHash();
+    })();
+  </script>
+</body>
+
+</html>

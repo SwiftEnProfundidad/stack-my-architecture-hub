@@ -17,6 +17,279 @@
   const keyAuthSession = 'sma:auth:session:v1';
   const keyAuthUser = 'sma:auth:user:v1';
   const DEFAULT_REMOTE_PROGRESS_BASE = 'https://architecture-stack.vercel.app';
+  const canonicalCourseKey = normalizeCanonicalCourseKey(courseId);
+  const INTERVIEW_MODE_PACKS = {
+    ios: {
+      title: 'Modo entrevista · iOS',
+      intro: 'Entrena cómo defender arquitectura, concurrencia, operación y proyecto final con respuestas de criterio apoyadas en lecciones reales.',
+      prompts: [
+        {
+          id: 'ios-architecture',
+          label: 'Arquitectura por capas',
+          stagePrefixes: ['00-core-mobile', '01-fundamentos', '02-integracion'],
+          question: '¿Cómo justificas Feature-First + puertos + Composition Root sin convertir la app en burocracia?',
+          expected: [
+            'Empieza por el problema: evitar acoplamiento entre features y permitir evolución por partes.',
+            'Explica qué decisiones quedan en Domain/Application y cuáles se empujan a Infrastructure.',
+            'Cierra con evidencia observable: tests, facilidad para cambiar adaptadores y navegación desacoplada.'
+          ],
+          rubric: [
+            'Nombra al menos un puerto concreto y un adaptador real.',
+            'Explica un trade-off real, no solo ventajas abstractas.',
+            'Conecta la respuesta con una señal de mantenibilidad o calidad.'
+          ],
+          sourceTopicIds: [
+            '01-fundamentos-04-estructura-feature-first',
+            '02-integracion-06-composition-root',
+            '05-maestria-11-entrevista-arquitecto'
+          ]
+        },
+        {
+          id: 'ios-concurrency',
+          label: 'Concurrencia y aislamiento',
+          stagePrefixes: ['03-evolucion', '05-maestria'],
+          question: 'Si te preguntan por qué usaste aislamiento y concurrencia estructurada, ¿cómo lo defenderías con criterio?',
+          expected: [
+            'Aclara qué riesgo querías reducir: race conditions, estados incoherentes o side effects no controlados.',
+            'Relaciona actors, Sendable o async/await con un boundary de arquitectura real.',
+            'Explica qué coste aceptas: complejidad mental, restricciones de API o refactors en tests.'
+          ],
+          rubric: [
+            'Menciona una frontera concreta entre UI, Application o Infrastructure.',
+            'Habla de seguridad de concurrencia y de coste de adopción.',
+            'Usa una evidencia del curso: test concurrente, aislamiento o evolución a Swift 6.'
+          ],
+          sourceTopicIds: [
+            '05-maestria-01-isolation-domains',
+            '05-maestria-03-structured-concurrency',
+            '05-maestria-04-testing-concurrente'
+          ]
+        },
+        {
+          id: 'ios-quality',
+          label: 'Calidad y operación',
+          stagePrefixes: ['00-core-mobile', '03-evolucion', '04-arquitecto'],
+          question: '¿Cómo demuestras que tu arquitectura no solo “se ve bien”, sino que está lista para operar y evolucionar?',
+          expected: [
+            'Explica quality gates, observabilidad y criterios de release como parte del diseño.',
+            'Conecta tests, métricas y rollback con decisiones de arquitectura.',
+            'Cuenta cómo priorizas fiabilidad frente a velocidad de cambio.'
+          ],
+          rubric: [
+            'Debe aparecer al menos una señal operativa real.',
+            'Debe existir relación entre calidad y gobernanza, no dos temas separados.',
+            'La respuesta debe terminar con una decisión concreta de producto o release.'
+          ],
+          sourceTopicIds: [
+            '00-core-mobile-04-calidad-pr-ready',
+            '03-evolucion-03-observabilidad',
+            '04-arquitecto-06-quality-gates'
+          ]
+        },
+        {
+          id: 'ios-project',
+          label: 'Proyecto final defendible',
+          stagePrefixes: ['05-maestria', '06-proyecto-final'],
+          question: 'En una entrevista, ¿cómo defenderías tu proyecto final iOS como evidencia profesional y no solo como una demo bonita?',
+          expected: [
+            'Resume el problema de producto, la arquitectura elegida y qué decisiones fueron críticas.',
+            'Presenta el paquete de evidencia: rúbrica, checklist, tests, operación y trade-offs.',
+            'Cierra con qué mejorarías en los próximos 90 días y por qué.'
+          ],
+          rubric: [
+            'Debe aparecer evidencia, no solo opinión.',
+            'La respuesta debe conectar diseño, entrega y evolución.',
+            'El cierre tiene que incluir siguiente paso priorizado y medible.'
+          ],
+          sourceTopicIds: [
+            '05-maestria-10-rubrica-final-01-rubrica-empleabilidad-ios',
+            '05-maestria-10-rubrica-final-03-checklist-entrega-para-entrevista',
+            '06-proyecto-final-00-proyecto-final-ios'
+          ]
+        }
+      ]
+    },
+    android: {
+      title: 'Modo entrevista · Android',
+      intro: 'Practica cómo defender offline-first, modularidad, operación senior y proyecto final con una narrativa técnica convincente.',
+      prompts: [
+        {
+          id: 'android-offline',
+          label: 'Offline-first',
+          stagePrefixes: ['01-junior', '02-midlevel'],
+          question: '¿Qué trade-off aceptaste para implementar offline-first y cómo demostrarías que la decisión fue la correcta?',
+          expected: [
+            'Describe el problema de usuario y por qué la sincronización local/remoto era necesaria.',
+            'Explica conflictos, consistencia e impacto en testing e integración.',
+            'Cierra con señales: reintentos, observabilidad o reducción de fricción de usuario.'
+          ],
+          rubric: [
+            'Menciona una tensión real entre simplicidad y resiliencia.',
+            'Explica cómo lo validaste con tests o métricas.',
+            'Evita vender offline-first como dogma universal.'
+          ],
+          sourceTopicIds: [
+            '02-midlevel-02-offline-first-y-sincronizacion-local-remoto-paso-a-paso',
+            '02-midlevel-05-pruebas-de-integracion-offline-sync',
+            '04-maestria-07-defensa-tecnica-del-proyecto-android'
+          ]
+        },
+        {
+          id: 'android-governance',
+          label: 'Gobernanza de módulos',
+          stagePrefixes: ['02-midlevel', '03-senior', '04-maestria'],
+          question: '¿Cómo justificas las reglas entre features y dominios cuando el equipo quiere “ir más rápido”?',
+          expected: [
+            'Empieza por el coste real de romper fronteras: deuda, fricción entre equipos y cambios más caros.',
+            'Explica qué reglas mantienes y cuáles permites flexibilizar con criterio.',
+            'Relaciona gobernanza con velocidad sostenible, no con rigidez.'
+          ],
+          rubric: [
+            'Debe aparecer el coste organizativo del acoplamiento.',
+            'Tiene que haber una regla concreta y una excepción razonada.',
+            'Conecta arquitectura con roadmap o productividad de equipo.'
+          ],
+          sourceTopicIds: [
+            '02-midlevel-10-gobernanza-dependencias-entre-features-sin-romper-la-arquitectura',
+            '03-senior-05-gobernanza-tecnica-de-sprint-decidir-con-evidencia-cuando-roadmap-y-fiabilidad-chocan',
+            '04-maestria-09-rubrica-final-y-entrevista-tecnica-android'
+          ]
+        },
+        {
+          id: 'android-ops',
+          label: 'Operación senior',
+          stagePrefixes: ['03-senior', '04-maestria'],
+          question: 'Si un entrevistador te pide hablar de operación real, ¿qué historia contarías sobre release, rollback y alertas?',
+          expected: [
+            'Describe cómo tomarías la decisión de liberar o frenar.',
+            'Explica rollback, runbooks y señales operativas útiles.',
+            'Conecta la respuesta con aprendizaje del equipo y no solo con apagar incendios.'
+          ],
+          rubric: [
+            'Debe haber criterio de go/no-go.',
+            'Debe aparecer una señal operativa concreta.',
+            'La respuesta debe sonar a operación real, no a checklist memorizada.'
+          ],
+          sourceTopicIds: [
+            '03-senior-01-release-strategy-y-rollback-seguro-en-android',
+            '03-senior-02-incident-response-y-runbooks-operativos-en-android',
+            '03-senior-04-tablero-operativo-de-fiabilidad-y-alertas-que-si-ayudan'
+          ]
+        },
+        {
+          id: 'android-project',
+          label: 'Proyecto final',
+          stagePrefixes: ['04-maestria', '05-proyecto-final'],
+          question: '¿Cómo conviertes tu proyecto Android en una evidencia seria de empleabilidad y no en una práctica aislada?',
+          expected: [
+            'Explica qué evidencia presentarías y por qué importa para un equipo real.',
+            'Conecta arquitectura, fiabilidad, rendimiento y narrativa de producto.',
+            'Termina con una mejora priorizada a 90 días.'
+          ],
+          rubric: [
+            'Debe apoyarse en rúbrica, evidencias y defensa técnica.',
+            'No vale solo enumerar tecnologías.',
+            'Tiene que verse criterio de priorización.'
+          ],
+          sourceTopicIds: [
+            '04-maestria-09-rubrica-final-y-entrevista-tecnica-android',
+            '05-proyecto-final-01-rubrica-empleabilidad',
+            'anexos-preguntas-entrevista-android'
+          ]
+        }
+      ]
+    },
+    sdd: {
+      title: 'Modo entrevista · IA + SDD',
+      intro: 'Entrena cómo defender OpenSpec, trazabilidad y release readiness como una disciplina enterprise y no como “más documentación”.',
+      prompts: [
+        {
+          id: 'sdd-why',
+          label: 'Por qué SDD',
+          stagePrefixes: ['02-semana-01', '03-semana-02', '04-semana-03'],
+          question: 'Si te preguntan por qué SDD aporta valor real, ¿cómo lo explicarías sin sonar teórico?',
+          expected: [
+            'Parte del riesgo que reduce: ambigüedad, desacuerdo de equipo o cambios no trazables.',
+            'Explica cómo el contrato guía implementación, tests y revisión.',
+            'Aterriza el beneficio en velocidad sostenible y calidad verificable.'
+          ],
+          rubric: [
+            'Debe haber problema real, no definición académica.',
+            'Tiene que aparecer la relación entre spec y ejecución.',
+            'La respuesta debe cerrar con impacto medible o visible.'
+          ],
+          sourceTopicIds: [
+            '02-semana-01-00-semana-01-introduccion',
+            '03-semana-02-02-llevar-el-problema-a-openspec-para-que-el-equipo-deje-de-discutir-opiniones',
+            '04-semana-03-02-fijar-el-contrato-de-interfaz-antes-de-tocar-implementacion'
+          ]
+        },
+        {
+          id: 'sdd-traceability',
+          label: 'Trazabilidad',
+          stagePrefixes: ['05-semana-04', '06-semana-05', '07-semana-06'],
+          question: '¿Cómo demostrarías que tu ciclo spec -> tests -> implementación mantiene trazabilidad y no depende de memoria oral?',
+          expected: [
+            'Explica qué artefactos usas y cómo se conectan entre sí.',
+            'Relaciona TDD, contratos y refactor con un hilo de evidencia claro.',
+            'Aporta un ejemplo de cambio que se vuelve más seguro gracias a esa trazabilidad.'
+          ],
+          rubric: [
+            'Debe haber cadena explícita de artefactos.',
+            'Tiene que verse cómo la trazabilidad reduce riesgo de regresión.',
+            'No basta con decir “documentamos más”.'
+          ],
+          sourceTopicIds: [
+            '05-semana-04-04-tdd-de-contrato-para-detectar-una-ruptura-antes-de-que-llegue-a-integracion-real',
+            '06-semana-05-06-refactor-del-puerto-adaptador-para-que-la-persistencia-siga-siendo-mantenible',
+            '07-semana-06-04-tdd-del-repositorio-offline-first-para-blindar-coordinacion-entre-fuentes'
+          ]
+        },
+        {
+          id: 'sdd-governance',
+          label: 'Gobernanza y release',
+          stagePrefixes: ['13-semana-12', '14-semana-13', '15-semana-14'],
+          question: '¿Cómo justificas que gobernanza y release readiness formen parte del producto y no solo del “proceso”?',
+          expected: [
+            'Une calidad, compliance y decisión de release bajo reglas explícitas.',
+            'Explica qué pasaría si ese control quedara fuera del sistema.',
+            'Cierra con una señal concreta que guíe el go/no-go.'
+          ],
+          rubric: [
+            'La respuesta debe conectar gobernanza con delivery.',
+            'Tiene que incluir una regla o gate real.',
+            'Debe evitar lenguaje abstracto y bajar a operación.'
+          ],
+          sourceTopicIds: [
+            '13-semana-12-06-integrar-module-boundary-en-quality-gates-para-que-la-arquitectura-sea-condicion-de-release',
+            '14-semana-13-06-refactor-del-ciclo-rfc-y-adr-para-maximizar-claridad-y-minimizar-friccion',
+            '15-semana-14-04-tdd-del-evaluator-de-readiness-para-bloquear-liberaciones-inseguras-con-precision'
+          ]
+        },
+        {
+          id: 'sdd-final',
+          label: 'Defensa final',
+          stagePrefixes: ['17-semana-16', '18-proyecto-final', '00-informe'],
+          question: 'En el cierre final, ¿cómo defenderías que tu trabajo SDD es enterprise-ready y empleable?',
+          expected: [
+            'Resume evidencias, criterios de aceptación y decisiones críticas.',
+            'Relaciona scorecard, rúbrica final y defensa técnica con una historia coherente.',
+            'Explica qué mejorarías después del cierre y con qué prioridad.'
+          ],
+          rubric: [
+            'Debe existir paquete de evidencia defendible.',
+            'La respuesta debe sonar operable por un equipo real.',
+            'Tiene que haber siguiente paso priorizado.'
+          ],
+          sourceTopicIds: [
+            '17-semana-16-00-semana-16-roadmap',
+            '18-proyecto-final-02-rubrica-y-defensa-final',
+            '00-informe-SCORECARD-EMPLEABILIDAD'
+          ]
+        }
+      ]
+    }
+  };
 
   const completionBtn = document.getElementById('study-completion-toggle');
   const zenBtn = document.getElementById('study-zen-toggle');
@@ -41,6 +314,7 @@
   let indexActionsPending = false;
   let navDecorPending = false;
   const cloudSync = createCloudSync();
+  const accessControl = createAccessControl();
 
   const topics = Array.from(document.querySelectorAll('section.lesson')).map((section, index) => {
     const topicId = section.getAttribute('data-topic-id') || section.id || `topic-${index + 1}`;
@@ -60,29 +334,18 @@
   syncTopbarOffset();
 
   const reviewBtn = ensureReviewTopButton();
+  const bookmarkBtn = ensureBookmarkTopButton();
+  const interviewBtn = ensureInterviewTopButton();
+  const studyNotebook = createStudyNotebook();
+  const interviewMode = createInterviewMode();
 
   setupFontControls();
   applySavedFontSize();
   reorderTopControls();
   observeTopControlsOrder();
+  let currentTopic = null;
 
-  let currentTopic = resolveCurrentTopic(topics, location.hash, localStorage.getItem(keyLastTopic));
-  if (!currentTopic) return;
-
-  applyCompactMobileClass();
-  renderTopic(currentTopic.id, false);
-  markUiHydrated();
-  applyZen(localStorage.getItem(keyZen) === '1');
-  updateCompletionUi();
-  updateReviewUi();
-  updateProgressUi();
-  scheduleDecorateNavStates();
-  setupButtons();
-  setupShortcuts();
-  setupScrollPersistence();
-  scheduleIndexActionsSetup();
-  startTopicTimer(currentTopic.id);
-  cloudSync.bootstrap();
+  void bootstrapStudy();
 
   document.addEventListener('visibilitychange', function () {
     if (document.hidden) {
@@ -106,10 +369,35 @@
     applyCompactMobileClass();
     updateCompletionUi();
     updateReviewUi();
+    updateBookmarkUi();
+    updateInterviewUi();
     updateProgressUi();
     applyZen(document.body.classList.contains('study-ux-zen'));
     syncTopbarOffset();
   }, 120));
+
+  async function bootstrapStudy() {
+    await accessControl.bootstrap();
+    currentTopic = resolveCurrentTopic(topics, location.hash, localStorage.getItem(keyLastTopic));
+    if (!currentTopic) return;
+
+    applyCompactMobileClass();
+    renderTopic(currentTopic.id, false);
+    markUiHydrated();
+    applyZen(localStorage.getItem(keyZen) === '1');
+    updateCompletionUi();
+    updateReviewUi();
+    updateProgressUi();
+    scheduleDecorateNavStates();
+    setupButtons();
+    setupShortcuts();
+    setupScrollPersistence();
+    scheduleIndexActionsSetup();
+    studyNotebook.bootstrap();
+    interviewMode.bootstrap();
+    startTopicTimer(currentTopic.id);
+    cloudSync.bootstrap();
+  }
 
   function ensureStatsShape(raw) {
     return {
@@ -271,7 +559,9 @@
       fontDownBtn,
       fontUpBtn,
       completionBtn,
+      bookmarkBtn,
       reviewBtn,
+      interviewBtn,
       zenBtn,
       assistantBtn
     ].filter(Boolean);
@@ -302,6 +592,32 @@
     if (!btn) {
       btn = document.createElement('button');
       btn.id = 'study-review-toggle';
+      btn.type = 'button';
+      controls.appendChild(btn);
+    }
+    return btn;
+  }
+
+  function ensureBookmarkTopButton() {
+    const controls = document.getElementById('study-ux-controls');
+    if (!controls) return null;
+    let btn = document.getElementById('study-bookmark-toggle');
+    if (!btn) {
+      btn = document.createElement('button');
+      btn.id = 'study-bookmark-toggle';
+      btn.type = 'button';
+      controls.appendChild(btn);
+    }
+    return btn;
+  }
+
+  function ensureInterviewTopButton() {
+    const controls = document.getElementById('study-ux-controls');
+    if (!controls) return null;
+    let btn = document.getElementById('study-interview-toggle');
+    if (!btn) {
+      btn = document.createElement('button');
+      btn.id = 'study-interview-toggle';
       btn.type = 'button';
       controls.appendChild(btn);
     }
@@ -515,8 +831,12 @@
 
     ensureTopicNavigation(currentTopic);
     updateCompletionUi();
+    updateBookmarkUi();
     updateReviewUi();
+    updateInterviewUi();
     updateProgressUi();
+    studyNotebook.render();
+    interviewMode.handleTopicChange(currentTopic);
 
     if (shouldRestoreScroll) {
       restoreScrollForTopic(currentTopic.id);
@@ -531,7 +851,9 @@
 
   function setupButtons() {
     if (completionBtn) completionBtn.addEventListener('click', function () { toggleCompletion(); });
+    if (bookmarkBtn) bookmarkBtn.addEventListener('click', function () { studyNotebook.toggleBookmark(); });
     if (reviewBtn) reviewBtn.addEventListener('click', function () { toggleReview(); });
+    if (interviewBtn) interviewBtn.addEventListener('click', function () { interviewMode.toggle(); });
     if (zenBtn) {
       zenBtn.addEventListener('click', function () {
         const next = !(localStorage.getItem(keyZen) === '1');
@@ -609,7 +931,7 @@
     rowPrimary.appendChild(createButton('▶ Continuar donde lo dejaste', goResume, 'study-resume-btn'));
     rowPrimary.appendChild(createButton('➡ Ir al primer tema pendiente', goFirstIncomplete));
     rowPrimary.appendChild(createButton('🔁 Mostrar solo temas para repaso', toggleReviewFilter, 'study-filter-review'));
-    rowPrimary.appendChild(createButton('🔗 Copiar enlace de sincronización', copySyncLink, 'study-sync-link'));
+    rowPrimary.appendChild(createButton('☁ Sincronización cloud', copySyncLink, 'study-sync-link'));
     rowPrimary.appendChild(createButton('🔐 Cuenta', goAuthPortal, 'study-auth-portal'));
 
     const statsBox = document.createElement('div');
@@ -631,13 +953,68 @@
     importInput.addEventListener('change', handleImportFileChange);
     actionsBox.appendChild(importInput);
 
+    const interviewBox = document.createElement('div');
+    interviewBox.className = 'study-ux-panel study-interview-panel';
+    interviewBox.id = 'study-interview-panel';
+
+    const notesBox = document.createElement('div');
+    notesBox.className = 'study-ux-panel study-notes-panel';
+    notesBox.id = 'study-notes-panel';
+
+    const notesTitle = document.createElement('h4');
+    notesTitle.textContent = 'Notas privadas por lección';
+    const notesCopy = document.createElement('p');
+    notesCopy.id = 'study-note-helper';
+    notesCopy.textContent = 'Inicia sesión para guardar notas privadas sincronizadas por cuenta.';
+    const noteEditor = document.createElement('textarea');
+    noteEditor.id = 'study-note-editor';
+    noteEditor.placeholder = 'Escribe aquí tus observaciones clave, trade-offs o dudas para volver después con contexto.';
+    const noteActions = document.createElement('div');
+    noteActions.className = 'study-note-actions';
+    const noteSaveBtn = createButton('💾 Guardar nota', function () { studyNotebook.saveCurrentNote(); }, 'study-note-save');
+    const noteClearBtn = createButton('🗑 Limpiar nota', function () { studyNotebook.clearCurrentNote(); }, 'study-note-clear');
+    noteActions.appendChild(noteSaveBtn);
+    noteActions.appendChild(noteClearBtn);
+    const noteStatus = document.createElement('p');
+    noteStatus.id = 'study-note-status';
+    noteStatus.className = 'study-note-status';
+    notesBox.appendChild(notesTitle);
+    notesBox.appendChild(notesCopy);
+    notesBox.appendChild(noteEditor);
+    notesBox.appendChild(noteActions);
+    notesBox.appendChild(noteStatus);
+
+    const bookmarksBox = document.createElement('div');
+    bookmarksBox.className = 'study-ux-panel study-bookmarks-panel';
+    bookmarksBox.id = 'study-bookmarks-panel';
+    const bookmarksTitle = document.createElement('h4');
+    bookmarksTitle.textContent = 'Bookmarks del curso';
+    const bookmarksCopy = document.createElement('p');
+    bookmarksCopy.textContent = 'Tus puntos guardados más recientes para volver rápido a temas importantes.';
+    const bookmarksList = document.createElement('div');
+    bookmarksList.id = 'study-bookmarks-list';
+    bookmarksList.className = 'study-bookmarks-list';
+    const bookmarksStatus = document.createElement('p');
+    bookmarksStatus.id = 'study-bookmark-status';
+    bookmarksStatus.className = 'study-bookmark-status';
+    bookmarksBox.appendChild(bookmarksTitle);
+    bookmarksBox.appendChild(bookmarksCopy);
+    bookmarksBox.appendChild(bookmarksList);
+    bookmarksBox.appendChild(bookmarksStatus);
+
     indexActions.appendChild(rowPrimary);
     indexActions.appendChild(statsBox);
     indexActions.appendChild(actionsBox);
+    indexActions.appendChild(interviewBox);
+    indexActions.appendChild(notesBox);
+    indexActions.appendChild(bookmarksBox);
 
     updateResumeButtonState();
     renderStats();
     updateProgressUi();
+    updateSyncLinkButton();
+    studyNotebook.render();
+    interviewMode.mount();
   }
 
   function createButton(label, onClick, id) {
@@ -765,6 +1142,26 @@
     reviewBtn.title = fullLabel;
   }
 
+  function updateBookmarkUi() {
+    if (!bookmarkBtn || !currentTopic) return;
+    const isBookmarked = studyNotebook.hasBookmark(currentTopic.id);
+    const fullLabel = isBookmarked ? '❌ Quitar bookmark' : '🔖 Guardar bookmark';
+    const compactLabel = isBookmarked ? '❌ Bookmark' : '🔖 Bookmark';
+    bookmarkBtn.textContent = isCompactMobileViewport() ? compactLabel : fullLabel;
+    bookmarkBtn.setAttribute('aria-label', fullLabel);
+    bookmarkBtn.title = fullLabel;
+  }
+
+  function updateInterviewUi() {
+    if (!interviewBtn) return;
+    const isOpen = interviewMode.isOpen();
+    const fullLabel = isOpen ? '✕ Cerrar entrevista' : '🎤 Entrevista';
+    const compactLabel = isOpen ? '✕ Entrevista' : '🎤 Entrevista';
+    interviewBtn.textContent = isCompactMobileViewport() ? compactLabel : fullLabel;
+    interviewBtn.setAttribute('aria-label', fullLabel);
+    interviewBtn.title = fullLabel;
+  }
+
   function updateProgressUi() {
     const total = topics.length;
     const done = topics.filter((t) => !!completed[t.id]).length;
@@ -819,6 +1216,18 @@
         }
       } else if (reviewBadge) {
         reviewBadge.remove();
+      }
+
+      let bookmarkBadge = link.querySelector('.study-ux-bookmark-badge');
+      if (studyNotebook.hasBookmark(topicId)) {
+        if (!bookmarkBadge) {
+          bookmarkBadge = document.createElement('span');
+          bookmarkBadge.className = 'study-ux-bookmark-badge';
+          bookmarkBadge.textContent = '🔖';
+          link.appendChild(bookmarkBadge);
+        }
+      } else if (bookmarkBadge) {
+        bookmarkBadge.remove();
       }
     });
   }
@@ -1017,14 +1426,20 @@
   }
 
   async function copySyncLink() {
+    if (!hasAuthenticatedCloudProfile()) {
+      alert('Inicia sesión para activar la sincronización cloud ligada a tu cuenta.');
+      goAuthPortal();
+      return;
+    }
+
     const profile = cloudSync.getProfileKey();
     if (!profile) {
-      alert('No se pudo resolver profileKey para sincronización.');
+      alert('No se pudo resolver el perfil cloud de tu cuenta.');
       return;
     }
 
     const synced = await cloudSync.pushNow({ force: true });
-    const url = buildSyncLink(profile, cloudSync.getSyncBaseUrl());
+    const url = buildSyncLink(profile, cloudSync.getSyncBaseUrl(), true);
     try {
       if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
         await navigator.clipboard.writeText(url);
@@ -1032,13 +1447,459 @@
         throw new Error('Clipboard API no disponible');
       }
       if (synced) {
-        alert('Enlace de sincronización copiado y progreso sincronizado.');
+        alert('Enlace del curso copiado. Tu progreso cloud ya está ligado a tu cuenta.');
       } else {
-        alert('Enlace de sincronización copiado. No se pudo confirmar sincronización cloud en este momento.');
+        alert('Enlace del curso copiado. No se pudo confirmar sincronización cloud en este momento.');
       }
     } catch (_error) {
-      window.prompt('Copia este enlace para usar el mismo progreso en otro dispositivo:', url);
+      window.prompt('Copia este enlace del curso. El progreso cloud se resolverá por tu cuenta al iniciar sesión:', url);
     }
+  }
+
+  function updateSyncLinkButton() {
+    const btn = document.getElementById('study-sync-link');
+    if (!btn) return;
+    if (hasAuthenticatedCloudProfile()) {
+      btn.textContent = '☁ Copiar enlace del curso';
+      btn.title = 'Tu progreso cloud ya está ligado a tu cuenta';
+      return;
+    }
+    btn.textContent = '🔐 Inicia sesión para sincronizar';
+    btn.title = 'La sincronización cloud requiere sesión activa';
+  }
+
+  function createInterviewMode() {
+    const keyOpen = `sma:${courseId}:interview:open`;
+    const keyIndex = `sma:${courseId}:interview:index`;
+    const keyReveal = `sma:${courseId}:interview:reveal`;
+    const pack = INTERVIEW_MODE_PACKS[canonicalCourseKey] || null;
+    const state = {
+      open: localStorage.getItem(keyOpen) === '1',
+      currentIndex: clampInterviewIndex(Number(localStorage.getItem(keyIndex) || 0)),
+      reveal: localStorage.getItem(keyReveal) === '1',
+      manualPick: false,
+      topicId: ''
+    };
+
+    function bootstrap() {
+      if (queryHasInterviewMode()) {
+        state.open = true;
+      }
+      persist();
+      updateInterviewUi();
+      render();
+    }
+
+    function mount() {
+      render();
+    }
+
+    function isOpen() {
+      return state.open;
+    }
+
+    function toggle() {
+      state.open = !state.open;
+      if (state.open && !state.manualPick) {
+        state.currentIndex = suggestedIndex();
+      }
+      persist();
+      updateInterviewUi();
+      render();
+      if (state.open) scrollPanelIntoView();
+    }
+
+    function handleTopicChange(topic) {
+      state.topicId = topic && topic.id ? topic.id : '';
+      if (!state.manualPick) {
+        state.currentIndex = suggestedIndex();
+      }
+      render();
+      updateInterviewUi();
+    }
+
+    function setPrompt(index) {
+      state.currentIndex = clampInterviewIndex(index);
+      state.reveal = false;
+      state.manualPick = true;
+      persist();
+      render();
+    }
+
+    function nextPrompt() {
+      if (!pack || !Array.isArray(pack.prompts) || !pack.prompts.length) return;
+      state.currentIndex = (state.currentIndex + 1) % pack.prompts.length;
+      state.reveal = false;
+      state.manualPick = true;
+      persist();
+      render();
+    }
+
+    function toggleReveal() {
+      state.reveal = !state.reveal;
+      persist();
+      render();
+    }
+
+    function suggestedIndex() {
+      if (!pack || !Array.isArray(pack.prompts) || !pack.prompts.length) return 0;
+      const topic = topics.find(function (item) { return item.id === state.topicId; }) || currentTopic;
+      const path = topic && topic.path ? String(topic.path) : '';
+      const prefix = path.split('/')[0] || '';
+      const idx = pack.prompts.findIndex(function (prompt) {
+        return Array.isArray(prompt.stagePrefixes) && prompt.stagePrefixes.includes(prefix);
+      });
+      return idx >= 0 ? idx : clampInterviewIndex(state.currentIndex);
+    }
+
+    function render() {
+      const panel = document.getElementById('study-interview-panel');
+      if (!panel) return;
+      panel.classList.toggle('is-open', state.open);
+      panel.hidden = !state.open;
+
+      if (!pack) {
+        panel.innerHTML = '<div class="study-interview-empty">Todavía no hay un pack de entrevista configurado para este curso.</div>';
+        return;
+      }
+
+      const prompt = pack.prompts[clampInterviewIndex(state.currentIndex)] || pack.prompts[0];
+      const topic = topics.find(function (item) { return item.id === state.topicId; }) || currentTopic;
+      const lessonLabel = topic && topic.lessonLabel ? topic.lessonLabel : 'la lección actual';
+      const sourceButtons = (prompt.sourceTopicIds || []).map(function (topicId) {
+        const topicMeta = topics.find(function (item) { return item.id === topicId; });
+        const label = topicMeta && topicMeta.lessonLabel ? topicMeta.lessonLabel : topicId;
+        return `<a class="study-interview-source" href="#${escapeHtml(topicId)}" data-interview-source="${escapeHtml(topicId)}">${escapeHtml(label)}</a>`;
+      }).join('');
+
+      panel.innerHTML = [
+        `<div class="study-interview-head"><div><p class="study-interview-eyebrow">${escapeHtml(pack.title)}</p><h4>${escapeHtml(prompt.label)}</h4><p>${escapeHtml(pack.intro)}</p></div><div class="study-interview-actions"><button type="button" id="study-interview-reveal">${state.reveal ? '🙈 Ocultar rúbrica' : '🪞 Ver rúbrica'}</button><button type="button" id="study-interview-next">➡ Otra pregunta</button></div></div>`,
+        `<p class="study-interview-current">Recomendada ahora mismo para <strong>${escapeHtml(lessonLabel)}</strong>.</p>`,
+        `<div class="study-interview-chip-row">${pack.prompts.map(function (item, index) { return `<button type="button" class="study-interview-chip${index === clampInterviewIndex(state.currentIndex) ? ' is-active' : ''}" data-interview-prompt="${index}">${escapeHtml(item.label)}</button>`; }).join('')}</div>`,
+        `<article class="study-interview-card"><p class="study-interview-question">${escapeHtml(prompt.question)}</p><ul class="study-interview-list">${(prompt.expected || []).map(function (item) { return `<li>${escapeHtml(item)}</li>`; }).join('')}</ul>${state.reveal ? `<div class="study-interview-rubric"><p class="study-interview-rubric-title">Qué tiene que aparecer en una buena respuesta</p><ul class="study-interview-list">${(prompt.rubric || []).map(function (item) { return `<li>${escapeHtml(item)}</li>`; }).join('')}</ul></div>` : ''}<div class="study-interview-sources"><p class="study-interview-rubric-title">Lecciones fuente</p><div class="study-interview-source-row">${sourceButtons}</div></div></article>`
+      ].join('');
+
+      const revealBtn = document.getElementById('study-interview-reveal');
+      const nextBtn = document.getElementById('study-interview-next');
+      if (revealBtn) revealBtn.addEventListener('click', toggleReveal);
+      if (nextBtn) nextBtn.addEventListener('click', nextPrompt);
+      Array.from(panel.querySelectorAll('[data-interview-prompt]')).forEach(function (button) {
+        button.addEventListener('click', function () {
+          setPrompt(Number(button.getAttribute('data-interview-prompt') || 0));
+        });
+      });
+      Array.from(panel.querySelectorAll('[data-interview-source]')).forEach(function (link) {
+        link.addEventListener('click', function (event) {
+          const topicId = link.getAttribute('data-interview-source');
+          if (!topicId) return;
+          event.preventDefault();
+          renderTopic(topicId, true);
+        });
+      });
+    }
+
+    function scrollPanelIntoView() {
+      const panel = document.getElementById('study-interview-panel');
+      if (!panel) return;
+      panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function clampInterviewIndex(value) {
+      if (!pack || !Array.isArray(pack.prompts) || !pack.prompts.length) return 0;
+      if (!Number.isFinite(value) || value < 0 || value >= pack.prompts.length) return 0;
+      return value;
+    }
+
+    function persist() {
+      localStorage.setItem(keyOpen, state.open ? '1' : '0');
+      localStorage.setItem(keyIndex, String(clampInterviewIndex(state.currentIndex)));
+      localStorage.setItem(keyReveal, state.reveal ? '1' : '0');
+    }
+
+    return {
+      bootstrap,
+      mount,
+      toggle,
+      isOpen,
+      handleTopicChange
+    };
+  }
+
+  function createStudyNotebook() {
+    const state = {
+      bootstrapped: false,
+      notesByTopicId: {},
+      bookmarksByTopicId: {}
+    };
+
+    async function bootstrap() {
+      state.bootstrapped = true;
+      if (!hasAuthenticatedCloudProfile()) {
+        render();
+        return false;
+      }
+      try {
+        const headers = { Authorization: `Bearer ${getAuthAccessToken()}` };
+        const [notesResponse, bookmarksResponse] = await Promise.all([
+          fetch(`/api/student-notes?route=list&courseId=${encodeURIComponent(courseId)}`, {
+            method: 'GET',
+            headers: headers
+          }),
+          fetch(`/api/student-bookmarks?route=list&courseId=${encodeURIComponent(courseId)}`, {
+            method: 'GET',
+            headers: headers
+          })
+        ]);
+
+        if (notesResponse.ok) {
+          const body = await notesResponse.json().catch(function () { return null; });
+          replaceNotebookMap(state.notesByTopicId, (body && body.notes) || [], function (item) {
+            return [String(item.topicId || '').trim(), {
+              content: String(item.content || ''),
+              updatedAt: String(item.updatedAt || '')
+            }];
+          });
+        }
+
+        if (bookmarksResponse.ok) {
+          const body = await bookmarksResponse.json().catch(function () { return null; });
+          replaceNotebookMap(state.bookmarksByTopicId, (body && body.bookmarks) || [], function (item) {
+            return [String(item.topicId || '').trim(), {
+              updatedAt: String(item.updatedAt || '')
+            }];
+          });
+        }
+      } catch (_error) {
+      }
+      render();
+      scheduleDecorateNavStates();
+      return true;
+    }
+
+    function render() {
+      renderNotesPanel();
+      renderBookmarksPanel();
+      updateBookmarkUi();
+    }
+
+    function renderNotesPanel() {
+      const helper = document.getElementById('study-note-helper');
+      const editor = document.getElementById('study-note-editor');
+      const status = document.getElementById('study-note-status');
+      const saveBtn = document.getElementById('study-note-save');
+      const clearBtn = document.getElementById('study-note-clear');
+      if (!helper || !editor || !saveBtn || !clearBtn) return;
+
+      if (!hasAuthenticatedCloudProfile()) {
+        helper.textContent = 'Inicia sesión para guardar notas privadas sincronizadas por cuenta.';
+        editor.value = '';
+        editor.disabled = true;
+        saveBtn.disabled = true;
+        clearBtn.disabled = true;
+        if (status) status.textContent = 'Las notas cloud están disponibles solo con sesión activa.';
+        return;
+      }
+
+      helper.textContent = currentTopic
+        ? `Tema actual: ${currentTopic.lessonLabel || currentTopic.id}`
+        : 'Selecciona una lección para escribir o revisar tu nota privada.';
+      const note = currentTopic ? state.notesByTopicId[currentTopic.id] : null;
+      editor.disabled = !currentTopic;
+      saveBtn.disabled = !currentTopic;
+      clearBtn.disabled = !currentTopic;
+      editor.value = note ? String(note.content || '') : '';
+      if (status) {
+        status.textContent = note && note.updatedAt
+          ? `Última actualización: ${formatNotebookDate(note.updatedAt)}`
+          : 'No hay nota guardada todavía para esta lección.';
+      }
+    }
+
+    function renderBookmarksPanel() {
+      const list = document.getElementById('study-bookmarks-list');
+      const status = document.getElementById('study-bookmark-status');
+      if (!list) return;
+
+      if (!hasAuthenticatedCloudProfile()) {
+        list.innerHTML = '<p class=\"study-bookmarks-empty\">Inicia sesión para sincronizar bookmarks privados entre dispositivos.</p>';
+        if (status) status.textContent = 'Los bookmarks cloud están disponibles solo con sesión activa.';
+        return;
+      }
+
+      const items = Object.keys(state.bookmarksByTopicId)
+        .map(function (topicId) {
+          return {
+            topicId: topicId,
+            updatedAt: String((state.bookmarksByTopicId[topicId] || {}).updatedAt || '')
+          };
+        })
+        .sort(function (a, b) {
+          return Date.parse(b.updatedAt || '') - Date.parse(a.updatedAt || '');
+        })
+        .slice(0, 6);
+
+      if (!items.length) {
+        list.innerHTML = '<p class=\"study-bookmarks-empty\">Todavía no has guardado ningún bookmark.</p>';
+        if (status) status.textContent = 'Guarda un bookmark para volver rápido a una lección importante.';
+        return;
+      }
+
+      if (status) status.textContent = 'Tus bookmarks recientes quedan ligados a tu cuenta y se sincronizan entre dispositivos.';
+
+      list.innerHTML = items.map(function (item) {
+        const topic = topics.find(function (entry) { return entry.id === item.topicId; });
+        const label = topic && topic.lessonLabel ? topic.lessonLabel : item.topicId;
+        return [
+          '<article class=\"study-bookmark-item\">',
+          `<button type=\"button\" class=\"study-bookmark-link\" data-bookmark-topic=\"${escapeHtml(item.topicId)}\">${escapeHtml(label)}</button>`,
+          `<p>${escapeHtml(formatNotebookDate(item.updatedAt))}</p>`,
+          '</article>'
+        ].join('');
+      }).join('');
+
+      Array.from(list.querySelectorAll('[data-bookmark-topic]')).forEach(function (button) {
+        button.addEventListener('click', function () {
+          const topicId = button.getAttribute('data-bookmark-topic');
+          if (!topicId) return;
+          renderTopic(topicId, true);
+        });
+      });
+    }
+
+    async function saveCurrentNote() {
+      if (!currentTopic) return;
+      if (!hasAuthenticatedCloudProfile()) {
+        goAuthPortal();
+        return;
+      }
+
+      const editor = document.getElementById('study-note-editor');
+      if (!editor) return;
+      const content = String(editor.value || '').trim();
+      const status = document.getElementById('study-note-status');
+      try {
+        const headers = {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${getAuthAccessToken()}`
+        };
+        const response = await fetch('/api/student-notes?route=upsert', {
+          method: 'POST',
+          headers: headers,
+          body: JSON.stringify({
+            courseId: courseId,
+            topicId: currentTopic.id,
+            content: content
+          })
+        });
+        const body = await response.json().catch(function () { return null; });
+        if (!response.ok || !body || body.ok === false) {
+          throw new Error(body && body.error ? body.error : `Error ${response.status}`);
+        }
+
+        if (body.note) {
+          state.notesByTopicId[currentTopic.id] = {
+            content: String(body.note.content || ''),
+            updatedAt: String(body.note.updatedAt || new Date().toISOString())
+          };
+        } else {
+          delete state.notesByTopicId[currentTopic.id];
+        }
+        if (status) status.textContent = body.note ? `Última actualización: ${formatNotebookDate(body.note.updatedAt)}` : 'Nota eliminada.';
+        render();
+      } catch (error) {
+        if (status) status.textContent = error && error.message ? error.message : 'No se pudo guardar la nota.';
+      }
+    }
+
+    async function clearCurrentNote() {
+      const editor = document.getElementById('study-note-editor');
+      if (!editor) return;
+      editor.value = '';
+      await saveCurrentNote();
+    }
+
+    async function toggleBookmark() {
+      if (!currentTopic) return;
+      if (!hasAuthenticatedCloudProfile()) {
+        goAuthPortal();
+        return;
+      }
+
+      const status = document.getElementById('study-bookmark-status');
+      try {
+        const headers = {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${getAuthAccessToken()}`
+        };
+        const response = await fetch('/api/student-bookmarks?route=toggle', {
+          method: 'POST',
+          headers: headers,
+          body: JSON.stringify({
+            courseId: courseId,
+            topicId: currentTopic.id
+          })
+        });
+        const body = await response.json().catch(function () { return null; });
+        if (!response.ok || !body || body.ok === false) {
+          throw new Error(body && body.error ? body.error : `Error ${response.status}`);
+        }
+
+        if (body.active) {
+          state.bookmarksByTopicId[currentTopic.id] = {
+            updatedAt: String(body.bookmark && body.bookmark.updatedAt || new Date().toISOString())
+          };
+        } else {
+          delete state.bookmarksByTopicId[currentTopic.id];
+        }
+        if (status) {
+          status.textContent = body.active
+            ? `Bookmark guardado para ${currentTopic.lessonLabel || currentTopic.id}.`
+            : `Bookmark eliminado de ${currentTopic.lessonLabel || currentTopic.id}.`;
+        }
+        render();
+        scheduleDecorateNavStates();
+      } catch (error) {
+        if (status) status.textContent = error && error.message ? error.message : 'No se pudo actualizar el bookmark.';
+      }
+    }
+
+    function hasBookmark(topicId) {
+      return Boolean(topicId && state.bookmarksByTopicId[topicId]);
+    }
+
+    function replaceNotebookMap(target, rows, mapper) {
+      Object.keys(target).forEach(function (key) {
+        delete target[key];
+      });
+      (rows || []).forEach(function (row) {
+        const pair = mapper(row);
+        const key = pair && pair[0];
+        const value = pair && pair[1];
+        if (!key || !value) return;
+        target[key] = value;
+      });
+    }
+
+    function formatNotebookDate(value) {
+      const date = new Date(String(value || ''));
+      if (!Number.isFinite(date.getTime())) return 'Sin fecha';
+      return date.toLocaleString('es-ES', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+    }
+
+    return {
+      bootstrap: function () { void bootstrap(); },
+      render: render,
+      saveCurrentNote: function () { void saveCurrentNote(); },
+      clearCurrentNote: function () { void clearCurrentNote(); },
+      toggleBookmark: function () { void toggleBookmark(); },
+      hasBookmark: hasBookmark
+    };
   }
 
   async function resetProgress() {
@@ -1087,10 +1948,159 @@
     return p;
   }
 
+  function createAccessControl() {
+    const state = {
+      ready: false,
+      fullAccess: true,
+      mode: 'full',
+      teaserTopicIds: []
+    };
+
+    async function bootstrap() {
+      if (state.ready) return;
+      state.ready = true;
+      if (isLocalContext()) {
+        renderBanner();
+        updateLockedNavigation();
+        return;
+      }
+
+      const access = await fetchCourseAccess();
+      if (!access) {
+        renderBanner();
+        updateLockedNavigation();
+        return;
+      }
+
+      state.mode = String(access.access || 'blocked');
+      state.fullAccess = !!access.fullAccess;
+      state.teaserTopicIds = Array.isArray(access.teaserTopicIds)
+        ? access.teaserTopicIds.map((item) => String(item || '').trim()).filter(Boolean)
+        : [];
+
+      if (!state.fullAccess) {
+        pruneToTeaserTopics();
+      }
+
+      renderBanner();
+      updateLockedNavigation();
+    }
+
+    function pruneToTeaserTopics() {
+      const allowed = new Set(state.teaserTopicIds);
+      const visibleTopics = topics.filter((topic) => allowed.has(topic.id));
+      if (!visibleTopics.length) return;
+
+      topics.splice(0, topics.length, ...visibleTopics);
+      if (!topics.find((topic) => topic.id === localStorage.getItem(keyLastTopic))) {
+        localStorage.removeItem(keyLastTopic);
+      }
+
+      Array.from(document.querySelectorAll('section.lesson')).forEach((section) => {
+        const topicId = section.getAttribute('data-topic-id') || section.id || '';
+        if (!allowed.has(topicId)) {
+          section.style.display = 'none';
+          section.classList.add('study-topic-locked');
+        }
+      });
+    }
+
+    function updateLockedNavigation() {
+      const teaserSet = new Set(state.teaserTopicIds);
+      navLinks.forEach((link) => {
+        const topicId = String(link.dataset.topicId || '').trim();
+        const locked = !state.fullAccess && topicId && !teaserSet.has(topicId);
+        link.classList.toggle('study-nav-locked', locked);
+        if (locked) {
+          link.setAttribute('aria-disabled', 'true');
+          link.dataset.lockedAccess = '1';
+        } else {
+          link.removeAttribute('aria-disabled');
+          delete link.dataset.lockedAccess;
+        }
+        if (link.dataset.lockedBound === '1') return;
+        link.dataset.lockedBound = '1';
+        link.addEventListener('click', function (event) {
+          if (link.dataset.lockedAccess !== '1') return;
+          event.preventDefault();
+          revealGate();
+        });
+      });
+    }
+
+    function revealGate() {
+      renderBanner();
+      const banner = document.getElementById('study-access-banner');
+      if (banner) banner.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function renderBanner() {
+      let banner = document.getElementById('study-access-banner');
+      if (!banner) {
+        banner = document.createElement('section');
+        banner.id = 'study-access-banner';
+        banner.className = 'study-access-banner';
+        const firstLesson = document.querySelector('section.lesson');
+        if (firstLesson && firstLesson.parentNode) {
+          firstLesson.parentNode.insertBefore(banner, firstLesson);
+        }
+      }
+      if (!banner) return;
+
+      if (state.fullAccess || isLocalContext()) {
+        banner.hidden = true;
+        banner.innerHTML = '';
+        return;
+      }
+
+      const hubBase = deriveHubBase() || '';
+      const hubHome = hubBase ? `${hubBase}/index.html` : '../index.html';
+      const authHome = buildAuthUrl();
+      const title = state.mode === 'teaser' ? 'Acceso teaser activo' : 'Contenido premium bloqueado';
+      const description = state.mode === 'teaser'
+        ? 'Estás viendo una muestra pública del curso. Inicia sesión con un plan activo para desbloquear el recorrido completo.'
+        : 'Necesitas iniciar sesión con un entitlement activo para abrir este curso completo.';
+
+      banner.hidden = false;
+      banner.innerHTML =
+        `<div class=\"study-access-banner-copy\"><strong>${escapeHtml(title)}</strong><p>${escapeHtml(description)}</p></div>` +
+        `<div class=\"study-access-banner-actions\">` +
+        `<a class=\"study-access-banner-link\" href=\"${escapeHtml(authHome)}\">🔐 Cuenta</a>` +
+        `<a class=\"study-access-banner-link secondary\" href=\"${escapeHtml(hubHome)}\">🏠 Volver al hub</a>` +
+        `</div>`;
+    }
+
+    async function fetchCourseAccess() {
+      try {
+        const headers = {};
+        const bearer = getAuthAccessToken();
+        if (bearer) headers.Authorization = `Bearer ${bearer}`;
+        const response = await fetch(`/api/entitlements?route=access&courseId=${encodeURIComponent(courseId)}`, {
+          method: 'GET',
+          headers: headers
+        });
+        if (!response.ok) return null;
+        const body = await response.json().catch(function () { return null; });
+        if (!body || !body.ok || !body.access || typeof body.access !== 'object') return null;
+        return body.access;
+      } catch (_error) {
+        return null;
+      }
+    }
+
+    return {
+      bootstrap,
+      hasFullAccess: function () { return state.fullAccess; },
+      isTeaserMode: function () { return state.mode === 'teaser' && !state.fullAccess; }
+    };
+  }
+
   function createCloudSync() {
     const state = {
       bootstrapped: false,
       enabled: false,
+      requiresAuth: false,
+      authBoundProfile: false,
       profileKey: '',
       updatedAtKey: keyCloudUpdatedAtLegacy,
       pendingTimer: null,
@@ -1104,20 +2114,40 @@
       state.bootstrapped = true;
       const hasProfileInUrl = hasProgressProfileQuery();
       state.profileKey = await resolveProfileKey();
-      if (!state.profileKey) return;
+      state.authBoundProfile = hasAuthenticatedCloudProfile();
+      if (!state.profileKey) {
+        updateSyncLinkButton();
+        return;
+      }
       state.updatedAtKey = resolveCloudUpdatedAtKey(state.profileKey);
       if (!hasProfileInUrl) {
         migrateLegacyUpdatedAt(state.updatedAtKey);
       }
-      ensureProgressProfileQuery(state.profileKey);
+      if (state.authBoundProfile) {
+        clearProgressProfileQuery();
+      } else {
+        ensureProgressProfileQuery(state.profileKey);
+      }
       state.syncBaseUrl = resolveSyncBaseUrl();
 
       const config = await fetchConfig();
       state.enabled = !!(config && config.enabled);
-      if (!state.enabled) return;
+      state.requiresAuth = !!(config && config.requiresAuth);
+      if (state.requiresAuth && !state.authBoundProfile) {
+        state.enabled = false;
+        updateSyncLinkButton();
+        return;
+      }
+      if (!state.enabled) {
+        updateSyncLinkButton();
+        return;
+      }
 
-      await pull();
-      schedulePush(1400);
+      const pulled = await pull();
+      if (!pulled && hasPublishableProgressState()) {
+        schedulePush(1400);
+      }
+      updateSyncLinkButton();
     }
 
     function schedulePush(wait = 900) {
@@ -1130,6 +2160,7 @@
 
     async function pushNow(options = {}) {
       if (!state.enabled || !state.profileKey || state.pushing) return false;
+      if (state.requiresAuth && !hasAuthenticatedCloudProfile()) return false;
       const payload = collectCloudPayload();
       const snapshot = stableSerialize(payload);
       if (!options.force && snapshot === state.lastSnapshot) return false;
@@ -1164,6 +2195,7 @@
     }
 
     async function pull() {
+      if (state.requiresAuth && !hasAuthenticatedCloudProfile()) return false;
       const query = new URLSearchParams({
         courseId: courseId,
         profileKey: state.profileKey
@@ -1219,6 +2251,13 @@
       return doneKeys.length === 0 && reviewKeys.length === 0 && !lastTopic;
     }
 
+    function hasPublishableProgressState() {
+      const payload = collectCloudPayload();
+      const doneKeys = Object.keys(payload.completed || {});
+      const reviewKeys = Object.keys(payload.review || {});
+      return doneKeys.length > 0 || reviewKeys.length > 0;
+    }
+
     function applyCloudPayload(payload) {
       if (payload.completed && typeof payload.completed === 'object') {
         localStorage.setItem(keyCompleted, JSON.stringify(payload.completed));
@@ -1263,9 +2302,13 @@
 
     async function resolveProfileKey() {
       const authUserId = getAuthUserId();
-      if (isValidProfileKey(authUserId)) {
+      if (hasAuthenticatedCloudProfile() && isValidProfileKey(authUserId)) {
         localStorage.setItem(keyCloudProfile, authUserId);
         return authUserId;
+      }
+
+      if (!isLocalContext()) {
+        return '';
       }
 
       const fromQuery = new URLSearchParams(location.search).get('progressProfile');
@@ -1300,6 +2343,17 @@
         const current = new URL(location.href);
         if (current.searchParams.get('progressProfile') === profileKey) return;
         current.searchParams.set('progressProfile', profileKey);
+        history.replaceState(history.state, '', `${current.pathname}${current.search}${current.hash}`);
+      } catch (_error) {
+        return;
+      }
+    }
+
+    function clearProgressProfileQuery() {
+      try {
+        const current = new URL(location.href);
+        if (!current.searchParams.has('progressProfile')) return;
+        current.searchParams.delete('progressProfile');
         history.replaceState(history.state, '', `${current.pathname}${current.search}${current.hash}`);
       } catch (_error) {
         return;
@@ -1475,12 +2529,48 @@
     return token;
   }
 
-  function buildSyncLink(profileKey, syncBaseUrl) {
+  function hasAuthenticatedCloudProfile() {
+    return Boolean(getAuthUserId() && getAuthAccessToken());
+  }
+
+  function normalizeCanonicalCourseKey(value) {
+    const raw = String(value || '').toLowerCase();
+    if (raw.includes('android')) return 'android';
+    if (raw.includes('sdd')) return 'sdd';
+    return 'ios';
+  }
+
+  function queryHasInterviewMode() {
+    try {
+      const params = new URLSearchParams(window.location.search || '');
+      return params.get('mode') === 'interview';
+    } catch (_error) {
+      return false;
+    }
+  }
+
+  function escapeHtml(value) {
+    return String(value || '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  function buildSyncLink(profileKey, syncBaseUrl, authBoundProfile) {
     const url = new URL(window.location.href);
-    url.searchParams.set('progressProfile', profileKey);
+    if (authBoundProfile) {
+      url.searchParams.delete('progressProfile');
+    } else if (profileKey) {
+      url.searchParams.set('progressProfile', profileKey);
+    }
     const normalizedBase = normalizeBaseUrl(syncBaseUrl || '');
     if (normalizedBase && isLocalContext()) {
       url.searchParams.set('progressBase', normalizedBase);
+    } else {
+      url.searchParams.delete('progressBase');
+      url.searchParams.delete('progressEndpoint');
     }
     return url.toString();
   }

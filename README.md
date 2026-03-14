@@ -232,6 +232,50 @@ Para regenerar y copiar los tres cursos al hub:
 ./scripts/build-hub.sh
 ```
 
+### Runbook enterprise de release (manual)
+
+Publicación controlada por workflow:
+- `Hub Production Release Gate` en `.github/workflows/hub-production-release-gate.yml`.
+
+Qué hace este gate:
+- ejecuta prechecks de control (`test-public-smoke-suite`, `test-course-surface-guard-suite`, `test-stamp-asset-version`).
+- ejecuta `publish-architecture-stack.sh` en modo `strict` o `fast`.
+- ejecuta postchecks de producción contra la URL de arquitectura (`post-deploy-checks.sh`) y deja evidencia si se habilitan.
+- deja evidencia en artefacto `hub-release-checklist.md` y logs por run.
+
+Paso a paso:
+1. Ir a GitHub → Actions → `Hub Production Release Gate`.
+2. Ejecutar `Run workflow` desde rama protegida (suele ser `develop` o `main`).
+3. Elegir `mode`:
+   - `strict` (recomendado por defecto, incluye audit completo de SDD).
+   - `fast` (solo para casos controlados).
+4. Marcar `force_deploy` solo si hay cooldown de cuota y la publicación debe forzarse.
+5. Marcar `run_postchecks` si se quiere validar rutas y smoke funcional en producción.
+6. (Opcional) Ajustar `base_url` para validar una URL distinta (por ejemplo staging previo).
+6. Esperar aprobación del entorno `production` si la protección está activa.
+7. Verificar artefacto `hub-release-evidence-<run_id>` en `Actions → Artifacts`:
+   - `checklist.md`
+   - logs de precheck y deploy.
+
+Aprobadores:
+- Deben existir owners con permisos de aprobación del entorno `production`.
+- En caso de duda, pedir aprobación explícita al dueño de release del repo.
+
+Criterios de aceptación del run:
+- logs sin error en prechecks.
+- `publish-architecture-stack.sh` finaliza `exit 0`.
+- postchecks en producción finaliza `exit 0` (si se ejecutan).
+- artefacto de evidencia presente y `checklist.md` con estado OK.
+
+Criterios de rollback:
+- Si la publicación falla en deploy o verificación, no cambia el estado de producción.
+- Si hay regresión detectada en producción, abrir un hotfix y publicar de nuevo con `mode=fast` tras validar el fix.
+- Si se necesita revertir inmediato, republishing del commit anterior (o selección directa en Vercel).
+- Si el bloqueo es por `cooldown`, no forzar repetidas veces; ejecutar con `force_deploy=1` solo si aplica política aprobada.
+
+Estado de operación:
+- mantener `build-manifest.json` y checklist de evidencia para evidencia post mortem y auditoría.
+
 Desde ahora, la publicación del curso SDD pasa por gate estricto automático:
 
 - ejecuta `stack-my-architecture-SDD/scripts/run-full-audit.sh`

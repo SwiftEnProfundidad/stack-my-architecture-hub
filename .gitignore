@@ -17,3 +17,7 @@ yarn-error.log*
 # Local hub runtime (PID/log/port)
 .runtime/
 .vercel
+.playwright-cli/
+output/
+output/playwright/
+output/playwright-ci-auth-e2e/

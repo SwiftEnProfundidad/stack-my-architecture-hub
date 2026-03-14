@@ -1,0 +1,51 @@
+name: Hub Surface Guard QA
+
+on:
+  push:
+    paths:
+      - "index.html"
+      - "ios/**"
+      - "android/**"
+      - "sdd/**"
+      - "auth/**"
+      - "admin/**"
+      - "assets/**"
+      - "scripts/validate-course-surface-guard.sh"
+      - "scripts/tests/test-course-surface-guard-suite.sh"
+      - "scripts/tests/test-public-smoke-suite.sh"
+      - "scripts/tests/test-stamp-asset-version.sh"
+  pull_request:
+    paths:
+      - "index.html"
+      - "ios/**"
+      - "android/**"
+      - "sdd/**"
+      - "auth/**"
+      - "admin/**"
+      - "assets/**"
+      - "scripts/validate-course-surface-guard.sh"
+      - "scripts/tests/test-course-surface-guard-suite.sh"
+      - "scripts/tests/test-public-smoke-suite.sh"
+      - "scripts/tests/test-stamp-asset-version.sh"
+
+jobs:
+  surface-guard:
+    name: Surface regression guard
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run public smoke suite
+        run: ./scripts/tests/test-public-smoke-suite.sh
+
+      - name: Run course surface anti-regression
+        run: ./scripts/tests/test-course-surface-guard-suite.sh
+
+      - name: Run asset version determinism test
+        run: ./scripts/tests/test-stamp-asset-version.sh
