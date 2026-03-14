@@ -1,6 +1,7 @@
 'use strict';
 
 const SUPABASE_URL = String(process.env.SUPABASE_URL || '').trim().replace(/\/$/, '');
+const SUPABASE_ANON_KEY = String(process.env.SUPABASE_ANON_KEY || '').trim();
 const SUPABASE_SERVICE_ROLE_KEY = String(process.env.SUPABASE_SERVICE_ROLE_KEY || '').trim();
 const HUB_BOOTSTRAP_ADMIN_EMAILS = String(process.env.HUB_BOOTSTRAP_ADMIN_EMAILS || '');
 
@@ -60,8 +61,16 @@ function isBackendConfigured() {
   return Boolean(SUPABASE_URL && SUPABASE_SERVICE_ROLE_KEY);
 }
 
+function isUserScopedBackendConfigured() {
+  return Boolean(SUPABASE_URL && supabasePublicKey());
+}
+
 function supabaseBaseUrl() {
   return SUPABASE_URL;
+}
+
+function supabasePublicKey() {
+  return SUPABASE_ANON_KEY || SUPABASE_SERVICE_ROLE_KEY;
 }
 
 function supabaseServiceKey() {
@@ -277,6 +286,7 @@ function withInfrastructureGuidance(error, options = {}) {
   const featureLabel = String(options.featureLabel || 'este recurso').trim() || 'este recurso';
   const sqlDoc = String(options.sqlDoc || 'docs/PROGRESS-SYNC-SUPABASE.sql').trim();
   const qualifiedTable = table ? `public.${table}` : 'la tabla esperada';
+  const principalLabel = String(options.principalLabel || 'service_role').trim() || 'service_role';
 
   if (isMissingRelationError(error)) {
     const next = new Error(`La infraestructura de ${featureLabel} no está inicializada en Supabase. Reaplica ${sqlDoc} y verifica ${qualifiedTable}.`);
@@ -285,7 +295,7 @@ function withInfrastructureGuidance(error, options = {}) {
   }
 
   if (isPermissionDeniedError(error)) {
-    const next = new Error(`Supabase está denegando acceso a ${featureLabel}. Reaplica ${sqlDoc} y verifica los grants de service_role sobre ${qualifiedTable}.`);
+    const next = new Error(`Supabase está denegando acceso a ${featureLabel}. Reaplica ${sqlDoc} y verifica los grants/policies de ${principalLabel} sobre ${qualifiedTable}.`);
     next.statusCode = 503;
     return next;
   }
@@ -294,11 +304,12 @@ function withInfrastructureGuidance(error, options = {}) {
 }
 
 function withSupabaseHeaders(options) {
-  const key = supabaseServiceKey();
+  const key = String(options.supabaseKey || supabaseServiceKey()).trim();
+  const bearerToken = String(options.bearerToken || '').trim();
   const headers = Object.assign({
-    apikey: key,
-    Authorization: `Bearer ${key}`
+    apikey: key
   }, options.headers || {});
+  headers.Authorization = `Bearer ${bearerToken || key}`;
   if (options.body && !hasHeader(headers, 'content-type')) {
     headers['Content-Type'] = 'application/json';
   }
@@ -324,29 +335,32 @@ async function fetchSupabaseJson(url, options = {}) {
   return payload;
 }
 
-async function fetchOptionalRows(table, params) {
+async function fetchOptionalRows(table, params, requestOptions = {}) {
   try {
-    return await fetchRows(table, params);
+    return await fetchRows(table, params, requestOptions);
   } catch (error) {
     if (isMissingRelationError(error)) return [];
     throw error;
   }
 }
 
-async function fetchRows(table, params) {
+async function fetchRows(table, params, requestOptions = {}) {
   const query = new URLSearchParams(params || {});
   const url = `${supabaseRestBase()}/${table}?${query.toString()}`;
-  const payload = await fetchSupabaseJson(url, { method: 'GET' });
+  const payload = await fetchSupabaseJson(url, Object.assign({ method: 'GET' }, requestOptions));
   return Array.isArray(payload) ? payload : [];
 }
 
-async function upsertRows(table, rows, onConflict) {
+async function upsertRows(table, rows, onConflict, requestOptions = {}) {
   const query = new URLSearchParams();
   if (onConflict) query.set('on_conflict', onConflict);
   const url = `${supabaseRestBase()}/${table}${query.toString() ? `?${query.toString()}` : ''}`;
   const payload = await fetchSupabaseJson(url, {
+    supabaseKey: requestOptions.supabaseKey,
+    bearerToken: requestOptions.bearerToken,
     method: 'POST',
     headers: {
+      ...(requestOptions.headers || {}),
       Prefer: 'resolution=merge-duplicates,return=representation'
     },
     body: JSON.stringify(rows)
@@ -354,12 +368,15 @@ async function upsertRows(table, rows, onConflict) {
   return Array.isArray(payload) ? payload : [];
 }
 
-async function deleteRows(table, filters) {
+async function deleteRows(table, filters, requestOptions = {}) {
   const query = new URLSearchParams(filters || {});
   const url = `${supabaseRestBase()}/${table}?${query.toString()}`;
   const payload = await fetchSupabaseJson(url, {
+    supabaseKey: requestOptions.supabaseKey,
+    bearerToken: requestOptions.bearerToken,
     method: 'DELETE',
     headers: {
+      ...(requestOptions.headers || {}),
       Prefer: 'return=representation'
     }
   });
@@ -377,10 +394,10 @@ async function resolveAuthenticatedUser(req, { optional = false } = {}) {
 
   try {
     return await fetchSupabaseJson(`${supabaseAuthBase()}/user`, {
+      supabaseKey: supabasePublicKey(),
+      bearerToken: bearer,
       method: 'GET',
-      headers: {
-        Authorization: `Bearer ${bearer}`
-      }
+      headers: {}
     });
   } catch (error) {
     if (optional && toStatusCode(error) === 401) return null;
@@ -611,7 +628,9 @@ module.exports = {
   DEFAULT_BOOKMARKS_TABLE,
   DEFAULT_AUDIT_TABLE,
   isBackendConfigured,
+  isUserScopedBackendConfigured,
   supabaseAuthBase,
+  supabasePublicKey,
   setCorsHeaders,
   sendJson,
   parseQuery,
@@ -638,6 +657,7 @@ module.exports = {
   normalizeTeaserKind,
   normalizeTableName,
   normalizeUuid,
+  readBearerToken,
   toStatusCode,
   toErrorMessage,
   withInfrastructureGuidance,
