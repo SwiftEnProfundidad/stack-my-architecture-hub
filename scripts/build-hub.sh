@@ -25,6 +25,7 @@ VERIFY_SCRIPT="$SCRIPT_DIR/verify-hub-build.py"
 RUNTIME_SMOKE_SCRIPT="$SCRIPT_DIR/smoke-hub-runtime.sh"
 MANIFEST_SCRIPT="$SCRIPT_DIR/generate-build-manifest.py"
 STAMP_ASSET_VERSION_SCRIPT="$SCRIPT_DIR/stamp-asset-version.py"
+PATCH_STUDY_UX_RUNTIME_SCRIPT="$SCRIPT_DIR/patch-study-ux-runtime.py"
 
 resolve_course_root() {
   local candidate="$1"
@@ -287,6 +288,14 @@ fi
 if [[ -f "$HUB_ROOT/sdd/curso-stack-my-architecture-sdd.html" ]]; then
   cp "$HUB_ROOT/sdd/curso-stack-my-architecture-sdd.html" "$HUB_ROOT/sdd/index.html"
 fi
+
+if [[ ! -x "$PATCH_STUDY_UX_RUNTIME_SCRIPT" ]]; then
+  echo "[ERROR] Missing or non-executable study UX patch script: $PATCH_STUDY_UX_RUNTIME_SCRIPT"
+  exit 1
+fi
+
+say "[6.4/8] Applying Hub-only study UX runtime patches..."
+python3 "$PATCH_STUDY_UX_RUNTIME_SCRIPT" --hub-root "$HUB_ROOT"
 
 if [[ ! -x "$STAMP_ASSET_VERSION_SCRIPT" ]]; then
   echo "[ERROR] Missing or non-executable asset version stamp script: $STAMP_ASSET_VERSION_SCRIPT"

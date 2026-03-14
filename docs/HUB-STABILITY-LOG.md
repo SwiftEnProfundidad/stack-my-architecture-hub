@@ -1507,3 +1507,23 @@ En modo `teaser`, el runtime mostraba `Progreso: X/Y` como si fuera progreso del
 
 ### Estado
 Hotfix listo para publicación.
+
+## Hotfix UX bookmarks, cache y modo claro
+### Fecha
+2026-03-14
+
+### Síntoma
+1. El botón `Guardar bookmark` cambiaba estado interno, pero no daba feedback visible al usuario y, si fallaba, parecía que no había hecho nada.
+2. En navegación normal el navegador seguía mostrando HTML cacheado y obligaba a abrir los cursos en incógnito para ver cambios recientes.
+3. El panel de `Modo entrevista` en tema claro reutilizaba superficies oscuras fijas y perdía legibilidad.
+
+### Cambios aplicados
+1. `study-ux.js` publicado en `ios`, `android` y `sdd` añade estado textual para bookmarks:
+   - confirma guardado o eliminación
+   - muestra mensaje guía cuando aún no hay bookmarks
+   - expone error visible si la actualización falla
+2. `vercel.json` vuelve a publicar cabeceras `Cache-Control: no-store` para rutas estáticas, evitando que el HTML quede pegado en navegador tras un deploy.
+3. `study-ux.css` publicado en `ios`, `android` y `sdd` sustituye fondos oscuros fijos del panel de entrevista por superficies basadas en variables del tema, mejorando contraste en modo claro.
+
+### Estado
+Hotfix validado en build strict. Pendiente de verificación visual tras publicación.

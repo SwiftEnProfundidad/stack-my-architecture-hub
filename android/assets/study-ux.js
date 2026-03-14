@@ -994,9 +994,13 @@
     const bookmarksList = document.createElement('div');
     bookmarksList.id = 'study-bookmarks-list';
     bookmarksList.className = 'study-bookmarks-list';
+    const bookmarksStatus = document.createElement('p');
+    bookmarksStatus.id = 'study-bookmark-status';
+    bookmarksStatus.className = 'study-bookmark-status';
     bookmarksBox.appendChild(bookmarksTitle);
     bookmarksBox.appendChild(bookmarksCopy);
     bookmarksBox.appendChild(bookmarksList);
+    bookmarksBox.appendChild(bookmarksStatus);
 
     indexActions.appendChild(rowPrimary);
     indexActions.appendChild(statsBox);
@@ -1713,10 +1717,12 @@
 
     function renderBookmarksPanel() {
       const list = document.getElementById('study-bookmarks-list');
+      const status = document.getElementById('study-bookmark-status');
       if (!list) return;
 
       if (!hasAuthenticatedCloudProfile()) {
         list.innerHTML = '<p class=\"study-bookmarks-empty\">Inicia sesión para sincronizar bookmarks privados entre dispositivos.</p>';
+        if (status) status.textContent = 'Los bookmarks cloud están disponibles solo con sesión activa.';
         return;
       }
 
@@ -1734,8 +1740,11 @@
 
       if (!items.length) {
         list.innerHTML = '<p class=\"study-bookmarks-empty\">Todavía no has guardado ningún bookmark.</p>';
+        if (status) status.textContent = 'Guarda un bookmark para volver rápido a una lección importante.';
         return;
       }
+
+      if (status) status.textContent = 'Tus bookmarks recientes quedan ligados a tu cuenta y se sincronizan entre dispositivos.';
 
       list.innerHTML = items.map(function (item) {
         const topic = topics.find(function (entry) { return entry.id === item.topicId; });
@@ -1816,6 +1825,7 @@
         return;
       }
 
+      const status = document.getElementById('study-bookmark-status');
       try {
         const headers = {
           'Content-Type': 'application/json',
@@ -1841,9 +1851,15 @@
         } else {
           delete state.bookmarksByTopicId[currentTopic.id];
         }
+        if (status) {
+          status.textContent = body.active
+            ? `Bookmark guardado para ${currentTopic.lessonLabel || currentTopic.id}.`
+            : `Bookmark eliminado de ${currentTopic.lessonLabel || currentTopic.id}.`;
+        }
         render();
         scheduleDecorateNavStates();
-      } catch (_error) {
+      } catch (error) {
+        if (status) status.textContent = error && error.message ? error.message : 'No se pudo actualizar el bookmark.';
       }
     }
 
