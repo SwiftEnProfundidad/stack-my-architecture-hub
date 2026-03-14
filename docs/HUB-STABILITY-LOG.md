@@ -1527,3 +1527,34 @@ Hotfix listo para publicación.
 
 ### Estado
 Hotfix validado en build strict. Pendiente de verificación visual tras publicación.
+
+## Hotfix Mermaid modo claro: contraste de nodos y bordes
+### Fecha
+2026-03-14
+
+### Sintoma
+En tema claro, varios diagramas Mermaid quedaban con cajas y diamantes demasiado lavados, especialmente en flowcharts de decision, haciendo que parecieran invisibles aunque en modo oscuro se vieran bien.
+
+### Diagnostico
+1. El palette light de `theme-controls.js` estaba heredando un `--border` demasiado suave para SVGs complejos.
+2. Los overrides SVG reforzaban texto, flechas y labels, pero no todos los nodos y contenedores de Mermaid (`.label-container`, diamantes, clusters y `flowchart-link`).
+3. El problema afectaba a `ios`, `android` y `sdd` porque comparten el mismo runtime tematico.
+
+### Cambios aplicados
+1. `assets/theme-controls.js` en `ios`, `android` y `sdd` refuerza el palette Mermaid en claro:
+   - fondo del diagrama mas definido
+   - fondo de nodo ligeramente tintado
+   - borde de nodo con contraste alto
+   - lineas con azul mas estable
+2. `applyMermaidSvgOverrides()` ahora cubre tambien:
+   - `.node rect`, `.node polygon`, `.node circle`, `.node ellipse`, `.node path`
+   - `.label-container`, `.cluster rect`, `.actor`, `.labelBox`
+   - `.flowchart-link`
+3. `scripts/patch-study-ux-runtime.py` incorpora este hotfix para que sobreviva a futuros `build-hub` aunque los HTML se vuelvan a copiar desde los repos fuente.
+
+### Evidencia tecnica
+1. `./scripts/build-hub.sh --mode strict` -> PASS.
+2. Validacion Playwright local sobre `ios/index.html#05-maestria-01-isolation-domains` en tema claro -> nodos y diamantes con borde y superficie visibles.
+
+### Estado
+Hotfix listo para publicacion.
