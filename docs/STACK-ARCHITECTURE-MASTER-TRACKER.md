@@ -1,6 +1,6 @@
 # STACK ARCHITECTURE MASTER TRACKER
 
-Fecha de actualización: 2026-03-09
+Fecha de actualización: 2026-03-14
 
 ## Leyenda
 - ✅ Hecho
@@ -25,8 +25,6 @@ Mantener una única fuente de verdad operativa para el ecosistema `Hub + iOS + A
 5. `docs/GUIA-DIAGRAMAS-ARQUITECTURA-CAPAS-Y-FLECHAS.md`
 6. `docs/TEMPLATE-DIAGRAMA-ARQUITECTURA-MERMAID.md`
 7. `docs/PROGRESS-SYNC-SUPABASE.sql`
-8. `docs/PLAN-ENTITLEMENTS-DASHBOARD-20260308.md`
-9. `docs/PLAN-MODO-ENTREVISTA-TECNICA-20260309.md`
 
 ## Estado consolidado
 - ✅ Hub estable y publicado en `https://architecture-stack.vercel.app`.
@@ -36,6 +34,8 @@ Mantener una única fuente de verdad operativa para el ecosistema `Hub + iOS + A
 - ✅ Versionado de assets determinista y smoke suites endurecidas.
 - ✅ E2E autenticada cross-device validada manualmente contra producción.
 - ✅ Artefactos transitorios de seguimiento consolidados a un set enterprise mínimo.
+- ✅ `Entitlements + Dashboard` publicado y validado en producción.
+- ✅ `Modo entrevista técnica` publicado y validado en producción.
 
 ## Política operativa vigente
 1. Solo estos documentos `docs/` actúan como tracking estable.
@@ -45,11 +45,10 @@ Mantener una única fuente de verdad operativa para el ecosistema `Hub + iOS + A
 5. Cada bloque nuevo se abre con GitFlow real y una sola tarea `🚧`.
 
 ## Bloque actual
-- ⛔ Entitlements + Dashboard del estudiante v1: implementado, mergeado y pendiente solo de redeploy por cuota diaria de Vercel.
-- ⛔ Modo entrevista tecnica v1: implementado, mergeado y pendiente de publicacion por la misma cuota diaria de Vercel.
+- ✅ No hay bloque operativo abierto en este momento.
+- ✅ El producto quedó publicado, validado y sin planes de seguimiento abiertos que sigan gobernando el sistema.
 
 ## Siguiente paso operativo
-1. Esperar la ventana automática de closeout ya programada para `2026-03-09 03:47 CET`.
-2. Verificar el resultado con `closeout-status` / `closeout-readiness` y `post-deploy-checks` si hiciera falta.
-3. Durante el cooldown, `publish-architecture-stack.sh` debe quedar bloqueado por guardarraíl salvo override explícito con `SMA_DEPLOY_FORCE=1`.
-4. Abrir el siguiente bloque de producto solo después de ese redeploy.
+1. Mantener estos documentos como única fuente de verdad estable del ecosistema.
+2. Abrir el siguiente bloque de producto solo cuando exista una iniciativa nueva con valor claro.
+3. Evitar versionar planes cerrados, auditorías puntuales o trackers temporales una vez amortizados.
