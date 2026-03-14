@@ -1,87 +1,63 @@
-# SESSION HANDOFF
+# SEGUIMIENTO ÚNICO DE BLOQUE
 
-Fecha de corte: 2026-03-14
+Ruta de contexto: `/Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture`
 
 ## Leyenda
 - ✅ Hecho
-- 🚧 En construccion (maximo 1)
+- 🚧 En construccion (máximo 1)
 - ⏳ Pendiente
 - ⛔ Bloqueado
 
-## Contexto de arranque
-Workspace unificado en:
-`/Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture`
+## Estado operativo actual
+- ✅ Bloque operativo anterior cerrado: `Hardening de release (pipeline de publicación de guardas anti-regresión)`.
+- ✅ Bloque activo anterior cerrado: `Release gate enterprise de producción + runbook de operación`.
+- ✅ Bloque actual finalizado: `Limpieza enterprise + seguimiento único con evidencia actualizada`.
+- ✅ Último cierre confirmado: `notes + bookmarks` en Hub con acceso autenticado (SUPABASE_ANON_KEY + RLS).
+- ✅ Limpieza enterprise ejecutada: tracking unificado, basura de workspace eliminada y `.gitignore` endurecido.
+- ✅ Evidencia de smoke/cross-repo:
+  - `npm run quality-gates` ✅ en `stack-my-architecture-SDD/stack-my-architecture-SDD` (json `passed: true`).
+  - `npm run hardening:check` ✅ en `stack-my-architecture-SDD/stack-my-architecture-SDD`.
+  - `scripts/smoke-hub-runtime.sh` ✅ en `stack-my-architecture-hub` (port 46801).
+  - `./gradlew --version` ✅ en `stack-my-architecture-android/proyecto-android` y `stack-my-architecture-SDD/stack-my-architecture-android/proyecto-android`.
 
-Repos incluidos:
-1. `stack-my-architecture-hub`
-2. `stack-my-architecture-SDD`
-3. `stack-my-architecture-ios`
-4. `stack-my-architecture-android`
+## Tareas del bloque
+1. ✅ Ejecutar higiene de repositorio:
+   - Mantener un único md de seguimiento (`SESSION-HANDOFF.md`) en `stack-my-architecture-hub/docs`.
+   - Eliminar mds cerrados repetidos y rutas basura (`.playwright-cli`, `output`, `.DS_Store`).
+2. ✅ Ejecutar smoke pre-publicación cross-repo (build + closeout) en rutas críticas.
+3. ✅ Añadir guardas anti-regresión: Mermaid, navegación entre cursos, routes/locales y assets versionados.
+4. ✅ Cerrar bloque con evidencia (estado green) y preparar retorno a estado limpio.
+5. ✅ Abrir siguiente bloque y definir su alcance con mismo formato de seguimiento.
+6. ✅ Ejecutar estabilización de pipeline de release: integrar guardas anti-regresión en build publish.
+   - Ejecutada en esta iteración: guardas integradas al flujo de build y a gate CI de publicación sin dependencia externa.
+7. ✅ Preparar release gate enterprise de producción: definir workflow de publicación manual con aprobación y checklist de evidencia.
+   - Ejecutada en esta iteración: workflow `.github/workflows/hub-production-release-gate.yml` creado con prechecks y evidencia.
+8. ✅ Abrir runbook de operación release: documentar uso, aprobadores y criterios de rollback.
+9. ✅ Fortalecer release gate con postchecks de producción y evidencia explícita.
+   - Ejecutadas: postcheck configurable en `hub-production-release-gate.yml`, evidencia en checklist/logs.
+10. ✅ Dejar único md de seguimiento (con leyenda) y eliminar mds de seguimiento cerrados + residuos identificados.
+11. ✅ Verificación de limpieza enterprise post-bloque:
+   - Confirmado que no existen basura de salida `.playwright-cli`, `output` ni `.DS_Store` en `stack-my-architecture`.
+   - Confirmado que se mantiene un único md de seguimiento dentro del ámbito operativo actual (`docs/SESSION-HANDOFF.md`).
+   - Se deja constancia de `stack-my-architecture-SDD/go-to-market/PHASE_TRACKER.md` como tracker funcional externo (no cerrado).
 
-## Estado actual del producto
-- Hub operativo en Vercel con rutas públicas en verde.
-- Cursos publicados y sincronizados desde sus repos fuente.
-- Sync cloud de progreso validado por cuenta autenticada.
-- Runtime mobile-first y responsive estabilizado.
-- Suites locales de smoke y closeout en verde.
-- `Entitlements + Dashboard` publicado y validado.
-- `Modo entrevista técnica` publicado y validado.
+## Evidencia reciente
+- ✅ `scripts/validate-course-surface-guard.sh` + `scripts/tests/test-course-surface-guard-suite.sh` añadidos y conectados a `scripts/run-closeout-qa-suite.sh`.
+- ✅ Nueva guardia valida:
+  - locales y metadatos base (`lang=\"es\"`, `course-id`) en páginas raíz y de cursos.
+  - navegación de switcher y estructura de enlaces de lección.
+  - coherencia de `?v=` unificada en assets críticos entre iOS / Android / SDD.
+- ✅ Limpieza de contexto confirmada: no quedan directorios basura relevantes (`.playwright-cli`, `output`, `.DS_Store`) en `stack-my-architecture/`.
+- ✅ Build hardening aplicado: `scripts/build-hub.sh` ahora ejecuta `scripts/validate-course-surface-guard.sh` como parte de la verificación de publicación.
+- ✅ Workflow `Hub Production Release Gate` creado con publicación manual + prechecks y evidencia (`.github/workflows/hub-production-release-gate.yml`).
+- ✅ Release gate reforzado con postchecks reales en producción (`run_postchecks`) e integración al checklist de evidencia.
 
-## Estado actual de documentación
-- La fuente de verdad transversal queda reducida a:
-  - `docs/STACK-ARCHITECTURE-MASTER-TRACKER.md`
-  - `docs/HUB-STABILITY-LOG.md`
-  - `docs/SESSION-HANDOFF.md`
-  - `docs/PROGRESS-SYNC-SUPABASE.sql`
-- Los artefactos de seguimiento cerrados, auditorías puntuales y planes ya ejecutados deben eliminarse o quedar fuera de versión si no gobiernan el sistema hoy.
-
-## Último bloque cerrado
-- ✅ Publicación final validada de `Entitlements + Dashboard` y `Modo entrevista técnica`.
-- ✅ Limpieza enterprise de artefactos de seguimiento cerrados en Hub, iOS, Android y SDD.
-
-## Bloque en curso
-- ✅ No hay bloque operativo abierto en este momento.
-
-## Resultado consolidado de los últimos bloques
-1. Packs curados para `iOS`, `Android` y `SDD` reutilizando contenido ya publicado de defensa técnica, empleabilidad y proyecto final.
-2. Punto de entrada operativo en Hub:
-   - dashboard autenticado
-   - catálogo con quick action visible cuando existe acceso válido
-3. Runtime operativo en los tres cursos:
-   - botón `Entrevista` en topbar
-   - autoapertura por `?mode=interview`
-   - panel con pregunta guía, rúbrica y lecciones fuente
-4. Plataforma de acceso y dashboard ya publicada:
-   - acceso `full / teaser / blocked`
-   - panel admin protegido por rol
-   - notas, bookmarks y progreso cloud por cuenta
-5. QA cerrada:
-   - `iOS` validado en escritorio y móvil con Playwright
-   - `Android` validado en escritorio; se observan errores Mermaid legacy ya existentes fuera del alcance de este bloque
-   - `SDD` validado en escritorio con panel y enlaces fuente operativos
-6. Build Hub `strict`, smoke runtime y post-deploy en verde.
-7. GitFlow de los bloques cerrados ya está resuelto en Hub/iOS/Android/SDD y `develop` queda limpio en los cuatro repos.
-8. El guardarraíl de `publish-architecture-stack.sh` permanece para evitar gastar cuota de Vercel durante futuros cooldowns.
-
-## Siguiente paso operativo
-1. No queda tarea operativa abierta sobre `notes/bookmarks`.
-2. El siguiente trabajo debe abrirse ya como bloque nuevo de producto o mejora.
-
-## Resultado del bloque anterior
-1. Builders y validadores dejan de depender de `TODO`, `DECISIONES-TOMADAS` o auditorías cerradas.
-2. Los cursos solo publican documentación estable del alumno.
-3. Los repos quedan sin residuos de seguimiento ya amortizados.
-4. El Hub vuelve a compilar y sincronizar en verde.
-
-## Comandos útiles
-1. Build Hub estricto:
-`cd "/Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture/stack-my-architecture-hub" && ./scripts/build-hub.sh --mode strict`
-2. Rebuild iOS:
-`cd "/Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture/stack-my-architecture-ios" && python3 scripts/build-html.py`
-3. Rebuild Android:
-`cd "/Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture/stack-my-architecture-android" && python3 scripts/build-html.py`
-4. Rebuild SDD:
-`cd "/Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture/stack-my-architecture-SDD/stack-my-architecture-SDD" && python3 scripts/build-html.py`
-
-## Nota operativa
-El usuario ha pedido mantener el repositorio `clean enterprise`: cualquier plan cerrado o tracking ya amortizado debe eliminarse una vez el bloque quede publicado, validado y sin pendiente operativo real.
+## Alcance propuesto del bloque 7 (release gate enterprise)
+- ✅ `hub-surface-guard-qa.yml` añadido: CI de PR/push aislada para cursos iOS/Android/SDD (smoke + guardas anti-regresión + versión de assets).
+- ✅ `build-hub.sh` ejecuta `validate-course-surface-guard.sh` antes de smoke/runtime y queda atado al path de publish.
+- ✅ `publish-architecture-stack.sh` queda acoplado a build publish hardened, porque `build-hub.sh` valida `course-surface-guard` en el pre-deploy.
+- ✅ `Hub Production Release Gate` añade:
+  - workflow_dispatch manual para publicar a producción.
+  - precheck de evidencia pre-publicación (`test-public-smoke-suite`, `test-course-surface-guard-suite`, `test-stamp-asset-version`).
+  - ejecución de `publish-architecture-stack.sh`.
+  - generación de evidencia en artefacto (`release-checklist.md`, logs y build manifest).
