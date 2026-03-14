@@ -1585,5 +1585,14 @@ Las notas privadas mostraban `Supabase está denegando acceso a las notas privad
 2. `./scripts/build-hub.sh --mode strict` -> PASS.
 3. La key previa de `SUPABASE_SERVICE_ROLE_KEY` respondía `Invalid API key` contra `rest/v1/hub_student_notes`.
 
+### Evidencia en produccion
+1. Deploy real publicado en `https://architecture-stack.vercel.app`.
+2. `POST /api/student-notes?route=upsert` con cuenta autenticada real -> `ok: true`.
+3. `GET /api/student-notes?route=list&courseId=ios` devuelve la nota recién guardada.
+4. `POST /api/student-bookmarks?route=toggle` con cuenta autenticada real -> `ok: true`, `active: true`.
+5. Limpieza de QA ejecutada al final:
+   - nota eliminada
+   - bookmark desactivado
+
 ### Estado
-Hotfix en cierre operativo: pendiente de despliegue y verificación final en producción.
+Hotfix publicado y verificado en producción.

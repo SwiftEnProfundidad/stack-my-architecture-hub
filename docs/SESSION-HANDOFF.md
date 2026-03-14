@@ -64,9 +64,8 @@ Repos incluidos:
 8. El guardarraíl de `publish-architecture-stack.sh` permanece para evitar gastar cuota de Vercel durante futuros cooldowns.
 
 ## Siguiente paso operativo
-1. Cerrar el hotfix de `notes/bookmarks` con deploy del Hub al proyecto real `architecture-stack`.
-2. Verificar manualmente en producción el flujo `guardar nota -> recargar -> persistencia`.
-3. Si queda verde, volver al estado sin tarea operativa abierta.
+1. No queda tarea operativa abierta sobre `notes/bookmarks`.
+2. El siguiente trabajo debe abrirse ya como bloque nuevo de producto o mejora.
 
 ## Resultado del bloque anterior
 1. Builders y validadores dejan de depender de `TODO`, `DECISIONES-TOMADAS` o auditorías cerradas.
