@@ -1455,3 +1455,30 @@ Tras dejar programada la ventana automática de redeploy, seguía existiendo el 
 
 ### Resultado
 La infraestructura de closeout queda mejor protegida: durante el cooldown, la publicación manual ya no puede malgastar cuota por error humano y el flujo correcto pasa a ser esperar la ventana automática programada.
+
+## Hotfix notas privadas `Supabase 403`
+### Fecha
+2026-03-14
+
+### Síntoma
+En el runtime de curso, el panel `Notas privadas por lección` devolvía `Supabase respondió 403.` al intentar guardar una nota autenticada.
+
+### Diagnóstico
+1. `hub_student_notes` y `hub_student_bookmarks` dependían de la configuración SQL base, pero el contrato versionado no dejaba explícitos los `GRANT` para `service_role`.
+2. Cuando PostgREST denegaba acceso a esas tablas, el Hub propagaba un error opaco (`403`) sin guía operativa.
+3. El mismo riesgo afectaba a bookmarks porque comparten el mismo patrón backend.
+
+### Cambios aplicados
+1. `docs/PROGRESS-SYNC-SUPABASE.sql` ahora concede explícitamente `USAGE` sobre `public` y `SELECT/INSERT/UPDATE/DELETE` a `service_role` en `course_progress`, roles, entitlements, teasers, notes, bookmarks y audit log.
+2. `api/student-notes.js` y `api/student-bookmarks.js` traducen fallos de permisos o tablas ausentes a un error de infraestructura accionable (`503`) con referencia directa a `docs/PROGRESS-SYNC-SUPABASE.sql`.
+3. Nuevas regresiones automáticas:
+   - `scripts/tests/test-student-notes.js`
+   - `scripts/tests/test-student-bookmarks.js`
+
+### Evidencia técnica
+1. `node --test scripts/tests/test-student-notes.js` -> PASS.
+2. `node --test scripts/tests/test-student-bookmarks.js` -> PASS.
+3. `./scripts/build-hub.sh --mode strict` -> PASS.
+
+### Estado
+Hotfix implementado en código y tracking. Pendiente de despliegue y verificación final en producción.

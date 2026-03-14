@@ -17,6 +17,7 @@ const {
   toErrorMessage,
   toStatusCode,
   upsertRows,
+  withInfrastructureGuidance,
   readJsonBody,
   parseQuery
 } = require('./_hub-platform.js');
@@ -99,9 +100,13 @@ async function handleList(req, res) {
       })).filter((row) => row.courseId && row.topicId)
     });
   } catch (error) {
-    sendJson(res, toStatusCode(error), {
+    const next = withInfrastructureGuidance(error, {
+      table: NOTES_TABLE,
+      featureLabel: 'las notas privadas'
+    });
+    sendJson(res, toStatusCode(next), {
       ok: false,
-      error: toErrorMessage(error)
+      error: toErrorMessage(next)
     });
   }
 }
@@ -165,9 +170,13 @@ async function handleUpsert(req, res) {
       }
     });
   } catch (error) {
-    sendJson(res, toStatusCode(error), {
+    const next = withInfrastructureGuidance(error, {
+      table: NOTES_TABLE,
+      featureLabel: 'las notas privadas'
+    });
+    sendJson(res, toStatusCode(next), {
       ok: false,
-      error: toErrorMessage(error)
+      error: toErrorMessage(next)
     });
   }
 }

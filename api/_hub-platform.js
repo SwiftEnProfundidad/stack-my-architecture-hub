@@ -265,6 +265,34 @@ function isMissingRelationError(error) {
   return /relation .* does not exist|could not find the table|does not exist in the schema/i.test(message);
 }
 
+function isPermissionDeniedError(error) {
+  const statusCode = toStatusCode(error);
+  if (statusCode === 403) return true;
+  const message = toErrorMessage(error);
+  return /permission denied|insufficient privilege|row-level security|not allowed/i.test(message);
+}
+
+function withInfrastructureGuidance(error, options = {}) {
+  const table = normalizeTableName(options.table, '');
+  const featureLabel = String(options.featureLabel || 'este recurso').trim() || 'este recurso';
+  const sqlDoc = String(options.sqlDoc || 'docs/PROGRESS-SYNC-SUPABASE.sql').trim();
+  const qualifiedTable = table ? `public.${table}` : 'la tabla esperada';
+
+  if (isMissingRelationError(error)) {
+    const next = new Error(`La infraestructura de ${featureLabel} no está inicializada en Supabase. Reaplica ${sqlDoc} y verifica ${qualifiedTable}.`);
+    next.statusCode = 503;
+    return next;
+  }
+
+  if (isPermissionDeniedError(error)) {
+    const next = new Error(`Supabase está denegando acceso a ${featureLabel}. Reaplica ${sqlDoc} y verifica los grants de service_role sobre ${qualifiedTable}.`);
+    next.statusCode = 503;
+    return next;
+  }
+
+  return error;
+}
+
 function withSupabaseHeaders(options) {
   const key = supabaseServiceKey();
   const headers = Object.assign({
@@ -612,5 +640,6 @@ module.exports = {
   normalizeUuid,
   toStatusCode,
   toErrorMessage,
+  withInfrastructureGuidance,
   isPlainObject
 };

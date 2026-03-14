@@ -40,7 +40,7 @@ Repos incluidos:
 - ✅ Limpieza enterprise de artefactos de seguimiento cerrados en Hub, iOS, Android y SDD.
 
 ## Bloque en curso
-- ✅ No hay bloque operativo abierto en este momento.
+- 🚧 Hotfix Hub: resolver el `403` de Supabase al guardar notas privadas y dejar `notes/bookmarks` con permisos backend explícitos.
 
 ## Resultado consolidado de los últimos bloques
 1. Packs curados para `iOS`, `Android` y `SDD` reutilizando contenido ya publicado de defensa técnica, empleabilidad y proyecto final.
@@ -64,8 +64,8 @@ Repos incluidos:
 8. El guardarraíl de `publish-architecture-stack.sh` permanece para evitar gastar cuota de Vercel durante futuros cooldowns.
 
 ## Siguiente paso operativo
-1. No hay tarea operativa obligatoria abierta.
-2. El siguiente trabajo debe arrancar ya como bloque nuevo de producto, con tracking nuevo y una sola task `🚧`.
+1. Publicar el hotfix del Hub y verificar guardado real de notas/bookmarks en producción.
+2. Tras cerrar este hotfix, volver a dejar el tracker sin bloque abierto o arrancar el siguiente bloque de producto con una sola task `🚧`.
 
 ## Resultado del bloque anterior
 1. Builders y validadores dejan de depender de `TODO`, `DECISIONES-TOMADAS` o auditorías cerradas.

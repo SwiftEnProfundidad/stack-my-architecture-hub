@@ -17,6 +17,7 @@ const {
   setCorsHeaders,
   toErrorMessage,
   toStatusCode,
+  withInfrastructureGuidance,
   upsertRows
 } = require('./_hub-platform.js');
 
@@ -97,9 +98,13 @@ async function handleList(req, res) {
       })).filter((row) => row.courseId && row.topicId)
     });
   } catch (error) {
-    sendJson(res, toStatusCode(error), {
+    const next = withInfrastructureGuidance(error, {
+      table: BOOKMARKS_TABLE,
+      featureLabel: 'los bookmarks privados'
+    });
+    sendJson(res, toStatusCode(next), {
       ok: false,
-      error: toErrorMessage(error)
+      error: toErrorMessage(next)
     });
   }
 }
@@ -169,9 +174,13 @@ async function handleToggle(req, res) {
       }
     });
   } catch (error) {
-    sendJson(res, toStatusCode(error), {
+    const next = withInfrastructureGuidance(error, {
+      table: BOOKMARKS_TABLE,
+      featureLabel: 'los bookmarks privados'
+    });
+    sendJson(res, toStatusCode(next), {
       ok: false,
-      error: toErrorMessage(error)
+      error: toErrorMessage(next)
     });
   }
 }

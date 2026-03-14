@@ -85,3 +85,65 @@ test('POST /api/student-bookmarks toggle crea bookmark si no existe', async () =
   assert.equal(sent[0].user_id, '11111111-1111-4111-8111-111111111111');
   assert.equal(sent[0].course_id, 'ios');
 });
+
+test('POST /api/student-bookmarks devuelve error accionable si Supabase deniega acceso a la tabla', async () => {
+  const handler = loadHandler('api/student-bookmarks.js', {
+    SUPABASE_URL: 'https://example.supabase.co',
+    SUPABASE_SERVICE_ROLE_KEY: 'service-role-key'
+  });
+
+  await withMockFetch(async (url, options) => {
+    if (String(url).includes('/auth/v1/user')) {
+      return {
+        ok: true,
+        status: 200,
+        text: async () => JSON.stringify({
+          id: '11111111-1111-4111-8111-111111111111',
+          email: 'student@example.com'
+        })
+      };
+    }
+    if (String(url).includes('/hub_user_roles') || String(url).includes('/hub_course_entitlements')) {
+      return {
+        ok: true,
+        status: 200,
+        text: async () => JSON.stringify([])
+      };
+    }
+    if (String(url).includes('/hub_student_bookmarks') && options.method === 'GET') {
+      return {
+        ok: true,
+        status: 200,
+        text: async () => JSON.stringify([])
+      };
+    }
+    if (String(url).includes('/hub_student_bookmarks') && options.method === 'POST') {
+      return {
+        ok: false,
+        status: 403,
+        text: async () => JSON.stringify({
+          message: 'permission denied for table hub_student_bookmarks'
+        })
+      };
+    }
+    return {
+      ok: true,
+      status: 200,
+      text: async () => JSON.stringify([])
+    };
+  }, async () => {
+    const result = await invoke(handler, {
+      method: 'POST',
+      url: '/api/student-bookmarks?route=toggle',
+      headers: { authorization: 'Bearer access-1' },
+      body: {
+        courseId: 'ios',
+        topicId: '00-core-mobile-01-marco-de-decisiones-arquitectonicas'
+      }
+    });
+
+    assert.equal(result.statusCode, 503);
+    assert.match(result.json.error, /Supabase está denegando acceso a los bookmarks privados/i);
+    assert.match(result.json.error, /hub_student_bookmarks/i);
+  });
+});
