@@ -1558,3 +1558,32 @@ En tema claro, varios diagramas Mermaid quedaban con cajas y diamantes demasiado
 
 ### Estado
 Hotfix listo para publicacion.
+
+## Hotfix notas privadas: fallback a anon key + RLS autenticado
+### Fecha
+2026-03-14
+
+### Sintoma
+Las notas privadas mostraban `Supabase está denegando acceso a las notas privadas...` al pulsar `Guardar nota`, aunque el usuario ya estaba autenticado en producción.
+
+### Diagnostico
+1. El proyecto Vercel real `architecture-stack` tenía `SUPABASE_SERVICE_ROLE_KEY`, pero esa key era inválida para el proyecto Supabase configurado en `SUPABASE_URL`.
+2. `student-notes` y `student-bookmarks` dependían todavía de la infraestructura server-side basada en `service_role`.
+3. Para estas dos capacidades no hacía falta `service_role`: bastaba el JWT del usuario autenticado con políticas RLS correctas.
+
+### Cambios aplicados
+1. `api/_hub-platform.js` añade soporte explícito a `SUPABASE_ANON_KEY` y peticiones user-scoped con `apikey + bearer token`.
+2. `api/student-notes.js` y `api/student-bookmarks.js` dejan de depender de `resolveUserContext` para persistencia y pasan a resolver solo el usuario autenticado.
+3. `docs/PROGRESS-SYNC-SUPABASE.sql` versiona grants y policies RLS para `authenticated` sobre:
+   - `public.hub_student_notes`
+   - `public.hub_student_bookmarks`
+4. Se aplica la migración real en Supabase.
+5. Se añade `SUPABASE_ANON_KEY` al proyecto Vercel real `architecture-stack`.
+
+### Evidencia tecnica
+1. `node --test scripts/tests/test-student-notes.js scripts/tests/test-student-bookmarks.js` -> PASS.
+2. `./scripts/build-hub.sh --mode strict` -> PASS.
+3. La key previa de `SUPABASE_SERVICE_ROLE_KEY` respondía `Invalid API key` contra `rest/v1/hub_student_notes`.
+
+### Estado
+Hotfix en cierre operativo: pendiente de despliegue y verificación final en producción.

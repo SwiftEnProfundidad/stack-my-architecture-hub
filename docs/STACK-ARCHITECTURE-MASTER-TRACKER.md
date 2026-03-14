@@ -42,10 +42,9 @@ Mantener una única fuente de verdad operativa para el ecosistema `Hub + iOS + A
 5. Cada bloque nuevo se abre con GitFlow real y una sola tarea `🚧`.
 
 ## Bloque actual
-- ✅ Hotfix Hub completado: resuelto el `403` de Supabase al guardar notas privadas y endurecida la infraestructura `notes/bookmarks`.
-- ✅ Hotfix publicado, migración Supabase aplicada y verificación pública en verde.
+- 🚧 Hotfix Hub: notas y bookmarks dejan de depender de `service_role` inválida y pasan a `SUPABASE_ANON_KEY` + RLS autenticado.
 
 ## Siguiente paso operativo
-1. Mantener estos documentos como única fuente de verdad estable del ecosistema.
-2. Abrir el siguiente bloque de producto solo cuando exista una iniciativa nueva con valor claro.
-3. Evitar versionar planes cerrados, auditorías puntuales o trackers temporales una vez amortizados.
+1. Desplegar el hotfix del Hub al proyecto real `architecture-stack`.
+2. Verificar en producción `guardar nota`, `guardar bookmark` y persistencia tras recarga.
+3. Si queda verde, volver a estado estable sin bloque abierto.
