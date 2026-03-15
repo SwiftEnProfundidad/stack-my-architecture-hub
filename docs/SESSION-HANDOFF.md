@@ -61,3 +61,35 @@ Ruta de contexto: `/Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my
   - precheck de evidencia pre-publicación (`test-public-smoke-suite`, `test-course-surface-guard-suite`, `test-stamp-asset-version`).
   - ejecución de `publish-architecture-stack.sh`.
   - generación de evidencia en artefacto (`release-checklist.md`, logs y build manifest).
+
+## Contrato operativo post-deploy (bloque 8)
+- ✅ Definido y operativo:
+  - Check canario obligatorio tras despliegue con `scripts/post-deploy-checks.sh`:
+    - rutas públicas (`smoke-public-routes.sh`).
+    - smoke funcional (`smoke-public-functional.sh`).
+    - evidencia por ejecución: timestamp UTC, logs de cada check, estado de continuidad y estado de congelación (freeze).
+  - Evidencia persistente:
+    - `checklist.md` en artefacto de GitHub Actions.
+    - `post-deploy-canary-<ts>.md`, `post-deploy-state.env` y `post-deploy-history.jsonl` en runtime de ejecución.
+    - estado actualizado de `post-deploy-freeze.flag` cuando aplica.
+  - Política de rollback/freno automático:
+    - Si hay 2 fallos post-deploy consecutivos, la corrida se marca con `freeze_state=active`, se escribe `post-deploy-freeze.flag` y se bloquea el siguiente intento de publicación (`publish-architecture-stack.sh`).
+    - El bloque puede despejarse manualmente con `SMA_CLEAR_POST_DEPLOY_FREEZE=1` en una corrida de recuperación controlada.
+    - Tras 2 despliegues verdes consecutivos, se limpia el freeze y el contrato continúa en verde.
+  - Revisión semanal:
+    - Se añadirá revisión del estado `post-deploy-state.env` y del histórico (`post-deploy-history.jsonl`) en cada runbook de release semanal.
+    - Si aparece freeze activo, revisar causa + evidencia del último canary y bloquear promoción hasta cierre operativo.
+
+## Bloque en curso
+1. ✅ Definido y desplegado contrato operativo de post-deploy para evitar regresiones de producción.
+   - Entregado en workflow `hub-production-release-gate.yml`.
+   - Entregado en `scripts/post-deploy-checks.sh` con evidencia persistente y estado de freeze.
+   - Entregado en `scripts/publish-architecture-stack.sh` con bloqueo automático cuando hay freeze activo.
+   - Enlace de evidencia de referencia: `hub-release-evidence/checklist.md` (artefacto de GH Actions).
+2. ⏳ Cerrar ciclo de ingeniería del bloque:
+   - Validar `git status` limpio en los repos críticos del workspace.
+   - Sincronizar ramas locales/remotas (`develop`, `main`) y preparar PR final.
+   - Publicar la iteración en Vercel cuando el contrato post-deploy esté validado y documentado.
+2. Criterio de cierre:
+   - 100% de postchecks verdes en al menos 2 deployments consecutivos.
+   - Rollback automático documentado y probado con un escenario de fallo simulado sin impacto de datos.

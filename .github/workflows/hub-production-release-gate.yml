@@ -74,6 +74,7 @@ jobs:
           SMA_DEPLOY_FORCE: ${{ inputs.force_deploy == true && '1' || '0' }}
           SMA_PUBLISH_BUILD_SCRIPT: ${{ github.workspace }}/scripts/build-hub.sh
           SMA_PUBLISH_BASE_URL: ${{ inputs.base_url }}
+          SMA_POST_DEPLOY_FREEZE_FILE: ${{ github.workspace }}/.runtime/post-deploy-freeze.flag
         run: |
           set -euo pipefail
 
@@ -98,9 +99,11 @@ jobs:
             echo "- Branch: $GITHUB_REF_NAME"
             echo "- Modo: ${{ inputs.mode }}"
             echo "- Force deploy: ${{ inputs.force_deploy }}"
+            echo "- Run ID: $GITHUB_RUN_ID"
+            echo "- Run attempt: $GITHUB_RUN_ATTEMPT"
+            echo "- Timestamp UTC: $(date -u '+%Y-%m-%dT%H:%M:%SZ')"
             echo "- Actor: $GITHUB_ACTOR"
             echo "- Base URL: ${{ inputs.base_url }}"
-            echo "- Fecha UTC: $(date -u '+%Y-%m-%dT%H:%M:%SZ')"
             echo "- Estado: OK"
             echo "- Evidencia:"
             echo "  - public smoke suite: ok"
@@ -126,6 +129,15 @@ jobs:
         if: ${{ inputs.run_postchecks }}
         env:
           BASE_URL: ${{ inputs.base_url }}
+          SMA_POST_DEPLOY_RUNTIME_DIR: ${{ runner.temp }}/hub-postdeploy-runtime
+          SMA_POST_DEPLOY_CHECKLIST_FILE: ${{ runner.temp }}/hub-release-evidence/checklist.md
+          SMA_POST_DEPLOY_EVIDENCE_FILE: ${{ runner.temp }}/hub-release-evidence/post-deploy-canary-${{ github.run_id }}.md
+          SMA_POST_DEPLOY_STATE_FILE: ${{ runner.temp }}/hub-release-evidence/post-deploy-state.env
+          SMA_POST_DEPLOY_HISTORY_FILE: ${{ runner.temp }}/hub-release-evidence/post-deploy-history.jsonl
+          SMA_POST_DEPLOY_LOG_DIR: ${{ runner.temp }}/hub-release-evidence/logs
+          SMA_POST_DEPLOY_RUN_ID: ${{ github.run_id }}
+          SMA_POST_DEPLOY_RUN_ATTEMPT: ${{ github.run_attempt }}
+          SMA_POST_DEPLOY_FAILURE_THRESHOLD: "2"
         run: |
           set -euo pipefail
 
@@ -139,13 +151,17 @@ jobs:
 
           if [[ "$postcheck_exit" -ne 0 ]]; then
             echo "[RELEASE-POSTCHECK] Postchecks fallaron con exit $postcheck_exit" | tee -a "$POSTCHECK_LOG"
+            if [[ -f "$RUNNER_TEMP/hub-release-evidence/checklist.md" ]]; then
+              sed -i 's/  - post-publish checks: pendiente/  - post-publish checks: fallido/g' "$RUNNER_TEMP/hub-release-evidence/checklist.md"
+              sed -i '/^  - post-deploy canary: /d' "$RUNNER_TEMP/hub-release-evidence/checklist.md"
+            fi
             exit "$postcheck_exit"
           fi
 
           echo "[RELEASE-POSTCHECK] Postchecks OK" | tee -a "$POSTCHECK_LOG"
 
           if [[ -f "$RUNNER_TEMP/hub-release-evidence/checklist.md" ]]; then
-            echo "  - post-publish checks: ok" >> "$RUNNER_TEMP/hub-release-evidence/checklist.md"
+            sed -i 's/  - post-publish checks: pendiente/  - post-publish checks: ok/g' "$RUNNER_TEMP/hub-release-evidence/checklist.md"
           fi
 
       - name: Marcar postchecks omitidas en checklist
