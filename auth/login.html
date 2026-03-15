@@ -155,7 +155,11 @@
         clearAuthHash();
 
         try {
-          await window.SMAAuth.me();
+          try {
+            await window.SMAAuth.me();
+          } catch (_error) {
+            // Mantiene la sesión local aunque me() falle por regresión del endpoint.
+          }
           var flowType = String(params.get('type') || '').trim().toLowerCase();
           if (flowType === 'recovery') {
             setMessage('Enlace de recuperación validado. Inicia sesión para continuar.', 'ok');
@@ -178,7 +182,11 @@
             email: form.email.value.trim(),
             password: form.password.value
           });
-          await window.SMAAuth.me();
+          try {
+            await window.SMAAuth.me();
+          } catch (_error) {
+            // Mantiene el login activo aunque me() falle por 401/403 transitorios.
+          }
           setMessage('Login correcto. Redirigiendo...', 'ok');
           setTimeout(function () {
             window.location.href = resolvePostLoginTarget();

@@ -1951,8 +1951,8 @@
   function createAccessControl() {
     const state = {
       ready: false,
-      fullAccess: true,
-      mode: 'full',
+      fullAccess: false,
+      mode: 'blocked',
       teaserTopicIds: []
     };
 
@@ -1967,6 +1967,10 @@
 
       const access = await fetchCourseAccess();
       if (!access) {
+        state.mode = 'blocked';
+        state.fullAccess = false;
+        state.teaserTopicIds = [];
+        if (getAuthAccessToken()) clearAuthState();
         renderBanner();
         updateLockedNavigation();
         return;
@@ -2079,10 +2083,15 @@
           method: 'GET',
           headers: headers
         });
-        if (!response.ok) return null;
-        const body = await response.json().catch(function () { return null; });
-        if (!body || !body.ok || !body.access || typeof body.access !== 'object') return null;
-        return body.access;
+        if (!response.ok) {
+        if ((response.status === 401 || response.status === 403) && bearer) {
+          clearAuthState();
+        }
+        return null;
+      }
+      const body = await response.json().catch(function () { return null; });
+      if (!body || !body.ok || !body.access || typeof body.access !== 'object') return null;
+      return body.access;
       } catch (_error) {
         return null;
       }
@@ -2527,6 +2536,12 @@
     const token = String(session.accessToken || '').trim();
     if (!token || token.length > 4096) return '';
     return token;
+  }
+
+  function clearAuthState() {
+    localStorage.removeItem(keyAuthSession);
+    localStorage.removeItem(keyAuthUser);
+    localStorage.removeItem(keyCloudProfile);
   }
 
   function hasAuthenticatedCloudProfile() {

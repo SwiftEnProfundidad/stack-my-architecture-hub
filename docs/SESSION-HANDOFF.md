@@ -82,15 +82,26 @@ Ruta de contexto: `/Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my
 
 ## Bloque en curso
 1. ✅ Definido y desplegado contrato operativo de post-deploy para evitar regresiones de producción.
-   - Entregado en workflow `hub-production-release-gate.yml`.
-   - Entregado en `scripts/post-deploy-checks.sh` con evidencia persistente y estado de freeze.
-   - Entregado en `scripts/publish-architecture-stack.sh` con bloqueo automático cuando hay freeze activo.
-   - Enlace de evidencia de referencia: `hub-release-evidence/checklist.md` (artefacto de GH Actions).
-2. ✅ Cerrar ciclo de ingeniería del bloque:
-   - ✅ PR abierto y mergeado: [#173](https://github.com/SwiftEnProfundidad/stack-my-architecture-hub/pull/173).
-   - ✅ `git push`/`git merge` completados contra `main`.
-   - ✅ `origin/main` actualizado.
-   - ⏳ Siguiente tarea: validar estado limpio en workspace y preparar despliegue canario en Vercel (si aplica) con evidencia post-deploy.
-2. Criterio de cierre:
+  - Entregado en workflow `hub-production-release-gate.yml`.
+  - Entregado en `scripts/post-deploy-checks.sh` con evidencia persistente y estado de freeze.
+  - Entregado en `scripts/publish-architecture-stack.sh` con bloqueo automático cuando hay freeze activo.
+  - Enlace de evidencia de referencia: `hub-release-evidence/checklist.md` (artefacto de GH Actions).
+2. ⏳ Cerrar ciclo de ingeniería del bloque:
+  - ✅ PR abierto y mergeado: [#173](https://github.com/SwiftEnProfundidad/stack-my-architecture-hub/pull/173).
+  - ✅ `git push`/`git merge` completados contra `main`.
+  - ✅ `origin/main` actualizado.
+  - ✅ Estado limpio de workspace confirmado en la última pasada.
+3. ✅ Cerrar regresión de autenticación entre hubs y cursos.
+  - Se eliminó el redirect global `/(.*) -> https://architecture-stack.vercel.app/$1`.
+  - Se dejó `vercel.json` con `redirects` de `/api/:path*` hacia `https://architecture-stack.vercel.app/api/:path*` para consumir backend remoto estable.
+  - Se conservaron redirecciones de funciones auxiliares hacia `assistant-bridge` del dominio funcional.
+  - Objetivo de esta tarea: login + token no deben perderse al entrar por `stack-my-architecture-hub.vercel.app`.
+4. 🚧 Verificar end-to-end con sesión real (Vercel producción + cursos protegidos) y conservar evidencia en este documento tras el despliegue.
+  - ✅ Corregido `study-ux` para limpiar sesión inválida al recibir 403 (`study-ux` y `hub-app`).
+  - ✅ Se centralizó el guard de sesión de cursos en `assets/study-session-guard.js` y se aplicó a `ios/`, `android/` y `sdd/`.
+  - ✅ Se actualizó `api/_hub-platform.js` para tratar 403 como sesión no válida en rutas opcionales.
+  - Estado actual: la versión publicada (`stack-my-architecture-hub.vercel.app`) aún devuelve HTML inline legacy y no contiene el guard centralizado nuevo.
+  - Siguiente paso: publicar los cambios y revalidar `https://stack-my-architecture-hub.vercel.app/ios/index.html` y `/api/*`.
+5. Criterio de cierre:
    - 100% de postchecks verdes en al menos 2 deployments consecutivos.
    - Rollback automático documentado y probado con un escenario de fallo simulado sin impacto de datos.

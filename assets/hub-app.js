@@ -135,7 +135,7 @@
       state.dashboard = dashboard;
       return true;
     } catch (error) {
-      if (error && error.statusCode === 401 && window.SMAAuth && typeof window.SMAAuth.clearAuth === 'function') {
+      if (error && (error.statusCode === 401 || error.statusCode === 403) && window.SMAAuth && typeof window.SMAAuth.clearAuth === 'function') {
         window.SMAAuth.clearAuth();
       }
       state.auth = readAuthState();
@@ -555,23 +555,74 @@
   function readAuthState() {
     const session = window.SMAAuth && typeof window.SMAAuth.getSession === 'function' ? window.SMAAuth.getSession() : null;
     const user = window.SMAAuth && typeof window.SMAAuth.getUser === 'function' ? window.SMAAuth.getUser() : null;
+    const accessToken = resolveAccessToken(session);
+    const tokenUsable = Boolean(accessToken) && isSessionTokenUsable(accessToken);
+    const resolvedUser = tokenUsable ? (user || resolveAuthUserFromToken(accessToken)) : null;
+    const effectiveSession = tokenUsable ? session : null;
+    const hasToken = tokenUsable;
     return {
-      loggedIn: Boolean(session && session.accessToken && user && user.id),
-      session: session,
-      user: user
+      loggedIn: hasToken,
+      user: resolvedUser,
+      session: effectiveSession,
+      tokenAwareUser: Boolean(resolvedUser && resolvedUser.id),
+      hasAuthToken: hasToken
     };
+  }
+
+  function resolveAccessToken(session) {
+    return String(session && (session.accessToken || session.access_token || session.token) || '').trim();
+  }
+
+  function decodeJwtPayload(token) {
+    const raw = String(token || '').trim();
+    if (!raw) return null;
+    const parts = raw.split('.');
+    if (parts.length < 2) return null;
+    const payload = String(parts[1] || '').replace(/-/g, '+').replace(/_/g, '/');
+    const padding = payload.length % 4;
+    const normalized = padding ? payload + new Array(5 - padding).join('=') : payload;
+    try {
+      return JSON.parse(decodeURIComponent(escape(atob(normalized))));
+    } catch (_error) {
+      return null;
+    }
+  }
+
+  function resolveAuthUserFromToken(accessToken) {
+    const payload = decodeJwtPayload(accessToken);
+    if (!payload || typeof payload !== 'object') return null;
+    const id = String(payload.sub || payload.user_id || payload.uid || '').trim();
+    if (!id) return null;
+    return {
+      id: id,
+      email: String(payload.email || payload.user_email || payload.preferred_username || '').trim()
+    };
+  }
+
+  function isSessionTokenUsable(accessToken) {
+    const payload = decodeJwtPayload(accessToken);
+    if (!payload || typeof payload !== 'object') return true;
+    const exp = Number(payload.exp);
+    if (!Number.isFinite(exp)) return true;
+    return exp * 1000 > Date.now();
+  }
+
+  function withAuthHeader(headers, session) {
+    const accessToken = resolveAccessToken(session);
+    if (!accessToken) return false;
+    headers.Authorization = `Bearer ${accessToken}`;
+    return true;
   }
 
   async function requestJson(url, options) {
     const settings = options || {};
     const headers = {};
     if (settings.auth) {
-      if (!state.auth.session || !state.auth.session.accessToken) {
+      if (!withAuthHeader(headers, state.auth.session)) {
         const error = new Error('No hay sesión activa.');
         error.statusCode = 401;
         throw error;
       }
-      headers.Authorization = `Bearer ${state.auth.session.accessToken}`;
     }
     const response = await fetch(url, { method: settings.method || 'GET', headers: headers });
     const payload = await response.json().catch(function () { return null; });

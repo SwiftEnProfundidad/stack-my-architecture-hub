@@ -400,7 +400,7 @@ async function resolveAuthenticatedUser(req, { optional = false } = {}) {
       headers: {}
     });
   } catch (error) {
-    if (optional && toStatusCode(error) === 401) return null;
+    if (optional && (toStatusCode(error) === 401 || toStatusCode(error) === 403)) return null;
     const next = new Error(toErrorMessage(error));
     next.statusCode = toStatusCode(error);
     throw next;

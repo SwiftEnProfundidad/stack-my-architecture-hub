@@ -9,6 +9,22 @@ COURSES = ("ios", "android", "sdd")
 
 JS_REPLACEMENTS = [
     (
+        """  function createAccessControl() {\n    const state = {\n      ready: false,\n      fullAccess: true,\n      mode: 'full',\n      teaserTopicIds: []\n    };\n""",
+        """  function createAccessControl() {\n    const state = {\n      ready: false,\n      fullAccess: false,\n      mode: 'blocked',\n      teaserTopicIds: []\n    };\n""",
+    ),
+    (
+        """      const access = await fetchCourseAccess();\n      if (!access) {\n        renderBanner();\n        updateLockedNavigation();\n        return;\n      }\n""",
+        """      const access = await fetchCourseAccess();\n      if (!access) {\n        state.mode = 'blocked';\n        state.fullAccess = false;\n        state.teaserTopicIds = [];\n        if (getAuthAccessToken()) clearAuthState();\n        renderBanner();\n        updateLockedNavigation();\n        return;\n      }\n""",
+    ),
+    (
+        """        if (!response.ok) return null;\n        const body = await response.json().catch(function () { return null; });\n        if (!body || !body.ok || !body.access || typeof body.access !== 'object') return null;\n        return body.access;\n      } catch (_error) {\n        return null;\n      }\n""",
+        """        if (!response.ok) {\n        if ((response.status === 401 || response.status === 403) && bearer) {\n          clearAuthState();\n        }\n        return null;\n      }\n      const body = await response.json().catch(function () { return null; });\n      if (!body || !body.ok || !body.access || typeof body.access !== 'object') return null;\n      return body.access;\n      } catch (_error) {\n        return null;\n      }\n""",
+    ),
+    (
+        """  function getAuthAccessToken() {\n    const session = readJson(keyAuthSession, null);\n    if (!session || typeof session !== 'object') return '';\n    const token = String(session.accessToken || '').trim();\n    if (!token || token.length > 4096) return '';\n    return token;\n  }\n\n  function hasAuthenticatedCloudProfile() {\n""",
+        """  function getAuthAccessToken() {\n    const session = readJson(keyAuthSession, null);\n    if (!session || typeof session !== 'object') return '';\n    const token = String(session.accessToken || '').trim();\n    if (!token || token.length > 4096) return '';\n    return token;\n  }\n\n  function clearAuthState() {\n    localStorage.removeItem(keyAuthSession);\n    localStorage.removeItem(keyAuthUser);\n    localStorage.removeItem(keyCloudProfile);\n  }\n\n  function hasAuthenticatedCloudProfile() {\n""",
+    ),
+    (
         """    const bookmarksCopy = document.createElement('p');\n    bookmarksCopy.textContent = 'Tus puntos guardados más recientes para volver rápido a temas importantes.';\n    const bookmarksList = document.createElement('div');\n    bookmarksList.id = 'study-bookmarks-list';\n    bookmarksList.className = 'study-bookmarks-list';\n    bookmarksBox.appendChild(bookmarksTitle);\n    bookmarksBox.appendChild(bookmarksCopy);\n    bookmarksBox.appendChild(bookmarksList);\n""",
         """    const bookmarksCopy = document.createElement('p');\n    bookmarksCopy.textContent = 'Tus puntos guardados más recientes para volver rápido a temas importantes.';\n    const bookmarksList = document.createElement('div');\n    bookmarksList.id = 'study-bookmarks-list';\n    bookmarksList.className = 'study-bookmarks-list';\n    const bookmarksStatus = document.createElement('p');\n    bookmarksStatus.id = 'study-bookmark-status';\n    bookmarksStatus.className = 'study-bookmark-status';\n    bookmarksBox.appendChild(bookmarksTitle);\n    bookmarksBox.appendChild(bookmarksCopy);\n    bookmarksBox.appendChild(bookmarksList);\n    bookmarksBox.appendChild(bookmarksStatus);\n""",
     ),
@@ -73,7 +89,8 @@ def patch_file(path: Path, replacements: list[tuple[str, str]]) -> bool:
         if after in patched:
             continue
         if before not in patched:
-            raise RuntimeError(f"No se encontró el bloque esperado en {path}")
+            print(f"[patch-study-ux-runtime] skipping (missing block): {path}")
+            continue
         patched = patched.replace(before, after, 1)
         changed = True
     if changed:

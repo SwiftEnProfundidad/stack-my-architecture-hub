@@ -3,6 +3,60 @@
   const STORAGE_USER = 'sma:auth:user:v1';
   const STORAGE_CLOUD_PROFILE = 'sma:cloud:profile:v1';
 
+  function normalizeToken(value) {
+    const token = String(value || '').trim();
+    if (!token || token.length > 4096) return '';
+    return token;
+  }
+
+  function normalizeSession(session) {
+    const source = session && typeof session === 'object' ? session : null;
+    if (!source) return null;
+    const accessToken = normalizeToken(source.accessToken || source.access_token || source.token);
+    if (!accessToken) return null;
+    const refreshToken = normalizeToken(source.refreshToken || source.refresh_token || source.refresh);
+    const tokenType = String(source.tokenType || source.token_type || 'bearer').trim().toLowerCase();
+    return Object.assign({}, source, {
+      accessToken: accessToken,
+      refreshToken: refreshToken || '',
+      tokenType: tokenType || 'bearer'
+    });
+  }
+
+  function decodeJwtPayload(token) {
+    const raw = String(token || '').trim();
+    if (!raw) return null;
+    const parts = raw.split('.');
+    if (parts.length < 2) return null;
+    const payload = String(parts[1] || '').replace(/-/g, '+').replace(/_/g, '/');
+    const padding = payload.length % 4;
+    const normalized = padding ? payload + new Array(5 - padding).join('=') : payload;
+    try {
+      return JSON.parse(decodeURIComponent(escape(atob(normalized))));
+    } catch (_error) {
+      return null;
+    }
+  }
+
+  function normalizeUserFromToken(token) {
+    const payload = decodeJwtPayload(token);
+    if (!payload || typeof payload !== 'object') return null;
+    return normalizeUser({
+      id: payload.sub || payload.user_id || payload.uid || '',
+      email: payload.email || payload.user_email || payload.preferred_username || ''
+    });
+  }
+
+  function normalizeUser(user) {
+    const source = user && typeof user === 'object' ? user : null;
+    const id = String(source && (source.id || source.user_id || source.sub || '')).trim();
+    if (!id) return null;
+    return {
+      id: id,
+      email: String(source && (source.email || '')).trim().toLowerCase()
+    };
+  }
+
   function readJson(key) {
     try {
       const raw = localStorage.getItem(key);
@@ -26,22 +80,28 @@
   }
 
   function getSession() {
-    const session = readJson(STORAGE_SESSION);
-    if (!session || !session.accessToken) return null;
+    const rawSession = readJson(STORAGE_SESSION);
+    const session = normalizeSession(rawSession);
+    if (!session) return null;
+    if (rawSession && rawSession.accessToken !== session.accessToken) {
+      writeJson(STORAGE_SESSION, session);
+    }
     return session;
   }
 
   function getUser() {
     const user = readJson(STORAGE_USER);
-    if (!user || !user.id) return null;
-    return user;
+    const normalized = normalizeUser(user);
+    if (normalized) return normalized;
+    const session = getSession();
+    return normalizeUserFromToken(session && session.accessToken || null);
   }
 
   function saveAuth(payload) {
-    const user = payload && payload.user && payload.user.id ? payload.user : null;
-    const session = payload && payload.session && payload.session.accessToken ? payload.session : null;
-    if (user) writeJson(STORAGE_USER, user);
-    if (session) writeJson(STORAGE_SESSION, session);
+    const normalizedUser = normalizeUser(payload && payload.user);
+    const normalizedSession = normalizeSession(payload && payload.session);
+    if (normalizedUser) writeJson(STORAGE_USER, normalizedUser);
+    if (normalizedSession) writeJson(STORAGE_SESSION, normalizedSession);
     dispatchChange();
   }
 
@@ -61,7 +121,8 @@
   async function call(route, method, body, accessToken) {
     const headers = {};
     if (body) headers['Content-Type'] = 'application/json';
-    if (accessToken) headers.Authorization = `Bearer ${accessToken}`;
+    const resolvedAccessToken = normalizeToken(accessToken);
+    if (resolvedAccessToken) headers.Authorization = `Bearer ${resolvedAccessToken}`;
 
     const response = await fetch(apiUrl(route), {
       method,
@@ -88,7 +149,7 @@
       password: String(input && input.password || ''),
       emailRedirectTo: String(input && input.emailRedirectTo || '').trim()
     });
-    if (payload.user && payload.session && payload.session.accessToken) {
+    if (payload && normalizeUser(payload.user) && normalizeSession(payload.session)) {
       saveAuth(payload);
     }
     return payload;
@@ -135,8 +196,9 @@
       throw new Error('No hay sesión activa.');
     }
     const payload = await call('me', 'GET', null, session.accessToken);
-    if (payload.user && payload.user.id) {
-      writeJson(STORAGE_USER, payload.user);
+    const normalizedUser = normalizeUser(payload.user);
+    if (normalizedUser) {
+      writeJson(STORAGE_USER, normalizedUser);
       dispatchChange();
     }
     return payload;

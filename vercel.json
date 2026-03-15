@@ -10,38 +10,51 @@
       ]
     }
   ],
-  "rewrites": [
+  "redirects": [
     {
-      "source": "/health",
-      "destination": "/api/assistant-bridge?route=health"
-    },
-    {
-      "source": "/config",
-      "destination": "/api/assistant-bridge?route=config"
-    },
-    {
-      "source": "/config/runtime",
-      "destination": "/api/assistant-bridge?route=config-runtime"
-    },
-    {
-      "source": "/metrics",
-      "destination": "/api/assistant-bridge?route=metrics"
+      "source": "/api/:path*",
+      "destination": "https://architecture-stack.vercel.app/api/:path*",
+      "permanent": false
     },
     {
       "source": "/progress/config",
-      "destination": "/api/progress-sync?route=config"
+      "destination": "https://architecture-stack.vercel.app/api/progress-sync?route=config",
+      "permanent": false
     },
     {
       "source": "/progress/state",
-      "destination": "/api/progress-sync?route=state"
+      "destination": "https://architecture-stack.vercel.app/api/progress-sync?route=state",
+      "permanent": false
+    },
+    {
+      "source": "/health",
+      "destination": "https://architecture-stack.vercel.app/api/assistant-bridge?route=health",
+      "permanent": false
+    },
+    {
+      "source": "/config",
+      "destination": "https://architecture-stack.vercel.app/api/assistant-bridge?route=config",
+      "permanent": false
+    },
+    {
+      "source": "/config/runtime",
+      "destination": "https://architecture-stack.vercel.app/api/assistant-bridge?route=config-runtime",
+      "permanent": false
+    },
+    {
+      "source": "/metrics",
+      "destination": "https://architecture-stack.vercel.app/api/assistant-bridge?route=metrics",
+      "permanent": false
     },
     {
       "source": "/assistant/query",
-      "destination": "/api/assistant-bridge?route=assistant-query"
+      "destination": "https://architecture-stack.vercel.app/api/assistant-bridge?route=assistant-query",
+      "permanent": false
     },
     {
       "source": "/ask",
-      "destination": "/api/assistant-bridge?route=assistant-query"
+      "destination": "https://architecture-stack.vercel.app/api/assistant-bridge?route=assistant-query",
+      "permanent": false
     }
   ]
 }

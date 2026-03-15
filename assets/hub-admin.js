@@ -295,8 +295,9 @@
 
   async function requestJson(url) {
     const headers = {};
-    if (state.auth && state.auth.session && state.auth.session.accessToken) {
-      headers.Authorization = `Bearer ${state.auth.session.accessToken}`;
+    const accessToken = resolveAccessToken(state.auth && state.auth.session ? state.auth.session : null);
+    if (accessToken) {
+      headers.Authorization = `Bearer ${accessToken}`;
     }
     const response = await fetch(url, { method: 'GET', headers: headers });
     const payload = await response.json().catch(function () { return null; });
@@ -310,8 +311,9 @@
 
   async function postJson(url, body) {
     const headers = { 'Content-Type': 'application/json' };
-    if (state.auth && state.auth.session && state.auth.session.accessToken) {
-      headers.Authorization = `Bearer ${state.auth.session.accessToken}`;
+    const accessToken = resolveAccessToken(state.auth && state.auth.session ? state.auth.session : null);
+    if (accessToken) {
+      headers.Authorization = `Bearer ${accessToken}`;
     }
     const response = await fetch(url, {
       method: 'POST',
@@ -330,11 +332,18 @@
   function readAuthState() {
     const session = window.SMAAuth && typeof window.SMAAuth.getSession === 'function' ? window.SMAAuth.getSession() : null;
     const user = window.SMAAuth && typeof window.SMAAuth.getUser === 'function' ? window.SMAAuth.getUser() : null;
+    const accessToken = resolveAccessToken(session);
     return {
-      loggedIn: Boolean(session && session.accessToken && user && user.id),
+      loggedIn: Boolean(accessToken && user && user.id),
       session: session,
       user: user
     };
+  }
+
+  function resolveAccessToken(session) {
+    const token = String(session && (session.accessToken || session.access_token || session.token) || '').trim();
+    if (!token || token.length > 4096) return '';
+    return token;
   }
 
   function redirectToLogin() {
