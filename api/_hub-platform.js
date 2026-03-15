@@ -515,7 +515,8 @@ async function resolveUserContext(req, options = {}) {
 function hasFullCourseAccess(context, courseId) {
   if (!context || context.role === 'admin') return true;
   return (context.entitlements || []).some((item) => (
-    (item.courseId === courseId || item.courseId === 'all') && item.status === 'active'
+    (item.courseId === courseId || item.courseId === 'all') &&
+    (item.status === 'active' || item.status === 'trial')
   ));
 }
 
@@ -523,7 +524,7 @@ function mapAllowedCourses(context) {
   if (!context || context.role === 'admin') return COURSE_IDS.slice();
   const values = new Set();
   (context.entitlements || []).forEach((item) => {
-    if (item.status !== 'active') return;
+    if (item.status !== 'active' && item.status !== 'trial') return;
     if (item.courseId === 'all') {
       COURSE_IDS.forEach((courseId) => values.add(courseId));
       return;
