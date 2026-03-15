@@ -11,6 +11,8 @@ VERIFY_CURL_BIN="${SMA_PUBLISH_CURL_BIN:-curl}"
 DEPLOY_CMD="${SMA_PUBLISH_DEPLOY_CMD:-npx -y vercel deploy --prod --yes}"
 FORCE_DEPLOY="${SMA_DEPLOY_FORCE:-0}"
 BASE_URL="${SMA_PUBLISH_BASE_URL:-https://architecture-stack.vercel.app}"
+POST_DEPLOY_FREEZE_FILE="${SMA_POST_DEPLOY_FREEZE_FILE:-$RUNTIME_DIR/post-deploy-freeze.flag}"
+CLEAR_POST_DEPLOY_FREEZE="${SMA_CLEAR_POST_DEPLOY_FREEZE:-0}"
 
 MODE="${1:-fast}"
 if [[ "$MODE" != "fast" && "$MODE" != "strict" ]]; then
@@ -47,6 +49,23 @@ if [[ "$FORCE_DEPLOY" != "1" ]] && load_cooldown; then
     echo "[GUARD] Si necesitas forzar el intento: SMA_DEPLOY_FORCE=1 $0 $MODE"
     exit 2
   fi
+fi
+
+if [[ "$CLEAR_POST_DEPLOY_FREEZE" == "1" ]]; then
+  rm -f "$POST_DEPLOY_FREEZE_FILE"
+fi
+
+if [[ -f "$POST_DEPLOY_FREEZE_FILE" && "$FORCE_DEPLOY" != "1" ]]; then
+  echo "[ROLLBACK] Bloqueo post-deploy activo: no se permiten más publicaciones."
+  echo "[ROLLBACK] Archivo de freeze: $POST_DEPLOY_FREEZE_FILE"
+  cat "$POST_DEPLOY_FREEZE_FILE" || true
+  echo "[ROLLBACK] Ejecuta con SMA_CLEAR_POST_DEPLOY_FREEZE=1 o SMA_DEPLOY_FORCE=1 para reintentar tras intervención."
+  exit 10
+fi
+
+if [[ -f "$POST_DEPLOY_FREEZE_FILE" && "$FORCE_DEPLOY" == "1" ]]; then
+  echo "[ROLLBACK] Freeze activo detectado, se fuerza despliegue por flag de override."
+  rm -f "$POST_DEPLOY_FREEZE_FILE"
 fi
 
 echo "[1/3] Building hub (mode=$MODE)..."
