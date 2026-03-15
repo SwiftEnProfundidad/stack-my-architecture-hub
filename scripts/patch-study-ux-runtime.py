@@ -9,16 +9,36 @@ COURSES = ("ios", "android", "sdd")
 
 JS_REPLACEMENTS = [
     (
+        """  const keyCloudEndpoint = 'sma:cloud:endpoint:v1';\n  const keyAuthSession = 'sma:auth:session:v1';\n  const keyAuthUser = 'sma:auth:user:v1';\n  const DEFAULT_REMOTE_PROGRESS_BASE = 'https://architecture-stack.vercel.app';\n  const canonicalCourseKey = normalizeCanonicalCourseKey(courseId);\n""",
+        """  const keyCloudEndpoint = 'sma:cloud:endpoint:v1';\n  const keyAuthSession = 'sma:auth:session:v1';\n  const keyAuthUser = 'sma:auth:user:v1';\n  const DEFAULT_REMOTE_PROGRESS_BASE = 'https://architecture-stack.vercel.app';\n\n  function toApiUrl(path) {\n    const rawPath = String(path || '').trim();\n    if (!rawPath) return '/api';\n    let routePath = rawPath;\n    if (routePath.startsWith('/')) routePath = routePath.slice(1);\n    if (routePath.startsWith('api/')) routePath = routePath.slice(4);\n    if (isLocalContext()) {\n      return `/${routePath}`;\n    }\n    const q = routePath.indexOf('?');\n    const basePath = q >= 0 ? routePath.slice(0, q) : routePath;\n    const query = q >= 0 ? routePath.slice(q + 1) : '';\n    const normalized = String(basePath || '').replace(/^\\/+/g, '');\n    return `/api/proxy?path=${encodeURIComponent(normalized)}${query ? `&${query}` : ''}`;\n  }\n\n  const canonicalCourseKey = normalizeCanonicalCourseKey(courseId);\n""",
+    ),
+    (
+        """          fetch(`/api/student-notes?route=list&courseId=${encodeURIComponent(courseId)}`, {\n            method: 'GET',\n            headers: headers\n          }),\n          fetch(`/api/student-bookmarks?route=list&courseId=${encodeURIComponent(courseId)}`, {\n            method: 'GET',\n            headers: headers\n          })\n""",
+        """          fetch(toApiUrl(`/api/student-notes?route=list&courseId=${encodeURIComponent(courseId)}`), {\n            method: 'GET',\n            headers: headers\n          }),\n          fetch(toApiUrl(`/api/student-bookmarks?route=list&courseId=${encodeURIComponent(courseId)}`), {\n            method: 'GET',\n            headers: headers\n          })\n""",
+    ),
+    (
+        """        const response = await fetch('/api/student-notes?route=upsert', {\n          method: 'POST',\n          headers: headers,\n          body: JSON.stringify({\n""",
+        """        const response = await fetch(toApiUrl('/api/student-notes?route=upsert'), {\n          method: 'POST',\n          headers: headers,\n          body: JSON.stringify({\n""",
+    ),
+    (
+        """        const response = await fetch('/api/student-bookmarks?route=toggle', {\n          method: 'POST',\n          headers: headers,\n          body: JSON.stringify({\n""",
+        """        const response = await fetch(toApiUrl('/api/student-bookmarks?route=toggle'), {\n          method: 'POST',\n          headers: headers,\n          body: JSON.stringify({\n""",
+    ),
+    (
+        """        const response = await fetch(`/api/entitlements?route=access&courseId=${encodeURIComponent(courseId)}`, {\n          method: 'GET',\n          headers: headers\n        });\n""",
+        """        const response = await fetch(toApiUrl(`/api/entitlements?route=access&courseId=${encodeURIComponent(courseId)}`), {\n          method: 'GET',\n          headers: headers\n        });\n""",
+    ),
+    (
         """  function createAccessControl() {\n    const state = {\n      ready: false,\n      fullAccess: true,\n      mode: 'full',\n      teaserTopicIds: []\n    };\n""",
         """  function createAccessControl() {\n    const state = {\n      ready: false,\n      fullAccess: false,\n      mode: 'blocked',\n      teaserTopicIds: []\n    };\n""",
     ),
     (
         """      const access = await fetchCourseAccess();\n      if (!access) {\n        renderBanner();\n        updateLockedNavigation();\n        return;\n      }\n""",
-        """      const access = await fetchCourseAccess();\n      if (!access) {\n        state.mode = 'blocked';\n        state.fullAccess = false;\n        state.teaserTopicIds = [];\n        if (getAuthAccessToken()) clearAuthState();\n        renderBanner();\n        updateLockedNavigation();\n        return;\n      }\n""",
+        """      const hasAuthToken = Boolean(getAuthAccessToken());\n      const access = await fetchCourseAccess();\n      if (!access) {\n        state.mode = 'blocked';\n        state.fullAccess = false;\n        state.teaserTopicIds = [];\n        if (hasAuthToken) {\n          clearAuthState();\n          goAuthPortal();\n          return;\n        }\n        renderBanner();\n        updateLockedNavigation();\n        return;\n      }\n""",
     ),
     (
         """        if (!response.ok) return null;\n        const body = await response.json().catch(function () { return null; });\n        if (!body || !body.ok || !body.access || typeof body.access !== 'object') return null;\n        return body.access;\n      } catch (_error) {\n        return null;\n      }\n""",
-        """        if (!response.ok) {\n        if ((response.status === 401 || response.status === 403) && bearer) {\n          clearAuthState();\n        }\n        return null;\n      }\n      const body = await response.json().catch(function () { return null; });\n      if (!body || !body.ok || !body.access || typeof body.access !== 'object') return null;\n      return body.access;\n      } catch (_error) {\n        return null;\n      }\n""",
+        """        if (!response.ok) {\n        if ((response.status === 401 || response.status === 403) && bearer) {\n          clearAuthState();\n        }\n        return null;\n      }\n      const body = await response.json().catch(function () { return null; });\n      if (!body || !body.ok || !body.access || typeof body.access !== 'object') return null;\n      if (bearer && body.access.authenticated === false) {\n        clearAuthState();\n        return null;\n      }\n      return body.access;\n      } catch (_error) {\n        return null;\n      }\n""",
     ),
     (
         """  function getAuthAccessToken() {\n    const session = readJson(keyAuthSession, null);\n    if (!session || typeof session !== 'object') return '';\n    const token = String(session.accessToken || '').trim();\n    if (!token || token.length > 4096) return '';\n    return token;\n  }\n\n  function hasAuthenticatedCloudProfile() {\n""",

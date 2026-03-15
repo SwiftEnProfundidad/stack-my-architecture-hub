@@ -114,8 +114,40 @@
     }));
   }
 
+  function isLocalContext() {
+    const host = String(window.location.hostname || '').toLowerCase();
+    if (window.location.protocol === 'file:') return true;
+    if (!host) return false;
+    if (host === 'localhost' || host === '127.0.0.1' || host === '::1' || host === '0.0.0.0') return true;
+    if (host.endsWith('.local') || host.endsWith('.nip.io')) return true;
+    if (/^10\./.test(host) || /^192\.168\./.test(host)) return true;
+    const private172 = host.match(/^172\.(\d{1,3})\./);
+    if (!private172) return false;
+    const secondOctet = Number(private172[1]);
+    return Number.isFinite(secondOctet) && secondOctet >= 16 && secondOctet <= 31;
+  }
+
+  function toApiUrl(path) {
+    const rawPath = String(path || '').trim();
+    if (!rawPath) return '/api/auth-sync';
+
+    let routePath = rawPath;
+    if (routePath.startsWith('/')) routePath = routePath.slice(1);
+    if (routePath.startsWith('api/')) routePath = routePath.slice(4);
+
+    if (isLocalContext()) {
+      return `/${routePath}`;
+    }
+
+    const q = routePath.indexOf('?');
+    const basePath = q >= 0 ? routePath.slice(0, q) : routePath;
+    const query = q >= 0 ? routePath.slice(q + 1) : '';
+    const normalized = String(basePath || '').replace(/^\/+/, '');
+    return `/api/proxy?path=${encodeURIComponent(normalized)}${query ? `&${query}` : ''}`;
+  }
+
   function apiUrl(route) {
-    return `/api/auth-sync?route=${encodeURIComponent(String(route || ''))}`;
+    return toApiUrl(`api/auth-sync?route=${encodeURIComponent(String(route || ''))}`);
   }
 
   async function call(route, method, body, accessToken) {

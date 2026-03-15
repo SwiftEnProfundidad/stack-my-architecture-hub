@@ -624,7 +624,7 @@
         throw error;
       }
     }
-    const response = await fetch(url, { method: settings.method || 'GET', headers: headers });
+    const response = await fetch(toApiUrl(url), { method: settings.method || 'GET', headers: headers });
     const payload = await response.json().catch(function () { return null; });
     if (!response.ok || !payload || payload.ok === false) {
       const error = new Error(payload && payload.error ? payload.error : `Error ${response.status}`);
@@ -674,6 +674,23 @@
     if (!private172) return false;
     const secondOctet = Number(private172[1]);
     return Number.isFinite(secondOctet) && secondOctet >= 16 && secondOctet <= 31;
+  }
+
+  function toApiUrl(path) {
+    const rawPath = String(path || '').trim();
+    if (!rawPath) return '/api';
+    let routePath = rawPath;
+    if (routePath.startsWith('/api/')) routePath = routePath.slice(5);
+    if (routePath.startsWith('api/')) routePath = routePath.slice(4);
+    if (routePath.startsWith('/')) routePath = routePath.slice(1);
+    if (state.local) {
+      return `/${routePath}`;
+    }
+    const q = routePath.indexOf('?');
+    const basePath = q >= 0 ? routePath.slice(0, q) : routePath;
+    const query = q >= 0 ? routePath.slice(q + 1) : '';
+    const normalized = String(basePath || '').replace(/^\/+/, '');
+    return `/api/proxy?path=${encodeURIComponent(normalized)}${query ? `&${query}` : ''}`;
   }
 
   function escapeHtml(value) {
