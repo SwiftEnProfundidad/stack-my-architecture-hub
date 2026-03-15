@@ -86,22 +86,29 @@ Ruta de contexto: `/Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my
   - Entregado en `scripts/post-deploy-checks.sh` con evidencia persistente y estado de freeze.
   - Entregado en `scripts/publish-architecture-stack.sh` con bloqueo automático cuando hay freeze activo.
   - Enlace de evidencia de referencia: `hub-release-evidence/checklist.md` (artefacto de GH Actions).
-2. ⏳ Cerrar ciclo de ingeniería del bloque:
+2. ✅ Cerrar ciclo de ingeniería del bloque:
   - ✅ PR abierto y mergeado: [#173](https://github.com/SwiftEnProfundidad/stack-my-architecture-hub/pull/173).
   - ✅ `git push`/`git merge` completados contra `main`.
   - ✅ `origin/main` actualizado.
   - ✅ Estado limpio de workspace confirmado en la última pasada.
 3. ✅ Cerrar regresión de autenticación entre hubs y cursos.
   - Se eliminó el redirect global `/(.*) -> https://architecture-stack.vercel.app/$1`.
-  - Se dejó `vercel.json` con `redirects` de `/api/:path*` hacia `https://architecture-stack.vercel.app/api/:path*` para consumir backend remoto estable.
+  - Se dejó `vercel.json` con `rewrites` de `/api/:path*` hacia `https://architecture-stack.vercel.app/api/:path*` para conservar headers (Authorization) al consumir backend remoto estable.
   - Se conservaron redirecciones de funciones auxiliares hacia `assistant-bridge` del dominio funcional.
   - Objetivo de esta tarea: login + token no deben perderse al entrar por `stack-my-architecture-hub.vercel.app`.
-4. 🚧 Verificar end-to-end con sesión real (Vercel producción + cursos protegidos) y conservar evidencia en este documento tras el despliegue.
-  - ✅ Corregido `study-ux` para limpiar sesión inválida al recibir 403 (`study-ux` y `hub-app`).
-  - ✅ Se centralizó el guard de sesión de cursos en `assets/study-session-guard.js` y se aplicó a `ios/`, `android/` y `sdd/`.
-  - ✅ Se actualizó `api/_hub-platform.js` para tratar 403 como sesión no válida en rutas opcionales.
-  - Estado actual: la versión publicada (`stack-my-architecture-hub.vercel.app`) aún devuelve HTML inline legacy y no contiene el guard centralizado nuevo.
-  - Siguiente paso: publicar los cambios y revalidar `https://stack-my-architecture-hub.vercel.app/ios/index.html` y `/api/*`.
-5. Criterio de cierre:
-   - 100% de postchecks verdes en al menos 2 deployments consecutivos.
-   - Rollback automático documentado y probado con un escenario de fallo simulado sin impacto de datos.
+4. ✅ Cerrar regresión de sesiones inválidas para cursos protegidos y flujo de login.
+   - `study-ux` limpia sesión inválida y redirige al `auth/login.html` cuando no hay acceso activo, evitando "modo teaser" forzado con token corrupto.
+   - Verificado con deploy en producción (`architecture-stack.vercel.app`/`stack-my-architecture-hub.vercel.app`) y smoke de rutas/runtime.
+5. ✅ Corregir regresión de acceso local bloqueado tras hardening de guardias.
+  - En `ios/assets/study-ux.js`, `android/assets/study-ux.js` y `sdd/assets/study-ux.js`, `isLocalContext()` quedó alineado con el guard de pagina para cubrir LAN locales (`localhost`, `127.0.0.1`, `10.x`, `192.168.x`, `172.16-31.x`, `*.local`) y forzar `fullAccess`.
+  - La validación remota y limpieza de token inválido se mantiene para entornos con sesión real (`/api/entitlements`).
+  - Estado operativo: accesos local y de navegación no quedan en candado por defecto.
+6. ✅ Corregir pérdida de `Authorization` al usar API remota en Vercel.
+  - Confirmado por `curl -v`: `/api/*` devolvía `307` y no reenviaba `Authorization` al dominio destino.
+  - Actualizado `stack-my-architecture-hub/vercel.json` para `rewrites` en `/api/*`, `/progress/*` y endpoints de `assistant-bridge`.
+  - Pendiente de validación: probar flujo completo con cuenta activa en `stack-my-architecture-hub.vercel.app` tras despliegue.
+7. 🚧 Verificación manual de extremo a extremo con sesión real (log-in real + expiración/renovación de token).
+  - Pendiente: validar en navegador con cuenta activa y registrar evidencia de token válido/no válido en producción y local.
+8. Criterio de cierre:
+  - 100% de postchecks verdes en al menos 2 deployments consecutivos.
+  - Rollback automático documentado y probado con un escenario de fallo simulado sin impacto de datos.
