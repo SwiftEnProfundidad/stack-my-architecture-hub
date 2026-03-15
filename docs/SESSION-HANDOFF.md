@@ -86,10 +86,11 @@ Ruta de contexto: `/Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my
    - Entregado en `scripts/post-deploy-checks.sh` con evidencia persistente y estado de freeze.
    - Entregado en `scripts/publish-architecture-stack.sh` con bloqueo automático cuando hay freeze activo.
    - Enlace de evidencia de referencia: `hub-release-evidence/checklist.md` (artefacto de GH Actions).
-2. ⏳ Cerrar ciclo de ingeniería del bloque:
-   - Validar `git status` limpio en los repos críticos del workspace.
-   - Sincronizar ramas locales/remotas (`develop`, `main`) y preparar PR final.
-   - Publicar la iteración en Vercel cuando el contrato post-deploy esté validado y documentado.
+2. ✅ Cerrar ciclo de ingeniería del bloque:
+   - ✅ PR abierto y mergeado: [#173](https://github.com/SwiftEnProfundidad/stack-my-architecture-hub/pull/173).
+   - ✅ `git push`/`git merge` completados contra `main`.
+   - ✅ `origin/main` actualizado.
+   - ⏳ Siguiente tarea: validar estado limpio en workspace y preparar despliegue canario en Vercel (si aplica) con evidencia post-deploy.
 2. Criterio de cierre:
    - 100% de postchecks verdes en al menos 2 deployments consecutivos.
    - Rollback automático documentado y probado con un escenario de fallo simulado sin impacto de datos.
