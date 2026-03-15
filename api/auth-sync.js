@@ -2,6 +2,10 @@ const SUPABASE_URL = String(process.env.SUPABASE_URL || '').trim().replace(/\/$/
 const SUPABASE_ANON_KEY = String(process.env.SUPABASE_ANON_KEY || '').trim();
 const SUPABASE_SERVICE_ROLE_KEY = String(process.env.SUPABASE_SERVICE_ROLE_KEY || '').trim();
 
+const DEFAULT_ENTITLEMENTS_TABLE = 'hub_course_entitlements';
+const HUB_ENTITLEMENTS_TABLE = String(process.env.HUB_ENTITLEMENTS_TABLE || DEFAULT_ENTITLEMENTS_TABLE).trim();
+const HUB_AUTO_ENROLL_PLAN = String(process.env.HUB_AUTO_ENROLL_PLAN || 'trial').trim().toLowerCase();
+
 const MAX_EMAIL_LEN = 320;
 const MIN_PASSWORD_LEN = 8;
 const MAX_PASSWORD_LEN = 128;
@@ -110,6 +114,15 @@ async function handleSignUp(req, res) {
     });
 
     const normalized = normalizeAuthPayload(response);
+
+    if (normalized.user && normalized.user.id) {
+      try {
+        await autoEnrollUser(normalized.user.id);
+      } catch (enrollError) {
+        console.error('[auto-enroll] Error al inscribir usuario:', enrollError.message);
+      }
+    }
+
     sendJson(res, 200, {
       ok: true,
       user: normalized.user,
@@ -341,6 +354,38 @@ async function handleLogout(req, res) {
       error: toErrorMessage(error)
     });
   }
+}
+
+async function autoEnrollUser(userId) {
+  if (!userId || !SUPABASE_SERVICE_ROLE_KEY || !HUB_AUTO_ENROLL_PLAN) return;
+  const url = `${supabaseRestBase()}/${HUB_ENTITLEMENTS_TABLE}`;
+  const row = {
+    user_id: userId,
+    course_id: 'all',
+    plan_code: HUB_AUTO_ENROLL_PLAN,
+    status: HUB_AUTO_ENROLL_PLAN,
+    granted_at: new Date().toISOString(),
+    expires_at: null,
+    notes: 'auto-enrolled on signup'
+  };
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      apikey: SUPABASE_SERVICE_ROLE_KEY,
+      Authorization: `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`,
+      'Content-Type': 'application/json',
+      Prefer: 'return=minimal'
+    },
+    body: JSON.stringify(row)
+  });
+  if (!response.ok) {
+    const text = await response.text().catch(() => '');
+    throw new Error(`auto-enroll HTTP ${response.status}: ${text}`);
+  }
+}
+
+function supabaseRestBase() {
+  return `${SUPABASE_URL}/rest/v1`;
 }
 
 function resolveRoute(req) {
