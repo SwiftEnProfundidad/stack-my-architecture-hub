@@ -23,6 +23,7 @@
   const state = {
     auth: null,
     role: 'anonymous',
+    local: isLocalContext(),
     users: [],
     teasers: [],
     auditLog: []
@@ -299,7 +300,7 @@
     if (accessToken) {
       headers.Authorization = `Bearer ${accessToken}`;
     }
-    const response = await fetch(url, { method: 'GET', headers: headers });
+    const response = await fetch(toApiUrl(url), { method: 'GET', headers: headers });
     const payload = await response.json().catch(function () { return null; });
     if (!response.ok || !payload || payload.ok === false) {
       const error = new Error(payload && payload.error ? payload.error : `Error ${response.status}`);
@@ -315,7 +316,7 @@
     if (accessToken) {
       headers.Authorization = `Bearer ${accessToken}`;
     }
-    const response = await fetch(url, {
+    const response = await fetch(toApiUrl(url), {
       method: 'POST',
       headers: headers,
       body: JSON.stringify(body || {})
@@ -338,6 +339,36 @@
       session: session,
       user: user
     };
+  }
+
+  function isLocalContext() {
+    const host = String(window.location.hostname || '').toLowerCase();
+    if (window.location.protocol === 'file:') return true;
+    if (!host) return false;
+    if (host === 'localhost' || host === '127.0.0.1' || host === '::1' || host === '0.0.0.0') return true;
+    if (host.endsWith('.local') || host.endsWith('.nip.io')) return true;
+    if (/^10\./.test(host) || /^192\.168\./.test(host)) return true;
+    const private172 = host.match(/^172\.(\d{1,3})\./);
+    if (!private172) return false;
+    const secondOctet = Number(private172[1]);
+    return Number.isFinite(secondOctet) && secondOctet >= 16 && secondOctet <= 31;
+  }
+
+  function toApiUrl(path) {
+    const rawPath = String(path || '').trim();
+    if (!rawPath) return '/api';
+    let routePath = rawPath;
+    if (routePath.startsWith('/api/')) routePath = routePath.slice(5);
+    if (routePath.startsWith('api/')) routePath = routePath.slice(4);
+    if (routePath.startsWith('/')) routePath = routePath.slice(1);
+    if (state.local) {
+      return `/${routePath}`;
+    }
+    const q = routePath.indexOf('?');
+    const basePath = q >= 0 ? routePath.slice(0, q) : routePath;
+    const query = q >= 0 ? routePath.slice(q + 1) : '';
+    const normalized = String(basePath || '').replace(/^\/+/, '');
+    return `/api/proxy?path=${encodeURIComponent(normalized)}${query ? `&${query}` : ''}`;
   }
 
   function resolveAccessToken(session) {
