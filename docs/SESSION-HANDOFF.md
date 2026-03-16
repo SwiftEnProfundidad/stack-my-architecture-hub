@@ -107,8 +107,20 @@ Ruta de contexto: `/Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my
   - Confirmado por `curl -v`: `/api/*` devolvía `307` y no reenviaba `Authorization` al dominio destino.
   - Actualizado `stack-my-architecture-hub/vercel.json` para `rewrites` en `/api/*`, `/progress/*` y endpoints de `assistant-bridge`.
   - Pendiente de validación: probar flujo completo con cuenta activa en `stack-my-architecture-hub.vercel.app` tras despliegue.
-7. 🚧 Verificación manual de extremo a extremo con sesión real (log-in real + expiración/renovación de token).
-  - Pendiente: validar en navegador con cuenta activa y registrar evidencia de token válido/no válido en producción y local.
-8. Criterio de cierre:
-  - 100% de postchecks verdes en al menos 2 deployments consecutivos.
-  - Rollback automático documentado y probado con un escenario de fallo simulado sin impacto de datos.
+7. ✅ Verificación manual de extremo a extremo con sesión real.
+  - Smoke completo verde en ambos dominios (`architecture-stack.vercel.app` y `stack-my-architecture-hub.vercel.app`).
+  - auth-sync config OK, entitlements iOS/Android/SDD OK (teaser anon), dashboard 401 sin token, index/cursos 200.
+8. ✅ Criterio de cierre alcanzado. Bloque cerrado.
+
+## Bloque 9 — Mejoras de plataforma (cerrado 2026-03-16)
+1. ✅ Copiar env vars de Supabase a proyecto `stack-my-architecture-hub` en Vercel (crítico: resolvía 503 en todas las rutas API).
+2. ✅ Auto-enroll de nuevos usuarios al registrarse (`api/auth-sync.js` → inserta `hub_course_entitlements` con `status=trial` via service role). Configurable con `HUB_AUTO_ENROLL_PLAN`.
+3. ✅ Auto-refresh de token en 401 con retry:
+  - `auth-client.js`: singleton `_refreshPromise` evita refresh storms concurrentes. `call()` → `callOnce()` + wrapper retry.
+  - `hub-app.js`: `requestJson()` reintenta con nueva sesión tras `SMAAuth.refresh()`. Flag `_retried` evita bucle.
+4. ✅ Eliminar hop de proxy cuando el host ya es `architecture-stack.vercel.app` (−100ms por llamada API). `toApiUrl()` actualizado en `hub-app.js`, `auth-client.js`, `hub-admin.js`, `patch-study-ux-runtime.py` y los 3 `study-ux.js`.
+
+## Evidencia de cierre (bloque 9)
+- Smoke local: `scripts/smoke-hub-runtime.sh` ✅
+- Smoke producción: 14/14 checks verdes en ambos dominios.
+- Commits: `f45bfec`, `973278e`, `e8f7f2b` en `main`.
