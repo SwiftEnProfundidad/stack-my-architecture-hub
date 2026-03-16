@@ -17,6 +17,12 @@
       title: 'IA + Spec-Driven Development',
       path: './sdd/index.html',
       summary: 'OpenSpec, calidad verificable, gobierno de cambios, señales operativas y defensa técnica con evidencia.'
+    },
+    governance: {
+      label: 'Curso Governance',
+      title: 'Stack: My Architecture — Governance',
+      path: './governance/index.html',
+      summary: 'Governance de ingeniería con agentes: AGENTS.md, skills, ADR, quality gates y delivery con evidencia trazable.'
     }
   };
 

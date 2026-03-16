@@ -12,14 +12,16 @@ const DEFAULT_NOTES_TABLE = 'hub_student_notes';
 const DEFAULT_BOOKMARKS_TABLE = 'hub_student_bookmarks';
 const DEFAULT_AUDIT_TABLE = 'hub_admin_audit_log';
 
-const COURSE_IDS = ['ios', 'android', 'sdd'];
+const COURSE_IDS = ['ios', 'android', 'sdd', 'governance'];
 const COURSE_ID_ALIASES = {
   ios: 'ios',
   'stack-my-architecture-ios': 'ios',
   android: 'android',
   'stack-my-architecture-android': 'android',
   sdd: 'sdd',
-  'stack-my-architecture-sdd': 'sdd'
+  'stack-my-architecture-sdd': 'sdd',
+  governance: 'governance',
+  'stack-my-architecture-governance': 'governance'
 };
 const COURSE_STAGE_DEFINITIONS = {
   ios: [
@@ -47,6 +49,13 @@ const COURSE_STAGE_DEFINITIONS = {
     { id: 'governance', label: 'Bloque 3 · Semanas 9-12', prefixes: ['10-semana-09', '11-semana-10', '12-semana-11', '13-semana-12'] },
     { id: 'hardening', label: 'Bloque 4 · Semanas 13-16', prefixes: ['14-semana-13', '15-semana-14', '16-semana-15', '17-semana-16'] },
     { id: 'annexes', label: 'Bloque 5 · Anexos y soporte', prefixes: ['anexos', '18-proyecto-final'] }
+  ],
+  governance: [
+    { id: 'prep', label: 'Bloque 0 · Preparación', prefixes: ['00-preparacion', '01-roadmap'] },
+    { id: 'daily-flow', label: 'Bloque 1 · Daily Flow (Sem 1-4)', prefixes: ['02-semana-01', '03-semana-02', '04-semana-03', '05-semana-04'] },
+    { id: 'delivery', label: 'Bloque 2 · Delivery (Sem 5-8)', prefixes: ['06-semana-05', '07-semana-06', '08-semana-07', '09-semana-08'] },
+    { id: 'quality', label: 'Bloque 3 · Quality & Release (Sem 9-12)', prefixes: ['10-semana-09', '11-semana-10', '12-semana-11', '13-semana-12'] },
+    { id: 'mastery', label: 'Bloque 4 · Mastery (Sem 13-16)', prefixes: ['14-semana-13', '15-semana-14', '16-semana-15', '17-semana-16'] }
   ]
 };
 const ROLE_VALUES = ['student', 'trial', 'admin'];

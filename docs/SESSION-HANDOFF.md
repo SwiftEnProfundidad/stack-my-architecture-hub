@@ -112,6 +112,16 @@ Ruta de contexto: `/Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my
   - auth-sync config OK, entitlements iOS/Android/SDD OK (teaser anon), dashboard 401 sin token, index/cursos 200.
 8. ✅ Criterio de cierre alcanzado. Bloque cerrado.
 
+## Bloque 10 — Integración curso Governance (en curso 2026-03-16)
+1. ✅ Crear `stack-my-architecture-governance/scripts/build-html.py` (copiado de SDD, adaptado con FILE_ORDER, sections, course-id y title propios). Build: 160 archivos, 1467 KB.
+2. ✅ Integrar governance en `scripts/build-hub.sh` (GOVERNANCE_ROOT, step 3.5 build, step 6.3 copy, index.html creation).
+3. ✅ Añadir governance a `scripts/stamp-asset-version.py` (DEFAULT_TARGETS).
+4. ✅ Añadir governance a `api/_hub-platform.js` (COURSE_IDS, COURSE_ID_ALIASES, COURSE_STAGE_DEFINITIONS).
+5. ✅ Añadir governance a `assets/hub-app.js` (COURSE_META).
+6. ✅ Añadir `/governance/` a verificación en `scripts/publish-architecture-stack.sh`.
+7. ✅ Build completo en verde: governance presente en stamp, guards y manifest.
+8. ⏳ Commit + push + verificar en Vercel.
+
 ## Bloque 9 — Mejoras de plataforma (cerrado 2026-03-16)
 1. ✅ Copiar env vars de Supabase a proyecto `stack-my-architecture-hub` en Vercel (crítico: resolvía 503 en todas las rutas API).
 2. ✅ Auto-enroll de nuevos usuarios al registrarse (`api/auth-sync.js` → inserta `hub_course_entitlements` con `status=trial` via service role). Configurable con `HUB_AUTO_ENROLL_PLAN`.

@@ -105,7 +105,7 @@ rm -f "$COOLDOWN_FILE"
 
 echo "[3/3] Verifying public routes..."
 
-for path in "/" "/ios/" "/android/" "/sdd/"; do
+for path in "/" "/ios/" "/android/" "/sdd/" "/governance/"; do
   code="$("$VERIFY_CURL_BIN" -s -o /dev/null -w "%{http_code}" "${BASE_URL}${path}")"
   echo "  ${BASE_URL}${path} -> ${code}"
   if [[ "$code" != "200" ]]; then

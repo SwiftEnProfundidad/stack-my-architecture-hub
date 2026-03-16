@@ -19,6 +19,8 @@ DEFAULT_TARGETS = [
     "android/curso-stack-my-architecture-android.html",
     "sdd/index.html",
     "sdd/curso-stack-my-architecture-sdd.html",
+    "governance/index.html",
+    "governance/curso-stack-my-architecture-governance.html",
 ]
 
 

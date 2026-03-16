@@ -13,6 +13,7 @@ LOG_FILE="$RUNTIME_DIR/build-hub.log"
 IOS_ROOT="$PROJECTS_ROOT/stack-my-architecture-ios"
 ANDROID_ROOT="$PROJECTS_ROOT/stack-my-architecture-android"
 SDD_ROOT="$PROJECTS_ROOT/stack-my-architecture-SDD"
+GOVERNANCE_ROOT="$PROJECTS_ROOT/stack-my-architecture-governance"
 SDD_AUDIT_SCRIPT="$SDD_ROOT/scripts/run-full-audit.sh"
 SDD_BUILD_SCRIPT="$SDD_ROOT/scripts/build-html.py"
 if [[ ! -f "$SDD_BUILD_SCRIPT" && -f "$SDD_ROOT/stack-my-architecture-SDD/scripts/build-html.py" ]]; then
@@ -48,10 +49,12 @@ resolve_course_root() {
 IOS_ROOT="$(resolve_course_root "$IOS_ROOT" "stack-my-architecture-ios")"
 ANDROID_ROOT="$(resolve_course_root "$ANDROID_ROOT" "stack-my-architecture-android")"
 SDD_ROOT="$(resolve_course_root "$SDD_ROOT" "stack-my-architecture-SDD")"
+GOVERNANCE_ROOT="$(resolve_course_root "$GOVERNANCE_ROOT" "stack-my-architecture-governance")"
 
 SDD_AUDIT_SCRIPT="$SDD_ROOT/scripts/run-full-audit.sh"
 IOS_OUTPUT="$IOS_ROOT/dist"
 ANDROID_OUTPUT="$ANDROID_ROOT/dist"
+GOVERNANCE_OUTPUT="$GOVERNANCE_ROOT/dist"
 SDD_OUTPUT_PRIMARY="$SDD_ROOT/dist"
 SDD_OUTPUT_NESTED="$SDD_ROOT/stack-my-architecture-SDD/dist"
 if [[ "$SDD_BUILD_SCRIPT" == "$SDD_ROOT/stack-my-architecture-SDD/scripts/build-html.py" ]]; then
@@ -189,15 +192,20 @@ if [[ ! -f "$IOS_ROOT/scripts/build-html.py" || ! -f "$ANDROID_ROOT/scripts/buil
   exit 1
 fi
 
+GOVERNANCE_BUILD_ENABLED=0
+if [[ -d "$GOVERNANCE_ROOT" && -f "$GOVERNANCE_ROOT/scripts/build-html.py" ]]; then
+  GOVERNANCE_BUILD_ENABLED=1
+fi
+
 say "Starting hub build (mode=$MODE)"
-say "[1/8] Building iOS HTML output..."
+say "[1/9] Building iOS HTML output..."
 python3 "$IOS_ROOT/scripts/build-html.py"
 
-say "[2/8] Building Android HTML output..."
+say "[2/9] Building Android HTML output..."
 python3 "$ANDROID_ROOT/scripts/build-html.py"
 
 if [[ "$MODE" == "fast" ]]; then
-  say "[3/8] Fast mode: skipping strict SDD gate and building SDD HTML only..."
+  say "[3/9] Fast mode: skipping strict SDD gate and building SDD HTML only..."
   if [[ ! -f "$SDD_BUILD_SCRIPT" ]]; then
     echo "[ERROR] Missing SDD build script: $SDD_BUILD_SCRIPT"
     exit 1
@@ -208,11 +216,18 @@ else
     echo "[ERROR] Missing or non-executable SDD audit script: $SDD_AUDIT_SCRIPT"
     exit 1
   fi
-  say "[3/8] Running strict SDD full audit gate..."
+  say "[3/9] Running strict SDD full audit gate..."
   "$SDD_AUDIT_SCRIPT"
   SDD_AUDIT_RAN=1
-  say "[3/8] Rebuilding SDD HTML with profile=$SDD_BUILD_PROFILE for Hub publication..."
+  say "[3/9] Rebuilding SDD HTML with profile=$SDD_BUILD_PROFILE for Hub publication..."
   SMA_BUILD_PROFILE="$SDD_BUILD_PROFILE" python3 "$SDD_ROOT/scripts/build-html.py"
+fi
+
+if [[ "$GOVERNANCE_BUILD_ENABLED" -eq 1 ]]; then
+  say "[3.5/9] Building Governance HTML output..."
+  python3 "$GOVERNANCE_ROOT/scripts/build-html.py"
+else
+  say "[3.5/9] Governance course not found, skipping."
 fi
 
 copy_dir() {
@@ -269,14 +284,19 @@ copy_course_output_preserving_assistant_panel() {
   fi
 }
 
-say "[4/8] Copying iOS output folder AS-IS to hub/ios ..."
+say "[4/9] Copying iOS output folder AS-IS to hub/ios ..."
 copy_course_output_preserving_assistant_panel "$IOS_OUTPUT" "$HUB_ROOT/ios" "ios"
 
-say "[5/8] Copying Android output folder AS-IS to hub/android ..."
+say "[5/9] Copying Android output folder AS-IS to hub/android ..."
 copy_course_output_preserving_assistant_panel "$ANDROID_OUTPUT" "$HUB_ROOT/android" "android"
 
-say "[6/8] Copying SDD output folder AS-IS to hub/sdd ..."
+say "[6/9] Copying SDD output folder AS-IS to hub/sdd ..."
 copy_course_output_preserving_assistant_panel "$SDD_OUTPUT" "$HUB_ROOT/sdd" "sdd"
+
+if [[ "$GOVERNANCE_BUILD_ENABLED" -eq 1 ]]; then
+  say "[6.3/9] Copying Governance output folder AS-IS to hub/governance ..."
+  copy_dir "$GOVERNANCE_OUTPUT" "$HUB_ROOT/governance"
+fi
 
 if [[ -f "$HUB_ROOT/ios/curso-stack-my-architecture.html" ]]; then
   cp "$HUB_ROOT/ios/curso-stack-my-architecture.html" "$HUB_ROOT/ios/index.html"
@@ -290,12 +310,16 @@ if [[ -f "$HUB_ROOT/sdd/curso-stack-my-architecture-sdd.html" ]]; then
   cp "$HUB_ROOT/sdd/curso-stack-my-architecture-sdd.html" "$HUB_ROOT/sdd/index.html"
 fi
 
+if [[ "$GOVERNANCE_BUILD_ENABLED" -eq 1 && -f "$HUB_ROOT/governance/curso-stack-my-architecture-governance.html" ]]; then
+  cp "$HUB_ROOT/governance/curso-stack-my-architecture-governance.html" "$HUB_ROOT/governance/index.html"
+fi
+
 if [[ ! -x "$PATCH_STUDY_UX_RUNTIME_SCRIPT" ]]; then
   echo "[ERROR] Missing or non-executable study UX patch script: $PATCH_STUDY_UX_RUNTIME_SCRIPT"
   exit 1
 fi
 
-say "[6.4/8] Applying Hub-only study UX runtime patches..."
+say "[6.4/9] Applying Hub-only study UX runtime patches..."
 python3 "$PATCH_STUDY_UX_RUNTIME_SCRIPT" --hub-root "$HUB_ROOT"
 
 if [[ ! -x "$STAMP_ASSET_VERSION_SCRIPT" ]]; then
@@ -303,7 +327,7 @@ if [[ ! -x "$STAMP_ASSET_VERSION_SCRIPT" ]]; then
   exit 1
 fi
 
-say "[6.5/8] Stamping shared asset version in generated HTML..."
+say "[6.5/9] Stamping shared asset version in generated HTML..."
 python3 "$STAMP_ASSET_VERSION_SCRIPT" --hub-root "$HUB_ROOT"
 
 if [[ ! -x "$VERIFY_SCRIPT" ]]; then
@@ -315,19 +339,19 @@ if [[ ! -x "$SURFACE_GUARD_SCRIPT" ]]; then
   exit 1
 fi
 
-say "[7/8] Verifying hub output integrity..."
+say "[7/9] Verifying hub output integrity..."
 python3 "$VERIFY_SCRIPT"
-say "[7.5/8] Running course surface anti-regression guard..."
+say "[7.5/9] Running course surface anti-regression guard..."
 "$SURFACE_GUARD_SCRIPT"
 
 if [[ "$MODE" == "fast" || "${SKIP_RUNTIME_SMOKE:-0}" == "1" ]]; then
-  say "[8/8] Runtime smoke skipped (mode=$MODE, SKIP_RUNTIME_SMOKE=${SKIP_RUNTIME_SMOKE:-0})"
+  say "[8/9] Runtime smoke skipped (mode=$MODE, SKIP_RUNTIME_SMOKE=${SKIP_RUNTIME_SMOKE:-0})"
 else
   if [[ ! -x "$RUNTIME_SMOKE_SCRIPT" ]]; then
     echo "[ERROR] Missing or non-executable runtime smoke script: $RUNTIME_SMOKE_SCRIPT"
     exit 1
   fi
-  say "[8/8] Running runtime smoke test on temporary server..."
+  say "[8/9] Running runtime smoke test on temporary server..."
   "$RUNTIME_SMOKE_SCRIPT"
   RUNTIME_SMOKE_RAN=1
 fi
@@ -337,7 +361,7 @@ if [[ ! -x "$MANIFEST_SCRIPT" ]]; then
   exit 1
 fi
 
-say "[audit] Generating build manifest..."
+say "[9/9] Generating build manifest..."
 python3 "$MANIFEST_SCRIPT" \
   --mode "$MODE" \
   --sdd-audit-ran "$SDD_AUDIT_RAN" \
