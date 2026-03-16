@@ -10,7 +10,7 @@ COURSES = ("ios", "android", "sdd")
 JS_REPLACEMENTS = [
     (
         """  const keyCloudEndpoint = 'sma:cloud:endpoint:v1';\n  const keyAuthSession = 'sma:auth:session:v1';\n  const keyAuthUser = 'sma:auth:user:v1';\n  const DEFAULT_REMOTE_PROGRESS_BASE = 'https://architecture-stack.vercel.app';\n  const canonicalCourseKey = normalizeCanonicalCourseKey(courseId);\n""",
-        """  const keyCloudEndpoint = 'sma:cloud:endpoint:v1';\n  const keyAuthSession = 'sma:auth:session:v1';\n  const keyAuthUser = 'sma:auth:user:v1';\n  const DEFAULT_REMOTE_PROGRESS_BASE = 'https://architecture-stack.vercel.app';\n\n  function toApiUrl(path) {\n    const rawPath = String(path || '').trim();\n    if (!rawPath) return '/api';\n    let routePath = rawPath;\n    if (routePath.startsWith('/')) routePath = routePath.slice(1);\n    if (routePath.startsWith('api/')) routePath = routePath.slice(4);\n    if (isLocalContext() || window.location.hostname === 'architecture-stack.vercel.app') {\n      return `/${routePath}`;\n    }\n    const q = routePath.indexOf('?');\n    const basePath = q >= 0 ? routePath.slice(0, q) : routePath;\n    const query = q >= 0 ? routePath.slice(q + 1) : '';\n    const normalized = String(basePath || '').replace(/^\\/+/g, '');\n    return `/api/proxy?path=${encodeURIComponent(normalized)}${query ? `&${query}` : ''}`;\n  }\n\n  const canonicalCourseKey = normalizeCanonicalCourseKey(courseId);\n""",
+        """  const keyCloudEndpoint = 'sma:cloud:endpoint:v1';\n  const keyAuthSession = 'sma:auth:session:v1';\n  const keyAuthUser = 'sma:auth:user:v1';\n  const DEFAULT_REMOTE_PROGRESS_BASE = 'https://architecture-stack.vercel.app';\n\n  function toApiUrl(path) {\n    const rawPath = String(path || '').trim();\n    if (!rawPath) return '/api';\n    let routePath = rawPath;\n    if (routePath.startsWith('/')) routePath = routePath.slice(1);\n    if (routePath.startsWith('api/')) routePath = routePath.slice(4);\n    if (isLocalContext()) {\n      return `/${routePath}`;\n    }\n    if (window.location.hostname === 'architecture-stack.vercel.app') {\n      return `/api/${routePath}`;\n    }\n    const q = routePath.indexOf('?');\n    const basePath = q >= 0 ? routePath.slice(0, q) : routePath;\n    const query = q >= 0 ? routePath.slice(q + 1) : '';\n    const normalized = String(basePath || '').replace(/^\\/+/g, '');\n    return `/api/proxy?path=${encodeURIComponent(normalized)}${query ? `&${query}` : ''}`;\n  }\n\n  const canonicalCourseKey = normalizeCanonicalCourseKey(courseId);\n""",
     ),
     (
         """          fetch(`/api/student-notes?route=list&courseId=${encodeURIComponent(courseId)}`, {\n            method: 'GET',\n            headers: headers\n          }),\n          fetch(`/api/student-bookmarks?route=list&courseId=${encodeURIComponent(courseId)}`, {\n            method: 'GET',\n            headers: headers\n          })\n""",
@@ -31,6 +31,10 @@ JS_REPLACEMENTS = [
     (
         """  function createAccessControl() {\n    const state = {\n      ready: false,\n      fullAccess: true,\n      mode: 'full',\n      teaserTopicIds: []\n    };\n""",
         """  function createAccessControl() {\n    const state = {\n      ready: false,\n      fullAccess: false,\n      mode: 'blocked',\n      teaserTopicIds: []\n    };\n""",
+    ),
+    (
+        "      if (isLocalContext()) {\n        renderBanner();\n        updateLockedNavigation();\n        return;\n      }\n",
+        "      if (isLocalContext()) {\n        state.fullAccess = true;\n        state.mode = 'active';\n        renderBanner();\n        updateLockedNavigation();\n        return;\n      }\n",
     ),
     (
         """      const access = await fetchCourseAccess();\n      if (!access) {\n        renderBanner();\n        updateLockedNavigation();\n        return;\n      }\n""",
@@ -89,6 +93,44 @@ CSS_REPLACEMENTS = [
     ),
 ]
 
+ASSISTANT_PANEL_REPLACEMENTS = [
+    (
+        "    var KEY_DAILY_BUDGET = STORAGE_PREFIX + 'daily_budget_usd';",
+        "    var KEY_DAILY_BUDGET = STORAGE_PREFIX + 'daily_budget_usd';\n    var KEY_API_KEY = STORAGE_PREFIX + 'api_key';",
+    ),
+    (
+        "        softDailyBudgetUsd: Number(localStorage.getItem(KEY_DAILY_BUDGET) || 2.0),",
+        "        softDailyBudgetUsd: Number(localStorage.getItem(KEY_DAILY_BUDGET) || 2.0),\n        apiKey: localStorage.getItem(KEY_API_KEY) || '',",
+    ),
+    (
+        "        localStorage.setItem(KEY_DAILY_BUDGET, String(state.softDailyBudgetUsd));",
+        "        localStorage.setItem(KEY_DAILY_BUDGET, String(state.softDailyBudgetUsd));\n        localStorage.setItem(KEY_API_KEY, state.apiKey);",
+    ),
+    (
+        "        grid.appendChild(modelLabel);\n        grid.appendChild(tokensLabel);\n        grid.appendChild(dailyBudgetLabel);\n        grid.appendChild(proxyLabel);",
+        "        var apiKeyLabel = document.createElement('label');\n        apiKeyLabel.textContent = 'API Key (OpenAI / proveedor)';\n        var apiKeyInput = document.createElement('input');\n        apiKeyInput.type = 'password';\n        apiKeyInput.autocomplete = 'off';\n        apiKeyInput.placeholder = 'sk-...';\n        apiKeyInput.value = state.apiKey;\n        apiKeyInput.addEventListener('change', function () {\n            state.apiKey = apiKeyInput.value.trim();\n            saveConfig();\n        });\n        apiKeyLabel.appendChild(apiKeyInput);\n\n        grid.appendChild(modelLabel);\n        grid.appendChild(tokensLabel);\n        grid.appendChild(dailyBudgetLabel);\n        grid.appendChild(proxyLabel);\n        grid.appendChild(apiKeyLabel);",
+    ),
+    (
+        "        var payload = {\n            prompt: question,\n            question: question,\n            model: effectiveModel,",
+        "        var payload = {\n            prompt: question,\n            question: question,\n            apiKey: state.apiKey,\n            model: effectiveModel,",
+    ),
+]
+
+COURSE_SWITCHER_REPLACEMENTS = [
+    (
+        "    sdd: 'https://architecture-stack-sdd.vercel.app'\n  };",
+        "    sdd: 'https://architecture-stack-sdd.vercel.app',\n    governance: 'https://architecture-stack.vercel.app/governance/index.html'\n  };",
+    ),
+    (
+        "    if (href.indexOf('/sdd/') !== -1) return href.split('/sdd/')[0];\n    return '';",
+        "    if (href.indexOf('/sdd/') !== -1) return href.split('/sdd/')[0];\n    if (href.indexOf('/governance/') !== -1) return href.split('/governance/')[0];\n    return '';",
+    ),
+    (
+        "    if (sdd) sdd.textContent = '\U0001f9e0 Curso IA + SDD';\n    setAuthLinks(syncParams);",
+        "    if (sdd) sdd.textContent = '\U0001f9e0 Curso IA + SDD';\n    var governanceMenu = document.getElementById('course-switcher-menu');\n    var governance = governanceMenu ? ensureMenuLink(governanceMenu, 'course-switcher-governance') : null;\n    if (governance) {\n      governance.href = resolveCourseLink('/governance/index.html', REMOTE_LINKS.governance, syncParams);\n      governance.textContent = '\U0001f3db\ufe0f Governance';\n    }\n    setAuthLinks(syncParams);",
+    ),
+]
+
 THEME_CONTROLS_REPLACEMENTS = [
     (
         """  function buildMermaidPalette() {\n    var theme = activeTheme();\n    var style = activeStyle();\n    var accent = readVar('--accent', '#2563eb');\n    var accentLight = readVar('--accent-light', accent);\n    var accentDark = readVar('--accent-dark', accent);\n    var bg = readVar('--bg', '#ffffff');\n    var bgSurface = readVar('--bg-surface', bg);\n    var bgElevated = readVar('--bg-elevated', bgSurface);\n    var text = readVar('--text', '#0f172a');\n    var border = readVar('--border', '#cbd5e1');\n    var line = theme === 'dark' ? accentLight : accentDark;\n\n    var direct = theme === 'dark' ? '#f472b6' : '#d946ef';\n    var dashedClosed = theme === 'dark' ? '#cbd5e1' : '#64748b';\n    var dashedOpen = theme === 'dark' ? '#93c5fd' : '#2563eb';\n    var solidOpen = theme === 'dark' ? '#6ee7b7' : '#059669';\n\n    if (style === 'paper') {\n      direct = theme === 'dark' ? '#fda4af' : '#be185d';\n      dashedClosed = theme === 'dark' ? '#e5d7c5' : '#6b5b4a';\n      dashedOpen = theme === 'dark' ? '#bfdbfe' : '#1d4ed8';\n      solidOpen = theme === 'dark' ? '#86efac' : '#166534';\n    }\n\n    if (style === 'bold') {\n      direct = '#f472b6';\n      dashedClosed = '#d4d4d8';\n      dashedOpen = '#60a5fa';\n      solidOpen = '#34d399';\n    }\n\n    return {\n      bg: bgSurface,\n      text: text,\n      nodeBg: bgElevated,\n      nodeBorder: border,\n      line: line,\n      labelBg: bg,\n      direct: direct,\n      dashedClosed: dashedClosed,\n      dashedOpen: dashedOpen,\n      solidOpen: solidOpen\n    };\n  }\n""",
@@ -135,6 +177,12 @@ def main() -> int:
             patched.append(css_path)
         if patch_file(theme_controls_path, THEME_CONTROLS_REPLACEMENTS):
             patched.append(theme_controls_path)
+        course_switcher_path = hub_root / course / "assets" / "course-switcher.js"
+        if patch_file(course_switcher_path, COURSE_SWITCHER_REPLACEMENTS):
+            patched.append(course_switcher_path)
+        assistant_panel_path = hub_root / course / "assets" / "assistant-panel.js"
+        if patch_file(assistant_panel_path, ASSISTANT_PANEL_REPLACEMENTS):
+            patched.append(assistant_panel_path)
 
     print("[patch-study-ux-runtime] patched files:")
     for path in patched:
