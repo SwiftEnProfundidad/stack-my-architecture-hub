@@ -175,14 +175,12 @@
     ios.textContent = '📱 Curso iOS';
     android.textContent = '🤖 Curso Android';
     if (sdd) sdd.textContent = '🧠 Curso IA + SDD';
-
-    var menu = document.getElementById('course-switcher-menu');
-    if (menu) {
-      var governance = ensureMenuLink(menu, 'course-switcher-governance');
+    var governanceMenu = document.getElementById('course-switcher-menu');
+    var governance = governanceMenu ? ensureMenuLink(governanceMenu, 'course-switcher-governance') : null;
+    if (governance) {
       governance.href = resolveCourseLink('/governance/index.html', REMOTE_LINKS.governance, syncParams);
-      governance.textContent = '🏛️ Curso Governance';
+      governance.textContent = '🏛️ Governance';
     }
-
     setAuthLinks(syncParams);
   }
 

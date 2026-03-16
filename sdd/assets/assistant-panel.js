@@ -27,7 +27,6 @@
         maxTokens: Number(localStorage.getItem(KEY_MAX_TOKENS) || 600),
         maxTokensCap: 8192,
         proxyBase: normalizeProxyBase(localStorage.getItem(KEY_PROXY_BASE) || defaultProxyBase()),
-        userApiKey: localStorage.getItem(KEY_API_KEY) || '',
         queryPath: '/assistant/query',
         messages: readMessages(),
         pendingAttachments: [],
@@ -35,6 +34,7 @@
         metrics: null,
         lastRequest: null,
         softDailyBudgetUsd: Number(localStorage.getItem(KEY_DAILY_BUDGET) || 2.0),
+        apiKey: localStorage.getItem(KEY_API_KEY) || '',
         dailyWarningUsd: DAILY_WARNING_DEFAULT,
         availableModels: ['gpt-5.3', 'gpt-5.2', 'gpt-5.2-codex', 'gpt-4o-mini', 'gpt-4.1-mini'],
         maxAttachments: IMAGE_MAX_ATTACHMENTS,
@@ -217,11 +217,7 @@
         localStorage.setItem(KEY_MAX_TOKENS, String(state.maxTokens));
         localStorage.setItem(KEY_PROXY_BASE, state.proxyBase);
         localStorage.setItem(KEY_DAILY_BUDGET, String(state.softDailyBudgetUsd));
-        if (state.userApiKey) {
-            localStorage.setItem(KEY_API_KEY, state.userApiKey);
-        } else {
-            localStorage.removeItem(KEY_API_KEY);
-        }
+        localStorage.setItem(KEY_API_KEY, state.apiKey);
     }
 
     function setOpen(isOpen) {
@@ -325,14 +321,14 @@
         proxyLabel.appendChild(proxyInput);
 
         var apiKeyLabel = document.createElement('label');
-        apiKeyLabel.textContent = 'API key (OpenAI / Anthropic / Gemini)';
+        apiKeyLabel.textContent = 'API Key (OpenAI / proveedor)';
         var apiKeyInput = document.createElement('input');
         apiKeyInput.type = 'password';
         apiKeyInput.autocomplete = 'off';
-        apiKeyInput.placeholder = 'sk-... / sk-ant-... / AIza...';
-        apiKeyInput.value = state.userApiKey;
+        apiKeyInput.placeholder = 'sk-...';
+        apiKeyInput.value = state.apiKey;
         apiKeyInput.addEventListener('change', function () {
-            state.userApiKey = String(apiKeyInput.value || '').trim();
+            state.apiKey = apiKeyInput.value.trim();
             saveConfig();
         });
         apiKeyLabel.appendChild(apiKeyInput);
@@ -1424,6 +1420,7 @@
         var payload = {
             prompt: question,
             question: question,
+            apiKey: state.apiKey,
             model: effectiveModel,
             selectedModel: selectedModel,
             maxTokens: state.maxTokens,
@@ -1441,9 +1438,6 @@
                 };
             })
         };
-        if (state.userApiKey) {
-            payload.apiKey = state.userApiKey;
-        }
 
         pushMessage('user', question, attachmentsSnapshot);
         if (refs.textarea) refs.textarea.value = '';
