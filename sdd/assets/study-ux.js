@@ -24,8 +24,11 @@
     let routePath = rawPath;
     if (routePath.startsWith('/')) routePath = routePath.slice(1);
     if (routePath.startsWith('api/')) routePath = routePath.slice(4);
-    if (isLocalContext() || window.location.hostname === 'architecture-stack.vercel.app') {
+    if (isLocalContext()) {
       return `/${routePath}`;
+    }
+    if (window.location.hostname === 'architecture-stack.vercel.app') {
+      return `/api/${routePath}`;
     }
     const q = routePath.indexOf('?');
     const basePath = q >= 0 ? routePath.slice(0, q) : routePath;
