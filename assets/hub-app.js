@@ -696,7 +696,7 @@
     if (routePath.startsWith('/api/')) routePath = routePath.slice(5);
     if (routePath.startsWith('api/')) routePath = routePath.slice(4);
     if (routePath.startsWith('/')) routePath = routePath.slice(1);
-    if (state.local) {
+    if (state.local || window.location.hostname === 'architecture-stack.vercel.app') {
       return `/${routePath}`;
     }
     const q = routePath.indexOf('?');

@@ -135,7 +135,7 @@
     if (routePath.startsWith('/')) routePath = routePath.slice(1);
     if (routePath.startsWith('api/')) routePath = routePath.slice(4);
 
-    if (isLocalContext()) {
+    if (isLocalContext() || window.location.hostname === 'architecture-stack.vercel.app') {
       return `/${routePath}`;
     }
 
