@@ -19,6 +19,8 @@ REQUIRED_FILES = [
     "android/curso-stack-my-architecture-android.html",
     "sdd/index.html",
     "sdd/curso-stack-my-architecture-sdd.html",
+    "governance/index.html",
+    "governance/curso-stack-my-architecture-governance.html",
 ]
 
 REQUIRED_SHARED_ASSETS = [
@@ -36,18 +38,21 @@ COURSE_META = {
     "ios/index.html": "stack-my-architecture-ios",
     "android/index.html": "stack-my-architecture-android",
     "sdd/index.html": "stack-my-architecture-sdd",
+    "governance/index.html": "stack-my-architecture-governance",
 }
 
 COURSE_HTMLS = {
     "ios": "curso-stack-my-architecture.html",
     "android": "curso-stack-my-architecture-android.html",
     "sdd": "curso-stack-my-architecture-sdd.html",
+    "governance": "curso-stack-my-architecture-governance.html",
 }
 
 SOURCE_REPOS = {
     "ios": PROJECTS_ROOT / "stack-my-architecture-ios",
     "android": PROJECTS_ROOT / "stack-my-architecture-android",
     "sdd": PROJECTS_ROOT / "stack-my-architecture-SDD",
+    "governance": PROJECTS_ROOT / "stack-my-architecture-governance",
 }
 
 ASSET_VERSION_RE = re.compile(
@@ -135,7 +140,7 @@ def main() -> int:
 
     try:
         root_index = read_text("index.html")
-        for href in ("./ios/index.html", "./android/index.html", "./sdd/index.html"):
+        for href in ("./ios/index.html", "./android/index.html", "./sdd/index.html", "./governance/index.html"):
             if href not in root_index:
                 errors.append(f"Root index missing course link: {href}")
     except Exception as exc:  # pragma: no cover - defensive

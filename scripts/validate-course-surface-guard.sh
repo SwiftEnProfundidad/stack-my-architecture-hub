@@ -31,6 +31,7 @@ COURSE_FILES = {
     "ios": "stack-my-architecture-ios",
     "android": "stack-my-architecture-android",
     "sdd": "stack-my-architecture-sdd",
+    "governance": "stack-my-architecture-governance",
 }
 
 ROOT_PAGE = hub_root / "index.html"
@@ -132,7 +133,7 @@ def collect_asset_versions_by_course() -> tuple[dict[str, dict[str, str]], dict[
 root_html = read_file(ROOT_PAGE, "hub")
 if root_html:
     assert_locale(root_html, "hub index")
-    for course in ("./ios/index.html", "./android/index.html", "./sdd/index.html"):
+    for course in ("./ios/index.html", "./android/index.html", "./sdd/index.html", "./governance/index.html"):
         if course not in root_html:
             fail(f"hub index: no contiene enlace público esperado -> {course}")
 
