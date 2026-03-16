@@ -3,7 +3,8 @@
     home: 'https://architecture-stack.vercel.app',
     ios: 'https://architecture-stack.vercel.app/ios/index.html',
     android: 'https://architecture-stack-android.vercel.app',
-    sdd: 'https://architecture-stack-sdd.vercel.app'
+    sdd: 'https://architecture-stack-sdd.vercel.app',
+    governance: 'https://architecture-stack.vercel.app/governance/index.html'
   };
   var AUTH_USER_KEY = 'sma:auth:user:v1';
   var AUTH_SESSION_KEY = 'sma:auth:session:v1';
@@ -14,6 +15,7 @@
     if (href.indexOf('/ios/') !== -1) return href.split('/ios/')[0];
     if (href.indexOf('/android/') !== -1) return href.split('/android/')[0];
     if (href.indexOf('/sdd/') !== -1) return href.split('/sdd/')[0];
+    if (href.indexOf('/governance/') !== -1) return href.split('/governance/')[0];
     return '';
   }
 
@@ -173,6 +175,14 @@
     ios.textContent = '📱 Curso iOS';
     android.textContent = '🤖 Curso Android';
     if (sdd) sdd.textContent = '🧠 Curso IA + SDD';
+
+    var menu = document.getElementById('course-switcher-menu');
+    if (menu) {
+      var governance = ensureMenuLink(menu, 'course-switcher-governance');
+      governance.href = resolveCourseLink('/governance/index.html', REMOTE_LINKS.governance, syncParams);
+      governance.textContent = '🏛️ Curso Governance';
+    }
+
     setAuthLinks(syncParams);
   }
 
