@@ -150,7 +150,9 @@
     return toApiUrl(`api/auth-sync?route=${encodeURIComponent(String(route || ''))}`);
   }
 
-  async function call(route, method, body, accessToken) {
+  var _refreshPromise = null;
+
+  async function callOnce(route, method, body, accessToken) {
     const headers = {};
     if (body) headers['Content-Type'] = 'application/json';
     const resolvedAccessToken = normalizeToken(accessToken);
@@ -169,6 +171,26 @@
       throw error;
     }
     return payload;
+  }
+
+  async function call(route, method, body, accessToken) {
+    try {
+      return await callOnce(route, method, body, accessToken);
+    } catch (firstError) {
+      if (firstError.statusCode !== 401 || route === 'refresh') throw firstError;
+      if (!_refreshPromise) {
+        _refreshPromise = refresh().finally(function () { _refreshPromise = null; });
+      }
+      try {
+        await _refreshPromise;
+      } catch (_refreshError) {
+        clearAuth();
+        throw firstError;
+      }
+      const newSession = getSession();
+      const newToken = normalizeToken(newSession && newSession.accessToken || '');
+      return await callOnce(route, method, body, newToken || accessToken);
+    }
   }
 
   async function config() {

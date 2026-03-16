@@ -617,8 +617,9 @@
   async function requestJson(url, options) {
     const settings = options || {};
     const headers = {};
+    const session = settings._session || (state.auth && state.auth.session);
     if (settings.auth) {
-      if (!withAuthHeader(headers, state.auth.session)) {
+      if (!withAuthHeader(headers, session)) {
         const error = new Error('No hay sesión activa.');
         error.statusCode = 401;
         throw error;
@@ -629,6 +630,18 @@
     if (!response.ok || !payload || payload.ok === false) {
       const error = new Error(payload && payload.error ? payload.error : `Error ${response.status}`);
       error.statusCode = response.status;
+      if (error.statusCode === 401 && settings.auth && !settings._retried) {
+        const smaAuth = window.SMAAuth;
+        if (smaAuth && typeof smaAuth.refresh === 'function') {
+          try {
+            await smaAuth.refresh();
+            const newSession = typeof smaAuth.getSession === 'function' ? smaAuth.getSession() : null;
+            return await requestJson(url, Object.assign({}, settings, { _session: newSession, _retried: true }));
+          } catch (_refreshError) {
+            if (typeof smaAuth.clearAuth === 'function') smaAuth.clearAuth();
+          }
+        }
+      }
       throw error;
     }
     return payload;
