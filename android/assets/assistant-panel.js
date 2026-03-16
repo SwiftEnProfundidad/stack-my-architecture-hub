@@ -6,6 +6,7 @@
     var KEY_MAX_TOKENS = STORAGE_PREFIX + 'max_tokens';
     var KEY_PROXY_BASE = STORAGE_PREFIX + 'proxy_base';
     var KEY_DAILY_BUDGET = STORAGE_PREFIX + 'daily_budget_usd';
+    var KEY_API_KEY = STORAGE_PREFIX + 'api_key';
 
     var VISION_FALLBACK_MODEL = 'gpt-4o-mini';
     var MEMORY_RECENT_LIMIT = 8;
@@ -26,6 +27,7 @@
         maxTokens: Number(localStorage.getItem(KEY_MAX_TOKENS) || 600),
         maxTokensCap: 8192,
         proxyBase: normalizeProxyBase(localStorage.getItem(KEY_PROXY_BASE) || defaultProxyBase()),
+        userApiKey: localStorage.getItem(KEY_API_KEY) || '',
         queryPath: '/assistant/query',
         messages: readMessages(),
         pendingAttachments: [],
@@ -215,6 +217,11 @@
         localStorage.setItem(KEY_MAX_TOKENS, String(state.maxTokens));
         localStorage.setItem(KEY_PROXY_BASE, state.proxyBase);
         localStorage.setItem(KEY_DAILY_BUDGET, String(state.softDailyBudgetUsd));
+        if (state.userApiKey) {
+            localStorage.setItem(KEY_API_KEY, state.userApiKey);
+        } else {
+            localStorage.removeItem(KEY_API_KEY);
+        }
     }
 
     function setOpen(isOpen) {
@@ -317,10 +324,24 @@
         });
         proxyLabel.appendChild(proxyInput);
 
+        var apiKeyLabel = document.createElement('label');
+        apiKeyLabel.textContent = 'API key (OpenAI / Anthropic / Gemini)';
+        var apiKeyInput = document.createElement('input');
+        apiKeyInput.type = 'password';
+        apiKeyInput.autocomplete = 'off';
+        apiKeyInput.placeholder = 'sk-... / sk-ant-... / AIza...';
+        apiKeyInput.value = state.userApiKey;
+        apiKeyInput.addEventListener('change', function () {
+            state.userApiKey = String(apiKeyInput.value || '').trim();
+            saveConfig();
+        });
+        apiKeyLabel.appendChild(apiKeyInput);
+
         grid.appendChild(modelLabel);
         grid.appendChild(tokensLabel);
         grid.appendChild(dailyBudgetLabel);
         grid.appendChild(proxyLabel);
+        grid.appendChild(apiKeyLabel);
         config.appendChild(grid);
 
         var metricsBox = document.createElement('div');
@@ -1221,43 +1242,6 @@
             });
     }
 
-    function syncRuntimeConfig(options) {
-        var opts = options || {};
-        return ensureProxyBaseReachable()
-            .then(function (ok) {
-                if (!ok) return null;
-                return fetch(proxyUrl('/config/runtime'), {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        softDailyBudgetUsd: state.softDailyBudgetUsd
-                    })
-                });
-            })
-            .then(function (res) {
-                if (!res) return null;
-                if (!res.ok) throw new Error('HTTP ' + res.status);
-                return res.json();
-            })
-            .then(function (json) {
-                if (!json) return null;
-                var budget = normalizeBudgetValue(
-                    json.soft_daily_budget_usd ?? json.softDailyBudgetUsd,
-                    state.softDailyBudgetUsd
-                );
-                state.softDailyBudgetUsd = budget;
-                if (refs.dailyBudgetInput) refs.dailyBudgetInput.value = formatBudgetValue(budget);
-                saveConfig();
-                return json;
-            })
-            .catch(function () {
-                if (!opts.silent) {
-                    setStatus('No se pudo actualizar el presupuesto diario en el proxy.', 'warning');
-                }
-                return null;
-            });
-    }
-
     function fetchBridgeConfig() {
         return ensureProxyBaseReachable()
             .then(function (ok) {
@@ -1457,6 +1441,9 @@
                 };
             })
         };
+        if (state.userApiKey) {
+            payload.apiKey = state.userApiKey;
+        }
 
         pushMessage('user', question, attachmentsSnapshot);
         if (refs.textarea) refs.textarea.value = '';

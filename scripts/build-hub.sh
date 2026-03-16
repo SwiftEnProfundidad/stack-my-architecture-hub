@@ -314,6 +314,12 @@ if [[ "$GOVERNANCE_BUILD_ENABLED" -eq 1 && -f "$HUB_ROOT/governance/curso-stack-
   cp "$HUB_ROOT/governance/curso-stack-my-architecture-governance.html" "$HUB_ROOT/governance/index.html"
 fi
 
+# Governance has no source assets — copy shared assets from ios (already built at this point)
+if [[ "$GOVERNANCE_BUILD_ENABLED" -eq 1 && -d "$HUB_ROOT/ios/assets" ]]; then
+  mkdir -p "$HUB_ROOT/governance/assets"
+  cp -R "$HUB_ROOT/ios/assets/." "$HUB_ROOT/governance/assets/"
+fi
+
 if [[ ! -x "$PATCH_STUDY_UX_RUNTIME_SCRIPT" ]]; then
   echo "[ERROR] Missing or non-executable study UX patch script: $PATCH_STUDY_UX_RUNTIME_SCRIPT"
   exit 1

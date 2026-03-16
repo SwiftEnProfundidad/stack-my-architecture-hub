@@ -1977,6 +1977,8 @@
       if (state.ready) return;
       state.ready = true;
       if (isLocalContext()) {
+        state.fullAccess = true;
+        state.mode = 'active';
         renderBanner();
         updateLockedNavigation();
         return;
