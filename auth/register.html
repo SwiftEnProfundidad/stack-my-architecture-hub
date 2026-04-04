@@ -15,7 +15,8 @@
         <img class="logo" src="../assets/brand/pumuki-logo-neon.png" alt="PUMUKI" loading="lazy" decoding="async" />
         <div>
           <h1>Crear cuenta</h1>
-          <p class="lead">Registro con email y contraseña. Confirmación de email soportada por Supabase Auth.</p>
+          <p class="lead">Crea tu cuenta gratuita y accede a progreso sincronizado, modo entrevista técnica y todo el
+            material del curso.</p>
         </div>
       </div>
 
@@ -33,9 +34,10 @@
           <input id="password2" name="password2" type="password" autocomplete="new-password" minlength="8" required />
         </div>
         <div class="row">
-          <button class="btn btn-primary" type="submit">Crear cuenta</button>
+          <button id="register-submit" class="btn btn-primary" type="submit">Crear cuenta</button>
+        </div>
+        <div class="row">
           <a id="register-nav-login" class="btn" href="./login.html">Ya tengo cuenta</a>
-          <a id="register-nav-index" class="btn" href="./index.html">Volver</a>
         </div>
       </form>
 
@@ -51,11 +53,11 @@
   <script>
     (function () {
       var form = document.getElementById('register-form');
+      var submitBtn = document.getElementById('register-submit');
       var resendBtn = document.getElementById('resend-btn');
       var msg = document.getElementById('msg');
       var pendingEmail = '';
       var loginLink = document.getElementById('register-nav-login');
-      var indexLink = document.getElementById('register-nav-index');
 
       function setMessage(text, type) {
         msg.textContent = text || '';
@@ -108,7 +110,6 @@
       function applyNavigationTargets() {
         var nextTarget = readNextTarget();
         if (loginLink) loginLink.href = withNext('./login.html', nextTarget);
-        if (indexLink) indexLink.href = withNext('./index.html', nextTarget);
       }
 
       function resolvePostLoginTarget() {
@@ -145,14 +146,15 @@
         var password2 = form.password2.value;
 
         if (!email || !password) {
-          setMessage('Completa email y contraseña.', 'error');
+          setMessage('Completa el email y la contraseña.', 'error');
           return;
         }
         if (password !== password2) {
-          setMessage('Las contraseñas no coinciden.', 'error');
+          setMessage('Las contraseñas no coinciden. Compruébalas e inténtalo de nuevo.', 'error');
           return;
         }
 
+        if (submitBtn) submitBtn.setAttribute('aria-busy', 'true');
         try {
           var result = await window.SMAAuth.signup({
             email: email,
@@ -163,16 +165,18 @@
           if (result.requiresEmailConfirmation) {
             pendingEmail = email;
             resendBtn.disabled = false;
-            setMessage('Cuenta creada. Revisa tu email para confirmar antes de iniciar sesión.', 'ok');
+            if (submitBtn) submitBtn.removeAttribute('aria-busy');
+            setMessage('Cuenta creada. Revisa tu email para confirmar y luego inicia sesión.', 'ok');
             return;
           }
 
-          setMessage('Registro completado y sesión iniciada. Redirigiendo...', 'ok');
+          setMessage('Cuenta lista. Redirigiendo...', 'ok');
           setTimeout(function () {
             window.location.href = resolvePostLoginTarget();
           }, 600);
         } catch (error) {
-          setMessage(error && error.message ? error.message : 'No se pudo completar el registro.', 'error');
+          if (submitBtn) submitBtn.removeAttribute('aria-busy');
+          setMessage(error && error.message ? error.message : 'No se pudo crear la cuenta. Inténtalo de nuevo.', 'error');
         }
       });
 

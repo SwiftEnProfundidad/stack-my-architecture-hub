@@ -15,7 +15,7 @@
         <img class="logo" src="../assets/brand/pumuki-logo-neon.png" alt="PUMUKI" loading="lazy" decoding="async" />
         <div>
           <h1>Iniciar sesión</h1>
-          <p class="lead">Accede para sincronizar progreso y repaso por usuario en cloud.</p>
+          <p class="lead">Accede a tu plan de estudio, progreso y modo entrevista técnica.</p>
         </div>
       </div>
 
@@ -29,17 +29,14 @@
           <input id="password" name="password" type="password" autocomplete="current-password" required />
         </div>
         <div class="row">
-          <button class="btn btn-primary" type="submit">Entrar</button>
-          <a id="login-nav-register" class="btn" href="./register.html">Crear cuenta</a>
-          <a id="login-nav-recover" class="btn" href="./recover.html">Recuperar contraseña</a>
-          <a id="login-nav-index" class="btn" href="./index.html">Volver</a>
+          <button id="login-submit" class="btn btn-primary" type="submit">Iniciar sesión</button>
+        </div>
+        <div class="row">
+          <a id="login-nav-register" class="btn" href="./register.html">Crear cuenta nueva</a>
+          <a id="login-nav-recover" class="btn" href="./recover.html">¿Olvidaste tu contraseña?</a>
         </div>
       </form>
 
-      <div id="session-state" class="state-box"></div>
-      <div class="row">
-        <button id="logout-btn" class="btn btn-danger" type="button">Cerrar sesión</button>
-      </div>
       <div id="msg"></div>
     </section>
   </main>
@@ -48,12 +45,10 @@
   <script>
     (function () {
       var form = document.getElementById('login-form');
-      var logoutBtn = document.getElementById('logout-btn');
-      var state = document.getElementById('session-state');
+      var submitBtn = document.getElementById('login-submit');
       var msg = document.getElementById('msg');
       var registerLink = document.getElementById('login-nav-register');
       var recoverLink = document.getElementById('login-nav-recover');
-      var indexLink = document.getElementById('login-nav-index');
 
       function setMessage(text, type) {
         msg.textContent = text || '';
@@ -118,7 +113,6 @@
         var nextTarget = readNextTarget();
         if (registerLink) registerLink.href = withNext('./register.html', nextTarget);
         if (recoverLink) recoverLink.href = withNext('./recover.html', nextTarget);
-        if (indexLink) indexLink.href = withNext('./index.html', nextTarget);
       }
 
       function resolvePostLoginTarget() {
@@ -177,6 +171,7 @@
       form.addEventListener('submit', async function (event) {
         event.preventDefault();
         setMessage('', '');
+        if (submitBtn) submitBtn.setAttribute('aria-busy', 'true');
         try {
           await window.SMAAuth.login({
             email: form.email.value.trim(),
@@ -187,26 +182,16 @@
           } catch (_error) {
             // Mantiene el login activo aunque me() falle por 401/403 transitorios.
           }
-          setMessage('Login correcto. Redirigiendo...', 'ok');
+          setMessage('Sesión iniciada. Redirigiendo...', 'ok');
           setTimeout(function () {
             window.location.href = resolvePostLoginTarget();
           }, 500);
         } catch (error) {
-          setMessage(error && error.message ? error.message : 'No se pudo iniciar sesión.', 'error');
+          if (submitBtn) submitBtn.removeAttribute('aria-busy');
+          setMessage(error && error.message ? error.message : 'No se pudo iniciar sesión. Comprueba tus datos.', 'error');
         }
       });
 
-      logoutBtn.addEventListener('click', async function () {
-        try {
-          await window.SMAAuth.logout();
-          setMessage('Sesión cerrada.', 'ok');
-        } catch (error) {
-          setMessage(error && error.message ? error.message : 'No se pudo cerrar sesión.', 'error');
-        }
-      });
-
-      window.addEventListener('sma:auth-changed', renderState);
-      renderState();
       applyNavigationTargets();
       consumeAuthHash();
     })();
