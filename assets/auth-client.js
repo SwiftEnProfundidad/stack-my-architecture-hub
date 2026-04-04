@@ -132,8 +132,9 @@
     if (!rawPath) return '/api/auth-sync';
 
     let routePath = rawPath;
-    if (routePath.startsWith('/')) routePath = routePath.slice(1);
+    if (routePath.startsWith('/api/')) routePath = routePath.slice(5);
     if (routePath.startsWith('api/')) routePath = routePath.slice(4);
+    if (routePath.startsWith('/')) routePath = routePath.slice(1);
 
     if (isLocalContext()) {
       return `/${routePath}`;

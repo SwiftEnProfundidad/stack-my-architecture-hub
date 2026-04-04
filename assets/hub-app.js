@@ -65,7 +65,6 @@
   const els = {
     authBar: document.getElementById('hub-auth-bar'),
     statusBox: document.getElementById('hub-status-box'),
-    accountCta: document.getElementById('hub-account-cta'),
     dashboardSection: document.getElementById('hub-dashboard-section'),
     dashboardKpis: document.getElementById('hub-dashboard-kpis'),
     dashboardCourses: document.getElementById('hub-dashboard-courses'),
