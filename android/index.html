@@ -41,17 +41,17 @@
   }
 })();
 </script>
-<link rel="stylesheet" href="assets/study-ux.css?v=3a299b1a1cd9">
-<link rel="stylesheet" href="assets/course-switcher.css?v=3a299b1a1cd9">
-<link rel="stylesheet" href="assets/assistant-panel.css?v=3a299b1a1cd9">
-<script>window.__SMA_ASSISTANT_PANEL_SRC = "assets/assistant-panel.js?v=3a299b1a1cd9";</script>
+<link rel="stylesheet" href="assets/study-ux.css?v=de1b219983ee">
+<link rel="stylesheet" href="assets/course-switcher.css?v=de1b219983ee">
+<link rel="stylesheet" href="assets/assistant-panel.css?v=de1b219983ee">
+<script>window.__SMA_ASSISTANT_PANEL_SRC = "assets/assistant-panel.js?v=de1b219983ee";</script>
 <script>window.__SMA_MERMAID_SRC = "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js";</script>
 <script>window.__SMA_HLJS_CORE_SRC = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js";</script>
 <script>window.__SMA_HLJS_LANG_SRC = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/kotlin.min.js";</script>
-<script defer src="assets/study-ux.js?v=3a299b1a1cd9"></script>
-<script defer src="assets/course-switcher.js?v=3a299b1a1cd9"></script>
-<script defer src="assets/theme-controls.js?v=3a299b1a1cd9"></script>
-<script defer src="assets/assistant-bridge.js?v=3a299b1a1cd9"></script>
+<script defer src="assets/study-ux.js?v=de1b219983ee"></script>
+<script defer src="assets/course-switcher.js?v=de1b219983ee"></script>
+<script defer src="assets/theme-controls.js?v=de1b219983ee"></script>
+<script defer src="assets/assistant-bridge.js?v=de1b219983ee"></script>
 
 <!-- Google Fonts - Inter -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -2560,6 +2560,24 @@ sealed interface CatalogEvent {
 }</code></pre>
 <p>Vamos línea por línea para fijar criterio. <code>CatalogUiState</code> es una foto de la pantalla. <code>isLoading</code> indica si está cargando. <code>items</code> guarda la lista visible. <code>errorMessage</code> guarda un error opcional. En eventos, <code>OnScreenStarted</code> expresa que la pantalla arrancó. <code>OnRetryClicked</code> expresa que el usuario quiere reintentar.</p>
 <p>Este diseño parece simple, y justamente por eso es robusto. Cuando el equipo crece, todos hablan el mismo idioma: estado y eventos. No hay banderas escondidas en sitios aleatorios.</p>
+<p><strong>Atención: el estado con booleanos sueltos permite combinaciones imposibles.</strong> Con <code>isLoading</code>, <code>items</code> y <code>errorMessage</code> como campos independientes, nada impide que el compilador cree un estado inconsistente:</p>
+<pre><code class="language-kotlin">// ❌ Estado imposible pero compilable — ¿qué muestra la UI?
+CatalogUiState(
+    isLoading = true,
+    items = listOf("Kotlin"),  // ¿Cargando Y con datos?
+    errorMessage = "Sin conexión" // ¿Cargando Y con error?
+)
+
+// ✅ A medida que la pantalla crece, considera un sealed class para forzar exclusividad:
+sealed interface CatalogUiState {
+    data object Loading : CatalogUiState
+    data class Success(val items: List&lt;String&gt;) : CatalogUiState
+    data object Empty : CatalogUiState
+    data class Error(val message: String) : CatalogUiState
+}
+// Con sealed class, el compilador exige manejar cada caso en un `when` exhaustivo.
+// Imposible estar en Loading y Error al mismo tiempo.</code></pre>
+<p>Para Junior es aceptable empezar con el <code>data class</code> de booleanos — es más fácil de leer. Migra al <code>sealed interface</code> cuando la pantalla tenga 3 o más estados diferenciados y las combinaciones imposibles empiecen a introducir bugs.</p>
 <p>Ahora observa cómo se conecta con un ViewModel inicial.</p>
 <pre><code class="language-kotlin">class CatalogViewModel(
     private val repository: CatalogRepository
@@ -2606,18 +2624,67 @@ sealed interface CatalogEvent {
     }
 }</code></pre>
 <p>En este punto quizá te preguntes: ¿dónde entra la capa Domain opcional? Respuesta simple. Entra cuando empiezas a tener reglas de negocio que se repiten entre pantallas o que necesitan aislarse de detalles técnicos.</p>
-<p>Por ejemplo, si varias pantallas necesitan aplicar la misma regla de filtrado o priorización, puedes crear un caso de uso en Domain. Así evitas duplicación y mantienes lógica de negocio en un sitio claro.</p>
-<p>Un caso de uso opcional de ejemplo sería este.</p>
-<pre><code class="language-kotlin">class GetCatalogUseCase(
-    private val repository: CatalogRepository
-) {
-    suspend operator fun invoke(): List&lt;String&gt; {
-        return repository.getCatalog().sorted()
+<pre><code class="language-kotlin">// ❌ Sin Domain: la regla de ordenar/filtrar vive en el ViewModel
+// Si dos ViewModels necesitan la misma regla, la duplican
+class CatalogViewModel(private val repository: CatalogRepository) : ViewModel() {
+    private fun loadCatalog() {
+        viewModelScope.launch {
+            val items = repository.getCatalog().sorted() // regla duplicada en cada ViewModel
+            _uiState.value = CatalogUiState(items = items)
+        }
     }
+}
+
+class SearchViewModel(private val repository: CatalogRepository) : ViewModel() {
+    fun search(query: String) {
+        viewModelScope.launch {
+            val items = repository.getCatalog()
+                .sorted()           // misma regla duplicada
+                .filter { it.contains(query, ignoreCase = true) }
+            _uiState.value = SearchUiState(results = items)
+        }
+    }
+}
+
+// ✅ Con Domain: la regla vive en un UseCase reutilizable
+class GetCatalogUseCase(private val repository: CatalogRepository) {
+    suspend operator fun invoke(): List&lt;String&gt; =
+        repository.getCatalog().sorted()
+    // CatalogViewModel y SearchViewModel usan el mismo UseCase.
+    // Si mañana cambia la regla de ordenación, cambias un solo sitio.
 }</code></pre>
-<p>No lo añadimos por moda. Lo añadimos cuando aporta valor real.</p>
+<p>La señal para añadir Domain es concreta: cuando copies y pegues la misma lógica entre dos ViewModels, extráela a un UseCase. No lo añadas antes — la simplicidad tiene valor.</p>
 <p>Ahora vamos a aterrizar buenas prácticas que debes llevarte desde hoy. La primera es mantener composables tontos y ViewModels listos. Composable debe renderizar estado y emitir eventos. ViewModel debe procesar eventos y transformar estado.</p>
 <p>La segunda es evitar que errores de infraestructura lleguen crudos a UI. UI no necesita stacktrace. UI necesita mensajes entendibles y estados consistentes.</p>
+<pre><code class="language-kotlin">// ❌ Error de red crudo llegando a UI — el usuario ve algo sin sentido
+.onFailure { error -&gt;
+    _uiState.value = CatalogUiState(errorMessage = error.message)
+    // error.message puede ser: "Unable to resolve host 'api.example.com': No address..."
+    // o null, o un stacktrace. El usuario no sabe qué hacer con eso.
+}
+
+// ✅ El repositorio traduce el error técnico a semántica de negocio
+class CatalogRepositoryImpl : CatalogRepository {
+    override suspend fun getCatalog(): List&lt;String&gt; {
+        return try {
+            api.fetchCatalog()
+        } catch (e: IOException) {
+            throw CatalogException.NoConnection  // error de negocio, no de red
+        } catch (e: HttpException) {
+            throw CatalogException.ServiceUnavailable
+        }
+    }
+}
+
+// El ViewModel maneja excepciones de negocio, no técnicas:
+.onFailure { error -&gt;
+    val message = when (error) {
+        is CatalogException.NoConnection -&gt; "Sin conexión. Inténtalo de nuevo."
+        is CatalogException.ServiceUnavailable -&gt; "El servicio no está disponible."
+        else -&gt; "Error inesperado."
+    }
+    _uiState.value = CatalogUiState(errorMessage = message)
+}</code></pre>
 <p>La tercera es no mezclar navegación con lógica de negocio. Navegación en capa de navegación. Lógica en ViewModel y repositorios.</p>
 <p>La cuarta es diseñar para test. Si tu ViewModel depende de una interfaz de repositorio, testear se vuelve directo.</p>
 <p>Cerramos con una mini práctica guiada para fijar todo. Crea una feature pequeña llamada <code>tasks</code>. Define <code>TasksUiState</code> con loading, lista y error. Define <code>TasksEvent</code> con iniciar y reintentar. Crea <code>TasksViewModel</code> con <code>onEvent</code>. Crea contrato <code>TasksRepository</code>. Haz implementación simple con lista estática. Conecta desde Compose mostrando loading, lista o error. Si puedes explicar verbalmente el flujo de evento a estado, vas perfecto.</p>
@@ -2775,6 +2842,45 @@ class ProfileViewModel(
     }
 }</code></pre>
 <p>Explicación paso a paso. El ViewModel recibe el repositorio por constructor. Mantiene un estado privado mutable y lo expone como solo lectura. Recibe eventos con <code>onEvent</code>. Tanto al iniciar pantalla como al pulsar reintentar ejecuta la misma función <code>loadTasks</code>. Durante carga activa <code>isLoading</code>. Si todo va bien, publica tareas. Si falla, publica error.</p>
+<p><strong>Atención: <code>throwable.message</code> no es un mensaje de usuario.</strong> El campo <code>.message</code> de una excepción es texto técnico, puede ser nulo o estar en inglés. Si llega directamente a <code>errorMessage</code>, la pantalla mostrará texto que el usuario no entiende.</p>
+<pre><code class="language-kotlin">// ❌ Error técnico llegando crudo a la UI
+.onFailure { throwable -&gt;
+    _uiState.value = TasksUiState(
+        isLoading = false,
+        errorMessage = throwable.message ?: "No se pudieron cargar las tareas"
+        // throwable.message puede ser: "timeout", null, o un stack técnico.
+        // El fallback manual cubre el caso nulo pero no el mensaje técnico.
+    )
+}
+
+// ✅ El repositorio traduce errores técnicos a semántica de negocio
+class TasksRepositoryImpl(private val api: TasksApi) : TasksRepository {
+    override suspend fun getTasks(): List&lt;String&gt; {
+        return try {
+            api.fetchTasks()
+        } catch (e: IOException) {
+            throw TasksException.NoConnection
+        } catch (e: HttpException) {
+            throw TasksException.ServiceUnavailable
+        }
+    }
+}
+
+sealed class TasksException : Exception() {
+    data object NoConnection      : TasksException()
+    data object ServiceUnavailable : TasksException()
+}
+
+// El ViewModel maneja tipos de negocio, no excepciones técnicas:
+.onFailure { error -&gt;
+    val message = when (error) {
+        is TasksException.NoConnection       -&gt; "Sin conexión. Comprueba tu red."
+        is TasksException.ServiceUnavailable -&gt; "El servicio no está disponible ahora."
+        else                                 -&gt; "Error inesperado. Inténtalo de nuevo."
+    }
+    _uiState.value = TasksUiState(isLoading = false, errorMessage = message)
+}</code></pre>
+<p>En la práctica inicial con <code>TasksRepositoryImpl</code> de datos estáticos esto no se aplica porque nunca lanza excepciones. El patrón importa en cuanto conectas a red o base de datos real.</p>
 <p>Ahora conectamos la pantalla Compose con ese estado.</p>
 <pre><code class="language-kotlin">@Composable
 fun TasksScreen(
@@ -3378,6 +3484,27 @@ object TasksModule {
 <p>Qué problema resuelve: centraliza construcción de dependencias.</p>
 <p>Qué pasa si se elimina: Hilt no sabrá cómo construir <code>TasksRepository</code>.</p>
 <p>Qué pasa si cambias retorno por tipo incorrecto: fallará resolución de dependencia.</p>
+<p><strong>Atención: <code>@Provides</code> sin <code>@Singleton</code> crea una nueva instancia en cada inyección.</strong> Esto pasa desapercibido con repositorios sin estado, pero provoca errores difíciles de rastrear en cuanto el repositorio guarda caché, abre una conexión a Room o mantiene cualquier estado interno.</p>
+<pre><code class="language-kotlin">// ❌ Sin @Singleton — cada componente que pida TasksRepository recibe
+// una instancia distinta. Si el repositorio guarda caché local, la caché
+// no se comparte y los consumidores ven datos divergentes.
+@Module
+@InstallIn(SingletonComponent::class)
+object TasksModule {
+    @Provides
+    fun provideTasksRepository(): TasksRepository = TasksRepositoryImpl()
+}
+
+// ✅ Con @Singleton — el contenedor crea la instancia una vez y la
+// reutiliza durante toda la vida del SingletonComponent (la app).
+@Module
+@InstallIn(SingletonComponent::class)
+object TasksModule {
+    @Provides
+    @Singleton
+    fun provideTasksRepository(): TasksRepository = TasksRepositoryImpl()
+}</code></pre>
+<p>Regla general: si instalas en <code>SingletonComponent</code>, añade <code>@Singleton</code> al proveedor. Si instalas en <code>ViewModelComponent</code> o <code>ActivityRetainedComponent</code>, usa el scope correspondiente (<code>@ViewModelScoped</code>).</p>
 <hr>
 <h2 id="01-junior-04-hilt-integracion-inicial-6-paso-4-inyectar-en-viewmodel">6) Paso 4 · Inyectar en ViewModel</h2>
 <p>Código:</p>
@@ -3719,6 +3846,44 @@ fun Task.toEntity(now: Long): TaskEntity {
 <p>Qué problema resuelve: UI observa una fuente estable local.</p>
 <p>Qué pasa si eliminas <code>map</code>: capa superior recibiría entidades de DB y se acoplaría.</p>
 <p>Qué pasa si eliminas <code>clearAll</code> en estrategia de reemplazo total: podrías dejar basura local según caso.</p>
+<hr>
+<h2 id="01-junior-05-room-offline-first-7b-conectar-room-con-hilt">7b) Conectar Room con Hilt</h2>
+<p>Esta pieza suele faltar en tutoriales: sin un módulo Hilt que provea <code>AppDatabase</code> y <code>TasksDao</code>, no puedes inyectar el DAO en <code>TasksRepositoryRoom</code>.</p>
+<pre><code class="language-kotlin">@Module
+@InstallIn(SingletonComponent::class)
+object DatabaseModule {
+
+    // @Singleton es obligatorio: Room crea la conexión a SQLite una sola vez.
+    // Sin @Singleton, cada inyección abriría una nueva instancia de DB.
+    @Provides
+    @Singleton
+    fun provideAppDatabase(
+        @ApplicationContext context: Context
+    ): AppDatabase {
+        return Room.databaseBuilder(
+            context,
+            AppDatabase::class.java,
+            "app_database"
+        ).build()
+    }
+
+    // @Provides sin @Singleton está bien aquí: TasksDao no tiene estado propio,
+    // solo delega en la DB. La DB sigue siendo singleton.
+    @Provides
+    fun provideTasksDao(db: AppDatabase): TasksDao = db.tasksDao()
+}
+
+// Repositorio inyectado con el DAO ya disponible:
+@Module
+@InstallIn(SingletonComponent::class)
+object TasksDataModule {
+    @Provides
+    @Singleton
+    fun provideTasksRepository(dao: TasksDao): TasksRepository =
+        TasksRepositoryRoom(dao)
+}</code></pre>
+<p>Qué problema resuelve: <code>@Singleton</code> en <code>AppDatabase</code> garantiza una única conexión a SQLite. Varias instancias pueden causar lecturas inconsistentes o incluso bloqueos de escritura.</p>
+<p>Qué pasa si olvidas <code>@Singleton</code> en <code>AppDatabase</code>: Hilt crea una conexión nueva en cada punto de inyección — lento, costoso y propenso a bugs de concurrencia.</p>
 <hr>
 <h2 id="01-junior-05-room-offline-first-8-integraci-n-con-viewmodel-y-ui">8) Integración con ViewModel y UI</h2>
 <p>ViewModel debe exponer <code>StateFlow</code> y la UI debe colectar lifecycle-aware.</p>
@@ -4208,6 +4373,37 @@ class UserPreferencesRepositoryImpl(
 <p>No uses WorkManager para animaciones, validaciones instantáneas de formulario o acciones que el usuario espera ver en milisegundos mientras está en una pantalla concreta.</p>
 <p>Para eso, usa lógica normal de UI/ViewModel.</p>
 <p>WorkManager está para trabajo que debe sobrevivir a cierres, reinicios o cambios de estado del sistema.</p>
+<pre><code class="language-kotlin">// ❌ WorkManager para trabajo inmediato — innecesariamente pesado
+//    El usuario pulsa "Guardar" y espera respuesta al instante.
+//    Encolar una petición de WorkManager introduce latencia y
+//    complejidad que no aporta nada aquí.
+fun onSaveButtonClicked(task: Task) {
+    val request = OneTimeWorkRequestBuilder&lt;SaveTaskWorker&gt;()
+        .setInputData(workDataOf("id" to task.id))
+        .build()
+    workManager.enqueue(request)
+    // El usuario no sabrá cuándo terminó; no hay resultado directo.
+}
+
+// ✅ Corrutina de ViewModel para trabajo que el usuario necesita ahora
+fun onSaveButtonClicked(task: Task) {
+    viewModelScope.launch {
+        runCatching { repository.saveTask(task) }
+            .onSuccess { _uiState.value = _uiState.value.copy(isSaved = true) }
+            .onFailure { _uiState.value = _uiState.value.copy(errorMessage = "No se pudo guardar") }
+    }
+    // Respuesta inmediata: UI refleja resultado en el mismo evento del usuario.
+}
+
+// ✅ WorkManager para trabajo que sobrevive al cierre de la app
+//    El usuario sube fotos en background; da igual si cierra la app.
+fun schedulePhotoUpload(photoId: String) {
+    val request = OneTimeWorkRequestBuilder&lt;UploadPhotoWorker&gt;()
+        .setInputData(workDataOf("photo_id" to photoId))
+        .setConstraints(Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build())
+        .build()
+    workManager.enqueueUniqueWork("upload_$photoId", ExistingWorkPolicy.KEEP, request)
+}</code></pre>
 <hr>
 <h2 id="01-junior-07-workmanager-tareas-persistentes-3-diagrama-de-flujo-de-ejecuci-n">3) Diagrama de flujo de ejecución</h2>
 <div class="sma-mermaid-block">
@@ -4751,42 +4947,6 @@ class TasksEmptyContentTest {
   <li><span class="sma-inline-arrow-chip" role="img" aria-label="Flecha de arquitectura"><svg class="sma-legend-arrow dashed-closed" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg></span> wiring y configuración de ensamblado.</li>
   <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span>dependencia contra contrato/abstracción.</span></li>
   <li><span class="sma-inline-arrow-chip" role="img" aria-label="Flecha de arquitectura"><svg class="sma-legend-arrow solid-open" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg></span> salida/propagación desde implementación concreta.</li>
-</ol>
-<h2 id="01-junior-08-compose-ui-testing-semantica-de-flechas-aplicada-a-esta-arquitectura">Semantica de flechas aplicada a esta arquitectura</h2>
-<div class="sma-mermaid-block">
-<div class="sma-mermaid-legend" role="note" aria-label="Leyenda de flechas para diagramas de arquitectura"><p class="sma-mermaid-legend-title">Leyenda de flechas</p><div class="sma-mermaid-legend-grid"><span class="sma-mermaid-legend-item"><svg class="sma-legend-arrow direct-closed" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg>Dependencia directa (runtime)</span><span class="sma-mermaid-legend-item"><svg class="sma-legend-arrow dashed-closed" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg>Wiring / configuracion</span><span class="sma-mermaid-legend-item"><svg class="sma-legend-arrow contract-open" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg>Contrato / abstraccion</span><span class="sma-mermaid-legend-item"><svg class="sma-legend-arrow solid-open" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg>Salida / propagacion</span></div></div>
-<pre class="mermaid">flowchart LR
-    subgraph APP[&quot;App module&quot;]
-        APPROOT[&quot;AppRoot + Hilt&quot;]
-        DI[&quot;Dependency graph&quot;]
-    end
-
-    subgraph FEATURE[&quot;Feature module&quot;]
-        UI[&quot;FeatureScreen&quot;]
-        VM[&quot;FeatureViewModel&quot;]
-        PORT[&quot;FeaturePort (interface)&quot;]
-    end
-
-    subgraph DATA[&quot;Data/Infra module&quot;]
-        IMPL[&quot;FeatureAdapterImpl&quot;]
-        LOCAL[&quot;LocalDataSource&quot;]
-    end
-
-    APPROOT -.-&gt; DI
-    DI -.-&gt; IMPL
-    UI --&gt; VM
-    VM -.-&gt; PORT
-    IMPL --&gt; PORT
-    IMPL --&gt; LOCAL</pre>
-</div>
-<p>Lectura semantica minima de este diagrama:</p>
-<ol>
-  
-  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow direct-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span><span class="sma-inline-arrow-chip" role="img" aria-label="Flecha de arquitectura"><svg class="sma-legend-arrow direct-closed" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg></span> dependencia directa en runtime.</span></li>
-  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow dashed-closed sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg><span><span class="sma-inline-arrow-chip" role="img" aria-label="Flecha de arquitectura"><svg class="sma-legend-arrow dashed-closed" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polygon points="30,2 38,6 30,10"></polygon></svg></span> wiring y configuracion de ensamblado.</span></li>
-  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow contract-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span><span class="sma-inline-arrow-chip" role="img" aria-label="Flecha de arquitectura"><svg class="sma-legend-arrow contract-open" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg></span> dependencia contra contrato/abstraccion.</span></li>
-  <li class="sma-semantic-arrow-item"><svg class="sma-legend-arrow solid-open sma-semantic-arrow-icon" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg><span><span class="sma-inline-arrow-chip" role="img" aria-label="Flecha de arquitectura"><svg class="sma-legend-arrow solid-open" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="30" y2="6"></line><polyline points="30,2 38,6 30,10"></polyline></svg></span> salida/propagacion desde implementacion concreta.</span></li>
-
 </ol>
 </section>
 <section id="01-junior-09-pruebas-unitarias-viewmodel-repositorio" class="lesson" data-topic-id="01-junior-09-pruebas-unitarias-viewmodel-repositorio" data-lesson-path="01-junior/09-pruebas-unitarias-viewmodel-repositorio.md">
