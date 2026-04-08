@@ -5222,6 +5222,73 @@ struct Session: Equatable, Sendable {
 <p>Todo es inmutable, <code>Sendable</code>, <code>Equatable</code>, y no importa nada externo (salvo Foundation para el trimming del email). Todo está cubierto por tests XCTest escritos antes del código de producción. Y todo usa los términos del lenguaje ubicuo que definimos en la especificación BDD.</p>
 <p>En la siguiente lección vamos a subir una capa: la Application. Allí construiremos el caso de uso <code>LoginUseCase</code> que orquesta todo el flujo de login, usando los Value Objects del Domain para validación local y un puerto (protocolo) para delegar la autenticación remota.</p>
 <hr>
+<h2 id="01-fundamentos-05-feature-login-01-domain-checkpoint-xcode-domain-en-el-proyecto-real">🔨 Checkpoint Xcode — Domain en el proyecto real</h2>
+<p>Has implementado el Domain completo en tu práctica TDD. Ahora lo ves funcionar en el proyecto Swift real. Este es el primer momento en que tu aprendizaje se materializa en código que compila, tiene tests en verde y vive en una arquitectura de producción.</p>
+<p><strong>Paso 1 — Abre el scaffold en Xcode</strong></p>
+<p>Desde la raíz del repositorio del curso:</p>
+<pre><code class="language-bash">open apps/ios/ArchitectureKit/Package.swift</code></pre>
+<p>Xcode abrirá el paquete con los 13 targets del proyecto. Espera a que indexe — puede tardar un minuto la primera vez.</p>
+<p><strong>Paso 2 — Localiza el módulo <code>FeatureLoginDomain</code></strong></p>
+<p>En el navigator de Xcode, dentro de <code>Sources/FeatureLoginDomain/</code>, encontrarás exactamente los tipos que acabas de construir, con las adaptaciones que describe la tabla de equivalencias del inicio de esta lección:</p>
+<table>
+<thead>
+<tr>
+  <th>Tu implementación (lección)</th>
+  <th>Scaffold (<code>FeatureLoginDomain/</code>)</th>
+  <th>Diferencia clave</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>Email</code></td>
+  <td><code>EmailAddress.swift</code></td>
+  <td>Nombre + valida dominio con punto</td>
+</tr>
+<tr>
+  <td><code>Password</code> (valida <code>!isEmpty</code>)</td>
+  <td><code>Password.swift</code></td>
+  <td>Regla más estricta: mínimo 8 caracteres</td>
+</tr>
+<tr>
+  <td><code>Credentials</code></td>
+  <td><code>Credentials.swift</code></td>
+  <td>Mismo diseño</td>
+</tr>
+<tr>
+  <td><code>Session(token:, email:)</code></td>
+  <td><code>UserSession.swift</code></td>
+  <td>Campo <code>userId</code> en lugar de <code>email</code></td>
+</tr>
+<tr>
+  <td><code>AuthError</code> + <code>Email.ValidationError</code></td>
+  <td><code>LoginError.swift</code></td>
+  <td>Enum unificado con 4 casos</td>
+</tr>
+<tr>
+  <td><code>LoginEvent</code></td>
+  <td>_(no existe)_</td>
+  <td>El ViewModel lo gestiona directamente</td>
+</tr>
+</tbody>
+</table>
+<p>Abre cada archivo. Lee el código. Entiende cada diferencia — no son errores del scaffold, son decisiones de diseño explicadas al inicio de la lección.</p>
+<p><strong>Paso 3 — Ejecuta los tests del Domain</strong></p>
+<p>En Xcode, selecciona el scheme <code>ArchitectureKit</code> y pulsa <code>Cmd+U</code>. O desde terminal:</p>
+<pre><code class="language-bash">cd apps/ios/ArchitectureKit
+swift test --filter FeatureLoginDomainTests</code></pre>
+<p>Deberías ver algo como:</p>
+<pre><code>Test Suite 'FeatureLoginDomainTests' passed
+   Executed N tests, with 0 failures</code></pre>
+<p>Todos en verde. Esos tests validan exactamente los mismos comportamientos que tú implementaste con TDD: <code>Email</code> inválido lanza error, <code>Password</code> vacío lanza error, credenciales válidas se construyen correctamente.</p>
+<p><strong>Paso 4 — Conecta con lo que aprendiste</strong></p>
+<p>Antes de continuar, responde mentalmente:</p>
+<ul>
+  <li>¿Por qué <code>LoginError</code> está unificado en el scaffold en lugar de tener errores anidados por Value Object?</li>
+  <li>¿Qué ventaja tiene que <code>UserSession</code> tenga <code>userId</code> en lugar de <code>email</code>?</li>
+  <li>¿Por qué <code>Password</code> exige mínimo 8 caracteres en producción pero la lección empieza con <code>!isEmpty</code>?</li>
+</ul>
+<p>Si puedes responder las tres, tienes el Domain del Login no solo implementado sino entendido.</p>
+<hr>
 <h2 id="01-fundamentos-05-feature-login-01-domain-qu-sigue">Qué sigue</h2>
 <p>La siguiente lección, <a href="#01-fundamentos-05-feature-login-02-application">Feature Login: Capa Application</a>, construye el <code>LoginUseCase</code> que orquesta el flujo completo: validación local con los Value Objects del Domain, delegación de la autenticación remota al puerto <code>AuthGateway</code>, y emisión del <code>LoginEvent</code> correspondiente.</p>
 </section>
@@ -5894,6 +5961,61 @@ final class SessionRepositoryKeychain: SessionRepository {
 <p>Este flujo es transparente para el usuario. La app detecta el 401, intenta refrescar el token silenciosamente, y reintenta la petición original. Si el refresh también falla (por ejemplo, el refreshToken también expiró), entonces sí se fuerza el logout.</p>
 <p><strong>En este curso básico</strong> no implementamos refresh token porque requiere un backend que lo soporte. Pero es importante que sepas que existe este patrón y que en producción deberías implementarlo.</p>
 <hr>
+<h2 id="01-fundamentos-05-feature-login-02-application-checkpoint-xcode-application-en-el-proyecto-real">🔨 Checkpoint Xcode — Application en el proyecto real</h2>
+<p>Acabas de construir el caso de uso y el puerto de autenticación. Ahora los ves en el scaffold y ejecutas tests que validan el flujo completo de Application.</p>
+<p><strong>Paso 1 — Localiza los archivos en <code>FeatureLoginDomain</code></strong></p>
+<p>En Xcode, dentro de <code>Sources/FeatureLoginDomain/</code>:</p>
+<table>
+<thead>
+<tr>
+  <th>Tu implementación (lección)</th>
+  <th>Scaffold</th>
+  <th>Qué cambia</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>AuthGateway</code> (protocol)</td>
+  <td><code>AuthRepository.swift</code></td>
+  <td>Nombre (<code>Gateway</code> → <code>Repository</code>) y método (<code>login</code> → <code>authenticate</code>)</td>
+</tr>
+<tr>
+  <td><code>LoginUseCase</code></td>
+  <td><code>AuthenticateUserUseCase.swift</code></td>
+  <td>Nombre más explícito; no devuelve <code>LoginEvent</code>, lanza directamente <code>LoginError</code></td>
+</tr>
+</tbody>
+</table>
+<p>Abre <code>AuthRepository.swift</code>:</p>
+<pre><code class="language-swift">public protocol AuthRepository: Sendable {
+    func authenticate(credentials: Credentials) async throws -&gt; UserSession
+}</code></pre>
+<p>Compara con el <code>AuthGateway</code> que diseñaste. El patrón es idéntico: un protocolo que desacopla Application de Infrastructure, con <code>async throws</code> para gestionar asincronía y errores.</p>
+<p>Abre <code>AuthenticateUserUseCase.swift</code>:</p>
+<pre><code class="language-swift">public struct AuthenticateUserUseCase: Sendable {
+    private let repository: any AuthRepository
+
+    public func execute(email: String, password: String) async throws -&gt; UserSession {
+        let credentials = Credentials(
+            email: try EmailAddress(email),
+            password: try Password(password)
+        )
+        return try await repository.authenticate(credentials: credentials)
+    }
+}</code></pre>
+<p>Fíjate: el UseCase recibe <code>String</code> crudos (como la UI los enviará), construye los Value Objects dentro (validando aquí), y delega en el repositorio. Mismo patrón que el tuyo, con los nombres del scaffold.</p>
+<p><strong>Paso 2 — Ejecuta los tests del Domain (que incluyen el UseCase)</strong></p>
+<pre><code class="language-bash">cd apps/ios/ArchitectureKit
+swift test --filter FeatureLoginDomainTests</code></pre>
+<p>Los tests incluyen el caso de uso: credenciales inválidas no llegan al repositorio, credenciales válidas sí. Todo en verde.</p>
+<p><strong>Paso 3 — Comprueba que el Domain no importa infraestructura</strong></p>
+<p>En Xcode, abre <code>Package.swift</code>. Localiza el target <code>FeatureLoginDomain</code>:</p>
+<pre><code class="language-swift">.target(
+    name: "FeatureLoginDomain",
+    dependencies: ["CoreDomain"]
+)</code></pre>
+<p>Solo depende de <code>CoreDomain</code>. Ni rastro de <code>Foundation</code> extendido, ni de <code>URLSession</code>, ni de SwiftUI. El Domain es puro. El UseCase define el flujo; la infraestructura lo cumplirá.</p>
+<hr>
 <h2 id="01-fundamentos-05-feature-login-02-application-qu-sigue">Qué sigue</h2>
 <p>La siguiente lección, <a href="#01-fundamentos-05-feature-login-03-infrastructure">Feature Login: Capa Infrastructure</a>, implementa <code>RemoteAuthGateway</code> — la implementación real del protocolo <code>AuthGateway</code> que hace la petición HTTP al servidor — y un <code>StubAuthGateway</code> para desarrollo sin conexión.</p>
 </section>
@@ -6302,6 +6424,46 @@ return Session(token: authResponse.access_token!, email: credentials.email.value
 <p>Tenemos ahora la capa Infrastructure completa de la feature Login:</p>
 <p>Un <code>RemoteAuthGateway</code> que traduce entre el mundo HTTP/JSON y la interfaz limpia del protocolo <code>AuthGateway</code>. Un protocolo <code>HTTPClient</code> que permite testear el gateway sin hacer peticiones de red reales. DTOs separados (<code>AuthRequest</code>, <code>AuthResponse</code>) que aíslan el Domain de los cambios en el formato del API. Un <code>StubAuthGateway</code> para desarrollo sin servidor y previews. Tests de contrato que verifican el mapping correcto en todos los escenarios: éxito, error de credenciales, error de conectividad, URL correcta, body correcto.</p>
 <p>En la siguiente lección llegaremos a la última capa: Interface. Allí construiremos el <code>LoginViewModel</code> y la <code>LoginView</code> con SwiftUI, conectando todo el flujo desde la UI hasta el Domain.</p>
+<hr>
+<h2 id="01-fundamentos-05-feature-login-03-infrastructure-checkpoint-xcode-infrastructure-en-el-proyecto-real">🔨 Checkpoint Xcode — Infrastructure en el proyecto real</h2>
+<p>Acabas de construir el adaptador de red y el stub. Ahora ves cómo el scaffold los implementa, incluyendo decisiones de producción que la lección simplificó.</p>
+<p><strong>Paso 1 — Localiza <code>FeatureLoginData</code> en Xcode</strong></p>
+<p>En <code>Sources/FeatureLoginData/</code> hay dos archivos:</p>
+<table>
+<thead>
+<tr>
+  <th>Tu implementación (lección)</th>
+  <th>Scaffold</th>
+  <th>Diferencia principal</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>StubAuthGateway</code> (struct)</td>
+  <td><code>InMemoryAuthRepository.swift</code></td>
+  <td>Es un <strong><code>actor</code></strong> (thread-safe) con latencia configurable</td>
+</tr>
+<tr>
+  <td><code>RemoteAuthGateway</code></td>
+  <td><code>AuthHTTPRepository.swift</code></td>
+  <td>Guarda sesión en <code>SessionStore</code> tras autenticar; DTOs privados</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Paso 2 — Diferencia importante: <code>InMemoryAuthRepository</code> es un <code>actor</code></strong></p>
+<p>Abre <code>InMemoryAuthRepository.swift</code>. El scaffold usa <code>actor</code> en lugar de <code>struct</code> porque en producción varios tasks pueden llamar a <code>authenticate</code> concurrentemente. El <code>actor</code> serializa el acceso. Esta es la diferencia entre código que funciona en demos y código que aguanta producción. La lección empieza con <code>struct</code> para simplificar el aprendizaje del patrón — la evolucion al <code>actor</code> es el siguiente paso natural.</p>
+<p><strong>Paso 3 — Ejecuta los tests de integración de Infrastructure</strong></p>
+<pre><code class="language-bash">cd apps/ios/ArchitectureKit
+swift test --filter FeatureLoginDataIntegrationTests</code></pre>
+<p>Verde. Estos tests verifican exactamente los escenarios de tu lección: autenticación exitosa, credenciales inválidas, error de red.</p>
+<p><strong>Paso 4 — Estado acumulado del proyecto en Xcode</strong></p>
+<p>Hasta aquí, el scaffold tiene compilando y con tests en verde:</p>
+<ul>
+  <li>✅ <code>FeatureLoginDomain</code> — Value Objects, UseCase, protocolo <code>AuthRepository</code></li>
+  <li>✅ <code>FeatureLoginData</code> — <code>InMemoryAuthRepository</code> + <code>AuthHTTPRepository</code></li>
+  <li>⏳ <code>FeatureLoginUI</code> — siguiente lección</li>
+  <li>⏳ <code>AppComposition</code> — lección 06</li>
+</ul>
 <hr>
 <h2 id="01-fundamentos-05-feature-login-03-infrastructure-qu-sigue">Qué sigue</h2>
 <p>La siguiente lección, <a href="#01-fundamentos-05-feature-login-04-interface-swiftui">Feature Login: Capa Interface SwiftUI</a>, construye el <code>LoginViewModel</code> y la <code>LoginView</code> — la capa más externa de la feature que conecta la UI con el <code>LoginUseCase</code>.</p>
@@ -6883,6 +7045,113 @@ func attemptBiometricLogin() async throws -&gt; Session? {
 </ul>
 <p><strong>En este curso básico</strong> no implementamos biometría porque requiere configuración adicional en Keychain y manejo de permisos. Pero es importante que sepas que esta es la evolución natural del login en apps enterprise.</p>
 <hr>
+<h2 id="01-fundamentos-05-feature-login-04-interface-swiftui-checkpoint-xcode-interface-en-el-proyecto-real">🔨 Checkpoint Xcode — Interface en el proyecto real</h2>
+<p>Abre el scaffold y contrasta lo que acabas de aprender con la implementación de producción.</p>
+<pre><code class="language-bash">open apps/ios/ArchitectureKit/Package.swift
+# Navega a: Sources/FeatureLoginUI/LoginViewModel.swift
+# Navega a: Sources/FeatureLoginUI/LoginView.swift</code></pre>
+<p><strong>Diferencias clave respecto a la lección — léelas con atención:</strong></p>
+<table>
+<thead>
+<tr>
+  <th>Concepto lección</th>
+  <th>Implementación real</th>
+  <th>Por qué importa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>@StateObject var viewModel</code></td>
+  <td><code>@Bindable var viewModel</code></td>
+  <td>Swift 6: <code>@Observable</code> reemplaza <code>ObservableObject</code>; <code>@Bindable</code> habilita bindings sin <code>@Published</code></td>
+</tr>
+<tr>
+  <td><code>@ObservedObject</code> / <code>@Published</code></td>
+  <td><code>@Observable @MainActor</code></td>
+  <td>El compilador garantiza que toda mutación de UI ocurre en el hilo principal</td>
+</tr>
+<tr>
+  <td><code>isLoading: Bool</code> como estado</td>
+  <td><code>Phase</code> enum (<code>.idle</code>, <code>.loading</code>, <code>.authenticated</code>)</td>
+  <td>Estado sellado — imposible tener <code>isLoading: true</code> + <code>errorMessage: nil</code> simultáneamente incoherentes</td>
+</tr>
+<tr>
+  <td>ViewModel con <code>submit()</code> síncrono</td>
+  <td><code>submit() async</code> marcado con <code>@MainActor</code></td>
+  <td>Swift Concurrency: la tarea se lanza desde <code>Task { await viewModel.submit() }</code> en la View</td>
+</tr>
+<tr>
+  <td>Elementos UI sin identificadores</td>
+  <td><code>accessibilityIdentifier</code> en todos los controles</td>
+  <td>Los tests de UI localizan nodos por este identificador, no por texto visible</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Inspecciona <code>LoginViewModel.swift</code>:</strong></p>
+<pre><code class="language-swift">// Esto es lo que ves en el scaffold:
+@Observable @MainActor
+public final class LoginViewModel {
+
+    public enum Phase { case idle, loading, authenticated }
+
+    public private(set) var phase: Phase = .idle
+    public private(set) var errorMessage: String? = nil
+    public var email: String = ""
+    public var password: String = ""
+
+    // ...
+    public func submit() async {
+        phase = .loading
+        // ...
+    }
+}</code></pre>
+<p>Nota: <code>phase</code> y <code>errorMessage</code> son <code>private(set)</code> — la View solo puede leerlos, no escribirlos directamente. Esto es el contrato unidireccional aplicado a nivel de compilador.</p>
+<p><strong>Inspecciona <code>LoginView.swift</code>:</strong></p>
+<pre><code class="language-swift">// @Bindable permite bindings two-way sobre @Observable sin @Published
+@Bindable var viewModel: LoginViewModel
+
+// El botón lanza la corrutina correctamente:
+Button("Iniciar sesión") {
+    Task { await viewModel.submit() }
+}</code></pre>
+<p><strong>Ejecuta los tests de la capa UI:</strong></p>
+<pre><code class="language-bash">cd apps/ios/ArchitectureKit
+swift test --filter FeatureLoginUITests</code></pre>
+<p>Resultado esperado: todos los tests en verde. Si alguno falla, es que hay una discrepancia entre la View y el ViewModel — no entre el test y la implementación.</p>
+<p><strong>Preguntas de reflexión antes de continuar:</strong></p>
+<ol>
+  <li>¿Por qué <code>phase</code> es un enum y no <code>isLoading: Bool + isAuthenticated: Bool</code>? ¿Qué estado incoherente imposibilita el enum?</li>
+  <li><code>@MainActor</code> en la clase entera vs en métodos individuales — ¿qué diferencia produce en la experiencia del compilador?</li>
+  <li>Si añadieras un estado <code>.sessionExpired</code> al <code>Phase</code> enum, ¿cuántos archivos tendrías que tocar? ¿Qué te dice eso sobre el diseño?</li>
+</ol>
+<p><strong>Progreso de la feature Login:</strong></p>
+<table>
+<thead>
+<tr>
+  <th>Capa</th>
+  <th>Estado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>FeatureLoginDomain</td>
+  <td>✅ Tests verdes</td>
+</tr>
+<tr>
+  <td>FeatureLoginData</td>
+  <td>✅ Tests verdes</td>
+</tr>
+<tr>
+  <td>FeatureLoginUI</td>
+  <td>✅ Tests verdes</td>
+</tr>
+<tr>
+  <td>AppComposition</td>
+  <td>⏳ Próxima lección</td>
+</tr>
+</tbody>
+</table>
+<hr>
 <h2 id="01-fundamentos-05-feature-login-04-interface-swiftui-qu-sigue">Qué sigue</h2>
 <p>La siguiente lección, <a href="#01-fundamentos-05-feature-login-05-tdd-ciclo-completo">TDD: ciclo completo Red-Green-Refactor</a>, consolida todo lo que hemos construido trazando el ciclo TDD completo de punta a punta sobre la feature Login.</p>
 </section>
@@ -7121,6 +7390,112 @@ client.receivedRequests.first?.httpBody   // → el JSON del body</code></pre>
 <p><strong>Dependencias externas:</strong> 0 (solo Swift stdlib y Foundation para el trimming y la red)</p>
 <p><strong>Tiempo de ejecución de todos los tests:</strong> < 1 segundo</p>
 <p>Esta es la primera feature completa del curso. Es pequeña (un formulario de login), pero contiene todos los patrones arquitectónicos que escalaremos a features más complejas. En la Etapa 2, cuando construyamos la feature Catalog, el proceso será exactamente el mismo: BDD → Domain → Application → Infrastructure → Interface. Solo cambiará el contenido, no el proceso.</p>
+<hr>
+<h2 id="01-fundamentos-05-feature-login-05-tdd-ciclo-completo-checkpoint-xcode-appcomposition-la-app-arranca">🔨 Checkpoint Xcode — AppComposition: la app arranca</h2>
+<p>Este es el checkpoint final de la Feature Login. Aquí conectas todas las capas y ves la app correr en el simulador.</p>
+<pre><code class="language-bash">open apps/ios/ArchitectureKit/Package.swift
+# Navega a: Sources/AppComposition/AppCompositionRoot.swift</code></pre>
+<p><strong>Lee <code>AppCompositionRoot.swift</code> con atención:</strong></p>
+<pre><code class="language-swift">@MainActor
+public struct AppCompositionRoot {
+    public let navigation: NavigationStore
+    public let loginViewModel: LoginViewModel
+    public let catalogViewModel: CatalogViewModel?
+
+    public init(
+        authRepository: any AuthRepository = InMemoryAuthRepository(),
+        catalogRepository: (any CatalogRepository)? = nil
+    ) {
+        let navigation = NavigationStore()
+        let loginUseCase = AuthenticateUserUseCase(repository: authRepository)
+        let loginViewModel = LoginViewModel(useCase: loginUseCase, navigator: navigation)
+        // ...
+
+        self.navigation = navigation
+        self.loginViewModel = loginViewModel
+        self.catalogViewModel = catalogViewModel
+    }
+}</code></pre>
+<p><strong>Lo que este único archivo demuestra:</strong></p>
+<table>
+<thead>
+<tr>
+  <th>Principio</th>
+  <th>Evidencia en el código</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>Un solo lugar conoce implementaciones concretas</td>
+  <td>Solo <code>AppCompositionRoot</code> importa <code>FeatureLoginData</code> (la implementación); <code>FeatureLoginUI</code> solo importa <code>FeatureLoginDomain</code></td>
+</tr>
+<tr>
+  <td>Sustitución sin cambiar la feature</td>
+  <td><code>authRepository: any AuthRepository = InMemoryAuthRepository()</code> — en producción pasas <code>AuthHTTPRepository()</code>, sin tocar ni ViewModel ni UseCase</td>
+</tr>
+<tr>
+  <td><code>@MainActor</code> en la raíz</td>
+  <td>El ensamblado ocurre en el hilo principal; no hay riesgo de data races al inicializar ViewModels</td>
+</tr>
+<tr>
+  <td>Inyección por constructor</td>
+  <td>No hay singletons ocultos ni locators de servicio; cada dependencia es visible en la firma</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Ejecuta la suite completa:</strong></p>
+<pre><code class="language-bash">cd apps/ios/ArchitectureKit
+swift test</code></pre>
+<p>Resultado esperado: <strong>todos los targets en verde</strong>. Si algún target falla, el error te dice exactamente qué capa rompió el contrato.</p>
+<p><strong>Ahora abre la app en el simulador:</strong></p>
+<pre><code class="language-bash"># Desde Xcode: abre apps/ios/ArchitectureKit
+# Selecciona el scheme de la app (no el package)
+# Cmd+R — la app arranca, aparece la pantalla de login</code></pre>
+<p>Prueba el flujo completo:</p>
+<ul>
+  <li>Email inválido → el ViewModel muestra mensaje de error sin llegar al servidor</li>
+  <li>Credenciales correctas (definidas en <code>InMemoryAuthRepository</code>) → navegación al catálogo</li>
+  <li>Cierra y reabre → el estado inicial es limpio (sin sesión persistida en esta fase)</li>
+</ul>
+<p><strong>Resumen del progreso de la Feature Login:</strong></p>
+<table>
+<thead>
+<tr>
+  <th>Capa</th>
+  <th>Archivos de producción</th>
+  <th>Tests</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>FeatureLoginDomain</td>
+  <td><code>EmailAddress</code>, <code>Password</code>, <code>LoginError</code>, <code>UserSession</code>, <code>AuthRepository</code></td>
+  <td>✅ EmailTests, PasswordTests</td>
+</tr>
+<tr>
+  <td>FeatureLoginData</td>
+  <td><code>InMemoryAuthRepository</code>, <code>AuthHTTPRepository</code></td>
+  <td>✅ FeatureLoginDataIntegrationTests</td>
+</tr>
+<tr>
+  <td>FeatureLoginUI</td>
+  <td><code>LoginViewModel</code>, <code>LoginView</code></td>
+  <td>✅ FeatureLoginUITests</td>
+</tr>
+<tr>
+  <td>AppComposition</td>
+  <td><code>AppCompositionRoot</code></td>
+  <td>✅ AppCompositionTests</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Preguntas de consolidación:</strong></p>
+<ol>
+  <li>Si mañana necesitas cambiar <code>InMemoryAuthRepository</code> por <code>AuthHTTPRepository</code> en producción, ¿cuántos archivos tocas? ¿Qué te dice eso sobre el diseño?</li>
+  <li><code>AppCompositionRoot</code> importa todos los módulos. ¿Por qué eso es correcto aquí y sería incorrecto en <code>FeatureLoginUI</code>?</li>
+  <li>Los 28 tests pedagógicos de la lección se ejecutan en < 1 segundo. ¿Por qué no necesitan simulador? ¿Qué propiedad del diseño lo hace posible?</li>
+</ol>
+<p>Si los tests están en verde y la app arranca en el simulador, has completado la Feature Login al completo: especificación BDD → Domain → Application → Infrastructure → Interface → Composition → app corriendo. Esta es la secuencia que repetirás en cada feature del resto del curso.</p>
 <hr>
 <h2 id="01-fundamentos-05-feature-login-05-tdd-ciclo-completo-qu-sigue">Qué sigue</h2>
 <p>La siguiente lección, <a href="#01-fundamentos-05-feature-login-ADR-001-login">ADR-001: Decisiones de arquitectura del Login</a>, documenta formalmente las decisiones de diseño que tomamos durante la implementación y el razonamiento detrás de cada una.</p>
