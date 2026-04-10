@@ -13,6 +13,7 @@ FORCE_DEPLOY="${SMA_DEPLOY_FORCE:-0}"
 BASE_URL="${SMA_PUBLISH_BASE_URL:-https://architecture-stack.vercel.app}"
 POST_DEPLOY_FREEZE_FILE="${SMA_POST_DEPLOY_FREEZE_FILE:-$RUNTIME_DIR/post-deploy-freeze.flag}"
 CLEAR_POST_DEPLOY_FREEZE="${SMA_CLEAR_POST_DEPLOY_FREEZE:-0}"
+VERIFY_BASE_PERSIST_FILE="${SMA_PUBLISH_VERIFY_BASE_PERSIST_FILE:-$RUNTIME_DIR/publish-verify-base.url}"
 
 MODE="${1:-fast}"
 if [[ "$MODE" != "fast" && "$MODE" != "strict" ]]; then
@@ -103,20 +104,37 @@ fi
 
 rm -f "$COOLDOWN_FILE"
 
-echo "[3/3] Verifying public routes..."
+VERIFY_BASE_URL="${SMA_PUBLISH_VERIFY_BASE_URL:-}"
+if [[ -z "$VERIFY_BASE_URL" ]]; then
+  VERIFY_BASE_URL="$(printf '%s\n' "$DEPLOY_OUTPUT" | grep -E 'Aliased: https?://' | tail -1 | sed -n 's/.*Aliased: \(https:[^ ]*\).*/\1/p' || true)"
+fi
+if [[ -z "$VERIFY_BASE_URL" ]]; then
+  VERIFY_BASE_URL="$BASE_URL"
+fi
 
-for path in "/" "/ios/" "/android/" "/sdd/" "/governance/"; do
-  code="$("$VERIFY_CURL_BIN" -s -o /dev/null -w "%{http_code}" "${BASE_URL}${path}")"
-  echo "  ${BASE_URL}${path} -> ${code}"
+echo "[3/3] Verifying public routes (verify base: ${VERIFY_BASE_URL})..."
+
+for path in "/" "/ios/" "/android/" "/sdd/" "/governance/" "/pumuki/"; do
+  code="$("$VERIFY_CURL_BIN" -s -o /dev/null -w "%{http_code}" "${VERIFY_BASE_URL}${path}")"
+  echo "  ${VERIFY_BASE_URL}${path} -> ${code}"
   if [[ "$code" != "200" ]]; then
-    echo "Error: route verification failed for ${BASE_URL}${path}"
+    echo "Error: route verification failed for ${VERIFY_BASE_URL}${path}"
     exit 1
   fi
 done
 
+printf '%s\n' "$VERIFY_BASE_URL" >"$VERIFY_BASE_PERSIST_FILE"
+
 echo
-echo "Publicado correctamente:"
-echo "  ${BASE_URL}"
-echo "  ${BASE_URL}/ios/"
-echo "  ${BASE_URL}/android/"
-echo "  ${BASE_URL}/sdd/"
+echo "Publicado correctamente (artefacto desplegado):"
+echo "  ${VERIFY_BASE_URL}"
+echo "  ${VERIFY_BASE_URL}/ios/"
+echo "  ${VERIFY_BASE_URL}/android/"
+echo "  ${VERIFY_BASE_URL}/sdd/"
+echo "  ${VERIFY_BASE_URL}/governance/"
+echo "  ${VERIFY_BASE_URL}/pumuki/"
+if [[ "$VERIFY_BASE_URL" != "$BASE_URL" ]]; then
+  echo
+  echo "Nota: dominio de comprobacion distinto de SMA_PUBLISH_BASE_URL (${BASE_URL})."
+  echo "Si architecture-stack debe servir el mismo arbol estatico, sincroniza proyecto o CNAME segun tu setup."
+fi

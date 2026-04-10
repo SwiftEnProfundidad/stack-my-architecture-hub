@@ -34,7 +34,8 @@ cat >"$FAKE_DEPLOY" <<'EOF'
 echo "deploy" >> "${DEPLOY_CALLS:?}"
 case "${FAKE_DEPLOY_MODE:-success}" in
   success)
-    echo "https://example.vercel.app"
+    echo "Production: https://example-preview.vercel.app"
+    echo "Aliased: https://stack-my-architecture-hub.vercel.app [1s]"
     exit 0
     ;;
   quota)
@@ -151,7 +152,9 @@ set -e
 assert_eq "0" "$code" "force publish should run"
 assert_contains "$BUILD_CALLS" "^--mode strict$" "build should receive strict mode"
 assert_contains "$DEPLOY_CALLS" "deploy" "deploy should run in force mode"
-assert_contains "$CURL_CALLS" "https://architecture-stack\\.vercel\\.app/ios/" "route verification should run"
+assert_contains "$CURL_CALLS" "https://stack-my-architecture-hub\\.vercel\\.app/ios/" "route verification should follow Aliased production URL"
+assert_file_exists "$RUNTIME_DIR/publish-verify-base.url" "verify base should persist for postchecks"
+assert_eq "https://stack-my-architecture-hub.vercel.app" "$(tr -d '\r\n' <"$RUNTIME_DIR/publish-verify-base.url")" "persisted verify base should match Aliased URL"
 
 # Case 3: success clears cooldown
 rm -f "$BUILD_CALLS" "$DEPLOY_CALLS" "$CURL_CALLS" "$COOLDOWN_FILE"

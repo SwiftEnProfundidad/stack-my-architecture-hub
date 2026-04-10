@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       base_url:
-        description: "URL base objetivo de postchecks y verificación"
+        description: "URL base declarada (SMA_PUBLISH_BASE_URL). Los postchecks usan el alias real del deploy si existe .runtime/publish-verify-base.url tras publicar."
         required: false
         default: "https://architecture-stack.vercel.app"
       mode:
@@ -145,8 +145,14 @@ jobs:
           mkdir -p "$RUNNER_TEMP/hub-release-logs"
           POSTCHECK_LOG="$RUNNER_TEMP/hub-release-logs/postchecks.out"
 
-          echo "[RELEASE-POSTCHECK] Ejecutando verificación de producción en $BASE_URL" | tee "$POSTCHECK_LOG"
-          ./scripts/post-deploy-checks.sh "$BASE_URL" 2>&1 | tee -a "$POSTCHECK_LOG"
+          POSTCHECK_URL="$BASE_URL"
+          if [[ -f "$GITHUB_WORKSPACE/.runtime/publish-verify-base.url" ]]; then
+            POSTCHECK_URL="$(tr -d '\r\n' < "$GITHUB_WORKSPACE/.runtime/publish-verify-base.url")"
+            echo "[RELEASE-POSTCHECK] Usando URL del deploy (publish-verify-base.url): $POSTCHECK_URL"
+          fi
+
+          echo "[RELEASE-POSTCHECK] Ejecutando verificación de producción en $POSTCHECK_URL" | tee "$POSTCHECK_LOG"
+          ./scripts/post-deploy-checks.sh "$POSTCHECK_URL" 2>&1 | tee -a "$POSTCHECK_LOG"
           postcheck_exit=${PIPESTATUS[0]}
 
           if [[ "$postcheck_exit" -ne 0 ]]; then

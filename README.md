@@ -1,7 +1,7 @@
 # Stack My Architecture Hub
 
 Servidor local unificado para:
-- contenido estático del hub (`/`, `/ios`, `/android`, `/sdd`)
+- contenido estático del hub (`/`, `/ios`, `/android`, `/sdd`, `/governance`, `/pumuki`)
 - proxy de asistente IA (`/health`, `/config`, `/metrics`, `/assistant/query`)
 
 ## Arranque robusto recomendado
@@ -19,6 +19,7 @@ Abrir directamente un curso:
 /Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture/stack-my-architecture-hub/open-proxy.command --course sdd
 /Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture/stack-my-architecture-hub/open-proxy.command ios
 /Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture/stack-my-architecture-hub/open-proxy.command android
+/Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture/stack-my-architecture-hub/open-proxy.command --course pumuki
 ```
 
 Opcional: fijar puerto manualmente.
@@ -66,6 +67,7 @@ Uso:
 stack-hub
 stack-hub ios
 stack-hub sdd --strict
+stack-hub --course pumuki
 stack-hub --course android --port 46200
 stack-hub --force-rebuild
 stack-hub --skip-auto-rebuild
@@ -240,7 +242,8 @@ Publicación controlada por workflow:
 Qué hace este gate:
 - ejecuta prechecks de control (`test-public-smoke-suite`, `test-course-surface-guard-suite`, `test-stamp-asset-version`).
 - ejecuta `publish-architecture-stack.sh` en modo `strict` o `fast`.
-- ejecuta postchecks de producción contra la URL de arquitectura (`post-deploy-checks.sh`) y deja evidencia si se habilitan.
+- la verificación HTTP de rutas del curso (`/`, `/ios/`, …, `/pumuki/`) usa por defecto la URL **`Aliased:`** del output de `vercel deploy` (p. ej. `https://stack-my-architecture-hub.vercel.app`); si hace falta fijarla, `SMA_PUBLISH_VERIFY_BASE_URL`. Tras un publish OK se escribe **`.runtime/publish-verify-base.url`** con esa base.
+- ejecuta postchecks de producción con `post-deploy-checks.sh` usando **esa misma base** si el fichero existe (evita 404 cuando `base_url` del workflow difiere del alias real de Vercel).
 - deja evidencia en artefacto `hub-release-checklist.md` y logs por run.
 
 Paso a paso:
@@ -314,7 +317,7 @@ SKIP_SDD_AUDIT=1 ./scripts/build-hub.sh
 
 El script además deja traza en `.runtime/build-hub.log`, evita ejecuciones concurrentes con lock y recupera automáticamente locks obsoletos (stale) tras cierres inesperados.
 Además ejecuta un smoke test final de publicación (`scripts/verify-hub-build.py`) para validar que rutas y assets críticos quedaron consistentes antes de marcar el build como correcto.
-En modo `strict`, también ejecuta smoke runtime real (`scripts/smoke-hub-runtime.sh`) levantando un servidor temporal y verificando endpoints (`/health`, `/config`, `/ios`, `/android`, `/sdd`).
+En modo `strict`, también ejecuta smoke runtime real (`scripts/smoke-hub-runtime.sh`) levantando un servidor temporal y verificando endpoints (`/health`, `/config`, `/ios`, `/android`, `/sdd`, `/governance`, `/pumuki`).
 Al finalizar, genera `.runtime/build-manifest.json` con trazabilidad de publicación (commits, hashes y tamaños de artefactos copiados), y además guarda snapshots históricos en `.runtime/build-manifests/` con retención automática de los últimos 40.
 
 Si necesitas saltar el smoke runtime puntualmente:
@@ -336,6 +339,23 @@ curl -X POST "http://127.0.0.1:${PORT}/assistant/query" \
     "context": {
       "courseId": "stack-my-architecture-ios",
       "topicId": "tema-actual"
+    },
+    "images": []
+  }'
+```
+
+Curso **Pumuki** (`/pumuki/`): usa `"courseId": "stack-my-architecture-pumuki"` en el mismo campo `context`.
+
+```bash
+curl -X POST "http://127.0.0.1:${PORT}/assistant/query" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "gpt-4o-mini",
+    "maxTokens": 600,
+    "prompt": "Resume el módulo de instalación de Pumuki",
+    "context": {
+      "courseId": "stack-my-architecture-pumuki",
+      "topicId": "02-modulos-02-instalacion-y-primer-verde"
     },
     "images": []
   }'
