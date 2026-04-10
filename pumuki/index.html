@@ -6,17 +6,52 @@
 <meta name="darkreader-lock">
 <meta name="course-id" content="stack-my-architecture-pumuki">
 <title>Stack: My Architecture — Pumuki</title>
-<link rel="stylesheet" href="assets/study-ux.css?v=ee90da170313">
-<link rel="stylesheet" href="assets/course-switcher.css?v=ee90da170313">
-<link rel="stylesheet" href="assets/assistant-panel.css?v=ee90da170313">
-<script>window.__SMA_ASSISTANT_PANEL_SRC = "assets/assistant-panel.js?v=ee90da170313";</script>
+<script>
+(function () {
+  try {
+    var host = String(window.location.hostname || '').toLowerCase();
+    var local172 = host.match(/^172\.(\d{1,3})\.\d{1,3}\.\d{1,3}$/);
+    var isLocal = window.location.protocol === 'file:' ||
+      host === 'localhost' || host === '127.0.0.1' || host === '::1' || host === '0.0.0.0' ||
+      host.endsWith('.local') ||
+      /^10\.\d{1,3}\.\d{1,3}\.\d{1,3}$/.test(host) ||
+      /^192\.168\.\d{1,3}\.\d{1,3}$/.test(host) ||
+      (local172 && Number(local172[1]) >= 16 && Number(local172[1]) <= 31);
+    if (isLocal) return;
+
+    var user = JSON.parse(localStorage.getItem('sma:auth:user:v1') || 'null');
+    var session = JSON.parse(localStorage.getItem('sma:auth:session:v1') || 'null');
+    var isValid = !!(user && user.id && session && session.accessToken);
+    if (isValid && session.expiresAt) {
+      var expiresAt = Date.parse(String(session.expiresAt));
+      if (Number.isFinite(expiresAt) && expiresAt <= Date.now()) isValid = false;
+    }
+    if (isValid) return;
+
+    localStorage.removeItem('sma:auth:user:v1');
+    localStorage.removeItem('sma:auth:session:v1');
+    localStorage.removeItem('sma:cloud:profile:v1');
+    var next = window.location.pathname + window.location.search + window.location.hash;
+    var login = new URL('/auth/login.html', window.location.origin);
+    login.searchParams.set('next', next);
+    window.location.replace(login.pathname + login.search + login.hash);
+  } catch (_error) {
+    var next = window.location.pathname + window.location.search + window.location.hash;
+    window.location.replace('/auth/login.html?next=' + encodeURIComponent(next));
+  }
+})();
+</script>
+<link rel="stylesheet" href="assets/study-ux.css?v=736bcf0b3cc6">
+<link rel="stylesheet" href="assets/course-switcher.css?v=736bcf0b3cc6">
+<link rel="stylesheet" href="assets/assistant-panel.css?v=736bcf0b3cc6">
+<script>window.__SMA_ASSISTANT_PANEL_SRC = "assets/assistant-panel.js?v=736bcf0b3cc6";</script>
 <script>window.__SMA_MERMAID_SRC = "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js";</script>
 <script>window.__SMA_HLJS_CORE_SRC = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js";</script>
 <script>window.__SMA_HLJS_SWIFT_SRC = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/swift.min.js";</script>
-<script defer src="assets/study-ux.js?v=ee90da170313"></script>
-<script defer src="assets/course-switcher.js?v=ee90da170313"></script>
-<script defer src="assets/theme-controls.js?v=ee90da170313"></script>
-<script defer src="assets/assistant-bridge.js?v=ee90da170313"></script>
+<script defer src="assets/study-ux.js?v=736bcf0b3cc6"></script>
+<script defer src="assets/course-switcher.js?v=736bcf0b3cc6"></script>
+<script defer src="assets/theme-controls.js?v=736bcf0b3cc6"></script>
+<script defer src="assets/assistant-bridge.js?v=736bcf0b3cc6"></script>
 
 <!-- Google Fonts - Inter -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -238,7 +273,7 @@
    COMMON VARIABLES (No cambian entre estilos)
    ============================================ */
 :root {
-    --sidebar-width: 300px;
+    --sidebar-width: 318px;
     
     /* Tipografía */
     --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -383,11 +418,14 @@ body {
     color: var(--text-secondary);
     text-decoration: none;
     display: block;
-    padding: 6px 10px;
+    padding: 8px 10px;
     border-radius: var(--radius-sm);
     transition: all 0.2s ease;
     font-weight: 450;
     border-left: 2px solid transparent;
+    line-height: 1.35;
+    hyphens: auto;
+    word-break: break-word;
 }
 
 #sidebar a:hover {
@@ -407,16 +445,21 @@ body {
     min-height: 100vh;
     overflow-x: hidden;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 section.lesson {
-    overflow-x: hidden;
-    max-width: 100%;
+    overflow-x: auto;
+    max-width: min(100%, 48rem);
+    width: 100%;
     box-sizing: border-box;
     word-wrap: break-word;
     overflow-wrap: break-word;
     content-visibility: auto;
-    contain-intrinsic-size: 1200px;
+    contain-intrinsic-size: 720px;
+    padding-bottom: var(--space-3xl);
 }
 
 body:not(.sma-hydrated) section.lesson {
@@ -429,6 +472,15 @@ body:not(.sma-hydrated) section.lesson:first-of-type {
 
 section.lesson > * {
     max-width: 100%;
+    box-sizing: border-box;
+}
+
+#content > .study-ux-index-actions {
+    align-self: stretch;
+    width: 100%;
+    max-width: min(100%, 48rem);
+    margin-left: auto;
+    margin-right: auto;
     box-sizing: border-box;
 }
 
@@ -911,11 +963,19 @@ table {
     border-collapse: separate;
     border-spacing: 0;
     width: 100%;
+    max-width: 100%;
     margin: var(--space-lg) 0;
     font-size: 0.9rem;
     border-radius: var(--radius-md);
     overflow: hidden;
     box-shadow: var(--shadow-sm);
+    table-layout: auto;
+}
+
+section.lesson table th,
+section.lesson table td {
+    word-break: break-word;
+    vertical-align: top;
 }
 
 th, td {
@@ -1286,13 +1346,13 @@ blockquote p {
 </div>
 
 <div id="course-switcher" class="course-switcher" aria-label="Selector de cursos">
-    <button id="course-switcher-toggle" type="button">&#9776; Cursos</button>
-    <div id="course-switcher-menu" class="course-switcher-menu">
-        <a id="course-switcher-home" href="#">Cursos</a>
-        <a id="course-switcher-ios" href="#">Curso iOS</a>
-        <a id="course-switcher-android" href="#">Curso Android</a>
-        <a id="course-switcher-sdd" href="#">Curso IA + SDD</a>
-    </div>
+    <button id="course-switcher-toggle" type="button" aria-haspopup="menu" aria-expanded="false" aria-label="Abrir menú de cursos y cuenta">&#9776; Menú</button>
+    <ul id="course-switcher-menu" class="course-switcher-menu" role="menu">
+        <li role="none"><a id="course-switcher-home" role="menuitem" href="#">Inicio</a></li>
+        <li role="none"><a id="course-switcher-ios" role="menuitem" href="#">Curso iOS</a></li>
+        <li role="none"><a id="course-switcher-android" role="menuitem" href="#">Curso Android</a></li>
+        <li role="none"><a id="course-switcher-sdd" role="menuitem" href="#">Curso IA + SDD</a></li>
+    </ul>
 </div>
 
 <div id="theme-controls">
@@ -1303,41 +1363,61 @@ blockquote p {
 
 <nav id="sidebar">
 <div class="sidebar-top">
-<h2>Indice</h2>
+<h2>Indice del curso</h2>
 <div class="sidebar-search-wrap">
   <input id="sidebar-search" type="search" placeholder="Buscar leccion..." aria-label="Buscar leccion en el curso" autocomplete="off">
   <div id="sidebar-search-count" aria-live="polite"></div>
 </div>
 </div>
 <ul>
-<li class="nav-section"><strong>README</strong>
+<li class="nav-section"><strong>Introducción</strong>
 <ul>
-  <li><a class="doc-nav-link" data-lesson-path="README.md" href="#README">Stack My Architecture — Curso Pumuki</a></li>
-</ul></li>
-<li class="nav-section"><strong>Preparación</strong>
-<ul>
-  <li><a class="doc-nav-link" data-lesson-path="00-preparacion/00-bienvenida.md" href="#00-preparacion-00-bienvenida">Bienvenida — Curso Pumuki</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="README.md" href="#README">Visión del curso</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="00-preparacion/00-bienvenida.md" href="#00-preparacion-00-bienvenida">Bienvenida</a></li>
   <li><a class="doc-nav-link" data-lesson-path="00-preparacion/01-version-minima-y-referencias.md" href="#00-preparacion-01-version-minima-y-referencias">Versión mínima y referencias</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="00-preparacion/02-lab-governancekit-helpdesksdd.md" href="#00-preparacion-02-lab-governancekit-helpdesksdd">Lab: GovernanceKit vs HelpdeskSDD</a></li>
 </ul></li>
-<li class="nav-section"><strong>Roadmap MVP</strong>
+<li class="nav-section"><strong>Historia 0 → 100</strong>
 <ul>
-  <li><a class="doc-nav-link" data-lesson-path="01-roadmap/00-roadmap-mvp.md" href="#01-roadmap-00-roadmap-mvp">Roadmap MVP (orden de trabajo)</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="01-roadmap/00-modulos-nucleo.md" href="#01-roadmap-00-modulos-nucleo">Módulos núcleo (1–7) — mapa rápido</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="00-preparacion/03-recorrido-cero-a-cien-pumuki.md" href="#00-preparacion-03-recorrido-cero-a-cien-pumuki">Narrativa completa (prosa)</a></li>
 </ul></li>
-<li class="nav-section"><strong>Playbooks</strong>
+<li class="nav-section"><strong>Entorno de práctica</strong>
 <ul>
-  <li><a class="doc-nav-link" data-lesson-path="docs/playbook-pumuki-sdd-bridge.md" href="#docs-playbook-pumuki-sdd-bridge">Playbook — Puente SDD ↔ Pumuki</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="00-preparacion/02-lab-governancekit-helpdesksdd.md" href="#00-preparacion-02-lab-governancekit-helpdesksdd">Lab: GovernanceKit o HelpdeskSDD</a></li>
 </ul></li>
-<li class="nav-section"><strong>Módulos núcleo (1–7)</strong>
+<li class="nav-section"><strong>Organización del curso</strong>
 <ul>
-  <li><a class="doc-nav-link" data-lesson-path="02-modulos/01-contrato-y-limites.md" href="#02-modulos-01-contrato-y-limites">Módulo 1 — Contrato y límites</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="02-modulos/02-instalacion-y-primer-verde.md" href="#02-modulos-02-instalacion-y-primer-verde">Módulo 2 — Instalación y primer verde</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="02-modulos/03-perfiles-de-adopcion.md" href="#02-modulos-03-perfiles-de-adopcion">Módulo 3 — Perfiles de adopción</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="02-modulos/04-sdd-y-pumuki.md" href="#02-modulos-04-sdd-y-pumuki">Módulo 4 — SDD y Pumuki</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="02-modulos/05-governance-y-pumuki.md" href="#02-modulos-05-governance-y-pumuki">Módulo 5 — Governance y Pumuki</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="02-modulos/06-monorepo-ci-parity.md" href="#02-modulos-06-monorepo-ci-parity">Módulo 6 — Monorepo, CI y parity</a></li>
-  <li><a class="doc-nav-link" data-lesson-path="02-modulos/07-proyecto-final-checklist.md" href="#02-modulos-07-proyecto-final-checklist">Módulo 7 — Proyecto final (checklist release)</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="01-roadmap/00-roadmap-mvp.md" href="#01-roadmap-00-roadmap-mvp">Roadmap por semanas</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="01-roadmap/00-modulos-nucleo.md" href="#01-roadmap-00-modulos-nucleo">Tabla de módulos y orden</a></li>
+</ul></li>
+<li class="nav-section"><strong>Playbook de equipo</strong>
+<ul>
+  <li><a class="doc-nav-link" data-lesson-path="docs/playbook-pumuki-sdd-bridge.md" href="#docs-playbook-pumuki-sdd-bridge">Puente SDD y Pumuki</a></li>
+</ul></li>
+<li class="nav-section"><strong>Territorio y base</strong>
+<ul>
+  <li><a class="doc-nav-link" data-lesson-path="02-modulos/00-mapa-completo-del-producto.md" href="#02-modulos-00-mapa-completo-del-producto">01 · Mapa del producto</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="02-modulos/01-contrato-y-limites.md" href="#02-modulos-01-contrato-y-limites">02 · Contrato y límites</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="02-modulos/02-instalacion-y-primer-verde.md" href="#02-modulos-02-instalacion-y-primer-verde">03 · Instalación y primer verde</a></li>
+</ul></li>
+<li class="nav-section"><strong>Proyecto guiado</strong>
+<ul>
+  <li><a class="doc-nav-link" data-lesson-path="02-modulos/13-proyecto-guiado-de-la-a-la-z.md" href="#02-modulos-13-proyecto-guiado-de-la-a-la-z">04 · Proyecto paso a paso (A–M)</a></li>
+</ul></li>
+<li class="nav-section"><strong>Operación en el repo</strong>
+<ul>
+  <li><a class="doc-nav-link" data-lesson-path="02-modulos/08-ciclo-de-vida-install-uninstall-actualizacion.md" href="#02-modulos-08-ciclo-de-vida-install-uninstall-actualizacion">05 · Ciclo de vida (instalar / retirar)</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="02-modulos/09-evidencia-por-stage-y-ai-evidence-json.md" href="#02-modulos-09-evidencia-por-stage-y-ai-evidence-json">06 · Evidencia y .ai_evidence.json</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="02-modulos/03-perfiles-de-adopcion.md" href="#02-modulos-03-perfiles-de-adopcion">07 · Perfiles de adopción</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="02-modulos/04-sdd-y-pumuki.md" href="#02-modulos-04-sdd-y-pumuki">08 · SDD, OpenSpec y gate</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="02-modulos/10-menu-interactivo-matrix-y-preflight.md" href="#02-modulos-10-menu-interactivo-matrix-y-preflight">09 · Menú interactivo y matrix</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="02-modulos/11-mcp-enforcement-vs-lectura-agente.md" href="#02-modulos-11-mcp-enforcement-vs-lectura-agente">10 · MCP (HTTP, stdio, recibo)</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="02-modulos/12-notificaciones-macos-stderr-y-watch.md" href="#02-modulos-12-notificaciones-macos-stderr-y-watch">11 · Notificaciones y watch</a></li>
+</ul></li>
+<li class="nav-section"><strong>Escala y cierre</strong>
+<ul>
+  <li><a class="doc-nav-link" data-lesson-path="02-modulos/05-governance-y-pumuki.md" href="#02-modulos-05-governance-y-pumuki">12 · Governance y Pumuki</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="02-modulos/06-monorepo-ci-parity.md" href="#02-modulos-06-monorepo-ci-parity">13 · Monorepo, CI y parity</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="02-modulos/07-proyecto-final-checklist.md" href="#02-modulos-07-proyecto-final-checklist">14 · Cierre y checklist</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -1349,23 +1429,29 @@ blockquote p {
 <div class="lesson-path">README.md</div>
 <h1 id="README-stack-my-architecture-curso-pumuki">Stack My Architecture — Curso Pumuki</h1>
 <p>Quinto curso del ecosistema <strong>Stack My Architecture</strong>: <strong>Pumuki</strong> como capa de enforcement determinista (<code>Facts → Rules → Gate → evidencia v2.1</code>) en repos reales.</p>
+<h2 id="README-qu-ofrece-este-curso-y-qu-no">Qué ofrece este curso (y qué no)</h2>
+<ul>
+  <li><strong>Sí:</strong> <strong>recorrido 0→100 en prosa</strong> (<a href="#00-preparacion-03-recorrido-cero-a-cien-pumuki">Narrativa completa (prosa)</a>) para cero ambigüedad; <strong>proyecto guiado A→M</strong> (<a href="#02-modulos-13-proyecto-guiado-de-la-a-la-z">Proyecto paso a paso (A–M)</a>) con criterios de hecho por fase; narrativa <strong>en prosa</strong> del <strong>contrato</strong>, <strong>stages</strong>, <strong>instalación</strong>, <strong>ciclo de vida</strong>, <strong>evidencia</strong>, <strong>perfiles</strong>, <strong>SDD</strong>, <strong>menú</strong>, <strong>MCP</strong>, <strong>notificaciones/watch</strong>, <strong>Governance</strong>, <strong>monorepo/parity</strong>, <strong>mapa completo</strong> del producto y <strong>cierre</strong> con checklist.</li>
+  <li><strong>No:</strong> sustituye el <strong>README</strong> ni el <strong>USAGE</strong> del paquete npm: siguen siendo la <strong>fuente normativa</strong>. Si algo contradice el repo público <strong>ast-intelligence-hooks</strong>, manda el producto y este curso se corrige.</li>
+</ul>
+<p>Empieza por <strong><a href="#00-preparacion-03-recorrido-cero-a-cien-pumuki">Narrativa completa (prosa)</a></strong> si quieres la historia <strong>completa</strong> de una sentada; por <strong><a href="#02-modulos-00-mapa-completo-del-producto">01 · Mapa del producto</a></strong> si prefieres el atlas antes que la narrativa.</p>
 <h2 id="README-p-blico-objetivo">Público objetivo</h2>
-<p>Equipos que ya gobiernan el cambio con <strong>Governance</strong> y/o ejecutan flujo <strong>SDD + IA</strong>, y quieren operar hooks, CLI, CI y remediaciones sin confundir enforcement con arquitectura de producto.</p>
+<p>Equipos que ya gobiernan el cambio con <strong>Governance</strong> y/o ejecutan flujo <strong>SDD + IA</strong>, y quieren operar hooks, CLI, CI, MCP y remediaciones <strong>sin confundir</strong> enforcement con arquitectura de producto.</p>
 <h2 id="README-prerrequisitos-recomendados">Prerrequisitos recomendados</h2>
 <ul>
   <li>Curso <strong>Governance</strong> (AGENTS.md, skills, gates, release) o experiencia equivalente.</li>
   <li>Curso <strong>IA + SDD</strong> (OpenSpec, validación, cierre de tickets) o experiencia equivalente.</li>
 </ul>
-<p>Este curso <strong>no</strong> reenseña OpenSpec ni ADR: enlaza a esos cursos y se centra en CLI, perfiles de adopción, <code>doctor</code>, parity CI y evidencia exportable.</p>
+<p>Este curso <strong>no</strong> reenseña OpenSpec ni ADR: enlaza a esos cursos y profundiza en <strong>cómo Pumuki enforcementa</strong> lo que allí acordasteis.</p>
 <h2 id="README-versi-n-m-nima-del-paquete-npm">Versión mínima del paquete npm</h2>
 <ul>
   <li><strong><code>pumuki</code> >= 6.3.71</strong> (MVP del curso; repinear cuando el producto publique una release estable posterior).</li>
 </ul>
 <h2 id="README-lab-de-pr-ctica">Lab de práctica</h2>
-<p>Por defecto se trabaja sobre una <strong>variante o fork</strong> del proyecto del curso <strong>Governance</strong> (<strong>GovernanceKit</strong>) o del curso <strong>SDD</strong> (<strong>HelpdeskSDD</strong>), para no inventar dominio nuevo. Elige uno en <code>00-preparacion/02-lab-governancekit-helpdesksdd.md</code> y mantenlo durante los módulos 1–7.</p>
+<p>Por defecto se trabaja sobre una <strong>variante o fork</strong> del proyecto del curso <strong>Governance</strong> (<strong>GovernanceKit</strong>) o del curso <strong>SDD</strong> (<strong>HelpdeskSDD</strong>), para no inventar dominio nuevo. Elige uno en <strong><a href="#00-preparacion-02-lab-governancekit-helpdesksdd">Lab: GovernanceKit o HelpdeskSDD</a></strong> y mantenlo durante <strong>todas</strong> las unidades con actividad en lab (incluidas 08–12).</p>
 <h2 id="README-c-mo-generar-el-html-local">Cómo generar el HTML local</h2>
 <pre><code class="language-bash">python3 scripts/build-html.py</code></pre>
-<p>Salida: <code>dist/curso-stack-my-architecture-pumuki.html</code> y <code>dist/index.html</code>.</p>
+<p>Salida: <code>dist/curso-stack-my-architecture-pumuki.html</code> y <code>dist/index.html</code>. Si existe el repo hermano <strong><code>stack-my-architecture-hub</code></strong>, el build <strong>copia también</strong> el HTML y <code>dist/assets/*</code> a <code>../stack-my-architecture-hub/pumuki/</code> (misma ruta que sirve el hub); si no ves cambios en la web, ejecuta este script y despliega/commit del hub.</p>
 <h2 id="README-validaci-n-del-repo-del-curso">Validación del repo del curso</h2>
 <pre><code class="language-bash">python3 scripts/validate-course-structure.py
 python3 scripts/check-links.py</code></pre>
@@ -1374,44 +1460,112 @@ python3 scripts/check-links.py</code></pre>
   <li><strong><code>stack-my-architecture-pumuki</code></strong></li>
 </ul>
 <h2 id="README-seguimiento-de-la-iniciativa-repo-producto-pumuki">Seguimiento de la iniciativa (repo producto Pumuki)</h2>
-<p>En el repositorio <code>ast-intelligence-hooks</code>: <code>docs/tracking/plan-curso-pumuki-stack-my-architecture.md</code>.</p>
+<p>En el repositorio público <strong>ast-intelligence-hooks</strong>: <a href="https://github.com/SwiftEnProfundidad/ast-intelligence-hooks/blob/main/docs/tracking/plan-curso-pumuki-stack-my-architecture.md">plan de seguimiento del curso</a>.</p>
 </section>
 <section id="00-preparacion-00-bienvenida" class="lesson" data-topic-id="00-preparacion-00-bienvenida" data-lesson-path="00-preparacion/00-bienvenida.md">
 <div class="lesson-path">00-preparacion/00-bienvenida.md</div>
 <h1 id="00-preparacion-00-bienvenida-bienvenida-curso-pumuki">Bienvenida — Curso Pumuki</h1>
-<p>Pumuki es la <strong>capa de enforcement</strong> que se ejecuta en hooks locales, MCP y CI: convierte hechos detectables en reglas, aplica un gate por stages y deja <strong>evidencia</strong> trazable. No sustituye decisiones de arquitectura ni el método SDD: las <strong>integra</strong>.</p>
-<h2 id="00-preparacion-00-bienvenida-qu-vas-a-conseguir">Qué vas a conseguir</h2>
+<h2 id="00-preparacion-00-bienvenida-por-qu-existe-este-curso">Por qué existe este curso</h2>
+<p>Si llegas aquí desde <strong>Stack My Architecture</strong>, ya sabes que el ecosistema separa con intención <strong>arquitectura de producto</strong>, <strong>gobernanza del cambio</strong> y <strong>flujo SDD con IA</strong>. <strong>Pumuki</strong> ocupa un lugar muy concreto: es la <strong>capa de enforcement determinista</strong> que se ejecuta donde el código vive (hooks, CI, opcionalmente MCP frente a un agente). No decide qué feature construyes; <strong>cierra el círculo</strong> entre lo que tu equipo <strong>dijo</strong> que era obligatorio (skills, políticas, OpenSpec) y lo que <strong>realmente</strong> se está commiteando o empujando.</p>
+<p>Este curso no es un índice de enlaces. Es un <strong>recorrido en prosa</strong>: semana a semana construyes una <strong>mentalidad operativa</strong> — la misma que necesitas cuando, a las tres de la mañana, un hook bloquea un push y alguien pregunta “¿es el gate o es Pumuki o es SDD o es Git?”.</p>
+<p><strong>Si quieres Pumuki de 0 a 100 sin saltos conceptuales</strong>, lee primero <strong><a href="#00-preparacion-03-recorrido-cero-a-cien-pumuki">Narrativa completa (prosa)</a></strong>: es la narrativa continua del viaje (porcentajes de madurez, qué confundir y qué no). Luego sigue el <strong>proyecto guiado</strong> <strong><a href="#02-modulos-13-proyecto-guiado-de-la-a-la-z">Proyecto paso a paso (A–M)</a></strong> en el lab: fases A–M con criterios de hecho inequívocos. El resto de módulos son el <strong>despiece técnico</strong> que alimenta ese hilo.</p>
+<hr>
+<h2 id="00-preparacion-00-bienvenida-qu-vas-a-ser-capaz-de-hacer-al-cerrar-el-mvp">Qué vas a ser capaz de hacer al cerrar el MVP</h2>
+<ol>
+  <li><strong>Explicar</strong> en una frase qué hace Pumuki y qué <strong>deja fuera</strong> de su responsabilidad, sin mezclarlo con el producto de negocio ni con los tests de dominio.</li>
+  <li><strong>Seguir</strong> el pipeline <strong>Facts → Rules → Gate → evidencia v2.1</strong> y relacionarlo con lo que ves en <code>.ai_evidence.json</code>, en stderr del hook y en <code>doctor --json</code>.</li>
+  <li><strong>Instalar</strong> y <strong>validar</strong> un consumidor: <code>install</code>, <code>doctor</code>, <code>status</code>, y un <code>sdd validate</code> acorde a tu stage.</li>
+  <li><strong>Elegir</strong> un <strong>perfil</strong> de adopción (mínimo, estándar SDD, enterprise) sabiendo qué <strong>regalas</strong> cuando bajas de nivel.</li>
+  <li><strong>Enlazar</strong> Pumuki con el curso de <strong>SDD</strong> (OpenSpec, sesión, códigos de error) y con el de <strong>Governance</strong> (AGENTS.md, skills, GitFlow) <strong>sin duplicar</strong> esos contenidos.</li>
+  <li><strong>Razonar</strong> sobre <strong>MCP</strong>: qué servidor usar para leer evidencia, cuál para contexto enterprise, qué tools existen y por qué algunas son experimentales.</li>
+  <li><strong>Operar</strong> el <strong>menú</strong> (<code>pumuki-framework</code>), la <strong>matrix</strong> no interactiva y el <strong>pre-flight</strong> sin confundirlos con el resultado canónico de CI.</li>
+  <li><strong>Configurar o explicar</strong> <strong>notificaciones</strong> (macOS / stderr) y <strong>watch</strong> local sin spam.</li>
+  <li><strong>Aterrizar</strong> <strong>monorepo</strong> (prefijos de scope) y <strong>parity</strong> local vs CI cuando tu organización lo exija.</li>
+  <li><strong>Cerrar</strong> con una <strong>checklist</strong> de release que podrías defender ante un tech lead.</li>
+</ol>
+<hr>
+<h2 id="00-preparacion-00-bienvenida-c-mo-est-narrado-el-curso">Cómo está narrado el curso</h2>
 <ul>
-  <li>Contrato claro: qué hace Pumuki y qué queda fuera.</li>
-  <li>Un primer <strong>verde</strong> en un repo real (<code>install</code>, <code>doctor</code>, <code>status</code>).</li>
-  <li>Tres <strong>perfiles de adopción</strong> (mínimo, SDD, enterprise) alineados al README del producto.</li>
-  <li>Puente operativo con <strong>SDD</strong> (<code>PUMUKI_EXPERIMENTAL_SDD</code>, validación) y con <strong>Governance</strong> (AGENTS.md, skills, GitFlow).</li>
-  <li><strong>Monorepo / CI</strong>: scope por prefijos, <code>doctor --parity</code>, expectativas en <code>.pumuki/ci-parity-expected.json</code>.</li>
-  <li>Cierre con <strong>checklist de release</strong> y export <code>doctor --json</code>.</li>
+  <li><strong><a href="#02-modulos-00-mapa-completo-del-producto">01 · Mapa del producto</a></strong> es la <strong>brújula</strong>: mapa de stages, CLI, MCP, tools y evidencia. Léelo <strong>antes</strong> o <strong>en paralelo</strong> con el módulo 1; ahí no se cuenta una historia lineal, se fija el <strong>territorio</strong>.</li>
+  <li>Tras el mapa, la secuencia pedagógica va <strong>contrato → instalación → ciclo de vida → evidencia → perfiles → SDD ampliado → menú → MCP → notificaciones/watch → Governance → monorepo → cierre</strong> (ver <strong><a href="#01-roadmap-00-modulos-nucleo">Tabla de módulos y orden</a></strong>).</li>
+  <li>Cada unidad incluye <strong>objetivo observable</strong>, <strong>no confundas</strong>, <strong>actividad</strong> y <strong>criterio de dominio</strong>: no es decoración; es cómo comprobamos que aprendiste.</li>
+  <li>Cada módulo termina con práctica en tu <strong>lab</strong> (GovernanceKit o HelpdeskSDD, según <strong><a href="#00-preparacion-02-lab-governancekit-helpdesksdd">Lab: GovernanceKit o HelpdeskSDD</a></strong>). Sin lab, el curso se queda en teoría; con lab, <strong>el gate te habla</strong>.</li>
 </ul>
-<h2 id="00-preparacion-00-bienvenida-documentaci-n-can-nica-del-producto">Documentación canónica del producto</h2>
-<p>Con el repo <strong>ast-intelligence-hooks</strong> o el paquete publicado:</p>
-<ul>
-  <li><a href="https://www.npmjs.com/package/pumuki">pumuki en npm</a></li>
-  <li>Manual de uso: <code>docs/product/USAGE.md</code></li>
-  <li>Instalación: <code>docs/product/INSTALLATION.md</code></li>
-  <li>README raíz del producto: <code>README.md</code></li>
-</ul>
-<h2 id="00-preparacion-00-bienvenida-orden-de-lectura-sugerido">Orden de lectura sugerido</h2>
-<p>Sigue <code>01-roadmap/00-roadmap-mvp.md</code> y la tabla de <code>01-roadmap/00-modulos-nucleo.md</code>.</p>
+<hr>
+<h2 id="00-preparacion-00-bienvenida-documentaci-n-can-nica-del-producto-la-fuente-de-verdad">Documentación canónica del producto (la fuente de verdad)</h2>
+<p><strong>USAGE</strong>, <strong>INSTALLATION</strong>, <strong>README</strong>, <strong>AGENTS.md</strong>, <strong>CHANGELOG.md</strong> del paquete, el <strong>plan de seguimiento</strong> de este curso bajo <code>docs/tracking/</code> y el resto de <code>.md</code> bajo <code>docs/</code> enlazados aquí se sirven vía <strong>jsDelivr</strong> desde el <strong>tarball npm</strong> <code>pumuki@6.3.72</code> (versión mínima del curso): es el <strong>mismo contenido</strong> que recibes en <code>node_modules/pumuki/…</code> al instalar esa versión. Otros <code>.md</code> de tracking u operativa del repo del producto que <strong>no</strong> estén en <code>package.json</code> → <code>files</code> siguen viviendo solo en <strong>GitHub</strong>; el curso prioriza enlaces al tarball para lo canónico.</p>
+<table>
+<thead>
+<tr>
+  <th>Documento</th>
+  <th>Para qué lo usas</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><a href="https://cdn.jsdelivr.net/npm/pumuki@6.3.72/README.md">README del paquete</a></td>
+  <td>Posicionamiento, quick start, límites, tabla de adopción.</td>
+</tr>
+<tr>
+  <td><a href="https://cdn.jsdelivr.net/npm/pumuki@6.3.72/docs/product/USAGE.md">USAGE</a></td>
+  <td>Stages, menú, hooks, variables, troubleshooting.</td>
+</tr>
+<tr>
+  <td><a href="https://cdn.jsdelivr.net/npm/pumuki@6.3.72/docs/product/INSTALLATION.md">INSTALLATION</a></td>
+  <td>Bootstrap, postinstall, fallos de entorno.</td>
+</tr>
+<tr>
+  <td><a href="https://cdn.jsdelivr.net/npm/pumuki@6.3.72/docs/product/CONFIGURATION.md">CONFIGURATION</a></td>
+  <td>Hard mode, policy-as-code, knobs serios.</td>
+</tr>
+<tr>
+  <td><a href="https://cdn.jsdelivr.net/npm/pumuki@6.3.72/docs/mcp/mcp-servers-overview.md">Visión general MCP</a></td>
+  <td>MCP HTTP, stdio, tools, guardrails.</td>
+</tr>
+<tr>
+  <td><a href="https://cdn.jsdelivr.net/npm/pumuki@6.3.72/docs/mcp/ai-evidence-v2.1-contract.md">Contrato de evidencia v2.1</a></td>
+  <td>Contrato de evidencia.</td>
+</tr>
+<tr>
+  <td><a href="https://cdn.jsdelivr.net/npm/pumuki@6.3.72/AGENTS.md">AGENTS.md</a></td>
+  <td>Contrato de agentes/skills/GitFlow <strong>en repos que lo adopten</strong>.</td>
+</tr>
+<tr>
+  <td><a href="https://cdn.jsdelivr.net/npm/pumuki@6.3.72/CHANGELOG.md">CHANGELOG del producto</a></td>
+  <td>Historial de releases y cambios de comportamiento.</td>
+</tr>
+<tr>
+  <td><a href="https://cdn.jsdelivr.net/npm/pumuki@6.3.72/docs/tracking/plan-curso-pumuki-stack-my-architecture.md">Plan de seguimiento del curso</a></td>
+  <td>Estado de la iniciativa formativa en el repo del producto.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Regla pedagógica:</strong> si este curso y el README <strong>chocan</strong>, gana el <strong>README</strong> y el <strong>USAGE</strong> del producto; este texto se actualiza.</p>
+<hr>
+<h2 id="00-preparacion-00-bienvenida-orden-de-lectura">Orden de lectura</h2>
+<ol>
+  <li><strong><a href="#00-preparacion-03-recorrido-cero-a-cien-pumuki">Narrativa completa (prosa)</a></strong> — historia completa 0→100 en prosa (prioridad si eres nuevo o formas a otros).</li>
+  <li><strong><a href="#01-roadmap-00-roadmap-mvp">Roadmap por semanas</a></strong> y <strong><a href="#01-roadmap-00-modulos-nucleo">Tabla de módulos y orden</a></strong> (plan semanal y tabla enlazada).</li>
+  <li><strong><a href="#02-modulos-00-mapa-completo-del-producto">01 · Mapa del producto</a></strong> (atlas; consúltalo en paralelo).</li>
+  <li><strong><a href="#02-modulos-13-proyecto-guiado-de-la-a-la-z">04 · Proyecto paso a paso (A–M)</a></strong> en el lab desde que cierres la instalación (fase C en adelante).</li>
+  <li>Módulos en el <strong>orden del índice</strong> de esta web / roadmap (núcleo + <strong>08–12</strong> + Governance + monorepo + cierre).</li>
+  <li><strong><a href="#docs-playbook-pumuki-sdd-bridge">Puente SDD y Pumuki</a></strong> cuando diseñes rituales de equipo SDD + Pumuki.</li>
+</ol>
+<p>Bienvenida al enforcement con <strong>los ojos abiertos</strong>: Pumuki te va a <strong>decir que no</strong> a veces. Ese “no” es el diseño funcionando, no un insulto a tu talento.</p>
 </section>
 <section id="00-preparacion-01-version-minima-y-referencias" class="lesson" data-topic-id="00-preparacion-01-version-minima-y-referencias" data-lesson-path="00-preparacion/01-version-minima-y-referencias.md">
 <div class="lesson-path">00-preparacion/01-version-minima-y-referencias.md</div>
 <h1 id="00-preparacion-01-version-minima-y-referencias-versi-n-m-nima-y-referencias">Versión mínima y referencias</h1>
 <h2 id="00-preparacion-01-version-minima-y-referencias-versi-n-m-nima-mvp-del-curso">Versión mínima (MVP del curso)</h2>
 <ul>
-  <li>Paquete npm <strong><code>pumuki</code> >= 6.3.71</strong>.</li>
+  <li>Paquete npm <strong><code>pumuki</code> >= 6.3.72</strong>.</li>
 </ul>
+<p>Los enlaces del curso a documentación del producto (USAGE, INSTALLATION, <code>docs/mcp/*</code>, etc.) usan <strong>jsDelivr</strong> con el pin <strong><code>pumuki@6.3.72</code></strong>. Si subes la versión mínima del curso, sustituye ese pin en los Markdown (o el HTML generado quedará apuntando a una release antigua).</p>
 <p>Comprueba en el repo consumidor:</p>
 <pre><code class="language-bash">npx pumuki --version
 npx pumuki status
 npx pumuki doctor --json</code></pre>
-<p>Si el curso y el hub publican una release posterior del producto, actualiza la versión mínima en este archivo, en <code>README.md</code> y en el CHANGELOG del curso.</p>
+<p>Si el curso y el hub publican una release posterior del producto, actualiza la versión mínima en este archivo, en el <a href="#README">README del curso</a> y en el CHANGELOG del curso.</p>
 <h2 id="00-preparacion-01-version-minima-y-referencias-referencias-de-producto-lectura-obligatoria-dispersa">Referencias de producto (lectura obligatoria dispersa)</h2>
 <table>
 <thead>
@@ -1423,19 +1577,19 @@ npx pumuki doctor --json</code></pre>
 <tbody>
 <tr>
   <td>Comandos, stages, variables</td>
-  <td><code>docs/product/USAGE.md</code> en <strong>ast-intelligence-hooks</strong></td>
+  <td><a href="https://cdn.jsdelivr.net/npm/pumuki@6.3.72/docs/product/USAGE.md">USAGE</a> (repo público <strong>ast-intelligence-hooks</strong>)</td>
 </tr>
 <tr>
   <td>Instalación y postinstall</td>
-  <td><code>docs/product/INSTALLATION.md</code></td>
+  <td><a href="https://cdn.jsdelivr.net/npm/pumuki@6.3.72/docs/product/INSTALLATION.md">INSTALLATION</a></td>
 </tr>
 <tr>
   <td>Límites del producto y adopción</td>
-  <td><code>README.md</code> (secciones “Qué NO es” y rutas de adopción)</td>
+  <td><a href="https://cdn.jsdelivr.net/npm/pumuki@6.3.72/README.md">README del paquete</a> (secciones “Qué NO es” y rutas de adopción)</td>
 </tr>
 <tr>
   <td>Contrato evidence v2.1</td>
-  <td><code>docs/mcp/ai-evidence-v2.1-contract.md</code></td>
+  <td><a href="https://cdn.jsdelivr.net/npm/pumuki@6.3.72/docs/mcp/ai-evidence-v2.1-contract.md">Contrato de evidencia v2.1</a></td>
 </tr>
 </tbody>
 </table>
@@ -1444,6 +1598,45 @@ npx pumuki doctor --json</code></pre>
   <li><strong>Governance</strong>: política, AGENTS.md, skills, gates de calidad, release.</li>
   <li><strong>IA + SDD</strong>: OpenSpec, validación, cierre de tickets (este curso enlaza al playbook Kanban del SDD donde aplique).</li>
 </ul>
+</section>
+<section id="00-preparacion-03-recorrido-cero-a-cien-pumuki" class="lesson" data-topic-id="00-preparacion-03-recorrido-cero-a-cien-pumuki" data-lesson-path="00-preparacion/03-recorrido-cero-a-cien-pumuki.md">
+<div class="lesson-path">00-preparacion/03-recorrido-cero-a-cien-pumuki.md</div>
+<h1 id="00-preparacion-03-recorrido-cero-a-cien-pumuki-recorrido-de-cero-a-cien-pumuki-sin-ambig-edades">Recorrido de cero a cien — Pumuki sin ambigüedades</h1>
+<p>Este documento es la <strong>historia continua</strong> del curso. No sustituye los módulos técnicos ni el <code>USAGE</code> del producto: les da <strong>sentido</strong> y <strong>orden emocional</strong>. Léelo <strong>entero una vez</strong> al principio; vuelve a él cuando sientas que “perdiste el hilo” entre SDD, MCP y hooks.</p>
+<hr>
+<h2 id="00-preparacion-03-recorrido-cero-a-cien-pumuki-de-qu-va-el-drama-sin-jerga-innecesaria">De qué va el drama (sin jerga innecesaria)</h2>
+<p>En cualquier equipo serio pasa lo siguiente: alguien decide reglas — en <a href="https://cdn.jsdelivr.net/npm/pumuki@6.3.72/AGENTS.md">AGENTS.md del producto</a> (plantilla de contrato en repos que lo adopten), en skills, en OpenSpec, en la cabeza del tech lead — y otra persona, o el mismo tres días después, <strong>rompe esas reglas sin mala fe</strong>. No porque sea irresponsable, sino porque <strong>nadie le recordó el acuerdo en el momento exacto</strong> en el que el cambio aún era barato: antes del commit, antes del push, en CI. Ahí es donde entra Pumuki. No es el genio que diseña la arquitectura; es el <strong>sistema nervioso</strong> que hace que lo acordado <strong>se ejecute</strong> donde el código vive.</p>
+<p>Si te quedas solo con esa metáfora, ya entiendes el 20 % del producto. El otro 80 % es <strong>cómo</strong> lo hace: con el mismo criterio en el portátil, en los hooks y en la integración continua, y dejando <strong>evidencia</strong> que cualquier herramienta puede leer.</p>
+<hr>
+<h2 id="00-preparacion-03-recorrido-cero-a-cien-pumuki-una-sola-frase-que-atraviesa-todo-el-recorrido">Una sola frase que atraviesa todo el recorrido</h2>
+<p>Imagina un carril de ensayo. En un extremo entra <strong>lo que cambió</strong> en el repositorio (archivos, diff, contexto Git). En el medio, un motor compara eso contra <strong>las reglas que tu organización considera obligatorias</strong>. En el otro extremo sale una <strong>decisión</strong> por etapa — ¿puedes seguir escribiendo?, ¿puedes cerrar el commit?, ¿puedes empujar?, ¿pasa el pipeline? — y un <strong>registro escrito</strong> en <code>.ai_evidence.json</code> que dice <strong>por qué</strong> se tomó esa decisión. Esa frase es: <strong>hechos → reglas → gate por stage → evidencia versionada</strong>. Todo lo demás — menú bonito, servidor MCP, notificación en macOS — son <strong>formas de ver y tocar</strong> ese mismo carril, no carriles distintos.</p>
+<p>Cuando un estudiante te diga “en el IDE me deja pero el push no”, la respuesta pedagógica no es “Pumuki está loco”. Es: <strong>stage distinto, scope distinto, o evidencia que ya no es válida para el contexto nuevo</strong>. El recorrido 0–100 existe para que esa frase deje de sonar a consuelo y pase a ser <strong>diagnóstico</strong>.</p>
+<hr>
+<h2 id="00-preparacion-03-recorrido-cero-a-cien-pumuki-el-porcentaje-no-es-gamificaci-n-es-madurez-operativa">El porcentaje no es gamificación: es madurez operativa</h2>
+<p>Abajo, el “cien por cien” no significa “he leído todos los archivos”. Significa <strong>he hecho</strong> en un repo real cada clase de acción que Pumuki permite y <strong>sé explicar</strong> qué capa del producto la ejecuta. Los porcentajes son una brújula para el formador: si saltas del 30 % al 80 % sin pasar por el 45 %, el alumno confundirá <strong>SDD</strong> con <strong>gate de reglas</strong> el resto de su carrera en ese equipo.</p>
+<h3 id="00-preparacion-03-recorrido-cero-a-cien-pumuki-del-0-al-15-conciencia-y-vocabulario-com-n">Del 0 % al 15 % — Conciencia y vocabulario común</h3>
+<p>Aquí el estudiante <strong>aún no instala nada</strong> que merezca llamarse “integración”. Lee la bienvenida, fija la versión mínima del paquete, elige un <strong>lab</strong> (GovernanceKit o HelpdeskSDD) y entiende que el <code>README</code> y el <code>USAGE</code> del repositorio <strong>ast-intelligence-hooks</strong> mandan sobre cualquier tutorial de terceros. El mapa completo del producto le muestra el territorio: stages, CLI, MCP como capa opcional, evidencia. Si termina este tramo creyendo que “MCP es obligatorio para tener Pumuki”, <strong>has fallado tú</strong>, no el alumno: vuelve al mapa y a la tabla de “no confundas” del módulo de MCP.</p>
+<h3 id="00-preparacion-03-recorrido-cero-a-cien-pumuki-del-15-al-30-el-cuerpo-entra-en-el-repo">Del 15 % al 30 % — El cuerpo entra en el repo</h3>
+<p>Instala la dependencia npm con la política de versiones que tu equipo defienda (fijar versión es norma enterprise). Comprende el <strong>postinstall</strong>: no es un truco oscuro, es la forma de que hooks y lifecycle no queden desfasados del paquete tras un <code>npm install</code>. Ejecuta <strong>bootstrap</strong> o el equivalente (<code>install</code> + OpenSpec + doctor) según el perfil. Aquí el estudiante debe tocar <strong>por primera vez</strong> la sensación de “algo cambió en <code>.git</code> y en <code>.pumuki</code>” y no asustarse: es el contrato materializándose.</p>
+<h3 id="00-preparacion-03-recorrido-cero-a-cien-pumuki-del-30-al-45-verificaci-n-honesta-y-primer-veredicto">Del 30 % al 45 % — Verificación honesta y primer veredicto</h3>
+<p><strong><code>doctor</code></strong> y <strong><code>status</code></strong> en JSON son el espejo y la báscula. El alumno aprende a leer <strong>drift</strong> de versión, <strong>pathExecutionHazard</strong> en macOS, y la diferencia entre “creo que tengo Pumuki” y “el JSON demuestra que está alineado”. Luego viene el <strong>primer gate manual</strong>: <code>pre-commit</code> o el binario que tengáis cableado. Abre <strong><code>.ai_evidence.json</code></strong> y narra en voz alta: qué <strong>stage</strong>, qué <strong>scope</strong>, qué <strong>severidad</strong>. Si en este tramo solo mira el código de salida <code>0</code> o <code>1</code> sin abrir el JSON, <strong>no ha pasado el 45 %</strong>: la evidencia es parte del producto, no un apéndice.</p>
+<h3 id="00-preparacion-03-recorrido-cero-a-cien-pumuki-del-45-al-60-operaci-n-diaria-sdd-y-el-men-como-compa-eros-no-como-competencia">Del 45 % al 60 % — Operación diaria: SDD y el menú como compañeros, no como competencia</h3>
+<p>En perfil enterprise, <strong>OpenSpec y la sesión de cambio</strong> son la condición previa que Pumuki exige <strong>antes</strong> de discutir si tu TypeScript es bonito. El estudiante debe recitar el flujo mínimo: <strong>status → session open → validate por stage → hook</strong>. Cuando bloquea con <code>OPENSPEC_MISSING</code> y en la terminal <code>openspec --version</code> funciona, debe sonreír: ya sabe que el producto usa el binario <strong>del repo</strong>, no el del sistema. En paralelo, abre <strong><code>pumuki-framework</code></strong>: opciones <strong>1–4</strong> no son “atajos mágicos”, son el mismo gate con <strong>scopes</strong> que debe poder <strong>mapear</strong> a PRE_COMMIT y PRE_PUSH. El menú es didáctica viva; el hook es la verdad en CI.</p>
+<h3 id="00-preparacion-03-recorrido-cero-a-cien-pumuki-del-60-al-75-superficies-para-humanos-y-para-m-quinas">Del 60 % al 75 % — Superficies para humanos y para máquinas</h3>
+<p><strong>MCP</strong> entra aquí, nunca antes con peso semántico. El alumno entiende que los hooks <strong>no dependen</strong> de un servidor HTTP levantado; que <strong>evidence</strong> MCP sirve para <strong>leer</strong> el acta sin re-ejecutar todo; que <strong>enterprise</strong> consolida contexto para agentes con <strong>guardrails</strong>. Si usa IDE, reconoce <strong>stdio</strong> en <code>.pumuki/adapter.json</code>. Si tu política incluye <strong>PRE_WRITE</strong> con recibo, entiende que es <strong>anti-vapor</strong>: hace falta artefacto, no promesa en el chat.</p>
+<h3 id="00-preparacion-03-recorrido-cero-a-cien-pumuki-del-75-al-90-ritmo-ruido-y-alarma">Del 75 % al 90 % — Ritmo, ruido y alarma</h3>
+<p><strong>Notificaciones</strong> y <strong><code>watch</code></strong> enseñan que el mismo veredicto puede <strong>llegar</strong> al ojo humano por distintos canales: banner, stderr, modal de bloqueo en macOS. El estudiante configura o desactiva con <strong>variables de entorno</strong> documentadas, no a martillazos. En equipos con monorepo o CI exigente, entra <strong>parity</strong>: lo que pasó en el portátil debe tener un homólogo defendible en el pipeline, con prefijos de scope si aplica.</p>
+<h3 id="00-preparacion-03-recorrido-cero-a-cien-pumuki-del-90-al-100-gobernanza-cierre-y-desmontaje-limpio">Del 90 % al 100 % — Gobernanza, cierre y desmontaje limpio</h3>
+<p><strong>Governance</strong> en el sentido del curso hermano: AGENTS, skills, GitFlow, cultura. Pumuki <strong>enforcementa</strong> lo que ahí se declaró; no reemplaza el debate político. El <strong>checklist final</strong> del módulo 7 es el examen oral: ¿puedes enseñar el recorrido a un nuevo compañero en quince minutos? El cierre del cien por cien incluye saber <strong>retirar</strong> el producto: <strong><code>remove</code></strong>, <strong><code>uninstall</code></strong>, diferencia frente a <code>npm uninstall</code>, para no dejar hooks zombies en un repo que deja de adoptar el marco.</p>
+<hr>
+<h2 id="00-preparacion-03-recorrido-cero-a-cien-pumuki-c-mo-encaja-esto-con-el-resto-del-curso">Cómo encaja esto con el resto del curso</h2>
+<p>El <strong><a href="#02-modulos-00-mapa-completo-del-producto">01 · Mapa del producto</a></strong> es el atlas: ábrelo cuando necesites el nombre exacto de un binario o un puerto. Este <strong>recorrido</strong> es el viaje en tren: estaciones en orden. Los <strong>módulos 01–12</strong> y el <strong><a href="#docs-playbook-pumuki-sdd-bridge">Puente SDD y Pumuki</a></strong> son las guías de cada estación con ejercicios y tablas. El <strong><a href="#02-modulos-13-proyecto-guiado-de-la-a-la-z">Proyecto paso a paso (A–M)</a></strong> es el laboratorio donde <strong>caminas</strong> el porcentaje con los pies: sin esa lección, el recorrido es literatura; con ella, es <strong>competencia</strong>.</p>
+<hr>
+<h2 id="00-preparacion-03-recorrido-cero-a-cien-pumuki-qu-significa-termin-el-cien-por-cien-criterio-inequ-voco">Qué significa “terminé el cien por cien” (criterio inequívoco)</h2>
+<p>El estudiante puede, sin mirar notas: (1) dibujar el pipeline <strong>hechos → reglas → gate → evidencia</strong>; (2) ejecutar y explicar <strong>install, doctor, status, al menos dos stages de hook y un validate SDD</strong> acorde al perfil; (3) abrir evidencia v2.1 y señalar <strong>dónde</strong> se ve el scope y la cobertura de reglas; (4) lanzar el <strong>menú</strong> y relacionar <strong>1–4</strong> con stages; (5) explicar <strong>por qué MCP no es requisito del gate</strong> y cuándo sí lo es en <strong>PRE_WRITE</strong> según política; (6) usar <strong>watch</strong> o notificaciones de forma consciente; (7) describir <strong>remove vs npm uninstall</strong>; (8) completar la <strong>checklist</strong> del módulo 7 con narrativa propia. Si falta uno solo de esos ocho y el alumno “terminó el curso”, el formador debe <strong>devolver</strong> al porcentaje que corresponda hasta cerrar la laguna.</p>
+<hr>
+<h2 id="00-preparacion-03-recorrido-cero-a-cien-pumuki-lectura-can-nica-la-ley">Lectura canónica (la ley)</h2>
+<p>Todo lo anterior debe poder contrastarse con <strong><a href="https://cdn.jsdelivr.net/npm/pumuki@6.3.72/docs/product/USAGE.md">USAGE</a></strong> y <strong><a href="https://cdn.jsdelivr.net/npm/pumuki@6.3.72/docs/product/INSTALLATION.md">INSTALLATION</a></strong> del paquete publicado (mismo texto que en <code>node_modules</code> a esa versión). Si este relato y el USAGE chocan, <strong>gana el USAGE</strong> y se actualiza este texto.</p>
 </section>
 <section id="00-preparacion-02-lab-governancekit-helpdesksdd" class="lesson" data-topic-id="00-preparacion-02-lab-governancekit-helpdesksdd" data-lesson-path="00-preparacion/02-lab-governancekit-helpdesksdd.md">
 <div class="lesson-path">00-preparacion/02-lab-governancekit-helpdesksdd.md</div>
@@ -1464,73 +1657,166 @@ npx pumuki doctor --json</code></pre>
 <section id="01-roadmap-00-roadmap-mvp" class="lesson" data-topic-id="01-roadmap-00-roadmap-mvp" data-lesson-path="01-roadmap/00-roadmap-mvp.md">
 <div class="lesson-path">01-roadmap/00-roadmap-mvp.md</div>
 <h1 id="01-roadmap-00-roadmap-mvp-roadmap-mvp-orden-de-trabajo">Roadmap MVP (orden de trabajo)</h1>
-<p>Secuencia corta para el lanzamiento pedagógico del curso en el hub. Cada bloque enlaza a un módulo en <code>02-modulos/</code>.</p>
+<p>Secuencia para recorrer el curso en el hub. La <strong>columna vertebral pedagógica</strong> es <strong><a href="#00-preparacion-03-recorrido-cero-a-cien-pumuki">Narrativa completa (prosa)</a></strong> (narrativa 0–100) + <strong><a href="#02-modulos-13-proyecto-guiado-de-la-a-la-z">Proyecto paso a paso (A–M)</a></strong> (fases A–M en el lab). Lo demás es profundización técnica módulo a módulo.</p>
+<h2 id="01-roadmap-00-roadmap-mvp-antes-de-tocar-el-lab-d-a-0-1">Antes de tocar el lab (día 0–1)</h2>
 <ol>
-  <li><strong>Semana 1 — Contrato y límites</strong> → <code>02-modulos/01-contrato-y-limites.md</code></li>
-  <li><strong>Semana 2 — Primer verde</strong> → <code>02-modulos/02-instalacion-y-primer-verde.md</code></li>
-  <li><strong>Semana 3 — Perfiles de adopción</strong> → <code>02-modulos/03-perfiles-de-adopcion.md</code></li>
-  <li><strong>Semana 4 — SDD + Pumuki</strong> → <code>02-modulos/04-sdd-y-pumuki.md</code> y <code>docs/playbook-pumuki-sdd-bridge.md</code></li>
-  <li><strong>Semana 5 — Governance + Pumuki</strong> → <code>02-modulos/05-governance-y-pumuki.md</code></li>
-  <li><strong>Semana 6 — Monorepo / CI / parity</strong> → <code>02-modulos/06-monorepo-ci-parity.md</code></li>
-  <li><strong>Semana 7 — Proyecto final</strong> → <code>02-modulos/07-proyecto-final-checklist.md</code></li>
+  <li><strong><a href="#00-preparacion-03-recorrido-cero-a-cien-pumuki">Narrativa completa (prosa)</a></strong> — leer <strong>entero</strong> una vez: evita ambigüedad entre SDD, gate, MCP y evidencia.</li>
+  <li><strong><a href="#02-modulos-00-mapa-completo-del-producto">01 · Mapa del producto</a></strong> — atlas cuando necesites nombres exactos (binarios, puertos, tools).</li>
 </ol>
-<p>Paralelamente: integración en <strong>stack-my-architecture-hub</strong> (<code>/pumuki/</code>) y enlaces desde cursos Governance y SDD.</p>
-<h2 id="01-roadmap-00-roadmap-mvp-entregable-final">Entregable final</h2>
+<h2 id="01-roadmap-00-roadmap-mvp-proyecto-guiado-paralelo-al-resto">Proyecto guiado (paralelo al resto)</h2>
 <ul>
-  <li>Repo lab con Pumuki operativo en el perfil elegido.</li>
-  <li>Evidencia de <code>doctor --json</code> y checklist de release completada (módulo 7).</li>
+  <li><strong><a href="#02-modulos-13-proyecto-guiado-de-la-a-la-z">Proyecto paso a paso (A–M)</a></strong> — empieza la <strong>fase A</strong> tras versión mínima y lab; la <strong>fase C</strong> encaja con el módulo de instalación; no saltes fases hasta cerrar el <strong>criterio de hecho</strong> de cada una.</li>
 </ul>
-</section>
-<section id="01-roadmap-00-modulos-nucleo" class="lesson" data-topic-id="01-roadmap-00-modulos-nucleo" data-lesson-path="01-roadmap/00-modulos-nucleo.md">
-<div class="lesson-path">01-roadmap/00-modulos-nucleo.md</div>
-<h1 id="01-roadmap-00-modulos-nucleo-m-dulos-n-cleo-1-7-mapa-r-pido">Módulos núcleo (1–7) — mapa rápido</h1>
+<h2 id="01-roadmap-00-roadmap-mvp-m-dulos-t-cnicos-desglose">Módulos técnicos (desglose)</h2>
+<ol>
+  <li><strong>Contrato</strong> → <a href="#02-modulos-01-contrato-y-limites">02 · Contrato y límites</a></li>
+  <li><strong>Primer verde</strong> → <a href="#02-modulos-02-instalacion-y-primer-verde">03 · Instalación y primer verde</a> (y proyecto fase C)</li>
+  <li><strong>Ciclo de vida</strong> → <a href="#02-modulos-08-ciclo-de-vida-install-uninstall-actualizacion">05 · Ciclo de vida (instalar / retirar)</a></li>
+  <li><strong>Evidencia</strong> → <a href="#02-modulos-09-evidencia-por-stage-y-ai-evidence-json">06 · Evidencia y .ai_evidence.json</a></li>
+  <li><strong>Perfiles</strong> → <a href="#02-modulos-03-perfiles-de-adopcion">07 · Perfiles de adopción</a></li>
+  <li><strong>SDD</strong> → <a href="#02-modulos-04-sdd-y-pumuki">08 · SDD, OpenSpec y gate</a> y <a href="#docs-playbook-pumuki-sdd-bridge">Puente SDD y Pumuki</a></li>
+  <li><strong>Menú / MCP / Notificaciones</strong> → <a href="#02-modulos-10-menu-interactivo-matrix-y-preflight">09 · Menú interactivo y matrix</a>, <a href="#02-modulos-11-mcp-enforcement-vs-lectura-agente">10 · MCP (HTTP, stdio, recibo)</a>, <a href="#02-modulos-12-notificaciones-macos-stderr-y-watch">11 · Notificaciones y watch</a></li>
+  <li><strong>Governance / monorepo</strong> → <a href="#02-modulos-05-governance-y-pumuki">12 · Governance y Pumuki</a>, <a href="#02-modulos-06-monorepo-ci-parity">13 · Monorepo, CI y parity</a></li>
+  <li><strong>Cierre</strong> → <a href="#02-modulos-07-proyecto-final-checklist">14 · Cierre y checklist</a> + <strong>fase M</strong> del proyecto guiado</li>
+</ol>
+<h2 id="01-roadmap-00-roadmap-mvp-semanas-sugeridas-ajusta-a-tu-calendario">Semanas sugeridas (ajusta a tu calendario)</h2>
 <table>
 <thead>
 <tr>
-  <th>Módulo</th>
+  <th>Semana</th>
   <th>Foco</th>
-  <th>Doc producto</th>
+  <th>Proyecto guiado</th>
 </tr>
 </thead>
 <tbody>
 <tr>
   <td>1</td>
-  <td>Contrato, pipeline por stages, qué no es Pumuki</td>
-  <td><code>README.md</code>, <code>USAGE.md</code> (stages)</td>
+  <td>Contrato + mapa + instalación</td>
+  <td>A–C</td>
 </tr>
 <tr>
   <td>2</td>
-  <td><code>install</code>, <code>doctor</code>, <code>status</code>, postinstall, troubleshooting</td>
-  <td><code>INSTALLATION.md</code>, <code>USAGE.md</code></td>
+  <td>Evidencia + push + ciclo de vida</td>
+  <td>D–F</td>
 </tr>
 <tr>
   <td>3</td>
-  <td>Perfiles mínimo / SDD / enterprise</td>
-  <td><code>README.md</code> (adopción)</td>
+  <td>Perfiles + SDD</td>
+  <td>G–H</td>
 </tr>
 <tr>
   <td>4</td>
-  <td><code>PUMUKI_EXPERIMENTAL_SDD</code>, validate, códigos OPENSPEC/SDD</td>
-  <td><code>USAGE.md</code>, playbook SDD del curso</td>
+  <td>Menú + MCP + notificaciones/watch</td>
+  <td>I–K</td>
 </tr>
 <tr>
   <td>5</td>
-  <td>AGENTS.md, skills, policy, GitFlow vistos desde el gate</td>
-  <td>Curso Governance + <code>USAGE.md</code></td>
-</tr>
-<tr>
-  <td>6</td>
-  <td><code>PUMUKI_GATE_SCOPE_PATH_PREFIXES</code>, <code>doctor --parity</code>, CI</td>
-  <td><code>USAGE.md</code>, <code>.pumuki/</code></td>
-</tr>
-<tr>
-  <td>7</td>
-  <td>Checklist release, evidencia, export JSON</td>
-  <td><code>USAGE.md</code>, <code>PUMUKI.md</code> operación</td>
+  <td>Governance + monorepo + checklist</td>
+  <td>L–M</td>
 </tr>
 </tbody>
 </table>
-<p>Profundiza en el curso <strong>Governance</strong> para semanas de quality gates y enforcement. Profundiza en el curso <strong>SDD</strong> para verificación y cierre de ticket.</p>
+<h2 id="01-roadmap-00-roadmap-mvp-entregable-final">Entregable final</h2>
+<ul>
+  <li>Repo lab con Pumuki operativo en el <strong>perfil</strong> elegido y <strong>fases A–M</strong> del proyecto guiado cerradas con narrativa (no solo ticks).</li>
+  <li>Evidencia de <code>doctor --json</code> alineado y checklist del módulo 7 <strong>comentada</strong>.</li>
+</ul>
+<h2 id="01-roadmap-00-roadmap-mvp-relaci-n-con-el-readme-del-producto">Relación con el README del producto</h2>
+<p>Este curso <strong>ordena y narra</strong>; la <strong>fuente normativa</strong> sigue siendo el <a href="https://cdn.jsdelivr.net/npm/pumuki@6.3.72/README.md">README del paquete</a> y <a href="https://cdn.jsdelivr.net/npm/pumuki@6.3.72/docs/product/USAGE.md">USAGE</a> en <strong>ast-intelligence-hooks</strong>. Si hay divergencia, se actualiza el curso.</p>
+</section>
+<section id="01-roadmap-00-modulos-nucleo" class="lesson" data-topic-id="01-roadmap-00-modulos-nucleo" data-lesson-path="01-roadmap/00-modulos-nucleo.md">
+<div class="lesson-path">01-roadmap/00-modulos-nucleo.md</div>
+<h1 id="01-roadmap-00-modulos-nucleo-m-dulos-n-cleo-mapa-r-pido">Módulos núcleo — mapa rápido</h1>
+<p><strong>Hilo narrativo 0→100:</strong> <a href="#00-preparacion-03-recorrido-cero-a-cien-pumuki">Narrativa completa (prosa)</a>.  </p>
+<p><strong>Hilo práctico A→M:</strong> <a href="#02-modulos-13-proyecto-guiado-de-la-a-la-z">Proyecto paso a paso (A–M)</a>.</p>
+<p>Orden de <strong>primera lectura</strong> en el HTML del curso (mismo orden que el índice lateral):</p>
+<table>
+<thead>
+<tr>
+  <th>Orden HTML</th>
+  <th>Lección</th>
+  <th>Rol en el 0–100</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>—</td>
+  <td><a href="#00-preparacion-03-recorrido-cero-a-cien-pumuki">Narrativa completa (prosa)</a></td>
+  <td><strong>Historia continua</strong> y % de madurez</td>
+</tr>
+<tr>
+  <td>0</td>
+  <td><a href="#02-modulos-00-mapa-completo-del-producto">01 · Mapa del producto</a></td>
+  <td>Atlas / territorio</td>
+</tr>
+<tr>
+  <td>1</td>
+  <td><a href="#02-modulos-01-contrato-y-limites">02 · Contrato y límites</a></td>
+  <td>Pipeline y stages</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td><a href="#02-modulos-02-instalacion-y-primer-verde">03 · Instalación y primer verde</a></td>
+  <td>Primer contacto npm + hooks</td>
+</tr>
+<tr>
+  <td><strong>P</strong></td>
+  <td><a href="#02-modulos-13-proyecto-guiado-de-la-a-la-z">04 · Proyecto paso a paso (A–M)</a></td>
+  <td><strong>Lab A–M</strong> (encajar tras instalar)</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td><a href="#02-modulos-08-ciclo-de-vida-install-uninstall-actualizacion">05 · Ciclo de vida (instalar / retirar)</a></td>
+  <td>Retirada y actualización</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td><a href="#02-modulos-09-evidencia-por-stage-y-ai-evidence-json">06 · Evidencia y .ai_evidence.json</a></td>
+  <td>Acta del gate</td>
+</tr>
+<tr>
+  <td>5</td>
+  <td><a href="#02-modulos-03-perfiles-de-adopcion">07 · Perfiles de adopción</a></td>
+  <td>Decisión de equipo</td>
+</tr>
+<tr>
+  <td>6</td>
+  <td><a href="#02-modulos-04-sdd-y-pumuki">08 · SDD, OpenSpec y gate</a></td>
+  <td>SDD ≠ gate; flujo diario</td>
+</tr>
+<tr>
+  <td>7</td>
+  <td><a href="#02-modulos-10-menu-interactivo-matrix-y-preflight">09 · Menú interactivo y matrix</a></td>
+  <td>Operación humana</td>
+</tr>
+<tr>
+  <td>8</td>
+  <td><a href="#02-modulos-11-mcp-enforcement-vs-lectura-agente">10 · MCP (HTTP, stdio, recibo)</a></td>
+  <td>Agentes / IDE</td>
+</tr>
+<tr>
+  <td>9</td>
+  <td><a href="#02-modulos-12-notificaciones-macos-stderr-y-watch">11 · Notificaciones y watch</a></td>
+  <td>Ritmo y alarmas</td>
+</tr>
+<tr>
+  <td>10</td>
+  <td><a href="#02-modulos-05-governance-y-pumuki">12 · Governance y Pumuki</a></td>
+  <td>Contrato cultural</td>
+</tr>
+<tr>
+  <td>11</td>
+  <td><a href="#02-modulos-06-monorepo-ci-parity">13 · Monorepo, CI y parity</a></td>
+  <td>Escala y CI</td>
+</tr>
+<tr>
+  <td>12</td>
+  <td><a href="#02-modulos-07-proyecto-final-checklist">14 · Cierre y checklist</a></td>
+  <td>Examen oral + cierre</td>
+</tr>
+</tbody>
+</table>
+<p>Profundiza en el curso <strong>Governance</strong> y en <strong>IA + SDD</strong> del hub donde este curso solo enlaza.</p>
 </section>
 <section id="docs-playbook-pumuki-sdd-bridge" class="lesson" data-topic-id="docs-playbook-pumuki-sdd-bridge" data-lesson-path="docs/playbook-pumuki-sdd-bridge.md">
 <div class="lesson-path">docs/playbook-pumuki-sdd-bridge.md</div>
@@ -1538,11 +1824,11 @@ npx pumuki doctor --json</code></pre>
 <p>Objetivo: cuando el flujo OpenSpec del curso <strong>IA + SDD</strong> entra en fase de verificación o cierre, Pumuki debe dar <strong>señales accionables</strong> sin sustituir el Kanban ni las specs.</p>
 <h2 id="docs-playbook-pumuki-sdd-bridge-activaci-n">Activación</h2>
 <ul>
-  <li>Variable <strong><code>PUMUKI_EXPERIMENTAL_SDD</code></strong>: comportamiento experimental alineado al flujo SDD (ver <code>docs/product/USAGE.md</code> en <strong>ast-intelligence-hooks</strong>).</li>
+  <li>Variable <strong><code>PUMUKI_EXPERIMENTAL_SDD</code></strong>: comportamiento experimental alineado al flujo SDD (ver <a href="https://cdn.jsdelivr.net/npm/pumuki@6.3.72/docs/product/USAGE.md">USAGE</a> en el repo público <strong>ast-intelligence-hooks</strong>).</li>
 </ul>
 <h2 id="docs-playbook-pumuki-sdd-bridge-comandos-de-comprobaci-n">Comandos de comprobación</h2>
 <ul>
-  <li><code>npx pumuki sdd status</code> / rutas documentadas en <code>USAGE.md</code> para validación SDD.</li>
+  <li><code>npx pumuki sdd status</code> / rutas documentadas en <a href="https://cdn.jsdelivr.net/npm/pumuki@6.3.72/docs/product/USAGE.md">USAGE del producto</a> para validación SDD.</li>
   <li>Interpretar códigos <strong><code>OPENSPEC_<em></code></strong> y <strong><code>SDD_</em></code></strong>: cada código debe mapearse a una acción concreta (corregir spec, ampliar tests, desbloquear gate, etc.).</li>
 </ul>
 <h2 id="docs-playbook-pumuki-sdd-bridge-enlace-pedag-gico">Enlace pedagógico</h2>
@@ -1552,124 +1838,1090 @@ npx pumuki doctor --json</code></pre>
   <li>No redactar OpenSpec completo ni ADR: vuelve al curso SDD o Governance.</li>
 </ul>
 </section>
+<section id="02-modulos-00-mapa-completo-del-producto" class="lesson" data-topic-id="02-modulos-00-mapa-completo-del-producto" data-lesson-path="02-modulos/00-mapa-completo-del-producto.md">
+<div class="lesson-path">02-modulos/00-mapa-completo-del-producto.md</div>
+<h1 id="02-modulos-00-mapa-completo-del-producto-mapa-completo-del-producto-pumuki">Mapa completo del producto Pumuki</h1>
+<p>Antes de usar este atlas como lista de nombres, lee <strong><a href="#00-preparacion-03-recorrido-cero-a-cien-pumuki">Narrativa completa (prosa)</a></strong>: ahí está la <strong>historia</strong> de qué hace Pumuki de principio a fin; aquí está el <strong>plano</strong> para cuando necesites un binario o un puerto sin perder el hilo.</p>
+<p>Este documento es la <strong>brújula</strong> del curso. Léelo cuando quieras ver el bosque entero antes de entrar en cada árbol. Todo lo que sigue está alineado con el repositorio público <strong>ast-intelligence-hooks</strong> (paquete npm <code>pumuki</code>) y con <a href="https://cdn.jsdelivr.net/npm/pumuki@6.3.72/docs/product/USAGE.md">USAGE</a>, <a href="https://cdn.jsdelivr.net/npm/pumuki@6.3.72/docs/mcp/mcp-servers-overview.md">Visión general MCP</a> y el <a href="https://cdn.jsdelivr.net/npm/pumuki@6.3.72/README.md">README del paquete</a>.</p>
+<hr>
+<h2 id="02-modulos-00-mapa-completo-del-producto-1-una-sola-idea-que-lo-atraviesa-todo">1. Una sola idea que lo atraviesa todo</h2>
+<p>Pumuki implementa <strong>un mismo modelo de ejecución</strong> en el portátil, en los hooks de Git, en CI y (opcionalmente) frente a un agente de IA: primero se <strong>extraen hechos</strong> del código o del diff que toca en cada momento; después se <strong>evalúan reglas</strong> que tu organización ha decidido que importan; a continuación un <strong>gate</strong> por <strong>stage</strong> decide si puedes continuar, solo con advertencias, o si debe <strong>bloquearse</strong> el flujo; y al final queda <strong>evidencia</strong> versionada en <code>.ai_evidence.json</code> (contrato <strong>v2.1</strong>) para auditoría y para que otras herramientas (IDE, MCP, scripts) lean el mismo veredicto que vio el hook.</p>
+<p>No hay dos “verdades” distintas: el menú interactivo, <code>pumuki-pre-commit</code>, el servidor MCP y <code>pumuki doctor</code> hablan del <strong>mismo</strong> pipeline cuando están bien configurados. Si algo “cuadra en el IDE pero no en el push”, casi siempre es <strong>versión distinta</strong>, <strong>scope distinto</strong> (staged vs rango de commits) o <strong>evidencia caducada o inválida</strong>, no magia negra.</p>
+<hr>
+<h2 id="02-modulos-00-mapa-completo-del-producto-2-los-cuatro-stages-que-debes-saber-de-memoria">2. Los cuatro stages que debes saber de memoria</h2>
+<table>
+<thead>
+<tr>
+  <th>Stage</th>
+  <th>Qué parte del repo mira</th>
+  <th>Para qué sirve en la cabeza del estudiante</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><strong>PRE_WRITE</strong></td>
+  <td>Comprobación en el momento de escribir (cadena con hooks en versiones recientes)</td>
+  <td>Acopla política <strong>antes</strong> del commit cuando el hook lo encadena; en enterprise puede exigir recibo MCP y SDD según política.</td>
+</tr>
+<tr>
+  <td><strong>PRE_COMMIT</strong></td>
+  <td><code>git diff --cached</code> (lo que iría en el commit)</td>
+  <td>El “último filtro” antes de crear la revisión local.</td>
+</tr>
+<tr>
+  <td><strong>PRE_PUSH</strong></td>
+  <td><code>upstream..HEAD</code> (lo que vas a enviar)</td>
+  <td>Evita empujar ramas incoherentes, sin upstream, o con evidencia que no refleja lo que vas a publicar.</td>
+</tr>
+<tr>
+  <td><strong>CI</strong></td>
+  <td>Rango tipo <code>baseRef..HEAD</code></td>
+  <td>Misma lógica que en local pero con el contexto del integrador.</td>
+</tr>
+</tbody>
+</table>
+<p>Cada stage tiene <strong>umbrales</strong> de severidad (<code>blockOnOrAbove</code>, <code>warnOnOrAbove</code>) definidos en políticas del producto. No necesitas memorizar los números: necesitas entender que <strong>ERROR</strong> suele <strong>bloquear</strong> y <strong>WARN</strong> puede <strong>avisar</strong> según el stage.</p>
+<hr>
+<h2 id="02-modulos-00-mapa-completo-del-producto-3-superficies-donde-vive-pumuki-sin-solaparlos">3. Superficies donde “vive” Pumuki (sin solaparlos)</h2>
+<h3 id="02-modulos-00-mapa-completo-del-producto-3-1-paquete-npm-y-binarios">3.1 Paquete npm y binarios</h3>
+<p>Instalas <code>pumuki</code> como dependencia. Desde ahí salen, entre otros:</p>
+<ul>
+  <li><strong><code>pumuki</code></strong> — CLI principal: <code>install</code>, <code>doctor</code>, <code>status</code>, <code>bootstrap</code>, <code>sdd …</code>, etc.</li>
+  <li><strong><code>pumuki-pre-write</code></strong>, <strong><code>pumuki-pre-commit</code></strong>, <strong><code>pumuki-pre-push</code></strong>, <strong><code>pumuki-ci</code></strong> — runners que Git o CI invocan; son la <strong>cara</strong> del gate en cada momento.</li>
+  <li><strong><code>pumuki-framework</code></strong> — menú interactivo para consumidores (<code>npx pumuki-framework</code>).</li>
+  <li><strong><code>pumuki-mcp-evidence</code></strong>, <strong><code>pumuki-mcp-enterprise</code></strong> — servidores MCP en HTTP.</li>
+  <li><strong><code>pumuki-mcp-evidence-stdio</code></strong>, <strong><code>pumuki-mcp-enterprise-stdio</code></strong> — puentes <strong>stdio</strong> para que Cursor, Codex, Claude, etc. hablen el protocolo MCP sin que tú abras puertos a mano.</li>
+</ul>
+<p><strong>Hecho pedagógico clave:</strong> los hooks <strong>no dependen</strong> de MCP. MCP es <strong>capa opcional</strong> para agentes y para lectura rica de contexto. Si alguien te dice “no usamos MCP, entonces no tenemos Pumuki”, está confundiendo <strong>enforcement</strong> (hooks/CI) con <strong>superficie de agente</strong>.</p>
+<h3 id="02-modulos-00-mapa-completo-del-producto-3-2-postinstall-y-lifecycle">3.2 Postinstall y lifecycle</h3>
+<p>En repos Git, versiones recientes pueden ejecutar <code>pumuki install</code> en <strong>postinstall</strong> para dejar hooks y lifecycle alineados. Eso explica por qué “solo con <code>npm install</code>” a veces cambia <code>.git/hooks</code>: es <strong>intencional</strong>, no un virus. En CI suele <strong>saltarse</strong> (<code>CI=true</code>). Puedes desactivarlo con <code>PUMUKI_SKIP_POSTINSTALL=1</code> si tu equipo tiene un motivo documentado.</p>
+<h3 id="02-modulos-00-mapa-completo-del-producto-3-3-men-interactivo-pumuki-framework">3.3 Menú interactivo (<code>pumuki-framework</code>)</h3>
+<p>Es una <strong>consola de diagnóstico y flujo</strong> para humanos. En modo <strong>Consumer</strong> prioriza opciones de lectura alineadas con PRE_COMMIT/PRE_PUSH; en <strong>Advanced</strong> aparece más superficie (legacy, toolkits). Pedagógicamente: el menú <strong>no</strong> es la fuente de verdad del diseño; el diseño es el <strong>gate por stage</strong>. El menú es un <strong>tablero de mandos</strong> para quien no quiere memorizar flags.</p>
+<h3 id="02-modulos-00-mapa-completo-del-producto-3-4-openspec-sdd">3.4 OpenSpec / SDD</h3>
+<p>En perfil enterprise, Pumuki <strong>corta el camino</strong> si OpenSpec o la sesión SDD no están en un estado válido. Los códigos (<code>OPENSPEC_MISSING</code>, <code>SDD_SESSION_INVALID</code>, etc.) no son decoración: son <strong>contratos</strong> que verás en JSON y en stderr. El curso del <strong>IA + SDD</strong> te enseña el método; <strong>este</strong> curso te enseña <strong>cómo Pumuki lo enforcementa</strong>.</p>
+<hr>
+<h2 id="02-modulos-00-mapa-completo-del-producto-4-mcp-qu-servidores-existen-y-qu-problema-resuelve-cada-uno">4. MCP: qué servidores existen y qué problema resuelve cada uno</h2>
+<h3 id="02-modulos-00-mapa-completo-del-producto-4-1-evidence-context-server-pumuki-mcp-evidence">4.1 Evidence Context Server (<code>pumuki-mcp-evidence</code>)</h3>
+<ul>
+  <li><strong>Propósito:</strong> exponer <strong>solo lectura</strong> el estado de <code>.ai_evidence.json</code> v2.1 por HTTP.</li>
+  <li><strong>Puerto por defecto:</strong> <code>7341</code>, host <code>127.0.0.1</code>, ruta base <code>/ai-evidence</code> (configurable con <code>PUMUKI_EVIDENCE_*</code>).</li>
+  <li><strong>Mentalidad:</strong> “¿Qué dice la última evidencia <strong>sin</strong> ejecutar el gate otra vez?” — útil para dashboards y para agentes que deben <strong>leer</strong> antes de proponer código.</li>
+</ul>
+<p>Si el fichero falta o no es v2.1 válido, los endpoints de payload pueden responder <strong>404</strong>: eso <strong>no</strong> es un bug del servidor, es el <strong>contrato</strong> (no inventar evidencia).</p>
+<h3 id="02-modulos-00-mapa-completo-del-producto-4-2-enterprise-mcp-server-pumuki-mcp-enterprise">4.2 Enterprise MCP Server (<code>pumuki-mcp-enterprise</code>)</h3>
+<ul>
+  <li><strong>Propósito:</strong> consolidar <strong>recursos</strong> (estado de evidencia, gitflow, SDD, lifecycle…) y <strong>herramientas</strong> (tools) en un solo servidor HTTP.</li>
+  <li><strong>Puerto por defecto:</strong> <code>7391</code> (<code>PUMUKI_ENTERPRISE_MCP_*</code>). <code>PUMUKI_ENTERPRISE_MCP_PORT=0</code> pide puerto efímero si chocas con <code>EADDRINUSE</code>.</li>
+</ul>
+<h3 id="02-modulos-00-mapa-completo-del-producto-4-3-puentes-stdio">4.3 Puentes stdio</h3>
+<p>Los binarios <code>*-stdio</code> levantan el mismo contrato para clientes MCP que <strong>no</strong> consumen HTTP directamente. Son la forma habitual en <strong>IDEs</strong>.</p>
+<hr>
+<h2 id="02-modulos-00-mapa-completo-del-producto-5-cat-logo-de-tools-del-mcp-enterprise-una-a-una">5. Catálogo de <strong>tools</strong> del MCP enterprise (una a una)</h2>
+<p>Aparecen en el catálogo HTTP <code>GET /tools</code> (y vía stdio). Metadatos típicos: <code>name</code>, <code>description</code>, <code>mutating</code>, <code>safeByDefault</code>.</p>
+<p><strong>Herramientas “experimentales” del enterprise</strong> (<code>ai_gate_check</code>, <code>pre_flight_check</code>, <code>auto_execute_ai_start</code>) solo se listan si activas el feature experimental de MCP enterprise (p. ej. <code>PUMUKI_EXPERIMENTAL_MCP_ENTERPRISE=advisory</code> o <code>strict</code>). Si no, el servidor sigue vivo pero <strong>no</strong> te “vende” herramientas que tu organización considera opt-in.</p>
+<table>
+<thead>
+<tr>
+  <th>Tool</th>
+  <th>Qué hace en lenguaje humano</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><strong><code>ai_gate_check</code></strong></td>
+  <td>Ejecuta el <strong>mismo evaluador unificado</strong> que el gate de IA (<code>evaluateAiGate</code>): ALLOWED/BLOCKED, violaciones, warnings, remediaciones sugeridas, estado de rama, edad de evidencia. Persiste recibo en <code>.pumuki/artifacts/mcp-ai-gate-receipt.json</code> para trazabilidad PRE_WRITE.</td>
+</tr>
+<tr>
+  <td><strong><code>pre_flight_check</code></strong></td>
+  <td>Lectura <strong>rápida</strong> tipo semáforo (<code>GREEN</code> / <code>RED</code>) con mensaje e <strong>hints</strong> operativos; comparte criterio con el gate pero orientado a “¿puedo arrancar iteración?”</td>
+</tr>
+<tr>
+  <td><strong><code>auto_execute_ai_start</code></strong></td>
+  <td>Devuelve un contrato <strong>accionable</strong> para el agente: <code>proceed</code> vs <code>ask</code>, <code>confidence_pct</code>, <code>reason_code</code>, <code>next_action</code> — pensado para orquestar el bucle humano-máquina sin ambigüedad.</td>
+</tr>
+<tr>
+  <td><strong><code>check_sdd_status</code></strong></td>
+  <td>Expone si el estado OpenSpec/SDD está alineado con lo que el enterprise considera operable en ese repo.</td>
+</tr>
+<tr>
+  <td><strong><code>validate_and_fix</code></strong>, <strong><code>sync_branches</code></strong>, <strong><code>cleanup_stale_branches</code></strong></td>
+  <td>Operaciones <strong>mutativas</strong> en apariencia; en modo <strong>fail-safe enterprise</strong> se fuerza <strong>dry-run</strong> aunque pidas lo contrario, y pasan <strong>guardias SDD</strong>. Si SDD bloquea, recibes <code>success=false</code>, <code>executed=false</code> y el <strong>guard</strong> explicado en el resultado.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Regla de oro:</strong> ninguna tool mutante te va a <strong>reescribir</strong> historia de Git alegremente desde MCP en el baseline seguro: primero <strong>política y sesión</strong>, después acción.</p>
+<hr>
+<h2 id="02-modulos-00-mapa-completo-del-producto-6-cli-que-no-puedes-ignorar-qu-pregunta-responde-cada-una">6. CLI que no puedes ignorar (qué pregunta responde cada una)</h2>
+<table>
+<thead>
+<tr>
+  <th>Comando</th>
+  <th>Qué le preguntas al sistema</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>pumuki doctor --json</code></td>
+  <td>“¿Estoy <strong>sano</strong>? ¿Hay <strong>drift</strong> de versión, lifecycle, parity, path hazard?”</td>
+</tr>
+<tr>
+  <td><code>pumuki status --json</code></td>
+  <td>“¿Qué ve el <strong>menú/lifecycle</strong> sobre mi instalación <strong>ahora</strong>?”</td>
+</tr>
+<tr>
+  <td><code>pumuki install</code> / <code>bootstrap --enterprise</code></td>
+  <td>“¿Dejo hooks, lifecycle y (opcional) MCP/adapters <strong>alineados</strong>?”</td>
+</tr>
+<tr>
+  <td><code>pumuki sdd status</code> / <code>sdd session --open</code> / <code>sdd validate --stage=…</code></td>
+  <td>“¿Mi <strong>cambio</strong> SDD está abierto y válido para el <strong>stage</strong> que va a ejecutar el gate?”</td>
+</tr>
+<tr>
+  <td><code>pumuki-pre-write</code> / <code>pre-commit</code> / <code>pre-push</code> / <code>pumuki-ci</code></td>
+  <td>“¿Este <strong>scope</strong> concreto pasa el gate?”</td>
+</tr>
+</tbody>
+</table>
+<p>Si solo recuerdas <strong>tres</strong> comandos para empezar: <strong><code>install</code></strong>, <strong><code>doctor --json</code></strong>, <strong><code>sdd validate --stage=PRE_COMMIT</code></strong>.</p>
+<hr>
+<h2 id="02-modulos-00-mapa-completo-del-producto-7-evidencia-v2-1-y-skills-visi-n-de-p-jaro">7. Evidencia v2.1 y skills (visión de pájaro)</h2>
+<ul>
+  <li><strong><code>.ai_evidence.json</code>:</strong> el “parte médico” del último gate relevante: findings, cobertura de reglas, métricas de severidad, metadatos. Debe ser <strong>coherente</strong> con la cadena de validación (<code>evidence_chain</code> cuando aplica).</li>
+  <li><strong>Skills / reglas:</strong> se resuelven en orden <strong>core → repo (<code>skills.lock.json</code>) → custom (<code>.pumuki/custom-rules.json</code>)</strong> con conflicto <strong><code>custom &gt; repo &gt; core</code></strong> por <code>ruleId</code>. Las reglas <strong>AUTO</strong> exigen <strong>detector</strong> mapeado; si no, el gate puede bloquear por <strong>cobertura incompleta</strong>.</li>
+</ul>
+<hr>
+<h2 id="02-modulos-00-mapa-completo-del-producto-8-c-mo-usar-este-mapa-en-el-curso">8. Cómo usar este mapa en el curso</h2>
+<ul>
+  <li><strong>Módulo 1</strong> profundiza en <strong>contrato y límites</strong> (qué promete Pumuki y qué no).</li>
+  <li><strong>Módulo 2</strong> te lleva al <strong>primer verde</strong> con comandos reales.</li>
+  <li><strong>Módulo 3</strong> elige <strong>perfil</strong> de adopción sin autoengañarse.</li>
+  <li><strong>Módulos 4 y 5</strong> enlanzan <strong>SDD</strong> y <strong>Governance</strong> sin duplicar esos cursos.</li>
+  <li><strong>Módulo 6</strong> aterriza <strong>monorepo y parity</strong>.</li>
+  <li><strong>Módulo 7</strong> cierra con <strong>checklist</strong> profesional.</li>
+</ul>
+<p>Si en algún momento sientes que “esto es demasiado superficie”, vuelve aquí y baja al documento enlazado del producto: <strong>este curso no sustituye el manual; te ordena el manual en una narrativa.</strong></p>
+<hr>
+<h2 id="02-modulos-00-mapa-completo-del-producto-referencias-can-nicas-profundizar-siempre">Referencias canónicas (profundizar siempre)</h2>
+<p>Abren en el navegador (no hace falta clonar el repo del producto):</p>
+<ul>
+  <li><a href="https://cdn.jsdelivr.net/npm/pumuki@6.3.72/README.md">README del paquete</a>  </li>
+  <li><a href="https://cdn.jsdelivr.net/npm/pumuki@6.3.72/docs/product/USAGE.md">USAGE</a>  </li>
+  <li><a href="https://cdn.jsdelivr.net/npm/pumuki@6.3.72/docs/product/INSTALLATION.md">INSTALLATION</a>  </li>
+  <li><a href="https://cdn.jsdelivr.net/npm/pumuki@6.3.72/docs/product/CONFIGURATION.md">CONFIGURATION</a>  </li>
+  <li><a href="https://cdn.jsdelivr.net/npm/pumuki@6.3.72/docs/mcp/mcp-servers-overview.md">Visión general MCP</a>  </li>
+  <li><a href="https://cdn.jsdelivr.net/npm/pumuki@6.3.72/docs/mcp/ai-evidence-v2.1-contract.md">Contrato de evidencia v2.1</a>  </li>
+  <li><a href="https://cdn.jsdelivr.net/npm/pumuki@6.3.72/AGENTS.md">AGENTS.md</a> (plantilla de contrato en repos que lo adopten)</li>
+</ul>
+</section>
 <section id="02-modulos-01-contrato-y-limites" class="lesson" data-topic-id="02-modulos-01-contrato-y-limites" data-lesson-path="02-modulos/01-contrato-y-limites.md">
 <div class="lesson-path">02-modulos/01-contrato-y-limites.md</div>
 <h1 id="02-modulos-01-contrato-y-limites-m-dulo-1-contrato-y-l-mites">Módulo 1 — Contrato y límites</h1>
-<h2 id="02-modulos-01-contrato-y-limites-qu-es-pumuki">Qué es Pumuki</h2>
-<p>Pipeline por <strong>stages</strong> (PRE_WRITE, PRE_COMMIT, PRE_PUSH, CI, …): <strong>Facts</strong> → <strong>Rules</strong> → <strong>Gate</strong> → <strong>evidencia</strong> versionada.</p>
-<h2 id="02-modulos-01-contrato-y-limites-qu-no-es">Qué no es</h2>
+<h2 id="02-modulos-01-contrato-y-limites-1-1-qu-es-pumuki-sin-marketing">1.1 Qué es Pumuki (sin marketing)</h2>
+<p>Imagina un <strong>inspector de obra</strong> que no opina del color del salón, pero sí comprueba que <strong>cables, tierra y normativa</strong> están donde la <strong>ley</strong> y el <strong>proyecto</strong> dijeron. Pumuki es ese inspector para el <strong>cambio de software</strong>: mira <strong>hechos</strong> detectables en el código o en el diff, los cruza con <strong>reglas</strong> que vienen de skills y políticas, y emite un <strong>veredicto</strong> por <strong>etapa</strong> del flujo Git (PRE_WRITE, PRE_COMMIT, PRE_PUSH, CI). Ese veredicto queda <strong>escrito</strong> en <code>.ai_evidence.json</code> (versión <strong>2.1</strong>) para que humanos, CI y agentes lean <strong>la misma película</strong>.</p>
+<p>Eso es <strong>todo</strong> el núcleo. Lo demás (menú bonito, MCP, notificaciones en macOS) son <strong>accesorios</strong> para que el núcleo sea <strong>usable</strong> en la vida real.</p>
+<hr>
+<h2 id="02-modulos-01-contrato-y-limites-1-2-el-pipeline-en-una-frase-continua">1.2 El pipeline en una frase continua</h2>
+<p><strong>Facts:</strong> “¿Qué hay en este diff?” — tipos de archivo, plataformas inferidas (iOS, Android, backend, frontend), heurísticas, AST cuando aplica.  </p>
+<p><strong>Rules:</strong> “¿Qué dijimos que había que cumplir?” — core embebido, <code>skills.lock.json</code> del repo, reglas custom en <code>.pumuki/custom-rules.json</code>, con precedencia <strong>custom > repo > core</strong> por identificador de regla.  </p>
+<p><strong>Gate:</strong> “¿Con esta severidad y este stage, pasamos o paramos?” — no es un voto humano; es <strong>política + umbrales</strong>.  </p>
+<p><strong>Evidencia:</strong> “¿Qué quedó registrado para auditoría y para la siguiente herramienta?” — contrato v2.1, con telemetría de cobertura de reglas y proyecciones de severidad.</p>
+<p>Si enseñas Pumuki sin ese orden, el alumno mezcla <strong>síntoma</strong> (“me bloqueó el push”) con <strong>causa</strong> (“PRE_PUSH vio WARN tratado como bloqueo en mi policy” o “evidencia inválida”).</p>
+<hr>
+<h2 id="02-modulos-01-contrato-y-limites-1-3-qu-no-es-pumuki-l-mites-que-debes-defender-ante-el-equipo">1.3 Qué <strong>no</strong> es Pumuki (límites que debes defender ante el equipo)</h2>
+<ol>
+  <li><strong>No</strong> es la aplicación que vendes al usuario final. Si Pumuki “falla”, tu negocio puede seguir en producción; lo que falla es el <strong>contrato de entrega</strong> en <strong>ese</strong> repo.</li>
+  <li><strong>No</strong> sustituye tests de dominio, contratos de API, E2E ni criterios de aceptación del product owner. Puede <strong>convivir</strong> con ellos; no los <strong>implica</strong>.</li>
+  <li><strong>No</strong> reemplaza el <strong>criterio humano</strong> en revisión de código: automatiza <strong>políticas acordadas</strong>. Si la política es mala, el gate será <strong>consistentemente malo</strong>.</li>
+  <li><strong>No</strong> es “el mismo SDD”: <strong>OpenSpec/SDD</strong> es un <strong>método de cambio</strong>; Pumuki puede <strong>exigir</strong> que el método esté en orden <strong>antes</strong> de ejecutar el gate enterprise. Confundir ambos genera la frase tóxica “Pumuki no me deja programar” cuando en realidad <strong>SDD_SESSION_INVALID</strong> te está diciendo “no hay cambio activo coherente”.</li>
+  <li><strong>No</strong> es opcional en la cabeza del alumno si el repo ya lo adoptó: o lo <strong>entendéis</strong> como contrato, o lo <strong>desinstaláis</strong>. El peor estado es “instalado pero ignorado”.</li>
+</ol>
+<hr>
+<h2 id="02-modulos-01-contrato-y-limites-1-4-stages-y-la-pregunta-que-hace-cada-uno">1.4 Stages y la pregunta que hace cada uno</h2>
+<p>Cuando leas <a href="https://cdn.jsdelivr.net/npm/pumuki@6.3.72/docs/product/USAGE.md">USAGE del producto</a>, fíjate en la <strong>tabla de stages</strong>: cada uno tiene un <strong>scope</strong> distinto. Pedagógicamente:</p>
 <ul>
-  <li>No define la arquitectura de tu app iOS/Android ni sustituye ADR.</li>
-  <li>No reemplaza el criterio humano de revisión ni el método SDD completo.</li>
+  <li><strong>PRE_COMMIT</strong> pregunta: “¿Lo que <strong>ya metiste en el índice</strong> cumple?”</li>
+  <li><strong>PRE_PUSH</strong> pregunta: “¿Lo que <strong>vas a subir</strong> respecto a <strong>upstream</strong> cumple <strong>y</strong> el contexto Git tiene sentido (rama, tracking, etc.)?”</li>
+  <li><strong>CI</strong> pregunta: “¿En el <strong>rango que ve el integrador</strong>, seguimos cumpliendo?”</li>
 </ul>
-<h2 id="02-modulos-01-contrato-y-limites-lectura">Lectura</h2>
+<p>Si el alumno ejecuta solo PRE_COMMIT en local y asume que el push es seguro, <strong>no ha entendido</strong> PRE_PUSH.</p>
+<hr>
+<h2 id="02-modulos-01-contrato-y-limites-1-5-cobertura-de-reglas-por-qu-a-veces-bloquea-sin-findings-bonitos">1.5 Cobertura de reglas (por qué a veces bloquea “sin findings bonitos”)</h2>
+<p>En stages clave, Pumuki puede bloquear si hay reglas <strong>activas</strong> que <strong>no</strong> se evaluaron, o reglas <strong>AUTO</strong> sin <strong>detector</strong> mapeado. Eso es <strong>intencional</strong>: evita que un equipo se crea “100 % governance” con reglas fantasmas. Enseña esto <strong>antes</strong> del primer bloqueo incomprensible.</p>
+<hr>
+<h2 id="02-modulos-01-contrato-y-limites-ejercicio-lab-obligatorio">Ejercicio (lab obligatorio)</h2>
+<p>En tu repo lab, abre un archivo que dispare una regla <strong>clara</strong> (por ejemplo una heurística de TypeScript o iOS que ya conozcas del producto). Sin ejecutar aún el hook, <strong>escribe en tres líneas</strong>:</p>
+<ol>
+  <li>Qué <strong>fact</strong> concreto detectará Pumuki (path, patrón, plataforma).  </li>
+  <li>Qué <strong>ruleId</strong> o familia de regla lo cubre (aunque sea buscando en la salida de un gate de prueba).  </li>
+  <li>Si esperas <strong>WARN</strong> o <strong>BLOCK</strong> en PRE_COMMIT con tu policy actual.</li>
+</ol>
+<p>Luego ejecuta <strong>un</strong> solo stage (<code>pumuki-pre-commit</code> o el que tengas cableado) y <strong>compara</strong> tu predicción con <code>.ai_evidence.json</code>. Si no cuadra, no sigas al módulo 2 hasta saber <strong>por qué</strong>.</p>
+<hr>
+<h2 id="02-modulos-01-contrato-y-limites-lectura-m-nima-del-producto">Lectura mínima del producto</h2>
 <ul>
-  <li><code>README.md</code> del producto: límites y posicionamiento.</li>
-  <li><code>docs/product/USAGE.md</code>: stages, comandos y variables relevantes.</li>
+  <li><a href="https://cdn.jsdelivr.net/npm/pumuki@6.3.72/README.md">README del paquete</a> — secciones “Qué NO es Pumuki” y “Enterprise Execution Model”.</li>
+  <li><a href="https://cdn.jsdelivr.net/npm/pumuki@6.3.72/docs/product/USAGE.md">USAGE</a> — “Gate stages and policies” y “Skills rules engine”.</li>
+  <li><a href="#02-modulos-00-mapa-completo-del-producto">01 · Mapa del producto</a> — repaso del territorio.</li>
 </ul>
-<h2 id="02-modulos-01-contrato-y-limites-ejercicio">Ejercicio</h2>
-<p>En tu lab, enumera tres <strong>facts</strong> que ya detecta Pumuki en un archivo de ejemplo y qué <strong>regla</strong> los bloquearía o advertiría.</p>
 </section>
 <section id="02-modulos-02-instalacion-y-primer-verde" class="lesson" data-topic-id="02-modulos-02-instalacion-y-primer-verde" data-lesson-path="02-modulos/02-instalacion-y-primer-verde.md">
 <div class="lesson-path">02-modulos/02-instalacion-y-primer-verde.md</div>
 <h1 id="02-modulos-02-instalacion-y-primer-verde-m-dulo-2-instalaci-n-y-primer-verde">Módulo 2 — Instalación y primer verde</h1>
-<h2 id="02-modulos-02-instalacion-y-primer-verde-objetivo">Objetivo</h2>
-<p>Dejar el consumidor con <code>install</code> aplicado, <code>doctor</code> sin bloqueos críticos y <code>status</code> coherente con la versión mínima (<strong>>= 6.3.71</strong>).</p>
-<h2 id="02-modulos-02-instalacion-y-primer-verde-comandos">Comandos</h2>
-<pre><code class="language-bash">npx pumuki install
-npx pumuki doctor
-npx pumuki status</code></pre>
-<h2 id="02-modulos-02-instalacion-y-primer-verde-postinstall">Postinstall</h2>
-<p>El paquete define <code>postinstall</code> hacia el instalador; si falla en CI, revisa <code>docs/product/INSTALLATION.md</code>.</p>
-<h2 id="02-modulos-02-instalacion-y-primer-verde-troubleshooting">Troubleshooting</h2>
-<ul>
-  <li><strong><code>pathExecutionHazard</code></strong> y rutas: revisa <code>USAGE.md</code> y mensajes de <code>doctor</code> (paths duplicados, binarios equivocados).</li>
-  <li>Cualquier hint operativo nuevo en tu versión: <code>CHANGELOG.md</code> del producto.</li>
-</ul>
+<p>Este módulo corresponde a la <strong>fase C</strong> del proyecto guiado <strong><a href="#02-modulos-13-proyecto-guiado-de-la-a-la-z">Proyecto paso a paso (A–M)</a></strong>. Cuando cierres el primer <code>doctor</code> coherente, vuelve al proyecto y marca el <strong>criterio de hecho</strong> de esa fase antes de seguir acumulando teoría.</p>
+<h2 id="02-modulos-02-instalacion-y-primer-verde-2-1-qu-significa-verde-aqu">2.1 Qué significa “verde” aquí</h2>
+<p><strong>Verde</strong> no es “mi app compila”. Es: <strong>hooks y lifecycle alineados</strong>, <strong>versión efectiva coherente</strong> entre lo instalado y lo que el repo espera, <strong>doctor sin bloqueos que tu política considere críticos</strong>, y <strong>un stage</strong> (normalmente PRE_COMMIT) que ejecutas <strong>a propósito</strong> y entiendes su salida. Si saltas directo a “ya hice npm install”, te has saltado la mitad del aprendizaje.</p>
+<hr>
+<h2 id="02-modulos-02-instalacion-y-primer-verde-2-2-instalaci-n-m-nima-razonada">2.2 Instalación mínima razonada</h2>
+<p>En un repo Git con Node 18+ y npm 9+:</p>
+<pre><code class="language-bash">npm install --save-exact pumuki</code></pre>
+<p><strong>Por qué <code>--save-exact</code>:</strong> Pumuki evoluciona rápido; una tilde que sube de parche en CI puede <strong>cambiar</strong> el comportamiento de hooks. En formación enterprise es norma fijar versión.</p>
+<p>A partir de versiones recientes, el <strong>postinstall</strong> puede ejecutar <strong><code>pumuki install</code></strong> solo en contexto Git (no en CI típico). Eso <strong>crea o actualiza</strong> hooks y artefactos de lifecycle. Si tu equipo no quiere eso en <code>npm install</code>, la válvula documentada es <code>PUMUKI_SKIP_POSTINSTALL=1</code> — pero entonces <strong>tú</strong> asumes instalar hooks explícitamente.</p>
+<p><strong>Bootstrap enterprise</strong> (cuando el README del producto lo recomienda para greenfield):</p>
+<pre><code class="language-bash">npx --yes pumuki bootstrap --enterprise --agent=codex</code></pre>
+<p>Sustituye <code>codex</code> por el agente que uses (<code>cursor</code>, <code>claude</code>, etc.) si quieres <strong>adapters</strong> y MCP listos. El bootstrap <strong>no</strong> es magia: solo <strong>orquesta</strong> pasos que podrías hacer a mano; lo enseñamos porque en equipos reales <strong>nadie</strong> los hace bien a mano la primera vez.</p>
+<hr>
+<h2 id="02-modulos-02-instalacion-y-primer-verde-2-3-los-tres-comandos-que-debes-ense-ar-el-primer-d-a">2.3 Los tres comandos que debes enseñar el primer día</h2>
+<pre><code class="language-bash">npx pumuki doctor --json
+npx pumuki status --json
+npx pumuki install</code></pre>
+<p><strong><code>doctor --json</code>:</strong> es el <strong>informe médico</strong> máquina-legible. Campos como <code>version.effective</code>, <code>version.driftWarning</code>, <code>version.alignmentCommand</code>, <code>pathExecutionHazard</code> y capas (<code>core</code>, <code>operational</code>, <code>integration</code>, …) te dicen si estás <strong>mintiendo</strong> cuando dices “tenemos Pumuki”. Si <code>driftWarning</code> no es <code>null</code>, <strong>copia y pega</strong> el comando de alineación que el propio JSON te da; no improvises otro <code>npx</code>.</p>
+<p><strong><code>status --json</code>:</strong> es la <strong>foto</strong> del menú/lifecycle y de la versión que el consumidor <strong>cree</strong> tener. Úsalo cuando alguien diga “en mi máquina funciona”: comparas <strong>status</strong> vs <strong>doctor</strong> y enseñas <strong>dónde</strong> miente la intuición.</p>
+<p><strong><code>install</code>:</strong> reaplica hooks y lifecycle cuando algo <strong>los rompió</strong> (cambio de rama raro, copia de repo sin hooks, actualización de paquete).</p>
+<hr>
+<h2 id="02-modulos-02-instalacion-y-primer-verde-2-4-pathexecutionhazard-la-trampa-del-macos-con-en-la-ruta">2.4 pathExecutionHazard (la trampa del macOS con <code>:</code> en la ruta)</h2>
+<p>Si <code>doctor</code> marca <strong>pathExecutionHazard</strong>, muchos tutoriales de internet que dicen <code>npx pumuki …</code> <strong>te están perjudicando</strong>. El propio doctor suele sugerir un workaround del estilo:</p>
+<pre><code class="language-bash">node ./node_modules/pumuki/bin/pumuki.js install</code></pre>
+<p><strong>Narrativa pedagógica:</strong> no es un bug de Pumuki; es la <strong>interacción</strong> entre shells, <code>npx</code> y rutas con caracteres que el runtime interpreta mal. El alumno debe <strong>asociar</strong> el síntoma (“command not found” o binario equivocado) con <strong>esta</strong> señal en JSON.</p>
+<hr>
+<h2 id="02-modulos-02-instalacion-y-primer-verde-2-5-primer-gate-manual-cierra-el-c-rculo">2.5 Primer gate manual (cierra el círculo)</h2>
+<p>Después de <code>install</code> y <code>doctor</code> razonablemente limpio, ejecuta <strong>explícitamente</strong>:</p>
+<pre><code class="language-bash">npx --yes --package pumuki@latest pumuki-pre-commit</code></pre>
+<p>o el binario equivalente que tu <code>package.json</code> exponga. Observa <strong>código de salida</strong> (0 vs 1) y abre <strong><code>.ai_evidence.json</code></strong>. Tu objetivo pedagógico es <strong>narrar</strong> en voz alta: “el hook corrió <strong>este</strong> stage, sobre <strong>este</strong> scope, y la evidencia dice <strong>esto</strong>”.</p>
+<hr>
+<p>Ciclo de vida <strong>completo</strong> (desinstalar, <code>remove</code>, <code>update --latest</code>, diferencia frente a <code>npm uninstall</code>) está en <strong><a href="#02-modulos-08-ciclo-de-vida-install-uninstall-actualizacion">05 · Ciclo de vida (instalar / retirar)</a></strong>: haz esa unidad en la misma semana que esta si vas a enseñar retirada del producto, no lo pospongas.</p>
+<hr>
+<h2 id="02-modulos-02-instalacion-y-primer-verde-2-6-openspec-cuando-enterprise-lo-exige">2.6 OpenSpec (cuando enterprise lo exige)</h2>
+<p>Si tu perfil incluye SDD, <strong>antes</strong> de declarar victoria ejecuta:</p>
+<pre><code class="language-bash">npx --yes pumuki sdd status</code></pre>
+<p>Si falta <code>@fission-ai/openspec</code> en <code>node_modules</code> del consumidor, verás <strong><code>OPENSPEC_MISSING</code></strong> aunque tengas un <code>openspec</code> global en el PATH. <strong>Esa</strong> frase debe quedar grabada: Pumuki resuelve OpenSpec <strong>repo-local</strong>, no por PATH global.</p>
+<hr>
 <h2 id="02-modulos-02-instalacion-y-primer-verde-ejercicio">Ejercicio</h2>
-<p>Captura salida de <code>doctor --json</code> en el lab antes y después de corregir un problema menor (por ejemplo path o hook desalineado).</p>
+<ol>
+  <li>Guarda <strong><code>doctor --json</code></strong> en un fichero <code>before.json</code>.  </li>
+  <li>Introduce un problema <strong>menor y reversible</strong> (por ejemplo desalinear versión en <code>package.json</code> sin lock, o quitar temporalmente un hook).  </li>
+  <li>Vuelve a ejecutar <strong><code>doctor --json</code></strong> → <code>after.json</code>.  </li>
+  <li>Escribe <strong>cinco frases</strong> explicando qué campo cambió y <strong>por qué</strong> eso importa operativamente.  </li>
+  <li>Restaura el repo a estado sano.</li>
+</ol>
+<hr>
+<h2 id="02-modulos-02-instalacion-y-primer-verde-lectura">Lectura</h2>
+<ul>
+  <li><a href="https://cdn.jsdelivr.net/npm/pumuki@6.3.72/docs/product/INSTALLATION.md">INSTALLATION</a> — postinstall, CI, troubleshooting.  </li>
+  <li><a href="https://cdn.jsdelivr.net/npm/pumuki@6.3.72/docs/product/USAGE.md">USAGE</a> — “Run locally”, variables, troubleshooting.  </li>
+  <li><a href="https://cdn.jsdelivr.net/npm/pumuki@6.3.72/README.md">README del paquete</a> — “5-Minute Quick Start”.</li>
+</ul>
+</section>
+<section id="02-modulos-13-proyecto-guiado-de-la-a-la-z" class="lesson" data-topic-id="02-modulos-13-proyecto-guiado-de-la-a-la-z" data-lesson-path="02-modulos/13-proyecto-guiado-de-la-a-la-z.md">
+<div class="lesson-path">02-modulos/13-proyecto-guiado-de-la-a-la-z.md</div>
+<h1 id="02-modulos-13-proyecto-guiado-de-la-a-la-z-proyecto-guiado-de-la-a-a-la-z-en-un-repo-de-laboratorio">Proyecto guiado — De la A a la Z en un repo de laboratorio</h1>
+<p>Este documento es el <strong>hilo conductor práctico</strong> del recorrido <strong>0–100</strong> (<a href="#00-preparacion-03-recorrido-cero-a-cien-pumuki">Narrativa completa (prosa)</a>). Cada fase tiene <strong>una acción concreta</strong>, <strong>un módulo</strong> donde se profundiza y un <strong>criterio de hecho</strong> para que no quede ambigüedad. Haz las fases <strong>en orden</strong> la primera vez; después úsalas como checklist de auditoría.</p>
+<p><strong>Reglas del lab:</strong> rama dedicada <code>training/pumuki-linea-base</code>, sin secretos en commits, sin empujar a <code>main</code> del producto real salvo política explícita del equipo.</p>
+<hr>
+<h2 id="02-modulos-13-proyecto-guiado-de-la-a-la-z-fase-a-aterrizaje-0-15-del-recorrido">Fase A — Aterrizaje (0–15 % del recorrido)</h2>
+<p><strong>Qué haces:</strong> lees la bienvenida, fijas versión mínima de <code>pumuki</code>, eliges GovernanceKit o HelpdeskSDD como lab y abres el <strong>mapa completo</strong> una vez, sin intentar memorizar tablas.</p>
+<p><strong>Profundiza en:</strong> <a href="#00-preparacion-00-bienvenida">Bienvenida</a>, <a href="#00-preparacion-01-version-minima-y-referencias">Versión mínima y referencias</a>, <a href="#02-modulos-00-mapa-completo-del-producto">01 · Mapa del producto</a>.</p>
+<p><strong>Hecho cuando:</strong> en dos frases explicas qué parte del trabajo del equipo <strong>no</strong> es responsabilidad de Pumuki.</p>
+<hr>
+<h2 id="02-modulos-13-proyecto-guiado-de-la-a-la-z-fase-b-contrato-en-la-cabeza-15-20">Fase B — Contrato en la cabeza (15–20 %)</h2>
+<p><strong>Qué haces:</strong> lees el módulo de contrato y <strong>escribes a mano</strong> (o en notas) la frase: hechos → reglas → gate → evidencia.</p>
+<p><strong>Profundiza en:</strong> <a href="#02-modulos-01-contrato-y-limites">02 · Contrato y límites</a>.</p>
+<p><strong>Hecho cuando:</strong> sin mirar el material, nombras <strong>los cuatro stages</strong> y qué pregunta <strong>cada uno</strong> sobre el alcance del código.</p>
+<hr>
+<h2 id="02-modulos-13-proyecto-guiado-de-la-a-la-z-fase-c-instalaci-n-material-20-35">Fase C — Instalación material (20–35 %)</h2>
+<p><strong>Qué haces:</strong> en el lab, <code>npm install --save-exact pumuki@&lt;versión acordada&gt;</code>, ejecutas <strong>bootstrap enterprise</strong> o el fallback documentado (<code>install --with-mcp</code> + <code>doctor --deep</code>). Guardas <code>doctor --json</code> inicial.</p>
+<p><strong>Profundiza en:</strong> <a href="#02-modulos-02-instalacion-y-primer-verde">03 · Instalación y primer verde</a>.</p>
+<p><strong>Hecho cuando:</strong> <code>doctor</code> no muestra un <code>driftWarning</code> que no hayas <strong>decidido</strong> ignorar con criterio documentado; sabes si tu postinstall está activo o lo saltaste a propósito.</p>
+<hr>
+<h2 id="02-modulos-13-proyecto-guiado-de-la-a-la-z-fase-d-primer-veredicto-y-evidencia-35-50">Fase D — Primer veredicto y evidencia (35–50 %)</h2>
+<p><strong>Qué haces:</strong> introduces un cambio <strong>mínimo</strong> que dispare una regla que conozcas (o acepta la primera que salga en tu stack). Ejecutas <strong><code>pumuki-pre-commit</code></strong> (o equivalente). Abres <strong><code>.ai_evidence.json</code></strong> y señalas <code>version</code>, scope implícito y al menos un campo de <strong>cobertura</strong> o <strong>findings</strong>.</p>
+<p><strong>Profundiza en:</strong> <a href="#02-modulos-09-evidencia-por-stage-y-ai-evidence-json">06 · Evidencia y .ai_evidence.json</a>, repaso de <a href="#02-modulos-01-contrato-y-limites">02 · Contrato y límites</a>.</p>
+<p><strong>Hecho cuando:</strong> predices <strong>antes</strong> de ejecutar si el outcome será PASS o BLOCK y aciertas <strong>o</strong> explicas con el JSON por qué te equivocaste.</p>
+<hr>
+<h2 id="02-modulos-13-proyecto-guiado-de-la-a-la-z-fase-e-push-y-otra-pregunta-45-55">Fase E — Push y otra pregunta (45–55 %)</h2>
+<p><strong>Qué haces:</strong> con upstream configurado, ejecutas <strong><code>pumuki-pre-push</code></strong>. Comparas si el archivo de evidencia en disco <strong>cambió o no</strong> según política (trackeado vs no). Anotas la lección en una sola frase.</p>
+<p><strong>Profundiza en:</strong> misma unidad de evidencia; en el producto, <a href="https://cdn.jsdelivr.net/npm/pumuki@6.3.72/docs/product/USAGE.md">USAGE</a> (sección PRE_PUSH).</p>
+<p><strong>Hecho cuando:</strong> puedes repetir <strong>sin titubear</strong> que PRE_COMMIT y PRE_PUSH <strong>no</strong> miran el mismo conjunto de cambios.</p>
+<hr>
+<h2 id="02-modulos-13-proyecto-guiado-de-la-a-la-z-fase-f-ciclo-de-vida-y-miedo-a-desmontar-50-60">Fase F — Ciclo de vida y miedo a desmontar (50–60 %)</h2>
+<p><strong>Qué haces:</strong> en otra rama de prueba <strong>o</strong> al final del curso, recorres por escrito (o en sandbox) la diferencia entre <code>npm uninstall</code>, <code>pumuki uninstall --purge-artifacts</code> y <code>pumuki remove</code>. Si el equipo lo permite, <strong>simula</strong> la mala desinstalación y <strong>remedias</strong>.</p>
+<p><strong>Profundiza en:</strong> <a href="#02-modulos-08-ciclo-de-vida-install-uninstall-actualizacion">05 · Ciclo de vida (instalar / retirar)</a>.</p>
+<p><strong>Hecho cuando:</strong> respondes a la pregunta “¿qué queda en <code>.git/hooks</code> tras cada comando?” sin abrir la ayuda.</p>
+<hr>
+<h2 id="02-modulos-13-proyecto-guiado-de-la-a-la-z-fase-g-perfil-honesto-55-60">Fase G — Perfil honesto (55–60 %)</h2>
+<p><strong>Qué haces:</strong> eliges <strong>un</strong> perfil de adopción (mínimo, SDD, enterprise) coherente con tu lab y documentas <strong>qué no</strong> vas a tener hasta subir de nivel.</p>
+<p><strong>Profundiza en:</strong> <a href="#02-modulos-03-perfiles-de-adopcion">07 · Perfiles de adopción</a>.</p>
+<p><strong>Hecho cuando:</strong> un compañero no puede “colarse” en enterprise sin saber qué está renunciando.</p>
+<hr>
+<h2 id="02-modulos-13-proyecto-guiado-de-la-a-la-z-fase-h-sdd-en-la-pr-ctica-60-75">Fase H — SDD en la práctica (60–75 %)</h2>
+<p><strong>Qué haces:</strong> <code>sdd status</code>, <code>sdd session --open --change=&lt;id válido&gt;</code>, <code>sdd validate --stage=PRE_COMMIT --json</code>. Si aparece <code>OPENSPEC_MISSING</code>, <strong>aplicas</strong> la remedición del módulo SDD (dependencia repo-local, no PATH global).</p>
+<p><strong>Profundiza en:</strong> <a href="#02-modulos-04-sdd-y-pumuki">08 · SDD, OpenSpec y gate</a>, <a href="#docs-playbook-pumuki-sdd-bridge">Puente SDD y Pumuki</a>.</p>
+<p><strong>Hecho cuando:</strong> clasificas un bloqueo en <strong>familia OpenSpec</strong> vs <strong>familia sesión/cambio</strong> sin adivinar.</p>
+<hr>
+<h2 id="02-modulos-13-proyecto-guiado-de-la-a-la-z-fase-i-men-y-matrix-70-80">Fase I — Menú y matrix (70–80 %)</h2>
+<p><strong>Qué haces:</strong> lanzas <code>pumuki-framework</code>, recorres <strong>1–4</strong> y anotas stage + scope. Opcional: ejecutas la <strong>matrix</strong> documentada en USAGE y guardas JSON en ruta local no sensible.</p>
+<p><strong>Profundiza en:</strong> <a href="#02-modulos-10-menu-interactivo-matrix-y-preflight">09 · Menú interactivo y matrix</a>.</p>
+<p><strong>Hecho cuando:</strong> dibujas el mapeo 1–4 en una servilleta correctamente.</p>
+<hr>
+<h2 id="02-modulos-13-proyecto-guiado-de-la-a-la-z-fase-j-mcp-con-los-pies-en-el-suelo-75-85">Fase J — MCP con los pies en el suelo (75–85 %)</h2>
+<p><strong>Qué haces:</strong> abres <code>.pumuki/adapter.json</code> y lees las líneas <strong>stdio</strong> propuestas. Explicas en voz alta por qué <strong>apagar</strong> todos los servidores MCP <strong>no</strong> invalida <code>pre-commit</code> en un repo estándar.</p>
+<p><strong>Profundiza en:</strong> <a href="#02-modulos-11-mcp-enforcement-vs-lectura-agente">10 · MCP (HTTP, stdio, recibo)</a>.</p>
+<p><strong>Hecho cuando:</strong> distingues <strong>evidence server</strong> vs <strong>enterprise</strong> en una frase cada uno.</p>
+<hr>
+<h2 id="02-modulos-13-proyecto-guiado-de-la-a-la-z-fase-k-notificaciones-y-vigilancia-80-90">Fase K — Notificaciones y vigilancia (80–90 %)</h2>
+<p><strong>Qué haces:</strong> <code>pumuki watch --once --json</code> (o configuración de notificaciones si estás en macOS y el equipo lo permite). Lees <strong>una</strong> salida y relacionas <strong>severidad de notify</strong> con <strong>política de bloqueo</strong>.</p>
+<p><strong>Profundiza en:</strong> <a href="#02-modulos-12-notificaciones-macos-stderr-y-watch">11 · Notificaciones y watch</a>.</p>
+<p><strong>Hecho cuando:</strong> eliges la variable de entorno correcta para silenciar stderr en Linux <strong>sin</strong> apagar el gate.</p>
+<hr>
+<h2 id="02-modulos-13-proyecto-guiado-de-la-a-la-z-fase-l-governance-monorepo-y-ci-85-95">Fase L — Governance, monorepo y CI (85–95 %)</h2>
+<p><strong>Qué haces:</strong> lees módulos 5 y 6 y <strong>vinculas</strong> una regla o convención de tu <strong>AGENTS.md</strong> (si existe en el lab) con algo que viste en evidencia. Si tenéis monorepo, anotáis si usaríais prefijos de scope.</p>
+<p><strong>Profundiza en:</strong> <a href="#02-modulos-05-governance-y-pumuki">12 · Governance y Pumuki</a>, <a href="#02-modulos-06-monorepo-ci-parity">13 · Monorepo, CI y parity</a>.</p>
+<p><strong>Hecho cuando:</strong> puedes decir “esto lo enforcementa el gate” vs “esto es cultura/documento” sin mezclar.</p>
+<hr>
+<h2 id="02-modulos-13-proyecto-guiado-de-la-a-la-z-fase-m-cierre-y-examen-oral-95-100">Fase M — Cierre y examen oral (95–100 %)</h2>
+<p><strong>Qué haces:</strong> completas <a href="#02-modulos-07-proyecto-final-checklist">14 · Cierre y checklist</a> <strong>con narrativa</strong>: cada casilla lleva <strong>una línea</strong> tuya, no un tick vacío. Enseñas el recorrido 0–100 a un compañero en <strong>≤ 15 minutos</strong> (él te hace dos preguntas impertinentes).</p>
+<p><strong>Profundiza en:</strong> checklist y <a href="#00-preparacion-03-recorrido-cero-a-cien-pumuki">Narrativa completa (prosa)</a>.</p>
+<p><strong>Hecho cuando:</strong> el compañero firma (literal o figurado) que entendió <strong>dónde</strong> acude cuando algo bloquea.</p>
+<hr>
+<h2 id="02-modulos-13-proyecto-guiado-de-la-a-la-z-si-te-atascas">Si te atascas</h2>
+<ol>
+  <li>Vuelve al <strong>porcentaje</strong> del recorrido narrativo: no saltes fases.  </li>
+  <li>Abre <a href="https://cdn.jsdelivr.net/npm/pumuki@6.3.72/docs/product/USAGE.md">USAGE del producto</a> en la sección que toque.  </li>
+  <li>Pregunta <strong>qué stage</strong> y <strong>qué scope</strong> estás ejecutando antes de preguntar “por qué Pumuki odia mi código”.</li>
+</ol>
+<hr>
+<h2 id="02-modulos-13-proyecto-guiado-de-la-a-la-z-lectura-can-nica">Lectura canónica</h2>
+<p><a href="https://cdn.jsdelivr.net/npm/pumuki@6.3.72/docs/product/USAGE.md">USAGE</a>, <a href="https://cdn.jsdelivr.net/npm/pumuki@6.3.72/docs/product/INSTALLATION.md">INSTALLATION</a>, y la lección <a href="#00-preparacion-03-recorrido-cero-a-cien-pumuki">Narrativa completa (prosa)</a> como mapa del viaje.</p>
+</section>
+<section id="02-modulos-08-ciclo-de-vida-install-uninstall-actualizacion" class="lesson" data-topic-id="02-modulos-08-ciclo-de-vida-install-uninstall-actualizacion" data-lesson-path="02-modulos/08-ciclo-de-vida-install-uninstall-actualizacion.md">
+<div class="lesson-path">02-modulos/08-ciclo-de-vida-install-uninstall-actualizacion.md</div>
+<h1 id="02-modulos-08-ciclo-de-vida-install-uninstall-actualizacion-unidad-u3-ciclo-de-vida-instalar-actualizar-y-retirar-pumuki-sin-dejar-basura">Unidad U3 — Ciclo de vida: instalar, actualizar y retirar Pumuki sin dejar basura</h1>
+<h2 id="02-modulos-08-ciclo-de-vida-install-uninstall-actualizacion-objetivo-observable">Objetivo observable</h2>
+<p>Al cerrar esta unidad demuestras, en un repo de laboratorio, la <strong>diferencia operativa</strong> entre: instalar el paquete npm, reaplicar hooks, alinear versión con <code>update</code>, y <strong>retirar</strong> el producto con <code>remove</code> / <code>uninstall</code> sin confundir qué queda en <code>.git/hooks</code>, <code>.pumuki/</code> y <code>package.json</code>.</p>
+<h2 id="02-modulos-08-ciclo-de-vida-install-uninstall-actualizacion-prerrequisitos">Prerrequisitos</h2>
+<ul>
+  <li>Unidad equivalente al <strong>módulo 2</strong> (primer <code>doctor</code> y <code>install</code> coherentes).</li>
+  <li>Haber leído qué hace el <strong>postinstall</strong> en <a href="https://cdn.jsdelivr.net/npm/pumuki@6.3.72/docs/product/INSTALLATION.md">INSTALLATION del producto</a>.</li>
+</ul>
+<h2 id="02-modulos-08-ciclo-de-vida-install-uninstall-actualizacion-idea-central">Idea central</h2>
+<p>Pumuki no es solo una línea en <code>dependencies</code>. Deja <strong>estado</strong>: hooks gestionados, directorio <code>.pumuki/</code>, a veces evidencia y artefactos. <strong><code>npm uninstall pumuki</code></strong> borra la dependencia del manifiesto npm; <strong>no</strong> es el mismo acto que “este repo ya no gobierna con Pumuki”. Para eso el producto expone comandos explícitos de <strong>lifecycle</strong>.</p>
+<h2 id="02-modulos-08-ciclo-de-vida-install-uninstall-actualizacion-no-confundas">No confundas</h2>
+<table>
+<thead>
+<tr>
+  <th>Falsa intuición</th>
+  <th>Qué ocurre en la realidad</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>“Ya desinstalé con npm, el repo está limpio”</td>
+  <td>Pueden quedar <strong>hooks</strong> y <strong><code>.pumuki/</code></strong> apuntando a binarios que ya no existen o a versión vieja.</td>
+</tr>
+<tr>
+  <td>“<code>update</code> y <code>npm update</code> son lo mismo”</td>
+  <td><code>pumuki update --latest</code> está pensado para <strong>reaplicar</strong> alineación de hooks tras subir versión; léelo junto a <code>doctor</code> y <code>status</code>.</td>
+</tr>
+<tr>
+  <td>“Postinstall siempre es malo”</td>
+  <td>En Git local es <strong>diseño</strong>: acerca hooks al paquete instalado; en CI suele <strong>omitirse</strong>. La decisión debe ser <strong>consciente del equipo</strong>, no superstición.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="02-modulos-08-ciclo-de-vida-install-uninstall-actualizacion-1-tres-verbos-de-poner">1. Tres verbos de “poner”</h2>
+<ol>
+  <li><strong><code>npm install --save-exact pumuki</code></strong> — Declaras dependencia fijada; el <strong>postinstall</strong> puede ejecutar <code>pumuki install</code> en contexto Git (ver INSTALLATION).</li>
+  <li><strong><code>npx pumuki install</code></strong> (y variantes <code>--with-mcp --agent=…</code>) — Reaplica <strong>hooks y wiring</strong> sin reinstalar todo npm a mano.</li>
+  <li><strong><code>npx pumuki bootstrap --enterprise --agent=codex</code></strong> (u otro agente) — Orquestación <strong>recomendada</strong> en greenfield: hooks, OpenSpec si falta, <code>openspec/</code> mínimo, evidencia baseline, adapter, <code>doctor --deep</code>.</li>
+</ol>
+<p><strong>Pregunta de comprobación:</strong> ¿puedes explicar en voz alta qué hace <strong>cada</strong> uno sin decir “instala Pumuki” tres veces?</p>
+<h2 id="02-modulos-08-ciclo-de-vida-install-uninstall-actualizacion-2-tres-verbos-de-quitar-o-alinear">2. Tres verbos de “quitar” o “alinear”</h2>
+<ol>
+  <li><strong><code>npm uninstall pumuki</code></strong> — Solo quita el paquete npm según npm; <strong>no</strong> garantiza limpieza de hooks ni de <code>.pumuki/</code>.</li>
+  <li><strong><code>npx pumuki uninstall --purge-artifacts</code></strong> — Retira hooks gestionados y puede purgar artefactos de evidencia no trackeados (según política documentada en USAGE); úsalo cuando quieras <strong>desmontar</strong> sin borrar el repo entero.</li>
+  <li><strong><code>npx pumuki remove</code></strong> — Camino <strong>enterprise-safe</strong>: lifecycle cleanup <strong>antes</strong> del uninstall del paquete; es la respuesta cuando alguien dice “sacad Pumuki de este servicio”.</li>
+</ol>
+<p><strong>Secuencia mental:</strong> si alguien “solo hizo npm uninstall” y los hooks siguen llamando a <code>pumuki-pre-commit</code>, el fallo no es “magia”, es <strong>estado inconsistente</strong>.</p>
+<h2 id="02-modulos-08-ciclo-de-vida-install-uninstall-actualizacion-3-actualizar-versi-n-sin-drift-eterno">3. Actualizar versión sin drift eterno</h2>
+<ul>
+  <li><strong><code>npm update pumuki</code></strong> (o <code>npm upgrade</code> según tu npm) sube la dependencia según rangos; con <code>--save-exact</code> en cultura enterprise sueles <strong>pin</strong> y luego <strong><code>npm install pumuki@&lt;versión&gt;</code></strong> explícita.</li>
+  <li><strong><code>npx pumuki update --latest</code></strong> — Documentado en USAGE como <strong>actualizar dependencia a latest y reaplicar hooks</strong>; después <strong>siempre</strong> valida con <code>doctor --json</code> y <code>status --json</code> y usa <code>version.alignmentCommand</code> si el JSON te muestra drift.</li>
+</ul>
+<h2 id="02-modulos-08-ciclo-de-vida-install-uninstall-actualizacion-4-contrato-de-versi-n-status-doctor">4. Contrato de versión (<code>status</code> / <code>doctor</code>)</h2>
+<p>El bloque <code>version</code> en JSON (véase USAGE) existe para que dejes de discutir “en mi máquina”. Si aparece <code>driftWarning</code>, <strong>no improvises</strong>: ejecuta el <code>alignmentCommand</code> que el propio JSON te da.</p>
+<h2 id="02-modulos-08-ciclo-de-vida-install-uninstall-actualizacion-actividad-guiada-lab">Actividad guiada (lab)</h2>
+<ol>
+  <li>Rama nueva <code>training/lifecycle-pumuki</code>.  </li>
+  <li>Anota estado: <code>git status</code>, listado de <code>.git/hooks</code> relevantes, si existe <code>.pumuki/</code>.  </li>
+  <li>Ejecuta <strong><code>pumuki doctor --json</code></strong> → guarda <code>before.json</code>.  </li>
+  <li>Simula “mala desinstalación”: <strong><code>npm uninstall pumuki</code></strong> <strong>sin</strong> <code>pumuki remove</code>. Observa qué queda en hooks y carpetas.  </li>
+  <li>Remedia con el comando correcto del producto para tu objetivo (<strong>volver a sano</strong> o <strong>retirar del todo</strong>).  </li>
+  <li><strong><code>doctor --json</code></strong> → <code>after.json</code>.  </li>
+  <li>Escribe <strong>ocho líneas</strong>: qué cambió y qué lección le darías a un compañero.</li>
+</ol>
+<h2 id="02-modulos-08-ciclo-de-vida-install-uninstall-actualizacion-criterio-de-dominio-autoevaluaci-n-honesta">Criterio de dominio (autoevaluación honesta)</h2>
+<ul>
+  <li>Puedo nombrar <strong>dos</strong> diferencias concretas entre <code>npm uninstall pumuki</code> y <code>pumuki remove</code>.  </li>
+  <li>Sé cuándo elegir <strong><code>uninstall --purge-artifacts</code></strong> frente a <strong><code>remove</code></strong>.  </li>
+  <li>Tras un bump de versión, mi rutina incluye <strong><code>doctor</code></strong> y no solo “ya hice npm install”.</li>
+</ul>
+<h2 id="02-modulos-08-ciclo-de-vida-install-uninstall-actualizacion-lectura-can-nica">Lectura canónica</h2>
+<ul>
+  <li><a href="https://cdn.jsdelivr.net/npm/pumuki@6.3.72/docs/product/INSTALLATION.md">INSTALLATION</a> — postinstall, bootstrap, troubleshooting.  </li>
+  <li><a href="https://cdn.jsdelivr.net/npm/pumuki@6.3.72/docs/product/USAGE.md">USAGE</a> — sección “Lifecycle + SDD + Loop CLI (install / uninstall / remove / update …)” y bloque <code>version</code> en JSON.</li>
+</ul>
+</section>
+<section id="02-modulos-09-evidencia-por-stage-y-ai-evidence-json" class="lesson" data-topic-id="02-modulos-09-evidencia-por-stage-y-ai-evidence-json" data-lesson-path="02-modulos/09-evidencia-por-stage-y-ai-evidence-json.md">
+<div class="lesson-path">02-modulos/09-evidencia-por-stage-y-ai-evidence-json.md</div>
+<h1 id="02-modulos-09-evidencia-por-stage-y-ai-evidence-json-unidad-u4-evidencia-qu-se-escribe-cu-ndo-no-y-c-mo-leer-el-veredicto">Unidad U4 — Evidencia: qué se escribe, cuándo no, y cómo leer el veredicto</h1>
+<h2 id="02-modulos-09-evidencia-por-stage-y-ai-evidence-json-objetivo-observable">Objetivo observable</h2>
+<p>Tras esta unidad puedes abrir <strong><code>.ai_evidence.json</code></strong>, identificar <strong>versión 2.1</strong>, relacionar el <strong>stage</strong> que acabas de ejecutar con el <strong>scope</strong> evaluado, y explicar <strong>por qué</strong> a veces PRE_PUSH <strong>no reescribe</strong> el fichero aunque el gate haya calculado telemetría interna.</p>
+<h2 id="02-modulos-09-evidencia-por-stage-y-ai-evidence-json-prerrequisitos">Prerrequisitos</h2>
+<ul>
+  <li><strong>Módulo 1</strong> (tabla de stages y scopes).  </li>
+  <li>Haber ejecutado al menos un <strong><code>pumuki-pre-commit</code></strong> o equivalente en el lab.</li>
+</ul>
+<h2 id="02-modulos-09-evidencia-por-stage-y-ai-evidence-json-idea-central">Idea central</h2>
+<p>La evidencia es el <strong>acta notarial</strong> del gate: mismo contrato que debe entender el humano, CI y (vía MCP) el agente. Si solo miras el código de salida del hook, estás leyendo el <strong>titular</strong>; el JSON es el <strong>cuerpo del auto</strong>.</p>
+<h2 id="02-modulos-09-evidencia-por-stage-y-ai-evidence-json-no-confundas">No confundas</h2>
+<table>
+<thead>
+<tr>
+  <th>Falsa intuición</th>
+  <th>Qué dice el producto</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>“Si el hook pasó, el JSON siempre se actualizó en disco”</td>
+  <td>En <strong>PRE_PUSH</strong>, si <code>.ai_evidence.json</code> está <strong>trackeado</strong> y el outcome <strong>no</strong> es <code>BLOCK</code>, la escritura al path puede <strong>omitirse</strong> a propósito (evitar que otro hook falle por “files modified”). La telemetría interna sigue; el árbol de trabajo no tiene por qué mutar.</td>
+</tr>
+<tr>
+  <td>“Evidencia stale = bug”</td>
+  <td>Puede ser <strong>señal de política</strong> (p. ej. PRE_WRITE / AI Gate) o desalineación entre lo que creías commiteado y lo que el gate ve; hay que leer <strong>códigos</strong> y <code>operational_hints</code>.</td>
+</tr>
+<tr>
+  <td>“Ledger y snapshot son decoración”</td>
+  <td>Son las proyecciones con las que herramientas y personas <strong>auditan</strong> reglas, plataformas y historia reciente de hallazgos.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="02-modulos-09-evidencia-por-stage-y-ai-evidence-json-1-d-nde-vive-y-qu-versi-n-manda">1. Dónde vive y qué versión manda</h2>
+<ul>
+  <li>Ruta canónica: <strong><code>.ai_evidence.json</code></strong>.  </li>
+  <li><code>version: "2.1"</code> es la fuente de verdad del esquema; si no cuadra, los consumidores MCP pueden responder <strong>404</strong> al leer evidencia: no inventan datos.</li>
+</ul>
+<p>Referencia profunda: <a href="https://cdn.jsdelivr.net/npm/pumuki@6.3.72/docs/mcp/ai-evidence-v2.1-contract.md">contrato de evidencia v2.1</a>.</p>
+<h2 id="02-modulos-09-evidencia-por-stage-y-ai-evidence-json-2-qu-mirar-primero-en-un-json-real">2. Qué mirar primero en un JSON real</h2>
+<ol>
+  <li><strong><code>operational_hints</code></strong> (si existen): <code>human_summary_lines</code>, <code>requires_second_pass</code>, desglose de reglas evaluadas frente a bloqueantes — acelera el “qué pasó” sin leer todo el árbol.  </li>
+  <li><strong><code>snapshot</code></strong> y metadatos de <strong>SDD</strong> si aplica (<code>snapshot.sdd_metrics</code>).  </li>
+  <li><strong>Cobertura</strong>: <code>unevaluated_rule_ids</code>, <code>unsupported_auto_rule_ids</code> — bloqueos de gobernanza <strong>sin</strong> un “finding bonito” de estilo.  </li>
+  <li><strong><code>telemetry.chain</code></strong> cuando el flujo enlaza SDD + AI Gate (p. ej. PRE_WRITE en políticas que lo documenten).</li>
+</ol>
+<h2 id="02-modulos-09-evidencia-por-stage-y-ai-evidence-json-3-pre-commit-restage-de-evidencia-trackeada">3. PRE_COMMIT: restage de evidencia trackeada</h2>
+<p>Si el fichero está versionado y tras un gate <strong>no bloqueante</strong> el hook <strong>refresca</strong> el snapshot, Pumuki puede volver a hacer <strong><code>git add</code></strong> de la evidencia <strong>salvo</strong> que el índice (ignorando los paths de evidencia) sea <strong>solo</strong> documentación (<code><em>.md</code>, <code></em>.mdx</code>). Entonces el archivo se actualiza en disco pero <strong>no</strong> entra solo en el commit; verás aviso <code>[pumuki][evidence-sync]</code> en stderr si no está silenciado. Variable de escape: <code>PUMUKI_PRE_COMMIT_ALWAYS_RESTAGE_TRACKED_EVIDENCE=1</code> (CONFIGURATION).</p>
+<p><strong>Pedagogía:</strong> esto explica tickets del tipo “el hook tocó el archivo pero no está en el commit”.</p>
+<h2 id="02-modulos-09-evidencia-por-stage-y-ai-evidence-json-4-pre-push-por-qu-no-cambi-el-archivo">4. PRE_PUSH: por qué “no cambió el archivo”</h2>
+<p>Con evidencia trackeada y outcome <strong>PASS/WARN</strong>, puede <strong>no reescribirse</strong> <code>.ai_evidence.json</code> para no romper cadenas de <code>pre-commit</code>/<code>pre-push</code>. Forzar escritura: <code>PUMUKI_PRE_PUSH_ALWAYS_WRITE_TRACKED_EVIDENCE=1</code> (consciente de las implicaciones que describe USAGE).</p>
+<h2 id="02-modulos-09-evidencia-por-stage-y-ai-evidence-json-actividad-guiada-lab">Actividad guiada (lab)</h2>
+<ol>
+  <li>Copia de seguridad: <code>cp .ai_evidence.json /tmp/evidence.backup.json</code> (si existe).  </li>
+  <li>Ejecuta <strong>PRE_COMMIT</strong> con cambios staged mínimos; guarda el JSON resultante como <code>after-precommit.json</code>.  </li>
+  <li>Sin commitear aún (si tu política lo permite) o en otra rama, ejecuta <strong>PRE_PUSH</strong> o el flujo que uses; compara <strong>timestamps</strong> y <strong>contenido</strong> de <code>.ai_evidence.json</code> con lo aprendido en §3–§4.  </li>
+  <li>Anota en <strong>tres frases</strong> qué parte del JSON demuestra el <strong>scope</strong> evaluado.</li>
+</ol>
+<h2 id="02-modulos-09-evidencia-por-stage-y-ai-evidence-json-criterio-de-dominio">Criterio de dominio</h2>
+<ul>
+  <li>Explico en una frase la política de <strong>no escritura</strong> en PRE_PUSH con archivo trackeado.  </li>
+  <li>Localizo en JSON al menos un campo de <strong>cobertura de reglas</strong> y sé si implica <strong>BLOCK</strong>.  </li>
+  <li>Sé dónde buscar <strong><code>human_summary_lines</code></strong> antes de abrir el ledger completo.</li>
+</ul>
+<h2 id="02-modulos-09-evidencia-por-stage-y-ai-evidence-json-lectura-can-nica">Lectura canónica</h2>
+<ul>
+  <li><a href="https://cdn.jsdelivr.net/npm/pumuki@6.3.72/docs/product/USAGE.md">USAGE</a> — “Evidence output”, subsecciones PRE_COMMIT / PRE_PUSH / PRE_WRITE.  </li>
+  <li><a href="https://cdn.jsdelivr.net/npm/pumuki@6.3.72/docs/mcp/ai-evidence-v2.1-contract.md">Contrato de evidencia v2.1</a>.</li>
+</ul>
 </section>
 <section id="02-modulos-03-perfiles-de-adopcion" class="lesson" data-topic-id="02-modulos-03-perfiles-de-adopcion" data-lesson-path="02-modulos/03-perfiles-de-adopcion.md">
 <div class="lesson-path">02-modulos/03-perfiles-de-adopcion.md</div>
 <h1 id="02-modulos-03-perfiles-de-adopcion-m-dulo-3-perfiles-de-adopci-n">Módulo 3 — Perfiles de adopción</h1>
-<p>Alineado al README de <strong>ast-intelligence-hooks</strong>:</p>
-<ul>
-  <li><strong>Mínimo</strong>: hooks esenciales, poca superficie, validación local básica.</li>
-  <li><strong>Estándar (SDD)</strong>: integración con flujo SDD experimental y validaciones que exige tu equipo.</li>
-  <li><strong>Enterprise</strong>: skills, MCP, parity CI, políticas duras y trazabilidad ampliada.</li>
-</ul>
+<h2 id="02-modulos-03-perfiles-de-adopcion-3-1-por-qu-perfil-no-es-snobismo">3.1 Por qué “perfil” no es snobismo</h2>
+<p>Un <strong>perfil</strong> es el <strong>paquete de dolor y beneficio</strong> que tu organización acepta. Pumuki permite ir de <strong>mínimo</strong> (hooks que protegen sin abrir todo el paraguas enterprise) a <strong>enterprise completo</strong> (SDD obligatorio, skills lock, MCP, parity, policy-as-code). El error típico es <strong>instalar enterprise</strong> y <strong>comportarse</strong> como si fueras mínimo: nadie abre sesión SDD, nadie mira <code>doctor</code>, y el equipo odia “la herramienta” en lugar de <strong>su propio incumplimiento</strong>.</p>
+<p>Este módulo te da <strong>lenguaje</strong> para negociar con tech lead y seguridad: qué <strong>compras</strong> y qué <strong>vendes</strong> en cada nivel.</p>
+<hr>
+<h2 id="02-modulos-03-perfiles-de-adopcion-3-2-perfil-m-nimo-hooks-evidencia-baseline">3.2 Perfil mínimo (hooks + evidencia baseline)</h2>
+<p><strong>Qué suele incluir:</strong> dependencia <code>pumuki</code>, hooks PRE_COMMIT / PRE_PUSH (y en versiones recientes cadena con PRE_WRITE según configuración), reglas <strong>core</strong> embebidas, evidencia v2.1 cuando el gate corre.</p>
+<p><strong>Qué </strong>no<strong> garantiza:</strong> que OpenSpec esté sano, que skills custom estén cerrados, que CI y laptop sean idénticos, que MCP exista.</p>
+<p><strong>Cuándo tiene sentido:</strong> equipos pequeños, repos de biblioteca interna, fase de <strong>prueba</strong> antes de enterprise.</p>
+<p><strong>Riesgo pedagógico:</strong> el equipo cree que “ya tenemos gobernanza” cuando solo tienen <strong>un subconjunto</strong> de reglas. Debes <strong>documentar</strong> en el repo qué perfil sois.</p>
+<hr>
+<h2 id="02-modulos-03-perfiles-de-adopcion-3-3-perfil-est-ndar-sdd-openspec">3.3 Perfil estándar (SDD / OpenSpec)</h2>
+<p><strong>Qué añade:</strong> comandos <code>pumuki sdd …</code>, validación por stage, bloqueos con códigos <code>OPENSPEC_<em></code> y <code>SDD_</em></code>. El flujo mental del desarrollador <strong>debe</strong> incluir “¿tengo cambio activo?” antes de pedir merge.</p>
+<p><strong>Qué </strong>no<strong> sustituye:</strong> el <strong>método</strong> SDD que enseña el curso de IA + SDD. Pumuki <strong>enciende</strong> el semáforo; no escribe tus specs.</p>
+<p><strong>Cuándo tiene sentido:</strong> equipos que ya usan OpenSpec o están migrando con disciplina.</p>
+<hr>
+<h2 id="02-modulos-03-perfiles-de-adopcion-3-4-perfil-enterprise-completo">3.4 Perfil enterprise completo</h2>
+<p><strong>Qué añade típicamente:</strong> <code>bootstrap --enterprise</code>, <code>skills.lock.json</code> y reglas custom, <strong>MCP</strong> (evidence + enterprise), <code>pumuki doctor --parity</code>, notificaciones y hard mode donde aplique, policy-as-code en <code>.pumuki/policy-as-code.json</code> si vuestra auditoría lo pide.</p>
+<p><strong>Qué exige al equipo:</strong> <strong>operar</strong> el sistema: leer JSON de <code>doctor</code>, entender recibos MCP en PRE_WRITE cuando la política los exija, mantener <strong>parity</strong> CI.</p>
+<p><strong>Frase para el alumno:</strong> “Enterprise no es instalar más paquetes; es <strong>aceptar más obligaciones de comportamiento</strong>.”</p>
+<hr>
+<h2 id="02-modulos-03-perfiles-de-adopcion-3-5-tabla-de-decisi-n-sala-en-el-lab">3.5 Tabla de decisión (úsala en el lab)</h2>
+<table>
+<thead>
+<tr>
+  <th>Pregunta</th>
+  <th>Si la respuesta es “no” con frecuencia</th>
+  <th>Perfil realista</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>¿Abrimos cambios OpenSpec por feature?</td>
+  <td>No</td>
+  <td>No enterprise SDD todavía</td>
+</tr>
+<tr>
+  <td>¿Tenemos owner de skills lock?</td>
+  <td>No</td>
+  <td>No skills custom agresivos</td>
+</tr>
+<tr>
+  <td>¿CI puede ejecutar los mismos bins que el laptop?</td>
+  <td>No</td>
+  <td>Arreglar parity antes de hard mode</td>
+</tr>
+<tr>
+  <td>¿Los agentes usan MCP?</td>
+  <td>No</td>
+  <td>No bloquees el trabajo humano por recibos MCP</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="02-modulos-03-perfiles-de-adopcion-ejercicio">Ejercicio</h2>
+<p>En el <strong>README del lab</strong> (o <code>CONTRIBUTING.md</code>), escribe <strong>un párrafo</strong> que declare:</p>
+<ol>
+  <li>Perfil elegido (<strong>mínimo / estándar SDD / enterprise</strong>).  </li>
+  <li><strong>Un</strong> riesgo concreto de bajar un nivel (por ejemplo: “si pasamos a mínimo, perdemo validación SDD en PRE_PUSH”).  </li>
+  <li><strong>Un</strong> comando que el equipo promete ejecutar en onboarding (<code>doctor --json</code> o <code>sdd status</code>).</li>
+</ol>
+<p>Compártelo con un compañero: si no entiende el párrafo en <strong>una lectura</strong>, reescribe.</p>
+<hr>
 <h2 id="02-modulos-03-perfiles-de-adopcion-lectura">Lectura</h2>
 <ul>
-  <li><code>README.md</code> (sección de rutas de adopción).</li>
-  <li><code>docs/product/USAGE.md</code> (variables y modos).</li>
+  <li><a href="https://cdn.jsdelivr.net/npm/pumuki@6.3.72/README.md">README del paquete</a> — tabla “Rutas de adopción”.  </li>
+  <li><a href="https://cdn.jsdelivr.net/npm/pumuki@6.3.72/docs/product/USAGE.md">USAGE</a> — feature flags y menú.  </li>
+  <li><a href="https://cdn.jsdelivr.net/npm/pumuki@6.3.72/docs/product/CONFIGURATION.md">CONFIGURATION</a> — hard mode y policy cuando escaléis.</li>
 </ul>
-<h2 id="02-modulos-03-perfiles-de-adopcion-ejercicio">Ejercicio</h2>
-<p>Documenta en el repo lab qué perfil usas y un solo riesgo si bajaras de enterprise a mínimo.</p>
 </section>
 <section id="02-modulos-04-sdd-y-pumuki" class="lesson" data-topic-id="02-modulos-04-sdd-y-pumuki" data-lesson-path="02-modulos/04-sdd-y-pumuki.md">
 <div class="lesson-path">02-modulos/04-sdd-y-pumuki.md</div>
 <h1 id="02-modulos-04-sdd-y-pumuki-m-dulo-4-sdd-y-pumuki">Módulo 4 — SDD y Pumuki</h1>
-<h2 id="02-modulos-04-sdd-y-pumuki-variables-y-flujo">Variables y flujo</h2>
+<h2 id="02-modulos-04-sdd-y-pumuki-4-1-dos-capas-que-no-debes-fusionar">4.1 Dos capas que no debes fusionar</h2>
+<p><strong>SDD / OpenSpec</strong> responde: “¿Este <strong>cambio</strong> está bien <strong>gobernado</strong> como cambio — existe, está abierto, no está archivado, pasa validación?”  </p>
+<p><strong>Pumuki (gate)</strong> responde: “¿Este <strong>código</strong> en este <strong>scope</strong> cumple <strong>reglas</strong> y <strong>evidencia</strong> en este <strong>stage</strong>?”</p>
+<p>Cuando Pumuki bloquea con <code>SDD_SESSION_MISSING</code>, <strong>no</strong> está juzgando tu arquitectura: está diciendo “según la política enterprise, <strong>no hay sesión de cambio</strong> que amarre este trabajo”. La remedición es <strong>operativa</strong> (abrir sesión, refrescar, validar), no “quitar Pumuki”.</p>
+<hr>
+<h2 id="02-modulos-04-sdd-y-pumuki-4-2-variable-experimental-y-pol-tica">4.2 Variable experimental y política</h2>
+<p>El producto documenta <strong><code>PUMUKI_EXPERIMENTAL_SDD</code></strong> y comandos bajo <code>pumuki sdd …</code>. Pedagógicamente:</p>
 <ul>
-  <li><code>PUMUKI_EXPERIMENTAL_SDD</code> y comandos <code>sdd</code> / validación: <strong><code>docs/product/USAGE.md</code></strong>.</li>
-  <li>Códigos <strong><code>OPENSPEC_<em></code></strong> / <strong><code>SDD_</em></code></strong>: tabla de mapeo “código → acción” en tu runbook de equipo (no en este curso se reescribe el Kanban).</li>
+  <li><strong>Experimental</strong> no significa “juguete”; significa “tu organización <strong>elige</strong> activar este namespace con consciencia”.</li>
+  <li>Cuando está activo, <strong>debes</strong> enseñar el <strong>día a día</strong>: <code>sdd status</code>, <code>sdd session --open --change=&lt;id&gt;</code>, <code>sdd validate --stage=PRE_COMMIT</code> (y otros stages según vuestro runbook).</li>
 </ul>
-<h2 id="02-modulos-04-sdd-y-pumuki-curso-sdd">Curso SDD</h2>
-<p>Usa el playbook Kanban y las semanas de <strong>verificación / cierre</strong> del curso <strong>IA + SDD</strong> como referencia temporal.</p>
-<h2 id="02-modulos-04-sdd-y-pumuki-lectura-cruzada">Lectura cruzada</h2>
+<hr>
+<h2 id="02-modulos-04-sdd-y-pumuki-4-3-cat-logo-de-c-digos-que-el-alumno-s-debe-reconocer">4.3 Catálogo de códigos que el alumno <strong>sí</strong> debe reconocer</h2>
+<p>No hace falta memorizarlos todos; hace falta <strong>clasificarlos</strong>:</p>
+<table>
+<thead>
+<tr>
+  <th>Familia</th>
+  <th>Significado narrativo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>OPENSPEC_MISSING</code></td>
+  <td>En este repo <strong>no</strong> hay binario/proyecto OpenSpec <strong>donde Pumuki lo busca</strong> (<code>node_modules/.bin</code>, dependencia).</td>
+</tr>
+<tr>
+  <td><code>OPENSPEC_VERSION_UNSUPPORTED</code></td>
+  <td>Hay proyecto pero <strong>versión</strong> fuera de lo que el gate acepta.</td>
+</tr>
+<tr>
+  <td><code>OPENSPEC_PROJECT_MISSING</code></td>
+  <td>Estructura esperada de OpenSpec <strong>no</strong> encontrada.</td>
+</tr>
+<tr>
+  <td><code>SDD_SESSION_MISSING</code></td>
+  <td>No hay sesión activa coherente con el cambio que pretendes cerrar.</td>
+</tr>
+<tr>
+  <td><code>SDD_SESSION_INVALID</code></td>
+  <td>La sesión existe pero <strong>rompe</strong> invariantes (rutas, estado, metadata).</td>
+</tr>
+<tr>
+  <td><code>SDD_CHANGE_MISSING</code> / <code>SDD_CHANGE_ARCHIVED</code></td>
+  <td>El <strong>change</strong> no existe o ya no es válido para trabajo activo.</td>
+</tr>
+<tr>
+  <td><code>SDD_VALIDATION_FAILED</code></td>
+  <td>La validación <strong>encontró</strong> problemas de política/spec.</td>
+</tr>
+<tr>
+  <td><code>SDD_VALIDATION_ERROR</code></td>
+  <td>La validación <strong>no pudo completarse</strong> (error técnico, entorno roto).</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Tarea de aula:</strong> pegar una salida JSON real (sin secretos) y <strong>etiquetar</strong> cada código con “acción humana siguiente” en una frase.</p>
+<hr>
+<h2 id="02-modulos-04-sdd-y-pumuki-4-4-pre-write-y-el-recibo-mcp-cuando-aplique">4.4 PRE_WRITE y el recibo MCP (cuando aplique)</h2>
+<p>En políticas enterprise, <strong>PRE_WRITE</strong> puede enlazar <strong>gate + evidencia + recibo MCP</strong> (<code>mcp-ai-gate-receipt.json</code>). La narrativa para el alumno:</p>
+<ol>
+  <li>El <strong>agente</strong> (o tú) ejecuta <strong><code>ai_gate_check</code></strong> vía MCP enterprise.  </li>
+  <li>El producto <strong>persiste</strong> recibo auditable.  </li>
+  <li><strong><code>pumuki sdd validate --stage=PRE_WRITE</code></strong> puede <strong>bloquear</strong> si el recibo falta o está <strong>stale</strong> (<code>MCP_ENTERPRISE_RECEIPT_*</code>).</li>
+</ol>
+<p>Esto es <strong>diseño anti-vapor</strong>: no basta con decir “la IA prometió que lo revisó”; debe quedar <strong>artefacto</strong> verificable. Si tu equipo <strong>no</strong> usa agentes, puede que <strong>no</strong> activéis este enforcement; si lo activáis, <strong>debe</strong> formar parte del onboarding.</p>
+<hr>
+<h2 id="02-modulos-04-sdd-y-pumuki-4-5-d-nde-profundiza-el-playbook-del-curso">4.5 Dónde profundiza el playbook del curso</h2>
+<p>El documento <strong><a href="#docs-playbook-pumuki-sdd-bridge">Puente SDD y Pumuki</a></strong> en este curso enlaza <strong>rituales</strong> de equipo (quién abre cambio, cuándo se valida, qué hace el agente). Léelo <strong>después</strong> de este módulo si vas a diseñar proceso, no antes de saber qué es un stage.</p>
+<hr>
+<h2 id="02-modulos-04-sdd-y-pumuki-4-6-flujo-diario-m-nimo-orden-que-debe-automatizar-el-cerebro">4.6 Flujo diario mínimo (orden que debe automatizar el cerebro)</h2>
+<p>Objetivo observable: en un día normal puedes <strong>decir los comandos en secuencia</strong> sin mezclar “validar” con “commitear”.</p>
+<ol>
+  <li><strong>Inspección:</strong> <code>npx --yes pumuki sdd status</code> — foto de OpenSpec/sesión.  </li>
+  <li><strong>Apertura o continuidad de cambio:</strong> <code>pumuki sdd session --open --change=&lt;id&gt;</code> (y <code>--refresh</code> en sesiones largas si vuestro runbook lo pide).  </li>
+  <li><strong>Validación explícita por stage cuando dudes:</strong> <code>pumuki sdd validate --stage=PRE_COMMIT</code> (o PRE_PUSH / PRE_WRITE según el punto del flujo).  </li>
+  <li><strong>Gate real del repo:</strong> <code>pumuki-pre-commit</code> / <code>pumuki-pre-push</code> / hook CI — es <strong>otro</strong> paso; SDD puede <strong>bloquear antes</strong> de que el gate mire reglas de código.</li>
+</ol>
+<p><strong>Pregunta de aula:</strong> ¿en qué paso de la lista anterior un compañero suele saltarse la sesión y luego culpa al “gate de reglas”?</p>
+<hr>
+<h2 id="02-modulos-04-sdd-y-pumuki-4-7-s-ntoma-cl-sico-openspec-missing-con-openspec-version-ok-en-la-terminal">4.7 Síntoma clásico: <code>OPENSPEC_MISSING</code> con <code>openspec --version</code> OK en la terminal</h2>
+<p><strong>No confundas:</strong> Pumuki resuelve OpenSpec <strong>solo</strong> desde el repo bajo chequeo: <strong><code>node_modules/.bin/openspec</code></strong>. Un <code>openspec</code> instalado con Homebrew o en otro PATH <strong>no cuenta</strong>.</p>
+<p>Secuencia de remediación pedagógica:</p>
+<ol>
+  <li>Comprueba que <strong><code>@fission-ai/openspec</code></strong> está en <strong><code>dependencies</code></strong> / <strong><code>devDependencies</code></strong> del consumidor (bootstrap o <code>npm install</code> según INSTALLATION).  </li>
+  <li>Verifica que existe <strong><code>./node_modules/.bin/openspec</code></strong> en la raíz del repo (no en el home).  </li>
+  <li>Vuelve a <code>pumuki sdd status</code> y <code>pumuki doctor --deep --json</code>.</li>
+</ol>
+<p>Si enseñas esto <strong>antes</strong> del primer bloqueo, ahorras horas de “en mi terminal funciona”.</p>
+<hr>
+<h2 id="02-modulos-04-sdd-y-pumuki-4-8-pre-write-sobre-json-y-cadena-pumuki-ai-gate-ai-evidence">4.8 PRE_WRITE: sobre JSON y cadena <code>pumuki-&gt;ai_gate-&gt;ai_evidence</code></h2>
+<p><code>pumuki sdd validate --stage=PRE_WRITE --json</code> devuelve un sobre con, entre otros:</p>
 <ul>
-  <li><code>docs/playbook-pumuki-sdd-bridge.md</code> en este repo del curso.</li>
+  <li><strong><code>sdd</code></strong> — decisión de política SDD.  </li>
+  <li><strong><code>ai_gate</code></strong> — evaluación AI Gate (incluye <code>skills_contract</code> cuando aplica).  </li>
+  <li><strong><code>telemetry.chain</code></strong> — literalmente la cadena que enlaza ejecución y evidencia.</li>
 </ul>
+<p><strong>Actividad corta:</strong> ejecuta el comando en el lab (si tu política lo permite), imprime JSON y <strong>subraya</strong> esos tres nodos. Si PRE_WRITE está desactivado en vuestro perfil, haz el ejercicio <strong>en lectura</strong> sobre un JSON anonimizado que traiga el instructor.</p>
+<hr>
+<h2 id="02-modulos-04-sdd-y-pumuki-criterio-de-dominio-unidad-u7-sdd">Criterio de dominio (unidad U7, SDD)</h2>
+<ul>
+  <li>Clasifico <strong><code>OPENSPEC_MISSING</code></strong> frente a <strong><code>SDD_SESSION_MISSING</code></strong> sin abrir el código fuente de Pumuki.  </li>
+  <li>Recito el flujo <strong>4.6</strong> en orden correcto.  </li>
+  <li>Sé qué buscar en el JSON de <strong>PRE_WRITE</strong> para explicar “SDD vs AI Gate” a un tech lead.</li>
+</ul>
+<hr>
 <h2 id="02-modulos-04-sdd-y-pumuki-ejercicio">Ejercicio</h2>
-<p>Abre un ticket ficticio en el lab y anota qué salida de Pumuki cerraría el loop de verificación.</p>
+<ol>
+  <li>Crea un <strong>change-id ficticio</strong> <code>training/pumuki-01</code> en el lab (siguiendo la convención de vuestro OpenSpec).  </li>
+  <li>Ejecuta <code>pumuki sdd session --open --change=training/pumuki-01</code> (o el comando equivalente de vuestra versión).  </li>
+  <li>Ejecuta <code>pumuki sdd validate --stage=PRE_COMMIT --json</code> y <strong>resalta</strong> en el JSON: <code>sdd</code>, <code>telemetry.chain</code> si aparece, y cualquier <strong>bloqueo</strong>.  </li>
+  <li>Escribe <strong>qué cerraría</strong> el loop de verificación en un ticket real (una frase por campo bloqueante).</li>
+</ol>
+<hr>
+<h2 id="02-modulos-04-sdd-y-pumuki-lectura">Lectura</h2>
+<ul>
+  <li><a href="https://cdn.jsdelivr.net/npm/pumuki@6.3.72/docs/product/USAGE.md">USAGE</a> — “Mandatory SDD/OpenSpec flow”, códigos listados.  </li>
+  <li><a href="#docs-playbook-pumuki-sdd-bridge">Puente SDD y Pumuki</a> — puente operativo.  </li>
+  <li>Curso <strong>IA + SDD</strong> del hub — método Kanban y cierre de cambio.</li>
+</ul>
+</section>
+<section id="02-modulos-10-menu-interactivo-matrix-y-preflight" class="lesson" data-topic-id="02-modulos-10-menu-interactivo-matrix-y-preflight" data-lesson-path="02-modulos/10-menu-interactivo-matrix-y-preflight.md">
+<div class="lesson-path">02-modulos/10-menu-interactivo-matrix-y-preflight.md</div>
+<h1 id="02-modulos-10-menu-interactivo-matrix-y-preflight-unidad-u5-men-interactivo-consumer-advanced-matrix-y-pre-flight">Unidad U5 — Menú interactivo: Consumer, Advanced, matrix y pre-flight</h1>
+<h2 id="02-modulos-10-menu-interactivo-matrix-y-preflight-objetivo-observable">Objetivo observable</h2>
+<p>Puedes lanzar <strong><code>pumuki-framework</code></strong> en un consumidor, explicar la diferencia entre modo <strong>Consumer</strong> y <strong>Advanced</strong>, mapear las opciones <strong>1 / 2 / 3 / 4</strong> a <strong>stage</strong> y <strong>scope</strong>, y describir qué aporta la <strong>matrix</strong> no interactiva frente al menú TUI.</p>
+<h2 id="02-modulos-10-menu-interactivo-matrix-y-preflight-prerrequisitos">Prerrequisitos</h2>
+<ul>
+  <li><strong>Módulo 1</strong> (PRE_COMMIT vs PRE_PUSH, scopes).  </li>
+  <li>Node/npm funcionando en el repo lab.</li>
+</ul>
+<h2 id="02-modulos-10-menu-interactivo-matrix-y-preflight-idea-central">Idea central</h2>
+<p>El menú es un <strong>panel de mandos humano</strong> sobre el mismo motor que los hooks. No redefine la política: la <strong>hace legible</strong> y ejecutable sin memorizar flags. Las opciones <strong>1–4</strong> son el <strong>núcleo legible</strong> en Consumer; Advanced añade diagnósticos y legado <strong>read-only</strong> que no debes confundir con “la verdad del gate” en CI.</p>
+<h2 id="02-modulos-10-menu-interactivo-matrix-y-preflight-no-confundas">No confundas</h2>
+<table>
+<thead>
+<tr>
+  <th>Falsa intuición</th>
+  <th>Qué dice el producto</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>“Si el menú pasa, CI pasará seguro”</td>
+  <td>Mismo código base, pero <strong>scope</strong> y <strong>entorno</strong> pueden diferir; el menú no sustituye <strong>parity</strong> ni revisión de <code>doctor</code>.</td>
+</tr>
+<tr>
+  <td>“Opción 8 es un gate raro”</td>
+  <td>Exporta la <strong>misma evidencia</strong> en forma markdown: es <strong>reporting</strong>, no un stage nuevo.</td>
+</tr>
+<tr>
+  <td>“Advanced option 28–32 es baseline”</td>
+  <td>USAGE las marca como <strong>legacy read-only audits</strong>; no son el resultado canónico de PRE_COMMIT/PRE_PUSH/CI.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="02-modulos-10-menu-interactivo-matrix-y-preflight-1-c-mo-arrancarlo">1. Cómo arrancarlo</h2>
+<p><strong>Consumidor:</strong></p>
+<pre><code class="language-bash">npx --yes --package pumuki@latest pumuki-framework</code></pre>
+<p><strong>Repositorio framework (mantenedores del paquete):</strong></p>
+<pre><code class="language-bash">npm run framework:menu</code></pre>
+<p><strong>Modo Advanced desde el primer momento:</strong></p>
+<pre><code class="language-bash">PUMUKI_MENU_MODE=advanced npm run framework:menu</code></pre>
+<p><strong>Renderer:</strong> <code>PUMUKI_MENU_UI_V2=0</code> clásico, <code>PUMUKI_MENU_UI_V2=1</code> agrupado con badges; si v2 falla, hay fallback a clásico.</p>
+<p><strong>Ruta del consumidor estable</strong> (evita prompts raros por cwd):</p>
+<pre><code class="language-bash">export PUMUKI_CONSUMER_REPO_PATH=/ruta/absoluta/al/repo</code></pre>
+<h2 id="02-modulos-10-menu-interactivo-matrix-y-preflight-2-consumer-qu-ense-ar-el-primer-d-a">2. Consumer: qué enseñar el primer día</h2>
+<ul>
+  <li><strong><code>A</code></strong> — alterna Advanced; <strong><code>C</code></strong> — vuelve a Consumer.  </li>
+  <li><strong>1 / 2 / 3 / 4</strong> — flujos <strong>read-only</strong> alineados con gates; mapeo típico (USAGE):  </li>
+  <li><strong>1</strong> → PRE_COMMIT, scope <strong>repo</strong>  </li>
+  <li><strong>2</strong> → PRE_PUSH, <strong>repo + staged</strong>  </li>
+  <li><strong>3</strong> → PRE_COMMIT, <strong>staged</strong>  </li>
+  <li><strong>4</strong> → PRE_PUSH, <strong>working tree</strong>  </li>
+  <li><strong>8</strong> — export markdown del snapshot de evidencia.  </li>
+  <li><strong>5 / 6 / 7 / 9</strong> — USAGE las agrupa como <strong>Legacy Read-Only Diagnostics</strong> en Consumer; trátalas como <strong>taller de forense</strong>, no como checklist de release.</li>
+</ul>
+<h2 id="02-modulos-10-menu-interactivo-matrix-y-preflight-3-pre-flight-antes-del-gate-en-1-4">3. Pre-flight antes del gate en 1–4</h2>
+<p>Antes de ejecutar el gate, el menú puede evaluar: estado Git (rama, upstream, sucio), <strong>consistencia cadena</strong> <code>pumuki → mcp → ai_gate → ai_evidence</code>, señales de evidencia stale/missing/invalid, violaciones GitFlow en ramas protegidas. Si el <strong>scope está vacío</strong>, debe mostrar pista explícita (<strong>Scope vacío</strong>) para no confundir PASS vacío con “repo limpio escaneado”.</p>
+<h2 id="02-modulos-10-menu-interactivo-matrix-y-preflight-4-matrix-no-interactiva-determinismo-en-ci-o-scripts">4. Matrix no interactiva (determinismo en CI o scripts)</h2>
+<p>USAGE documenta el <strong>consumer menu matrix</strong> vía <code>node --import tsx</code> importando <code>framework-menu-matrix-runner-lib.ts</code>: produce JSON con <code>byOption</code> por <strong>1,2,3,4,9</strong> y diagnósticos <code>scope-empty|repo-clean|violations-detected|unknown</code>.</p>
+<p><strong>Cuándo enseñarlo:</strong> a equipos que necesitan <strong>regresión</strong> del menú sin TUI, o que automatizan “mismo menú que el humano”.</p>
+<h2 id="02-modulos-10-menu-interactivo-matrix-y-preflight-actividad-guiada-lab">Actividad guiada (lab)</h2>
+<ol>
+  <li>Arranca <code>pumuki-framework</code> en el repo lab.  </li>
+  <li>En Consumer, ejecuta <strong>una</strong> opción de <strong>1–4</strong> y anota: stage impreso, scope, código de salida.  </li>
+  <li>Cambia a Advanced, localiza <strong>una</strong> opción de toolkit o legacy y explica <strong>por qué</strong> no la usarías para decidir release.  </li>
+  <li>(Opcional) Ejecuta la matrix documentada en USAGE y conserva el JSON en <code>.audit-reports/</code> local (sin subir secretos).</li>
+</ol>
+<h2 id="02-modulos-10-menu-interactivo-matrix-y-preflight-criterio-de-dominio">Criterio de dominio</h2>
+<ul>
+  <li>Dibujo en una servilleta el mapeo <strong>1–4 → stage + scope</strong> sin mirar el manual.  </li>
+  <li>Explico la diferencia entre <strong>opción 8</strong> y ejecutar <strong><code>pumuki-pre-commit</code></strong>.  </li>
+  <li>Sé para qué sirve <strong><code>PUMUKI_CONSUMER_REPO_PATH</code></strong>.</li>
+</ul>
+<h2 id="02-modulos-10-menu-interactivo-matrix-y-preflight-lectura-can-nica">Lectura canónica</h2>
+<ul>
+  <li><a href="https://cdn.jsdelivr.net/npm/pumuki@6.3.72/docs/product/USAGE.md">USAGE</a> — “Interactive menu”, “Non-interactive consumer matrix”, “Consumer pre-flight”.  </li>
+  <li><a href="https://cdn.jsdelivr.net/npm/pumuki@6.3.72/docs/operations/framework-menu-consumer-walkthrough.md">Recorrido del menú consumidor</a> — recorrido visual opción 1.</li>
+</ul>
+</section>
+<section id="02-modulos-11-mcp-enforcement-vs-lectura-agente" class="lesson" data-topic-id="02-modulos-11-mcp-enforcement-vs-lectura-agente" data-lesson-path="02-modulos/11-mcp-enforcement-vs-lectura-agente.md">
+<div class="lesson-path">02-modulos/11-mcp-enforcement-vs-lectura-agente.md</div>
+<h1 id="02-modulos-11-mcp-enforcement-vs-lectura-agente-unidad-u6-mcp-enforcement-frente-a-lectura-http-stdio-y-recibo-pre-write">Unidad U6 — MCP: enforcement frente a lectura, HTTP, stdio y recibo PRE_WRITE</h1>
+<h2 id="02-modulos-11-mcp-enforcement-vs-lectura-agente-objetivo-observable">Objetivo observable</h2>
+<p>Explicas sin titubeos: <strong>por qué los hooks y CI pueden pasar aunque no haya ningún servidor MCP levantado</strong>; qué diferencia hay entre <strong><code>pumuki-mcp-evidence</code></strong> y <strong><code>pumuki-mcp-enterprise</code></strong>; y en qué situación un <strong>recibo</strong> bajo <code>.pumuki/artifacts/</code> forma parte del cierre PRE_WRITE en políticas enterprise.</p>
+<h2 id="02-modulos-11-mcp-enforcement-vs-lectura-agente-prerrequisitos">Prerrequisitos</h2>
+<ul>
+  <li><strong>Unidad U4</strong> (evidencia en disco).  </li>
+  <li><strong>Módulo 4</strong> (SDD y PRE_WRITE a alto nivel).</li>
+</ul>
+<h2 id="02-modulos-11-mcp-enforcement-vs-lectura-agente-idea-central">Idea central</h2>
+<p><strong>MCP</strong> es una <strong>superficie de interoperabilidad</strong> para IDEs y agentes: leer estado, exponer tools con guardrails, a veces participar en <strong>cadenas</strong> documentadas (p. ej. AI Gate + recibo). <strong>No</strong> es el motor del gate en <code>pre-commit</code> / <code>pre-push</code> / <code>ci</code>: ese motor vive en el paquete y en Git.</p>
+<h2 id="02-modulos-11-mcp-enforcement-vs-lectura-agente-no-confundas">No confundas</h2>
+<table>
+<thead>
+<tr>
+  <th>Falsa intuición</th>
+  <th>Verdad operativa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>“Sin MCP no tenemos Pumuki”</td>
+  <td><strong>Enforcement</strong> = hooks + runners CLI; MCP = <strong>opcional</strong> salvo que <strong>tu</strong> política diga lo contrario para un flujo concreto.</td>
+</tr>
+<tr>
+  <td>“Levanto el servidor HTTP y ya está Cursor”</td>
+  <td>Los IDEs suelen usar <strong>stdio</strong> (<code>pumuki-mcp-enterprise-stdio</code>, <code>pumuki-mcp-evidence-stdio</code>); HTTP es útil para integraciones que lo consumen así.</td>
+</tr>
+<tr>
+  <td>“El enterprise MCP puede hacer cualquier cosa en Git”</td>
+  <td>Modo fail-safe: muchas acciones <strong>mutativas</strong> se fuerzan a <strong>dry-run</strong> y pasan <strong>guardias SDD</strong>; si SDD bloquea, <code>success=false</code>, <code>executed=false</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="02-modulos-11-mcp-enforcement-vs-lectura-agente-1-servidores-y-puentes-mapa-m-nimo">1. Servidores y puentes (mapa mínimo)</h2>
+<p>Según <a href="https://cdn.jsdelivr.net/npm/pumuki@6.3.72/docs/mcp/mcp-servers-overview.md">Visión general MCP</a>:</p>
+<table>
+<thead>
+<tr>
+  <th>Binario / script</th>
+  <th>Rol en una frase</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>pumuki-mcp-evidence</code></td>
+  <td>HTTP <strong>solo lectura</strong> sobre <code>.ai_evidence.json</code> v2.1 (puerto default 7341, ruta <code>/ai-evidence</code>).</td>
+</tr>
+<tr>
+  <td><code>pumuki-mcp-enterprise</code></td>
+  <td>HTTP <strong>consolidado</strong>: evidencia, gitflow, lifecycle, SDD, tools con política.</td>
+</tr>
+<tr>
+  <td><code>pumuki-mcp-evidence-stdio</code></td>
+  <td>Mismo contrato de evidencia vía <strong>stdio</strong> para el cliente MCP del IDE.</td>
+</tr>
+<tr>
+  <td><code>pumuki-mcp-enterprise-stdio</code></td>
+  <td>Enterprise vía <strong>stdio</strong> reutilizando el stack HTTP por debajo.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Arranque consumidor típico:</strong></p>
+<pre><code class="language-bash">npx --yes --package pumuki@latest pumuki-mcp-evidence
+npx --yes --package pumuki@latest pumuki-mcp-enterprise
+npx --yes --package pumuki@latest pumuki-mcp-enterprise-stdio</code></pre>
+<p>Variables de host/puerto: <code>PUMUKI_EVIDENCE_<em></code>, <code>PUMUKI_ENTERPRISE_MCP_</em></code> (incl. puerto <code>0</code> para efímero si <code>EADDRINUSE</code>).</p>
+<h2 id="02-modulos-11-mcp-enforcement-vs-lectura-agente-2-qu-resuelve-pumuki-install-vs-with-mcp">2. Qué resuelve <code>pumuki install</code> vs <code>--with-mcp</code></h2>
+<p>El <strong>postinstall</strong> puede crear <strong><code>.pumuki/adapter.json</code></strong> con líneas de comando stdio <strong>genéricas</strong>; no sustituye <strong><code>pumuki install --with-mcp --agent=codex</code></strong> (o el agente que uses) cuando quieres <strong>scaffolding</strong> alineado al IDE y resumen de salud MCP al finalizar (INSTALLATION / USAGE).</p>
+<h2 id="02-modulos-11-mcp-enforcement-vs-lectura-agente-3-tools-experimentales-y-ai-gate-check">3. Tools experimentales y <code>ai_gate_check</code></h2>
+<p>En <strong>enterprise MCP</strong>, tools como <strong><code>ai_gate_check</code></strong>, <strong><code>pre_flight_check</code></strong>, <strong><code>auto_execute_ai_start</code></strong> pueden listarse solo si activas el feature experimental documentado (<code>PUMUKI_EXPERIMENTAL_MCP_ENTERPRISE=advisory|strict</code>, etc.).  </p>
+<p><strong><code>ai_gate_check</code></strong> persiste recibo en <strong><code>.pumuki/artifacts/mcp-ai-gate-receipt.json</code></strong> para trazabilidad PRE_WRITE cuando tu política lo exige.</p>
+<h2 id="02-modulos-11-mcp-enforcement-vs-lectura-agente-4-cadena-que-el-alumno-debe-poder-dibujar">4. Cadena que el alumno debe poder dibujar</h2>
+<p><code>telemetry.chain = "pumuki-&gt;ai_gate-&gt;ai_evidence"</code> aparece en validaciones PRE_WRITE cuando aplica: no es adorno; conecta <strong>SDD + AI Gate + evidencia</strong> en un solo sobre JSON (<code>pumuki sdd validate --stage=PRE_WRITE --json</code>).</p>
+<h2 id="02-modulos-11-mcp-enforcement-vs-lectura-agente-actividad-guiada-lab">Actividad guiada (lab)</h2>
+<ol>
+  <li>Abre <strong><code>.pumuki/adapter.json</code></strong> (si existe) y localiza las líneas <strong>stdio</strong> propuestas; no pegues secretos en el aula.  </li>
+  <li>Sin levantar HTTP, razona: “¿mi IDE usaría stdio o HTTP?” y apunta la evidencia en la doc.  </li>
+  <li>Lee <code>GET /health</code> o equivalente <strong>solo</strong> si tu política de seguridad lo permite en local; si no, limita el ejercicio a <strong>lectura de documentación</strong> y diagrama en pizarra.</li>
+</ol>
+<h2 id="02-modulos-11-mcp-enforcement-vs-lectura-agente-criterio-de-dominio">Criterio de dominio</h2>
+<ul>
+  <li>Distingo <strong>enforcement</strong> de <strong>superficie MCP</strong> en dos frases.  </li>
+  <li>Nombro <strong>dos</strong> binarios MCP y su uso típico (evidence vs enterprise).  </li>
+  <li>Sé qué archivo de <strong>recibo</strong> cita el módulo SDD para PRE_WRITE y cuándo aplica.</li>
+</ul>
+<h2 id="02-modulos-11-mcp-enforcement-vs-lectura-agente-lectura-can-nica">Lectura canónica</h2>
+<ul>
+  <li><a href="https://cdn.jsdelivr.net/npm/pumuki@6.3.72/docs/mcp/mcp-servers-overview.md">Visión general MCP</a>  </li>
+  <li><a href="https://cdn.jsdelivr.net/npm/pumuki@6.3.72/docs/product/USAGE.md">USAGE</a> — MCP health en install, PRE_WRITE envelope, experimental tools.  </li>
+  <li><a href="https://cdn.jsdelivr.net/npm/pumuki@6.3.72/docs/product/INSTALLATION.md">INSTALLATION</a> — adapter scaffolding.</li>
+</ul>
+</section>
+<section id="02-modulos-12-notificaciones-macos-stderr-y-watch" class="lesson" data-topic-id="02-modulos-12-notificaciones-macos-stderr-y-watch" data-lesson-path="02-modulos/12-notificaciones-macos-stderr-y-watch.md">
+<div class="lesson-path">02-modulos/12-notificaciones-macos-stderr-y-watch.md</div>
+<h1 id="02-modulos-12-notificaciones-macos-stderr-y-watch-unidad-u8-notificaciones-macos-stderr-y-pumuki-watch">Unidad U8 — Notificaciones (macOS / stderr) y <code>pumuki watch</code></h1>
+<h2 id="02-modulos-12-notificaciones-macos-stderr-y-watch-objetivo-observable">Objetivo observable</h2>
+<p>Configuras o explicas el <strong>canal de notificación</strong> que usa Pumuki en tu OS: persistencia en <strong><code>.pumuki/system-notifications.json</code></strong>, variables para <strong>stderr</strong> y <strong>espejo</strong>, comportamiento del <strong>modal de bloqueo</strong> en macOS, y usas <strong><code>pumuki watch</code></strong> en modo <strong>seguro</strong> (<code>--once</code> o iteraciones) para vigilancia local sin spam.</p>
+<h2 id="02-modulos-12-notificaciones-macos-stderr-y-watch-prerrequisitos">Prerrequisitos</h2>
+<ul>
+  <li><strong>Unidad U5</strong> (menú: opción <strong>31</strong> activa notificaciones desde Advanced).  </li>
+  <li>Saber qué stage te interesa vigilar (normalmente PRE_COMMIT en iteración).</li>
+</ul>
+<h2 id="02-modulos-12-notificaciones-macos-stderr-y-watch-idea-central">Idea central</h2>
+<p>Las notificaciones <strong>no cambian</strong> la política del gate: <strong>informan</strong> y <strong>reducen sorpresa</strong> cuando un bloqueo ocurre en contexto IDE/terminal. En plataformas sin API de banner, el producto <strong>cae a stderr</strong> por defecto para no perder señal. <strong><code>watch</code></strong> reevalúa política ante cambios locales y puede <strong>notificar</strong> con umbral de severidad y <strong>cooldown</strong> anti-spam.</p>
+<h2 id="02-modulos-12-notificaciones-macos-stderr-y-watch-no-confundas">No confundas</h2>
+<table>
+<thead>
+<tr>
+  <th>Falsa intuición</th>
+  <th>Verdad operativa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>“Si notifico, el gate es más estricto”</td>
+  <td><strong><code>--severity</code></strong> en watch afecta <strong>umbral de notificación</strong>, no la política de bloqueo del gate.</td>
+</tr>
+<tr>
+  <td>“En Linux no pasa nada”</td>
+  <td>Puede <strong>escribir a stderr</strong>; para silenciar: <code>PUMUKI_DISABLE_STDERR_NOTIFICATIONS=1</code>.</td>
+</tr>
+<tr>
+  <td>“El modal de bloqueo es opt-in raro”</td>
+  <td>Con notificaciones activas y <code>blockedDialogEnabled</code> omitido, el <strong>modal nativo</strong> (Swift / fallback AppleScript) suele estar <strong>activo</strong> por defecto; se desactiva explícitamente en JSON o <code>PUMUKI_MACOS_BLOCKED_DIALOG=0</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="02-modulos-12-notificaciones-macos-stderr-y-watch-1-activaci-n-desde-el-men">1. Activación desde el menú</h2>
+<p><strong>Advanced → opción 31</strong> escribe configuración en <strong><code>.pumuki/system-notifications.json</code></strong>. En macOS revisa permisos del terminal en <strong>Ajustes del sistema → Notificaciones</strong>.</p>
+<h2 id="02-modulos-12-notificaciones-macos-stderr-y-watch-2-variables-de-entorno-que-el-soporte-pregunta-a-diario">2. Variables de entorno que el soporte pregunta a diario</h2>
+<ul>
+  <li><strong><code>PUMUKI_DISABLE_STDERR_NOTIFICATIONS=1</code></strong> — Sin stderr en plataformas sin banner.  </li>
+  <li><strong><code>PUMUKI_NOTIFICATION_STDERR_MIRROR=1</code></strong> (macOS) — Duplica <strong>cualquier</strong> payload a stderr además del banner.  </li>
+  <li><strong><code>gate.blocked</code> en macOS</strong> — Espejo stderr <strong>por defecto</strong> cuando el banner macOS informa éxito; cortar solo eso: <strong><code>PUMUKI_DISABLE_GATE_BLOCKED_STDERR_MIRROR=1</code></strong>.  </li>
+  <li><strong><code>PUMUKI_MACOS_BLOCKED_DIALOG_MODE=auto|swift-floating|applescript</code></strong> — Override del renderer del modal.</li>
+</ul>
+<h2 id="02-modulos-12-notificaciones-macos-stderr-y-watch-3-pumuki-watch-patr-n-seguro-para-formaci-n">3. <code>pumuki watch</code> — patrón seguro para formación</h2>
+<p>Ejemplo USAGE (ajusta rutas y política):</p>
+<pre><code class="language-bash">npx --yes pumuki watch --stage=PRE_COMMIT --scope=workingTree --severity=high --interval-ms=3000 --notify-cooldown-ms=30000</code></pre>
+<ul>
+  <li><strong><code>--no-notify</code></strong> — Salida terminal sin OS notifications.  </li>
+  <li><strong><code>--once</code></strong> o <strong><code>--iterations=n</code></strong> — Para scripts y demos; evita dejar procesos colgados en el lab.  </li>
+  <li><strong><code>--json</code></strong> — Incluye trazas útiles (<code>lastTick.changedFiles</code>, <code>lastTick.evaluatedFiles</code>).</li>
+</ul>
+<p>Higiene: el producto puede auto-excluir artefactos en <strong><code>.git/info/exclude</code></strong> para no ensuciar el worktree (USAGE).</p>
+<h2 id="02-modulos-12-notificaciones-macos-stderr-y-watch-actividad-guiada-lab">Actividad guiada (lab)</h2>
+<ol>
+  <li>En macOS: activa notificaciones vía menú <strong>31</strong>, provoca un <strong>BLOCK</strong> conocido (p. ej. regla que controles) y observa <strong>banner + stderr</strong> según variables.  </li>
+  <li>En no-macOS: ejecuta el mismo escenario y documenta qué ves en <strong>stderr</strong>; prueba <code>PUMUKI_DISABLE_STDERR_NOTIFICATIONS=1</code>.  </li>
+  <li>Ejecuta <strong><code>pumuki watch --once --json</code></strong> y conserva el JSON <strong>sin secretos</strong> para discusión en equipo.</li>
+</ol>
+<h2 id="02-modulos-12-notificaciones-macos-stderr-y-watch-criterio-de-dominio">Criterio de dominio</h2>
+<ul>
+  <li>Ubico <strong><code>system-notifications.json</code></strong> y sé qué hace <strong><code>blockedDialogEnabled</code></strong>.  </li>
+  <li>Explico la diferencia entre <strong>severidad de notify</strong> y <strong>bloqueo del gate</strong>.  </li>
+  <li>No dejo <strong><code>watch</code></strong> infinito corriendo en CI sin documentación.</li>
+</ul>
+<h2 id="02-modulos-12-notificaciones-macos-stderr-y-watch-lectura-can-nica">Lectura canónica</h2>
+<ul>
+  <li><a href="https://cdn.jsdelivr.net/npm/pumuki@6.3.72/docs/product/USAGE.md">USAGE</a> — párrafo de system notifications tras “Consumer pre-flight”, sección <strong>Watch runtime behavior</strong>.  </li>
+  <li><a href="https://cdn.jsdelivr.net/npm/pumuki@6.3.72/docs/operations/framework-menu-consumer-walkthrough.md">Recorrido del menú consumidor</a> — contexto UX menú.</li>
+</ul>
 </section>
 <section id="02-modulos-05-governance-y-pumuki" class="lesson" data-topic-id="02-modulos-05-governance-y-pumuki" data-lesson-path="02-modulos/05-governance-y-pumuki.md">
 <div class="lesson-path">02-modulos/05-governance-y-pumuki.md</div>
 <h1 id="02-modulos-05-governance-y-pumuki-m-dulo-5-governance-y-pumuki">Módulo 5 — Governance y Pumuki</h1>
-<h2 id="02-modulos-05-governance-y-pumuki-objetivo">Objetivo</h2>
-<p>Ver <strong>AGENTS.md</strong>, skills y GitFlow desde la <strong>salida del gate</strong> y las <strong>remediaciones</strong> que propone Pumuki, sin duplicar la política humana.</p>
-<h2 id="02-modulos-05-governance-y-pumuki-curso-governance">Curso Governance</h2>
-<p>Profundiza en semanas de <strong>quality gates</strong>, <strong>enforcement</strong> y <strong>kit</strong> del curso Governance; este módulo conecta esas decisiones con lo que el gate bloquea o advierte.</p>
+<h2 id="02-modulos-05-governance-y-pumuki-5-1-dos-fuentes-de-verdad-que-deben-convivir">5.1 Dos fuentes de verdad que deben convivir</h2>
+<p><strong>Governance</strong> (AGENTS.md, skills, GitFlow acordado, revisión humana) responde: “¿<strong>Qué</strong> debe hacer un equipo disciplinado y <strong>cómo</strong> decide?”  </p>
+<p><strong>Pumuki</strong> responde: “¿Lo que está en el <strong>diff</strong> <strong>cumple</strong> lo que ya bajó a reglas <strong>evaluables</strong> y <strong>versionadas</strong>?”</p>
+<p>Si intentas que Pumuki <strong>reemplace</strong> el README de cultura del equipo, fracasarás: Pumuki <strong>no</strong> lee la intención en vuestros corazones; lee <strong>locks</strong>, <strong>custom rules</strong>, <strong>hechos</strong> y <strong>políticas</strong>.</p>
+<hr>
+<h2 id="02-modulos-05-governance-y-pumuki-5-2-de-agents-md-al-gate-sin-duplicar-el-documento">5.2 De AGENTS.md al gate (sin duplicar el documento)</h2>
+<p><code>AGENTS.md</code> suele ser <strong>normativo</strong> para humanos y agentes (“no hagas force push”, “usa estas skills”). Pumuki <strong>no</strong> parsea AGENTS.md como única fuente de reglas en todos los modos; lo que <strong>sí</strong> hace es <strong>alinear</strong> el gate con <strong>skills</strong> materializadas en <code>skills.lock.json</code> y reglas <strong>AUTO/DECLARATIVE</strong> según el motor de skills.</p>
+<p><strong>Narrativa pedagógica:</strong> cuando una regla “está en AGENTS” pero <strong>no</strong> está en el lock efectivo, el gate puede <strong>no</strong> verla. El trabajo de governance es <strong>bajar</strong> la política a <strong>artefactos</strong> que el motor entienda.</p>
+<hr>
+<h2 id="02-modulos-05-governance-y-pumuki-5-3-gitflow-y-ramas-protegidas-en-el-lenguaje-del-alumno">5.3 GitFlow y ramas protegidas en el lenguaje del alumno</h2>
+<p>Los hooks recientes pueden aplicar <strong>git-flow</strong> (<code>GITFLOW_PROTECTED_BRANCH</code>) e <strong>higiene de worktree</strong> junto al gate cuando la evidencia es válida. Eso significa:</p>
+<ul>
+  <li><strong>No</strong> es solo “lint falló”: puede ser “estás en <strong>develop</strong> y tu política dice que no tocas X sin Y”.  </li>
+  <li>El mensaje del gate debe leerse como <strong>texto contractual</strong>, no como ataque personal.</li>
+</ul>
+<p><strong>Ejercicio de lectura:</strong> busca en <a href="https://cdn.jsdelivr.net/npm/pumuki@6.3.72/docs/product/USAGE.md">USAGE del producto</a> y en mensajes de <code>pumuki-pre-push</code> referencias a <strong>upstream</strong>, <strong>tracking</strong>, <strong>rama protegida</strong>. Escribe una <strong>analogía</strong> con “permiso de aeropuerto” (sin equipaje documentado no pasas) — ayuda a equipos no técnicos a entender <strong>por qué</strong> el push falló.</p>
+<hr>
+<h2 id="02-modulos-05-governance-y-pumuki-5-4-remediaciones-y-operational-hints">5.4 Remediaciones y <code>operational_hints</code></h2>
+<p>Cuando el producto expone <strong>remediaciones</strong> u <strong>hints</strong> en JSON, el equipo de governance debe <strong>revisar</strong> si están alineados con el <strong>runbook</strong> interno. Si el hint dice “ejecuta X” y vuestro runbook dice “nunca X en producción”, <strong>actualizáis</strong> runbook o <strong>ajustáis</strong> política — no ignoráis la contradicción.</p>
+<hr>
+<h2 id="02-modulos-05-governance-y-pumuki-5-5-skills-precedencia-y-conflicto">5.5 Skills: precedencia y conflicto</h2>
+<p>Orden mental: <strong>core</strong> (embebido) → <strong>repo</strong> (<code>skills.lock.json</code>) → <strong>custom</strong> (<code>.pumuki/custom-rules.json</code>), con <strong><code>custom &gt; repo &gt; core</code></strong> por <code>ruleId</code>.</p>
+<p><strong>Conflicto no es emergencia:</strong> es <strong>decisión</strong> ya tomada por diseño. El alumno debe saber <strong>dónde mirar</strong> cuando dos documentos humanos contradicen el gate: <strong>el lock efectivo</strong>.</p>
+<hr>
+<h2 id="02-modulos-05-governance-y-pumuki-ejercicio">Ejercicio</h2>
+<ol>
+  <li>Elige <strong>dos</strong> reglas que en vuestro equipo “viven” en skills o AGENTS (por ejemplo naming, capas, prohibición de patrón).  </li>
+  <li>Para cada una, indica: <strong>¿está</strong> en <code>skills.lock.json</code> o custom rules con <strong>ruleId</strong> identificable?  </li>
+  <li>Provoca un <strong>fallo reproducible</strong> mínimo en el lab que dispare una de ellas.  </li>
+  <li>Pega el <strong>finding</strong> correspondiente de <code>.ai_evidence.json</code> (redacta secretos) y <strong>narra</strong> la cadena fact → rule → decisión.</li>
+</ol>
+<hr>
 <h2 id="02-modulos-05-governance-y-pumuki-lectura">Lectura</h2>
 <ul>
-  <li><code>docs/product/USAGE.md</code> (remediaciones, mensajes, stages).</li>
-  <li>Vendor skills / <code>AGENTS.md</code> del repo consumidor.</li>
+  <li><a href="https://cdn.jsdelivr.net/npm/pumuki@6.3.72/docs/product/USAGE.md">USAGE</a> — mensajes, stages, hints.  </li>
+  <li><a href="https://cdn.jsdelivr.net/npm/pumuki@6.3.72/README.md">README del paquete</a> — “Rules resolution order”.  </li>
+  <li>Curso <strong>Governance</strong> del hub — quality gates y kit.  </li>
+  <li><strong>AGENTS.md</strong> de <strong>vuestro</strong> repo consumidor (plantilla de referencia: <a href="https://cdn.jsdelivr.net/npm/pumuki@6.3.72/AGENTS.md">AGENTS.md del producto</a>).</li>
 </ul>
-<h2 id="02-modulos-05-governance-y-pumuki-ejercicio">Ejercicio</h2>
-<p>Lista dos reglas que viven en skills/AGENTS y cómo se reflejan en un fallo de gate reproducible en el lab.</p>
 </section>
 <section id="02-modulos-06-monorepo-ci-parity" class="lesson" data-topic-id="02-modulos-06-monorepo-ci-parity" data-lesson-path="02-modulos/06-monorepo-ci-parity.md">
 <div class="lesson-path">02-modulos/06-monorepo-ci-parity.md</div>
 <h1 id="02-modulos-06-monorepo-ci-parity-m-dulo-6-monorepo-ci-y-parity">Módulo 6 — Monorepo, CI y parity</h1>
-<h2 id="02-modulos-06-monorepo-ci-parity-scope-en-monorepos">Scope en monorepos</h2>
-<ul>
-  <li><strong><code>PUMUKI_GATE_SCOPE_PATH_PREFIXES</code></strong>: limitar el gate a prefijos del monorepo (ver <code>USAGE.md</code>).</li>
-</ul>
-<h2 id="02-modulos-06-monorepo-ci-parity-parity-local-vs-ci">Parity local vs CI</h2>
-<ul>
-  <li><code>npx pumuki doctor --parity</code></li>
-  <li>Expectativas versionadas en <strong><code>.pumuki/ci-parity-expected.json</code></strong> cuando el equipo las use.</li>
-</ul>
+<h2 id="02-modulos-06-monorepo-ci-parity-6-1-por-qu-el-monorepo-rompe-la-cabeza-sin-scope">6.1 Por qué el monorepo rompe la cabeza sin scope</h2>
+<p>En un monorepo, <strong>no todo</strong> el árbol pertenece al mismo <strong>producto</strong> ni a la misma <strong>política</strong>. Si Pumuki evalúa <strong>todo</strong> el repo en cada commit de un paquete pequeño, obtienes <strong>ruido</strong> (findings en carpetas que tu equipo ni mira) o <strong>bloqueos injustos</strong>.</p>
+<p>La válvula documentada en el producto pasa por <strong><code>PUMUKI_GATE_SCOPE_PATH_PREFIXES</code></strong>: una lista de prefijos de ruta que <strong>delimitan</strong> dónde el gate debe gastar CPU y política. Pedagógicamente, es el equivalente a decir: “la inspección solo entra en <strong>estas habitaciones</strong>”.</p>
+<hr>
+<h2 id="02-modulos-06-monorepo-ci-parity-6-2-qu-debe-hacer-el-alumno-mentalmente-antes-de-configurar-prefijos">6.2 Qué debe hacer el alumno mentalmente antes de configurar prefijos</h2>
+<ol>
+  <li><strong>Listar</strong> paquetes o apps que <strong>comparten</strong> repo pero <strong>no</strong> comparten release.  </li>
+  <li><strong>Decidir</strong> si comparten <strong>mismo</strong> <code>skills.lock.json</code> o locks <strong>por paquete</strong> (si aplica).  </li>
+  <li><strong>Probar</strong> un commit que <strong>solo</strong> toca fuera del prefijo y verificar que el gate <strong>no</strong> inventa findings fuera de scope (o que los <strong>trata</strong> según política explícita — lo importante es <strong>predecibilidad</strong>).</li>
+</ol>
+<hr>
+<h2 id="02-modulos-06-monorepo-ci-parity-6-3-parity-laptop-vs-ci">6.3 Parity: laptop vs CI</h2>
+<p><code>pumuki doctor --parity</code> existe para <strong>comparar</strong> el mundo local con expectativas de CI <strong>cuando vuestro equipo</strong> versiona un contrato en <strong><code>.pumuki/ci-parity-expected.json</code></strong>. No es obligatorio en todos los repos; es <strong>herramienta</strong> para equipos que ya se quemaron con “en CI falla y en mi máquina no”.</p>
+<p><strong>Narrativa:</strong> parity no <strong>arregla</strong> bugs; <strong>acota</strong> dónde diverge el entorno (versión, bins, flags, rutas).</p>
+<hr>
+<h2 id="02-modulos-06-monorepo-ci-parity-6-4-ci-sin-github-actions-u-otros">6.4 CI sin GitHub Actions (u otros)</h2>
+<p>Aunque tu organización <strong>no</strong> tenga minutos de Actions, el <strong>concepto</strong> de stage <strong>CI</strong> sigue existiendo: cualquier job que ejecute <code>pumuki-ci</code> con un rango <code>base..HEAD</code> válido es <strong>CI</strong> para Pumuki. Enseña el <strong>contrato</strong> del runner: no <code>HEAD..HEAD</code> ambiguo, <strong>contexto</strong> de merge request correcto, mismas variables de prefijo que en local.</p>
+<hr>
+<h2 id="02-modulos-06-monorepo-ci-parity-ejercicio">Ejercicio</h2>
+<ol>
+  <li>Si tu lab <strong>no</strong> es monorepo, <strong>simula</strong> dos carpetas <code>packages/a</code> y <code>packages/b</code> con un archivo cada una.  </li>
+  <li>Configura <strong>prefijos</strong> para que solo <code>packages/a</code> esté en scope (siguiendo la sintaxis de <a href="https://cdn.jsdelivr.net/npm/pumuki@6.3.72/docs/product/USAGE.md">USAGE</a> para tu versión).  </li>
+  <li>Haz un commit que <strong>solo</strong> toque <code>packages/b</code> y ejecuta el gate que corresponda: documenta si hubo <strong>findings</strong> y <strong>por qué</strong> (o por qué no).  </li>
+  <li>Opcional: ejecuta <code>doctor --parity</code> si tenéis <code>ci-parity-expected.json</code>; si no, <strong>redacta</strong> qué pondrías en ese fichero la primera semana de adopción.</li>
+</ol>
+<hr>
 <h2 id="02-modulos-06-monorepo-ci-parity-lectura">Lectura</h2>
 <ul>
-  <li><code>docs/product/USAGE.md</code> y notas de release del producto para tu versión instalada.</li>
+  <li><a href="https://cdn.jsdelivr.net/npm/pumuki@6.3.72/docs/product/USAGE.md">USAGE</a> — variables de scope y parity.  </li>
+  <li><a href="https://cdn.jsdelivr.net/npm/pumuki@6.3.72/CHANGELOG.md">CHANGELOG del producto</a> — cambios recientes en gate scope / parity.  </li>
+  <li><a href="https://cdn.jsdelivr.net/npm/pumuki@6.3.72/README.md">README del paquete</a> — línea <code>PUMUKI_GATE_SCOPE_PATH_PREFIXES</code> si aparece en tabla de features.</li>
 </ul>
-<h2 id="02-modulos-06-monorepo-ci-parity-ejercicio">Ejercicio</h2>
-<p>Simula un diff fuera del prefijo permitido y verifica que el gate no castigue paths ajenos al paquete.</p>
 </section>
 <section id="02-modulos-07-proyecto-final-checklist" class="lesson" data-topic-id="02-modulos-07-proyecto-final-checklist" data-lesson-path="02-modulos/07-proyecto-final-checklist.md">
 <div class="lesson-path">02-modulos/07-proyecto-final-checklist.md</div>
-<h1 id="02-modulos-07-proyecto-final-checklist-m-dulo-7-proyecto-final-checklist-release">Módulo 7 — Proyecto final (checklist release)</h1>
-<h2 id="02-modulos-07-proyecto-final-checklist-checklist-m-nima">Checklist mínima</h2>
+<h1 id="02-modulos-07-proyecto-final-checklist-m-dulo-7-proyecto-final-y-checklist-de-release">Módulo 7 — Proyecto final y checklist de release</h1>
+<h2 id="02-modulos-07-proyecto-final-checklist-7-1-qu-demuestras-con-este-cierre">7.1 Qué demuestras con este cierre</h2>
+<p>No es un examen de trivia. Es <strong>prueba</strong> de que puedes <strong>operar</strong> Pumuki en un repo real: instalar, diagnosticar, enlazar SDD/Governance cuando aplique, y <strong>explicar</strong> el resultado a otra persona sin mirar el teléfono.</p>
+<hr>
+<h2 id="02-modulos-07-proyecto-final-checklist-7-2-checklist-m-nima-todos-los-perfiles">7.2 Checklist mínima (todos los perfiles)</h2>
+<p>Marca solo cuando tengas <strong>evidencia</strong> (comando, log, JSON, captura de política interna).</p>
+<ol>
+  <li><strong>Versión fijada</strong> — <code>pumuki</code> en <code>package.json</code> con política de equipo (<strong>exact</strong> recomendado).  </li>
+  <li><strong><code>doctor --json</code> sin bloqueos críticos</strong> para vuestro estándar (documentáis qué capa aceptáis en WARN).  </li>
+  <li><strong><code>status --json</code> alineado</strong> con <code>doctor</code> (no drift silencioso).  </li>
+  <li><strong>Hooks</strong> — <code>pre-commit</code> / <code>pre-push</code> (y <code>pre-write</code> si aplica) ejecutan los bins <strong>documentados</strong> en <code>adapter.json</code> o runbook.  </li>
+  <li><strong>Evidencia</strong> — existe <code>.ai_evidence.json</code> v2.1 <strong>válida</strong> después de un gate completo; sabes leer <strong>al menos</strong> <code>findings</code> y <code>snapshot.rules_coverage</code> a alto nivel.  </li>
+  <li><strong>Runbook de 1 página</strong> — qué hacer cuando falla un hook (orden: leer mensaje → <code>doctor</code> → <code>sdd validate</code> si enterprise → escalar).</li>
+</ol>
+<hr>
+<h2 id="02-modulos-07-proyecto-final-checklist-7-3-checklist-ampliada-perfil-sdd">7.3 Checklist ampliada (perfil SDD)</h2>
+<ol>
+  <li><strong>OpenSpec</strong> resuelto <strong>repo-local</strong> (<code>node_modules/.bin/openspec</code> o dependencia documentada).  </li>
+  <li><strong><code>pumuki sdd status</code></strong> entendido por <strong>dos</strong> personas del equipo distintas del autor del curso.  </li>
+  <li><strong>Sesión de cambio</strong> — flujo <code>--open</code> / <code>--refresh</code> documentado para vuestra convención de <code>change-id</code>.  </li>
+  <li><strong>Validación por stage</strong> — tabla interna: “antes de MR ejecutamos <code>validate --stage=…</code>”.</li>
+</ol>
+<hr>
+<h2 id="02-modulos-07-proyecto-final-checklist-7-4-checklist-ampliada-perfil-enterprise">7.4 Checklist ampliada (perfil enterprise)</h2>
+<ol>
+  <li><strong>MCP</strong> — decidido si usáis evidence HTTP, enterprise HTTP, stdio, o ninguno; <strong>documentado</strong> el porqué.  </li>
+  <li><strong>Tools experimentales</strong> — si activáis <code>PUMUKI_EXPERIMENTAL_MCP_ENTERPRISE</code>, <strong>quién</strong> puede invocar <code>validate_and_fix</code> y bajo qué <strong>SDD</strong> session.  </li>
+  <li><strong>PRE_WRITE + recibo</strong> — si política lo exige, <strong>dónde</strong> se guarda el recibo y <strong>cuánto</strong> dura “fresco”.  </li>
+  <li><strong><code>doctor --parity</code></strong> o plan explícito de <strong>por qué no</strong> lo usáis aún.  </li>
+  <li><strong>Monorepo</strong> — prefijos de scope <strong>revisados</strong> por owners de cada paquete.</li>
+</ol>
+<hr>
+<h2 id="02-modulos-07-proyecto-final-checklist-7-5-entrega-sugerida">7.5 Entrega sugerida</h2>
+<p>Sube a vuestro sistema de gestión (o al README del lab):</p>
 <ul>
-  <li>&#9744; Versión efectiva <code>pumuki</code> >= <strong>6.3.71</strong> (<code>status</code> / <code>doctor</code>).</li>
-  <li>&#9744; Hooks y CI alineados al perfil elegido (módulo 3).</li>
-  <li>&#9744; Sin bloqueos críticos en <code>doctor</code>; warnings justificados documentados.</li>
-  <li>&#9744; Evidencia <strong>v2.1</strong> coherente con el contrato (<code>docs/mcp/ai-evidence-v2.1-contract.md</code> en el producto).</li>
-  <li>&#9744; Export <strong><code>doctor --json</code></strong> archivado en el lugar que defina tu equipo (no commitear secretos).</li>
+  <li>Enlace al <strong>commit</strong> donde el checklist quedó verde.  </li>
+  <li><strong><code>doctor --json</code></strong> final (sin secretos).  </li>
+  <li><strong>Un párrafo</strong> de retro: “qué fue lo más confuso y cómo lo resolvimos”.</li>
 </ul>
-<h2 id="02-modulos-07-proyecto-final-checklist-entrega">Entrega</h2>
-<p>Un solo documento en el lab (o comentario de PR) con: perfil, versión, ruta del JSON exportado (o artefacto CI), y enlace al curso hub <code>/pumuki/</code> cuando esté publicado.</p>
+<hr>
+<h2 id="02-modulos-07-proyecto-final-checklist-referencias-de-auditor-a-del-curso">Referencias de auditoría del curso</h2>
+<ul>
+  <li><a href="../docs/AUDIT-AND-RELEASE.md">Auditoría y release del curso</a> — proceso de validación del <strong>material</strong> del curso (mantenedores).  </li>
+  <li><a href="https://cdn.jsdelivr.net/npm/pumuki@6.3.72/docs/tracking/plan-curso-pumuki-stack-my-architecture.md">Plan de seguimiento del curso</a> — en el repo público <strong>ast-intelligence-hooks</strong> (seguimiento de la iniciativa formativa).</li>
+</ul>
+<hr>
+<h2 id="02-modulos-07-proyecto-final-checklist-cierre">Cierre</h2>
+<p>Si llegaste aquí y <strong>aún</strong> sientes que “el README del producto tiene más carne”, <strong>bien</strong>: el README debe seguir siendo la <strong>fuente máxima</strong>. Lo que este curso te debía dar —y ahora sí pretende dar— es <strong>orden narrativo</strong>, <strong>mapa mental</strong> y <strong>ejercicios</strong> para que ese README <strong>no</strong> te aplaste. Vuelve a <strong><a href="#02-modulos-00-mapa-completo-del-producto">01 · Mapa del producto</a></strong> cuando necesites recolocarte.</p>
 </section>
 
 </main>

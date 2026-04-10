@@ -2,7 +2,7 @@
   var REMOTE_LINKS = {
     home: 'https://architecture-stack.vercel.app',
     ios: 'https://architecture-stack.vercel.app/ios/index.html',
-    android: 'https://architecture-stack-android.vercel.app',
+    android: 'https://architecture-stack.vercel.app/android/index.html',
     sdd: 'https://architecture-stack.vercel.app/sdd/index.html',
     governance: 'https://architecture-stack.vercel.app/governance/index.html',
     pumuki: 'https://architecture-stack.vercel.app/pumuki/index.html'
@@ -162,7 +162,51 @@
     return true;
   }
 
+  function normalizeCourseMenuDom() {
+    var el = document.getElementById('course-switcher-menu');
+    if (!el) return null;
+    var menu = el;
+    if (menu.tagName === 'DIV') {
+      var ul = document.createElement('ul');
+      ul.id = 'course-switcher-menu';
+      ul.className = menu.className || 'course-switcher-menu';
+      ul.setAttribute('role', 'menu');
+      while (menu.firstChild) ul.appendChild(menu.firstChild);
+      menu.parentNode.replaceChild(ul, menu);
+      menu = ul;
+    } else if (menu.tagName === 'UL') {
+      menu.setAttribute('role', 'menu');
+    }
+    Array.prototype.slice.call(menu.children).forEach(function (child) {
+      if (child.tagName === 'A') {
+        var li = document.createElement('li');
+        li.setAttribute('role', 'none');
+        menu.insertBefore(li, child);
+        li.appendChild(child);
+      }
+    });
+    Array.prototype.forEach.call(menu.querySelectorAll('a'), function (a) {
+      if (!a.getAttribute('role')) a.setAttribute('role', 'menuitem');
+    });
+    return menu;
+  }
+
+  function setMenuItemLabel(link, emoji, label) {
+    if (!link) return;
+    link.innerHTML = '';
+    var ic = document.createElement('span');
+    ic.className = 'course-switcher-ico';
+    ic.setAttribute('aria-hidden', 'true');
+    ic.textContent = emoji;
+    var tx = document.createElement('span');
+    tx.className = 'course-switcher-txt';
+    tx.textContent = label;
+    link.appendChild(ic);
+    link.appendChild(tx);
+  }
+
   function setLinks(syncParams) {
+    var menu = normalizeCourseMenuDom();
     var home = document.getElementById('course-switcher-home');
     var ios = document.getElementById('course-switcher-ios');
     var android = document.getElementById('course-switcher-android');
@@ -174,20 +218,20 @@
     android.href = resolveCourseLink('/android/index.html', REMOTE_LINKS.android, syncParams);
     if (sdd) sdd.href = resolveCourseLink('/sdd/index.html', REMOTE_LINKS.sdd, syncParams);
 
-    home.textContent = '🏠 Cursos';
-    ios.textContent = '📱 Curso iOS';
-    android.textContent = '🤖 Curso Android';
-    if (sdd) sdd.textContent = '🧠 Curso IA + SDD';
-    var governanceMenu = document.getElementById('course-switcher-menu');
-    var governance = governanceMenu ? ensureMenuLink(governanceMenu, 'course-switcher-governance') : null;
+    setMenuItemLabel(home, '🏠', 'Inicio del hub');
+    setMenuItemLabel(ios, '📱', 'Curso iOS');
+    setMenuItemLabel(android, '🤖', 'Curso Android');
+    if (sdd) setMenuItemLabel(sdd, '🧠', 'Curso IA + SDD');
+
+    var governance = menu ? ensureMenuLink(menu, 'course-switcher-governance') : null;
     if (governance) {
       governance.href = resolveCourseLink('/governance/index.html', REMOTE_LINKS.governance, syncParams);
-      governance.textContent = '🏛️ Governance';
+      setMenuItemLabel(governance, '🏛️', 'Governance');
     }
-    var pumukiLink = governanceMenu ? ensureMenuLink(governanceMenu, 'course-switcher-pumuki') : null;
+    var pumukiLink = menu ? ensureMenuLink(menu, 'course-switcher-pumuki') : null;
     if (pumukiLink) {
       pumukiLink.href = resolveCourseLink('/pumuki/index.html', REMOTE_LINKS.pumuki, syncParams);
-      pumukiLink.textContent = '🛡️ Pumuki';
+      setMenuItemLabel(pumukiLink, '🛡️', 'Pumuki');
     }
     setAuthLinks(syncParams);
   }
@@ -200,13 +244,15 @@
 
     var authLink = ensureMenuLink(menu, 'course-switcher-auth');
     authLink.href = authUrl;
-    authLink.textContent = user && user.id
-      ? '👤 ' + String(user.email || 'Cuenta')
-      : '🔐 Registro / Login';
+    if (user && user.id) {
+      setMenuItemLabel(authLink, '👤', String(user.email || 'Cuenta'));
+    } else {
+      setMenuItemLabel(authLink, '🔐', 'Registro / Login');
+    }
 
     var logoutLink = ensureMenuLink(menu, 'course-switcher-logout');
     logoutLink.href = '#';
-    logoutLink.textContent = '🚪 Cerrar sesión';
+    setMenuItemLabel(logoutLink, '🚪', 'Cerrar sesión');
     logoutLink.style.display = user && user.id ? '' : 'none';
     logoutLink.onclick = function (event) {
       event.preventDefault();
@@ -221,10 +267,21 @@
 
   function ensureMenuLink(menu, id) {
     var link = document.getElementById(id);
-    if (link) return link;
+    if (link) {
+      var p = link.parentElement;
+      if (p && p.tagName !== 'LI') {
+        var li = document.createElement('li');
+        li.setAttribute('role', 'none');
+        p.insertBefore(li, link);
+        li.appendChild(link);
+      }
+      return link;
+    }
     var li = document.createElement('li');
+    li.setAttribute('role', 'none');
     link = document.createElement('a');
     link.id = id;
+    link.setAttribute('role', 'menuitem');
     li.appendChild(link);
     menu.appendChild(li);
     return link;
@@ -236,13 +293,18 @@
     if (!menu) return;
 
     if (toggle) {
+      toggle.setAttribute('aria-haspopup', 'menu');
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.setAttribute('aria-label', 'Abrir menú de cursos y cuenta');
       toggle.addEventListener('click', function (e) {
         e.stopPropagation();
-        menu.classList.toggle('open');
+        var open = menu.classList.toggle('open');
+        toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
       });
 
       document.addEventListener('click', function () {
         menu.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
       });
 
       menu.addEventListener('click', function (e) {

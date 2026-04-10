@@ -17,26 +17,6 @@
   const keyAuthSession = 'sma:auth:session:v1';
   const keyAuthUser = 'sma:auth:user:v1';
   const DEFAULT_REMOTE_PROGRESS_BASE = 'https://architecture-stack.vercel.app';
-
-  function toApiUrl(path) {
-    const rawPath = String(path || '').trim();
-    if (!rawPath) return '/api';
-    let routePath = rawPath;
-    if (routePath.startsWith('/')) routePath = routePath.slice(1);
-    if (routePath.startsWith('api/')) routePath = routePath.slice(4);
-    if (isLocalContext()) {
-      return `/${routePath}`;
-    }
-    if (window.location.hostname === 'architecture-stack.vercel.app') {
-      return `/api/${routePath}`;
-    }
-    const q = routePath.indexOf('?');
-    const basePath = q >= 0 ? routePath.slice(0, q) : routePath;
-    const query = q >= 0 ? routePath.slice(q + 1) : '';
-    const normalized = String(basePath || '').replace(/^\/+/g, '');
-    return `/api/proxy?path=${encodeURIComponent(normalized)}${query ? `&${query}` : ''}`;
-  }
-
   const canonicalCourseKey = normalizeCanonicalCourseKey(courseId);
   const INTERVIEW_MODE_PACKS = {
     ios: {
@@ -1014,13 +994,9 @@
     const bookmarksList = document.createElement('div');
     bookmarksList.id = 'study-bookmarks-list';
     bookmarksList.className = 'study-bookmarks-list';
-    const bookmarksStatus = document.createElement('p');
-    bookmarksStatus.id = 'study-bookmark-status';
-    bookmarksStatus.className = 'study-bookmark-status';
     bookmarksBox.appendChild(bookmarksTitle);
     bookmarksBox.appendChild(bookmarksCopy);
     bookmarksBox.appendChild(bookmarksList);
-    bookmarksBox.appendChild(bookmarksStatus);
 
     indexActions.appendChild(rowPrimary);
     indexActions.appendChild(statsBox);
@@ -1681,11 +1657,11 @@
       try {
         const headers = { Authorization: `Bearer ${getAuthAccessToken()}` };
         const [notesResponse, bookmarksResponse] = await Promise.all([
-          fetch(toApiUrl(`/api/student-notes?route=list&courseId=${encodeURIComponent(courseId)}`), {
+          fetch(`/api/student-notes?route=list&courseId=${encodeURIComponent(courseId)}`, {
             method: 'GET',
             headers: headers
           }),
-          fetch(toApiUrl(`/api/student-bookmarks?route=list&courseId=${encodeURIComponent(courseId)}`), {
+          fetch(`/api/student-bookmarks?route=list&courseId=${encodeURIComponent(courseId)}`, {
             method: 'GET',
             headers: headers
           })
@@ -1792,11 +1768,8 @@
 
       if (!items.length) {
         list.innerHTML = '<p class=\"study-bookmarks-empty\">Todavía no has guardado ningún bookmark.</p>';
-        if (status) status.textContent = 'Guarda un bookmark para volver rápido a una lección importante.';
         return;
       }
-
-      if (status) status.textContent = 'Tus bookmarks recientes quedan ligados a tu cuenta y se sincronizan entre dispositivos.';
 
       list.innerHTML = items.map(function (item) {
         const topic = topics.find(function (entry) { return entry.id === item.topicId; });
@@ -1852,7 +1825,7 @@
           'Content-Type': 'application/json',
           Authorization: `Bearer ${getAuthAccessToken()}`
         };
-        const response = await fetch(toApiUrl('/api/student-notes?route=upsert'), {
+        const response = await fetch('/api/student-notes?route=upsert', {
           method: 'POST',
           headers: headers,
           body: JSON.stringify({
@@ -1914,7 +1887,7 @@
           'Content-Type': 'application/json',
           Authorization: `Bearer ${getAuthAccessToken()}`
         };
-        const response = await fetch(toApiUrl('/api/student-bookmarks?route=toggle'), {
+        const response = await fetch('/api/student-bookmarks?route=toggle', {
           method: 'POST',
           headers: headers,
           body: JSON.stringify({
@@ -1934,15 +1907,9 @@
         } else {
           delete state.bookmarksByTopicId[currentTopic.id];
         }
-        if (status) {
-          status.textContent = body.active
-            ? `Bookmark guardado para ${currentTopic.lessonLabel || currentTopic.id}.`
-            : `Bookmark eliminado de ${currentTopic.lessonLabel || currentTopic.id}.`;
-        }
         render();
         scheduleDecorateNavStates();
-      } catch (error) {
-        if (status) status.textContent = error && error.message ? error.message : 'No se pudo actualizar el bookmark.';
+      } catch (_error) {
       }
     }
 
@@ -2034,8 +2001,8 @@
   function createAccessControl() {
     const state = {
       ready: false,
-      fullAccess: false,
-      mode: 'blocked',
+      fullAccess: true,
+      mode: 'full',
       teaserTopicIds: []
     };
 
@@ -2043,24 +2010,13 @@
       if (state.ready) return;
       state.ready = true;
       if (isLocalContext()) {
-        state.fullAccess = true;
-        state.mode = 'active';
         renderBanner();
         updateLockedNavigation();
         return;
       }
 
-      const hasAuthToken = Boolean(getAuthAccessToken());
       const access = await fetchCourseAccess();
       if (!access) {
-        state.mode = 'blocked';
-        state.fullAccess = false;
-        state.teaserTopicIds = [];
-        if (hasAuthToken) {
-          clearAuthState();
-          goAuthPortal();
-          return;
-        }
         renderBanner();
         updateLockedNavigation();
         return;
@@ -2169,23 +2125,14 @@
         const headers = {};
         const bearer = getAuthAccessToken();
         if (bearer) headers.Authorization = `Bearer ${bearer}`;
-        const response = await fetch(toApiUrl(`/api/entitlements?route=access&courseId=${encodeURIComponent(courseId)}`), {
+        const response = await fetch(`/api/entitlements?route=access&courseId=${encodeURIComponent(courseId)}`, {
           method: 'GET',
           headers: headers
         });
-        if (!response.ok) {
-        if ((response.status === 401 || response.status === 403) && bearer) {
-          clearAuthState();
-        }
-        return null;
-      }
-      const body = await response.json().catch(function () { return null; });
-      if (!body || !body.ok || !body.access || typeof body.access !== 'object') return null;
-      if (bearer && body.access.authenticated === false) {
-        clearAuthState();
-        return null;
-      }
-      return body.access;
+        if (!response.ok) return null;
+        const body = await response.json().catch(function () { return null; });
+        if (!body || !body.ok || !body.access || typeof body.access !== 'object') return null;
+        return body.access;
       } catch (_error) {
         return null;
       }
@@ -2630,12 +2577,6 @@
     const token = String(session.accessToken || '').trim();
     if (!token || token.length > 4096) return '';
     return token;
-  }
-
-  function clearAuthState() {
-    localStorage.removeItem(keyAuthSession);
-    localStorage.removeItem(keyAuthUser);
-    localStorage.removeItem(keyCloudProfile);
   }
 
   function hasAuthenticatedCloudProfile() {
