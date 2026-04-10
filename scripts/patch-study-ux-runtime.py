@@ -5,7 +5,7 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
-COURSES = ("ios", "android", "sdd", "pumuki")
+COURSES = ("ios", "android", "sdd", "governance", "pumuki")
 COURSE_HTML_TARGETS = (
     ("ios", "index.html"),
     ("ios", "curso-stack-my-architecture.html"),
