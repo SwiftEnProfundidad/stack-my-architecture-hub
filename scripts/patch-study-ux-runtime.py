@@ -5,7 +5,7 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
-COURSES = ("ios", "android", "sdd")
+COURSES = ("ios", "android", "sdd", "pumuki")
 COURSE_HTML_TARGETS = (
     ("ios", "index.html"),
     ("ios", "curso-stack-my-architecture.html"),
@@ -19,7 +19,7 @@ COURSE_HTML_TARGETS = (
     ("pumuki", "curso-stack-my-architecture-pumuki.html"),
 )
 
-INLINE_AUTH_GUARD = """<script>
+INLINE_AUTH_GUARD = r"""<script>
 (function () {
   try {
     var host = String(window.location.hostname || '').toLowerCase();
@@ -278,17 +278,17 @@ def main() -> int:
         js_path = hub_root / course / "assets" / "study-ux.js"
         css_path = hub_root / course / "assets" / "study-ux.css"
         theme_controls_path = hub_root / course / "assets" / "theme-controls.js"
-        if patch_file(js_path, JS_REPLACEMENTS):
+        if js_path.exists() and patch_file(js_path, JS_REPLACEMENTS):
             patched.append(js_path)
-        if patch_file(css_path, CSS_REPLACEMENTS):
+        if css_path.exists() and patch_file(css_path, CSS_REPLACEMENTS):
             patched.append(css_path)
-        if patch_file(theme_controls_path, THEME_CONTROLS_REPLACEMENTS):
+        if theme_controls_path.exists() and patch_file(theme_controls_path, THEME_CONTROLS_REPLACEMENTS):
             patched.append(theme_controls_path)
         course_switcher_path = hub_root / course / "assets" / "course-switcher.js"
-        if patch_file(course_switcher_path, COURSE_SWITCHER_REPLACEMENTS):
+        if course_switcher_path.exists() and patch_file(course_switcher_path, COURSE_SWITCHER_REPLACEMENTS):
             patched.append(course_switcher_path)
         assistant_panel_path = hub_root / course / "assets" / "assistant-panel.js"
-        if patch_file(assistant_panel_path, ASSISTANT_PANEL_REPLACEMENTS):
+        if assistant_panel_path.exists() and patch_file(assistant_panel_path, ASSISTANT_PANEL_REPLACEMENTS):
             patched.append(assistant_panel_path)
 
     for course, relative_path in COURSE_HTML_TARGETS:
