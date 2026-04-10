@@ -239,6 +239,8 @@ Para regenerar y copiar los tres cursos al hub:
 Publicación controlada por workflow:
 - `Hub Production Release Gate` en `.github/workflows/hub-production-release-gate.yml`.
 
+Si **Actions no ejecuta el job** (mensaje de facturación / cuenta u org bloqueada para GitHub Actions), revisar **Billing** de la cuenta u organización; mientras tanto se puede publicar **en local** con `./scripts/publish-architecture-stack.sh strict|fast` (misma lógica de verificación de rutas y `publish-verify-base.url`).
+
 Qué hace este gate:
 - ejecuta prechecks de control (`test-public-smoke-suite`, `test-course-surface-guard-suite`, `test-stamp-asset-version`).
 - ejecuta `publish-architecture-stack.sh` en modo `strict` o `fast`.
