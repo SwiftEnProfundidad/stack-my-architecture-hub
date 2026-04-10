@@ -460,10 +460,12 @@ open_course() {
     ios) path="/ios/index.html" ;;
     android) path="/android/index.html" ;;
     sdd) path="/sdd/index.html" ;;
+    governance) path="/governance/index.html" ;;
+    pumuki) path="/pumuki/index.html" ;;
     hub|"") path="/index.html" ;;
     *)
       echo "⚠️ Curso desconocido: $course"
-      echo "Usa: ios | android | sdd | hub"
+      echo "Usa: ios | android | sdd | governance | pumuki | hub"
       path="/index.html"
       ;;
   esac

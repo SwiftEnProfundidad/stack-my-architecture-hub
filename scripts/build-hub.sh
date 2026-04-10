@@ -14,6 +14,7 @@ IOS_ROOT="$PROJECTS_ROOT/stack-my-architecture-ios"
 ANDROID_ROOT="$PROJECTS_ROOT/stack-my-architecture-android"
 SDD_ROOT="$PROJECTS_ROOT/stack-my-architecture-SDD"
 GOVERNANCE_ROOT="$PROJECTS_ROOT/stack-my-architecture-governance"
+PUMUKI_ROOT="$PROJECTS_ROOT/stack-my-architecture-pumuki"
 SDD_AUDIT_SCRIPT="$SDD_ROOT/scripts/run-full-audit.sh"
 SDD_BUILD_SCRIPT="$SDD_ROOT/scripts/build-html.py"
 if [[ ! -f "$SDD_BUILD_SCRIPT" && -f "$SDD_ROOT/stack-my-architecture-SDD/scripts/build-html.py" ]]; then
@@ -50,11 +51,13 @@ IOS_ROOT="$(resolve_course_root "$IOS_ROOT" "stack-my-architecture-ios")"
 ANDROID_ROOT="$(resolve_course_root "$ANDROID_ROOT" "stack-my-architecture-android")"
 SDD_ROOT="$(resolve_course_root "$SDD_ROOT" "stack-my-architecture-SDD")"
 GOVERNANCE_ROOT="$(resolve_course_root "$GOVERNANCE_ROOT" "stack-my-architecture-governance")"
+PUMUKI_ROOT="$(resolve_course_root "$PUMUKI_ROOT" "stack-my-architecture-pumuki")"
 
 SDD_AUDIT_SCRIPT="$SDD_ROOT/scripts/run-full-audit.sh"
 IOS_OUTPUT="$IOS_ROOT/dist"
 ANDROID_OUTPUT="$ANDROID_ROOT/dist"
 GOVERNANCE_OUTPUT="$GOVERNANCE_ROOT/dist"
+PUMUKI_OUTPUT="$PUMUKI_ROOT/dist"
 SDD_OUTPUT_PRIMARY="$SDD_ROOT/dist"
 SDD_OUTPUT_NESTED="$SDD_ROOT/stack-my-architecture-SDD/dist"
 if [[ "$SDD_BUILD_SCRIPT" == "$SDD_ROOT/stack-my-architecture-SDD/scripts/build-html.py" ]]; then
@@ -197,6 +200,11 @@ if [[ -d "$GOVERNANCE_ROOT" && -f "$GOVERNANCE_ROOT/scripts/build-html.py" ]]; t
   GOVERNANCE_BUILD_ENABLED=1
 fi
 
+PUMUKI_BUILD_ENABLED=0
+if [[ -d "$PUMUKI_ROOT" && -f "$PUMUKI_ROOT/scripts/build-html.py" ]]; then
+  PUMUKI_BUILD_ENABLED=1
+fi
+
 say "Starting hub build (mode=$MODE)"
 say "[1/9] Building iOS HTML output..."
 python3 "$IOS_ROOT/scripts/build-html.py"
@@ -228,6 +236,13 @@ if [[ "$GOVERNANCE_BUILD_ENABLED" -eq 1 ]]; then
   python3 "$GOVERNANCE_ROOT/scripts/build-html.py"
 else
   say "[3.5/9] Governance course not found, skipping."
+fi
+
+if [[ "$PUMUKI_BUILD_ENABLED" -eq 1 ]]; then
+  say "[3.6/9] Building Pumuki course HTML output..."
+  python3 "$PUMUKI_ROOT/scripts/build-html.py"
+else
+  say "[3.6/9] Pumuki course not found, skipping."
 fi
 
 copy_dir() {
@@ -298,6 +313,11 @@ if [[ "$GOVERNANCE_BUILD_ENABLED" -eq 1 ]]; then
   copy_dir "$GOVERNANCE_OUTPUT" "$HUB_ROOT/governance"
 fi
 
+if [[ "$PUMUKI_BUILD_ENABLED" -eq 1 ]]; then
+  say "[6.35/9] Copying Pumuki course output folder AS-IS to hub/pumuki ..."
+  copy_dir "$PUMUKI_OUTPUT" "$HUB_ROOT/pumuki"
+fi
+
 if [[ -f "$HUB_ROOT/ios/curso-stack-my-architecture.html" ]]; then
   cp "$HUB_ROOT/ios/curso-stack-my-architecture.html" "$HUB_ROOT/ios/index.html"
 fi
@@ -314,6 +334,10 @@ if [[ "$GOVERNANCE_BUILD_ENABLED" -eq 1 && -f "$HUB_ROOT/governance/curso-stack-
   cp "$HUB_ROOT/governance/curso-stack-my-architecture-governance.html" "$HUB_ROOT/governance/index.html"
 fi
 
+if [[ "$PUMUKI_BUILD_ENABLED" -eq 1 && -f "$HUB_ROOT/pumuki/curso-stack-my-architecture-pumuki.html" ]]; then
+  cp "$HUB_ROOT/pumuki/curso-stack-my-architecture-pumuki.html" "$HUB_ROOT/pumuki/index.html"
+fi
+
 if [[ ! -x "$PATCH_STUDY_UX_RUNTIME_SCRIPT" ]]; then
   echo "[ERROR] Missing or non-executable study UX patch script: $PATCH_STUDY_UX_RUNTIME_SCRIPT"
   exit 1
@@ -326,6 +350,11 @@ python3 "$PATCH_STUDY_UX_RUNTIME_SCRIPT" --hub-root "$HUB_ROOT"
 if [[ "$GOVERNANCE_BUILD_ENABLED" -eq 1 && -d "$HUB_ROOT/ios/assets" ]]; then
   mkdir -p "$HUB_ROOT/governance/assets"
   cp -R "$HUB_ROOT/ios/assets/." "$HUB_ROOT/governance/assets/"
+fi
+
+if [[ "$PUMUKI_BUILD_ENABLED" -eq 1 && -d "$HUB_ROOT/ios/assets" ]]; then
+  mkdir -p "$HUB_ROOT/pumuki/assets"
+  cp -R "$HUB_ROOT/ios/assets/." "$HUB_ROOT/pumuki/assets/"
 fi
 
 if [[ ! -x "$STAMP_ASSET_VERSION_SCRIPT" ]]; then

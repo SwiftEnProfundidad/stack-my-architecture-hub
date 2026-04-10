@@ -12,7 +12,7 @@ const DEFAULT_NOTES_TABLE = 'hub_student_notes';
 const DEFAULT_BOOKMARKS_TABLE = 'hub_student_bookmarks';
 const DEFAULT_AUDIT_TABLE = 'hub_admin_audit_log';
 
-const COURSE_IDS = ['ios', 'android', 'sdd', 'governance'];
+const COURSE_IDS = ['ios', 'android', 'sdd', 'governance', 'pumuki'];
 const COURSE_ID_ALIASES = {
   ios: 'ios',
   'stack-my-architecture-ios': 'ios',
@@ -21,7 +21,9 @@ const COURSE_ID_ALIASES = {
   sdd: 'sdd',
   'stack-my-architecture-sdd': 'sdd',
   governance: 'governance',
-  'stack-my-architecture-governance': 'governance'
+  'stack-my-architecture-governance': 'governance',
+  pumuki: 'pumuki',
+  'stack-my-architecture-pumuki': 'pumuki'
 };
 const COURSE_STAGE_DEFINITIONS = {
   ios: [
@@ -56,6 +58,12 @@ const COURSE_STAGE_DEFINITIONS = {
     { id: 'delivery', label: 'Bloque 2 · Delivery (Sem 5-8)', prefixes: ['06-semana-05', '07-semana-06', '08-semana-07', '09-semana-08'] },
     { id: 'quality', label: 'Bloque 3 · Quality & Release (Sem 9-12)', prefixes: ['10-semana-09', '11-semana-10', '12-semana-11', '13-semana-12'] },
     { id: 'mastery', label: 'Bloque 4 · Mastery (Sem 13-16)', prefixes: ['14-semana-13', '15-semana-14', '16-semana-15', '17-semana-16'] }
+  ],
+  pumuki: [
+    { id: 'prep', label: 'Bloque 0 · Preparación', prefixes: ['00-preparacion'] },
+    { id: 'roadmap', label: 'Bloque 1 · Roadmap MVP', prefixes: ['01-roadmap'] },
+    { id: 'playbooks', label: 'Bloque 2 · Playbooks', prefixes: ['docs'] },
+    { id: 'modules', label: 'Bloque 3 · Módulos núcleo', prefixes: ['02-modulos'] }
   ]
 };
 const ROLE_VALUES = ['student', 'trial', 'admin'];

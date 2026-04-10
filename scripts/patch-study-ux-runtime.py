@@ -6,6 +6,55 @@ import argparse
 from pathlib import Path
 
 COURSES = ("ios", "android", "sdd")
+COURSE_HTML_TARGETS = (
+    ("ios", "index.html"),
+    ("ios", "curso-stack-my-architecture.html"),
+    ("android", "index.html"),
+    ("android", "curso-stack-my-architecture-android.html"),
+    ("sdd", "index.html"),
+    ("sdd", "curso-stack-my-architecture-sdd.html"),
+    ("governance", "index.html"),
+    ("governance", "curso-stack-my-architecture-governance.html"),
+    ("pumuki", "index.html"),
+    ("pumuki", "curso-stack-my-architecture-pumuki.html"),
+)
+
+INLINE_AUTH_GUARD = """<script>
+(function () {
+  try {
+    var host = String(window.location.hostname || '').toLowerCase();
+    var local172 = host.match(/^172\.(\d{1,3})\.\d{1,3}\.\d{1,3}$/);
+    var isLocal = window.location.protocol === 'file:' ||
+      host === 'localhost' || host === '127.0.0.1' || host === '::1' || host === '0.0.0.0' ||
+      host.endsWith('.local') ||
+      /^10\.\d{1,3}\.\d{1,3}\.\d{1,3}$/.test(host) ||
+      /^192\.168\.\d{1,3}\.\d{1,3}$/.test(host) ||
+      (local172 && Number(local172[1]) >= 16 && Number(local172[1]) <= 31);
+    if (isLocal) return;
+
+    var user = JSON.parse(localStorage.getItem('sma:auth:user:v1') || 'null');
+    var session = JSON.parse(localStorage.getItem('sma:auth:session:v1') || 'null');
+    var isValid = !!(user && user.id && session && session.accessToken);
+    if (isValid && session.expiresAt) {
+      var expiresAt = Date.parse(String(session.expiresAt));
+      if (Number.isFinite(expiresAt) && expiresAt <= Date.now()) isValid = false;
+    }
+    if (isValid) return;
+
+    localStorage.removeItem('sma:auth:user:v1');
+    localStorage.removeItem('sma:auth:session:v1');
+    localStorage.removeItem('sma:cloud:profile:v1');
+    var next = window.location.pathname + window.location.search + window.location.hash;
+    var login = new URL('/auth/login.html', window.location.origin);
+    login.searchParams.set('next', next);
+    window.location.replace(login.pathname + login.search + login.hash);
+  } catch (_error) {
+    var next = window.location.pathname + window.location.search + window.location.hash;
+    window.location.replace('/auth/login.html?next=' + encodeURIComponent(next));
+  }
+})();
+</script>
+"""
 
 JS_REPLACEMENTS = [
     (
@@ -119,7 +168,11 @@ ASSISTANT_PANEL_REPLACEMENTS = [
 COURSE_SWITCHER_REPLACEMENTS = [
     (
         "    sdd: 'https://architecture-stack-sdd.vercel.app'\n  };",
-        "    sdd: 'https://architecture-stack-sdd.vercel.app',\n    governance: 'https://architecture-stack.vercel.app/governance/index.html'\n  };",
+        "    sdd: 'https://architecture-stack.vercel.app/sdd/index.html',\n    governance: 'https://architecture-stack.vercel.app/governance/index.html'\n  };",
+    ),
+    (
+        "    android: 'https://architecture-stack-android.vercel.app',\n    sdd: 'https://architecture-stack-sdd.vercel.app',\n    governance: 'https://architecture-stack.vercel.app/governance/index.html'\n  };",
+        "    android: 'https://architecture-stack.vercel.app/android/index.html',\n    sdd: 'https://architecture-stack.vercel.app/sdd/index.html',\n    governance: 'https://architecture-stack.vercel.app/governance/index.html'\n  };",
     ),
     (
         "    if (href.indexOf('/sdd/') !== -1) return href.split('/sdd/')[0];\n    return '';",
@@ -128,6 +181,51 @@ COURSE_SWITCHER_REPLACEMENTS = [
     (
         "    if (sdd) sdd.textContent = '\U0001f9e0 Curso IA + SDD';\n    setAuthLinks(syncParams);",
         "    if (sdd) sdd.textContent = '\U0001f9e0 Curso IA + SDD';\n    var governanceMenu = document.getElementById('course-switcher-menu');\n    var governance = governanceMenu ? ensureMenuLink(governanceMenu, 'course-switcher-governance') : null;\n    if (governance) {\n      governance.href = resolveCourseLink('/governance/index.html', REMOTE_LINKS.governance, syncParams);\n      governance.textContent = '\U0001f3db\ufe0f Governance';\n    }\n    setAuthLinks(syncParams);",
+    ),
+    (
+        "    governance: 'https://architecture-stack.vercel.app/governance/index.html'\n  };",
+        "    governance: 'https://architecture-stack.vercel.app/governance/index.html',\n    pumuki: 'https://architecture-stack.vercel.app/pumuki/index.html'\n  };",
+    ),
+    (
+        "    if (href.indexOf('/governance/') !== -1) return href.split('/governance/')[0];\n    return '';",
+        "    if (href.indexOf('/governance/') !== -1) return href.split('/governance/')[0];\n    if (href.indexOf('/pumuki/') !== -1) return href.split('/pumuki/')[0];\n    return '';",
+    ),
+    (
+        "      governance.textContent = '\U0001f3db\ufe0f Governance';\n    }\n    setAuthLinks(syncParams);",
+        "      governance.textContent = '\U0001f3db\ufe0f Governance';\n    }\n    var pumukiLink = governanceMenu ? ensureMenuLink(governanceMenu, 'course-switcher-pumuki') : null;\n    if (pumukiLink) {\n      pumukiLink.href = resolveCourseLink('/pumuki/index.html', REMOTE_LINKS.pumuki, syncParams);\n      pumukiLink.textContent = '\U0001f6e1\ufe0f Pumuki';\n    }\n    setAuthLinks(syncParams);",
+    ),
+    (
+        """  function readStoredAuthSession() {
+    var session = readJsonStorage(AUTH_SESSION_KEY);
+    if (!session || !session.accessToken) return null;
+    return session;
+  }
+""",
+        """  function readStoredAuthSession() {
+    var session = readJsonStorage(AUTH_SESSION_KEY);
+    if (!session) return null;
+    var accessToken = String(session.accessToken || session.access_token || session.token || '').trim();
+    if (!accessToken) return null;
+    session.accessToken = accessToken;
+    return session;
+  }
+""",
+    ),
+    (
+        """  function enforceAuthenticatedAccess(syncParams) {
+    if (isLocalContext()) return true;
+    if (hasAuthenticatedUser()) return true;
+    var loginUrl = resolveLoginUrl(new URLSearchParams(), sanitizeNextPath(resolveCurrentPath()));
+    window.location.replace(loginUrl);
+    return false;
+  }
+""",
+        """  function enforceAuthenticatedAccess(syncParams) {
+    if (isLocalContext()) return true;
+    hasAuthenticatedUser();
+    return true;
+  }
+""",
     ),
 ]
 
@@ -160,6 +258,15 @@ def patch_file(path: Path, replacements: list[tuple[str, str]]) -> bool:
     return changed
 
 
+def remove_inline_auth_guard(path: Path) -> bool:
+    content = path.read_text(encoding="utf-8")
+    patched = content.replace(INLINE_AUTH_GUARD, "", 1)
+    if patched == content:
+      return False
+    path.write_text(patched, encoding="utf-8")
+    return True
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Apply Hub-only runtime UX hotfixes after copying course outputs")
     parser.add_argument("--hub-root", default=str(Path(__file__).resolve().parent.parent))
@@ -183,6 +290,11 @@ def main() -> int:
         assistant_panel_path = hub_root / course / "assets" / "assistant-panel.js"
         if patch_file(assistant_panel_path, ASSISTANT_PANEL_REPLACEMENTS):
             patched.append(assistant_panel_path)
+
+    for course, relative_path in COURSE_HTML_TARGETS:
+        html_path = hub_root / course / relative_path
+        if html_path.exists() and remove_inline_auth_guard(html_path):
+            patched.append(html_path)
 
     print("[patch-study-ux-runtime] patched files:")
     for path in patched:

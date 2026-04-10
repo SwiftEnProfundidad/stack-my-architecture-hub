@@ -21,6 +21,8 @@ REQUIRED_FILES = [
     "sdd/curso-stack-my-architecture-sdd.html",
     "governance/index.html",
     "governance/curso-stack-my-architecture-governance.html",
+    "pumuki/index.html",
+    "pumuki/curso-stack-my-architecture-pumuki.html",
 ]
 
 REQUIRED_SHARED_ASSETS = [
@@ -39,6 +41,7 @@ COURSE_META = {
     "android/index.html": "stack-my-architecture-android",
     "sdd/index.html": "stack-my-architecture-sdd",
     "governance/index.html": "stack-my-architecture-governance",
+    "pumuki/index.html": "stack-my-architecture-pumuki",
 }
 
 COURSE_HTMLS = {
@@ -46,6 +49,7 @@ COURSE_HTMLS = {
     "android": "curso-stack-my-architecture-android.html",
     "sdd": "curso-stack-my-architecture-sdd.html",
     "governance": "curso-stack-my-architecture-governance.html",
+    "pumuki": "curso-stack-my-architecture-pumuki.html",
 }
 
 SOURCE_REPOS = {
@@ -53,10 +57,21 @@ SOURCE_REPOS = {
     "android": PROJECTS_ROOT / "stack-my-architecture-android",
     "sdd": PROJECTS_ROOT / "stack-my-architecture-SDD",
     "governance": PROJECTS_ROOT / "stack-my-architecture-governance",
+    "pumuki": PROJECTS_ROOT / "stack-my-architecture-pumuki",
 }
+
+HUB_COURSES_WITH_ASSETS = ("ios", "android", "sdd", "governance", "pumuki")
 
 ASSET_VERSION_RE = re.compile(
     r"(assets/[A-Za-z0-9._/-]+\.(?:css|js)\?v=)([A-Za-z0-9._-]+)"
+)
+INLINE_AUTH_GUARD_RE = re.compile(
+    r"<script>\s*\(function \(\) \{.*?localStorage\.removeItem\('sma:auth:user:v1'\);.*?"
+    r"localStorage\.removeItem\('sma:auth:session:v1'\);.*?"
+    r"window\.location\.replace\(login\.pathname \+ login\.search \+ login\.hash\);.*?"
+    r"window\.location\.replace\('/auth/login\.html\?next=' \+ encodeURIComponent\(next\)\);.*?"
+    r"\}\)\(\);\s*</script>\s*",
+    re.DOTALL,
 )
 
 
@@ -88,6 +103,7 @@ def sha256_normalized_html(path: Path) -> str:
     """Hash HTML while ignoring asset cache-busting version values."""
     text = path.read_text(encoding="utf-8")
     normalized = ASSET_VERSION_RE.sub(r"\1<STAMP>", text)
+    normalized = INLINE_AUTH_GUARD_RE.sub("", normalized)
     return hashlib.sha256(normalized.encode("utf-8")).hexdigest()
 
 
@@ -102,7 +118,7 @@ def main() -> int:
         if path.stat().st_size < 256:
             errors.append(f"File too small / suspicious: {rel_path}")
 
-    for course in ("ios", "android", "sdd"):
+    for course in HUB_COURSES_WITH_ASSETS:
         for rel_asset in REQUIRED_SHARED_ASSETS:
             rel_path = f"{course}/{rel_asset}"
             if not (HUB_ROOT / rel_path).exists():
@@ -140,7 +156,13 @@ def main() -> int:
 
     try:
         root_index = read_text("index.html")
-        for href in ("./ios/index.html", "./android/index.html", "./sdd/index.html", "./governance/index.html"):
+        for href in (
+            "./ios/index.html",
+            "./android/index.html",
+            "./sdd/index.html",
+            "./governance/index.html",
+            "./pumuki/index.html",
+        ):
             if href not in root_index:
                 errors.append(f"Root index missing course link: {href}")
     except Exception as exc:  # pragma: no cover - defensive
@@ -162,6 +184,8 @@ def main() -> int:
             errors.append(f"{rel_path} missing assistant panel wiring")
         if "course-switcher.js" not in content:
             errors.append(f"{rel_path} missing course switcher wiring")
+        if INLINE_AUTH_GUARD_RE.search(content):
+            errors.append(f"{rel_path} still contains inline auth redirect guard")
 
     if errors:
         print("[ERROR] Hub build verification failed")

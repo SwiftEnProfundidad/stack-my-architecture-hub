@@ -21,6 +21,8 @@ DEFAULT_TARGETS = [
     "sdd/curso-stack-my-architecture-sdd.html",
     "governance/index.html",
     "governance/curso-stack-my-architecture-governance.html",
+    "pumuki/index.html",
+    "pumuki/curso-stack-my-architecture-pumuki.html",
 ]
 
 
@@ -48,7 +50,7 @@ def parse_args() -> argparse.Namespace:
 def compute_shared_asset_version(hub_root: Path) -> str:
     digest = hashlib.sha1()
     found = False
-    for course_dir in ("ios", "android", "sdd"):
+    for course_dir in ("ios", "android", "sdd", "governance", "pumuki"):
         assets_dir = hub_root / course_dir / "assets"
         if not assets_dir.exists():
             continue

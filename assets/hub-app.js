@@ -23,6 +23,12 @@
       title: 'Stack: My Architecture — Governance',
       path: './governance/index.html',
       summary: 'Governance de ingeniería con agentes: AGENTS.md, skills, ADR, quality gates y delivery con evidencia trazable.'
+    },
+    pumuki: {
+      label: 'Curso Pumuki',
+      title: 'Stack: My Architecture — Pumuki',
+      path: './pumuki/index.html',
+      summary: 'Enforcement determinista: Facts, Rules, Gate y evidencia v2.1 con CLI, hooks, CI y perfiles de adopción enterprise.'
     }
   };
 

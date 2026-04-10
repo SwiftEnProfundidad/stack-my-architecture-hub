@@ -80,6 +80,8 @@ def main() -> int:
     ios_repo = projects_root / "stack-my-architecture-ios"
     android_repo = projects_root / "stack-my-architecture-android"
     sdd_repo = projects_root / "stack-my-architecture-SDD"
+    governance_repo = projects_root / "stack-my-architecture-governance"
+    pumuki_repo = projects_root / "stack-my-architecture-pumuki"
 
     generated_at = datetime.now(timezone.utc)
     generated_at_iso = generated_at.isoformat()
@@ -115,6 +117,18 @@ def main() -> int:
                 sdd_repo,
                 sdd_repo / "dist/curso-stack-my-architecture-sdd.html",
                 hub_root / "sdd/curso-stack-my-architecture-sdd.html",
+            ),
+            "governance": build_course_entry(
+                "governance",
+                governance_repo,
+                governance_repo / "dist/curso-stack-my-architecture-governance.html",
+                hub_root / "governance/curso-stack-my-architecture-governance.html",
+            ),
+            "pumuki": build_course_entry(
+                "pumuki",
+                pumuki_repo,
+                pumuki_repo / "dist/curso-stack-my-architecture-pumuki.html",
+                hub_root / "pumuki/curso-stack-my-architecture-pumuki.html",
             ),
         },
     }

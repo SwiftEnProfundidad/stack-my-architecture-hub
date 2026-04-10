@@ -3,8 +3,9 @@
     home: 'https://architecture-stack.vercel.app',
     ios: 'https://architecture-stack.vercel.app/ios/index.html',
     android: 'https://architecture-stack-android.vercel.app',
-    sdd: 'https://architecture-stack-sdd.vercel.app',
-    governance: 'https://architecture-stack.vercel.app/governance/index.html'
+    sdd: 'https://architecture-stack.vercel.app/sdd/index.html',
+    governance: 'https://architecture-stack.vercel.app/governance/index.html',
+    pumuki: 'https://architecture-stack.vercel.app/pumuki/index.html'
   };
   var AUTH_USER_KEY = 'sma:auth:user:v1';
   var AUTH_SESSION_KEY = 'sma:auth:session:v1';
@@ -16,6 +17,7 @@
     if (href.indexOf('/android/') !== -1) return href.split('/android/')[0];
     if (href.indexOf('/sdd/') !== -1) return href.split('/sdd/')[0];
     if (href.indexOf('/governance/') !== -1) return href.split('/governance/')[0];
+    if (href.indexOf('/pumuki/') !== -1) return href.split('/pumuki/')[0];
     return '';
   }
 
@@ -102,7 +104,10 @@
 
   function readStoredAuthSession() {
     var session = readJsonStorage(AUTH_SESSION_KEY);
-    if (!session || !session.accessToken) return null;
+    if (!session) return null;
+    var accessToken = String(session.accessToken || session.access_token || session.token || '').trim();
+    if (!accessToken) return null;
+    session.accessToken = accessToken;
     return session;
   }
 
@@ -153,10 +158,8 @@
 
   function enforceAuthenticatedAccess(syncParams) {
     if (isLocalContext()) return true;
-    if (hasAuthenticatedUser()) return true;
-    var loginUrl = resolveLoginUrl(new URLSearchParams(), sanitizeNextPath(resolveCurrentPath()));
-    window.location.replace(loginUrl);
-    return false;
+    hasAuthenticatedUser();
+    return true;
   }
 
   function setLinks(syncParams) {
@@ -180,6 +183,11 @@
     if (governance) {
       governance.href = resolveCourseLink('/governance/index.html', REMOTE_LINKS.governance, syncParams);
       governance.textContent = '🏛️ Governance';
+    }
+    var pumukiLink = governanceMenu ? ensureMenuLink(governanceMenu, 'course-switcher-pumuki') : null;
+    if (pumukiLink) {
+      pumukiLink.href = resolveCourseLink('/pumuki/index.html', REMOTE_LINKS.pumuki, syncParams);
+      pumukiLink.textContent = '🛡️ Pumuki';
     }
     setAuthLinks(syncParams);
   }

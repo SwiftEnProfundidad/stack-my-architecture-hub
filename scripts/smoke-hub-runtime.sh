@@ -136,6 +136,8 @@ check_http_contains "http://127.0.0.1:${PORT}/index.html" "Stack My Architecture
 check_http_contains "http://127.0.0.1:${PORT}/ios/index.html" "stack-my-architecture-ios"
 check_http_contains "http://127.0.0.1:${PORT}/android/index.html" "stack-my-architecture-android"
 check_http_contains "http://127.0.0.1:${PORT}/sdd/index.html" "stack-my-architecture-sdd"
+check_http_contains "http://127.0.0.1:${PORT}/governance/index.html" "stack-my-architecture-governance"
+check_http_contains "http://127.0.0.1:${PORT}/pumuki/index.html" "stack-my-architecture-pumuki"
 check_http_contains "http://127.0.0.1:${PORT}/ios/assets/study-ux.js" "(function () {"
 check_http_contains_any "http://127.0.0.1:${PORT}/ios/assets/assistant-panel.js" "KEY_PROVIDER" "KEY_DAILY_BUDGET"
 check_http_contains_any "http://127.0.0.1:${PORT}/android/assets/assistant-panel.js" "KEY_PROVIDER" "KEY_DAILY_BUDGET"

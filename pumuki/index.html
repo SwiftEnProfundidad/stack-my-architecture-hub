@@ -1,0 +1,2164 @@
+<!DOCTYPE html>
+<html lang="es" data-code-theme="monokai">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="darkreader-lock">
+<meta name="course-id" content="stack-my-architecture-pumuki">
+<title>Stack: My Architecture — Pumuki</title>
+<link rel="stylesheet" href="assets/study-ux.css?v=ee90da170313">
+<link rel="stylesheet" href="assets/course-switcher.css?v=ee90da170313">
+<link rel="stylesheet" href="assets/assistant-panel.css?v=ee90da170313">
+<script>window.__SMA_ASSISTANT_PANEL_SRC = "assets/assistant-panel.js?v=ee90da170313";</script>
+<script>window.__SMA_MERMAID_SRC = "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js";</script>
+<script>window.__SMA_HLJS_CORE_SRC = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js";</script>
+<script>window.__SMA_HLJS_SWIFT_SRC = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/swift.min.js";</script>
+<script defer src="assets/study-ux.js?v=ee90da170313"></script>
+<script defer src="assets/course-switcher.js?v=ee90da170313"></script>
+<script defer src="assets/theme-controls.js?v=ee90da170313"></script>
+<script defer src="assets/assistant-bridge.js?v=ee90da170313"></script>
+
+<!-- Google Fonts - Inter -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================
+   SISTEMA DE DISEÑO: Stack My Architecture iOS
+   ============================================ */
+
+:root {
+    /* ============================================
+       VISUAL STYLES: enterprise, bold, paper
+       ============================================ */
+    --visual-style: 'enterprise';
+}
+
+/* ============================================
+   STYLE: ENTERPRISE (Default)
+   Profesional, limpio, corporativo
+   ============================================ */
+[data-style="enterprise"] {
+    /* Paleta de colores */
+    --bg: #ffffff;
+    --bg-elevated: #fafbfc;
+    --bg-surface: #f6f8fa;
+    
+    --text: #1a1a2e;
+    --text-secondary: #4a4a5a;
+    --text-muted: #6a6a7a;
+    
+    --accent: #2563eb;
+    --accent-light: #3b82f6;
+    --accent-dark: #1d4ed8;
+    --accent-soft: rgba(37, 99, 235, 0.1);
+    
+    --success: #10b981;
+    --success-soft: rgba(16, 185, 129, 0.1);
+    --warning: #f59e0b;
+    --warning-soft: rgba(245, 158, 11, 0.1);
+    --danger: #ef4444;
+    --danger-soft: rgba(239, 68, 68, 0.1);
+    --info: #06b6d4;
+    --info-soft: rgba(6, 182, 212, 0.1);
+    
+    --sidebar-bg: #f8fafc;
+    --code-bg: #f1f5f9;
+    --border: #e2e8f0;
+    --border-light: #f1f5f9;
+    
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+    --shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1);
+    
+    --font-weight-body: 500;
+    --font-weight-heading: 700;
+    --heading-letter-spacing: -0.02em;
+    --border-radius: 8px;
+}
+
+/* ============================================
+   STYLE: ENTERPRISE - Dark Mode overrides
+   Profesional, azul corporativo
+   ============================================ */
+[data-theme="dark"][data-style="enterprise"] {
+    --bg: #0c1821;
+    --bg-elevated: #152a3d;
+    --bg-surface: #1e3a5f;
+    
+    --text: #e8f4ff;
+    --text-secondary: #a8c5e0;
+    --text-muted: #6b8fb0;
+    
+    --accent: #60a5fa;
+    --accent-light: #93c5fd;
+    --accent-dark: #3b82f6;
+    --accent-soft: rgba(96, 165, 250, 0.15);
+    
+    --sidebar-bg: #0f2335;
+    --code-bg: #152a3d;
+    --border: #2a4a6d;
+    --border-light: #1e3a5f;
+}
+
+/* ============================================
+   STYLE: BOLD
+   Alto contraste, impactante, moderno
+   ============================================ */
+[data-style="bold"] {
+    --bg: #0a0a0f;
+    --bg-elevated: #141419;
+    --bg-surface: #1e1e24;
+    
+    --text: #ffffff;
+    --text-secondary: #d0d0e0;
+    --text-muted: #a0a0b0;
+    
+    --accent: #ff6b35;
+    --accent-light: #ff8c5a;
+    --accent-dark: #e55a2b;
+    --accent-soft: rgba(255, 107, 53, 0.15);
+    
+    --success: #00d9a3;
+    --success-soft: rgba(0, 217, 163, 0.15);
+    --warning: #ffc107;
+    --warning-soft: rgba(255, 193, 7, 0.15);
+    --danger: #ff4757;
+    --danger-soft: rgba(255, 71, 87, 0.15);
+    --info: #00d4ff;
+    --info-soft: rgba(0, 212, 255, 0.15);
+    
+    --sidebar-bg: #0f0f14;
+    --code-bg: #1a1a22;
+    --border: #3a3a45;
+    --border-light: #2a2a35;
+    
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.3);
+    --shadow: 0 4px 6px -1px rgba(0,0,0,0.4);
+    --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.5);
+    
+    --font-weight-body: 500;
+    --font-weight-heading: 800;
+    --heading-letter-spacing: -0.03em;
+    --border-radius: 12px;
+}
+
+/* ============================================
+   STYLE: BOLD - Dark Mode overrides
+   Alto contraste, manteniendo la identidad naranja
+   ============================================ */
+[data-theme="dark"][data-style="bold"] {
+    --bg: #0a0a0f;
+    --bg-elevated: #141419;
+    --bg-surface: #1e1e24;
+    
+    --text: #ffffff;
+    --text-secondary: #d0d0e0;
+    --text-muted: #a0a0b0;
+    
+    --accent: #ff6b35;
+    --accent-light: #ff8c5a;
+    --accent-dark: #e55a2b;
+    --accent-soft: rgba(255, 107, 53, 0.15);
+    
+    --sidebar-bg: #0f0f14;
+    --code-bg: #1a1a22;
+    --border: #3a3a45;
+    --border-light: #2a2a35;
+}
+
+/* ============================================
+   STYLE: PAPER
+   Cálido, orgánico, académico
+   ============================================ */
+[data-style="paper"] {
+    --bg: #fdfbf7;
+    --bg-elevated: #f5f1e8;
+    --bg-surface: #f0ebe0;
+    
+    --text: #2c241b;
+    --text-secondary: #5a5045;
+    --text-muted: #8a8075;
+    
+    --accent: #8b4513;
+    --accent-light: #a0522d;
+    --accent-dark: #654321;
+    --accent-soft: rgba(139, 69, 19, 0.08);
+    
+    --success: #2e7d32;
+    --success-soft: rgba(46, 125, 50, 0.1);
+    --warning: #ed6c02;
+    --warning-soft: rgba(237, 108, 2, 0.1);
+    --danger: #c62828;
+    --danger-soft: rgba(198, 40, 40, 0.1);
+    --info: #1565c0;
+    --info-soft: rgba(21, 101, 192, 0.1);
+    
+    --sidebar-bg: #f7f3ec;
+    --code-bg: #f5f0e6;
+    --border: #e0d5c5;
+    --border-light: #ebe5d8;
+    
+    --shadow-sm: 0 1px 3px rgba(44, 36, 27, 0.08);
+    --shadow: 0 4px 8px rgba(44, 36, 27, 0.12);
+    --shadow-lg: 0 8px 16px rgba(44, 36, 27, 0.15);
+    
+    --font-weight-body: 400;
+    --font-weight-heading: 600;
+    --heading-letter-spacing: -0.01em;
+    --border-radius: 4px;
+}
+
+/* ============================================
+   STYLE: PAPER - Dark Mode overrides
+   Marrón cálido, estilo parchment
+   ============================================ */
+[data-theme="dark"][data-style="paper"] {
+    --bg: #2d2419;
+    --bg-elevated: #3d3124;
+    --bg-surface: #4a3d2e;
+    
+    --text: #f5e6d3;
+    --text-secondary: #d4c4b0;
+    --text-muted: #a89080;
+    
+    --accent: #c4956a;
+    --accent-light: #d4a87a;
+    --accent-dark: #a87b5a;
+    --accent-soft: rgba(196, 149, 106, 0.15);
+    
+    --sidebar-bg: #3d3124;
+    --code-bg: #4a3d2e;
+    --border: #5a4d3e;
+    --border-light: #4a3d2e;
+}
+
+/* ============================================
+   COMMON VARIABLES (No cambian entre estilos)
+   ============================================ */
+:root {
+    --sidebar-width: 300px;
+    
+    /* Tipografía */
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-mono: 'SF Mono', 'Fira Code', 'JetBrains Mono', Menlo, Consolas, monospace;
+    
+    /* Espaciado */
+    --space-xs: 0.25rem;
+    --space-sm: 0.5rem;
+    --space-md: 1rem;
+    --space-lg: 1.5rem;
+    --space-xl: 2rem;
+    --space-2xl: 3rem;
+    --space-3xl: 4rem;
+    
+    /* Radios */
+    --radius-sm: calc(var(--border-radius) / 2);
+    --radius-md: var(--border-radius);
+    --radius-lg: calc(var(--border-radius) * 1.5);
+    --radius-xl: calc(var(--border-radius) * 2);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: var(--font-sans);
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.75;
+    font-size: 16px;
+    font-weight: var(--font-weight-body);
+    display: flex;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* ============================================
+   SIDEBAR NAVEGACIÓN
+   ============================================ */
+#sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: var(--sidebar-width);
+    height: 100vh;
+    overflow-y: auto;
+    background: var(--sidebar-bg);
+    border-right: 1px solid var(--border);
+    padding: calc(var(--space-lg) + 8px) var(--space-md) var(--space-lg);
+    font-size: 0.875rem;
+    z-index: 100;
+    scrollbar-width: thin;
+}
+
+#sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+#sidebar::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 3px;
+}
+
+#sidebar .sidebar-top {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    background: var(--sidebar-bg);
+    padding-top: var(--space-xs);
+}
+
+#sidebar h2 {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: var(--space-sm);
+    color: var(--accent);
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    line-height: 1.25;
+}
+
+#sidebar .sidebar-search-wrap {
+    margin-bottom: var(--space-sm);
+    padding-bottom: var(--space-sm);
+    border-bottom: 1px solid color-mix(in srgb, var(--border) 80%, transparent);
+}
+
+#sidebar #sidebar-search {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--bg-surface);
+    color: var(--text);
+    padding: 8px 10px;
+    font-size: 0.82rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+#sidebar #sidebar-search::placeholder {
+    color: var(--text-muted);
+}
+
+#sidebar #sidebar-search:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 20%, transparent);
+}
+
+#sidebar #sidebar-search-count {
+    margin-top: 6px;
+    min-height: 1em;
+    font-size: 0.72rem;
+    color: var(--text-muted);
+}
+
+#sidebar ul { list-style: none; padding-left: 0; }
+
+#sidebar li { margin-bottom: 2px; }
+
+#sidebar li.nav-section {
+    margin-top: var(--space-lg);
+}
+
+#sidebar li.nav-section:first-child {
+    margin-top: 0;
+}
+
+#sidebar li.nav-section > strong {
+    color: var(--text);
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: block;
+    padding: var(--space-xs) var(--space-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+}
+
+#sidebar a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    display: block;
+    padding: 6px 10px;
+    border-radius: var(--radius-sm);
+    transition: all 0.2s ease;
+    font-weight: 450;
+    border-left: 2px solid transparent;
+}
+
+#sidebar a:hover {
+    background: var(--accent-soft);
+    color: var(--accent);
+    border-left-color: var(--accent);
+}
+
+/* ============================================
+   CONTENIDO PRINCIPAL
+   ============================================ */
+#content {
+    margin-left: var(--sidebar-width);
+    max-width: none;
+    padding: var(--space-3xl) var(--space-2xl);
+    width: calc(100% - var(--sidebar-width));
+    min-height: 100vh;
+    overflow-x: hidden;
+    box-sizing: border-box;
+}
+
+section.lesson {
+    overflow-x: hidden;
+    max-width: 100%;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    content-visibility: auto;
+    contain-intrinsic-size: 1200px;
+}
+
+body:not(.sma-hydrated) section.lesson {
+    display: none;
+}
+
+body:not(.sma-hydrated) section.lesson:first-of-type {
+    display: block;
+}
+
+section.lesson > * {
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+/* ============================================
+   TIPOGRAFÍA - JERARQUÍA VISUAL
+   ============================================ */
+h1, h2, h3, h4 {
+    font-weight: var(--font-weight-heading);
+    line-height: 1.3;
+    letter-spacing: var(--heading-letter-spacing);
+    color: var(--text);
+}
+
+h1 {
+    font-size: 2.5em;
+    margin: 0 0 var(--space-lg);
+    padding-bottom: var(--space-md);
+    border-bottom: 3px solid var(--accent);
+    color: var(--text);
+    position: relative;
+}
+
+h1::after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 120px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent) 0%, var(--accent-light) 100%);
+}
+
+h2 {
+    font-size: 1.75em;
+    margin: var(--space-2xl) 0 var(--space-md);
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+h2::before {
+    content: '';
+    width: 4px;
+    height: 28px;
+    background: var(--accent);
+    border-radius: 2px;
+}
+
+h3 {
+    font-size: 1.375em;
+    margin: var(--space-xl) 0 var(--space-sm);
+    color: var(--text);
+    font-weight: 600;
+}
+
+h4 {
+    font-size: 1.125em;
+    margin: var(--space-lg) 0 var(--space-sm);
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+p {
+    margin: var(--space-md) 0;
+    color: var(--text-secondary);
+    line-height: 1.8;
+    font-weight: var(--font-weight-body);
+}
+
+/* ============================================
+   SEPARADORES Y SECCIONES
+   ============================================ */
+hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: var(--space-2xl) 0;
+}
+
+hr.lesson-separator {
+    border: none;
+    height: 4px;
+    background: linear-gradient(90deg, var(--accent) 0%, var(--info) 50%, var(--success) 100%);
+    margin: var(--space-3xl) 0;
+    border-radius: 2px;
+}
+
+/* ============================================
+   BLOQUES DE CÓDIGO
+   ============================================ */
+pre {
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 0;
+    overflow-x: auto;
+    margin: var(--space-lg) 0;
+    font-size: 0.875em;
+    line-height: 1.6;
+    box-shadow: var(--shadow-sm);
+}
+
+pre > code {
+    display: block;
+    padding: var(--space-lg);
+    border-radius: var(--radius-md);
+}
+
+pre > code:not(.hljs) {
+    background: var(--code-bg);
+}
+
+pre.sma-code-enhanced {
+    position: relative;
+}
+
+pre.sma-code-enhanced > code {
+    padding-top: calc(var(--space-lg) + 1.2rem);
+}
+
+.sma-code-tools {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 2;
+}
+
+.sma-code-lang {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: none;
+    color: var(--text-muted);
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 2px 8px;
+}
+
+.sma-code-copy-btn {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--text);
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 3px 10px;
+    cursor: pointer;
+}
+
+.sma-code-copy-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+code {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+}
+
+p code, li code, td code {
+    background: var(--code-bg);
+    padding: 3px 8px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-light);
+    color: var(--danger);
+    font-weight: 500;
+    font-size: 0.85em;
+}
+
+.color-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    border: 1px solid var(--border-light);
+    background: var(--bg-surface);
+    vertical-align: middle;
+}
+
+.color-chip-swatch {
+    width: 12px;
+    height: 12px;
+    border-radius: 999px;
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.4);
+}
+
+.color-chip-label {
+    font-family: var(--font-mono);
+    font-size: 0.82em;
+    color: var(--text);
+    letter-spacing: 0.01em;
+}
+
+/* Mermaid diagrams */
+:root {
+    --mermaid-bg: #ffffff;
+    --mermaid-text: #0f172a;
+    --mermaid-node-bg: #f8fafc;
+    --mermaid-node-border: #1d4ed8;
+    --mermaid-line: #1e40af;
+    --mermaid-label-bg: #eef2ff;
+    --mermaid-legend-direct: #cbd5e1;
+    --mermaid-legend-dashed-closed: #cbd5e1;
+    --mermaid-legend-contract: #cbd5e1;
+    --mermaid-legend-solid-open: #cbd5e1;
+}
+
+.sma-mermaid-block {
+    margin: var(--space-lg) 0;
+}
+
+.sma-mermaid-legend {
+    border: 1px solid var(--border);
+    background: var(--bg-surface);
+    border-radius: var(--radius-md);
+    padding: 10px 12px;
+    margin: 0 0 var(--space-sm);
+}
+
+.sma-mermaid-legend-title {
+    margin: 0 0 8px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+}
+
+.sma-mermaid-legend-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 6px 12px;
+}
+
+.sma-mermaid-legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.78rem;
+    color: var(--text);
+}
+
+.sma-legend-arrow {
+    width: 40px;
+    height: 12px;
+    flex: 0 0 40px;
+    overflow: visible;
+}
+
+.sma-legend-arrow line,
+.sma-legend-arrow polygon,
+.sma-legend-arrow polyline {
+    stroke: currentColor;
+    fill: currentColor;
+    stroke-width: 2.3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.sma-legend-arrow polyline {
+    fill: none;
+}
+
+.sma-legend-arrow.dashed-closed line,
+.sma-legend-arrow.contract-open line {
+    stroke-dasharray: 6 4;
+}
+
+.sma-legend-arrow.direct-closed { color: var(--mermaid-legend-direct); }
+.sma-legend-arrow.dashed-closed { color: var(--mermaid-legend-dashed-closed); }
+.sma-legend-arrow.contract-open { color: var(--mermaid-legend-contract); }
+.sma-legend-arrow.solid-open { color: var(--mermaid-legend-solid-open); }
+
+.sma-inline-arrow-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 2px 4px;
+    margin: 0 2px;
+    background: var(--bg-elevated);
+}
+
+.sma-architecture-block {
+    margin-top: var(--space-md);
+}
+
+.sma-architecture-svg-wrap {
+    border: 1px solid rgba(148, 163, 184, 0.4);
+    border-radius: 16px;
+    background: radial-gradient(circle at 20% 10%, rgba(59, 130, 246, 0.16), transparent 42%), #0b1220;
+    box-shadow: inset 0 1px 0 rgba(148, 163, 184, 0.25), 0 8px 28px rgba(15, 23, 42, 0.32);
+    padding: 12px;
+    overflow-x: auto;
+}
+
+.sma-architecture-svg {
+    display: block;
+    width: 100%;
+    min-width: 960px;
+    height: auto;
+}
+
+.sma-arch-board {
+    fill: rgba(15, 23, 42, 0.92);
+    stroke: rgba(148, 163, 184, 0.32);
+    stroke-width: 1.5;
+}
+
+.sma-arch-layer {
+    stroke-width: 2;
+}
+
+.sma-arch-layer-ui {
+    fill: rgba(29, 78, 216, 0.14);
+    stroke: #7dd3fc;
+}
+
+.sma-arch-layer-core {
+    fill: rgba(14, 116, 144, 0.12);
+    stroke: #67e8f9;
+}
+
+.sma-arch-layer-app {
+    fill: rgba(124, 58, 237, 0.1);
+    stroke: #f97316;
+}
+
+.sma-arch-layer-infra {
+    fill: rgba(168, 85, 247, 0.11);
+    stroke: #d8b4fe;
+}
+
+.sma-arch-layer-label {
+    font-family: var(--font-display);
+    font-size: 21px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    fill: #e2e8f0;
+}
+
+.sma-arch-node {
+    stroke-width: 1.6;
+    fill: rgba(15, 23, 42, 0.72);
+}
+
+.sma-arch-node-ui { stroke: #93c5fd; }
+.sma-arch-node-core { stroke: #67e8f9; }
+.sma-arch-node-app { stroke: #fb923c; }
+.sma-arch-node-infra { stroke: #d8b4fe; }
+
+.sma-arch-node-label {
+    font-family: var(--font-body);
+    font-size: 17px;
+    font-weight: 600;
+    fill: #f8fafc;
+}
+
+.sma-arch-edge {
+    fill: none;
+    stroke-width: 3;
+    stroke-linecap: round;
+}
+
+.sma-arch-edge-direct { stroke: #f472b6; }
+
+.sma-arch-edge-wiring {
+    stroke: #94a3b8;
+    stroke-dasharray: 8 6;
+}
+
+.sma-arch-edge-contract {
+    stroke: #60a5fa;
+    stroke-dasharray: 8 5;
+}
+
+.sma-arch-edge-open { stroke: #86efac; }
+
+.sma-arch-head-direct { fill: #f472b6; stroke: #f472b6; }
+.sma-arch-head-wiring { fill: #94a3b8; stroke: #94a3b8; }
+.sma-arch-head-contract { fill: #60a5fa; stroke: #60a5fa; }
+.sma-arch-head-open {
+    fill: none;
+    stroke: #86efac;
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+pre.mermaid {
+    background: var(--mermaid-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    text-align: center;
+    padding: var(--space-xl);
+    box-shadow: var(--shadow);
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+pre.mermaid svg {
+    max-width: 100%;
+    height: auto;
+}
+
+html[data-theme][data-style] pre.mermaid .label,
+html[data-theme][data-style] pre.mermaid .nodeLabel,
+html[data-theme][data-style] pre.mermaid .edgeLabel,
+html[data-theme][data-style] pre.mermaid .cluster-label,
+html[data-theme][data-style] pre.mermaid text,
+html[data-theme][data-style] pre.mermaid tspan {
+    fill: var(--mermaid-text) !important;
+    color: var(--mermaid-text) !important;
+}
+
+html[data-theme][data-style] pre.mermaid .node rect,
+html[data-theme][data-style] pre.mermaid .node polygon,
+html[data-theme][data-style] pre.mermaid .node circle,
+html[data-theme][data-style] pre.mermaid .node ellipse,
+html[data-theme][data-style] pre.mermaid .cluster rect,
+html[data-theme][data-style] pre.mermaid .actor,
+html[data-theme][data-style] pre.mermaid .labelBox {
+    fill: var(--mermaid-node-bg) !important;
+    stroke: var(--mermaid-node-border) !important;
+}
+
+html[data-theme][data-style] pre.mermaid .edgePath .path,
+html[data-theme][data-style] pre.mermaid path.relation,
+html[data-theme][data-style] pre.mermaid line {
+    stroke: var(--mermaid-line) !important;
+}
+
+html[data-theme][data-style] pre.mermaid .messageLine0,
+html[data-theme][data-style] pre.mermaid .messageLine1,
+html[data-theme][data-style] pre.mermaid .messageLine2 {
+    stroke: var(--mermaid-line) !important;
+    stroke-width: 2px !important;
+    opacity: 1 !important;
+}
+
+html[data-theme][data-style] pre.mermaid .arrowheadPath,
+html[data-theme][data-style] pre.mermaid marker path,
+html[data-theme][data-style] pre.mermaid marker polygon,
+html[data-theme][data-style] pre.mermaid marker polyline {
+    fill: var(--mermaid-line) !important;
+    stroke: var(--mermaid-line) !important;
+    opacity: 1 !important;
+}
+
+html[data-theme][data-style] pre.mermaid .edgeLabel rect,
+html[data-theme][data-style] pre.mermaid .labelBkg {
+    fill: var(--mermaid-label-bg) !important;
+    opacity: 1 !important;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+p > img {
+    display: block;
+    margin: var(--space-md) auto;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border);
+}
+
+/* ============================================
+   TABLAS MODERNAS
+   ============================================ */
+table {
+    border-collapse: separate;
+    border-spacing: 0;
+    width: 100%;
+    margin: var(--space-lg) 0;
+    font-size: 0.9rem;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+}
+
+th, td {
+    border-bottom: 1px solid var(--border);
+    padding: 12px 16px;
+    text-align: left;
+}
+
+th {
+    background: linear-gradient(180deg, var(--bg-surface) 0%, var(--sidebar-bg) 100%);
+    font-weight: 600;
+    color: var(--text);
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    border-bottom: 2px solid var(--accent);
+}
+
+tr:hover {
+    background: var(--bg-surface);
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+/* ============================================
+   LISTAS
+   ============================================ */
+ul, ol {
+    margin: var(--space-md) 0;
+    padding-left: var(--space-xl);
+}
+
+li {
+    margin: var(--space-sm) 0;
+    color: var(--text-secondary);
+}
+
+li strong {
+    color: var(--text);
+    font-weight: 600;
+}
+
+/* Checkboxes en listas */
+li:has(> input[type="checkbox"]) {
+    list-style: none;
+    margin-left: -1.5em;
+}
+
+/* ============================================
+   LINKS
+   ============================================ */
+a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.15s ease;
+}
+
+a:hover {
+    color: var(--accent-dark);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+/* ============================================
+   BADGE DE RUTA DE LECCIÓN
+   ============================================ */
+.lesson-path {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    background: var(--bg-surface);
+    padding: 6px 14px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: var(--space-md);
+    font-family: var(--font-mono);
+    border: 1px solid var(--border-light);
+    font-weight: 500;
+}
+
+.lesson-path::before {
+    content: '📁';
+    font-size: 0.9em;
+}
+
+/* ============================================
+   CALLOUTS / BLOQUES DESTACADOS
+   ============================================ */
+/* Notas con > blockquote */
+blockquote {
+    margin: var(--space-lg) 0;
+    padding: var(--space-md) var(--space-lg);
+    border-left: 4px solid var(--accent);
+    background: var(--accent-soft);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    font-style: italic;
+    color: var(--text-secondary);
+}
+
+blockquote p {
+    margin: 0;
+}
+
+/* ============================================
+   Responsive - MOBILE FIRST
+   ============================================ */
+@media (max-width: 1024px) {
+    :root { --sidebar-width: 260px; }
+    #content { padding: 32px 28px; }
+}
+
+@media (max-width: 768px) {
+    :root { --sidebar-width: 0; }
+    #sidebar {
+        display: block;
+        width: min(86vw, 320px);
+        max-width: 320px;
+        transform: translateX(-105%);
+        transition: transform 0.22s ease;
+        box-shadow: 0 12px 36px rgba(0, 0, 0, 0.35);
+        z-index: 400;
+    }
+    body.sidebar-open #sidebar {
+        transform: translateX(0);
+    }
+    #sidebar-backdrop {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(2, 8, 23, 0.52);
+        z-index: 360;
+    }
+    body.sidebar-open #sidebar-backdrop {
+        display: block;
+    }
+    body.sidebar-open {
+        overflow: hidden;
+    }
+    #content { 
+        margin-left: 0; 
+        padding: 20px 16px;
+        width: 100%;
+    }
+    h1 { font-size: 1.6em; margin: 32px 0 12px; }
+    h2 { font-size: 1.3em; margin: 28px 0 10px; }
+    h3 { font-size: 1.1em; margin: 20px 0 8px; }
+    h4 { font-size: 1em; margin: 16px 0 6px; }
+    pre { padding: 0; font-size: 0.82em; }
+    th, td { padding: 8px 10px; font-size: 0.85rem; }
+}
+
+@media (max-width: 480px) {
+    #content { padding: 16px 12px; }
+    h1 { font-size: 1.4em; }
+    h2 { font-size: 1.2em; }
+    pre { padding: 0; font-size: 0.78em; overflow-x: scroll; }
+}
+
+/* Dark theme */
+[data-theme="dark"] {
+    --bg: #0d1117;
+    --text: #c9d1d9;
+    --sidebar-bg: #161b22;
+    --accent: #58a6ff;
+    --code-bg: #161b22;
+    --border: #30363d;
+}
+
+[data-theme="dark"] h1 { color: #f0f6fc; }
+[data-theme="dark"] h2 { color: #c9d1d9; }
+[data-theme="dark"] h3 { color: #c9d1d9; }
+[data-theme="dark"] th { background: #21262d; }
+[data-theme="dark"] tr:nth-child(even) { background: #161b22; }
+[data-theme="dark"] li strong { color: #f0f6fc; }
+[data-theme="dark"] #sidebar a { color: #8b949e; }
+[data-theme="dark"] #sidebar a:hover { background: #21262d; color: var(--accent); }
+[data-theme="dark"] #sidebar li.nav-section > strong { color: #f0f6fc; }
+[data-theme="dark"] .lesson-path { color: #8b949e; }
+
+/* Back to top */
+#back-to-top {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    display: none;
+    z-index: 200;
+}
+
+/* Theme controls container */
+#theme-controls {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    z-index: 9999;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+#theme-controls button {
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    border: 2px solid transparent;
+}
+
+#theme-controls button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+
+/* Style cycle button - dynamic colors set by JS */
+#style-cycle-btn {
+    background: #2563eb;
+    color: white;
+    border-color: #3b82f6;
+}
+
+/* Code theme button */
+#code-theme-cycle-btn {
+    background: var(--bg-elevated);
+    color: var(--text);
+    border-color: var(--border);
+}
+
+/* Theme toggle button */
+#theme-toggle {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent-light);
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    #theme-controls {
+        top: 12px;
+        right: 12px;
+        gap: 8px;
+    }
+    
+    #theme-controls button {
+        padding: 8px 12px;
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 600px) {
+    #theme-controls {
+        flex-direction: row;
+        align-items: center;
+        flex-wrap: nowrap;
+        gap: 6px;
+    }
+    
+    #theme-controls button {
+        width: auto;
+        padding: 6px 10px;
+        font-size: 0.7rem;
+    }
+}
+
+/* Style selector dropdowns - ensure they inherit theme colors */
+#style-selector select {
+    background-color: var(--bg-elevated) !important;
+    color: var(--text) !important;
+    border-color: var(--border) !important;
+}
+
+#style-selector select option {
+    background-color: var(--bg-elevated);
+    color: var(--text);
+}
+
+#sidebar-backdrop {
+    display: none;
+}
+
+#menu-toggle {
+    display: none;
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    background: var(--sidebar-bg);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    z-index: 13050;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+@media (max-width: 768px) {
+    #menu-toggle { display: block; }
+}
+
+/* ============================================
+   HLJS CODE THEMES (embedded - no CDN dependency)
+   ============================================ */
+[data-code-theme="monokai"] pre > code.hljs { background: #272822; color: #ddd; }
+[data-code-theme="monokai"] .hljs-keyword,[data-code-theme="monokai"] .hljs-literal,[data-code-theme="monokai"] .hljs-selector-tag,[data-code-theme="monokai"] .hljs-tag { color: #f92672; }
+[data-code-theme="monokai"] .hljs-string,[data-code-theme="monokai"] .hljs-title,[data-code-theme="monokai"] .hljs-type,[data-code-theme="monokai"] .hljs-built_in,[data-code-theme="monokai"] .hljs-variable { color: #a6e22e; }
+[data-code-theme="monokai"] .hljs-comment,[data-code-theme="monokai"] .hljs-meta { color: #75715e; }
+[data-code-theme="monokai"] .hljs-number,[data-code-theme="monokai"] .hljs-symbol { color: #ae81ff; }
+[data-code-theme="monokai"] .hljs-attr { color: #a6e22e; }
+[data-code-theme="monokai"] .hljs-params { color: #fd971f; }
+
+[data-code-theme="github"] pre > code.hljs { background: #ffffff; color: #24292e; }
+[data-code-theme="github"] .hljs-keyword,[data-code-theme="github"] .hljs-type { color: #d73a49; }
+[data-code-theme="github"] .hljs-title,[data-code-theme="github"] .hljs-title.function_ { color: #6f42c1; }
+[data-code-theme="github"] .hljs-string { color: #032f62; }
+[data-code-theme="github"] .hljs-number,[data-code-theme="github"] .hljs-literal { color: #005cc5; }
+[data-code-theme="github"] .hljs-comment { color: #6a737d; }
+[data-code-theme="github"] .hljs-built_in,[data-code-theme="github"] .hljs-symbol { color: #e36209; }
+[data-code-theme="github"] .hljs-attr { color: #005cc5; }
+[data-code-theme="github"] .hljs-params { color: #24292e; }
+
+[data-code-theme="github-dark"] pre > code.hljs { background: #0d1117; color: #c9d1d9; }
+[data-code-theme="github-dark"] .hljs-keyword,[data-code-theme="github-dark"] .hljs-type { color: #ff7b72; }
+[data-code-theme="github-dark"] .hljs-title,[data-code-theme="github-dark"] .hljs-title.function_ { color: #d2a8ff; }
+[data-code-theme="github-dark"] .hljs-string { color: #a5d6ff; }
+[data-code-theme="github-dark"] .hljs-number,[data-code-theme="github-dark"] .hljs-literal { color: #79c0ff; }
+[data-code-theme="github-dark"] .hljs-comment { color: #8b949e; }
+[data-code-theme="github-dark"] .hljs-built_in,[data-code-theme="github-dark"] .hljs-symbol { color: #ffa657; }
+[data-code-theme="github-dark"] .hljs-attr { color: #79c0ff; }
+[data-code-theme="github-dark"] .hljs-params { color: #c9d1d9; }
+
+[data-code-theme="atom-one-dark"] pre > code.hljs { background: #282c34; color: #abb2bf; }
+[data-code-theme="atom-one-dark"] .hljs-keyword { color: #c678dd; }
+[data-code-theme="atom-one-dark"] .hljs-title,[data-code-theme="atom-one-dark"] .hljs-title.function_ { color: #61afef; }
+[data-code-theme="atom-one-dark"] .hljs-string { color: #98c379; }
+[data-code-theme="atom-one-dark"] .hljs-number,[data-code-theme="atom-one-dark"] .hljs-literal { color: #d19a66; }
+[data-code-theme="atom-one-dark"] .hljs-comment { color: #5c6370; font-style: italic; }
+[data-code-theme="atom-one-dark"] .hljs-built_in { color: #e6c07b; }
+[data-code-theme="atom-one-dark"] .hljs-type { color: #e5c07b; }
+[data-code-theme="atom-one-dark"] .hljs-attr { color: #d19a66; }
+[data-code-theme="atom-one-dark"] .hljs-params { color: #abb2bf; }
+</style>
+</head>
+<body>
+
+<button id="menu-toggle" onclick="toggleSidebar()" title="Abrir menú">&#9776;</button>
+<div id="sidebar-backdrop" onclick="closeSidebar()" aria-hidden="true"></div>
+
+<div id="study-ux-controls" class="study-ux-controls" aria-label="Controles de estudio">
+    <button id="study-completion-toggle" type="button">✅ Marcar completado</button>
+    <button id="study-zen-toggle" type="button">🧘 Enfoque</button>
+    <span id="study-progress" class="study-progress">Progreso: 0/0 (0%)</span>
+</div>
+
+<div id="course-switcher" class="course-switcher" aria-label="Selector de cursos">
+    <button id="course-switcher-toggle" type="button">&#9776; Cursos</button>
+    <div id="course-switcher-menu" class="course-switcher-menu">
+        <a id="course-switcher-home" href="#">Cursos</a>
+        <a id="course-switcher-ios" href="#">Curso iOS</a>
+        <a id="course-switcher-android" href="#">Curso Android</a>
+        <a id="course-switcher-sdd" href="#">Curso IA + SDD</a>
+    </div>
+</div>
+
+<div id="theme-controls">
+    <button id="style-cycle-btn" onclick="cycleStyle()">Estilo: Enterprise</button>
+    <button id="code-theme-cycle-btn" onclick="cycleCodeTheme()">Codigo: Monokai</button>
+    <button id="theme-toggle" onclick="toggleTheme()" title="Cambiar tema claro/oscuro">Tema: Claro</button>
+</div>
+
+<nav id="sidebar">
+<div class="sidebar-top">
+<h2>Indice</h2>
+<div class="sidebar-search-wrap">
+  <input id="sidebar-search" type="search" placeholder="Buscar leccion..." aria-label="Buscar leccion en el curso" autocomplete="off">
+  <div id="sidebar-search-count" aria-live="polite"></div>
+</div>
+</div>
+<ul>
+<li class="nav-section"><strong>README</strong>
+<ul>
+  <li><a class="doc-nav-link" data-lesson-path="README.md" href="#README">Stack My Architecture — Curso Pumuki</a></li>
+</ul></li>
+<li class="nav-section"><strong>Preparación</strong>
+<ul>
+  <li><a class="doc-nav-link" data-lesson-path="00-preparacion/00-bienvenida.md" href="#00-preparacion-00-bienvenida">Bienvenida — Curso Pumuki</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="00-preparacion/01-version-minima-y-referencias.md" href="#00-preparacion-01-version-minima-y-referencias">Versión mínima y referencias</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="00-preparacion/02-lab-governancekit-helpdesksdd.md" href="#00-preparacion-02-lab-governancekit-helpdesksdd">Lab: GovernanceKit vs HelpdeskSDD</a></li>
+</ul></li>
+<li class="nav-section"><strong>Roadmap MVP</strong>
+<ul>
+  <li><a class="doc-nav-link" data-lesson-path="01-roadmap/00-roadmap-mvp.md" href="#01-roadmap-00-roadmap-mvp">Roadmap MVP (orden de trabajo)</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="01-roadmap/00-modulos-nucleo.md" href="#01-roadmap-00-modulos-nucleo">Módulos núcleo (1–7) — mapa rápido</a></li>
+</ul></li>
+<li class="nav-section"><strong>Playbooks</strong>
+<ul>
+  <li><a class="doc-nav-link" data-lesson-path="docs/playbook-pumuki-sdd-bridge.md" href="#docs-playbook-pumuki-sdd-bridge">Playbook — Puente SDD ↔ Pumuki</a></li>
+</ul></li>
+<li class="nav-section"><strong>Módulos núcleo (1–7)</strong>
+<ul>
+  <li><a class="doc-nav-link" data-lesson-path="02-modulos/01-contrato-y-limites.md" href="#02-modulos-01-contrato-y-limites">Módulo 1 — Contrato y límites</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="02-modulos/02-instalacion-y-primer-verde.md" href="#02-modulos-02-instalacion-y-primer-verde">Módulo 2 — Instalación y primer verde</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="02-modulos/03-perfiles-de-adopcion.md" href="#02-modulos-03-perfiles-de-adopcion">Módulo 3 — Perfiles de adopción</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="02-modulos/04-sdd-y-pumuki.md" href="#02-modulos-04-sdd-y-pumuki">Módulo 4 — SDD y Pumuki</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="02-modulos/05-governance-y-pumuki.md" href="#02-modulos-05-governance-y-pumuki">Módulo 5 — Governance y Pumuki</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="02-modulos/06-monorepo-ci-parity.md" href="#02-modulos-06-monorepo-ci-parity">Módulo 6 — Monorepo, CI y parity</a></li>
+  <li><a class="doc-nav-link" data-lesson-path="02-modulos/07-proyecto-final-checklist.md" href="#02-modulos-07-proyecto-final-checklist">Módulo 7 — Proyecto final (checklist release)</a></li>
+</ul></li>
+</ul>
+</nav>
+
+
+<main id="content">
+<section id="study-ux-index-actions" class="study-ux-index-actions" aria-label="Study UX index actions"></section>
+<section id="README" class="lesson" data-topic-id="README" data-lesson-path="README.md">
+<div class="lesson-path">README.md</div>
+<h1 id="README-stack-my-architecture-curso-pumuki">Stack My Architecture — Curso Pumuki</h1>
+<p>Quinto curso del ecosistema <strong>Stack My Architecture</strong>: <strong>Pumuki</strong> como capa de enforcement determinista (<code>Facts → Rules → Gate → evidencia v2.1</code>) en repos reales.</p>
+<h2 id="README-p-blico-objetivo">Público objetivo</h2>
+<p>Equipos que ya gobiernan el cambio con <strong>Governance</strong> y/o ejecutan flujo <strong>SDD + IA</strong>, y quieren operar hooks, CLI, CI y remediaciones sin confundir enforcement con arquitectura de producto.</p>
+<h2 id="README-prerrequisitos-recomendados">Prerrequisitos recomendados</h2>
+<ul>
+  <li>Curso <strong>Governance</strong> (AGENTS.md, skills, gates, release) o experiencia equivalente.</li>
+  <li>Curso <strong>IA + SDD</strong> (OpenSpec, validación, cierre de tickets) o experiencia equivalente.</li>
+</ul>
+<p>Este curso <strong>no</strong> reenseña OpenSpec ni ADR: enlaza a esos cursos y se centra en CLI, perfiles de adopción, <code>doctor</code>, parity CI y evidencia exportable.</p>
+<h2 id="README-versi-n-m-nima-del-paquete-npm">Versión mínima del paquete npm</h2>
+<ul>
+  <li><strong><code>pumuki</code> >= 6.3.71</strong> (MVP del curso; repinear cuando el producto publique una release estable posterior).</li>
+</ul>
+<h2 id="README-lab-de-pr-ctica">Lab de práctica</h2>
+<p>Por defecto se trabaja sobre una <strong>variante o fork</strong> del proyecto del curso <strong>Governance</strong> (<strong>GovernanceKit</strong>) o del curso <strong>SDD</strong> (<strong>HelpdeskSDD</strong>), para no inventar dominio nuevo. Elige uno en <code>00-preparacion/02-lab-governancekit-helpdesksdd.md</code> y mantenlo durante los módulos 1–7.</p>
+<h2 id="README-c-mo-generar-el-html-local">Cómo generar el HTML local</h2>
+<pre><code class="language-bash">python3 scripts/build-html.py</code></pre>
+<p>Salida: <code>dist/curso-stack-my-architecture-pumuki.html</code> y <code>dist/index.html</code>.</p>
+<h2 id="README-validaci-n-del-repo-del-curso">Validación del repo del curso</h2>
+<pre><code class="language-bash">python3 scripts/validate-course-structure.py
+python3 scripts/check-links.py</code></pre>
+<h2 id="README-courseid-hub-progreso"><code>courseId</code> (hub / progreso)</h2>
+<ul>
+  <li><strong><code>stack-my-architecture-pumuki</code></strong></li>
+</ul>
+<h2 id="README-seguimiento-de-la-iniciativa-repo-producto-pumuki">Seguimiento de la iniciativa (repo producto Pumuki)</h2>
+<p>En el repositorio <code>ast-intelligence-hooks</code>: <code>docs/tracking/plan-curso-pumuki-stack-my-architecture.md</code>.</p>
+</section>
+<section id="00-preparacion-00-bienvenida" class="lesson" data-topic-id="00-preparacion-00-bienvenida" data-lesson-path="00-preparacion/00-bienvenida.md">
+<div class="lesson-path">00-preparacion/00-bienvenida.md</div>
+<h1 id="00-preparacion-00-bienvenida-bienvenida-curso-pumuki">Bienvenida — Curso Pumuki</h1>
+<p>Pumuki es la <strong>capa de enforcement</strong> que se ejecuta en hooks locales, MCP y CI: convierte hechos detectables en reglas, aplica un gate por stages y deja <strong>evidencia</strong> trazable. No sustituye decisiones de arquitectura ni el método SDD: las <strong>integra</strong>.</p>
+<h2 id="00-preparacion-00-bienvenida-qu-vas-a-conseguir">Qué vas a conseguir</h2>
+<ul>
+  <li>Contrato claro: qué hace Pumuki y qué queda fuera.</li>
+  <li>Un primer <strong>verde</strong> en un repo real (<code>install</code>, <code>doctor</code>, <code>status</code>).</li>
+  <li>Tres <strong>perfiles de adopción</strong> (mínimo, SDD, enterprise) alineados al README del producto.</li>
+  <li>Puente operativo con <strong>SDD</strong> (<code>PUMUKI_EXPERIMENTAL_SDD</code>, validación) y con <strong>Governance</strong> (AGENTS.md, skills, GitFlow).</li>
+  <li><strong>Monorepo / CI</strong>: scope por prefijos, <code>doctor --parity</code>, expectativas en <code>.pumuki/ci-parity-expected.json</code>.</li>
+  <li>Cierre con <strong>checklist de release</strong> y export <code>doctor --json</code>.</li>
+</ul>
+<h2 id="00-preparacion-00-bienvenida-documentaci-n-can-nica-del-producto">Documentación canónica del producto</h2>
+<p>Con el repo <strong>ast-intelligence-hooks</strong> o el paquete publicado:</p>
+<ul>
+  <li><a href="https://www.npmjs.com/package/pumuki">pumuki en npm</a></li>
+  <li>Manual de uso: <code>docs/product/USAGE.md</code></li>
+  <li>Instalación: <code>docs/product/INSTALLATION.md</code></li>
+  <li>README raíz del producto: <code>README.md</code></li>
+</ul>
+<h2 id="00-preparacion-00-bienvenida-orden-de-lectura-sugerido">Orden de lectura sugerido</h2>
+<p>Sigue <code>01-roadmap/00-roadmap-mvp.md</code> y la tabla de <code>01-roadmap/00-modulos-nucleo.md</code>.</p>
+</section>
+<section id="00-preparacion-01-version-minima-y-referencias" class="lesson" data-topic-id="00-preparacion-01-version-minima-y-referencias" data-lesson-path="00-preparacion/01-version-minima-y-referencias.md">
+<div class="lesson-path">00-preparacion/01-version-minima-y-referencias.md</div>
+<h1 id="00-preparacion-01-version-minima-y-referencias-versi-n-m-nima-y-referencias">Versión mínima y referencias</h1>
+<h2 id="00-preparacion-01-version-minima-y-referencias-versi-n-m-nima-mvp-del-curso">Versión mínima (MVP del curso)</h2>
+<ul>
+  <li>Paquete npm <strong><code>pumuki</code> >= 6.3.71</strong>.</li>
+</ul>
+<p>Comprueba en el repo consumidor:</p>
+<pre><code class="language-bash">npx pumuki --version
+npx pumuki status
+npx pumuki doctor --json</code></pre>
+<p>Si el curso y el hub publican una release posterior del producto, actualiza la versión mínima en este archivo, en <code>README.md</code> y en el CHANGELOG del curso.</p>
+<h2 id="00-preparacion-01-version-minima-y-referencias-referencias-de-producto-lectura-obligatoria-dispersa">Referencias de producto (lectura obligatoria dispersa)</h2>
+<table>
+<thead>
+<tr>
+  <th>Tema</th>
+  <th>Dónde</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>Comandos, stages, variables</td>
+  <td><code>docs/product/USAGE.md</code> en <strong>ast-intelligence-hooks</strong></td>
+</tr>
+<tr>
+  <td>Instalación y postinstall</td>
+  <td><code>docs/product/INSTALLATION.md</code></td>
+</tr>
+<tr>
+  <td>Límites del producto y adopción</td>
+  <td><code>README.md</code> (secciones “Qué NO es” y rutas de adopción)</td>
+</tr>
+<tr>
+  <td>Contrato evidence v2.1</td>
+  <td><code>docs/mcp/ai-evidence-v2.1-contract.md</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="00-preparacion-01-version-minima-y-referencias-cursos-stack-my-architecture-relacionados">Cursos Stack My Architecture relacionados</h2>
+<ul>
+  <li><strong>Governance</strong>: política, AGENTS.md, skills, gates de calidad, release.</li>
+  <li><strong>IA + SDD</strong>: OpenSpec, validación, cierre de tickets (este curso enlaza al playbook Kanban del SDD donde aplique).</li>
+</ul>
+</section>
+<section id="00-preparacion-02-lab-governancekit-helpdesksdd" class="lesson" data-topic-id="00-preparacion-02-lab-governancekit-helpdesksdd" data-lesson-path="00-preparacion/02-lab-governancekit-helpdesksdd.md">
+<div class="lesson-path">00-preparacion/02-lab-governancekit-helpdesksdd.md</div>
+<h1 id="00-preparacion-02-lab-governancekit-helpdesksdd-lab-governancekit-vs-helpdesksdd">Lab: GovernanceKit vs HelpdeskSDD</h1>
+<p>El curso asume un <strong>proyecto de práctica</strong> ya definido en los otros cursos para no inventar dominio.</p>
+<h2 id="00-preparacion-02-lab-governancekit-helpdesksdd-opci-n-a-governancekit-recomendada-si-priorizas-policy-y-gates">Opción A — GovernanceKit (recomendada si priorizas policy y gates)</h2>
+<p>Continúa el hilo del curso <strong>Governance</strong>: mismo repo o fork donde ya tengas AGENTS.md, skills y rutinas de gate. Pumuki debe convivir con esa política sin duplicar el rol de “fuente de verdad” humana.</p>
+<h2 id="00-preparacion-02-lab-governancekit-helpdesksdd-opci-n-b-helpdesksdd-recomendada-si-priorizas-openspec-y-validate">Opción B — HelpdeskSDD (recomendada si priorizas OpenSpec y validate)</h2>
+<p>Continúa el hilo del curso <strong>SDD</strong>: mismo repo o fork donde ejecutes <code>validate</code> y cierres de ticket. Pumuki debe acoplarse al flujo SDD experimental cuando active <code>PUMUKI_EXPERIMENTAL_SDD</code>.</p>
+<h2 id="00-preparacion-02-lab-governancekit-helpdesksdd-decisi-n">Decisión</h2>
+<p>Documenta en una línea tu elección y el path del repo:</p>
+<ul>
+  <li>Lab elegido: <strong>GovernanceKit</strong> / <strong>HelpdeskSDD</strong></li>
+  <li>Ruta local del clone: <code>________________________</code></li>
+</ul>
+<p>Mantén la misma elección hasta el módulo 7.</p>
+</section>
+<section id="01-roadmap-00-roadmap-mvp" class="lesson" data-topic-id="01-roadmap-00-roadmap-mvp" data-lesson-path="01-roadmap/00-roadmap-mvp.md">
+<div class="lesson-path">01-roadmap/00-roadmap-mvp.md</div>
+<h1 id="01-roadmap-00-roadmap-mvp-roadmap-mvp-orden-de-trabajo">Roadmap MVP (orden de trabajo)</h1>
+<p>Secuencia corta para el lanzamiento pedagógico del curso en el hub. Cada bloque enlaza a un módulo en <code>02-modulos/</code>.</p>
+<ol>
+  <li><strong>Semana 1 — Contrato y límites</strong> → <code>02-modulos/01-contrato-y-limites.md</code></li>
+  <li><strong>Semana 2 — Primer verde</strong> → <code>02-modulos/02-instalacion-y-primer-verde.md</code></li>
+  <li><strong>Semana 3 — Perfiles de adopción</strong> → <code>02-modulos/03-perfiles-de-adopcion.md</code></li>
+  <li><strong>Semana 4 — SDD + Pumuki</strong> → <code>02-modulos/04-sdd-y-pumuki.md</code> y <code>docs/playbook-pumuki-sdd-bridge.md</code></li>
+  <li><strong>Semana 5 — Governance + Pumuki</strong> → <code>02-modulos/05-governance-y-pumuki.md</code></li>
+  <li><strong>Semana 6 — Monorepo / CI / parity</strong> → <code>02-modulos/06-monorepo-ci-parity.md</code></li>
+  <li><strong>Semana 7 — Proyecto final</strong> → <code>02-modulos/07-proyecto-final-checklist.md</code></li>
+</ol>
+<p>Paralelamente: integración en <strong>stack-my-architecture-hub</strong> (<code>/pumuki/</code>) y enlaces desde cursos Governance y SDD.</p>
+<h2 id="01-roadmap-00-roadmap-mvp-entregable-final">Entregable final</h2>
+<ul>
+  <li>Repo lab con Pumuki operativo en el perfil elegido.</li>
+  <li>Evidencia de <code>doctor --json</code> y checklist de release completada (módulo 7).</li>
+</ul>
+</section>
+<section id="01-roadmap-00-modulos-nucleo" class="lesson" data-topic-id="01-roadmap-00-modulos-nucleo" data-lesson-path="01-roadmap/00-modulos-nucleo.md">
+<div class="lesson-path">01-roadmap/00-modulos-nucleo.md</div>
+<h1 id="01-roadmap-00-modulos-nucleo-m-dulos-n-cleo-1-7-mapa-r-pido">Módulos núcleo (1–7) — mapa rápido</h1>
+<table>
+<thead>
+<tr>
+  <th>Módulo</th>
+  <th>Foco</th>
+  <th>Doc producto</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>1</td>
+  <td>Contrato, pipeline por stages, qué no es Pumuki</td>
+  <td><code>README.md</code>, <code>USAGE.md</code> (stages)</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td><code>install</code>, <code>doctor</code>, <code>status</code>, postinstall, troubleshooting</td>
+  <td><code>INSTALLATION.md</code>, <code>USAGE.md</code></td>
+</tr>
+<tr>
+  <td>3</td>
+  <td>Perfiles mínimo / SDD / enterprise</td>
+  <td><code>README.md</code> (adopción)</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td><code>PUMUKI_EXPERIMENTAL_SDD</code>, validate, códigos OPENSPEC/SDD</td>
+  <td><code>USAGE.md</code>, playbook SDD del curso</td>
+</tr>
+<tr>
+  <td>5</td>
+  <td>AGENTS.md, skills, policy, GitFlow vistos desde el gate</td>
+  <td>Curso Governance + <code>USAGE.md</code></td>
+</tr>
+<tr>
+  <td>6</td>
+  <td><code>PUMUKI_GATE_SCOPE_PATH_PREFIXES</code>, <code>doctor --parity</code>, CI</td>
+  <td><code>USAGE.md</code>, <code>.pumuki/</code></td>
+</tr>
+<tr>
+  <td>7</td>
+  <td>Checklist release, evidencia, export JSON</td>
+  <td><code>USAGE.md</code>, <code>PUMUKI.md</code> operación</td>
+</tr>
+</tbody>
+</table>
+<p>Profundiza en el curso <strong>Governance</strong> para semanas de quality gates y enforcement. Profundiza en el curso <strong>SDD</strong> para verificación y cierre de ticket.</p>
+</section>
+<section id="docs-playbook-pumuki-sdd-bridge" class="lesson" data-topic-id="docs-playbook-pumuki-sdd-bridge" data-lesson-path="docs/playbook-pumuki-sdd-bridge.md">
+<div class="lesson-path">docs/playbook-pumuki-sdd-bridge.md</div>
+<h1 id="docs-playbook-pumuki-sdd-bridge-playbook-puente-sdd-pumuki">Playbook — Puente SDD ↔ Pumuki</h1>
+<p>Objetivo: cuando el flujo OpenSpec del curso <strong>IA + SDD</strong> entra en fase de verificación o cierre, Pumuki debe dar <strong>señales accionables</strong> sin sustituir el Kanban ni las specs.</p>
+<h2 id="docs-playbook-pumuki-sdd-bridge-activaci-n">Activación</h2>
+<ul>
+  <li>Variable <strong><code>PUMUKI_EXPERIMENTAL_SDD</code></strong>: comportamiento experimental alineado al flujo SDD (ver <code>docs/product/USAGE.md</code> en <strong>ast-intelligence-hooks</strong>).</li>
+</ul>
+<h2 id="docs-playbook-pumuki-sdd-bridge-comandos-de-comprobaci-n">Comandos de comprobación</h2>
+<ul>
+  <li><code>npx pumuki sdd status</code> / rutas documentadas en <code>USAGE.md</code> para validación SDD.</li>
+  <li>Interpretar códigos <strong><code>OPENSPEC_<em></code></strong> y <strong><code>SDD_</em></code></strong>: cada código debe mapearse a una acción concreta (corregir spec, ampliar tests, desbloquear gate, etc.).</li>
+</ul>
+<h2 id="docs-playbook-pumuki-sdd-bridge-enlace-pedag-gico">Enlace pedagógico</h2>
+<p>En el curso SDD, usa el <strong>playbook Kanban</strong> y las semanas de verificación como marco temporal; en este curso solo registras <strong>qué parte del output de Pumuki</strong> alimenta el cierre del ticket.</p>
+<h2 id="docs-playbook-pumuki-sdd-bridge-no-hacer-aqu">No hacer aquí</h2>
+<ul>
+  <li>No redactar OpenSpec completo ni ADR: vuelve al curso SDD o Governance.</li>
+</ul>
+</section>
+<section id="02-modulos-01-contrato-y-limites" class="lesson" data-topic-id="02-modulos-01-contrato-y-limites" data-lesson-path="02-modulos/01-contrato-y-limites.md">
+<div class="lesson-path">02-modulos/01-contrato-y-limites.md</div>
+<h1 id="02-modulos-01-contrato-y-limites-m-dulo-1-contrato-y-l-mites">Módulo 1 — Contrato y límites</h1>
+<h2 id="02-modulos-01-contrato-y-limites-qu-es-pumuki">Qué es Pumuki</h2>
+<p>Pipeline por <strong>stages</strong> (PRE_WRITE, PRE_COMMIT, PRE_PUSH, CI, …): <strong>Facts</strong> → <strong>Rules</strong> → <strong>Gate</strong> → <strong>evidencia</strong> versionada.</p>
+<h2 id="02-modulos-01-contrato-y-limites-qu-no-es">Qué no es</h2>
+<ul>
+  <li>No define la arquitectura de tu app iOS/Android ni sustituye ADR.</li>
+  <li>No reemplaza el criterio humano de revisión ni el método SDD completo.</li>
+</ul>
+<h2 id="02-modulos-01-contrato-y-limites-lectura">Lectura</h2>
+<ul>
+  <li><code>README.md</code> del producto: límites y posicionamiento.</li>
+  <li><code>docs/product/USAGE.md</code>: stages, comandos y variables relevantes.</li>
+</ul>
+<h2 id="02-modulos-01-contrato-y-limites-ejercicio">Ejercicio</h2>
+<p>En tu lab, enumera tres <strong>facts</strong> que ya detecta Pumuki en un archivo de ejemplo y qué <strong>regla</strong> los bloquearía o advertiría.</p>
+</section>
+<section id="02-modulos-02-instalacion-y-primer-verde" class="lesson" data-topic-id="02-modulos-02-instalacion-y-primer-verde" data-lesson-path="02-modulos/02-instalacion-y-primer-verde.md">
+<div class="lesson-path">02-modulos/02-instalacion-y-primer-verde.md</div>
+<h1 id="02-modulos-02-instalacion-y-primer-verde-m-dulo-2-instalaci-n-y-primer-verde">Módulo 2 — Instalación y primer verde</h1>
+<h2 id="02-modulos-02-instalacion-y-primer-verde-objetivo">Objetivo</h2>
+<p>Dejar el consumidor con <code>install</code> aplicado, <code>doctor</code> sin bloqueos críticos y <code>status</code> coherente con la versión mínima (<strong>>= 6.3.71</strong>).</p>
+<h2 id="02-modulos-02-instalacion-y-primer-verde-comandos">Comandos</h2>
+<pre><code class="language-bash">npx pumuki install
+npx pumuki doctor
+npx pumuki status</code></pre>
+<h2 id="02-modulos-02-instalacion-y-primer-verde-postinstall">Postinstall</h2>
+<p>El paquete define <code>postinstall</code> hacia el instalador; si falla en CI, revisa <code>docs/product/INSTALLATION.md</code>.</p>
+<h2 id="02-modulos-02-instalacion-y-primer-verde-troubleshooting">Troubleshooting</h2>
+<ul>
+  <li><strong><code>pathExecutionHazard</code></strong> y rutas: revisa <code>USAGE.md</code> y mensajes de <code>doctor</code> (paths duplicados, binarios equivocados).</li>
+  <li>Cualquier hint operativo nuevo en tu versión: <code>CHANGELOG.md</code> del producto.</li>
+</ul>
+<h2 id="02-modulos-02-instalacion-y-primer-verde-ejercicio">Ejercicio</h2>
+<p>Captura salida de <code>doctor --json</code> en el lab antes y después de corregir un problema menor (por ejemplo path o hook desalineado).</p>
+</section>
+<section id="02-modulos-03-perfiles-de-adopcion" class="lesson" data-topic-id="02-modulos-03-perfiles-de-adopcion" data-lesson-path="02-modulos/03-perfiles-de-adopcion.md">
+<div class="lesson-path">02-modulos/03-perfiles-de-adopcion.md</div>
+<h1 id="02-modulos-03-perfiles-de-adopcion-m-dulo-3-perfiles-de-adopci-n">Módulo 3 — Perfiles de adopción</h1>
+<p>Alineado al README de <strong>ast-intelligence-hooks</strong>:</p>
+<ul>
+  <li><strong>Mínimo</strong>: hooks esenciales, poca superficie, validación local básica.</li>
+  <li><strong>Estándar (SDD)</strong>: integración con flujo SDD experimental y validaciones que exige tu equipo.</li>
+  <li><strong>Enterprise</strong>: skills, MCP, parity CI, políticas duras y trazabilidad ampliada.</li>
+</ul>
+<h2 id="02-modulos-03-perfiles-de-adopcion-lectura">Lectura</h2>
+<ul>
+  <li><code>README.md</code> (sección de rutas de adopción).</li>
+  <li><code>docs/product/USAGE.md</code> (variables y modos).</li>
+</ul>
+<h2 id="02-modulos-03-perfiles-de-adopcion-ejercicio">Ejercicio</h2>
+<p>Documenta en el repo lab qué perfil usas y un solo riesgo si bajaras de enterprise a mínimo.</p>
+</section>
+<section id="02-modulos-04-sdd-y-pumuki" class="lesson" data-topic-id="02-modulos-04-sdd-y-pumuki" data-lesson-path="02-modulos/04-sdd-y-pumuki.md">
+<div class="lesson-path">02-modulos/04-sdd-y-pumuki.md</div>
+<h1 id="02-modulos-04-sdd-y-pumuki-m-dulo-4-sdd-y-pumuki">Módulo 4 — SDD y Pumuki</h1>
+<h2 id="02-modulos-04-sdd-y-pumuki-variables-y-flujo">Variables y flujo</h2>
+<ul>
+  <li><code>PUMUKI_EXPERIMENTAL_SDD</code> y comandos <code>sdd</code> / validación: <strong><code>docs/product/USAGE.md</code></strong>.</li>
+  <li>Códigos <strong><code>OPENSPEC_<em></code></strong> / <strong><code>SDD_</em></code></strong>: tabla de mapeo “código → acción” en tu runbook de equipo (no en este curso se reescribe el Kanban).</li>
+</ul>
+<h2 id="02-modulos-04-sdd-y-pumuki-curso-sdd">Curso SDD</h2>
+<p>Usa el playbook Kanban y las semanas de <strong>verificación / cierre</strong> del curso <strong>IA + SDD</strong> como referencia temporal.</p>
+<h2 id="02-modulos-04-sdd-y-pumuki-lectura-cruzada">Lectura cruzada</h2>
+<ul>
+  <li><code>docs/playbook-pumuki-sdd-bridge.md</code> en este repo del curso.</li>
+</ul>
+<h2 id="02-modulos-04-sdd-y-pumuki-ejercicio">Ejercicio</h2>
+<p>Abre un ticket ficticio en el lab y anota qué salida de Pumuki cerraría el loop de verificación.</p>
+</section>
+<section id="02-modulos-05-governance-y-pumuki" class="lesson" data-topic-id="02-modulos-05-governance-y-pumuki" data-lesson-path="02-modulos/05-governance-y-pumuki.md">
+<div class="lesson-path">02-modulos/05-governance-y-pumuki.md</div>
+<h1 id="02-modulos-05-governance-y-pumuki-m-dulo-5-governance-y-pumuki">Módulo 5 — Governance y Pumuki</h1>
+<h2 id="02-modulos-05-governance-y-pumuki-objetivo">Objetivo</h2>
+<p>Ver <strong>AGENTS.md</strong>, skills y GitFlow desde la <strong>salida del gate</strong> y las <strong>remediaciones</strong> que propone Pumuki, sin duplicar la política humana.</p>
+<h2 id="02-modulos-05-governance-y-pumuki-curso-governance">Curso Governance</h2>
+<p>Profundiza en semanas de <strong>quality gates</strong>, <strong>enforcement</strong> y <strong>kit</strong> del curso Governance; este módulo conecta esas decisiones con lo que el gate bloquea o advierte.</p>
+<h2 id="02-modulos-05-governance-y-pumuki-lectura">Lectura</h2>
+<ul>
+  <li><code>docs/product/USAGE.md</code> (remediaciones, mensajes, stages).</li>
+  <li>Vendor skills / <code>AGENTS.md</code> del repo consumidor.</li>
+</ul>
+<h2 id="02-modulos-05-governance-y-pumuki-ejercicio">Ejercicio</h2>
+<p>Lista dos reglas que viven en skills/AGENTS y cómo se reflejan en un fallo de gate reproducible en el lab.</p>
+</section>
+<section id="02-modulos-06-monorepo-ci-parity" class="lesson" data-topic-id="02-modulos-06-monorepo-ci-parity" data-lesson-path="02-modulos/06-monorepo-ci-parity.md">
+<div class="lesson-path">02-modulos/06-monorepo-ci-parity.md</div>
+<h1 id="02-modulos-06-monorepo-ci-parity-m-dulo-6-monorepo-ci-y-parity">Módulo 6 — Monorepo, CI y parity</h1>
+<h2 id="02-modulos-06-monorepo-ci-parity-scope-en-monorepos">Scope en monorepos</h2>
+<ul>
+  <li><strong><code>PUMUKI_GATE_SCOPE_PATH_PREFIXES</code></strong>: limitar el gate a prefijos del monorepo (ver <code>USAGE.md</code>).</li>
+</ul>
+<h2 id="02-modulos-06-monorepo-ci-parity-parity-local-vs-ci">Parity local vs CI</h2>
+<ul>
+  <li><code>npx pumuki doctor --parity</code></li>
+  <li>Expectativas versionadas en <strong><code>.pumuki/ci-parity-expected.json</code></strong> cuando el equipo las use.</li>
+</ul>
+<h2 id="02-modulos-06-monorepo-ci-parity-lectura">Lectura</h2>
+<ul>
+  <li><code>docs/product/USAGE.md</code> y notas de release del producto para tu versión instalada.</li>
+</ul>
+<h2 id="02-modulos-06-monorepo-ci-parity-ejercicio">Ejercicio</h2>
+<p>Simula un diff fuera del prefijo permitido y verifica que el gate no castigue paths ajenos al paquete.</p>
+</section>
+<section id="02-modulos-07-proyecto-final-checklist" class="lesson" data-topic-id="02-modulos-07-proyecto-final-checklist" data-lesson-path="02-modulos/07-proyecto-final-checklist.md">
+<div class="lesson-path">02-modulos/07-proyecto-final-checklist.md</div>
+<h1 id="02-modulos-07-proyecto-final-checklist-m-dulo-7-proyecto-final-checklist-release">Módulo 7 — Proyecto final (checklist release)</h1>
+<h2 id="02-modulos-07-proyecto-final-checklist-checklist-m-nima">Checklist mínima</h2>
+<ul>
+  <li>&#9744; Versión efectiva <code>pumuki</code> >= <strong>6.3.71</strong> (<code>status</code> / <code>doctor</code>).</li>
+  <li>&#9744; Hooks y CI alineados al perfil elegido (módulo 3).</li>
+  <li>&#9744; Sin bloqueos críticos en <code>doctor</code>; warnings justificados documentados.</li>
+  <li>&#9744; Evidencia <strong>v2.1</strong> coherente con el contrato (<code>docs/mcp/ai-evidence-v2.1-contract.md</code> en el producto).</li>
+  <li>&#9744; Export <strong><code>doctor --json</code></strong> archivado en el lugar que defina tu equipo (no commitear secretos).</li>
+</ul>
+<h2 id="02-modulos-07-proyecto-final-checklist-entrega">Entrega</h2>
+<p>Un solo documento en el lab (o comentario de PR) con: perfil, versión, ruta del JSON exportado (o artefacto CI), y enlace al curso hub <code>/pumuki/</code> cuando esté publicado.</p>
+</section>
+
+</main>
+
+<button id="back-to-top" onclick="window.scrollTo({top:0, behavior:'smooth'})">&#8593;</button>
+
+<script>
+// Fix browser HTML5 parser nesting: move non-li children out of ol/ul
+(function fixListNesting() {
+    document.querySelectorAll('ol, ul').forEach(function(list) {
+        var children = Array.from(list.children);
+        for (var i = children.length - 1; i >= 0; i--) {
+            var child = children[i];
+            if (child.tagName !== 'LI' && child.tagName !== 'SCRIPT' && child.tagName !== 'TEMPLATE') {
+                list.parentNode.insertBefore(child, list.nextSibling);
+            }
+        }
+    });
+})();
+// Theme management
+function getPreferredTheme() {
+    const saved = localStorage.getItem('course-theme');
+    if (saved) return saved;
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+}
+
+function getPreferredStyle() {
+    return localStorage.getItem('course-style') || 'enterprise';
+}
+
+function getPreferredCodeTheme() {
+    return localStorage.getItem('course-code-theme') || 'monokai';
+}
+
+function applyStyle(style) {
+    document.documentElement.setAttribute('data-style', style);
+    localStorage.setItem('course-style', style);
+    
+    const btn = document.getElementById('style-cycle-btn');
+    if (btn) {
+        btn.textContent = 'Estilo: ' + style.charAt(0).toUpperCase() + style.slice(1);
+        
+        // Set button colors based on style
+        const styleColors = {
+            'enterprise': { bg: '#2563eb', border: '#3b82f6', text: '#ffffff' },
+            'bold': { bg: '#ff6b35', border: '#ff8c5a', text: '#ffffff' },
+            'paper': { bg: '#c4956a', border: '#d4a87a', text: '#2d2419' }
+        };
+        
+        const colors = styleColors[style] || styleColors['enterprise'];
+        btn.style.backgroundColor = colors.bg;
+        btn.style.borderColor = colors.border;
+        btn.style.color = colors.text;
+    }
+}
+
+function cycleStyle() {
+    const styles = ['enterprise', 'bold', 'paper'];
+    const current = document.documentElement.getAttribute('data-style') || 'enterprise';
+    const currentIndex = styles.indexOf(current);
+    const nextIndex = (currentIndex + 1) % styles.length;
+    const nextStyle = styles[nextIndex];
+    applyStyle(nextStyle);
+}
+
+function applyCodeTheme(theme) {
+    localStorage.setItem('course-code-theme', theme);
+    document.documentElement.setAttribute('data-code-theme', theme);
+    const btn = document.getElementById('code-theme-cycle-btn');
+    if (btn) {
+        btn.textContent = 'Codigo: ' + theme.charAt(0).toUpperCase() + theme.slice(1).replace(/-/g, ' ');
+    }
+    
+    const highlightedBlocks = document.querySelectorAll('pre code[data-highlighted]');
+    if (typeof hljs !== 'undefined') {
+        highlightedBlocks.forEach(block => {
+            block.removeAttribute('data-highlighted');
+            hljs.highlightElement(block);
+        });
+    }
+    enhanceCodeBlocksFrom(highlightedBlocks);
+}
+
+let mermaidLoadPromise = null;
+let highlightLoadPromise = null;
+
+function loadExternalScript(src) {
+    return new Promise((resolve, reject) => {
+        if (!src) {
+            reject(new Error('missing-script-src'));
+            return;
+        }
+
+        const selector = `script[data-sma-src="${src}"]`;
+        const existing = document.querySelector(selector);
+        if (existing) {
+            if (existing.dataset.loaded === '1') {
+                resolve();
+                return;
+            }
+            existing.addEventListener('load', () => resolve(), { once: true });
+            existing.addEventListener('error', () => reject(new Error(`script-load-failed:${src}`)), { once: true });
+            return;
+        }
+
+        const script = document.createElement('script');
+        script.src = src;
+        script.async = true;
+        script.dataset.smaSrc = src;
+        script.addEventListener('load', () => {
+            script.dataset.loaded = '1';
+            resolve();
+        }, { once: true });
+        script.addEventListener('error', () => reject(new Error(`script-load-failed:${src}`)), { once: true });
+        document.head.appendChild(script);
+    });
+}
+
+function ensureMermaidLoaded() {
+    if (typeof mermaid !== 'undefined') return Promise.resolve();
+    if (!mermaidLoadPromise) {
+        mermaidLoadPromise = loadExternalScript(window.__SMA_MERMAID_SRC).then(() => {
+            if (typeof mermaid === 'undefined') {
+                throw new Error('mermaid-unavailable');
+            }
+        });
+    }
+    return mermaidLoadPromise;
+}
+
+function ensureHighlightLoaded() {
+    if (typeof hljs !== 'undefined') return Promise.resolve();
+    if (!highlightLoadPromise) {
+        highlightLoadPromise = loadExternalScript(window.__SMA_HLJS_CORE_SRC)
+            .then(() => loadExternalScript(window.__SMA_HLJS_SWIFT_SRC))
+            .then(() => {
+                if (typeof hljs === 'undefined') {
+                    throw new Error('hljs-unavailable');
+                }
+            });
+    }
+    return highlightLoadPromise;
+}
+
+function detectSnippetLang(codeEl) {
+    const className = (codeEl.className || '').toLowerCase();
+    if (className.includes('language-swift')) return 'swift';
+    if (className.includes('language-kotlin') || className.includes('language-kt')) return 'kt';
+    if (className.includes('language-js') || className.includes('language-javascript')) return 'js';
+    if (className.includes('language-ts') || className.includes('language-typescript')) return 'ts';
+    if (className.includes('language-json')) return 'json';
+    if (className.includes('language-bash') || className.includes('language-shell')) return 'sh';
+    if (className.includes('language-yaml') || className.includes('language-yml')) return 'yaml';
+    if (className.includes('language-python') || className.includes('language-py')) return 'py';
+    if (className.includes('language-mermaid')) return 'mermaid';
+    if (className.includes('language-markdown') || className.includes('language-md')) return 'md';
+    if (className.includes('language-gherkin') || className.includes('language-feature')) return 'gherkin';
+
+    const match = className.match(/language-([a-z0-9_-]+)/);
+    if (match && match[1]) return match[1];
+    return 'txt';
+}
+
+function copyCodeToClipboard(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        return navigator.clipboard.writeText(text);
+    }
+    return new Promise((resolve, reject) => {
+        try {
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            ta.setAttribute('readonly', 'readonly');
+            ta.style.position = 'fixed';
+            ta.style.left = '-9999px';
+            document.body.appendChild(ta);
+            ta.select();
+            const ok = document.execCommand('copy');
+            document.body.removeChild(ta);
+            if (ok) resolve();
+            else reject(new Error('copy-failed'));
+        } catch (err) {
+            reject(err);
+        }
+    });
+}
+
+function enhanceCodeBlocks() {
+    enhanceCodeBlocksFrom(document.querySelectorAll('pre code'));
+}
+
+function enhanceCodeBlocksFrom(codes) {
+    Array.from(codes || []).forEach(code => {
+        const pre = code.closest('pre');
+        if (!pre || pre.classList.contains('mermaid')) return;
+        if (pre.dataset.codeEnhanced === '1') return;
+        pre.dataset.codeEnhanced = '1';
+        pre.classList.add('sma-code-enhanced');
+
+        const tools = document.createElement('div');
+        tools.className = 'sma-code-tools';
+
+        const lang = document.createElement('span');
+        lang.className = 'sma-code-lang';
+        lang.textContent = detectSnippetLang(code);
+
+        const copyBtn = document.createElement('button');
+        copyBtn.type = 'button';
+        copyBtn.className = 'sma-code-copy-btn';
+        copyBtn.textContent = 'Copiar';
+        copyBtn.setAttribute('aria-label', `Copiar snippet ${lang.textContent}`);
+        copyBtn.addEventListener('click', () => {
+            const originalText = copyBtn.textContent;
+            copyCodeToClipboard(code.textContent || '')
+                .then(() => {
+                    copyBtn.textContent = 'Copiado';
+                    setTimeout(() => { copyBtn.textContent = originalText; }, 1200);
+                })
+                .catch(() => {
+                    copyBtn.textContent = 'Error';
+                    setTimeout(() => { copyBtn.textContent = originalText; }, 1200);
+                });
+        });
+
+        tools.appendChild(lang);
+        tools.appendChild(copyBtn);
+        pre.appendChild(tools);
+    });
+}
+
+function highlightCodeBlock(block) {
+    if (!block || block.dataset.highlighted === '1') return;
+    if (typeof hljs === 'undefined') {
+        enhanceCodeBlocksFrom([block]);
+        return;
+    }
+    hljs.highlightElement(block);
+    block.dataset.highlighted = '1';
+    enhanceCodeBlocksFrom([block]);
+}
+
+async function initCodeHighlighting() {
+    const blocks = Array.from(document.querySelectorAll('pre code'));
+    if (!blocks.length) return;
+
+    try {
+        await ensureHighlightLoaded();
+    } catch (error) {
+        console.warn('Highlight.js no cargado.', error);
+        enhanceCodeBlocksFrom(blocks);
+        return;
+    }
+
+    const warmup = blocks.slice(0, 16);
+    warmup.forEach(highlightCodeBlock);
+
+    if (!('IntersectionObserver' in window)) {
+        blocks.forEach(highlightCodeBlock);
+        return;
+    }
+
+    const codeObserver = new IntersectionObserver((entries, observerRef) => {
+        entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
+            highlightCodeBlock(entry.target);
+            observerRef.unobserve(entry.target);
+        });
+    }, { rootMargin: '360px 0px' });
+
+    blocks.forEach(block => {
+        if (block.dataset.highlighted === '1') return;
+        codeObserver.observe(block);
+    });
+}
+
+function cycleCodeTheme() {
+    const themes = ['monokai', 'github', 'github-dark', 'atom-one-dark'];
+    const current = localStorage.getItem('course-code-theme') || 'monokai';
+    const currentIndex = themes.indexOf(current);
+    const nextIndex = (currentIndex + 1) % themes.length;
+    const nextTheme = themes[nextIndex];
+    applyCodeTheme(nextTheme);
+}
+
+function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('course-theme', theme);
+    const btn = document.getElementById('theme-toggle');
+    btn.textContent = theme === 'dark' ? 'Tema: Oscuro' : 'Tema: Claro';
+    btn.title = theme === 'dark' ? 'Cambiar a tema claro' : 'Cambiar a tema oscuro';
+    // Keep code theme as selected, don't override
+}
+
+function toggleTheme() {
+    const current = document.documentElement.getAttribute('data-theme') || 'light';
+    applyTheme(current === 'dark' ? 'light' : 'dark');
+}
+
+// Apply saved preferences immediately
+applyStyle(getPreferredStyle());
+applyCodeTheme(getPreferredCodeTheme());
+applyTheme(getPreferredTheme());
+
+function currentMermaidTheme() {
+    const theme = document.documentElement.getAttribute('data-theme') || 'light';
+    return theme === 'dark' ? 'dark' : 'default';
+}
+
+async function renderMermaid() {
+    try {
+        await ensureMermaidLoaded();
+    } catch (error) {
+        console.warn('Mermaid no cargado. Revisa conexión a internet/CDN.', error);
+        return;
+    }
+
+    const blocks = Array.from(document.querySelectorAll('pre.mermaid'));
+    if (!blocks.length) return;
+
+    blocks.forEach(function(el) {
+        if (!el.dataset.originalMermaid) {
+            el.dataset.originalMermaid = (el.textContent || '').trimEnd();
+        }
+        if (el.dataset.originalMermaid) {
+            el.innerHTML = '';
+            el.textContent = el.dataset.originalMermaid;
+        }
+        el.dataset.mermaidRendered = '0';
+        el.removeAttribute('data-processed');
+    });
+
+    mermaid.initialize({
+        startOnLoad: false,
+        theme: currentMermaidTheme(),
+        securityLevel: 'loose'
+    });
+
+    function renderNode(el) {
+        if (!el || el.dataset.mermaidRendered === '1') return;
+        mermaid.run({ nodes: [el] })
+            .then(function() {
+                el.dataset.mermaidRendered = '1';
+            })
+            .catch(function() {});
+    }
+
+    blocks.slice(0, 3).forEach(renderNode);
+
+    if (!('IntersectionObserver' in window)) {
+        blocks.forEach(renderNode);
+        return;
+    }
+
+    const mermaidObserver = new IntersectionObserver((entries, observerRef) => {
+        entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
+            renderNode(entry.target);
+            observerRef.unobserve(entry.target);
+        });
+    }, { rootMargin: '420px 0px' });
+
+    blocks.forEach(el => {
+        if (el.dataset.mermaidRendered === '1') return;
+        mermaidObserver.observe(el);
+    });
+}
+
+function bootCourseRenderers() {
+    renderMermaid();
+    initCodeHighlighting();
+    document.body.classList.add('sma-hydrated');
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bootCourseRenderers, { once: true });
+} else {
+    bootCourseRenderers();
+}
+
+// Back to top button
+window.addEventListener('scroll', () => {
+    const btn = document.getElementById('back-to-top');
+    btn.style.display = window.scrollY > 400 ? 'block' : 'none';
+});
+
+// Active nav highlight
+const sections = document.querySelectorAll('section.lesson');
+const navLinks = document.querySelectorAll('#sidebar a');
+
+const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            navLinks.forEach(link => link.style.fontWeight = 'normal');
+            const active = document.querySelector(`#sidebar a[href="#${entry.target.id}"]`);
+            if (active) active.style.fontWeight = '700';
+        }
+    });
+}, { rootMargin: '-20% 0px -70% 0px' });
+
+sections.forEach(s => observer.observe(s));
+
+// Mobile sidebar toggle
+function toggleSidebar() {
+    if (window.innerWidth > 768) return;
+    document.body.classList.toggle('sidebar-open');
+}
+
+function closeSidebar() {
+    document.body.classList.remove('sidebar-open');
+}
+
+// Close sidebar when clicking a link on mobile
+document.querySelectorAll('#sidebar a').forEach(link => {
+    link.addEventListener('click', () => {
+        if (window.innerWidth <= 768) {
+            closeSidebar();
+        }
+    });
+});
+
+document.addEventListener('keydown', event => {
+    if (event.key === 'Escape') closeSidebar();
+});
+
+window.addEventListener('resize', () => {
+    if (window.innerWidth > 768) closeSidebar();
+});
+
+// Sidebar search/filter
+const sidebarSearchInput = document.getElementById('sidebar-search');
+const sidebarSearchCount = document.getElementById('sidebar-search-count');
+
+function normalizeSearchText(value) {
+    return (value || '')
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[̀-ͯ]/g, '');
+}
+
+function applySidebarSearch() {
+    if (!sidebarSearchInput) return;
+    const query = normalizeSearchText(sidebarSearchInput.value.trim());
+    const sections = document.querySelectorAll('#sidebar li.nav-section');
+    let visibleLessons = 0;
+
+    sections.forEach(section => {
+        const sectionTitle = section.querySelector(':scope > strong');
+        const sectionLabel = normalizeSearchText(sectionTitle ? sectionTitle.textContent : '');
+        const links = section.querySelectorAll('a.doc-nav-link');
+        let sectionHasVisible = false;
+
+        links.forEach(link => {
+            const item = link.closest('li');
+            if (!item) return;
+            const lessonPath = normalizeSearchText(link.dataset.lessonPath || '');
+            const lessonTitle = normalizeSearchText(link.textContent || '');
+            const match = !query || lessonTitle.includes(query) || lessonPath.includes(query) || sectionLabel.includes(query);
+            item.style.display = match ? '' : 'none';
+            if (match) {
+                sectionHasVisible = true;
+                visibleLessons += 1;
+            }
+        });
+
+        section.style.display = sectionHasVisible ? '' : 'none';
+    });
+
+    if (sidebarSearchCount) {
+        if (!query) {
+            sidebarSearchCount.textContent = '';
+        } else if (visibleLessons === 1) {
+            sidebarSearchCount.textContent = '1 resultado';
+        } else {
+            sidebarSearchCount.textContent = `${visibleLessons} resultados`;
+        }
+    }
+}
+
+if (sidebarSearchInput) {
+    sidebarSearchInput.addEventListener('input', applySidebarSearch);
+    sidebarSearchInput.addEventListener('keydown', event => {
+        if (event.key === 'Escape') {
+            sidebarSearchInput.value = '';
+            applySidebarSearch();
+            sidebarSearchInput.blur();
+        }
+    });
+    applySidebarSearch();
+}
+</script>
+
+</body>
+</html>
