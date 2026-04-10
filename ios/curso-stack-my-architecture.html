@@ -4143,7 +4143,7 @@ struct DummyLogger: Logger {
 }
 
 // Lo usas así en el test:
-let useCase = AuthenticateUserUseCase(repository: stubGateway, logger: DummyLogger())
+let useCase = AuthenticateUserUseCase(repository: repository, logger: DummyLogger())
 // El DummyLogger solo está ahí para que compile. No verificas nada sobre él.</code></pre>
 <p><strong>Cuándo usarlo:</strong> Cuando un componente pide una dependencia que no es relevante para lo que estás testeando. Si estás testeando la lógica de login, el logger no importa, así que pasas un dummy.</p>
 <h4 id="01-fundamentos-02-metodologia-tdd-practica-2-stub-el-actor-con-gui-n-fijo">2. Stub (el actor con guión fijo)</h4>
@@ -5091,19 +5091,18 @@ swift test --filter FeatureLoginDomainTests</code></pre>
 <h2 id="01-fundamentos-05-feature-login-01-domain-las-reglas-de-negocio-puras-implementadas-con-tdd">Las reglas de negocio puras, implementadas con TDD</h2>
 <p>En la lección anterior definimos los escenarios BDD del Login. Ahora vamos a empezar a implementar, y lo hacemos por donde debe empezarse: por la capa Domain. El Domain es el corazón de la feature. Contiene los modelos de negocio, las reglas de validación, los errores tipados, y los eventos. No depende de SwiftUI, ni de Foundation, ni de URLSession, ni de nada externo. Es puro Swift.</p>
 <p>En esta lección vamos a construir los siguientes tipos, todos con TDD (test primero, implementación después, usando XCTest):</p>
-<p>El Value Object <code>EmailAddress</code>, que garantiza que un email tiene formato válido. El Value Object <code>Password</code>, que garantiza que una contraseña no está vacía. El tipo <code>Credentials</code> que agrupa ambos. El enum <code>LoginError</code> con los errores de autenticación. El enum <code>LoginEvent</code> con los eventos del dominio. Y el struct <code>UserSession</code> que representa una autenticación exitosa.</p>
+<p>El Value Object <code>EmailAddress</code>, que garantiza que un email tiene formato válido. El Value Object <code>Password</code>, que garantiza que una contraseña no está vacía. El tipo <code>Credentials</code> que agrupa ambos. El enum <code>LoginError</code> con todos los errores de la feature (validación + autenticación). El enum <code>LoginEvent</code> con los eventos del dominio. Y el struct <code>UserSession</code> que representa una autenticación exitosa.</p>
 <p>> <strong>Nota de nomenclatura lección ↔ scaffold:</strong> Los tipos que construyes en esta lección usan nombres y diseños pedagógicos. En el scaffold <code>apps/ios/ArchitectureKit</code> hay diferencias que van más allá del nombre:</p>
 <p>></p>
 <p>> | Lección | Scaffold | Qué cambia |</p>
 <p>> |---|---|---|</p>
-<p>> | <code>EmailAddress</code> | <code>EmailAddress</code> | Solo nombre |</p>
-<p>> | <code>Password</code> — valida <code>!isEmpty</code> | <code>Password</code> — valida <code>count &gt;= 8</code> | Regla de negocio más estricta |</p>
-<p>> | <code>EmailAddress.ValidationError</code> / <code>Password.ValidationError</code> (errores anidados por VO) | <code>LoginError</code> (enum unificado con <code>.invalidEmail</code>, <code>.invalidPassword</code>, <code>.invalidCredentials</code>, <code>.network</code>) | Arquitectura de errores: anidada → unificada |</p>
-<p>> | <code>UserSession(token:, email:)</code> | <code>UserSession(userId:, token:)</code> | Campos distintos (<code>email</code> → <code>userId</code>) |</p>
-<p>> | <code>LoginError { invalidCredentials, connectivity }</code> | Integrado en <code>LoginError { ..., .network }</code> | Enum separado → unificado |</p>
+<p>> | <code>EmailAddress</code> — valida <code>@</code> y punto en dominio | <code>EmailAddress</code> | Mismo patrón |</p>
+<p>> | <code>Password</code> — valida <code>!isEmpty</code> | <code>Password</code> — valida <code>count &gt;= 8</code> | Regla más estricta en scaffold |</p>
+<p>> | <code>LoginError { invalidEmail, emptyPassword, invalidCredentials, connectivity }</code> | <code>LoginError { invalidEmail, invalidPassword, invalidCredentials, network }</code> | Nombres de casos distintos |</p>
+<p>> | <code>UserSession(token:, email:)</code> | <code>UserSession(userId:, token:)</code> | Scaffold usa <code>userId</code> en lugar de <code>email</code> |</p>
 <p>> | <code>LoginEvent { success, failure }</code> | No existe — el ViewModel maneja el resultado directamente | Tipo pedagógico sin equivalente en scaffold |</p>
 <p>></p>
-<p>> <strong>¿Por qué la lección enseña un diseño diferente?</strong> Porque el patrón de errores anidados por Value Object y los eventos de dominio explícitos son más puros desde DDD y enseñan mejor los principios. El scaffold usa un enum unificado porque en un proyecto real con 4 casos de error, la pragmática pesa más que la pureza. Ambos diseños son válidos — la diferencia es intencional y entenderla es parte del aprendizaje.</p>
+<p>> <strong>¿Por qué la lección enseña <code>LoginEvent</code>?</strong> Porque los eventos de dominio explícitos son un patrón DDD importante en sistemas más grandes donde múltiples componentes reaccionan al mismo hecho. El scaffold lo simplifica porque con dos pantallas (Login → Catalog), el desacoplamiento extra no aporta valor proporcional.</p>
 <p>></p>
 <p>> Consulta la <a href="../../anexos/equivalencias-scaffold.md">tabla de equivalencias completa</a>.</p>
 <h3 id="01-fundamentos-05-feature-login-01-domain-recordatorio-de-principios">Recordatorio de principios</h3>
@@ -5128,7 +5127,7 @@ swift test --filter FeatureLoginDomainTests</code></pre>
     end
     
     subgraph Errors[&quot;Errores tipados&quot;]
-        AUTHERR[&quot;LoginError&lt;br/&gt;enum: invalidCredentials,&lt;br/&gt;connectivity&quot;]
+        AUTHERR[&quot;LoginError&lt;br/&gt;invalidEmail, emptyPassword,&lt;br/&gt;invalidCredentials, connectivity&quot;]
     end
     
     subgraph Events[&quot;Eventos de dominio&quot;]
@@ -5437,17 +5436,19 @@ struct Credentials: Equatable, Sendable {
 }</code></pre>
 <p>No escribimos tests para <code>Credentials</code> porque no tiene comportamiento propio. Es un tipo de datos puro, sin lógica. Testear que un struct guarda los valores que le pasas no aporta valor. Los tests de <code>EmailAddress</code> y <code>Password</code> ya cubren la validación de sus componentes.</p>
 <hr>
-<h2 id="01-fundamentos-05-feature-login-01-domain-los-errores-de-autenticaci-n">Los errores de autenticación</h2>
-<p>De los escenarios BDD extrajimos que hay dos tipos de error que ocurren <strong>después</strong> de pasar la validación local: el servidor rechaza las credenciales (<code>invalidCredentials</code>) o no se puede conectar con el servidor (<code>connectivity</code>).</p>
+<h2 id="01-fundamentos-05-feature-login-01-domain-los-errores-de-login">Los errores de login</h2>
+<p><code>LoginError</code> es el tipo de error público de la feature Login. Centraliza todos los casos que la UI puede recibir: errores de validación local (antes de ir a la red) y errores de autenticación remota (después de ir a la red).</p>
 <pre><code class="language-swift">// StackMyArchitecture/Features/Login/Domain/Errors/LoginError.swift
 
 enum LoginError: Error, Equatable, Sendable {
-    case invalidCredentials
-    case connectivity
+    case invalidEmail        // email no tiene formato válido
+    case emptyPassword       // password está vacío
+    case invalidCredentials  // el servidor rechaza las credenciales
+    case connectivity        // no se puede conectar con el servidor
 }</code></pre>
-<p>Estos errores son diferentes de los errores de validación de los Value Objects (<code>EmailAddress.ValidationError.invalidFormat</code>, <code>Password.ValidationError.empty</code>). Los errores de los Value Objects son errores de <strong>formato</strong>: los datos del usuario no pasan la validación local. <code>LoginError</code> son errores de <strong>autenticación</strong>: los datos pasaron la validación local pero algo falló en la comunicación con el servidor.</p>
-<p>¿Por qué esta distinción? Porque el manejo es diferente. Si el email tiene formato inválido, la UI puede mostrar el error inmediatamente sin hacer ninguna petición de red. Si el servidor rechaza las credenciales, la UI muestra un mensaje diferente ("email o contraseña incorrectos"). Si no hay conectividad, la UI muestra otro mensaje diferente ("sin conexión a internet, inténtalo de nuevo").</p>
-<p>> <strong>Divergencia scaffold:</strong> En el scaffold real, los errores de validación de VOs y los de autenticación están <strong>unificados</strong> en un solo <code>LoginError { invalidEmail, invalidPassword, invalidCredentials, network }</code>. La lección separa <code>EmailAddress.ValidationError</code> + <code>Password.ValidationError</code> + <code>LoginError</code> como tres tipos porque es más fiel al principio de Single Responsibility y enseña mejor la distinción entre error de formato y error de autenticación. En un proyecto real con solo 4 casos de error, la pragmática de un enum unificado puede pesar más. Comprende ambos diseños: la pureza de la lección y la pragmática del scaffold.</p>
+<p>¿Por qué un enum unificado? Porque la UI solo necesita conocer <strong>un</strong> tipo de error, no los tipos internos de los Value Objects. Sin esta capa, la pantalla de login tendría que importar <code>EmailAddress.ValidationError</code>, <code>Password.ValidationError</code> y los errores de red — acoplamiento innecesario. Con <code>LoginError</code>, la capa Interface solo importa la feature pública.</p>
+<p>Los cuatro casos mapean directamente a mensajes de usuario distintos: "email inválido", "contraseña vacía", "credenciales incorrectas", "sin conexión". Cada caso tiene un mensaje diferente porque el usuario necesita información diferente para corregir el problema.</p>
+<p>> <strong>Divergencia scaffold:</strong> En el scaffold real, <code>LoginError</code> usa <code>invalidPassword</code> (en lugar de <code>emptyPassword</code>) y <code>network</code> (en lugar de <code>connectivity</code>). El scaffold también valida longitud mínima de 8 caracteres, no solo vacío. La lógica y la estructura son idénticas; solo cambian los nombres de casos y el umbral de validación.</p>
 <hr>
 <h2 id="01-fundamentos-05-feature-login-01-domain-los-eventos-del-dominio">Los eventos del dominio</h2>
 <p>Los eventos representan hechos que ya ocurrieron y que son relevantes para el sistema. No son comandos ("haz login") ni intenciones ("quiero hacer login"). Son hechos consumados ("el login fue exitoso", "el login falló").</p>
@@ -5531,9 +5532,9 @@ struct UserSession: Equatable, Sendable {
   <td>Campo <code>userId</code> en lugar de <code>email</code></td>
 </tr>
 <tr>
-  <td><code>LoginError</code> + <code>EmailAddress.ValidationError</code></td>
+  <td><code>LoginError</code> (4 casos: invalidEmail, emptyPassword, invalidCredentials, connectivity)</td>
   <td><code>LoginError.swift</code></td>
-  <td>Enum unificado con 4 casos</td>
+  <td>Scaffold usa <code>invalidPassword</code>/<code>network</code></td>
 </tr>
 <tr>
   <td><code>LoginEvent</code></td>
@@ -5654,6 +5655,7 @@ protocol AuthRepository: Sendable {
   <li><strong>Delega</strong> la autenticación al gateway a través del protocolo/puerto</li>
   <li><strong>Propaga</strong> el resultado (éxito o error) al caller</li>
 </ol>
+<p>En el scaffold <code>ArchitectureKit</code>, el error de red es <code>LoginError.network</code> (no <code>connectivity</code>); la semántica es la misma.</p>
 <p>No hace más. No navega. No muestra alertas. No guarda tokens en UserDefaults. Esas responsabilidades pertenecen a otras capas.</p>
 <h3 id="01-fundamentos-05-feature-login-02-application-diagrama-por-qu-usamos-un-stub-en-los-tests">Diagrama: por qué usamos un stub en los tests</h3>
 <div class="sma-mermaid-block">
@@ -5747,28 +5749,28 @@ final class AuthenticateUserUseCaseTests: XCTestCase {
 <pre><code class="language-swift">// StackMyArchitecture/Features/Login/Application/UseCases/AuthenticateUserUseCase.swift
 
 struct AuthenticateUserUseCase: Sendable {
-    private let authRepository: any AuthRepository
+    private let repository: any AuthRepository
     
-    init(authRepository: any AuthRepository) {
-        self.authRepository = authRepository
+    init(repository: any AuthRepository) {
+        self.repository = repository
     }
     
     func execute(email: String, password: String) async throws -&gt; UserSession {
         let validEmail = try EmailAddress(email)
         let validPassword = try Password(password)
         let credentials = Credentials(email: validEmail, password: validPassword)
-        return try await authRepository.authenticate(credentials: credentials)
+        return try await repository.authenticate(credentials: credentials)
     }
 }</code></pre>
 <p><strong>Explicación línea por línea del AuthenticateUserUseCase:</strong></p>
 <p><code>struct AuthenticateUserUseCase: Sendable</code> — Es un struct, no una clase. ¿Por qué? Porque el UseCase no tiene estado mutable. Solo tiene una referencia al gateway (que es <code>let</code>, constante). Los structs son más ligeros que las clases y no necesitan gestión de memoria (ARC). <code>Sendable</code> le dice al compilador que este tipo es seguro para concurrencia (puede usarse desde funciones <code>async</code> sin problemas).</p>
-<p><code>private let authRepository: any AuthRepository</code> — La dependencia del UseCase. Es un <strong>protocolo</strong> (<code>AuthRepository</code>), no un tipo concreto. La palabra <code>any</code> es obligatoria en Swift 5.7+ para indicar que es un "existential type" (un tipo que puede ser cualquier cosa que conforme el protocolo). Esto es la clave de la <strong>inyección de dependencias</strong>: el UseCase no sabe si el gateway es real (llama a un servidor) o un stub (devuelve datos fijos). Solo sabe que tiene un método <code>authenticate</code>.</p>
-<p><code>init(authRepository: any AuthRepository)</code> — El constructor recibe el gateway como parámetro. No lo crea él. Esto es <strong>inyección de dependencias por constructor</strong>: alguien de fuera (el Composition Root o el test) le pasa la dependencia. Si el UseCase creara su propia dependencia (<code>let gateway = AuthHTTPRepository()</code>), no podríamos testearlo sin un servidor real.</p>
+<p><code>private let repository: any AuthRepository</code> — La dependencia del UseCase. Es un <strong>protocolo</strong> (<code>AuthRepository</code>), no un tipo concreto. La palabra <code>any</code> es obligatoria en Swift 5.7+ para indicar que es un "existential type" (un tipo que puede ser cualquier cosa que conforme el protocolo). Esto es la clave de la <strong>inyección de dependencias</strong>: el UseCase no sabe si el gateway es real (llama a un servidor) o un stub (devuelve datos fijos). Solo sabe que tiene un método <code>authenticate</code>.</p>
+<p><code>init(repository: any AuthRepository)</code> — El constructor recibe el gateway como parámetro. No lo crea él. Esto es <strong>inyección de dependencias por constructor</strong>: alguien de fuera (el Composition Root o el test) le pasa la dependencia. Si el UseCase creara su propia dependencia (<code>let gateway = AuthHTTPRepository()</code>), no podríamos testearlo sin un servidor real.</p>
 <p><code>func execute(email: String, password: String) async throws -&gt; UserSession</code> — La interfaz pública del UseCase. Recibe strings crudos (lo que el usuario escribió en la UI), y devuelve una <code>UserSession</code> o lanza un error. <code>async</code> porque la autenticación es asíncrona (requiere una petición de red). <code>throws</code> porque puede fallar (email inválido, sin conexión, credenciales rechazadas).</p>
 <p><code>let validEmail = try EmailAddress(email)</code> — Intenta crear un Value Object <code>EmailAddress</code> a partir del string crudo. Si el string no tiene formato de email (no tiene @), el <code>EmailAddress.init</code> lanza <code>EmailAddress.ValidationError.invalidFormat</code>. El <code>try</code> propaga ese error hacia arriba. <strong>Si esta línea falla, las siguientes no se ejecutan.</strong> El gateway nunca se llama. Esto es importante: validamos ANTES de hacer la petición de red.</p>
 <p><code>let validPassword = try Password(password)</code> — Lo mismo para el password. Si está vacío, <code>Password.init</code> lanza <code>Password.ValidationError.empty</code>.</p>
 <p><code>let credentials = Credentials(email: validEmail, password: validPassword)</code> — Creamos el tipo <code>Credentials</code> que agrupa email y password validados. Si llegamos hasta aquí, sabemos con certeza que tanto el email como el password son válidos. No necesitamos volver a validar nunca más.</p>
-<p><code>return try await authRepository.authenticate(credentials: credentials)</code> — Delegamos al gateway. <code>try</code> porque el gateway puede lanzar <code>LoginError.connectivity</code> o <code>LoginError.invalidCredentials</code>. <code>await</code> porque es asíncrono. El gateway devuelve una <code>UserSession</code> que nosotros devolvemos directamente al que nos llamó (el ViewModel).</p>
+<p><code>return try await repository.authenticate(credentials: credentials)</code> — Delegamos al gateway. <code>try</code> porque el gateway puede lanzar <code>LoginError.connectivity</code> o <code>LoginError.invalidCredentials</code>. <code>await</code> porque es asíncrono. El gateway devuelve una <code>UserSession</code> que nosotros devolvemos directamente al que nos llamó (el ViewModel).</p>
 <p><strong>El flujo completo en un diagrama:</strong></p>
 <div class="sma-mermaid-block">
 <pre class="mermaid">flowchart TD
@@ -5835,17 +5837,10 @@ struct AuthenticateUserUseCase: Sendable {
 <p>Ejecutamos. Falla porque <code>LoginError</code> no existe y el caso de uso no traduce errores.</p>
 <p><strong>Green:</strong> Añadimos el tipo de error y la traducción:</p>
 <pre><code class="language-swift">struct AuthenticateUserUseCase: Sendable {
-    private let authRepository: any AuthRepository
+    private let repository: any AuthRepository
     
-    init(authRepository: any AuthRepository) {
-        self.authRepository = authRepository
-    }
-    
-    enum Error: Swift.Error, Equatable, Sendable {
-        case invalidEmail
-        case emptyPassword
-        case invalidCredentials
-        case connectivity
+    init(repository: any AuthRepository) {
+        self.repository = repository
     }
     
     func execute(email: String, password: String) async throws -&gt; UserSession {
@@ -5853,25 +5848,22 @@ struct AuthenticateUserUseCase: Sendable {
         do {
             validEmail = try EmailAddress(email)
         } catch {
-            throw Error.invalidEmail
+            throw LoginError.invalidEmail
         }
         
         let validPassword: Password
         do {
             validPassword = try Password(password)
         } catch {
-            throw Error.emptyPassword
+            throw LoginError.emptyPassword
         }
         
         let credentials = Credentials(email: validEmail, password: validPassword)
         
         do {
-            return try await authRepository.authenticate(credentials: credentials)
+            return try await repository.authenticate(credentials: credentials)
         } catch let authError as LoginError {
-            switch authError {
-            case .invalidCredentials: throw Error.invalidCredentials
-            case .connectivity: throw Error.connectivity
-            }
+            throw authError  // reenvía directamente: invalidCredentials o connectivity
         }
     }
 }</code></pre>
@@ -5904,7 +5896,7 @@ struct AuthenticateUserUseCase: Sendable {
     
     XCTAssertNil(gateway.receivedCredentials)
 }</code></pre>
-<p>Ejecutamos. Pasa sin cambios, porque el <code>try EmailAddress(email)</code> falla antes de llegar a <code>authRepository.authenticate(...)</code>. El gateway nunca es invocado, así que <code>receivedCredentials</code> sigue siendo <code>nil</code>.</p>
+<p>Ejecutamos. Pasa sin cambios, porque el <code>try EmailAddress(email)</code> falla antes de llegar a <code>repository.authenticate(...)</code>. El gateway nunca es invocado, así que <code>receivedCredentials</code> sigue siendo <code>nil</code>.</p>
 <h3 id="01-fundamentos-05-feature-login-02-application-iteraci-n-6-credenciales-rechazadas-por-el-servidor">Iteración 6: Credenciales rechazadas por el servidor</h3>
 <p>Ahora testeamos los errores que vienen del gateway (no de la validación local).</p>
 <p><strong>Red:</strong></p>
@@ -5921,7 +5913,7 @@ struct AuthenticateUserUseCase: Sendable {
         XCTFail("Unexpected error type: \(error)")
     }
 }</code></pre>
-<p>Ejecutamos. Pasa sin cambios, porque la implementación ya captura <code>LoginError.invalidCredentials</code> y lo traduce a <code>LoginError.invalidCredentials</code>.</p>
+<p>Ejecutamos. Pasa sin cambios, porque la implementación captura el <code>LoginError</code> del gateway y lo reenvía directamente.</p>
 <h3 id="01-fundamentos-05-feature-login-02-application-iteraci-n-7-sin-conectividad">Iteración 7: Sin conectividad</h3>
 <p><strong>Red:</strong></p>
 <pre><code class="language-swift">func test_execute_without_connectivity_throws_connectivity() async {
@@ -5944,17 +5936,10 @@ struct AuthenticateUserUseCase: Sendable {
 <pre><code class="language-swift">// StackMyArchitecture/Features/Login/Application/UseCases/AuthenticateUserUseCase.swift
 
 struct AuthenticateUserUseCase: Sendable {
-    private let authRepository: any AuthRepository
+    private let repository: any AuthRepository
     
-    init(authRepository: any AuthRepository) {
-        self.authRepository = authRepository
-    }
-    
-    enum Error: Swift.Error, Equatable, Sendable {
-        case invalidEmail
-        case emptyPassword
-        case invalidCredentials
-        case connectivity
+    init(repository: any AuthRepository) {
+        self.repository = repository
     }
     
     func execute(email: String, password: String) async throws -&gt; UserSession {
@@ -5962,25 +5947,22 @@ struct AuthenticateUserUseCase: Sendable {
         do {
             validEmail = try EmailAddress(email)
         } catch {
-            throw Error.invalidEmail
+            throw LoginError.invalidEmail
         }
         
         let validPassword: Password
         do {
             validPassword = try Password(password)
         } catch {
-            throw Error.emptyPassword
+            throw LoginError.emptyPassword
         }
         
         let credentials = Credentials(email: validEmail, password: validPassword)
         
         do {
-            return try await authRepository.authenticate(credentials: credentials)
+            return try await repository.authenticate(credentials: credentials)
         } catch let authError as LoginError {
-            switch authError {
-            case .invalidCredentials: throw Error.invalidCredentials
-            case .connectivity: throw Error.connectivity
-            }
+            throw authError  // reenvía directamente: invalidCredentials o connectivity
         }
     }
 }</code></pre>
@@ -6146,7 +6128,7 @@ final class AuthenticateUserUseCaseTests: XCTestCase {
 <p>El caso de uso <strong>no tiene estado mutable</strong>. Recibe sus dependencias en el <code>init</code> y las guarda como <code>let</code>. No hay ninguna propiedad que cambie después de la construcción. Un struct inmutable es más seguro, más eficiente, y más fácil de razonar que una clase.</p>
 <p>El caso de uso es <code>Sendable</code> automáticamente (porque es un struct con propiedades <code>Sendable</code>). Esto es importante para strict concurrency: puedes pasar el caso de uso entre Tasks sin problemas.</p>
 <p>Si el caso de uso fuera una clase, necesitarías preocuparte por retención cíclica, por herencia accidental, y por identidad (dos instancias con las mismas dependencias serían diferentes objetos). Con un struct, nada de eso aplica.</p>
-<p>La propiedad <code>authRepository</code> es <code>any AuthRepository</code> (un existential). En teoría esto tiene un pequeño overhead de runtime comparado con usar un genérico (<code>struct AuthenticateUserUseCase&lt;Gateway: AuthRepository&gt;</code>). En la práctica, este overhead es negligible para un caso de uso que se ejecuta una vez por acción del usuario. Si algún día el profiler mostrara que es un cuello de botella (spoiler: no lo será), lo cambiaríamos a genérico. Pero no optimizamos sin datos.</p>
+<p>La propiedad <code>repository</code> es <code>any AuthRepository</code> (un existential). En teoría esto tiene un pequeño overhead de runtime comparado con usar un genérico (<code>struct AuthenticateUserUseCase&lt;Gateway: AuthRepository&gt;</code>). En la práctica, este overhead es negligible para un caso de uso que se ejecuta una vez por acción del usuario. Si algún día el profiler mostrara que es un cuello de botella (spoiler: no lo será), lo cambiaríamos a genérico. Pero no optimizamos sin datos.</p>
 <hr>
 <h2 id="01-fundamentos-05-feature-login-02-application-reflexi-n-qu-hemos-conseguido">Reflexión: qué hemos conseguido</h2>
 <p>Tenemos ahora la capa Application completa de la feature Login:</p>
@@ -6484,6 +6466,7 @@ struct InMemoryAuthRepository: AuthRepository, Sendable {
         )
     }
 }</code></pre>
+<p>> <strong>Divergencia scaffold:</strong> En el scaffold real, <code>InMemoryAuthRepository</code> es un <code>actor</code> (no <code>struct</code>), el parámetro se llama <code>latencyNanoseconds</code> (no <code>delayNanoseconds</code>), y el init acepta <code>validEmail:</code> y <code>validPassword:</code> para validar credenciales reales en vez de devolver siempre éxito. La lección simplifica para enseñar el patrón; el checkpoint de Xcode muestra la versión de producción.</p>
 <p>El stub tiene un delay configurable que por defecto es 0.5 segundos. ¿Por qué no devolver el resultado inmediatamente? Porque queremos que el desarrollo con el stub sea lo más parecido posible a la producción. En producción, la petición de red tarda un tiempo. Si el stub devuelve instantáneamente, no detectarás problemas de UX: estados de loading que no se muestran, animaciones que se saltan, condiciones de carrera cuando el usuario pulsa dos veces el botón. El delay simulado te obliga a manejar estos casos durante el desarrollo, no en producción cuando ya es tarde.</p>
 <p>Para los tests unitarios, puedes configurar el delay a 0 para que los tests sean rápidos: <code>InMemoryAuthRepository(delayNanoseconds: 0)</code>.</p>
 <hr>
@@ -6893,7 +6876,7 @@ final class LoginViewModel {
 <div class="sma-mermaid-block">
 <pre class="mermaid">flowchart TD
     START[&quot;Usuario pulsa Submit&quot;] --&gt; LOADING[&quot;isLoading = true&lt;br/&gt;errorMessage = nil&quot;]
-    LOADING --&gt; TRY[&quot;try await login.execute&lt;br/&gt;email, password&quot;]
+    LOADING --&gt; TRY[&quot;try await useCase.execute&lt;br/&gt;email, password&quot;]
     TRY --&gt;|&quot;Exito&quot;| SUCCESS[&quot;navigator?.goToCatalog()&lt;br/&gt;Navega a la siguiente pantalla&quot;]
     TRY --&gt;|&quot;LoginError&quot;| KNOWN[&quot;errorMessage = mensaje especifico&lt;br/&gt;Email invalido / Password vacio /&lt;br/&gt;Credenciales incorrectas / Sin conexion&quot;]
     TRY --&gt;|&quot;Otro error&quot;| UNKNOWN[&quot;errorMessage = Error inesperado&quot;]
@@ -6908,7 +6891,7 @@ final class LoginViewModel {
 </div>
 <p><code>isLoading = true</code> — Lo primero que hace submit: pone el loading en true. SwiftUI detecta el cambio y muestra el spinner automáticamente.</p>
 <p><code>errorMessage = nil</code> — Limpia cualquier error previo. Si el usuario vio "Email inválido", corrigió el email, y volvió a pulsar submit, no queremos que el error anterior siga visible mientras se procesa la nueva petición.</p>
-<p><code>do { let session = try await login.execute(...) }</code> — Ejecuta el UseCase. <code>try</code> porque puede lanzar errores. <code>await</code> porque es asíncrono (el UseCase llama al gateway que simula una petición de red). Si todo va bien, <code>session</code> contiene la sesión del servidor.</p>
+<p><code>do { _ = try await useCase.execute(email: email, password: password) }</code> — Ejecuta el UseCase. <code>try</code> porque puede lanzar errores. <code>await</code> porque es asíncrono (el UseCase llama al repositorio que puede simular red). Si todo va bien, el login fue exitoso y el flujo continúa hacia la navegación.</p>
 <p><code>navigator?.goToCatalog()</code> — Si llegamos aquí, el login fue exitoso. Llamamos al navigator para que realice la navegación. El navigator (<code>any LoginNavigating</code>) no sabe nada de HTTP ni de Domain; solo sabe navegar. En producción será el coordinador. En tests, un spy que registra si se llamó.</p>
 <p><code>catch let error as LoginError</code> — Si el UseCase lanzó un error, lo capturamos y verificamos si es un <code>LoginError</code> (un error conocido y tipado). <code>as</code> intenta convertir el error genérico al tipo específico. Si la conversión funciona, entramos en este bloque.</p>
 <p><code>Self.message(for: error)</code> — Traducimos el error de negocio a un string legible por humanos. <code>Self</code> (con S mayúscula) se refiere al tipo <code>LoginViewModel</code>, no a la instancia <code>self</code>.</p>
@@ -7010,6 +6993,7 @@ import XCTest
 
 // MARK: - Test Doubles
 
+@MainActor
 final class LoginNavigatorSpy: LoginNavigating {
     private(set) var goToCatalogCallCount = 0
     func goToCatalog() { goToCatalogCallCount += 1 }
@@ -7069,8 +7053,7 @@ final class LoginViewModelTests: XCTestCase {
 <p><code>XCTAssertEqual(navigator.goToCatalogCallCount, 1)</code> — Verificamos que <code>goToCatalog()</code> fue llamado exactamente una vez. El <code>LoginNavigatorSpy</code> registra cada llamada. Si el ViewModel no llamó al navigator (por un bug en el flujo), el contador será 0 y el test fallará.</p>
 <p><strong>¿Por qué un spy y no un closure?</strong> Porque <code>LoginNavigating</code> es un protocolo, y los protocolos admiten spies. El spy hace la intención explícita: estamos verificando un comportamiento ("se llamó a goToCatalog"), no capturando un valor.</p>
 <p><code>sut.email = "user@example.com"</code> y <code>sut.password = "pass123"</code> — Simulamos que el usuario escribió en los campos de texto. En la app real, esto lo haría SwiftUI a través de los bindings. En el test, lo hacemos directamente.</p>
-<p><code>await sut.submit()</code> — Ejecutamos el submit. Usamos <code>await</code> porque <code>submit()</code> es <code>async</code>. El test espera a que termine toda la ejecución (incluyendo la llamada al UseCase y al gateway stub) antes de continuar.</p>
-<p><code>XCTAssertEqual(receivedSession, expectedSession)</code> — Verificamos que la trampa capturó la sesión correcta. Si <code>receivedSession</code> sigue siendo <code>nil</code>, significa que el closure nunca se ejecutó (lo cual sería un bug). Si contiene una sesión diferente, también es un bug.</p>
+<p><code>await sut.submit()</code> — Ejecutamos el submit. Usamos <code>await</code> porque <code>submit()</code> es <code>async</code>. El test espera a que termine toda la ejecución (incluyendo la llamada al UseCase y al repositorio stub) antes de continuar.</p>
 <p><code>XCTAssertNil(sut.errorMessage)</code> — Verificamos que no hay mensaje de error. En el happy path, todo sale bien, así que no debería haber error.</p>
 <pre><code class="language-swift">    // MARK: - Error Display
     
@@ -7153,9 +7136,10 @@ final class LoginViewModelTests: XCTestCase {
 <p>Que el estado inicial es correcto (campos vacíos, no loading, sin error). Que un login exitoso llama a <code>navigator.goToCatalog()</code> exactamente una vez. Que cada tipo de error se traduce al mensaje correcto en español. Que <code>isLoading</code> vuelve a <code>false</code> después de completar. Que el error anterior se limpia al intentar de nuevo.</p>
 <hr>
 <h2 id="01-fundamentos-05-feature-login-04-interface-swiftui-la-preview-con-stub">La Preview con Stub</h2>
-<p>Una de las grandes ventajas de nuestra arquitectura es que las previews de SwiftUI funcionan sin servidor, sin red, y de forma instantánea. Esto es posible porque podemos inyectar el <code>InMemoryAuthRepository</code> en lugar del gateway real:</p>
+<p>Una de las grandes ventajas de nuestra arquitectura es que las previews de SwiftUI funcionan sin servidor, sin red, y de forma instantánea. Esto es posible porque podemos inyectar el <code>InMemoryAuthRepository</code> en lugar del gateway real. Si sigues el scaffold <code>ArchitectureKit</code>, el parámetro de latencia es <code>latencyNanoseconds</code>. Si tu <code>InMemoryAuthRepository</code> pedagógico de la lección de Infrastructure usa <code>delayNanoseconds</code>, sustituye el label en la preview por el tuyo.</p>
 <pre><code class="language-swift">// StackMyArchitecture/Features/Login/Interface/LoginView+Preview.swift
 
+@MainActor
 private final class PreviewNavigator: LoginNavigating {
     func goToCatalog() { print("Preview: login exitoso — navegando a Catalog") }
 }
@@ -7165,7 +7149,7 @@ private final class PreviewNavigator: LoginNavigating {
         LoginView(
             viewModel: LoginViewModel(
                 useCase: AuthenticateUserUseCase(
-                    authRepository: InMemoryAuthRepository(delayNanoseconds: 1_000_000_000)
+                    repository: InMemoryAuthRepository(latencyNanoseconds: 1_000_000_000)
                 ),
                 navigator: PreviewNavigator()
             )
@@ -7249,7 +7233,7 @@ struct StackMyArchitectureApp: App {
   <li>El <code>AuthenticateUserUseCase</code> intenta crear un <code>EmailAddress("user@example.com")</code>. El Value Object valida el formato: tiene arroba, tiene punto en el dominio. Es válido. Se crea el <code>EmailAddress</code>.</li>
   <li>El <code>AuthenticateUserUseCase</code> intenta crear un <code>Password("pass123")</code>. El Value Object verifica que no está vacío. No lo está. Se crea el <code>Password</code>.</li>
   <li>El <code>AuthenticateUserUseCase</code> crea un <code>Credentials(email: email, password: password)</code>.</li>
-  <li>El <code>AuthenticateUserUseCase</code> llama a <code>authRepository.authenticate(credentials: credentials)</code>. En producción, esto llega al <code>AuthHTTPRepository</code>.</li>
+  <li>El <code>AuthenticateUserUseCase</code> llama a <code>repository.authenticate(credentials: credentials)</code>. En producción, esto llega al <code>AuthHTTPRepository</code>.</li>
   <li>El <code>AuthHTTPRepository</code> construye un <code>URLRequest</code> con método POST, URL <code>https://api.example.com/auth/login</code>, header <code>Content-Type: application/json</code>, y body <code>{"email":"user@example.com","password":"pass123"}</code>.</li>
   <li>El <code>AuthHTTPRepository</code> llama a <code>httpClient.execute(request)</code>. La petición HTTP viaja al servidor.</li>
   <li>El servidor verifica las credenciales, genera un token, y responde con status 200 y body <code>{"token":"abc-123","email":"user@example.com"}</code>.</li>
@@ -7965,6 +7949,7 @@ struct CompositionRoot {
 
 // Placeholder para Etapa 1 (sin coordinador real).
 // En Etapa 2, AppCoordinator implementará LoginNavigating con NavigationPath.
+@MainActor
 final class PrintNavigator: LoginNavigating {
     func goToCatalog() { print("Login exitoso — navegando al catálogo (E2)") }
 }</code></pre>
@@ -14825,80 +14810,84 @@ struct CompositionRoot {
 }</code></pre>
 <p>Mismo patrón que Login. Misma estructura. Esa consistencia es intencional: cuando un nuevo desarrollador llega al equipo y ve cómo está montado Login, sabe automáticamente cómo está montado Catalog. Y cuando cree una tercera feature, sabe exactamente qué factory escribir.</p>
 <h3 id="02-integracion-06-composition-root-paso-4-conectar-con-el-appcoordinator">Paso 4: Conectar con el AppCoordinator</h3>
+<p>> <strong>Alineación con el curso:</strong> Este cableado es el mismo patrón que <a href="#02-integracion-02-navegacion-eventos">Navegación por eventos</a>: Login usa el protocolo <code>LoginNavigating</code> (sin closure de éxito); el <code>AppCoordinator</code> se inyecta como <code>navigator</code> vía <code>CompositionRoot.makeLoginView(navigator:)</code>. Catalog puede seguir usando un closure <code>onProductSelected</code> hacia el coordinator.</p>
 <pre><code class="language-swift">// StackMyArchitecture/App/StackMyArchitectureApp.swift
 
 import SwiftUI
 
 @main
 struct StackMyArchitectureApp: App {
-    @State private var coordinator = AppCoordinator()
-    private let compositionRoot = CompositionRoot()
+    @State private var coordinator: AppCoordinator
+
+    init() {
+        let compositionRoot = CompositionRoot()
+        _coordinator = State(wrappedValue: AppCoordinator(compositionRoot: compositionRoot))
+    }
 
     var body: some Scene {
         WindowGroup {
             NavigationStack(path: $coordinator.path) {
-                compositionRoot.makeLoginView { session in
-                    coordinator.handle(.loginSucceeded(session))
-                }
-                .navigationDestination(for: AppRoute.self) { route in
-                    switch route {
-                    case .catalog:
-                        compositionRoot.makeCatalogView { product in
-                            coordinator.handle(.productSelected(product))
+                coordinator.makeLoginView()
+                    .navigationDestination(for: AppDestination.self) { destination in
+                        switch destination {
+                        case .catalog:
+                            coordinator.makeCatalogView()
+                        case .productDetail(let product):
+                            Text("Detalle de \(product.name)")
                         }
-                    case .productDetail(let product):
-                        Text("Detalle de \(product.name)")
                     }
-                }
             }
         }
     }
 }</code></pre>
 <p><strong>Línea por línea:</strong></p>
 <ul>
-  <li><code>@State private var coordinator</code> — El coordinador gestiona la pila de navegación.</li>
-  <li><code>private let compositionRoot</code> — Creado una vez al iniciar la app.</li>
-  <li><code>compositionRoot.makeLoginView { session in ... }</code> — La primera pantalla es Login. Cuando el login tiene éxito, le decimos al coordinator.</li>
-  <li><code>.navigationDestination(for: AppRoute.self)</code> — SwiftUI moderno: el coordinator empuja rutas, y aquí decidimos qué vista mostrar para cada ruta.</li>
-  <li>Cada vista se crea con su factory del CompositionRoot, y el closure de navegación se conecta al coordinator.</li>
+  <li><code>init()</code> — Crea el <code>CompositionRoot</code> una vez y el <code>AppCoordinator</code> con referencia a ese root (factory de vistas y <code>LoginNavigating</code>).</li>
+  <li><code>@State private var coordinator</code> — El coordinador es <code>@Observable</code> y posee el <code>NavigationPath</code>; SwiftUI reacciona cuando cambia.</li>
+  <li><code>coordinator.makeLoginView()</code> — Delega en <code>compositionRoot.makeLoginView(navigator: self)</code>; el ViewModel recibe al coordinator como <code>any LoginNavigating</code>.</li>
+  <li><code>.navigationDestination(for: AppDestination.self)</code> — Cuando <code>goToCatalog()</code> hace <code>path.append(.catalog)</code>, SwiftUI construye el destino aquí.</li>
+  <li><code>coordinator.makeCatalogView()</code> — Igual patrón de factory; el closure <code>onProductSelected</code> vive dentro del coordinator (ver lección de navegación), no en la app raíz.</li>
 </ul>
 <hr>
 <h2 id="02-integracion-06-composition-root-diagrama-del-flujo-de-ensamblaje-completo">Diagrama del flujo de ensamblaje completo</h2>
 <div class="sma-mermaid-block">
 <pre class="mermaid">sequenceDiagram
     participant APP as @main App
-    participant CR as CompositionRoot
     participant COORD as AppCoordinator
+    participant CR as CompositionRoot
 
-    APP-&gt;&gt;CR: init()
+    APP-&gt;&gt;COORD: init(compositionRoot:)
+    COORD-&gt;&gt;CR: retiene CompositionRoot
     Note over CR: Crea httpClient + baseURL
 
-    APP-&gt;&gt;CR: makeLoginView(navigator: coordinator)
+    APP-&gt;&gt;COORD: makeLoginView()
+    COORD-&gt;&gt;CR: makeLoginView(navigator: self)
     CR-&gt;&gt;CR: AuthHTTPRepository(httpClient)
-    CR-&gt;&gt;CR: AuthenticateUserUseCase(gateway)
-    CR-&gt;&gt;CR: LoginViewModel(useCase, closure)
+    CR-&gt;&gt;CR: AuthenticateUserUseCase(repository:)
+    CR-&gt;&gt;CR: LoginViewModel(useCase, navigator)
     CR-&gt;&gt;CR: LoginView(viewModel)
-    CR--&gt;&gt;APP: LoginView lista
+    CR--&gt;&gt;COORD: LoginView
 
-    Note over APP: Usuario hace login exitoso...
+    Note over COORD: Usuario hace login exitoso...
 
-    APP-&gt;&gt;COORD: handle(.loginSucceeded)
+    Note over CR,COORD: LoginViewModel llama navigator?.goToCatalog()
     COORD-&gt;&gt;COORD: path.append(.catalog)
 
-    APP-&gt;&gt;CR: makeCatalogView(onProductSelected)
+    APP-&gt;&gt;COORD: makeCatalogView()
+    COORD-&gt;&gt;CR: makeCatalogView(onProductSelected:)
     CR-&gt;&gt;CR: RemoteProductRepository(httpClient)
     CR-&gt;&gt;CR: LoadProductsUseCase(repository)
     CR-&gt;&gt;CR: CatalogViewModel(useCase, closure)
     CR-&gt;&gt;CR: CatalogView(viewModel)
-    CR--&gt;&gt;APP: CatalogView lista</pre>
+    CR--&gt;&gt;COORD: CatalogView</pre>
 </div>
 <p>Lectura del sequenceDiagram paso a paso:</p>
 <ol>
-  <li><code>APP -&gt;&gt; CR: init()</code> — al arrancar la app, el Composition Root se construye: crea <code>httpClient</code> y <code>baseURL</code>. Estas son las únicas dependencias compartidas por todas las features.</li>
-  <li><code>APP -&gt;&gt; CR: makeLoginView(navigator: coordinator)</code> — el <code>@main</code> pide la vista de Login. El root construye la cadena completa: Gateway → UseCase → ViewModel → View. El coordinator queda inyectado como <code>weak var navigator</code> en el ViewModel.</li>
-  <li>El usuario hace login. <code>LoginViewModel</code> llama a <code>navigator?.goToCatalog()</code>. El <code>AppCoordinator</code> (navigator) navega.</li>
-  <li><code>APP -&gt;&gt; COORD: handle(.loginSucceeded)</code> — el coordinator hace <code>path.append(.catalog)</code>. SwiftUI detecta el cambio y busca el <code>navigationDestination</code> correspondiente.</li>
-  <li><code>APP -&gt;&gt; CR: makeCatalogView(onProductSelected)</code> — SwiftUI solicita la vista de Catalog. El root construye otra cadena independiente, reutilizando el mismo <code>httpClient</code>.</li>
+  <li><code>APP -&gt;&gt; COORD: init(compositionRoot:)</code> — al arrancar la app, el <code>AppCoordinator</code> recibe el <code>CompositionRoot</code> que centraliza <code>httpClient</code> y <code>baseURL</code>.</li>
+  <li><code>COORD -&gt;&gt; CR: makeLoginView(navigator: self)</code> — el coordinator pide la vista de Login al root. El root construye la cadena completa y deja al coordinator como <code>any LoginNavigating</code> en el ViewModel (<code>weak</code>).</li>
+  <li>Tras un login exitoso, <code>LoginViewModel</code> llama a <code>navigator?.goToCatalog()</code> y el <code>AppCoordinator</code> ejecuta <code>path.append(...)</code>.</li>
+  <li>SwiftUI reacciona al cambio de <code>NavigationPath</code> y resuelve <code>.navigationDestination(for: AppDestination.self)</code>.</li>
+  <li><code>COORD -&gt;&gt; CR: makeCatalogView(...)</code> — para el destino catálogo, el coordinator vuelve a delegar en el root; el closure de producto se configura en el coordinator, no en la vista raíz.</li>
 </ol>
 <p>Nótese que <code>AuthHTTPRepository</code> y <code>RemoteProductRepository</code> se crean dentro de <code>makeLoginView</code> y <code>makeCatalogView</code> respectivamente — no en <code>init()</code>. Son objetos de vida corta, creados cuando se necesitan. El <code>httpClient</code> sí es de vida larga (se crea en <code>init</code> y se reutiliza).</p>
 <hr>
@@ -14916,36 +14905,35 @@ let viewModel = LoginViewModel(useCase: useCase, navigator: LoginNavigatorSpy())
 <hr>
 <h2 id="02-integracion-06-composition-root-plan-tdd-del-composition-root">Plan TDD del Composition Root</h2>
 <p>El Composition Root es difícil de testear unitariamente porque es el único tipo que crea implementaciones concretas. Los tests a nivel de Composition Root son tests de integración: verifican que el ensamblaje produce una cadena funcional, no que cada pieza funcione en aislamiento (eso lo hacen los tests de cada capa).</p>
-<p><strong>Paso 1 — Red: test de ensamblaje de Login.</strong></p>
-<pre><code class="language-swift">// AppCompositionTests.swift
+<p><strong>Paso 1 — Red: test de ensamblaje de Login (proyecto pedagógico Etapa 1).</strong></p>
+<pre><code class="language-swift">// CompositionRootTests.swift
 @MainActor
 final class CompositionRootTests: XCTestCase {
     func test_makeLoginView_producesViewWithFunctionalChain() {
         let sut = CompositionRoot()
-        var capturedSession: Session?
-
-        let view = sut.makeLoginView { session in
-            capturedSession = session
-        }
-        // CompositionRoot no existe aún → test no compila → guía el diseño del init
-        // view es LoginView — confirma que el factory devuelve el tipo correcto
+        let navigator = PrintNavigator()
+        let view = sut.makeLoginView(navigator: navigator)
         XCTAssertNotNil(view)
-        // No probamos el login real aquí — eso es responsabilidad de AuthenticateUserUseCaseTests
     }
 }</code></pre>
-<p><strong>Paso 2 — Green:</strong> implementar <code>CompositionRoot</code> con <code>makeLoginView</code>. El test pasa cuando el factory devuelve una instancia válida de <code>LoginView</code>.</p>
-<p><strong>Paso 3 — Red: test de ensamblaje con stub para verificar el closure.</strong></p>
-<pre><code class="language-swift">func test_makeLoginView_closureConnectsToCompositionRoot() {
-    let authRepository = AuthRepositoryStub(result: .success(Session(token: "t", email: "e@test.com")))
-    // Para testear el closure necesitamos inyectar un stub en el CompositionRoot.
-    // Esto requiere que CompositionRoot exponga un init con dependencias inyectables.
-    let sut = CompositionRoot(authRepository: authRepository)
-    var loginSucceededCalled = false
-    _ = sut.makeLoginView { _ in loginSucceededCalled = true }
-    // En un integration test real, simularíamos el login y verificaríamos que el closure se llama
+<p><strong>Paso 2 — Green:</strong> implementar <code>CompositionRoot</code> con <code>makeLoginView(navigator: any LoginNavigating)</code> como en <a href="../../01-fundamentos/06-conectando-la-app.md">Conectando la app</a>. El test pasa cuando el factory devuelve una instancia válida de <code>LoginView</code>.</p>
+<p><strong>Paso 3 — Ensamblaje real en el scaffold (Etapa 2+):</strong> el <code>AppCompositionRoot</code> del SPM ya cablea <code>AuthenticateUserUseCase</code>, <code>LoginViewModel</code> y <code>NavigationStore</code> sin closures. Los tests de integración viven en <code>Tests/AppCompositionTests/AppCompositionRootTests.swift</code> y comprueban rutas tras <code>submit()</code>:</p>
+<pre><code class="language-swift">import AppContracts
+import XCTest
+@testable import AppComposition
+
+@MainActor
+final class AppCompositionRootTests: XCTestCase {
+    func test_loginFlow_wiresNavigation_fromLoginToCatalog() async {
+        let sut = AppCompositionRoot()
+        sut.loginViewModel.email = "student@course.dev"
+        sut.loginViewModel.password = "Passw0rd!"
+        await sut.loginViewModel.submit()
+        XCTAssertEqual(sut.navigation.routes, [.login, .catalog])
+    }
 }</code></pre>
-<p><strong>Paso 4 — Reflexión:</strong> si el test anterior resulta muy difícil de escribir porque <code>CompositionRoot</code> es rígido, eso es una señal de diseño. La solución es hacer inyectable el <code>CompositionRoot</code> para tests — ver el patrón del scaffold.</p>
-<p><strong>Paso 5 — Refactor:</strong> extraer la creación del <code>httpClient</code> a un método sobreescribible o un parámetro del <code>init</code>. Los tests de integración del scaffold lo hacen inyectando <code>InMemoryAuthRepository</code> directamente.</p>
+<p><strong>Paso 4 — Reflexión:</strong> si tu <code>CompositionRoot</code> pedagógico no admite inyectar un <code>AuthRepository</code> para tests, añadir un <code>init(authRepository:)</code> opcional (como <code>AppCompositionRoot</code>) desbloquea el mismo patrón sin tocar UseCase ni ViewModel.</p>
+<p><strong>Paso 5 — Refactor:</strong> centralizar el <code>HTTPClient</code> compartido y los <code>baseURL</code> en propiedades del root; sustituir solo <code>makeAuthRepository()</code> al pasar a red real.</p>
 <hr>
 <h2 id="02-integracion-06-composition-root-concurrencia-ensamblaje-en-el-hilo-correcto">Concurrencia: ensamblaje en el hilo correcto</h2>
 <h3 id="02-integracion-06-composition-root-aislamiento">Aislamiento</h3>
@@ -14999,7 +14987,7 @@ struct URLSessionHTTPClient: HTTPClient, Sendable {
 <pre><code class="language-markdown">## ADR-003: Composition Root centralizado con factories por feature
 - Estado: Aprobado
 - Contexto: necesidad de ensamblar Login + Catalog sin acoplar features entre si ni con implementaciones concretas
-- Decisión: un único CompositionRoot con factory methods por feature, inyección por constructor, closures de navegación hacia AppCoordinator
+- Decisión: un único CompositionRoot con factory methods por feature, inyección por constructor, Login con `LoginNavigating` y eventos de Catalog vía closures desde el coordinator
 - Consecuencias: ensamblaje explícito y testeable; el único punto que conoce todas las implementaciones; fácil de extender con nuevas features o backends
 - Fecha: 2026-02-07</code></pre>
 <hr>
@@ -15008,7 +14996,7 @@ struct URLSessionHTTPClient: HTTPClient, Sendable {
   <li>&#9744; El Composition Root es el único lugar que importa implementaciones concretas.</li>
   <li>&#9744; Ningún ViewModel, UseCase ni Gateway crea sus propias dependencias.</li>
   <li>&#9744; Cada feature tiene su factory method independiente.</li>
-  <li>&#9744; Los closures de navegación conectan features sin que estas se conozcan.</li>
+  <li>&#9744; Login usa <code>LoginNavigating</code> (sin closure de éxito); los closures de Catalog (p. ej. <code>onProductSelected</code>) viven en el coordinator, no en las features.</li>
   <li>&#9744; En tests, cada test monta su propia cadena con stubs (patron makeSUT).</li>
   <li>&#9744; El Composition Root está marcado como <code>@MainActor</code>.</li>
 </ul>
@@ -15075,7 +15063,7 @@ public struct AppCompositionRoot {
 <ol>
   <li><strong><code>InMemoryAuthRepository</code> por defecto</strong> — el scaffold usa un repositorio en memoria, no un <code>AuthHTTPRepository</code> con <code>URLSession</code>. Esto hace el scaffold funcional sin configurar ningún servidor. Cuando implementes la red real (Etapa 3+), cambias solo este parámetro del <code>init</code>.</li>
   <li><strong><code>CatalogViewModel?</code> opcional</strong> — el catalogo puede no existir si no se pasa un <code>catalogRepository</code>. Esto permite lanzar la app con solo Login mientras el catálogo está en desarrollo.</li>
-  <li><strong><code>navigator: navigation</code></strong> — el <code>LoginViewModel</code> recibe el <code>NavigationStore</code> directamente como <code>LoginNavigating</code>. En la lección, el ViewModel recibe un closure. El protocolo es más explícito sobre el contrato; el closure es más simple de leer.</li>
+  <li><strong><code>navigator: navigation</code></strong> — el <code>LoginViewModel</code> recibe el <code>NavigationStore</code> directamente como <code>LoginNavigating</code>. En Etapa 1 el proyecto pedagógico usa un <code>PrintNavigator</code> u otro tipo que conforma el mismo protocolo; el contrato es siempre <code>LoginNavigating</code>, no un closure.</li>
 </ol>
 <p><strong>Qué hacer ahora:</strong></p>
 <ol>
@@ -16333,7 +16321,7 @@ final class AppCoordinator {
     
     private func makeCatalogViewModel() -&gt; CatalogViewModel {
         // Stub con productos de ejemplo para que el estudiante vea algo
-        let stubRepository = StubProductRepository(products: [
+        let catalogRepository = StubProductRepository(products: [
             Product(
                 id: "1",
                 name: "iPhone 16 Pro",
@@ -16358,7 +16346,7 @@ final class AppCoordinator {
         ])
         
         return CatalogViewModel(
-            loadProductsUseCase: LoadProductsUseCase(repository: stubRepository),
+            loadProductsUseCase: LoadProductsUseCase(repository: catalogRepository),
             onProductSelected: { [weak self] product in
                 self?.navigate(to: .productDetail(id: product.id))
             }
@@ -16394,15 +16382,12 @@ struct StackMyArchitectureApp: App {
     // MARK: - Factory methods
     
     private func makeLoginViewModel() -&gt; LoginViewModel {
-        let stubGateway = InMemoryAuthRepository(
-            behaviour: .successAfterDelay(
-                token: "demo-token",
-                delay: .seconds(1)
-            )
+        let authRepository = InMemoryAuthRepository(
+            latencyNanoseconds: 1_000_000_000  // 1 segundo de latencia simulada
         )
         
         return LoginViewModel(
-            useCase: AuthenticateUserUseCase(repository: stubGateway),
+            useCase: AuthenticateUserUseCase(repository: authRepository),
             navigator: coordinator  // AppCoordinator implementa LoginNavigating
         )
     }
@@ -16482,51 +16467,66 @@ actor StubProductRepository: ProductRepository {
 }</code></pre>
 <hr>
 <h2 id="02-integracion-09-app-final-etapa-2-paso-4-asegurar-que-loginviewmodel-usa-loginnavigating">Paso 4: Asegurar que LoginViewModel usa LoginNavigating</h2>
-<p>Verifica que tu <code>LoginViewModel</code> tenga el navigator:</p>
-<pre><code class="language-swift">// En Features/Login/Interface/LoginViewModel.swift
-
+<p>Verifica que tu <code>LoginViewModel</code> coincida con el scaffold. Dos diferencias clave respecto a Etapa 1: usa <code>Phase</code> en lugar de <code>isLoading: Bool</code>, y delega navegación al <code>navigator</code> en lugar de un closure:</p>
+<pre><code class="language-swift">// En FeatureLoginUI/LoginViewModel.swift
+import AppContracts
+import FeatureLoginDomain
+import Observation
 
 @Observable
-class LoginViewModel {
+@MainActor
+public final class LoginViewModel {
+
+    // Phase sustituye a isLoading: Bool — más expresivo y sin estados inconsistentes
+    public enum Phase: Equatable {
+        case idle
+        case loading
+        case authenticated
+    }
+
+    public var email: String = ""
+    public var password: String = ""
+    public private(set) var phase: Phase = .idle
+    public private(set) var errorMessage: String?
+
     private let useCase: AuthenticateUserUseCase
+    // weak + any: correcto en Swift 6 cuando el protocolo es class-constrained (:AnyObject)
     private weak var navigator: (any LoginNavigating)?
-    
-    var email: String = ""
-    var password: String = ""
-    var isLoading: Bool = false
-    var errorMessage: String?
-    
-    init(
-        useCase: AuthenticateUserUseCase,
-        navigator: any LoginNavigating
-    ) {
+
+    public init(useCase: AuthenticateUserUseCase, navigator: any LoginNavigating) {
         self.useCase = useCase
         self.navigator = navigator
     }
-    
-    func submit() async {
-        isLoading = true
+
+    public func submit() async {
+        guard phase != .loading else { return }
+        phase = .loading
         errorMessage = nil
-        
+
         do {
-            let emailVO = try Email(value: email)
-            let passwordVO = try Password(value: password)
-            let credentials = Credentials(email: emailVO, password: passwordVO)
-            
-            _ = try await useCase.execute(credentials: credentials)
-            
-            // ÉXITO: Delegamos la navegación al navigator
-            navigator?.goToCatalog()
-            
+            // AuthenticateUserUseCase crea los Value Objects internamente
+            _ = try await useCase.execute(email: email, password: password)
+            phase = .authenticated
+            navigator?.goToCatalog()  // LoginNavigating lleva al Coordinator
         } catch let error as LoginError {
-            errorMessage = error.localizedDescription
+            phase = .idle
+            errorMessage = Self.map(error: error)
         } catch {
-            errorMessage = "Error desconocido"
+            phase = .idle
+            errorMessage = "Se produjo un error inesperado."
         }
-        
-        isLoading = false
+    }
+
+    private static func map(error: LoginError) -&gt; String {
+        switch error {
+        case .invalidEmail:      return "Email inválido."
+        case .invalidPassword:   return "Password inválido (mínimo 8 caracteres)."
+        case .invalidCredentials: return "Credenciales inválidas."
+        case .network:           return "No se pudo conectar. Reintenta."
+        }
     }
 }</code></pre>
+<p>> <strong>Por qué <code>Phase</code> y no <code>isLoading: Bool</code>:</strong> un Bool puede estar en estado <code>isLoading = false</code> antes o después de un error — no distingues. Un enum <code>Phase</code> hace imposible ese estado ambiguo: <code>.idle</code>, <code>.loading</code> y <code>.authenticated</code> son mutuamente excluyentes por diseño.</p>
 <hr>
 <h2 id="02-integracion-09-app-final-etapa-2-paso-5-build-y-run-la-prueba-de-fuego">Paso 5: Build y Run - La prueba de fuego</h2>
 <p><strong>Instrucciones:</strong></p>

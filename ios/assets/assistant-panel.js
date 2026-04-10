@@ -6,7 +6,6 @@
     var KEY_MAX_TOKENS = STORAGE_PREFIX + 'max_tokens';
     var KEY_PROXY_BASE = STORAGE_PREFIX + 'proxy_base';
     var KEY_DAILY_BUDGET = STORAGE_PREFIX + 'daily_budget_usd';
-    var KEY_API_KEY = STORAGE_PREFIX + 'api_key';
 
     var VISION_FALLBACK_MODEL = 'gpt-4o-mini';
     var MEMORY_RECENT_LIMIT = 8;
@@ -34,7 +33,6 @@
         metrics: null,
         lastRequest: null,
         softDailyBudgetUsd: Number(localStorage.getItem(KEY_DAILY_BUDGET) || 2.0),
-        apiKey: localStorage.getItem(KEY_API_KEY) || '',
         dailyWarningUsd: DAILY_WARNING_DEFAULT,
         availableModels: ['gpt-5.3', 'gpt-5.2', 'gpt-5.2-codex', 'gpt-4o-mini', 'gpt-4.1-mini'],
         maxAttachments: IMAGE_MAX_ATTACHMENTS,
@@ -217,7 +215,6 @@
         localStorage.setItem(KEY_MAX_TOKENS, String(state.maxTokens));
         localStorage.setItem(KEY_PROXY_BASE, state.proxyBase);
         localStorage.setItem(KEY_DAILY_BUDGET, String(state.softDailyBudgetUsd));
-        localStorage.setItem(KEY_API_KEY, state.apiKey);
     }
 
     function setOpen(isOpen) {
@@ -320,24 +317,10 @@
         });
         proxyLabel.appendChild(proxyInput);
 
-        var apiKeyLabel = document.createElement('label');
-        apiKeyLabel.textContent = 'API Key (OpenAI / proveedor)';
-        var apiKeyInput = document.createElement('input');
-        apiKeyInput.type = 'password';
-        apiKeyInput.autocomplete = 'off';
-        apiKeyInput.placeholder = 'sk-...';
-        apiKeyInput.value = state.apiKey;
-        apiKeyInput.addEventListener('change', function () {
-            state.apiKey = apiKeyInput.value.trim();
-            saveConfig();
-        });
-        apiKeyLabel.appendChild(apiKeyInput);
-
         grid.appendChild(modelLabel);
         grid.appendChild(tokensLabel);
         grid.appendChild(dailyBudgetLabel);
         grid.appendChild(proxyLabel);
-        grid.appendChild(apiKeyLabel);
         config.appendChild(grid);
 
         var metricsBox = document.createElement('div');
@@ -1420,7 +1403,6 @@
         var payload = {
             prompt: question,
             question: question,
-            apiKey: state.apiKey,
             model: effectiveModel,
             selectedModel: selectedModel,
             maxTokens: state.maxTokens,
