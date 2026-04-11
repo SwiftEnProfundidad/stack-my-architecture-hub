@@ -150,6 +150,14 @@ Crear app de Escritorio (doble clic):
 /bin/zsh -f scripts/install-desktop-app.sh
 ```
 
+Variante **minimal** (solo una app `Hub.app`, AppleScript con `PATH` que incluye Homebrew y timeout largo; no crea la app “Stop …”). Útil si ya paras el hub con `stack-hub --stop` o el menú del curso.
+
+```bash
+/bin/zsh -f scripts/install-minimal-hub-desktop-app.sh
+```
+
+Variables opcionales: `STACK_MY_ARCH_DESKTOP_DIR` (carpeta destino) y `STACK_MY_ARCH_HUB_APP_NAME` (nombre del bundle, por defecto `Hub.app`).
+
 ## Arranque manual (Node)
 
 1. Exporta tu clave OpenAI:
