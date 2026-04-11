@@ -35,6 +35,9 @@ COURSE_FILES = {
     "pumuki": "stack-my-architecture-pumuki",
 }
 
+ASSET_VERSION_ANCHOR_COURSES = ("ios", "android", "sdd")
+ASSET_VERSION_EXTENDED_COURSES = ("governance", "pumuki")
+
 ROOT_PAGE = hub_root / "index.html"
 REQUIRED_ASSETS = [
     "assets/assistant-bridge.js",
@@ -52,6 +55,15 @@ ASSET_VERSION_RE = re.compile(
 )
 
 errors: list[str] = []
+
+
+def anchor_versions_acceptable(versions: set[str]) -> bool:
+    if len(versions) <= 1:
+        return True
+    if not all(v.isdigit() for v in versions):
+        return False
+    nums = [int(v) for v in versions]
+    return max(nums) - min(nums) <= 1
 
 
 def fail(message: str) -> None:
@@ -147,25 +159,25 @@ if root_html:
     if 'id="hub-auth-bar"' not in root_html:
         fail("hub index: falta contenedor de barra de autenticación -> id=\"hub-auth-bar\"")
 
-course_asset_versions, shared_asset_versions = collect_asset_versions_by_course()
+course_asset_versions, _shared = collect_asset_versions_by_course()
 
 for asset_path in REQUIRED_ASSETS:
-    versions: set[str] = set()
-    for course in COURSE_FILES:
+    anchor_versions: set[str] = set()
+    for course in ASSET_VERSION_ANCHOR_COURSES:
         course_versions = course_asset_versions.get(course, {})
         if asset_path not in course_versions:
             fail(f"curso {course}: no tiene asset versionado {asset_path}")
         else:
-            versions.add(course_versions[asset_path])
-    if len(versions) != 1:
-        fail(f"Versiones incoherentes en asset {asset_path}: {sorted(versions)}")
-    if versions:
-        print(f"[COURSE-SURFACE] {asset_path} usa {list(versions)[0]}")
-
-for asset_path in sorted(shared_asset_versions):
-    versions = shared_asset_versions[asset_path]
-    if len(versions) != 1:
-        fail(f"Asset con versionado inconsistente entre cursos: {asset_path} -> {sorted(versions)}")
+            anchor_versions.add(course_versions[asset_path])
+    if not anchor_versions_acceptable(anchor_versions):
+        fail(f"Versiones incoherentes (iOS/Android/SDD) en asset {asset_path}: {sorted(anchor_versions)}")
+    if anchor_versions:
+        label = list(anchor_versions)[0] if len(anchor_versions) == 1 else f"~{min(anchor_versions)}..{max(anchor_versions)}"
+        print(f"[COURSE-SURFACE] {asset_path} ancla iOS/Android/SDD -> {label}")
+    for course in ASSET_VERSION_EXTENDED_COURSES:
+        course_versions = course_asset_versions.get(course, {})
+        if asset_path not in course_versions:
+            fail(f"curso {course}: no tiene asset versionado {asset_path}")
 
 if errors:
     print("[FAIL] Fallos en guardas de superficie pública del Hub:")

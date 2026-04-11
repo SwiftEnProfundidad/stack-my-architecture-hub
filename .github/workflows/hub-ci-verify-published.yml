@@ -1,0 +1,38 @@
+name: Hub verify published
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    paths:
+      - "index.html"
+      - "ios/**"
+      - "android/**"
+      - "sdd/**"
+      - "governance/**"
+      - "pumuki/**"
+      - "scripts/verify-hub-build.py"
+      - "scripts/validate-course-surface-guard.sh"
+      - "scripts/build-hub.sh"
+      - "scripts/generate-build-manifest.py"
+      - ".github/workflows/hub-ci-verify-published.yml"
+      - ".github/workflows/hub-surface-guard-qa.yml"
+
+jobs:
+  verify-published:
+    name: verify-hub-build (sin dist hermano)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: verify-hub-build.py
+        env:
+          HUB_VERIFY_SKIP_SOURCE: "1"
+        run: python3 scripts/verify-hub-build.py

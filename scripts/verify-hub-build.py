@@ -1,9 +1,13 @@
 #!/usr/bin/env python3
-"""Smoke test del contenido publicado en el hub."""
+"""Smoke test del contenido publicado en el hub.
+
+Integridad dist ↔ hub: con `HUB_VERIFY_SKIP_SOURCE=1` no se comprueba (p. ej. CI sin repos hermanos).
+"""
 
 from __future__ import annotations
 
 import hashlib
+import os
 from pathlib import Path
 import sys
 
@@ -77,6 +81,7 @@ def sha256_file(path: Path) -> str:
 
 def main() -> int:
     errors: list[str] = []
+    skip_source = os.environ.get("HUB_VERIFY_SKIP_SOURCE", "").strip() == "1"
 
     for rel_path in REQUIRED_FILES:
         path = HUB_ROOT / rel_path
@@ -92,36 +97,37 @@ def main() -> int:
             if not (HUB_ROOT / rel_path).exists():
                 errors.append(f"Missing required asset: {rel_path}")
 
-    # Integridad de copia: el artefacto publicado debe coincidir con su fuente en dist.
-    for course, html_name in COURSE_HTMLS.items():
-        src_repo = SOURCE_REPOS[course]
-        src_html = src_repo / "dist" / html_name
-        dst_html = HUB_ROOT / course / html_name
-        course_index = HUB_ROOT / course / "index.html"
+    if not skip_source:
+        for course, html_name in COURSE_HTMLS.items():
+            src_repo = SOURCE_REPOS[course]
+            src_html = src_repo / "dist" / html_name
+            dst_html = HUB_ROOT / course / html_name
+            course_index = HUB_ROOT / course / "index.html"
 
-        if not src_html.exists():
-            errors.append(f"Missing source dist HTML: {src_html}")
-            continue
-        if not dst_html.exists():
-            errors.append(f"Missing published course HTML: {dst_html}")
-            continue
+            if not src_html.exists():
+                errors.append(f"Missing source dist HTML: {src_html}")
+                continue
+            if not dst_html.exists():
+                errors.append(f"Missing published course HTML: {dst_html}")
+                continue
 
-        src_hash = sha256_file(src_html)
-        dst_hash = sha256_file(dst_html)
-        if src_hash != dst_hash:
-            errors.append(
-                f"Published HTML hash mismatch for {course}: source={src_hash[:12]} dest={dst_hash[:12]}"
-            )
-
-        # En este hub index.html de cada curso debe ser copia exacta del HTML principal.
-        if course_index.exists():
-            index_hash = sha256_file(course_index)
-            if index_hash != dst_hash:
+            src_hash = sha256_file(src_html)
+            dst_hash = sha256_file(dst_html)
+            if src_hash != dst_hash:
                 errors.append(
-                    f"Course index is not aligned with published HTML for {course}: index={index_hash[:12]} html={dst_hash[:12]}"
+                    f"Published HTML hash mismatch for {course}: source={src_hash[:12]} dest={dst_hash[:12]}"
                 )
-        else:
-            errors.append(f"Missing course index file: {course_index}")
+
+            if course_index.exists():
+                index_hash = sha256_file(course_index)
+                if index_hash != dst_hash:
+                    errors.append(
+                        f"Course index is not aligned with published HTML for {course}: index={index_hash[:12]} html={dst_hash[:12]}"
+                    )
+            else:
+                errors.append(f"Missing course index file: {course_index}")
+    else:
+        print("[INFO] verify-hub-build: omitiendo alineación dist↔hub (HUB_VERIFY_SKIP_SOURCE=1)")
 
     try:
         root_index = read_text("index.html")

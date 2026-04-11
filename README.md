@@ -225,6 +225,8 @@ Compatibilidad legacy:
 SKIP_SDD_AUDIT=1 ./scripts/build-hub.sh
 ```
 
+En **GitHub Actions**, el workflow `hub-ci-verify-published.yml` ejecuta `verify-hub-build.py` con `HUB_VERIFY_SKIP_SOURCE=1` (solo comprobaciones sobre el árbol del hub; sin clonar cursos hermanos para hash `dist`).
+
 El script además deja traza en `.runtime/build-hub.log`, evita ejecuciones concurrentes con lock y recupera automáticamente locks obsoletos (stale) tras cierres inesperados.
 **Governance:** ejecuta `stack-my-architecture-governance/scripts/build-html.py` y copia **solo** `curso-stack-my-architecture-governance.html` e `index.html` a `hub/governance/` (no borra `hub/governance/assets`: el `dist` del curso no los incluye todos).
 **Pumuki:** ejecuta `stack-my-architecture-pumuki/scripts/build-html.py`, que ya sincroniza HTML y `assets` a `hub/pumuki/` si el hub es vecino del repo.
