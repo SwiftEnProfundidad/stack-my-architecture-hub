@@ -13,6 +13,10 @@ if [[ ! -f "$VERIFY_HUB_BUILD_SCRIPT" ]]; then
   exit 1
 fi
 
+if [[ "${GITHUB_ACTIONS:-}" == "true" ]]; then
+  export HUB_VERIFY_SKIP_SOURCE="${HUB_VERIFY_SKIP_SOURCE:-1}"
+fi
+
 python3 "$VERIFY_HUB_BUILD_SCRIPT"
 
 echo "[COURSE-SURFACE] Ejecutando guardas anti-regresión de superficie pública..."

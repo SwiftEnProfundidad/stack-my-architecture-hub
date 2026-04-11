@@ -225,12 +225,12 @@ Compatibilidad legacy:
 SKIP_SDD_AUDIT=1 ./scripts/build-hub.sh
 ```
 
-En **GitHub Actions**, el workflow `hub-ci-verify-published.yml` ejecuta `verify-hub-build.py` con `HUB_VERIFY_SKIP_SOURCE=1` (solo comprobaciones sobre el árbol del hub; sin clonar cursos hermanos para hash `dist`).
+En **GitHub Actions**, el workflow `hub-ci-verify-published.yml` ejecuta `verify-hub-build.py` con `HUB_VERIFY_SKIP_SOURCE=1` y a continuación `validate-course-surface-guard.sh` (en Actions, la guarda fuerza `HUB_VERIFY_SKIP_SOURCE=1` antes del verify embebido si no venía ya definida).
 
 El script además deja traza en `.runtime/build-hub.log`, evita ejecuciones concurrentes con lock y recupera automáticamente locks obsoletos (stale) tras cierres inesperados.
 **Governance:** ejecuta `stack-my-architecture-governance/scripts/build-html.py` y copia **solo** `curso-stack-my-architecture-governance.html` e `index.html` a `hub/governance/` (no borra `hub/governance/assets`: el `dist` del curso no los incluye todos).
 **Pumuki:** ejecuta `stack-my-architecture-pumuki/scripts/build-html.py`, que ya sincroniza HTML y `assets` a `hub/pumuki/` si el hub es vecino del repo.
-Además ejecuta un smoke test final de publicación (`scripts/verify-hub-build.py`) para validar que rutas y assets críticos de **iOS / Android / SDD** quedaron consistentes antes de marcar el build como correcto.
+Además ejecuta un smoke test final de publicación (`scripts/verify-hub-build.py`) para validar rutas, assets y metadatos de los **cinco** cursos publicados bajo `hub/` antes de marcar el build como correcto (en local, con alineación opcional a `dist/` de repos hermanos).
 En modo `strict`, también ejecuta smoke runtime real (`scripts/smoke-hub-runtime.sh`) levantando un servidor temporal y verificando endpoints (`/health`, `/config`, portada y cursos bajo `/ios`, `/android`, `/sdd`, `/governance`, `/pumuki`).
 Al finalizar, genera `.runtime/build-manifest.json` con trazabilidad de publicación (commits, hashes y tamaños de artefactos copiados), y además guarda snapshots históricos en `.runtime/build-manifests/` con retención automática de los últimos 40.
 
