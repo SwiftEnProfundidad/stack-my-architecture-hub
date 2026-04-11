@@ -221,12 +221,17 @@
 
   function ensureMenuLink(menu, id) {
     var link = document.getElementById(id);
-    if (link) return link;
-    var li = document.createElement('li');
+    if (link) {
+      var parent = link.parentElement;
+      if (parent && parent.tagName === 'LI' && parent.parentElement === menu) {
+        menu.insertBefore(link, parent);
+        parent.remove();
+      }
+      return link;
+    }
     link = document.createElement('a');
     link.id = id;
-    li.appendChild(link);
-    menu.appendChild(li);
+    menu.appendChild(link);
     return link;
   }
 

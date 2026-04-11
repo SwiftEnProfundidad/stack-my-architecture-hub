@@ -1450,9 +1450,11 @@ blockquote p {
 <h2 id="README-lab-de-pr-ctica">Lab de práctica</h2>
 <p>Por defecto se trabaja sobre una <strong>variante o fork</strong> del proyecto del curso <strong>Governance</strong> (<strong>GovernanceKit</strong>) o del curso <strong>SDD</strong> (<strong>HelpdeskSDD</strong>), para no inventar dominio nuevo. Elige uno en <strong><a href="#00-preparacion-02-lab-governancekit-helpdesksdd">Lab: GovernanceKit o HelpdeskSDD</a></strong> y mantenlo durante <strong>todas</strong> las unidades con actividad en lab (incluidas 08–12).</p>
 <h2 id="README-c-mo-generar-el-html-local">Cómo generar el HTML local</h2>
+<p>> <strong>Tu workspace (terminal + repo)</strong> — Raíz del clon <code>stack-my-architecture-pumuki</code> (donde están <code>scripts/build-html.py</code> y <code>dist/</code> tras el build).</p>
 <pre><code class="language-bash">python3 scripts/build-html.py</code></pre>
 <p>Salida: <code>dist/curso-stack-my-architecture-pumuki.html</code> y <code>dist/index.html</code>. Si existe el repo hermano <strong><code>stack-my-architecture-hub</code></strong>, el build <strong>copia también</strong> el HTML y <code>dist/assets/*</code> a <code>../stack-my-architecture-hub/pumuki/</code> (misma ruta que sirve el hub); si no ves cambios en la web, ejecuta este script y despliega/commit del hub.</p>
 <h2 id="README-validaci-n-del-repo-del-curso">Validación del repo del curso</h2>
+<p>> <strong>Tu workspace (terminal + repo)</strong> — Misma raíz del clon del curso; valida estructura y enlaces antes de publicar o abrir PR.</p>
 <pre><code class="language-bash">python3 scripts/validate-course-structure.py
 python3 scripts/check-links.py</code></pre>
 <h2 id="README-courseid-hub-progreso"><code>courseId</code> (hub / progreso)</h2>
@@ -1465,6 +1467,9 @@ python3 scripts/check-links.py</code></pre>
 <section id="00-preparacion-00-bienvenida" class="lesson" data-topic-id="00-preparacion-00-bienvenida" data-lesson-path="00-preparacion/00-bienvenida.md">
 <div class="lesson-path">00-preparacion/00-bienvenida.md</div>
 <h1 id="00-preparacion-00-bienvenida-bienvenida-curso-pumuki">Bienvenida — Curso Pumuki</h1>
+<h2 id="00-preparacion-00-bienvenida-c-mo-leer-comandos-rutas-y-snippets">Cómo leer comandos, rutas y snippets</h2>
+<p>Los bloques <strong>bash</strong>, comandos <strong><code>npx pumuki</code></strong>, rutas al <strong>clon del curso</strong> (<code>scripts/</code>, <code>dist/</code>) o al <strong>repo lab / consumidor</strong> (Node, hooks, MCP) pueden ser <strong>material de referencia</strong> del curso o instrucciones para <strong>tu workspace</strong>. Si el recuadro dice <strong>Tu workspace (terminal + repo)</strong>, ejecútalo en tu máquina: en la <strong>raíz del clon</strong> <code>stack-my-architecture-pumuki</code> cuando el texto hable de <code>python3 scripts/…</code> o del build HTML; en la <strong>raíz del repo donde practicas</strong> (GovernanceKit, HelpdeskSDD u otro consumidor con <code>pumuki</code> en <code>package.json</code>) cuando el texto hable de <code>npm install</code>, <code>npx pumuki</code>, menú, MCP o watch. Si dice <strong>Material de referencia (solo lectura)</strong>, compara o adapta sin asumir que paths o versiones coinciden con tu fork. Convención y checklist: <a href="../plans/rollout-enterprise-snippet-convencion.md">plans/rollout-enterprise-snippet-convencion.md</a>.</p>
+<hr>
 <h2 id="00-preparacion-00-bienvenida-por-qu-existe-este-curso">Por qué existe este curso</h2>
 <p>Si llegas aquí desde <strong>Stack My Architecture</strong>, ya sabes que el ecosistema separa con intención <strong>arquitectura de producto</strong>, <strong>gobernanza del cambio</strong> y <strong>flujo SDD con IA</strong>. <strong>Pumuki</strong> ocupa un lugar muy concreto: es la <strong>capa de enforcement determinista</strong> que se ejecuta donde el código vive (hooks, CI, opcionalmente MCP frente a un agente). No decide qué feature construyes; <strong>cierra el círculo</strong> entre lo que tu equipo <strong>dijo</strong> que era obligatorio (skills, políticas, OpenSpec) y lo que <strong>realmente</strong> se está commiteando o empujando.</p>
 <p>Este curso no es un índice de enlaces. Es un <strong>recorrido en prosa</strong>: semana a semana construyes una <strong>mentalidad operativa</strong> — la misma que necesitas cuando, a las tres de la mañana, un hook bloquea un push y alguien pregunta “¿es el gate o es Pumuki o es SDD o es Git?”.</p>
@@ -1562,6 +1567,7 @@ python3 scripts/check-links.py</code></pre>
 </ul>
 <p>Los enlaces del curso a documentación del producto (USAGE, INSTALLATION, <code>docs/mcp/*</code>, etc.) usan <strong>jsDelivr</strong> con el pin <strong><code>pumuki@6.3.72</code></strong>. Si subes la versión mínima del curso, sustituye ese pin en los Markdown (o el HTML generado quedará apuntando a una release antigua).</p>
 <p>Comprueba en el repo consumidor:</p>
+<p>> <strong>Tu workspace (terminal + repo)</strong> — Raíz del <strong>repo lab o consumidor</strong> donde <code>pumuki</code> está declarado en <code>package.json</code> (no el clon del curso salvo que hayas instalado el paquete ahí).</p>
 <pre><code class="language-bash">npx pumuki --version
 npx pumuki status
 npx pumuki doctor --json</code></pre>
@@ -2073,14 +2079,17 @@ npx pumuki doctor --json</code></pre>
 <hr>
 <h2 id="02-modulos-02-instalacion-y-primer-verde-2-2-instalaci-n-m-nima-razonada">2.2 Instalación mínima razonada</h2>
 <p>En un repo Git con Node 18+ y npm 9+:</p>
+<p>> <strong>Tu workspace (terminal + repo)</strong> — Raíz del <strong>consumidor</strong> donde vas a instalar Pumuki (lab: GovernanceKit o HelpdeskSDD según tu elección).</p>
 <pre><code class="language-bash">npm install --save-exact pumuki</code></pre>
 <p><strong>Por qué <code>--save-exact</code>:</strong> Pumuki evoluciona rápido; una tilde que sube de parche en CI puede <strong>cambiar</strong> el comportamiento de hooks. En formación enterprise es norma fijar versión.</p>
 <p>A partir de versiones recientes, el <strong>postinstall</strong> puede ejecutar <strong><code>pumuki install</code></strong> solo en contexto Git (no en CI típico). Eso <strong>crea o actualiza</strong> hooks y artefactos de lifecycle. Si tu equipo no quiere eso en <code>npm install</code>, la válvula documentada es <code>PUMUKI_SKIP_POSTINSTALL=1</code> — pero entonces <strong>tú</strong> asumes instalar hooks explícitamente.</p>
 <p><strong>Bootstrap enterprise</strong> (cuando el README del producto lo recomienda para greenfield):</p>
+<p>> <strong>Tu workspace (terminal + repo)</strong> — Mismo consumidor; sustituye <code>--agent</code> por el que use tu equipo.</p>
 <pre><code class="language-bash">npx --yes pumuki bootstrap --enterprise --agent=codex</code></pre>
 <p>Sustituye <code>codex</code> por el agente que uses (<code>cursor</code>, <code>claude</code>, etc.) si quieres <strong>adapters</strong> y MCP listos. El bootstrap <strong>no</strong> es magia: solo <strong>orquesta</strong> pasos que podrías hacer a mano; lo enseñamos porque en equipos reales <strong>nadie</strong> los hace bien a mano la primera vez.</p>
 <hr>
 <h2 id="02-modulos-02-instalacion-y-primer-verde-2-3-los-tres-comandos-que-debes-ense-ar-el-primer-d-a">2.3 Los tres comandos que debes enseñar el primer día</h2>
+<p>> <strong>Tu workspace (terminal + repo)</strong> — Desde la raíz del consumidor con <code>node_modules</code> resuelto tras <code>npm install</code>.</p>
 <pre><code class="language-bash">npx pumuki doctor --json
 npx pumuki status --json
 npx pumuki install</code></pre>
@@ -2090,11 +2099,13 @@ npx pumuki install</code></pre>
 <hr>
 <h2 id="02-modulos-02-instalacion-y-primer-verde-2-4-pathexecutionhazard-la-trampa-del-macos-con-en-la-ruta">2.4 pathExecutionHazard (la trampa del macOS con <code>:</code> en la ruta)</h2>
 <p>Si <code>doctor</code> marca <strong>pathExecutionHazard</strong>, muchos tutoriales de internet que dicen <code>npx pumuki …</code> <strong>te están perjudicando</strong>. El propio doctor suele sugerir un workaround del estilo:</p>
+<p>> <strong>Tu workspace (terminal + repo)</strong> — Mismo consumidor; úsalo cuando <code>doctor</code> marque <strong>pathExecutionHazard</strong> y <code>npx</code> falle.</p>
 <pre><code class="language-bash">node ./node_modules/pumuki/bin/pumuki.js install</code></pre>
 <p><strong>Narrativa pedagógica:</strong> no es un bug de Pumuki; es la <strong>interacción</strong> entre shells, <code>npx</code> y rutas con caracteres que el runtime interpreta mal. El alumno debe <strong>asociar</strong> el síntoma (“command not found” o binario equivocado) con <strong>esta</strong> señal en JSON.</p>
 <hr>
 <h2 id="02-modulos-02-instalacion-y-primer-verde-2-5-primer-gate-manual-cierra-el-c-rculo">2.5 Primer gate manual (cierra el círculo)</h2>
 <p>Después de <code>install</code> y <code>doctor</code> razonablemente limpio, ejecuta <strong>explícitamente</strong>:</p>
+<p>> <strong>Tu workspace (terminal + repo)</strong> — Raíz del consumidor; revisa en tu <code>package.json</code> si ya expones otro binario equivalente al hook.</p>
 <pre><code class="language-bash">npx --yes --package pumuki@latest pumuki-pre-commit</code></pre>
 <p>o el binario equivalente que tu <code>package.json</code> exponga. Observa <strong>código de salida</strong> (0 vs 1) y abre <strong><code>.ai_evidence.json</code></strong>. Tu objetivo pedagógico es <strong>narrar</strong> en voz alta: “el hook corrió <strong>este</strong> stage, sobre <strong>este</strong> scope, y la evidencia dice <strong>esto</strong>”.</p>
 <hr>
@@ -2102,6 +2113,7 @@ npx pumuki install</code></pre>
 <hr>
 <h2 id="02-modulos-02-instalacion-y-primer-verde-2-6-openspec-cuando-enterprise-lo-exige">2.6 OpenSpec (cuando enterprise lo exige)</h2>
 <p>Si tu perfil incluye SDD, <strong>antes</strong> de declarar victoria ejecuta:</p>
+<p>> <strong>Tu workspace (terminal + repo)</strong> — Repo consumidor con dependencias SDD/OpenSpec según INSTALLATION del producto.</p>
 <pre><code class="language-bash">npx --yes pumuki sdd status</code></pre>
 <p>Si falta <code>@fission-ai/openspec</code> en <code>node_modules</code> del consumidor, verás <strong><code>OPENSPEC_MISSING</code></strong> aunque tengas un <code>openspec</code> global en el PATH. <strong>Esa</strong> frase debe quedar grabada: Pumuki resuelve OpenSpec <strong>repo-local</strong>, no por PATH global.</p>
 <hr>
@@ -2585,13 +2597,17 @@ npx pumuki install</code></pre>
 </table>
 <h2 id="02-modulos-10-menu-interactivo-matrix-y-preflight-1-c-mo-arrancarlo">1. Cómo arrancarlo</h2>
 <p><strong>Consumidor:</strong></p>
+<p>> <strong>Tu workspace (terminal + repo)</strong> — Raíz del <strong>repo consumidor</strong> (lab) con <code>pumuki</code> instalado; no hace falta clonar el monorepo del producto.</p>
 <pre><code class="language-bash">npx --yes --package pumuki@latest pumuki-framework</code></pre>
 <p><strong>Repositorio framework (mantenedores del paquete):</strong></p>
+<p>> <strong>Tu workspace (terminal + repo)</strong> — Raíz del <strong>repositorio de desarrollo de Pumuki</strong> (<code>ast-intelligence-hooks</code> o clon donde exista el script <code>framework:menu</code>); no es el repo del alumno típico.</p>
 <pre><code class="language-bash">npm run framework:menu</code></pre>
 <p><strong>Modo Advanced desde el primer momento:</strong></p>
+<p>> <strong>Tu workspace (terminal + repo)</strong> — Igual que el bloque anterior: repo <strong>framework</strong>, no consumidor.</p>
 <pre><code class="language-bash">PUMUKI_MENU_MODE=advanced npm run framework:menu</code></pre>
 <p><strong>Renderer:</strong> <code>PUMUKI_MENU_UI_V2=0</code> clásico, <code>PUMUKI_MENU_UI_V2=1</code> agrupado con badges; si v2 falla, hay fallback a clásico.</p>
 <p><strong>Ruta del consumidor estable</strong> (evita prompts raros por cwd):</p>
+<p>> <strong>Tu workspace (terminal + repo)</strong> — Sesión de shell donde lanzas el menú; sustituye por la ruta absoluta real de tu <strong>consumidor</strong>.</p>
 <pre><code class="language-bash">export PUMUKI_CONSUMER_REPO_PATH=/ruta/absoluta/al/repo</code></pre>
 <h2 id="02-modulos-10-menu-interactivo-matrix-y-preflight-2-consumer-qu-ense-ar-el-primer-d-a">2. Consumer: qué enseñar el primer día</h2>
 <ul>
@@ -2692,6 +2708,7 @@ npx pumuki install</code></pre>
 </tbody>
 </table>
 <p><strong>Arranque consumidor típico:</strong></p>
+<p>> <strong>Tu workspace (terminal + repo)</strong> — Máquina local del <strong>consumidor</strong>; revisa firewall y puertos (<code>PUMUKI_EVIDENCE_<em></code>, <code>PUMUKI_ENTERPRISE_MCP_</em></code>) antes de exponer HTTP.</p>
 <pre><code class="language-bash">npx --yes --package pumuki@latest pumuki-mcp-evidence
 npx --yes --package pumuki@latest pumuki-mcp-enterprise
 npx --yes --package pumuki@latest pumuki-mcp-enterprise-stdio</code></pre>
@@ -2768,6 +2785,7 @@ npx --yes --package pumuki@latest pumuki-mcp-enterprise-stdio</code></pre>
 </ul>
 <h2 id="02-modulos-12-notificaciones-macos-stderr-y-watch-3-pumuki-watch-patr-n-seguro-para-formaci-n">3. <code>pumuki watch</code> — patrón seguro para formación</h2>
 <p>Ejemplo USAGE (ajusta rutas y política):</p>
+<p>> <strong>Tu workspace (terminal + repo)</strong> — Consumidor con Pumuki resuelto; en formación usa <strong><code>--once</code></strong> o <strong><code>--iterations</code></strong> para no dejar el proceso colgado.</p>
 <pre><code class="language-bash">npx --yes pumuki watch --stage=PRE_COMMIT --scope=workingTree --severity=high --interval-ms=3000 --notify-cooldown-ms=30000</code></pre>
 <ul>
   <li><strong><code>--no-notify</code></strong> — Salida terminal sin OS notifications.  </li>

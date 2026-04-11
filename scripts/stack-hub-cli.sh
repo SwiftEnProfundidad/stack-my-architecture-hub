@@ -17,7 +17,7 @@ Uso:
   stack-hub [curso] [opciones]
 
 Cursos:
-  hub | ios | android | sdd | governance | pumuki
+  hub | ios | android | sdd
 
 Opciones:
   --course <curso>         Igual que argumento posicional de curso.
@@ -47,7 +47,6 @@ Opciones:
 Ejemplos:
   stack-hub
   stack-hub sdd --strict
-  stack-hub --course pumuki
   stack-hub --course ios --port 46200
   stack-hub --status
   stack-hub --doctor
@@ -73,12 +72,12 @@ EOF
 validate_course() {
   local candidate="$1"
   case "$candidate" in
-    hub|ios|android|sdd|governance|pumuki)
+    hub|ios|android|sdd)
       return 0
       ;;
     *)
       echo "❌ Curso no válido: $candidate"
-      echo "Valores permitidos: hub | ios | android | sdd | governance | pumuki"
+      echo "Valores permitidos: hub | ios | android | sdd"
       return 1
       ;;
   esac
@@ -105,7 +104,7 @@ main() {
 
   while [[ $# -gt 0 ]]; do
     case "$1" in
-      hub|ios|android|sdd|governance|pumuki)
+      hub|ios|android|sdd)
         course="$1"
         shift
         ;;

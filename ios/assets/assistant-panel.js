@@ -488,6 +488,8 @@
         renderMessages();
         renderPendingAttachments();
         setStatus('Listo. Selecciona texto o escribe una consulta.');
+        fetchBridgeConfig();
+        refreshMetrics();
     }
 
     function escapeHtml(value) {
@@ -1176,12 +1178,7 @@
             });
         }
 
-        return ensureProxyBaseReachable().then(function (ok) {
-            if (!ok) {
-                throw new Error('Asistente no disponible. Inicia stack-my-architecture-hub/open-proxy.command');
-            }
-            return tryPath(0);
-        });
+        return tryPath(0);
     }
 
     function syncRuntimeConfig(options) {

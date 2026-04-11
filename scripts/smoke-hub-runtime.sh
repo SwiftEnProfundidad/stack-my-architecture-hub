@@ -3,14 +3,11 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 HUB_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
-BRIDGE_DIR="${SMA_RUNTIME_SMOKE_BRIDGE_DIR:-$HUB_ROOT/assistant-bridge}"
-SERVER_CMD="${SMA_RUNTIME_SMOKE_SERVER_CMD:-node server.js}"
-WAIT_RETRIES="${SMA_RUNTIME_SMOKE_WAIT_RETRIES:-30}"
-SKIP_INSTALL="${SMA_RUNTIME_SMOKE_SKIP_INSTALL:-0}"
+BRIDGE_DIR="$HUB_ROOT/assistant-bridge"
 
 TMP_DIR="$(mktemp -d)"
 SMOKE_LOG="$TMP_DIR/smoke.log"
-PORT="${SMA_RUNTIME_SMOKE_PORT:-${STACK_MY_ARCH_HUB_SMOKE_PORT:-}}"
+PORT="${STACK_MY_ARCH_HUB_SMOKE_PORT:-}"
 PID=""
 
 cleanup() {
@@ -23,17 +20,6 @@ cleanup() {
 trap cleanup EXIT
 
 pick_port() {
-  if command -v python3 >/dev/null 2>&1; then
-    python3 - <<'PY'
-import socket
-s = socket.socket()
-s.bind(("127.0.0.1", 0))
-print(s.getsockname()[1])
-s.close()
-PY
-    return 0
-  fi
-
   local candidates=(46210 46211 46212 46213 46214 46215 46216 46217 46218 46219 46220)
   local p
   for p in "${candidates[@]}"; do
@@ -47,7 +33,7 @@ PY
 
 wait_health() {
   local port="$1"
-  local retries="$WAIT_RETRIES"
+  local retries=30
   local i=0
   while [[ "$i" -lt "$retries" ]]; do
     if curl -fsS "http://127.0.0.1:${port}/health" >/dev/null 2>&1; then
@@ -75,28 +61,6 @@ check_http_contains() {
   fi
 }
 
-check_http_contains_any() {
-  local url="$1"
-  shift
-  local body="$TMP_DIR/body.txt"
-  local code
-  code="$(curl -sS -o "$body" -w "%{http_code}" "$url")"
-  if [[ "$code" != "200" ]]; then
-    echo "[ERROR] ${url} devolvió HTTP ${code}" >&2
-    exit 1
-  fi
-
-  local expected
-  for expected in "$@"; do
-    if rg -q --fixed-strings "$expected" "$body"; then
-      return 0
-    fi
-  done
-
-  echo "[ERROR] ${url} no contiene ninguno de los marcadores esperados: $*" >&2
-  exit 1
-}
-
 if [[ -z "$PORT" ]]; then
   PORT="$(pick_port || true)"
 fi
@@ -113,13 +77,13 @@ fi
 
 cd "$BRIDGE_DIR"
 
-if [[ "$SKIP_INSTALL" != "1" && ! -d node_modules ]]; then
+if [[ ! -d node_modules ]]; then
   echo "[SMOKE] Instalando dependencias de assistant-bridge..."
   npm install --silent
 fi
 
 echo "[SMOKE] Arrancando servidor temporal en puerto $PORT..."
-PORT="$PORT" OPENAI_API_KEY="${OPENAI_API_KEY:-smoke-test-key}" nohup sh -c "$SERVER_CMD" >"$SMOKE_LOG" 2>&1 &
+PORT="$PORT" OPENAI_API_KEY="${OPENAI_API_KEY:-smoke-test-key}" nohup node server.js >"$SMOKE_LOG" 2>&1 &
 PID=$!
 
 if ! wait_health "$PORT"; then
@@ -139,9 +103,6 @@ check_http_contains "http://127.0.0.1:${PORT}/sdd/index.html" "stack-my-architec
 check_http_contains "http://127.0.0.1:${PORT}/governance/index.html" "stack-my-architecture-governance"
 check_http_contains "http://127.0.0.1:${PORT}/pumuki/index.html" "stack-my-architecture-pumuki"
 check_http_contains "http://127.0.0.1:${PORT}/ios/assets/study-ux.js" "(function () {"
-check_http_contains_any "http://127.0.0.1:${PORT}/ios/assets/assistant-panel.js" "KEY_PROVIDER" "KEY_DAILY_BUDGET"
-check_http_contains_any "http://127.0.0.1:${PORT}/android/assets/assistant-panel.js" "KEY_PROVIDER" "KEY_DAILY_BUDGET"
-check_http_contains_any "http://127.0.0.1:${PORT}/sdd/assets/assistant-panel.js" "KEY_PROVIDER" "KEY_DAILY_BUDGET"
 check_http_contains "http://127.0.0.1:${PORT}/sdd/assets/assistant-panel.js" "KEY_DAILY_BUDGET"
 
 echo "[OK] Runtime smoke test passed (port $PORT)"

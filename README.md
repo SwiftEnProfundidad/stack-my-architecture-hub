@@ -1,7 +1,7 @@
 # Stack My Architecture Hub
 
 Servidor local unificado para:
-- contenido estático del hub (`/`, `/ios`, `/android`, `/sdd`, `/governance`, `/pumuki`)
+- contenido estático del hub (`/`, `/ios`, `/android`, `/sdd`)
 - proxy de asistente IA (`/health`, `/config`, `/metrics`, `/assistant/query`)
 
 ## Arranque robusto recomendado
@@ -10,41 +10,40 @@ El launcher robusto evita depender de `~/.zshrc`, elige un puerto libre no gené
 Además, antes de abrir, comprueba si el hub publicado está stale (comparando `build-manifest.json` + commits actuales de `hub/ios/android/sdd`) y, si detecta cambios, lanza rebuild automático.
 
 ```bash
-/Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture/stack-my-architecture-hub/open-proxy.command
+/Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture-hub/open-proxy.command
 ```
 
 Abrir directamente un curso:
 
 ```bash
-/Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture/stack-my-architecture-hub/open-proxy.command --course sdd
-/Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture/stack-my-architecture-hub/open-proxy.command ios
-/Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture/stack-my-architecture-hub/open-proxy.command android
-/Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture/stack-my-architecture-hub/open-proxy.command --course pumuki
+/Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture-hub/open-proxy.command --course sdd
+/Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture-hub/open-proxy.command ios
+/Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture-hub/open-proxy.command android
 ```
 
 Opcional: fijar puerto manualmente.
 
 ```bash
-STACK_MY_ARCH_HUB_PORT=46200 /Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture/stack-my-architecture-hub/open-proxy.command
+STACK_MY_ARCH_HUB_PORT=46200 /Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture-hub/open-proxy.command
 ```
 
 Control de auto-rebuild al arrancar:
 
 ```bash
 # Modo de rebuild automático (por defecto: fast)
-STACK_MY_ARCH_AUTO_REBUILD_MODE=strict /Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture/stack-my-architecture-hub/open-proxy.command
+STACK_MY_ARCH_AUTO_REBUILD_MODE=strict /Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture-hub/open-proxy.command
 
 # Forzar rebuild aunque manifest+commits coincidan
-STACK_MY_ARCH_FORCE_REBUILD=1 /Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture/stack-my-architecture-hub/open-proxy.command
+STACK_MY_ARCH_FORCE_REBUILD=1 /Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture-hub/open-proxy.command
 
 # Saltar auto-rebuild temporalmente
-STACK_MY_ARCH_SKIP_AUTO_REBUILD=1 /Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture/stack-my-architecture-hub/open-proxy.command
+STACK_MY_ARCH_SKIP_AUTO_REBUILD=1 /Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture-hub/open-proxy.command
 ```
 
 Si quieres evitar completamente llamadas manuales en terminal, crea la app de Escritorio y abre el curso con doble clic:
 
 ```bash
-/bin/zsh -f /Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture/stack-my-architecture-hub/scripts/install-desktop-app.sh
+/bin/zsh -f /Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture-hub/scripts/install-desktop-app.sh
 ```
 
 Detener hub:
@@ -58,7 +57,7 @@ Detener hub:
 Instala launcher CLI en `~/.local/bin/stack-hub`:
 
 ```bash
-/bin/zsh -f /Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture/stack-my-architecture-hub/scripts/install-cli-launcher.sh
+/bin/zsh -f /Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture-hub/scripts/install-cli-launcher.sh
 ```
 
 Uso:
@@ -67,7 +66,6 @@ Uso:
 stack-hub
 stack-hub ios
 stack-hub sdd --strict
-stack-hub --course pumuki
 stack-hub --course android --port 46200
 stack-hub --force-rebuild
 stack-hub --skip-auto-rebuild
@@ -183,7 +181,7 @@ open "http://127.0.0.1:${PORT}/index.html"
 También puedes usar directamente el launcher robusto:
 
 ```bash
-/Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture/stack-my-architecture-hub/open-proxy.command
+/Users/juancarlosmerlosalbarracin/Developer/Projects/stack-my-architecture-hub/open-proxy.command
 ```
 
 ## Endpoints
@@ -195,108 +193,18 @@ curl "http://127.0.0.1:${PORT}/config"
 curl "http://127.0.0.1:${PORT}/metrics"
 ```
 
-## Persistencia cloud de progreso (opción 2)
-
-El Hub publica dos endpoints serverless para sync de progreso de estudio:
-
-```bash
-GET  /progress/config
-GET  /progress/state?courseId=...&profileKey=...
-POST /progress/state
-```
-
-Si el backend no está configurado, la UX sigue funcionando con `localStorage` sin romper navegación.
-
-### Variables de entorno requeridas (Vercel)
-
-```bash
-SUPABASE_URL=https://<project>.supabase.co
-SUPABASE_SERVICE_ROLE_KEY=<service_role_key>
-PROGRESS_SYNC_TABLE=course_progress
-PROGRESS_SYNC_MAX_BYTES=65536
-```
-
-### Tabla recomendada en Supabase
-
-Ejecuta:
-
-```bash
-docs/PROGRESS-SYNC-SUPABASE.sql
-```
-
-Esto crea la tabla `course_progress` con PK compuesta (`course_id`, `profile_key`) y bloquea acceso público (`anon/authenticated`) para que solo el backend serverless con service-role escriba/lea.
-
 ## Publicación del hub con gate SDD
 
-Para regenerar y copiar los tres cursos al hub:
+Para regenerar y copiar los cursos al hub (iOS, Android, SDD siempre; **Governance** y **Pumuki** si existen los repos hermanos bajo el mismo directorio padre):
 
 ```bash
 ./scripts/build-hub.sh
 ```
 
-### Runbook enterprise de release (manual)
-
-Publicación controlada por workflow:
-- `Hub Production Release Gate` en `.github/workflows/hub-production-release-gate.yml`.
-
-Si **Actions no ejecuta el job** (mensaje de facturación / cuenta u org bloqueada para GitHub Actions), revisar **Billing** de la cuenta u organización; mientras tanto se puede publicar **en local** con `./scripts/publish-architecture-stack.sh strict|fast` (misma lógica de verificación de rutas y `publish-verify-base.url`).
-
-Qué hace este gate:
-- ejecuta prechecks de control (`test-public-smoke-suite`, `test-course-surface-guard-suite`, `test-stamp-asset-version`).
-- ejecuta `publish-architecture-stack.sh` en modo `strict` o `fast`.
-- la verificación HTTP de rutas del curso (`/`, `/ios/`, …, `/pumuki/`) usa por defecto la URL **`Aliased:`** del output de `vercel deploy` (p. ej. `https://stack-my-architecture-hub.vercel.app`); si hace falta fijarla, `SMA_PUBLISH_VERIFY_BASE_URL`. Tras un publish OK se escribe **`.runtime/publish-verify-base.url`** con esa base.
-- ejecuta postchecks de producción con `post-deploy-checks.sh` usando **esa misma base** si el fichero existe (evita 404 cuando `base_url` del workflow difiere del alias real de Vercel).
-- deja evidencia en artefacto `hub-release-checklist.md` y logs por run.
-
-Paso a paso:
-1. Ir a GitHub → Actions → `Hub Production Release Gate`.
-2. Ejecutar `Run workflow` desde rama protegida (suele ser `develop` o `main`).
-3. Elegir `mode`:
-   - `strict` (recomendado por defecto, incluye audit completo de SDD).
-   - `fast` (solo para casos controlados).
-4. Marcar `force_deploy` solo si hay cooldown de cuota y la publicación debe forzarse.
-5. Marcar `run_postchecks` si se quiere validar rutas y smoke funcional en producción.
-6. (Opcional) Ajustar `base_url` para validar una URL distinta (por ejemplo staging previo).
-6. Esperar aprobación del entorno `production` si la protección está activa.
-7. Verificar artefacto `hub-release-evidence-<run_id>` en `Actions → Artifacts`:
-   - `checklist.md`
-   - logs de precheck y deploy.
-
-Aprobadores:
-- Deben existir owners con permisos de aprobación del entorno `production`.
-- En caso de duda, pedir aprobación explícita al dueño de release del repo.
-
-Criterios de aceptación del run:
-- logs sin error en prechecks.
-- `publish-architecture-stack.sh` finaliza `exit 0`.
-- postchecks en producción finaliza `exit 0` (si se ejecutan).
-- artefacto de evidencia presente y `checklist.md` con estado OK.
-
-Criterios de rollback:
-- Si la publicación falla en deploy o verificación, no cambia el estado de producción.
-- Si hay regresión detectada en producción, abrir un hotfix y publicar de nuevo con `mode=fast` tras validar el fix.
-- Si se necesita revertir inmediato, republishing del commit anterior (o selección directa en Vercel).
-- Si el bloqueo es por `cooldown`, no forzar repetidas veces; ejecutar con `force_deploy=1` solo si aplica política aprobada.
-
-Estado de operación:
-- mantener `build-manifest.json` y checklist de evidencia para evidencia post mortem y auditoría.
-
 Desde ahora, la publicación del curso SDD pasa por gate estricto automático:
 
 - ejecuta `stack-my-architecture-SDD/scripts/run-full-audit.sh`
 - si falla cualquier validación/tests/build, el hub no publica SDD
-
-Para sync selectivo manual (sin `build-hub` global), valida drift primero:
-
-```bash
-./scripts/check-selective-sync-drift.sh
-```
-
-Si este checker devuelve drift, aplica sync selectivo del/los curso(s) afectados y después ejecuta:
-
-```bash
-./scripts/smoke-hub-runtime.sh
-```
 
 Modo rápido solo para debug local (no recomendado para publicar):
 
@@ -318,8 +226,10 @@ SKIP_SDD_AUDIT=1 ./scripts/build-hub.sh
 ```
 
 El script además deja traza en `.runtime/build-hub.log`, evita ejecuciones concurrentes con lock y recupera automáticamente locks obsoletos (stale) tras cierres inesperados.
-Además ejecuta un smoke test final de publicación (`scripts/verify-hub-build.py`) para validar que rutas y assets críticos quedaron consistentes antes de marcar el build como correcto.
-En modo `strict`, también ejecuta smoke runtime real (`scripts/smoke-hub-runtime.sh`) levantando un servidor temporal y verificando endpoints (`/health`, `/config`, `/ios`, `/android`, `/sdd`, `/governance`, `/pumuki`).
+**Governance:** ejecuta `stack-my-architecture-governance/scripts/build-html.py` y copia **solo** `curso-stack-my-architecture-governance.html` e `index.html` a `hub/governance/` (no borra `hub/governance/assets`: el `dist` del curso no los incluye todos).
+**Pumuki:** ejecuta `stack-my-architecture-pumuki/scripts/build-html.py`, que ya sincroniza HTML y `assets` a `hub/pumuki/` si el hub es vecino del repo.
+Además ejecuta un smoke test final de publicación (`scripts/verify-hub-build.py`) para validar que rutas y assets críticos de **iOS / Android / SDD** quedaron consistentes antes de marcar el build como correcto.
+En modo `strict`, también ejecuta smoke runtime real (`scripts/smoke-hub-runtime.sh`) levantando un servidor temporal y verificando endpoints (`/health`, `/config`, portada y cursos bajo `/ios`, `/android`, `/sdd`, `/governance`, `/pumuki`).
 Al finalizar, genera `.runtime/build-manifest.json` con trazabilidad de publicación (commits, hashes y tamaños de artefactos copiados), y además guarda snapshots históricos en `.runtime/build-manifests/` con retención automática de los últimos 40.
 
 Si necesitas saltar el smoke runtime puntualmente:
@@ -341,23 +251,6 @@ curl -X POST "http://127.0.0.1:${PORT}/assistant/query" \
     "context": {
       "courseId": "stack-my-architecture-ios",
       "topicId": "tema-actual"
-    },
-    "images": []
-  }'
-```
-
-Curso **Pumuki** (`/pumuki/`): usa `"courseId": "stack-my-architecture-pumuki"` en el mismo campo `context`.
-
-```bash
-curl -X POST "http://127.0.0.1:${PORT}/assistant/query" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "model": "gpt-4o-mini",
-    "maxTokens": 600,
-    "prompt": "Resume el módulo de instalación de Pumuki",
-    "context": {
-      "courseId": "stack-my-architecture-pumuki",
-      "topicId": "02-modulos-02-instalacion-y-primer-verde"
     },
     "images": []
   }'

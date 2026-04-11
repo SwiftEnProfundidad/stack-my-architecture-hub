@@ -4,158 +4,88 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Stack My Architecture · Cursos</title>
-  <link rel="stylesheet" href="./assets/hub-app.css" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <title>Stack My Architecture Cursos</title>
+  <script>
+    (function clearLegacyRuntimeCaches() {
+      if (typeof window === 'undefined') return;
+      window.addEventListener('load', async function () {
+        try {
+          if ('serviceWorker' in navigator) {
+            const registrations = await navigator.serviceWorker.getRegistrations();
+            await Promise.all(registrations.map((registration) => registration.unregister()));
+          }
+          if ('caches' in window) {
+            const cacheKeys = await caches.keys();
+            await Promise.all(cacheKeys.map((cacheKey) => caches.delete(cacheKey)));
+          }
+        } catch (error) {
+          console.warn('Cache cleanup skipped:', error);
+        }
+      });
+    })();
+  </script>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      margin: 0;
+      background: #0b1220;
+      color: #e5e7eb;
+    }
+
+    .wrap {
+      max-width: 760px;
+      margin: 48px auto;
+      padding: 24px;
+    }
+
+    h1 {
+      margin: 0 0 16px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin: 20px 0;
+    }
+
+    a.btn {
+      display: inline-block;
+      padding: 12px 16px;
+      border-radius: 10px;
+      border: 1px solid #334155;
+      text-decoration: none;
+      color: #e5e7eb;
+      background: #111827;
+      font-weight: 700;
+    }
+
+    a.btn:hover {
+      border-color: #60a5fa;
+      color: #93c5fd;
+    }
+
+    p.note {
+      color: #cbd5e1;
+    }
+  </style>
 </head>
 
-<body class="hub-app-body">
-  <main class="hub-shell hub-stack">
-    <section class="hub-panel">
-      <div class="hub-panel-inner hub-stack">
-        <div class="hub-topbar">
-          <div class="hub-brand">
-            <img class="hub-brand-media" src="./assets/brand/pumuki-logo-neon.png" alt="PUMUKI" loading="lazy"
-              decoding="async" />
-            <div>
-              <p class="hub-eyebrow">PUMUKI · plataforma formativa</p>
-              <h1 class="hub-title">Stack My Architecture · Cursos</h1>
-              <p class="hub-lead">De junior a arquitecto. Cursos de iOS, Android, IA + SDD y Governance con arquitectura
-                real, TDD, Clean Architecture y preparación para entrevistas técnicas de nivel senior.</p>
-            </div>
-          </div>
-          <div id="hub-auth-bar" class="hub-actions" aria-label="Acciones de cuenta"></div>
-        </div>
-
-        <div id="hub-status-box" class="hub-message hub-panel" data-tone="warn" aria-live="polite"></div>
-
-        <div class="hub-hero-grid">
-          <section class="hub-panel hub-panel-inner hub-stack">
-            <div class="hub-section-head">
-              <div>
-                <h2 class="hub-section-title">Arquitectura real. Código defensible. Empleo.</h2>
-                <p class="hub-section-copy">Aprende a construir apps con Clean Architecture, TDD y patrones enterprise.
-                  Material escrito para que puedas defender cada decisión en una entrevista técnica de nivel senior o
-                  arquitecto.</p>
-              </div>
-            </div>
-            <div id="hub-access-summary"></div>
-            <div class="hub-actions">
-              <a class="hub-btn hub-btn-primary" href="./auth/register.html">Crear cuenta gratuita</a>
-              <a class="hub-btn hub-btn-muted" href="./auth/login.html">Iniciar sesión</a>
-              <a class="hub-btn hub-btn-muted" href="#hub-courses-grid">Ver cursos</a>
-            </div>
-            <div class="hub-actions" aria-label="Accesos rápidos a cursos">
-              <a class="hub-btn hub-btn-muted" href="./ios/index.html">Curso iOS</a>
-              <a class="hub-btn hub-btn-muted" href="./android/index.html">Curso Android</a>
-              <a class="hub-btn hub-btn-muted" href="./sdd/index.html">Curso IA + SDD</a>
-              <a class="hub-btn hub-btn-muted" href="./governance/index.html">Curso Governance</a>
-              <a class="hub-btn hub-btn-muted" href="./pumuki/index.html">Curso Pumuki</a>
-            </div>
-          </section>
-
-          <figure class="hub-video">
-            <video controls playsinline preload="metadata" poster="./assets/brand/pumuki-logo-neon.png">
-              <source src="./assets/brand/pumuki-intro.mp4" type="video/mp4" />
-            </video>
-            <figcaption>Intro oficial PUMUKI · versión optimizada para web y mobile-first.</figcaption>
-          </figure>
-        </div>
-      </div>
-    </section>
-
-    <section id="hub-dashboard-section" class="hub-panel hub-hidden">
-      <div class="hub-panel-inner hub-stack">
-        <div class="hub-section-head">
-          <div>
-            <p class="hub-eyebrow">Dashboard del estudiante</p>
-            <h2 class="hub-section-title">Tu estado real de aprendizaje</h2>
-            <p class="hub-section-copy">Progreso, continuidad recomendada, notas y bookmarks sincronizados por cuenta
-              para que no dependas del dispositivo desde el que estudias.</p>
-          </div>
-        </div>
-
-        <div id="hub-dashboard-kpis" class="hub-kpi-grid"></div>
-
-        <div class="hub-dashboard-grid">
-          <section id="hub-dashboard-next" class="hub-panel hub-panel-inner"></section>
-          <section class="hub-panel hub-panel-inner hub-stack">
-            <div class="hub-section-head">
-              <div>
-                <h3 class="hub-section-title">Cursos en tu plan</h3>
-                <p class="hub-section-copy">Resumen operativo por curso con acceso, progreso, repaso y continuidad.</p>
-              </div>
-            </div>
-            <div id="hub-dashboard-courses" class="hub-list"></div>
-          </section>
-        </div>
-
-        <section class="hub-panel hub-panel-inner hub-stack">
-          <div class="hub-section-head">
-            <div>
-              <h3 class="hub-section-title">Modo entrevista técnica</h3>
-              <p class="hub-section-copy">Entrenamiento guiado para defender arquitectura, trade-offs y proyecto final
-                con respuestas de criterio apoyadas en lecciones reales del curso.</p>
-            </div>
-          </div>
-          <div id="hub-dashboard-interview" class="hub-course-grid"></div>
-        </section>
-
-        <div class="hub-dashboard-grid">
-          <section id="hub-dashboard-account" class="hub-panel hub-panel-inner hub-stack"></section>
-          <section class="hub-panel hub-panel-inner hub-stack">
-            <div class="hub-section-head">
-              <div>
-                <h3 class="hub-section-title">Repaso prioritario</h3>
-                <p class="hub-section-copy">Lecciones que marcaste para volver con intención y no perder el hilo de
-                  estudio.</p>
-              </div>
-            </div>
-            <div id="hub-dashboard-review" class="hub-list"></div>
-          </section>
-        </div>
-
-        <div class="hub-dashboard-grid">
-          <section class="hub-panel hub-panel-inner hub-stack">
-            <div class="hub-section-head">
-              <div>
-                <h3 class="hub-section-title">Notas recientes</h3>
-                <p class="hub-section-copy">Tus notas privadas más recientes, listas para retomar el contexto exacto de
-                  estudio.</p>
-              </div>
-            </div>
-            <div id="hub-dashboard-notes" class="hub-list"></div>
-          </section>
-          <section class="hub-panel hub-panel-inner hub-stack">
-            <div class="hub-section-head">
-              <div>
-                <h3 class="hub-section-title">Bookmarks recientes</h3>
-                <p class="hub-section-copy">Puntos guardados para volver rápido a temas clave, repasos o lecciones
-                  puente.</p>
-              </div>
-            </div>
-            <div id="hub-dashboard-bookmarks" class="hub-list"></div>
-          </section>
-        </div>
-      </div>
-    </section>
-
-    <section class="hub-panel">
-      <div class="hub-panel-inner hub-stack">
-        <div class="hub-section-head">
-          <div>
-            <p class="hub-eyebrow">Catálogo</p>
-            <h2 class="hub-section-title">Cursos disponibles</h2>
-            <p class="hub-section-copy">Cada curso incluye material de arquitectura enterprise, código real con TDD,
-              diagramas y preparación para entrevistas técnicas.</p>
-          </div>
-        </div>
-        <div id="hub-courses-grid" class="hub-course-grid"></div>
-      </div>
-    </section>
+<body>
+  <main class="wrap">
+    <h1>Stack My Architecture · Cursos</h1>
+    <div class="actions">
+      <a class="btn" href="./ios/index.html">Abrir curso iOS</a>
+      <a class="btn" href="./android/index.html">Abrir curso Android</a>
+      <a class="btn" href="./sdd/index.html">Abrir curso IA + SDD</a>
+      <a class="btn" href="./governance/index.html">Abrir curso Governance</a>
+      <a class="btn" href="./pumuki/index.html">Abrir curso Pumuki</a>
+    </div>
+    <p class="note">El progreso se guarda localmente por curso.</p>
   </main>
-
-  <script src="./assets/auth-client.js"></script>
-  <script src="./assets/hub-app.js"></script>
 </body>
 
 </html>
